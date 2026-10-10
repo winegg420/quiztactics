@@ -456,6 +456,9 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   Adaylar `/gorsel-revizyon` sayfasında durur; çizim kaynağı oradaki `cizim/` dosyaları (tek kaynak).
 - **Unvan (643):** isim altında Kurdele. 12 unvan: 8'i rozete bağlı (türetilir), 4'ü lig olayı (haftalık kapanış). Aktif Dünya >
   Ülke > Şehir Şampiyonluğu (647) takılı unvanın önüne geçer. Seçim Profil › Koleksiyon › Unvanlar. Sezon unvanları Battle Pass sezon sistemi gelene kadar gizli (bağlı değil). "Bin Galibiyet" (644): Antrenman hariç Klasik + Düello + Grup + Turnuva toplam galibiyet ≥ 1.000 (`unvan_galibiyet_esik`); `unvanlarim()` ve haftalık kapanış kontrol eder. Bronz Lig çerçevesi (`lig_bronz`) katalogda; bütün insan oyuncular kazanır (takılı çerçeve değişmez).
+  **Çerçevesiz oyuncu YOK (1049, Ida 10 Eki 2026):** `oyuncu_kartlari` takılı aktif çerçeve yoksa `lig_<lig>` (lig yoksa `lig_bronz`) + o çerçevenin
+  nadirliğini döndürür — gizli botlar dahil herkes; takılı başka çerçeve (level/turnuva/premium/eski lig) aynen kalır. Yalnız görünüm: sahiplik,
+  `takili_cerceve`, Koleksiyon Puanı değişmez. `lig_grubum_ozet` kartı okur; `davet_durumum.cerceve` aynı kurala bağlı.
 - **Rozetler (331–333, 641):** 102 rozet (`rozet_tanimlari`: level, Klasik/Düello galibiyet, seri, 10
   kategori × 4 ustalık, turnuva, lig, özel an, sosyal, 5 gizli), kazanma sunucuda olay anında; coin
   bronz 10 · gümüş 25 · altın 50 · elmas 100 (günlük tavana sayılmaz). Geriye dönük verilenler
@@ -491,6 +494,14 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   gizli bot takmaz, `kozmetik_ver` (etkinlik ödülü). Çizim `oyun/tasarim/premium/` (tembel), `CerceveliAvatar` karttaki
   `premium_cerceve/premium_aura`'yı çizer (2. tur: pc_alev2/simsek2/kraliyet2 570, pc_ejderha2 580); hareket yalnız profil/lobi/VS/maç sonu, ≤48 px durağan. Lig amblemi
   (`ligAmblemi.jsx`) oyuncu adının yanında her yerde. Eski dükkân auraları pasif.
+- **Avatar Prestij (1049 canlıda, Ida 10 Eki 2026):** sahip olunan (ücretsiz dahil) avatar coin'le BİR KEZ geliştirilir — tek kademe, ikinci yok.
+  Efekt yalnız avatar fotoğrafının İÇİNDE ara ara çakan 4 köşeli beyaz yıldızlar (Ida onaylı CSS birebir, `src/styles.css › .av-parla`; halka/rozet/çerçeve
+  değişmez; hareketi azaltta kapalı); HER YERDE, her boyutta, herkes görür (Düello dahil — "Düello'da efekt yok" kuralı bunu kapsamaz). Yalnız ekrandaki
+  avatarda katman açık (`src/lib/parlaGozcu.js`, tek IntersectionObserver; 100 satırda kaydırma ölçüldü). Ayar `avatar_prestij_fiyat` **2500** coin ·
+  `avatar_prestij_acik` true. Veri `oyuncu_avatar_prestij` (RLS: yalnız kendi satırı okunur), RPC `avatar_prestij_al` (yalnız authenticated; FOR UPDATE +
+  `coin_harca`, defter tür `avatar_prestij`; hatalar kapali/sahip_degil/zaten_alindi/coin_yetersiz), `oyuncu_kartlari.avatar_prestij` (takılı avatar;
+  gizli botta false). Koleksiyon Puanı: her prestijli avatar ayrı kalem, ağırlık nadir. Arayüz Dükkân › Avatar › Prestij + Koleksiyon "Prestij" etiketi.
+  Testler `araclar/avatar-prestij-canli-testi.mjs` (tek seferlik, test hesabını siler) · `araclar/avatar-prestij-ekran.mjs`.
 - **Avatar edinme = ilerleme (1039 canlıda, Ida 9 Eki 2026; 820–822'nin üstüne):** her avatarın TEK edinme yolu var, tek kaynak
   `avatar_nitelikleri.edinme` (+ `edinme_level`, `edinme_sezon_seviye`): Yaygın 21 `ucretsiz` · Nadir 6 `level` (Lv 3 Kedili Kız · 10 Viking ·
   15 Dedektif · 25 Şövalye · 35 Büyücü · 50 Kral; `xp_ver` level döngüsünde iç `level_avatar_ver` verir) · Nadir 2 `sezon` (Sezon Yolu

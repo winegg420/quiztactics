@@ -11464,3 +11464,32 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - Claude onayı: 24/128 çıkarıldı; 15/25/26/148/185/182 düzeltildi. TR/EN şık anlamları birlikte korundu; 148'de Gelincik doğru cevabının uzunluk dengesi için Defne → Peygamber çiçeği (Cornflower). Altı değişiklik kapı 1–5 yeniden geçti; toplam 198 kayıt geçti.
 - Migration 1048: prova ve uygulama başarılı. Aktif 13028 → 13226 (+198); 198 TR/EN doğru cevabı ve şık sırası toplu sorguyla doğrulandı.
 - Oyun koduna dokunulmadı. codex-03 yeni kalıp/çeldirici kurallarıyla hazırlanacak ve ayrı Claude onayı olmadan uygulanmayacak.
+
+## 2026-10-10 — Çerçevesiz oyuncu kalmaz + Avatar Prestij (tek kademe) — migration 1049
+**Araç:** Claude Code
+**Neden:** Ida: oyunda çerçevesiz oyuncu olamaz (lig çerçevesi varsayılan) ve sahip olunan avatara coin'le tek seferlik "Viking pırıltısı".
+
+- **Kök sebep (çerçeve):** `oyuncu_kartlari.cerceve` = yalnız takılı çerçeve; lig çerçevesi yalnız lig atlayınca veriliyor → botlar ve
+  lig atlamamışlar çerçevesiz. Canlı ölçüm (tek okuma, 265 oyuncu): ÖNCE 143 çerçevesiz (41'i bot) → SONRA **0**; takılı çerçevesi olan
+  122 oyuncunun hiçbirinin çerçevesi değişmedi. Tarayıcıda Dünya sıralaması: okunan 106 kartın 0'ı çerçevesiz.
+- **Migration 1049** `20260612001049_cerceve_lig_varsayilan_avatar_prestij.sql` (önce begin…rollback provası, sonra canlıya):
+  `oyuncu_kartlari` drop+create (takılı aktif yoksa `lig_<lig>`, + `avatar_prestij`), `davet_durumum.cerceve` aynı kurala, `lig_grubum_ozet`
+  satırlarına `avatar_prestij`, `oyuncu_avatar_prestij` (RLS: yalnız kendi satırı SELECT), `avatar_prestij_al`, Koleksiyon kalemi + tetikleyiciler,
+  ayarlar `avatar_prestij_fiyat` 2500 / `avatar_prestij_acik` true.
+- **GRANT karşılaştırması:** `oyuncu_kartlari` ÖNCE ve SONRA `{postgres=X, authenticated=X, service_role=X}` (birebir; anon yok).
+  Yeni: `avatar_prestij_al` → authenticated + service_role (anon/public revoke); tablo → authenticated yalnız SELECT. Başka yetki değişmedi.
+- **İstemci:** `Avatar` `prestij` → `.av-parla` (Ida CSS birebir; ön ek `av-`), gecikme kimlikten 0–1,8 sn; `.avatar` position:relative.
+  `CerceveliAvatar`/`PremiumAvatarCizim` kart alanını iletir (ek sorgu yok; önizlemelerde `prestij` prop'u). Ana sayfa etkinlik satırı düz
+  `Avatar` → `CerceveliAvatar` (çerçevesiz kalan tek yer buydu). Arama ekranı rakip kilidi. Dükkân › Avatar › Prestij bölümü, Koleksiyon etiketi,
+  Koleksiyon dökümünde Prestij kalemi; EN sözlüğü `ceviri/avatar-prestij.js`.
+- **Performans (ölçüldü, 100 satır Dünya listesi):** birebir CSS her avatarda açıkken scrollTo testinde 57 → 46 kare/sn (CPU ×4: 21 → 7).
+  Çözüm: tek paylaşılan IntersectionObserver (`src/lib/parlaGozcu.js`) yalnız ekrandaki (±120 px) avatarda katmanı açar. Dikkat: `display:none`
+  öğe gözcüye hiç görünür bildirilmez → gözlenen öğe KAP (.avatar). Gerçek dokunmatik kaydırma (`Input.synthesizeScrollGesture`): CPU ×1 60/60,
+  CPU ×4 ~50 (pırıltısız 60). blend/filter/will-change varyantları ölçüldü, kazanç yok → CSS birebir bırakıldı.
+- **Testler:** `araclar/avatar-prestij-canli-testi.mjs` 12/12 (sahip_degil, coin_yetersiz, aynı anda iki çağrı → bir alım + zaten_alindi,
+  3000 → 500 tek düşüm, defterde tek -2500, Koleksiyon +3, kart alanı, RLS, doğrudan yazma ve anon reddi; test hesabı silindi) ·
+  `araclar/avatar-prestij-ekran.mjs` 18/18 (ana sayfa, profil, lig listesi 40 px, Dünya, Düello maçı + maç şeridi, maç sonu, Dükkân; 390 px taşma
+  yok, konsol temiz) · `arayuz-denetim` TEMİZ · build temiz. Görüntüler `tasarim/avatar-prestij/`. Test hesapları (prestij testi + arayüz denetimi
+  misafiri) silindi; canlıda prestij satırı / defter kaydı 0.
+- Not: 5199'daki başka Vite'e dokunulmadı; kendi sunucum 5211'de açılıp kapatıldı. Çalışma sırasında Codex `codex-03` commit'ini push etti
+  (benim migration commit'im de onunla gitti); geçmiş doğrusal, çakışma yok.
