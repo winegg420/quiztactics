@@ -49,6 +49,8 @@ import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesDokunus, sesRakipBulundu, 
 import { KasaAcAni, KasaAltinYagmuru, UcanParcalar, kasaSeviye, KasaGirisSahnesi, KasaFinalSahnesi,
   KasaCifteBandi, KasaRakipKarar, KasaSavunmaAni } from "../components/KasaEfekt.jsx";
 import Konfeti from "../components/Konfeti.jsx";
+import CevapImzasi from "../components/CevapImzasi.jsx";
+import { useTakiliImza } from "../lib/cevapImzasi.js";
 import { hareketAzaltildiMi, QT_KIRILMA_MS } from "../tasarim/hareket.js";
 import { QtDugme, QtIkon, QtIskelet, QtModal, QtSayac, QtSik, QtSikler, QtSoruKarti, sinif } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";   // GeriSayim (3-2-1) görünümü
@@ -604,6 +606,7 @@ function KasaMac({ id }) {
   const turBantFazRef = useRef(null);
   const anZamanRef = useRef([]);
   const kokRef = useRef(null);
+  const imza = useTakiliImza();   // 1040: takılı Cevap İmzası — yalnız kendi profilimden, rakip görmez
   // 980: her ses/efekt bir OLAY anahtarına (tur/altın/faz, AÇ, DEVAM, 3-2-1 rakamı, maç sonu…) bağlı, maç sayfasının
   // ömründe TEK SEFER. Yeniden çizim, Realtime tekrarı, StrictMode'un çift effect'i, sekme dönüşü tekrar tetiklemez.
   const calinanRef = useRef(new Set());
@@ -1264,6 +1267,9 @@ function KasaMac({ id }) {
           )
           : <KasaAcKilit d={d} c={c} />}
         {sonucMu && <Konfeti aktif={Boolean(d.sonuc?.ben_dogru)} adet={d.sonuc?.rakip_dogru ? 12 : 18} />}
+        {/* 1040: Cevap İmzası — sonuçta BENİM cevabım doğruysa (Savunma Sorusu dahil; izlerken oynamaz) */}
+        <CevapImzasi imza={imza} kapRef={kokRef} sira={dogru}
+                     anahtar={sonucMu && dogru != null && benimCevap === dogru ? `${turAnahtari(d)}-sonuc` : null} />
         {sonucMu && savunmaAn && <KasaSavunmaAni key={savunmaAn.anahtar} tip={savunmaAn.tip} benim={savunmaAn.benim} c={c} />}
         {sonucMu && cifteAn && <KasaCifteBandi key={cifteAn} artis={kasaSonucArtisi(d.sonuc, d.ikisi_artis ?? 6)} c={c} />}
         {anAc && <KasaAcAni key={anAc.id} deger={anAc.deger} benim={anAc.benim} seviye={anAc.seviye} olcek={anAc.olcek} c={c} />}

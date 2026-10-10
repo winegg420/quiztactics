@@ -7,6 +7,8 @@ import JokerCubugu from "./JokerCubugu.jsx";
 import { SisPerdesi, SisKenar } from "./Sis.jsx";
 import Konfeti from "./Konfeti.jsx";
 import CevapEfekti from "./CevapEfekti.jsx";
+import CevapImzasi from "./CevapImzasi.jsx";
+import { useTakiliImza } from "../lib/cevapImzasi.js";
 import { sesTik, sesSureDoldu, sesDogru, sesYanlis, sesDokunus, sesKilidiAc, sesOnYukle, sesSoruGeldi, sesSonSaniyeler } from "../lib/ses.js";
 import { titret, macPuani } from "../lib/geriBildirim.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
@@ -116,6 +118,7 @@ export default function QuestionCard({
   // Kategoriye göre pastel maç zemini: kart, içinde durduğu .qt-sahne-mac'e sorunun kategorisini
   // yazar (renkler kategori-zemin.css token'larında; soru değişince zemin yumuşak geçer).
   const kokRef = useRef(null);
+  const imza = useTakiliImza();   // 1040: takılı Cevap İmzası — yalnız kendi profilimden, rakip görmez
   // Soru RPC'leri kategoriyi döndürmüyor: soru_kategorisi (322) ile bir kez okunur, bellekte tutulur.
   const [okunanKat, setOkunanKat] = useState(() => KAT_ONBELLEK.get(soru?.question_id) ?? null);
   useEffect(() => {
@@ -501,6 +504,9 @@ export default function QuestionCard({
       {/* Paket 32 A.3: sis GÖNDEREN — yalnız kenarlardan hafif efekt */}
       {sisGonderdimBitis && <SisKenar key={sisGonderdimBitis} bitis={sisGonderdimBitis} />}
       <CevapEfekti dogru={dogruCevapVerdim} puan={puan} seri={seri} />
+      {/* 1040: Cevap İmzası — doğru şıkkın üstünde, yalnız bende; soru değişince anında temizlenir */}
+      <CevapImzasi imza={imza} kapRef={kokRef} sira={sonuc?.dogru_cevap}
+                   anahtar={dogruCevapVerdim ? `${soru.question_id}-${soru.soru_index}` : null} />
 
       <QtSoruKarti
         key={`${soru.question_id}-${soru.soru_index}`}

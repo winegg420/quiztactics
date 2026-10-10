@@ -139,7 +139,7 @@
 .d4-sonuc--iyi .d4-sonuc-alt { color: #0f2f5c; font-weight: 900; }
 .d4-sonuc--iyi .d4-sonuc-baslik { color: #0f2f5c; }
 .d4-cevaplar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
-.d4-cevap { display: grid; justify-items: center; gap: 4px; padding: 10px 6px; border-radius: var(--qt-r-m); background: #fff; }
+.d4-cevap { position: relative; display: grid; justify-items: center; gap: 4px; padding: 10px 6px; border-radius: var(--qt-r-m); background: #fff; }
 .d4-cevap--ben { box-shadow: inset 0 0 0 3px var(--hk-mavi); }
 .d4-cevap--rakip { box-shadow: inset 0 0 0 3px var(--hk-kirmizi); }
 .d4-cevap-kim { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 900; color: var(--hk-soluk); }

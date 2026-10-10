@@ -15,14 +15,16 @@ import { supabase } from "../../src/lib/supabase.js";
 import { oyuncuKartiUnut } from "./cerceve.js";
 import { tt } from "./dil.js";
 import { hataMesaji } from "./hata.js";
+import { CEVAP_IMZASI_TURU, imzaYerelAyarla } from "./cevapImzasi.js";
 
-export const KOZMETIK_TURLERI = ["vs_karti", "isim_efekti", "zafer_efekti", "tepki_paketi", "premium_cerceve", "premium_aura"];
+export const KOZMETIK_TURLERI = ["vs_karti", "isim_efekti", "zafer_efekti", "tepki_paketi", "premium_cerceve", "premium_aura", "cevap_imzasi"];
 /**
  * DÜKKÂNDA SATILAN türler (920, Ida 2 Eki 2026) — sırayla Çerçeve sekmesi, Avatar ve İsim sekmesi. VS kartı, zafer
  * efekti ve tepki paketi satılmaz (sunucu: kozmetikler.satis_pasif); sahip olunan kalem Koleksiyon'da kalır, takılır.
  * Tepki paketleri Battle Pass ödülüdür (bp_seviye_odulleri). Arka plan (premium_aura) dondurulmuş.
+ * 1040: Cevap İmzası (Efekt sekmesi) — Nadir coin'le, Epik / Efsanevi elmasla (para kalemin icerik.para alanında).
  */
-export const DUKKAN_TURLERI = ["premium_cerceve", "isim_efekti"];
+export const DUKKAN_TURLERI = ["premium_cerceve", "isim_efekti", "cevap_imzasi"];
 /** Dükkândan KALKAN kalemler (7 Eki 2026, Ida): Altın isim Battle Pass'e ait. Sunucu BP sahibine zaten verir (721); sahibi olan oyuncuda
  *  kalem dükkânda "Sende var" olarak görünmeye devam eder, sahibi olmayana satılık görünmez. Yalnız dükkân listesi süzülür —
  *  isim gösterimi (IsimEfekti), takma ve sunucu değişmez. */
@@ -31,7 +33,7 @@ export const dukkandaGorunur = (x) => !DUKKANDAN_KALKAN.has(x?.anahtar) || Boole
 export const TUR_ADI = {
   aura: "Arka Plan", avatar: "Avatar", vs_karti: "VS Kartı", isim_efekti: "İsim Efekti",
   zafer_efekti: "Zafer Efekti", tepki_paketi: "Tepki",
-  premium_cerceve: "Çerçeve", premium_aura: "Arka Plan",
+  premium_cerceve: "Çerçeve", premium_aura: "Arka Plan", cevap_imzasi: "Cevap İmzası",
 };
 
 /** Kalem görünümü (adlar sunucudan da gelir; bunlar önizleme/yedek). `tema` CSS data-vs / data-ef / data-zafer değeri. */
@@ -72,6 +74,8 @@ export const KOZMETIK_TANIMLARI = {
   pa_kuzey:    { tur: "premium_aura", sanat: "kuzey", ad: "Kuzey Işıkları" },
   pa_sualti:   { tur: "premium_aura", sanat: "sualti", ad: "Su Altı" },
 };
+/** 1040: kalemin ödeme parası — "coin" (Nadir Cevap İmzası) | "elmas" (öteki her şey). */
+export const kozmetikParasi = (x) => (x?.icerik?.para === "coin" ? "coin" : "elmas");
 export const kozmetikTemasi = (anahtar) => KOZMETIK_TANIMLARI[anahtar]?.tema ?? null;
 /**
  * Premium kalem anahtarı (pc_galaksi / pa_gece) → sanat anahtarı (galaksi / gece). Bilinmeyen kalem de
@@ -126,6 +130,7 @@ export async function kozmetikSatinAl(anahtar) {
 export async function kozmetikTak(tur, anahtar, userId) {
   const data = await rpc("kozmetik_tak", { p_tur: tur, p_anahtar: anahtar ?? null });
   oyuncuKartiUnut(userId);
+  if (tur === CEVAP_IMZASI_TURU) imzaYerelAyarla(userId, anahtar ?? null);   // 1040: maç ekranı profil tazelenmeden bilir
   return data;
 }
 /** Yalnız sahip: bütün kalemler + Ida'nın satış seçimi (aura dahil). */
@@ -182,5 +187,6 @@ export function useTepkiGizli() {
 export function kozmetikHatasi(e) {
   const m = String(e?.message ?? e ?? "");
   if (m.includes("Yetersiz elmas")) return tt("Elmas yetmiyor");
+  if (m.includes("Yetersiz coin")) return tt("Coin yetmiyor");
   return hataMesaji(e, tt("İşlem tamamlanamadı"));
 }
