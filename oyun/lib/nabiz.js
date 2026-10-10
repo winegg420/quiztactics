@@ -37,12 +37,19 @@ export function useMacNabiz(rpcAdi, parametreler, aktif = true) {
   paramRef.current = parametreler;
   const saatOrnekleri = useRef([]);
 
+  // 1056: yanıtı gelmeyen nabız varken yenisi atılmaz (DB yavaşken 3 sn'de bir istek aynı maç
+  // satırında sıraya giriyordu); takılan istek 10 sn'de gerçekten kesilir (AbortController).
+  const ucustaRef = useRef(false);
   const nabizAt = useCallback(async () => {
     if (typeof document !== "undefined" && document.hidden) return;
+    if (ucustaRef.current) return;
+    ucustaRef.current = true;
+    const kes = new AbortController();
+    const kesZamani = setTimeout(() => kes.abort(), 10000);
     try {
       const gonderildiMs = Date.now();
       const { data, error } = await zamanAsimiyla(
-        supabase.rpc(rpcAdi, { ...paramRef.current, p_hazir: hazirRef.current }),
+        supabase.rpc(rpcAdi, { ...paramRef.current, p_hazir: hazirRef.current }).abortSignal(kes.signal),
         10000,
         rpcAdi
       );
@@ -70,6 +77,9 @@ export function useMacNabiz(rpcAdi, parametreler, aktif = true) {
       // Ağ dalgalanması olabilir; ekranı düşürmeyiz, bir sonraki tik dener.
       console.error(`[Bildim] ${rpcAdi}:`, e);
       setNabizHatasi(e);
+    } finally {
+      clearTimeout(kesZamani);
+      ucustaRef.current = false;
     }
   }, [rpcAdi]);
 

@@ -329,10 +329,19 @@ export default function GroupMatchPage() {
   // Eskiden .catch() bile yoktu; sekme arka plandayken RPC düşünce ilerleme
   // hiç olmuyor, advanceKilidi kapalı kaldığı için de bir daha denenmiyordu —
   // oyuncu döndüğünde ekran donuk kalıyordu.
+  // 1056: önceki ilerletme yanıtlanmadan yenisi gönderilmez (2,5 sn yoklama + süre dolumu aynı satırda
+  // sıraya giriyordu); takılan istek 10 sn'de gerçekten kesilir, sıradaki yoklama yeniden dener.
+  // Uçuştayken gelen deneme kaybolmaz: yanıt gelince bir kez daha denenir (süre dolumu ikinci denemesi).
+  const ilerletmeUcustaRef = useRef(false);
+  const ilerletmeTekrarRef = useRef(false);
   const ilerletmeyiDene = useCallback(async () => {
+    if (ilerletmeUcustaRef.current) { ilerletmeTekrarRef.current = true; return; }
+    ilerletmeUcustaRef.current = true;
+    const kes = new AbortController();
+    const kesZamani = setTimeout(() => kes.abort(), 10000);
     try {
       const { error } = await zamanAsimiyla(
-        supabase.rpc("advance_group_match", { p_group_match_id: id }),
+        supabase.rpc("advance_group_match", { p_group_match_id: id }).abortSignal(kes.signal),
         10000,
         "advance_group_match"
       );
@@ -343,8 +352,17 @@ export default function GroupMatchPage() {
       console.error("[Bildim] ilerletme basarisiz, yeniden denenecek:", e);
       advanceKilidi.current = false; // yeniden denenebilsin
       macYukle();
+    } finally {
+      clearTimeout(kesZamani);
+      ilerletmeUcustaRef.current = false;
+      if (ilerletmeTekrarRef.current) {
+        ilerletmeTekrarRef.current = false;
+        setTimeout(() => ilerletmeyiDeneRef.current?.(), 300);
+      }
     }
   }, [id, macYukle]);
+  const ilerletmeyiDeneRef = useRef(null);
+  ilerletmeyiDeneRef.current = ilerletmeyiDene;
 
   const cevapla = async (i, tikMs) => {
     // 991: dokunma anı x-qt-tik başlığıyla gider — süre içinde dokunulup geç varan cevap kabul edilir

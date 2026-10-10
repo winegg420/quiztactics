@@ -11582,3 +11582,12 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - Kategori başarın + Kategori ustalığı tek bölüm (`KategoriProfili ustalik`, veri `UstalikIzgarasi onSeviyeler` — ek RPC yok): ikon · ad · rütbe rozeti · kategori renginde çubuk · yüzde + "N doğru · X için K kaldı"; sıra en çok doğru; verisiz kategori çizilmez. Oyuncu kartı (kucuk) eski görünümde.
 - Sıradaki ödül: aynı level'daki ek ödül kartta "+ joker"; Yolda yalnız başka level'lar.
 - Test: build temiz · test:kurallar/dans geçti · arayuz-denetim TEMİZ · `araclar/profil-tutarlilik-2-ekran.mjs` 24 önce/sonra (bos/bir/on), taşma 0, hata 0. Araç oturumu her bağlamdan sonra geri yazıyor (yenileme belirteci tek kullanımlık). Ayrıntı: RAPOR.md › Profil tutarlılık turu 2.
+
+## 2026-10-10 — Grup maçı kilit yığılması (migration 1056)
+**Araç:** Claude Code
+**Neden:** Ida — grup maçı akışı DB'yi kilitleyip bütün modları yavaşlatıyordu (Kasa takılması raporundaki ayrı bulgu).
+
+- Kök neden: `hizli_tik` tek işlemde `bot_oyna`'yı koşturuyor; 8) adım `group_matches` satırını FOR UPDATE alıp tik bitene kadar (yavaşken 12–24 sn) tutuyordu. İstemcinin nabzı (3 sn) ve ilerletmesi (2,5 sn) yanıt beklemeden üst üste gönderiliyor, aynı satırda sıraya girip bağlantıları dolduruyordu ("job startup timeout" 39 kez).
+- 1056 (canlı): `cron_hizli_tik_islem()` prosedürü (CALL; önce mevcut tik COMMIT, sonra her grup maçı ayrı işlem `bot_grup_mac_tik` → `bot_grup_adimlari`, kilitliyse atlar). `advance_*` (grup/klasik/hızlı/turnuva) ve `*_nabiz` (grup/klasik/hızlı): lock_timeout 2 sn, kilit yoksa sessiz dön / kilitsiz görünüm; geçişler yalnız kilidi alanda. Yeni iç yordamlar bot_oyna ile aynı ACL. Geri alma: `docs/grup-mac-kilit-1056-geri-al.sql`.
+- İstemci: `nabiz.js` (bütün modlar) ve `GroupMatchPage` ilerletmesi: uçuştaki istek varken yenisi yok, 10 sn'de AbortController ile kesme; uçuşta gelen ilerletme denemesi yanıt sonrası bir kez tekrarlanır.
+- Kilit testi (`araclar/grup-kilit-testi.mjs`, satır 6 sn kilitli): önce 5,7 sn bekleme → sonra 2,1 sn'de 200.
