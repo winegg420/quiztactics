@@ -210,3 +210,50 @@ RAPOR HAZIR — Ida'ya iletilecek.
 - Eski "Sonraki rütbe" kartındaki rütbe ilerleme çubuğu kalktı (bilgi tek satıra indi; istek gereği).
 
 RAPOR HAZIR — Ida'ya iletilecek.
+
+---
+
+# Kasa (Ortak Hazine) takılması — kök neden ve düzeltme (10 Eki 2026, migration 1055)
+
+## Kök neden (kanıtlı)
+**İki katmanlı:** sunucu kısa süre yavaşladı → Kasa'nın yazma kilitli yoklaması 500 verdi → **istemci askıda kalan tek isteğe takılıp yoklamayı tamamen bıraktı.**
+
+1. **Sunucu (Supabase logları, 16:00–16:05 UTC):** veritabanı genel olarak yavaşladı — `cron_hizli_tik` 12,5 ve 21,7 sn sürdü (normalde ort. 0,2 sn), checkpoint 16:00:24–16:01:37, `group_matches` satırında 8 bekleyenli kilit kuyrukları (`grup_mac_nabiz` / `advance_group_match`; o dakikalarda gerçek bir oyuncu botlarla art arda grup maçı oynuyordu). Kilitle ilgisi olmayan basit sorgular bile 8 sn `statement_timeout`'a düştü (`profiles` SELECT'i, `oyuncu_nabiz` INSERT'i, `gorev_olcum`).
+   - `kasa_giris` 16:00:40 "canceling statement due to statement timeout" (maç satırı kilidini tutarken) → arkasındaki `kasa_durum` aynı satırı beklerken 8 sn'de düştü (**açılıştaki ~10 sn boş ekran**).
+   - `kasa_cevap` 16:01:27: maç satırında 4,3 sn bekledi, sonra `nabiz_yaz`'da zaman aşımı (**Geyik cevabı 500**). `kasa_durum` 16:01:48 ve 16:02:52 `kasa_cozumle` içinde zaman aşımı.
+   - Sebep zinciri: `kasa_durum` her yoklamada `kasa_kilitle` ile maç satırını **FOR UPDATE** kilitler + nabız yazar + ilerletir; DB yavaşken aynı maçın çağrıları sıraya girip toplu 8 sn sınırına takıldı. Düello okuması bu kadar ağır yazmadığı için aynı dakikalarda çalıştı.
+2. **İstemci (edge logları):** 16:02:15'ten sonra sayfa **hiç `kasa_durum` isteği atmadı** (kalp_at sürdü). `KasaPage` okumaları tek söze (`yukleSozRef`) bağlıyor; yanıtı gelmeyen tek istek o sözü sonsuza tuttu, sonraki her yoklama ona zincirlendi → sunucu düzelse de ekran Tur 3'te 0 sn'de, "Bağlantı yeniden kuruluyor…" bandıyla dondu. Maç 16:05'te sunucuda `kopuk` ile bitti.
+3. **1052/1053/1054 ile ilişki:** doğrudan sebep değil. `kasa_durum`'daki `hiz_siniri` 950'den beri var; 1052 yalnız `hileli_mi()` okuması ekledi (yazma yok); 1053/1054'ün `kalp_at`/`cihaz_bildir` sınırı ayrı satırlar (`rpc_sayac` aynı kullanıcı + uç adı) — olay anında bu satırlarda kısa (≈1 sn) bekleme görüldü ama zaman aşımı oradan gelmedi.
+
+## Düzeltmeler
+| | |
+|---|---|
+| **1055** (canlı) | `kasa_durum`: `SET lock_timeout '2s'`; maç kilidi 2 sn'de alınamazsa 500 yerine **kilitsiz görünüm** (yetki kontrolü aynı; o yoklamada ilerletme atlanır, sıradaki yoklama ilerletir). ACL/RLS değişmedi. Prova (BEGIN…ROLLBACK) → canlı. Canlı kilit testi: satır başka bağlantıda kilitliyken `kasa_durum` **2,1 sn'de 200** (eskiden 8 sn + 500). Geri alma dosyası yok (gövde 1052 tanımıyla aynı, yalnız blok + SET eklendi). |
+| `KasaPage.jsx` | `kasa_durum` isteği **10 sn'de `AbortController` ile kesilir** → hata yoluna düşer, geri çekilmeli yeniden dener, yanıt gelince bant kalkar ve tur/soru/süre sunucudan yeniden çizilir. |
+| `KasaPage.jsx` | `kasa_cevap` sunucu/ağ hatasında (500, 57014, ağ) aynı tur sürüyorsa **0,7 sn sonra bir kez sessizce yeniden** gönderilir (tıklama anı başlığı korunur → geç varış payı içinde sayılır); "zaten cevapladın" = cevap kayıtlı. Yine olmazsa: "Cevabın sunucuya ulaşmadı. Süre bitmediyse şıkkı yeniden seç." |
+| `KasaPage.jsx` + `kasa.css` | Yükleniyor: Kasa renginde ikon + **"Maç yükleniyor…"** metni (eskiden Düello kırmızısı, metinsiz sallanan ikon). 8 sn'de veri yoksa okunur **"Maç açılamadı" + "Tekrar dene"** (arka planda deneme sürer, veri gelince maç açılır). |
+| `DuelloPage.jsx` | Aynı askıda kalma kalıbı vardı → `duello_durum` / `duello_baglanti` aynı 10 sn kesme. |
+| Klasik (`MatchPage`) | Kalıp yok: her yoklama bağımsız, zincir yok. Değişiklik yapılmadı. |
+| `skill-sistemi-test.mjs` | İkinci Şans beklentisi `["1v1","duello","kasa"]`. |
+| `kasa-canli-testi.mjs` | `--kopma` bot senaryosunda A'ya da uygulanır, süre `--kopmasn`. |
+
+"Maç açılamadı" metninin DOM'da olup görünmemesi yerelde yeniden üretilemedi (taklit 500 ile ekran okunur çıktı: `once-yukleme-hatasi-390.png`). Gözlenen "sallanan kırmızı ikon", Kasa'nın Düello renginde (kırmızı) çizilen yükleniyor ikonuydu; artık metinli ve Kasa renginde, 8 sn'de hata ekranına geçiyor.
+
+## Test sonuçları
+- **Canlı, bota karşı Serbest Hazine (test hesabı, quiztactics.com, yeni kod yayında):**
+  - Maç 1 `330c246d` — 20 tur, `bitti/hedef`, açılış (giriş sahnesi + 3-2-1) → her tur → final sahnesi → sonuç ekranı. Bu sırada DB yine yavaşladı (16:30 UTC, aynı grup maçı kilitleri): bir `kasa_durum` 10 sn'de **kesildi**, ekran toparlandı, maç sürdü.
+  - Maç 2 `1eaeff62` — **400 ms ağ gecikmesi + Tur 3'te 12 sn bağlantı kopması** (Chrome öykünmesi): 23 tur, 90-36 kazanıldı, `bitti/hedef`. Boş ekran 0, çift ekran 0, faz geri dönüşü 0, takılı bant 0.
+  - Test aracının kalan kırmızıları bu işle ilgisiz ve eski beklentiler: DEVAM düğmesinde "ÜCRETSİZ 50:50 / ×2" ve `devam_odul` (Serbest Hazine'de bu kurallar şu an kapalı), "Yeni Kasa maçı" (düğme artık "Yeni maç"); 400 ms gecikmede sayaç 0'da ~5 sn (sunucunun geç varış payı, tasarım gereği).
+- **Toparlanma (yerel, taklit `kasa_durum`; canlıya yük yok):** normal → 16 sn yanıtsız → yeniden 200. Yeni kod: bant çıktı, sonra **kalktı ve Tur 5 çizildi — GEÇTİ**. Eski kod (aynı test): bant hiç çıkmadı, sunucu dönünce de **Tur 4'te donuk kaldı** (Ida'nın gördüğü). Görüntüler: `once-toparlanma-*`, `sonra-toparlanma-*`.
+- **Cevap yeniden denemesi (taklit):** ilk 500 + ikinci 200 → 2 istek, ekranda hata yok · hep 500 → 2 istek, net mesaj (`sonra-cevap-*.png`).
+- **Düello (taklit):** ilk `duello_durum` yanıtsız → 10,8 sn'de kesildi, ikinci istekle sayfa açıldı (eski kodda sonsuz yükleniyor). Canlı Düello duman testi yapılamadı: yeni test hesabında Düello kilitli (5 Klasik maçı şartı, 1 oynanmış).
+- **Klasik duman (canlı, `oyuncu-testi --mod=klasik`):** 20 soru dokunuldu, hepsi sunucuya ulaştı. (Ana sayfada 390 px'te `ls-ad-dugme` × `sz-mini` 3 px üst üste binme bulgusu — bu işle ilgisiz, profil/ana sayfa alanı.)
+- `npm run build` temiz · `npm test` yeşil · `skill-sistemi-test` 8/8 · `arayuz-denetim` **TEMİZ**.
+- Test hesapları: **ArayuzDenetim131** ve testte kullanılan **ArayuzDenetim826** `hesabimi_sil` ile silindi ("tam"); `profiles` ve `auth.users`'ta 0, `ArayuzDenetim%` toplam 0.
+
+## Ayrı bulgu (düzeltilmedi, karar gerekir)
+DB yavaşlamasının tetikleyicisi grup maçı akışı: istemci `grup_mac_nabiz` + `advance_group_match` + `group_matches` okumasını sık çağırıyor, `cron_hizli_tik` › `bot_oyna` › `advance_group_match` aynı satırı tek uzun işlemde kilitliyor (12–22 sn). Nano işlemcide bu, bütün modları yavaşlatıyor. Önerim: `advance_group_match`/`grup_mac_nabiz`'e de kısa `lock_timeout` + kilitsiz dönüş, cron'da maç başına ayrı işlem. Ayrıca `gorevlerim` (ort. 1,16 sn) ve `get_categories` (1,13 sn) pahalı.
+
+**Migration:** 1055 (`20260612001055_kasa_durum_kilit_beklemesi.sql`) — canlıda uygulandı.
+
+RAPOR HAZIR — Ida'ya iletilecek.

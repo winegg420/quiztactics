@@ -444,10 +444,12 @@ async function sur(o, rol) {
         continue;
       }
     }
-    if (rol === "B" && KOPMA && tur === KOPMA && k.faz === "cevap" && !yapilan.has("kopma")) {
+    // 1055: bot senaryosunda A koparılır; süre --kopmasn (varsayılan 30)
+    if ((rol === "B" || SENARYO === "bot") && KOPMA && tur === KOPMA && k.faz === "cevap" && !yapilan.has("kopma")) {
       yapilan.add("kopma");
-      await o.b.setOffline(true); adim(`${o.ad} ağ KOPTU (tur ${tur}), 30 sn`);
-      await bekle(30000);
+      const kopmaMs = Number(ARG.kopmasn || 30) * 1000;
+      await o.b.setOffline(true); adim(`${o.ad} ağ KOPTU (tur ${tur}), ${kopmaMs / 1000} sn`);
+      await bekle(kopmaMs);
       await o.b.setOffline(false); adim(`${o.ad} ağ geri geldi`);
       continue;
     }
