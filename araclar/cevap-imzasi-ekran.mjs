@@ -1,5 +1,5 @@
 // Cevap İmzası (1040) ekran doğrulaması — TAKLİT VERİYLE (sunucuya yazmaz: satın al / tak / maç RPC'leri tarayıcıda taklit).
-// Her imza × 360/390 px × 4 bağlam (Dükkân demosu · Klasik · Ortak Hazine · Düello v4) için 3 kare (başlangıç / orta / son).
+// Her imza × 360/390 px × 4 bağlam (Dükkân demosu · Klasik · Ortak Hazine · Düello v4 — 10 Eki 2026dan beri imza OYNAMAZ, yokluğu sınanır) için 3 kare (başlangıç / orta / son).
 // Kare zamanı kesin: imza DOM'a girdiği anda sayfa içi saat dondurulur (CSS animasyonları duraklatılır, canvas imzalarda
 // requestAnimationFrame + performance.now denetlenir) ve istenen ana ilerletilir.
 // Ayrıca: rakip ekranında imza ASLA görünmez (iki istemci: A imzalı + doğru, B imzasız; B'nin ağ yanıtlarında imza yok) ·
@@ -318,13 +318,12 @@ if (calis("duello")) for (const [w, h] of EKRANLAR) {
   for (const imza of IMZALAR) {
     const { b, s, konsol } = await baglam({ w, h, imza, sahne: { d4: { benDogru: true } } });
     await s.goto(`${ADRES}/duello/${D4_ID}`, { waitUntil: "domcontentloaded", timeout: 30000 });
-    const oynadi = await bekleImza(s, 15000);
-    ok(`${w}: Düello ${KISA[imza]} "Sen · Doğru" satırında oynadı`, oynadi);
-    if (oynadi) {
-      const hedef = await s.evaluate(() => document.querySelector(".ci-katman, .ci-tuval")?.parentElement?.className ?? "");
-      ok(`${w}: Düello ${KISA[imza]} hedef = benim doğru satırım`, /d4-cevap--ben/.test(hedef) && /d4-cevap--dogru/.test(hedef), hedef);
-      olcum.kareler[`duello-${KISA[imza]}-${w}`] = await kareler(s, "duello", imza, w, h);
-    }
+    // 10 Eki 2026 (Ida): imza Düello v4'te OYNAMAZ — doğru cevap satırı gelir, imza katmanı hiç çıkmaz
+    await s.waitForSelector(".d4-cevap--ben.d4-cevap--dogru", { timeout: 15000 }).catch(() => {});
+    const satir = await s.locator(".d4-cevap--ben.d4-cevap--dogru").count();
+    const oynadi = await bekleImza(s, 4000);
+    ok(`${w}: Düello ${KISA[imza]} doğru satırı göründü`, satir > 0);
+    ok(`${w}: Düello ${KISA[imza]} imza OYNAMADI`, !oynadi);
     ok(`${w}: Düello ${KISA[imza]} konsol temiz`, konsol.length === 0, konsol.join(" | "));
     await b.close();
   }
