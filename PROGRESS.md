@@ -11599,3 +11599,5 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 Canlıya karşı koşan `kasa-canli-testi.mjs` durduruldu. Ölçüm: kilit yığılması yok, yük düşük; takılma deseni 1056'dan
 2,5 saat önce de var, 1056 sonrası 10 dk normal. Nano örneğinde kaynak tükenmesi (db/rest/auth UNHEALTHY, yeni
 bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute kararı Ida'da. Ayrıntı: RAPOR.md "Canlı kesinti".
+- Ek (aynı gün): Ida onayıyla proje API'den yeniden başlatıldı (17:51 UTC), 17:56'da sağlıklı. Ana sayfa kartları ve
+  Dükkân canlıda doğrulandı; 15 dk izlemede hizli_tik ≤0,53 sn, dakika_tik ≤0,47 sn, hata/kilit 0.

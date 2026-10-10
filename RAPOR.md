@@ -345,3 +345,24 @@ bu durumda (a) DB bağlantı kabul etmediği için uygulanamaz, (b) uygulanabils
 Not: Bu bilgisayarda Codex süreçleri ve iki Vite geliştirme sunucusu (5199 ve varsayılan port) açık; onlara dokunmadım.
 
 RAPOR HAZIR — Ida'ya iletilecek.
+
+## Yeniden başlatma ve 15 dk izleme (Ida onayıyla, 10 Eki 2026)
+- **17:51 UTC** Management API `POST /v1/projects/<ref>/restart` → 200. Proje 17:56 UTC'de `ACTIVE_HEALTHY`
+  (arada REST 521/522 döndü). db / rest / auth sağlıklı.
+- **Canlı kontrol (17:57 UTC, tek seferlik, 390 px):** ana sayfada coin (10.000), Sezon ve Ortak Hazine kartları
+  geldi; Dükkân (`/joker`) açıldı, jokerler listelendi. 62 Supabase isteğinin **0'ı** hatalı.
+- **İzleme 17:57–18:12 UTC (3 dk'da bir hafif sorgu):**
+
+| UTC | hizli_tik ort / maks | dakika_tik ort / maks | hata | bağlantı | kilit bekleyen |
+|---|---|---|---|---|---|
+| 18:00 | 0,05 / 0,53 sn | 0,19 / 0,47 sn | 0 | 20 | 0 |
+| 18:03 | 0,04 / 0,08 sn | 0,17 / 0,36 sn | 0 | 21 | 0 |
+| 18:06 | 0,03 / 0,04 sn | 0,04 / 0,05 sn | 0 | 21 | 0 |
+| 18:09 | 0,03 / 0,04 sn | 0,04 / 0,04 sn | 0 | 21 | 0 |
+| 18:12 | 0,03 / 0,05 sn | 0,04 / 0,05 sn | 0 | 14 | 0 |
+
+  Kesinti öncesi değerler (hizli_tik 49 sn, dakika_tik 121 sn, `job startup timeout`) görülmedi. Son REST yanıtı 200, 1,2 sn.
+- 1056 yerinde duruyor; geri alma gerekmedi. Kalıcı risk sürüyor: Nano kaynak sınırı (compute kararı Ida'da) ve
+  canlıya karşı koşan testler.
+
+RAPOR HAZIR — Ida'ya iletilecek.
