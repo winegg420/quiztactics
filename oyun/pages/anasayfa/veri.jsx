@@ -188,7 +188,8 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
         const p1 = m.oyuncu1 === uid;
         const rakip = p1 ? m.p2 : m.p1;
         return { ...m, benimSoru: (p1 ? m.oyuncu1_soru : m.oyuncu2_soru) ?? 0,
-                 rakipAd: rakip?.gorunen_ad, rakipAvatar: rakip?.gorunen_avatar, rakipBot: Boolean(rakip?.acik_bot) };
+                 rakipAd: rakip?.gorunen_ad, rakipAvatar: rakip?.gorunen_avatar, rakipBot: Boolean(rakip?.acik_bot),
+                 rakipId: p1 ? m.oyuncu2 : m.oyuncu1 };   // 1049: etkinlik satırında çerçeveli avatar (oyuncu kartı)
       }).filter((m) => m.benimSoru < (m.soru_ids?.length ?? 20));
       const yeni = benim.filter((m) => m.kabul_at && m.benimSoru === 0 && !m.rakipBot);
       const yeniId = new Set(yeni.map((m) => m.id));

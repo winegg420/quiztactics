@@ -42,6 +42,7 @@ export function useOyuncuSeviyeleri(idler) {
           // 643: unvan (tek oyuncu kartının küçük hâli, maç şeridinde)
           unvan: k.unvan ?? null,
           koleksiyon_puani: k.koleksiyon_puani ?? 0,   // 646
+          avatar_prestij: k.avatar_prestij === true,   // 1049: takılı avatar prestijli (CerceveliAvatar pırıltı)
           ulke: ulkeler.get(k.id) ?? null,             // ülke bayrağı (yoksa çizilmez)
         }])));
       } catch (e) {

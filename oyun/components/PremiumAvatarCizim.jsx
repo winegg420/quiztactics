@@ -32,7 +32,8 @@ const TUR2_AD = { alev: "Sönmeyen Alev", simsek: "Şimşek", kraliyet: "Kraliye
 import { tt } from "../lib/dil.js";
 
 export default function PremiumAvatarCizim({ profile, boyut, hareketli = false, premiumCerceve = null, premiumAura = null,
-  cerceveAnahtar = null, cerceveSatir, cerceveVar = false, kazanilan = null, etiket, className = "", ligVaryant = null }) {
+  cerceveAnahtar = null, cerceveSatir, cerceveVar = false, kazanilan = null, etiket, className = "", ligVaryant = null,
+  prestij = false, kimlik }) {   // 1049: Avatar Prestij pırıltısı (Avatar çizer)
   const t2 = premiumCerceve ? TUR2_SANAT[premiumCerceve] ?? null : null;
   const C = premiumCerceve && CERCEVELER[premiumCerceve] ? premiumCerceve : null;
   const A = premiumAura && AURALAR[premiumAura] ? premiumAura : null;
@@ -46,7 +47,7 @@ export default function PremiumAvatarCizim({ profile, boyut, hareketli = false, 
     const adK = [etiket, A && tt(AURALAR[A]?.ad)].filter(Boolean).join(" · ");
     return (
       <KazanilanCerceve anahtar={kazanilan} aura={A} boyut={boyut} hareketli={hareketli} className={className} etiket={adK || undefined} ligVaryant={ligVaryant}>
-        <Avatar profile={avatarProfil} boyut={boyut} />
+        <Avatar profile={avatarProfil} boyut={boyut} prestij={prestij} kimlik={kimlik} />
       </KazanilanCerceve>
     );
   }
@@ -57,7 +58,7 @@ export default function PremiumAvatarCizim({ profile, boyut, hareketli = false, 
     const ad2 = [t2 ? tt(TUR2_AD[t2]) : etiket, A && tt(AURALAR[A]?.ad)].filter(Boolean).join(" · ");
     return (
       <Cerceve2 tur={t2Tur} aura={A} boyut={boyut} hareketli={hareketli} className={className} etiket={ad2 || undefined}>
-        <Avatar profile={avatarProfil} boyut={boyut} />
+        <Avatar profile={avatarProfil} boyut={boyut} prestij={prestij} kimlik={kimlik} />
       </Cerceve2>
     );
   }
@@ -66,7 +67,7 @@ export default function PremiumAvatarCizim({ profile, boyut, hareketli = false, 
   if (!C && !A) {
     return (
       <CerceveGorseli anahtar={cerceveAnahtar} satir={cerceveSatir} boyut={boyut} hareketli={hareketli} className={className} etiket={etiket}>
-        <Avatar profile={p} boyut={icBoyut(boyut, cerceveVar)} />
+        <Avatar profile={p} boyut={icBoyut(boyut, cerceveVar)} prestij={prestij} kimlik={kimlik} />
       </CerceveGorseli>
     );
   }
@@ -79,7 +80,7 @@ export default function PremiumAvatarCizim({ profile, boyut, hareketli = false, 
       <CerceveGorseli anahtar={cerceveAnahtar} satir={cerceveSatir} boyut={boyut} hareketli={hareketli} className={className}
                       etiket={[etiket, ad].filter(Boolean).join(" · ")}>
         <PremiumCerceve aura={A} boyut={ic} hareketli={hareketli} halkasiz>
-          <Avatar profile={avatarProfil} boyut={ic} />
+          <Avatar profile={avatarProfil} boyut={ic} prestij={prestij} kimlik={kimlik} />
         </PremiumCerceve>
       </CerceveGorseli>
     );
@@ -87,7 +88,7 @@ export default function PremiumAvatarCizim({ profile, boyut, hareketli = false, 
   return (
     <PremiumCerceve cerceve={C} aura={A} boyut={boyut} hareketli={hareketli} className={className}
                     etiket={ad}>
-      <Avatar profile={avatarProfil} boyut={boyut} />
+      <Avatar profile={avatarProfil} boyut={boyut} prestij={prestij} kimlik={kimlik} />
     </PremiumCerceve>
   );
 }

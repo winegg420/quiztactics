@@ -7,7 +7,6 @@ import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
 import { KartArkaPlanKatmani, kartArkaPlanSinifi, useKartArkaPlani } from "../../tasarim/arka-plan/kayit.jsx";
 import IsimEfekti from "../../components/IsimEfekti.jsx";
 import OyuncuAdiDugmesi from "../../components/OyuncuAdiDugmesi.jsx";
-import Avatar from "../../../src/components/Avatar.jsx";
 import { SezonMiniRozet } from "../../components/sezon/SezonRozeti.jsx";
 import SeriRozeti from "../../components/SeriRozeti.jsx";
 import Countdown from "../../components/Countdown.jsx";
@@ -139,13 +138,13 @@ export function etkinlikler(v) {
   for (const m of v.kabuller) {
     liste.push({ id: `k-${m.id}`, ton: "acil", ikon: "duello", yol: `/mac/${m.id}`,
       baslik: tt("{ad} meydan okumanı kabul etti", { ad: m.rakipAd || tt("Rakibin") }), alt: tt("Maç ekranında seni bekliyor — hemen gir"),
-      avatar: { gorunen_ad: m.rakipAd, gorunen_avatar: m.rakipAvatar } });
+      avatar: { id: m.rakipId, gorunen_ad: m.rakipAd, gorunen_avatar: m.rakipAvatar } });
   }
   for (const m of v.siraSende) {
     liste.push({ id: `s-${m.id}`, ton: "sira", ikon: "oyna", yol: `/mac/${m.id}`,
       baslik: tt("{ad} ile maçın sürüyor", { ad: m.rakipAd || tt("Rakibin") }),
       alt: tt("Soru {n}/{t}", { n: m.benimSoru + 1, t: m.soru_ids?.length ?? 20 }),
-      avatar: { gorunen_ad: m.rakipAd, gorunen_avatar: m.rakipAvatar } });
+      avatar: { id: m.rakipId, gorunen_ad: m.rakipAd, gorunen_avatar: m.rakipAvatar } });
   }
   for (const d of v.davetlerim) {
     liste.push({ id: `d-${d.tur}-${d.kayit_id}`, ton: "bekle", ikon: "saat", yol: "/meydan",
@@ -158,7 +157,8 @@ export function EtkinlikSatiri({ e }) {
   return (
     <Link to={y(e.yol)} className={`as-etkinlik as-etkinlik--${e.ton}`}>
       <span className="as-etkinlik-bas">
-        {e.avatar ? <Avatar profile={e.avatar} boyut={40} /> : <QtIkon ad={e.ikon} boyut={22} />}
+        {/* 1049: çerçevesiz oyuncu yok — lig çerçevesi + prestij oyuncu kartından (toplu, önbellekli) */}
+        {e.avatar ? <CerceveliAvatar profile={e.avatar} userId={e.avatar.id} boyut={40} /> : <QtIkon ad={e.ikon} boyut={22} />}
       </span>
       <span className="as-etkinlik-metin"><b>{e.baslik}</b><small>{e.alt}</small></span>
       <QtIkon ad="ileri" boyut={20} className="as-etkinlik-ok" />
@@ -570,7 +570,8 @@ export function LigKarti({ v }) {
               <CerceveliAvatar profile={{ gorunen_ad: r.ad, gorunen_avatar: r.avatar }} userId={r.user_id}
                                cerceve={r.cerceve ?? null} kart={{ cerceve: r.cerceve ?? null, cerceve_nadirlik: r.cerceve_nadirlik,
                                  // 560: premium alanlar satırda varsa (lig_grubum_ozet) ek sorgu yok
-                                 ...("premium_cerceve" in r ? { premium_cerceve: r.premium_cerceve ?? null, premium_aura: r.premium_aura ?? null } : {}) }} boyut={28} />
+                                 ...("premium_cerceve" in r ? { premium_cerceve: r.premium_cerceve ?? null, premium_aura: r.premium_aura ?? null } : {}),
+                                 ...("avatar_prestij" in r ? { avatar_prestij: r.avatar_prestij === true } : {}) }} boyut={28} />   {/* 1049 */}
               {/* Ajan C: ada dokununca oyuncu kartı (satırın geri kalanı lig sayfasına gider). Liste aria-hidden:
                   klavye/ekran okuyucu aynı kartı lig sayfasındaki satırdan açar. */}
               <OyuncuAdiDugmesi userId={r.user_id} profil={{ gorunen_ad: r.ad, gorunen_avatar: r.avatar }} ad={r.ad}

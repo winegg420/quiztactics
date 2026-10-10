@@ -27,6 +27,8 @@
  * - SEZON YOLU (720): `sezonBp` (isteğe bağlı; verilmezse `kart.sezon_bp`, o da yoksa okunan oyuncu kartı) true ise
  *   mevcut çerçevenin ÜZERİNE ince altın halka biner (sezon/AltinHalka.jsx; çerçeve çizimi değişmez). Yoksa/false iken
  *   DOM ve piksel eskisiyle aynı (sarmal eklenmez). `hareketli` + boyut > 48 px iken halkada çok yavaş parıltı.
+ * - AVATAR PRESTİJ (1049): `prestij` (isteğe bağlı; verilmezse `kart.avatar_prestij`, o da yoksa okunan oyuncu kartı — aynı
+ *   toplu/önbellekli oyuncu_kartlari, ek sorgu yok) true ise Avatar fotoğrafın İÇİNDE pırıltı çizer. Çerçeveye dokunmaz.
  */
 import { lazy, Suspense, useEffect, useState } from "react";
 import Avatar from "../../src/components/Avatar.jsx";
@@ -44,7 +46,7 @@ const PremiumAvatarCizim = lazy(() => import("./PremiumAvatarCizim.jsx"));
 const alanVar = (o, ad) => o != null && Object.prototype.hasOwnProperty.call(o, ad);
 
 export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, kart, aura, premiumCerceve, premiumAura,
-  hareketli = false, className = "", sezonBp, ligVaryant: ligVaryantProp = null, eskiGorunum = ESKI_GORUNUM }) {
+  hareketli = false, className = "", sezonBp, prestij: prestijProp, ligVaryant: ligVaryantProp = null, eskiGorunum = ESKI_GORUNUM }) {
   // 9 Eki (canlıya alma): eskiGorunum false → BP avatar halkası çizilmez, Elmas/Efsane onaylı V2. true → eski hâl.
   const ligVaryant = eskiGorunum ? ligVaryantProp : (ligVaryantProp ?? CANLI_LIG_VARYANT);
   const kimlik = userId ?? profile?.id ?? profile?.user_id ?? null;
@@ -54,7 +56,9 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
   const premiumVerildi = premiumCerceve !== undefined || premiumAura !== undefined || alanVar(kart, "premium_cerceve")
     || (cerceve !== undefined && aura !== undefined);
   // Çerçeve ya da aura elde değilse kart okunur (aynı karedeki istekler tek RPC, oturum boyunca önbellek)
-  const verildi = cerceveVerildi && auraVerildi && premiumVerildi;
+  // 1049: prestij elde değilse de kart okunur (aynı toplu + önbellekli çağrı; çoğu yerde zaten önbellekte)
+  const prestijVerildi = prestijProp !== undefined || alanVar(kart, "avatar_prestij");
+  const verildi = cerceveVerildi && auraVerildi && premiumVerildi && prestijVerildi;
   const [okunan, setOkunan] = useState(null);   // { cerceve, nadirlik, aura, premium_cerceve, premium_aura }
   const [tazele, setTazele] = useState(0);
 
@@ -69,7 +73,7 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
     oyuncuKarti(kimlik)
       .then((k) => { if (aktif) setOkunan(k ? { cerceve: k.cerceve ?? null, nadirlik: k.cerceve_nadirlik, aura: k.aura ?? null,
                                                 premium_cerceve: k.premium_cerceve ?? null, premium_aura: k.premium_aura ?? null,
-                                                sezon_bp: k.sezon_bp === true } : null); })
+                                                sezon_bp: k.sezon_bp === true, avatar_prestij: k.avatar_prestij === true } : null); })
       .catch((e) => { console.error("[Bildim] çerçeve okunamadı:", e?.message ?? e); if (aktif) setOkunan(null); });
     return () => { aktif = false; };
   }, [verildi, kimlik, tazele]);
@@ -88,13 +92,15 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
   // 30 Eyl: arka plan (premium_aura) artık oyuncu KARTININ arkasında (tasarim/arka-plan/kayit.jsx); avatarın arkasında
   // çizilmez. Eski çizim (tasarim/premium/sanatAuralar.jsx) ve `premiumAura` prop'u duruyor, silinmedi.
   const pa = null;
+  const prestij = prestijProp !== undefined ? prestijProp === true
+    : alanVar(kart, "avatar_prestij") ? kart.avatar_prestij === true : okunan?.avatar_prestij === true;
 
   // Kazanılan çerçeve (lig/level/turnuva) → yeni çizim; eski dükkân aurası takılıysa bugünkü çizim
   const kazanilan = kazanilanMi(tanim?.anahtar) && !auraAnahtar ? tanim.anahtar : null;
   const bugunku = (
     <CerceveGorseli anahtar={anahtar} satir={{ nadirlik }} aura={auraAnahtar} boyut={boyut} hareketli={hareketli}
                     className={className} etiket={etiket}>
-      <Avatar profile={profile ?? {}} boyut={icBoyut(boyut, !!tanim)} />
+      <Avatar profile={profile ?? {}} boyut={icBoyut(boyut, !!tanim)} prestij={prestij} kimlik={kimlik} />
     </CerceveGorseli>
   );
   // Sezon Yolu: prop > kart alanı > okunan kart. Yoksa/false → aşağıdaki çizim değişmeden döner.
@@ -110,7 +116,7 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
       <Suspense fallback={bugunku}>
         <PremiumAvatarCizim profile={profile} boyut={boyut} hareketli={hareketli} premiumCerceve={pc} premiumAura={pa}
                             cerceveAnahtar={anahtar} cerceveSatir={{ nadirlik }} cerceveVar={!!tanim} kazanilan={kazanilan}
-                            etiket={etiket} className={className} ligVaryant={ligVaryant} />
+                            etiket={etiket} className={className} ligVaryant={ligVaryant} prestij={prestij} kimlik={kimlik} />
       </Suspense>
     );
   }

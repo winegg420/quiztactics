@@ -18,9 +18,26 @@
 // Dosyalar depoda duruyor ama hiçbir ekran onları çağırmıyor.
 // ============================================================
 
+import { useEffect, useRef } from "react";
 import { useNadirlikSahneli } from "../lib/avatarNadirlik.js";
+import { parlaIzle } from "../lib/parlaGozcu.js";
 
-export default function Avatar({ profile, boyut = 42 }) {
+// 1049 Avatar Prestij: `prestij` true ise fotoğrafın İÇİNDE ara ara çakan 4 köşeli beyaz yıldızlar (yalnız CSS,
+// styles.css › .av-parla). Aynı ekrandaki pırıltılar birlikte çakmasın diye gecikme kimlikten türer (0–1,8 sn).
+function parlaGecikme(anahtar) {
+  let h = 0;
+  for (const c of String(anahtar ?? "")) h = (h * 31 + c.charCodeAt(0)) | 0;
+  return `${(Math.abs(h) % 19) / 10}s`;
+}
+
+/** Pırıltı katmanı: yalnız ekrandayken açık (lib/parlaGozcu.js; kaydırma akıcılığı için). */
+export function AvatarParla({ anahtar }) {
+  const ref = useRef(null);
+  useEffect(() => parlaIzle(ref.current), []);
+  return <span ref={ref} className="av-parla" aria-hidden="true" style={{ "--av-parla-g": parlaGecikme(anahtar) }} />;
+}
+
+export default function Avatar({ profile, boyut = 42, prestij = false, kimlik }) {
   const ad = profile?.gorunen_ad ?? profile?.username ?? "?";
   const gorsel =
     profile?.gorunen_avatar !== undefined
@@ -40,6 +57,7 @@ export default function Avatar({ profile, boyut = 42 }) {
       ) : (
         harf
       )}
+      {prestij && <AvatarParla anahtar={kimlik ?? profile?.id ?? profile?.user_id ?? gorsel ?? ad} />}
     </div>
   );
 }
