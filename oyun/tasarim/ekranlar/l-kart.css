@@ -31,7 +31,9 @@
 .ls-avatar-dugme:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 3px; }
 
 /* ---------- Oyuncu kartı (QtModal içinde) ---------- */
-.ok-kart .qt-modal-ust { position: absolute; top: var(--qt-b-2); right: var(--qt-b-2); z-index: 1; }
+.ok-kart .qt-modal-ust { position: absolute; top: var(--qt-b-2); right: 0; z-index: 1; }
+/* 10 Eki: kapatma düğmesinin -10px sağ payı mutlak konumda pencereyi 2 px taşırıyordu (390 px'te yatay kaydırma) — düğme 2 px içeri, taşma yok */
+.ok-kart .qt-modal-kapat { margin-right: 0; }
 .ok-ust {
   display: flex;
   flex-direction: column;
