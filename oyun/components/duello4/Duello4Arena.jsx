@@ -10,8 +10,6 @@ import { useEffect, useRef, useState } from "react";
 import CerceveliAvatar from "../CerceveliAvatar.jsx";
 import KategoriIkon, { KATEGORI_RENK } from "../KategoriIkon.jsx";
 import MacUstSerit from "../MacUstSerit.jsx";
-import CevapImzasi from "../CevapImzasi.jsx";
-import { useTakiliImza } from "../../lib/cevapImzasi.js";
 import OyuncuAdiDugmesi from "../OyuncuAdiDugmesi.jsx";
 import { V2Skill } from "../DuelloJokerSeridi.jsx";
 import { kategoriAdi } from "../../lib/kategoriler.js";
@@ -153,10 +151,7 @@ export default function Duello4Arena({
   const oranRakip = c("Rakip");   // kart oranlarında kısa etiket (ad kesilmesin)
   const h = d.faz === "sonuc" ? d.son_hamle : null;
   const sm = sonucModeli(h, benId, c);
-  // 1040: takılı Cevap İmzası — yalnız kendi profilimden, rakip görmez. Sonuç fazında şıklar ekranda olmadığı için
-  // doğru şıkkın yerine "Sen · Doğru" satırında oynar (nötr, saldırı ve Son Düello sorularında).
-  const imza = useTakiliImza();
-  const cevaplarRef = useRef(null);
+  // 1040: Cevap İmzası Düello v4'te OYNAMAZ (Ida, 10 Eki 2026: sonuç penceresinde güzel durmuyor). Öteki modlarda aynen.
 
   // Giriş (3-2-1): ilk nötr soru sunucuda soru_baslangic'a kadar gizli. O an gelince durum bir kez tazelenir.
   const soruBasMs = gosterimBas ? gosterimBas - payiMs : null;
@@ -426,11 +421,10 @@ export default function Duello4Arena({
         {sm.bitis && sm.ton === "iyi" && <span className="d4-konfeti" aria-hidden="true">{Array.from({ length: 12 }, (_, i) => <i key={i} style={{ "--i": i }} />)}</span>}
         <h2 className="d4-sonuc-baslik">{sm.baslik}</h2>
         <p className="d4-alt d4-sonuc-alt">{sm.alt}</p>
-        <div className="d4-cevaplar" ref={cevaplarRef}>
+        <div className="d4-cevaplar">
           {satir(benimki, c("Sen"), "ben")}
           {satir(rakibinki, rakipAd, "rakip")}
         </div>
-        <CevapImzasi imza={imza} kapRef={cevaplarRef} secici=".d4-cevap--ben.d4-cevap--dogru" anahtar={benimki.dogru ? `d4-${h.no}` : null} />
         {sm.baski && (
           <div className={sinif("d4-baski", h.kontrol_sonra === benId ? "d4-baski--ben" : "d4-baski--rakip")} role="alert">
             <b>{c("SON BASKI")}</b>

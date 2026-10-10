@@ -1,7 +1,7 @@
 /**
  * CEVAP İMZASI (1040, Ida onayı 10 Eki 2026) — oyuncu soruyu DOĞRU cevaplayınca doğru şıkkın üstünde ~0,8–1,3 sn oynayan
  * kişisel efekt. Tek ortak bileşen: Klasik / Saf Bilgi / Grup / Turnuva / Hatalarım (QuestionCard), Ortak Hazine (KasaPage),
- * Düello v4 (Duello4Arena) ve Dükkân demosu aynısını kullanır.
+ * ve Dükkân demosu aynısını kullanır. Düello v4'te OYNAMAZ (Ida, 10 Eki 2026: sonuç penceresinde güzel durmuyor).
  *
  * KURALLAR (Ida): imzayı YALNIZ oyuncunun kendisi görür — sunucuya / Realtime'a hiçbir şey gitmez, takılı imza yalnız
  * kendi profilinden okunur (useTakiliImza). Yeni ses yok. Süre / puan / soru etkilenmez. Tıklamayı engellemez

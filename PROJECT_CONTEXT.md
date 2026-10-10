@@ -517,7 +517,7 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   **Satış kapısı `cevap_imzasi_satis_acik` = true** (canlı DB, 10 Eki 2026, Ida onayı) → Dükkân › Efekt herkese açık; false yapılırsa yalnız sahip hesap görür (test modu);
   Görsel kaynak `docs/cevap-imzasi-referans.txt` (maket birebir; Yanan Kart ızgara adımı 2 → 3 px, ImageData ile çizim —
   performans, görünüm aynı). Ortak bileşen `components/CevapImzasi.jsx`: QuestionCard (Klasik/Saf Bilgi/Grup/Turnuva/Hatalarım), KasaPage (Savunma dahil),
-  Duello4Arena (sonuç fazında "Sen · Doğru" satırında). Dükkân kartında demo (`DukkanCevapImzasi.jsx`), Koleksiyon grubu. Zafer Efekti satışa açılmaz.
+  **Düello v4'te OYNAMAZ** (Ida, 10 Eki 2026: v4 sonuç penceresinde güzel durmuyor; Duello4Arena'dan kaldırıldı). Dükkân kartında demo (`DukkanCevapImzasi.jsx`), Koleksiyon grubu. Zafer Efekti satışa açılmaz.
   Geri alma `docs/cevap-imzasi-1040-geri-al.sql`; testler `araclar/cevap-imzasi-sql-testi.mjs` (ROLLBACK) · `araclar/cevap-imzasi-ekran.mjs` (taklit).
 - **Kart arka planı (30 Eyl 2026, Ida onayı):** `premium_aura` (Arka Plan) artık avatarın ARKASINDA değil oyuncu KARTININ arkasında çizilir
   (`CerceveliAvatar` `premiumAura`'yı yok sayar; eski çizim `premium/sanatAuralar.jsx` durur). Yer: ana sayfa kompakt kart (hareketli), profil vitrin kartı
