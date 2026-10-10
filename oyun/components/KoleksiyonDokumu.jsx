@@ -41,7 +41,7 @@ export default function KoleksiyonDokumu({ tam = false, sirali = "", sira = null
   const bos = !tam && rozet === 0 && unvan === 0;
   return (
     <QtKart as="section" className={sinif("qt-kp", sirali)} style={sira != null ? siraStili(sira) : undefined} aria-labelledby="qt-kp-b">
-      <h2 id="qt-kp-b" className="qt-baslik-3 qt-kp-baslik qt-plaka"><QtIkon ad="yildiz" boyut={20} /> {tt("Koleksiyon")}</h2>
+      <h2 id="qt-kp-b" className="qt-baslik-3 qt-kp-baslik"><QtIkon ad="yildiz" boyut={20} /> {tt("Koleksiyon")}</h2>
       {bos ? (
         <QtBosDurum boyut="k" ikon="madalya" ton="mor" baslik={tt("İlk rozetin için maç oyna")} />
       ) : (

@@ -185,7 +185,8 @@
 }
 
 /* ---------- 8. Oyun listesi + başlık plakası (8 Eki 2026, "düz beyaz liste" turu) ----------
-   .qt-plaka: bölüm başlığı krem/altın plaka (ana sayfa isim plakasıyla aynı dil).
+   .qt-plaka: krem/altın plaka. 11 Eki 2026'dan beri bölüm BAŞLIĞINDA kullanılmaz (başlık = sade lacivert qt-baslik-3);
+   yalnız /ekran-revizyon-onizleme sayfasında duruyor.
    .qt-liste--kartli: QtListe'ye eklenir; beyaz tek levha yerine her satır kendi kartı (3 px lacivert kontur + alt dudak).
    Satır renkleri sayfa CSS'inde (--kart-z / --kart-k ile) ayarlanır. Hareket yok; fixed/transform yok. */
 .qt-plaka {

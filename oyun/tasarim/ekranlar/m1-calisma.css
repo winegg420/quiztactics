@@ -82,8 +82,8 @@
   .m1-cal-ozet .m1-cal-cubuk .qt-ilerleme--konturlu { --_r: color-mix(in srgb, var(--kp-r, var(--qt-vurgu)) 86%, #0b1220); }
 }
 .m1-cal-ozet .m1-cal-cubuk b { font-weight: var(--qt-a-siyah); }
-/* Bölüm başlıkları krem plaka: zemin üstündeki düz yazı yerine (plaka kendi zeminini taşır, yazı lacivert) */
-.m1-cal-bolum .qt-baslik-3.qt-plaka { color: var(--qt-metin); }
+/* Bölüm başlıkları sade lacivert yazı (11 Eki 2026, site geneli — Profil ile aynı; krem/altın plaka başlıkta kullanılmaz) */
+.m1-cal-bolum .qt-baslik-3 { color: var(--qt-metin); }
 
 /* ---------- Ekran revizyonu A (Ida, 10 Eki 2026): afiş sayısı + 2 sütunlu kategori kartları ---------- */
 .m1-cal-afis-sayi { display: inline-flex; align-items: baseline; gap: 4px; padding: 2px 10px; border: 2px solid #1d2152; border-radius: 999px; background: var(--qt-yuzey); color: var(--qt-metin); }

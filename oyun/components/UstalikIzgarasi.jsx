@@ -85,7 +85,7 @@ export default function UstalikIzgarasi({ sirali = "", sira = null, kategoriYok 
     <>
       {/* ---------- Seri + skill istatistikleri ---------- */}
       <QtKart as="section" className={sinif("qt-dk-ust-kart", sirali)} style={sira != null ? siraStili(sira) : undefined} aria-labelledby="qt-dk-seri-baslik">
-        <h2 id="qt-dk-seri-baslik" className="qt-baslik-3 qt-plaka">{tt("Seri ve skiller")}</h2>
+        <h2 id="qt-dk-seri-baslik" className="qt-baslik-3">{tt("Seri ve skiller")}</h2>
         {/* Ödüllerim'deki sayı kartıyla aynı kalıp (qt-pf-sayi: dukkan-profil.css) */}
         <ul className="qt-dk-sayilar qt-dk-sayilar--iki">
           {kutular.map((k) => (
@@ -116,7 +116,7 @@ export default function UstalikIzgarasi({ sirali = "", sira = null, kategoriYok 
       {/* ---------- Kategori ustalığı ---------- */}
       <QtKart as="section" className="qt-dk-ust-kart" aria-labelledby="qt-dk-ustalik-baslik">
         <div className="qt-dk-kart-baslik">
-          <h2 id="qt-dk-ustalik-baslik" className="qt-baslik-3 qt-plaka">{tt("Kategori ustalığı")}</h2>
+          <h2 id="qt-dk-ustalik-baslik" className="qt-baslik-3">{tt("Kategori ustalığı")}</h2>
           <QtRozet ton="dogru" boyut="k" ikon="onay">{tt("{n} doğru", { n: sayiBicim(toplamDogru) })}</QtRozet>
         </div>
 

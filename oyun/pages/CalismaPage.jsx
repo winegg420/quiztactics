@@ -319,7 +319,7 @@ export default function CalismaPage() {
         ) : null}
 
         <section className="m1-cal-bolum" aria-labelledby="m1-cal-kat">
-          <h2 id="m1-cal-kat" className="qt-baslik-3 qt-plaka">{tt("Kategori")}</h2>
+          <h2 id="m1-cal-kat" className="qt-baslik-3">{tt("Kategori")}</h2>
           <div className="m1-cal-kat-izgara" role="group" aria-labelledby="m1-cal-kat">
             {katKartlari.map((k) => {
               const ad = k.kategori ? kategoriEtiket(k.kategori) : tt("Tümü");
@@ -342,7 +342,7 @@ export default function CalismaPage() {
         </section>
 
         <section className="m1-cal-bolum" aria-labelledby="m1-cal-adet">
-          <h2 id="m1-cal-adet" className="qt-baslik-3 qt-plaka">{tt("Soru sayısı")}</h2>
+          <h2 id="m1-cal-adet" className="qt-baslik-3">{tt("Soru sayısı")}</h2>
           <div className="m1-cal-adetler" role="group" aria-labelledby="m1-cal-adet">
             {bankaSecenegi && (
               <QtCip
