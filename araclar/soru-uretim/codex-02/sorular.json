@@ -1,0 +1,7921 @@
+[
+  {
+    "id": "C02-01",
+    "taslak_id": "C02-T007",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Grant Wood'un 'Amerikan Gotiği' tablosu hangi müzenin koleksiyonundadır?",
+    "d": "Art Institute of Chicago",
+    "y": [
+      "Kunsthistorisches Museum",
+      "Philadelphia Museum of Art",
+      "Accademia Gallery"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which museum holds Grant Wood's 'American Gothic'?",
+      "d": "Art Institute of Chicago",
+      "y": [
+        "Kunsthistorisches Museum",
+        "Philadelphia Museum of Art",
+        "Accademia Gallery"
+      ]
+    },
+    "olgu": "Amerikan Gotiği, Art Institute of Chicago koleksiyonundadır.",
+    "kalip": "eser_muzesi",
+    "konular": [
+      "amerikan-gotigi",
+      "american-gothic"
+    ],
+    "alt_tur": "muze",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-02",
+    "taslak_id": "C02-T009",
+    "k": "sanat",
+    "yerel": false,
+    "s": "'Arnolfini Portresi' tablosu hangi müzenin koleksiyonundadır?",
+    "d": "National Gallery",
+    "y": [
+      "Borghese Gallery",
+      "Accademia Gallery",
+      "Alte Pinakothek"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which museum holds 'The Arnolfini Portrait'?",
+      "d": "National Gallery",
+      "y": [
+        "Borghese Gallery",
+        "Accademia Gallery",
+        "Alte Pinakothek"
+      ]
+    },
+    "olgu": "Arnolfini Portresi, National Gallery koleksiyonundadır.",
+    "kalip": "eser_muzesi",
+    "konular": [
+      "arnolfini-portresi",
+      "eser:arnolfini-portresi"
+    ],
+    "alt_tur": "muze",
+    "jev_p": 0.25,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-03",
+    "taslak_id": "C02-T036",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Rodin'in 'Düşünen Adam' heykelinin dökümlerinde hangi metal kullanılır?",
+    "d": "Bronz",
+    "y": [
+      "Demir",
+      "Çelik",
+      "Gümüş"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which metal is used for casts of Rodin's 'The Thinker'?",
+      "d": "Bronze",
+      "y": [
+        "Iron",
+        "Steel",
+        "Silver"
+      ]
+    },
+    "olgu": "Rodin'in Düşünen Adam'ının dökümleri eseri bronz malzemeyle yapılmıştır.",
+    "kalip": "heykel_malzemesi",
+    "konular": [
+      "rodin-in-dusunen-adam-n-n-dokumleri",
+      "rodin"
+    ],
+    "alt_tur": "heykel",
+    "jev_p": 0.36,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-04",
+    "taslak_id": "C02-T042",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Özgürlük Heykeli'nin dış kaplamasında hangi metal kullanılmıştır?",
+    "d": "Bakır",
+    "y": [
+      "Demir",
+      "Çelik",
+      "Gümüş"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which metal forms the outer skin of the Statue of Liberty?",
+      "d": "Copper",
+      "y": [
+        "Iron",
+        "Steel",
+        "Silver"
+      ]
+    },
+    "olgu": "Özgürlük Heykeli'nin dış kaplaması eseri bakır malzemeyle yapılmıştır.",
+    "kalip": "heykel_malzemesi",
+    "konular": [
+      "ozgurluk-heykeli-nin-d-s-kaplamas-",
+      "statue-of-liberty"
+    ],
+    "alt_tur": "heykel",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-05",
+    "taslak_id": "C02-T044",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Paul Gauguin ressam olmadan önce hangi meslekte çalışıyordu?",
+    "d": "Borsa simsarı",
+    "y": [
+      "Gümrük memuru",
+      "Muhasebeci",
+      "Öğretmen"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What was Paul Gauguin's job before becoming a painter?",
+      "d": "Stockbroker",
+      "y": [
+        "Customs officer",
+        "Accountant",
+        "Teacher"
+      ]
+    },
+    "olgu": "Paul Gauguin, resme yönelmeden önce borsa simsarı olarak çalıştı.",
+    "kalip": "sanatci_meslek_gecmisi",
+    "konular": [
+      "paul-gauguin"
+    ],
+    "alt_tur": "sanatci",
+    "jev_p": 0.11,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-06",
+    "taslak_id": "C02-T052",
+    "k": "sanat",
+    "yerel": false,
+    "s": "'Afgan Kızı' fotoğrafını kim çekmiştir?",
+    "d": "Steve McCurry",
+    "y": [
+      "Dorothea Lange",
+      "Yousuf Karsh",
+      "Elliott Erwitt"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who took the photograph 'Afghan Girl'?",
+      "d": "Steve McCurry",
+      "y": [
+        "Dorothea Lange",
+        "Yousuf Karsh",
+        "Elliott Erwitt"
+      ]
+    },
+    "olgu": "Afgan Kızı, Steve McCurry tarafından çekilmiştir.",
+    "kalip": "fotograf_fotografci",
+    "konular": [
+      "afgan-k-z-",
+      "kisi:steve-mccurry",
+      "eser:afgan-kizi"
+    ],
+    "alt_tur": "fotograf",
+    "jev_p": 0.57,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-07",
+    "taslak_id": "C02-T058",
+    "k": "sanat",
+    "yerel": false,
+    "s": "'Mavi At I' tablosunun ressamı kimdir?",
+    "d": "Franz Marc",
+    "y": [
+      "Caravaggio",
+      "Grant Wood",
+      "Edgar Degas"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who painted 'Blue Horse I'?",
+      "d": "Franz Marc",
+      "y": [
+        "Caravaggio",
+        "Grant Wood",
+        "Edgar Degas"
+      ]
+    },
+    "olgu": "Mavi At I, Franz Marc eseridir.",
+    "kalip": "tablo_ressami",
+    "konular": [
+      "mavi-at-i",
+      "kisi:franz-marc",
+      "eser:mavi-at-i"
+    ],
+    "alt_tur": "eser",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-08",
+    "taslak_id": "C02-T059",
+    "k": "sanat",
+    "yerel": false,
+    "s": "'Çiçek Taşıyıcısı' tablosunun ressamı kimdir?",
+    "d": "Diego Rivera",
+    "y": [
+      "Claude Monet",
+      "Paul Cézanne",
+      "Paul Gauguin"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who painted 'The Flower Carrier'?",
+      "d": "Diego Rivera",
+      "y": [
+        "Claude Monet",
+        "Paul Cézanne",
+        "Paul Gauguin"
+      ]
+    },
+    "olgu": "Çiçek Taşıyıcısı, Diego Rivera eseridir.",
+    "kalip": "tablo_ressami",
+    "konular": [
+      "cicek-tas-y-c-s-",
+      "kisi:diego-rivera",
+      "eser:cicek-tasiyicisi"
+    ],
+    "alt_tur": "eser",
+    "jev_p": 0.3,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-09",
+    "taslak_id": "C02-T061",
+    "k": "sanat",
+    "yerel": false,
+    "s": "'Otoportre, Dikenli Kolye ve Sinekkuşu' tablosunun ressamı kimdir?",
+    "d": "Frida Kahlo",
+    "y": [
+      "Edgar Degas",
+      "Claude Monet",
+      "Paul Cézanne"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who painted 'Self-Portrait with Thorn Necklace and Hummingbird'?",
+      "d": "Frida Kahlo",
+      "y": [
+        "Edgar Degas",
+        "Claude Monet",
+        "Paul Cézanne"
+      ]
+    },
+    "olgu": "Otoportre, Dikenli Kolye ve Sinekkuşu, Frida Kahlo eseridir.",
+    "kalip": "tablo_ressami",
+    "konular": [
+      "otoportre-dikenli-kolye-ve-sinekkusu",
+      "kisi:frida-kahlo",
+      "eser:otoportre-dikenli-kolye-ve-sinekkusu",
+      "frida-kahlo"
+    ],
+    "alt_tur": "eser",
+    "jev_p": 0.2,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-10",
+    "taslak_id": "C02-T064",
+    "k": "sanat",
+    "yerel": false,
+    "s": "'Çiçekli İki Tahitili Kadın' tablosunun ressamı kimdir?",
+    "d": "Paul Gauguin",
+    "y": [
+      "Claude Monet",
+      "Paul Cézanne",
+      "Gustav Klimt"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who painted 'Two Tahitian Women'?",
+      "d": "Paul Gauguin",
+      "y": [
+        "Claude Monet",
+        "Paul Cézanne",
+        "Gustav Klimt"
+      ]
+    },
+    "olgu": "Çiçekli İki Tahitili Kadın, Paul Gauguin eseridir.",
+    "kalip": "tablo_ressami",
+    "konular": [
+      "cicekli-iki-tahitili-kad-n",
+      "kisi:paul-gauguin",
+      "eser:cicekli-iki-tahitili-kadin",
+      "paul-gauguin"
+    ],
+    "alt_tur": "eser",
+    "jev_p": 0.2,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-11",
+    "taslak_id": "C02-T067",
+    "k": "sanat",
+    "yerel": false,
+    "s": "'Kızıl Balıklar' tablosunun ressamı kimdir?",
+    "d": "Henri Matisse",
+    "y": [
+      "Édouard Manet",
+      "René Magritte",
+      "Salvador Dalí"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who painted 'Goldfish'?",
+      "d": "Henri Matisse",
+      "y": [
+        "Édouard Manet",
+        "René Magritte",
+        "Salvador Dalí"
+      ]
+    },
+    "olgu": "Kızıl Balıklar, Henri Matisse eseridir.",
+    "kalip": "tablo_ressami",
+    "konular": [
+      "k-z-l-bal-klar",
+      "kisi:henri-matisse",
+      "eser:kizil-baliklar",
+      "henri-matisse"
+    ],
+    "alt_tur": "eser",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-12",
+    "taslak_id": "C02-T524",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Tac Mahal'in beyaz dış cephesinin ana malzemesi hangisidir?",
+    "d": "Mermer",
+    "y": [
+      "Granit",
+      "Traverten",
+      "Kumtaşı"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the main material of the Taj Mahal's white exterior?",
+      "d": "Marble",
+      "y": [
+        "Granite",
+        "Travertine",
+        "Sandstone"
+      ]
+    },
+    "olgu": "Tac Mahal'in beyaz cephesi yapımında mermer belirgin ana malzemedir.",
+    "kalip": "mimari_malzeme",
+    "konular": [
+      "tac-mahal-in-beyaz-cephesi",
+      "taj-mahal"
+    ],
+    "alt_tur": "mimari",
+    "jev_p": 0.32,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-13",
+    "taslak_id": "C02-T526",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Louvre Piramidi'nin yüzey panelleri hangi malzemedendir?",
+    "d": "Cam",
+    "y": [
+      "Akrilik",
+      "Polikarbonat",
+      "Polyester"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What are the surface panels of the Louvre Pyramid made from?",
+      "d": "Glass",
+      "y": [
+        "Acrylic",
+        "Polycarbonate",
+        "Polyester"
+      ]
+    },
+    "olgu": "Louvre Piramidi'nin yüzey panelleri yapımında cam belirgin ana malzemedir.",
+    "kalip": "mimari_malzeme",
+    "konular": [
+      "louvre-piramidi-nin-yuzey-panelleri"
+    ],
+    "alt_tur": "mimari",
+    "jev_p": 0.53,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-14",
+    "taslak_id": "C02-T532",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Rushmore Dağı'ndaki dört başkan yüzünden en soldaki kime aittir?",
+    "d": "George Washington",
+    "y": [
+      "Thomas Jefferson",
+      "Theodore Roosevelt",
+      "Abraham Lincoln"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which president is depicted by the leftmost face at Mount Rushmore?",
+      "d": "George Washington",
+      "y": [
+        "Thomas Jefferson",
+        "Theodore Roosevelt",
+        "Abraham Lincoln"
+      ]
+    },
+    "olgu": "Rushmore Dağı'ndaki dört yüz arasında soldaki, George Washington kişisini betimler.",
+    "kalip": "heykel_ozne_kisisi",
+    "konular": [
+      "rushmore-dag-ndaki-dort-yuz-aras-nda-soldaki"
+    ],
+    "alt_tur": "heykel",
+    "jev_p": 0.6,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-15",
+    "taslak_id": "C02-T543",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Monet'nin Giverny göletinden esinlenen tablo dizisinin adı nedir?",
+    "d": "Nilüferler",
+    "y": [
+      "İşkenceler",
+      "Ayçiçekleri",
+      "Siyah Resimler"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the title of Monet's series inspired by his Giverny pond?",
+      "d": "Water Lilies",
+      "y": [
+        "Tortures",
+        "Sunflowers",
+        "Black Paintings"
+      ]
+    },
+    "olgu": "Monet'nin Giverny göletinden esinlenen tabloları eser dizisi Nilüferler adını taşır.",
+    "kalip": "eser_seri_basligi",
+    "konular": [
+      "monet-nin-giverny-goletinden-esinlenen-tablolar-",
+      "claude-monet"
+    ],
+    "alt_tur": "eser",
+    "jev_p": 0.1,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-16",
+    "taslak_id": "C02-T690",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Van Gogh'un 'Yıldızlı Gece' tablosundaki köyde hangi yapının sivri kulesi yükselir?",
+    "d": "Kilise",
+    "y": [
+      "Saray",
+      "Fabrika",
+      "Belediye"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which building has a pointed steeple in the village in Van Gogh's 'The Starry Night'?",
+      "d": "Church",
+      "y": [
+        "Palace",
+        "Factory",
+        "Town hall"
+      ]
+    },
+    "olgu": "Yıldızlı Gece'nin köy merkezinde sivri kulesiyle bir kilise vardır.",
+    "kalip": "tablo_gorsel_nesne",
+    "konular": [
+      "starry-night",
+      "vincent-van-gogh"
+    ],
+    "alt_tur": "tablo_gorsel",
+    "kaynak": "https://www.moma.org/collection/works/79802",
+    "jev_p": 0.38,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-17",
+    "taslak_id": "C02-T691",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Rousseau'nun 'Uyuyan Çingene' tablosunda uyuyan kadının yanında hangi hayvan durur?",
+    "d": "Aslan",
+    "y": [
+      "Kaplan",
+      "Zürafa",
+      "Gergedan"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which animal stands beside the sleeping woman in Rousseau's 'The Sleeping Gypsy'?",
+      "d": "Lion",
+      "y": [
+        "Tiger",
+        "Giraffe",
+        "Rhinoceros"
+      ]
+    },
+    "olgu": "Rousseau'nun Uyuyan Çingene tablosunda uyuyan kadının yanında bir aslan bulunur.",
+    "kalip": "tablo_figuru_hayvani",
+    "konular": [
+      "sleeping-gypsy",
+      "henri-rousseau"
+    ],
+    "alt_tur": "tablo_gorsel",
+    "kaynak": "https://www.moma.org/collection/works/80172",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-18",
+    "taslak_id": "C02-T692",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Hopper'ın 'Gece Kuşları' tablosundaki lokantada toplam kaç kişi vardır?",
+    "d": "4",
+    "y": [
+      "3",
+      "5",
+      "6"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How many people are in the diner in Hopper's 'Nighthawks'?",
+      "d": "4",
+      "y": [
+        "3",
+        "5",
+        "6"
+      ]
+    },
+    "olgu": "Gece Kuşları tablosunda üç müşteri ve bir çalışan, toplam dört kişi vardır.",
+    "kalip": "tablo_gorsel_sayi",
+    "konular": [
+      "nighthawks"
+    ],
+    "alt_tur": "tablo_gorsel",
+    "jev_p": 0.5,
+    "jev_tek_dogru_p": 0.13,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-19",
+    "taslak_id": "C02-T693",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Grant Wood'un 'Amerikan Gotiği' tablosundaki erkeğin yüzünde hangi aksesuar vardır?",
+    "d": "Gözlük",
+    "y": [
+      "Monokl",
+      "Göz bandı",
+      "Maske"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What accessory does the man wear on his face in Grant Wood's 'American Gothic'?",
+      "d": "Glasses",
+      "y": [
+        "Monocle",
+        "Eye patch",
+        "Face mask"
+      ]
+    },
+    "olgu": "Amerikan Gotiği tablosundaki erkek gözlük takar.",
+    "kalip": "tablo_gorsel_aksesuar",
+    "konular": [
+      "american-gothic"
+    ],
+    "alt_tur": "tablo_gorsel",
+    "jev_p": 0.53,
+    "jev_tek_dogru_p": 0.1,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-20",
+    "taslak_id": "C02-T694",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Manet'nin 'Olympia' tablosunda yatağın ayak ucunda hangi hayvan bulunur?",
+    "d": "Kedi",
+    "y": [
+      "Köpek",
+      "Tavşan",
+      "Papağan"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which animal is at the foot of the bed in Manet's 'Olympia'?",
+      "d": "Cat",
+      "y": [
+        "Dog",
+        "Rabbit",
+        "Parrot"
+      ]
+    },
+    "olgu": "Manet'nin Olympia tablosunda yatağın ayak ucunda siyah bir kedi vardır.",
+    "kalip": "tablo_figuru_hayvani",
+    "konular": [
+      "olympia"
+    ],
+    "alt_tur": "tablo_gorsel",
+    "jev_p": 0.04,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-21",
+    "taslak_id": "C02-T697",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Özgürlük Heykeli'nin başındaki tacında kaç ışın bulunur?",
+    "d": "7",
+    "y": [
+      "5",
+      "6",
+      "8"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How many rays are on the crown of the Statue of Liberty?",
+      "d": "7",
+      "y": [
+        "5",
+        "6",
+        "8"
+      ]
+    },
+    "olgu": "Özgürlük Heykeli'nin tacında yedi ışın bulunur.",
+    "kalip": "heykel_aksesuar",
+    "konular": [
+      "statue-of-liberty"
+    ],
+    "alt_tur": "heykel",
+    "jev_p": 0.38,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-22",
+    "taslak_id": "C02-T699",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Klimt'in 'Öpücük' tablosu hangi müzenin koleksiyonundadır?",
+    "d": "Belvedere",
+    "y": [
+      "Albertina",
+      "Leopold Museum",
+      "Kunsthistorisches Museum"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which museum holds Klimt's 'The Kiss'?",
+      "d": "Belvedere",
+      "y": [
+        "Albertina",
+        "Leopold Museum",
+        "Kunsthistorisches Museum"
+      ]
+    },
+    "olgu": "Klimt'in Öpücük tablosu Viyana'daki Belvedere koleksiyonundadır.",
+    "kalip": "eser_muzesi",
+    "konular": [
+      "the-kiss-klimt",
+      "klimt"
+    ],
+    "alt_tur": "muze",
+    "jev_p": 0.35,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-23",
+    "taslak_id": "C02-T008",
+    "k": "sanat",
+    "yerel": false,
+    "s": "'Christina'nın Dünyası' tablosu hangi müzenin koleksiyonundadır?",
+    "d": "MoMA",
+    "y": [
+      "Prado",
+      "Louvre",
+      "Uffizi"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which museum holds 'Christina's World'?",
+      "d": "MoMA",
+      "y": [
+        "Prado",
+        "Louvre",
+        "Uffizi"
+      ]
+    },
+    "olgu": "Christina'nın Dünyası, MoMA koleksiyonundadır.",
+    "kalip": "eser_muzesi",
+    "konular": [
+      "christina-n-n-dunyas-",
+      "eser:christina"
+    ],
+    "alt_tur": "muze",
+    "jev_p": 0.05,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-24",
+    "taslak_id": "C02-T010",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Munch'un 'Çığlık' tablosunun 1893 tempera versiyonu hangi müzededir?",
+    "d": "National Museum",
+    "y": [
+      "Alte Pinakothek",
+      "National Gallery",
+      "Borghese Gallery"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which museum holds Munch's 1893 tempera version of 'The Scream'?",
+      "d": "National Museum",
+      "y": [
+        "Alte Pinakothek",
+        "National Gallery",
+        "Borghese Gallery"
+      ]
+    },
+    "olgu": "Çığlık'ın 1893 tarihli tempera versiyonu, National Museum koleksiyonundadır.",
+    "kalip": "eser_muzesi",
+    "konular": [
+      "c-gl-k-n-1893-tarihli-tempera-versiyonu"
+    ],
+    "alt_tur": "muze",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.19,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-25",
+    "taslak_id": "C02-T011",
+    "k": "sanat",
+    "yerel": false,
+    "s": "'Salıncak' tablosu hangi müzenin koleksiyonundadır?",
+    "d": "Wallace Collection",
+    "y": [
+      "Accademia Gallery",
+      "National Gallery",
+      "Kunsthistorisches Museum"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which museum holds 'The Swing'?",
+      "d": "Wallace Collection",
+      "y": [
+        "Accademia Gallery",
+        "National Gallery",
+        "Kunsthistorisches Museum"
+      ]
+    },
+    "olgu": "Salıncak, Wallace Collection koleksiyonundadır.",
+    "kalip": "eser_muzesi",
+    "konular": [
+      "sal-ncak",
+      "eser:salincak"
+    ],
+    "alt_tur": "muze",
+    "jev_p": 0.05,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-26",
+    "taslak_id": "C02-T016",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Bruegel'in 'Babil Kulesi' tablosunun 1563 Viyana versiyonu hangi müzededir?",
+    "d": "Kunsthistorisches Museum",
+    "y": [
+      "Art Institute of Chicago",
+      "Philadelphia Museum of Art",
+      "Accademia Gallery"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which museum holds Bruegel's 1563 Vienna version of 'The Tower of Babel'?",
+      "d": "Kunsthistorisches Museum",
+      "y": [
+        "Art Institute of Chicago",
+        "Philadelphia Museum of Art",
+        "Accademia Gallery"
+      ]
+    },
+    "olgu": "Babil Kulesi'nin 1563 tarihli Viyana versiyonu, Kunsthistorisches Museum koleksiyonundadır.",
+    "kalip": "eser_muzesi",
+    "konular": [
+      "babil-kulesi-nin-1563-tarihli-viyana-versiyonu"
+    ],
+    "alt_tur": "muze",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.13,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-27",
+    "taslak_id": "C02-T023",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Berlin Yahudi Müzesi tasarımını yapan mimar kimdir?",
+    "d": "Daniel Libeskind",
+    "y": [
+      "Frank Lloyd Wright",
+      "Walter Gropius",
+      "Oscar Niemeyer"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who designed the Jewish Museum Berlin?",
+      "d": "Daniel Libeskind",
+      "y": [
+        "Frank Lloyd Wright",
+        "Walter Gropius",
+        "Oscar Niemeyer"
+      ]
+    },
+    "olgu": "Berlin Yahudi Müzesi, Daniel Libeskind tarafından tasarlandı.",
+    "kalip": "mimari_mimar",
+    "konular": [
+      "berlin-yahudi-muzesi",
+      "kisi:daniel-libeskind"
+    ],
+    "alt_tur": "mimari",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-28",
+    "taslak_id": "C02-T048",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Sargent'ın 'Madam X' portresindeki kadın kimdir?",
+    "d": "Virginie Gautreau",
+    "y": [
+      "Adele Bloch-Bauer",
+      "Elizabeth Siddal",
+      "Jeanne Hébuterne"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who is the woman in Sargent's 'Madame X'?",
+      "d": "Virginie Gautreau",
+      "y": [
+        "Adele Bloch-Bauer",
+        "Elizabeth Siddal",
+        "Jeanne Hébuterne"
+      ]
+    },
+    "olgu": "John Singer Sargent'ın Madam X'i portresi Virginie Gautreau kişisini gösterir.",
+    "kalip": "portre_modeli",
+    "konular": [
+      "john-singer-sargent-n-madam-x-i"
+    ],
+    "alt_tur": "portre",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-29",
+    "taslak_id": "C02-T050",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Millais'nin 'Ophelia' tablosuna model olan kadın kimdir?",
+    "d": "Elizabeth Siddal",
+    "y": [
+      "Jeanne Hébuterne",
+      "Lisa Gherardini",
+      "Virginie Gautreau"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who modelled for Millais's 'Ophelia'?",
+      "d": "Elizabeth Siddal",
+      "y": [
+        "Jeanne Hébuterne",
+        "Lisa Gherardini",
+        "Virginie Gautreau"
+      ]
+    },
+    "olgu": "Millais'nin Ophelia tablosunun modeli portresi Elizabeth Siddal kişisini gösterir.",
+    "kalip": "portre_modeli",
+    "konular": [
+      "millais-nin-ophelia-tablosunun-modeli"
+    ],
+    "alt_tur": "portre",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-30",
+    "taslak_id": "C02-T055",
+    "k": "sanat",
+    "yerel": false,
+    "s": "'Dalí Atomicus' fotoğrafını kim çekmiştir?",
+    "d": "Philippe Halsman",
+    "y": [
+      "Robert Doisneau",
+      "Dorothea Lange",
+      "Alfred Eisenstaedt"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who took the photograph 'Dalí Atomicus'?",
+      "d": "Philippe Halsman",
+      "y": [
+        "Robert Doisneau",
+        "Dorothea Lange",
+        "Alfred Eisenstaedt"
+      ]
+    },
+    "olgu": "Dalí Atomicus, Philippe Halsman tarafından çekilmiştir.",
+    "kalip": "fotograf_fotografci",
+    "konular": [
+      "dali-atomicus",
+      "kisi:philippe-halsman",
+      "eser:dali-atomicus"
+    ],
+    "alt_tur": "fotograf",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-31",
+    "taslak_id": "C02-T065",
+    "k": "sanat",
+    "yerel": false,
+    "s": "'Çingene Kızı' tablosunun ressamı kimdir?",
+    "d": "Frans Hals",
+    "y": [
+      "Caravaggio",
+      "Grant Wood",
+      "Edgar Degas"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who painted 'The Gypsy Girl'?",
+      "d": "Frans Hals",
+      "y": [
+        "Caravaggio",
+        "Grant Wood",
+        "Edgar Degas"
+      ]
+    },
+    "olgu": "Çingene Kızı, Frans Hals eseridir.",
+    "kalip": "tablo_ressami",
+    "konular": [
+      "cingene-k-z-",
+      "kisi:frans-hals",
+      "eser:cingene-kizi"
+    ],
+    "alt_tur": "eser",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.11,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-32",
+    "taslak_id": "C02-T074",
+    "k": "muzik",
+    "yerel": false,
+    "s": "John Bonham hangi grubun üyesiydi?",
+    "d": "Led Zeppelin",
+    "y": [
+      "Dire Straits",
+      "The Beatles",
+      "Deep Purple"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which band was John Bonham a member of?",
+      "d": "Led Zeppelin",
+      "y": [
+        "Dire Straits",
+        "The Beatles",
+        "Deep Purple"
+      ]
+    },
+    "olgu": "John Bonham, Led Zeppelin grubunun üyesiydi.",
+    "kalip": "muzisyen_grubu",
+    "konular": [
+      "john-bonham",
+      "led-zeppelin"
+    ],
+    "alt_tur": "grup",
+    "jev_p": 0.1,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-33",
+    "taslak_id": "C02-T076",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Stewart Copeland hangi grubun üyesiydi?",
+    "d": "The Police",
+    "y": [
+      "Pink Floyd",
+      "The Beatles",
+      "Deep Purple"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which band was Stewart Copeland a member of?",
+      "d": "The Police",
+      "y": [
+        "Pink Floyd",
+        "The Beatles",
+        "Deep Purple"
+      ]
+    },
+    "olgu": "Stewart Copeland, The Police grubunun üyesiydi.",
+    "kalip": "muzisyen_grubu",
+    "konular": [
+      "stewart-copeland",
+      "the-police"
+    ],
+    "alt_tur": "grup",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-34",
+    "taslak_id": "C02-T077",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Nick Mason hangi grubun üyesiydi?",
+    "d": "Pink Floyd",
+    "y": [
+      "The Police",
+      "The Beatles",
+      "Deep Purple"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which band was Nick Mason a member of?",
+      "d": "Pink Floyd",
+      "y": [
+        "The Police",
+        "The Beatles",
+        "Deep Purple"
+      ]
+    },
+    "olgu": "Nick Mason, Pink Floyd grubunun üyesiydi.",
+    "kalip": "muzisyen_grubu",
+    "konular": [
+      "nick-mason",
+      "pink-floyd"
+    ],
+    "alt_tur": "grup",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-35",
+    "taslak_id": "C02-T080",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Glenn Frey hangi grubun üyesiydi?",
+    "d": "Eagles",
+    "y": [
+      "R.E.M.",
+      "Queen",
+      "Nirvana"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which band was Glenn Frey a member of?",
+      "d": "Eagles",
+      "y": [
+        "R.E.M.",
+        "Queen",
+        "Nirvana"
+      ]
+    },
+    "olgu": "Glenn Frey, Eagles grubunun üyesiydi.",
+    "kalip": "muzisyen_grubu",
+    "konular": [
+      "glenn-frey"
+    ],
+    "alt_tur": "grup",
+    "jev_p": 0.16,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-36",
+    "taslak_id": "C02-T081",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Ray Manzarek hangi grubun üyesiydi?",
+    "d": "The Doors",
+    "y": [
+      "Metallica",
+      "Radiohead",
+      "Pink Floyd"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which band was Ray Manzarek a member of?",
+      "d": "The Doors",
+      "y": [
+        "Metallica",
+        "Radiohead",
+        "Pink Floyd"
+      ]
+    },
+    "olgu": "Ray Manzarek, The Doors grubunun üyesiydi.",
+    "kalip": "muzisyen_grubu",
+    "konular": [
+      "ray-manzarek",
+      "the-doors"
+    ],
+    "alt_tur": "grup",
+    "jev_p": 0.1,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-37",
+    "taslak_id": "C02-T083",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Jon Lord hangi grubun üyesiydi?",
+    "d": "Deep Purple",
+    "y": [
+      "The Beatles",
+      "Pink Floyd",
+      "Led Zeppelin"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which band was Jon Lord a member of?",
+      "d": "Deep Purple",
+      "y": [
+        "The Beatles",
+        "Pink Floyd",
+        "Led Zeppelin"
+      ]
+    },
+    "olgu": "Jon Lord, Deep Purple grubunun üyesiydi.",
+    "kalip": "muzisyen_grubu",
+    "konular": [
+      "jon-lord",
+      "deep-purple"
+    ],
+    "alt_tur": "grup",
+    "jev_p": 0.05,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-38",
+    "taslak_id": "C02-T085",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Peter Gabriel hangi grubun üyesiydi?",
+    "d": "Genesis",
+    "y": [
+      "Nirvana",
+      "The Who",
+      "Eagles"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which band was Peter Gabriel a member of?",
+      "d": "Genesis",
+      "y": [
+        "Nirvana",
+        "The Who",
+        "Eagles"
+      ]
+    },
+    "olgu": "Peter Gabriel, Genesis grubunun üyesiydi.",
+    "kalip": "muzisyen_grubu",
+    "konular": [
+      "peter-gabriel"
+    ],
+    "alt_tur": "grup",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-39",
+    "taslak_id": "C02-T090",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Benny Goodman en çok hangi enstrümanla tanınır?",
+    "d": "Klarnet",
+    "y": [
+      "Trompet",
+      "Bateri",
+      "Saksafon"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which instrument is Benny Goodman best known for playing?",
+      "d": "Clarinet",
+      "y": [
+        "Trumpet",
+        "Drums",
+        "Saxophone"
+      ]
+    },
+    "olgu": "Benny Goodman, klarnet icrasıyla tanınır.",
+    "kalip": "muzisyen_calgi",
+    "konular": [
+      "benny-goodman"
+    ],
+    "alt_tur": "calgi",
+    "jev_p": 0.17,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-40",
+    "taslak_id": "C02-T092",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Ian Anderson en çok hangi enstrümanla tanınır?",
+    "d": "Flüt",
+    "y": [
+      "Gitar",
+      "Keman",
+      "Bateri"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which instrument is Ian Anderson best known for playing?",
+      "d": "Flute",
+      "y": [
+        "Guitar",
+        "Violin",
+        "Drums"
+      ]
+    },
+    "olgu": "Ian Anderson, flüt icrasıyla tanınır.",
+    "kalip": "muzisyen_calgi",
+    "konular": [
+      "ian-anderson"
+    ],
+    "alt_tur": "calgi",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.13,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-41",
+    "taslak_id": "C02-T102",
+    "k": "muzik",
+    "yerel": false,
+    "s": "'Brothers in Arms' albümü hangi gruba aittir?",
+    "d": "Dire Straits",
+    "y": [
+      "Led Zeppelin",
+      "The Beatles",
+      "Deep Purple"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which band released 'Brothers in Arms'?",
+      "d": "Dire Straits",
+      "y": [
+        "Led Zeppelin",
+        "The Beatles",
+        "Deep Purple"
+      ]
+    },
+    "olgu": "Brothers in Arms albümünü Dire Straits yayımladı.",
+    "kalip": "album_grubu",
+    "konular": [
+      "brothers-in-arms",
+      "eser:brothers-in-arms"
+    ],
+    "alt_tur": "album",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-42",
+    "taslak_id": "C02-T109",
+    "k": "muzik",
+    "yerel": false,
+    "s": "'Machine Head' albümü hangi gruba aittir?",
+    "d": "Deep Purple",
+    "y": [
+      "The Beatles",
+      "Pink Floyd",
+      "Led Zeppelin"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which band released 'Machine Head'?",
+      "d": "Deep Purple",
+      "y": [
+        "The Beatles",
+        "Pink Floyd",
+        "Led Zeppelin"
+      ]
+    },
+    "olgu": "Machine Head albümünü Deep Purple yayımladı.",
+    "kalip": "album_grubu",
+    "konular": [
+      "machine-head",
+      "eser:machine-head",
+      "deep-purple"
+    ],
+    "alt_tur": "album",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-43",
+    "taslak_id": "C02-T121",
+    "k": "muzik",
+    "yerel": false,
+    "s": "'Eleanor Rigby' şarkısı ilk olarak hangi albümde yayımlandı?",
+    "d": "Revolver",
+    "y": [
+      "Let It Be",
+      "Abbey Road",
+      "Rubber Soul"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which album first featured 'Eleanor Rigby'?",
+      "d": "Revolver",
+      "y": [
+        "Let It Be",
+        "Abbey Road",
+        "Rubber Soul"
+      ]
+    },
+    "olgu": "Eleanor Rigby şarkısı Revolver albümünde yer alır.",
+    "kalip": "sarki_albumu",
+    "konular": [
+      "eleanor-rigby",
+      "eser:eleanor-rigby",
+      "the-beatles"
+    ],
+    "alt_tur": "album",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-44",
+    "taslak_id": "C02-T122",
+    "k": "muzik",
+    "yerel": false,
+    "s": "'Norwegian Wood' şarkısı ilk olarak hangi albümde yayımlandı?",
+    "d": "Rubber Soul",
+    "y": [
+      "Abbey Road",
+      "Let It Be",
+      "The White Album"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which album first featured 'Norwegian Wood'?",
+      "d": "Rubber Soul",
+      "y": [
+        "Abbey Road",
+        "Let It Be",
+        "The White Album"
+      ]
+    },
+    "olgu": "Norwegian Wood şarkısı Rubber Soul albümünde yer alır.",
+    "kalip": "sarki_albumu",
+    "konular": [
+      "norwegian-wood",
+      "eser:norwegian-wood",
+      "the-beatles"
+    ],
+    "alt_tur": "album",
+    "jev_p": 0.05,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-45",
+    "taslak_id": "C02-T084",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Geddy Lee hangi grubun üyesiydi?",
+    "d": "Rush",
+    "y": [
+      "ABBA",
+      "Blur",
+      "Queen"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which band was Geddy Lee a member of?",
+      "d": "Rush",
+      "y": [
+        "ABBA",
+        "Blur",
+        "Queen"
+      ]
+    },
+    "olgu": "Geddy Lee, Rush grubunun üyesiydi.",
+    "kalip": "muzisyen_grubu",
+    "konular": [
+      "geddy-lee"
+    ],
+    "alt_tur": "grup",
+    "jev_p": 0.04,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-46",
+    "taslak_id": "C02-T086",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Andy Rourke hangi grubun üyesiydi?",
+    "d": "The Smiths",
+    "y": [
+      "Pink Floyd",
+      "The Police",
+      "The Beatles"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which band was Andy Rourke a member of?",
+      "d": "The Smiths",
+      "y": [
+        "Pink Floyd",
+        "The Police",
+        "The Beatles"
+      ]
+    },
+    "olgu": "Andy Rourke, The Smiths grubunun üyesiydi.",
+    "kalip": "muzisyen_grubu",
+    "konular": [
+      "andy-rourke"
+    ],
+    "alt_tur": "grup",
+    "jev_p": 0.03,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-47",
+    "taslak_id": "C02-T094",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Toots Thielemans en çok hangi enstrümanla tanınır?",
+    "d": "Armonika",
+    "y": [
+      "Saksafon",
+      "Bas gitar",
+      "Trompet"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which instrument is Toots Thielemans best known for playing?",
+      "d": "Harmonica",
+      "y": [
+        "Saxophone",
+        "Bass guitar",
+        "Trumpet"
+      ]
+    },
+    "olgu": "Toots Thielemans, armonika icrasıyla tanınır.",
+    "kalip": "muzisyen_calgi",
+    "konular": [
+      "toots-thielemans"
+    ],
+    "alt_tur": "calgi",
+    "jev_p": 0.3,
+    "jev_tek_dogru_p": 0.16,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-48",
+    "taslak_id": "C02-T116",
+    "k": "muzik",
+    "yerel": false,
+    "s": "'Norma' operasını kim bestelemiştir?",
+    "d": "Vincenzo Bellini",
+    "y": [
+      "Benjamin Britten",
+      "Giacomo Puccini",
+      "Gioachino Rossini"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who composed the opera 'Norma'?",
+      "d": "Vincenzo Bellini",
+      "y": [
+        "Benjamin Britten",
+        "Giacomo Puccini",
+        "Gioachino Rossini"
+      ]
+    },
+    "olgu": "Norma operasının bestecisi Vincenzo Bellini'dir.",
+    "kalip": "opera_bestecisi",
+    "konular": [
+      "norma",
+      "kisi:vincenzo-bellini"
+    ],
+    "alt_tur": "klasik",
+    "jev_p": 0.05,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-49",
+    "taslak_id": "C02-T118",
+    "k": "muzik",
+    "yerel": false,
+    "s": "'Salome' operasını kim bestelemiştir?",
+    "d": "Richard Strauss",
+    "y": [
+      "Giacomo Puccini",
+      "Giuseppe Verdi",
+      "Richard Wagner"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who composed the opera 'Salome'?",
+      "d": "Richard Strauss",
+      "y": [
+        "Giacomo Puccini",
+        "Giuseppe Verdi",
+        "Richard Wagner"
+      ]
+    },
+    "olgu": "Salome operasının bestecisi Richard Strauss'dir.",
+    "kalip": "opera_bestecisi",
+    "konular": [
+      "salome",
+      "kisi:richard-strauss",
+      "eser:salome"
+    ],
+    "alt_tur": "klasik",
+    "jev_p": 0.03,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-50",
+    "taslak_id": "C02-T128",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Dreamcast hangi şirket tarafından üretilmiştir?",
+    "d": "Sega",
+    "y": [
+      "Sony",
+      "Palm",
+      "Korg"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which company made Dreamcast?",
+      "d": "Sega",
+      "y": [
+        "Sony",
+        "Palm",
+        "Korg"
+      ]
+    },
+    "olgu": "Dreamcast, Sega tarafından üretilmiştir.",
+    "kalip": "urun_ureticisi",
+    "konular": [
+      "dreamcast"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-51",
+    "taslak_id": "C02-T129",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Amiga 500 hangi şirket tarafından üretilmiştir?",
+    "d": "Commodore",
+    "y": [
+      "Microsoft",
+      "Panasonic",
+      "Nintendo"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which company made Amiga 500?",
+      "d": "Commodore",
+      "y": [
+        "Microsoft",
+        "Panasonic",
+        "Nintendo"
+      ]
+    },
+    "olgu": "Amiga 500, Commodore tarafından üretilmiştir.",
+    "kalip": "urun_ureticisi",
+    "konular": [
+      "amiga-500"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-52",
+    "taslak_id": "C02-T135",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "2600 oyun konsolu hangi şirket tarafından üretilmiştir?",
+    "d": "Atari",
+    "y": [
+      "Apple",
+      "Nokia",
+      "Canon"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which company made the 2600 games console?",
+      "d": "Atari",
+      "y": [
+        "Apple",
+        "Nokia",
+        "Canon"
+      ]
+    },
+    "olgu": "2600 oyun konsolu, Atari tarafından üretilmiştir.",
+    "kalip": "urun_ureticisi",
+    "konular": [
+      "2600-oyun-konsolu"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.17,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-53",
+    "taslak_id": "C02-T142",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "LaserJet yazıcı serisi hangi şirket tarafından üretilmiştir?",
+    "d": "Hewlett-Packard",
+    "y": [
+      "Texas Instruments",
+      "Sinclair Research",
+      "Microsoft"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which company made the LaserJet printer range?",
+      "d": "Hewlett-Packard",
+      "y": [
+        "Texas Instruments",
+        "Sinclair Research",
+        "Microsoft"
+      ]
+    },
+    "olgu": "LaserJet yazıcı serisi, Hewlett-Packard tarafından üretilmiştir.",
+    "kalip": "urun_ureticisi",
+    "konular": [
+      "laserjet-yaz-c-serisi"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.09,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-54",
+    "taslak_id": "C02-T143",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "9000 Communicator hangi şirket tarafından üretilmiştir?",
+    "d": "Nokia",
+    "y": [
+      "Apple",
+      "Atari",
+      "Canon"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which company made 9000 Communicator?",
+      "d": "Nokia",
+      "y": [
+        "Apple",
+        "Atari",
+        "Canon"
+      ]
+    },
+    "olgu": "9000 Communicator, Nokia tarafından üretilmiştir.",
+    "kalip": "urun_ureticisi",
+    "konular": [
+      "9000-communicator"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-55",
+    "taslak_id": "C02-T144",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "RAZR V3 hangi şirket tarafından üretilmiştir?",
+    "d": "Motorola",
+    "y": [
+      "Nintendo",
+      "Logitech",
+      "Ericsson"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which company made RAZR V3?",
+      "d": "Motorola",
+      "y": [
+        "Nintendo",
+        "Logitech",
+        "Ericsson"
+      ]
+    },
+    "olgu": "RAZR V3, Motorola tarafından üretilmiştir.",
+    "kalip": "urun_ureticisi",
+    "konular": [
+      "razr-v3"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.28,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-56",
+    "taslak_id": "C02-T150",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "İlk Sony PlayStation, Japonya'da hangi yıl piyasaya çıktı?",
+    "d": "1994",
+    "y": [
+      "1993",
+      "1995",
+      "1997"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In which year did Sony release the original PlayStation in Japan?",
+      "d": "1994",
+      "y": [
+        "1993",
+        "1995",
+        "1997"
+      ]
+    },
+    "olgu": "ilk Sony PlayStation, Japonya'da, 1994 yılında piyasaya çıktı.",
+    "kalip": "urun_ilk_yili",
+    "konular": [
+      "ilk-sony-playstation-japonya-da"
+    ],
+    "alt_tur": "urun_tarihi",
+    "jev_p": 0.25,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-57",
+    "taslak_id": "C02-T155",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Amazon Kindle'ın ilk modeli hangi yıl piyasaya çıktı?",
+    "d": "2007",
+    "y": [
+      "2005",
+      "2006",
+      "2009"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In which year was the first Amazon Kindle released?",
+      "d": "2007",
+      "y": [
+        "2005",
+        "2006",
+        "2009"
+      ]
+    },
+    "olgu": "Amazon Kindle'ın ilk modeli, 2007 yılında piyasaya çıktı.",
+    "kalip": "urun_ilk_yili",
+    "konular": [
+      "amazon-kindle-n-ilk-modeli"
+    ],
+    "alt_tur": "urun_tarihi",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-58",
+    "taslak_id": "C02-T156",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Nintendo Wii hangi yıl piyasaya çıktı?",
+    "d": "2006",
+    "y": [
+      "2005",
+      "2007",
+      "2009"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In which year was Nintendo Wii released?",
+      "d": "2006",
+      "y": [
+        "2005",
+        "2007",
+        "2009"
+      ]
+    },
+    "olgu": "Nintendo Wii, 2006 yılında piyasaya çıktı.",
+    "kalip": "urun_ilk_yili",
+    "konular": [
+      "nintendo-wii"
+    ],
+    "alt_tur": "urun_tarihi",
+    "jev_p": 0.16,
+    "jev_tek_dogru_p": 0.13,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-59",
+    "taslak_id": "C02-T158",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Microsoft Xbox'ın ilk modeli hangi yıl piyasaya çıktı?",
+    "d": "2001",
+    "y": [
+      "1999",
+      "2000",
+      "2003"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In which year was the original Microsoft Xbox released?",
+      "d": "2001",
+      "y": [
+        "1999",
+        "2000",
+        "2003"
+      ]
+    },
+    "olgu": "Microsoft Xbox'ın ilk modeli, 2001 yılında piyasaya çıktı.",
+    "kalip": "urun_ilk_yili",
+    "konular": [
+      "microsoft-xbox-n-ilk-modeli"
+    ],
+    "alt_tur": "urun_tarihi",
+    "jev_p": 0.11,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-60",
+    "taslak_id": "C02-T160",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Atari 2600 hangi yıl piyasaya çıktı?",
+    "d": "1977",
+    "y": [
+      "1975",
+      "1976",
+      "1979"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In which year was Atari 2600 released?",
+      "d": "1977",
+      "y": [
+        "1975",
+        "1976",
+        "1979"
+      ]
+    },
+    "olgu": "Atari 2600, 1977 yılında piyasaya çıktı.",
+    "kalip": "urun_ilk_yili",
+    "konular": [
+      "atari-2600"
+    ],
+    "alt_tur": "urun_tarihi",
+    "jev_p": 0.18,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-61",
+    "taslak_id": "C02-T190",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Viking 1 görevinin hedefi hangi gök cismiydi?",
+    "d": "Mars",
+    "y": [
+      "Venüs",
+      "Ay",
+      "Satürn"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which celestial body was the main destination of Viking 1?",
+      "d": "Mars",
+      "y": [
+        "Venus",
+        "Moon",
+        "Saturn"
+      ]
+    },
+    "olgu": "Viking 1 görevinin hedefi Mars idi.",
+    "kalip": "uzay_araci_hedefi",
+    "konular": [
+      "viking-1"
+    ],
+    "alt_tur": "uzay_teknolojisi",
+    "jev_p": 0.09,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-62",
+    "taslak_id": "C02-T196",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "New Horizons'ın 2015 geçişi görevinin hedefi hangi gök cismiydi?",
+    "d": "Plüton",
+    "y": [
+      "Satürn",
+      "Merkür",
+      "Neptün"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which celestial body was the main destination of the 2015 flyby by New Horizons?",
+      "d": "Pluto",
+      "y": [
+        "Saturn",
+        "Mercury",
+        "Neptune"
+      ]
+    },
+    "olgu": "New Horizons'ın 2015 geçişi görevinin hedefi Plüton idi.",
+    "kalip": "uzay_araci_hedefi",
+    "konular": [
+      "new-horizons-n-2015-gecisi"
+    ],
+    "alt_tur": "uzay_teknolojisi",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-63",
+    "taslak_id": "C02-T206",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "'Mass Effect' oyununu hangi stüdyo geliştirdi?",
+    "d": "BioWare",
+    "y": [
+      "Mojang",
+      "Bungie",
+      "Toby Fox"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which studio developed 'Mass Effect'?",
+      "d": "BioWare",
+      "y": [
+        "Mojang",
+        "Bungie",
+        "Toby Fox"
+      ]
+    },
+    "olgu": "Mass Effect, BioWare tarafından geliştirildi.",
+    "kalip": "oyun_studyosu",
+    "konular": [
+      "mass-effect",
+      "eser:mass-effect",
+      "studyo:bioware"
+    ],
+    "alt_tur": "video_oyunu_maskot",
+    "jev_p": 0.03,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-64",
+    "taslak_id": "C02-T209",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "'Hollow Knight' oyununu hangi stüdyo geliştirdi?",
+    "d": "Team Cherry",
+    "y": [
+      "Naughty Dog",
+      "id Software",
+      "FromSoftware"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which studio developed 'Hollow Knight'?",
+      "d": "Team Cherry",
+      "y": [
+        "Naughty Dog",
+        "id Software",
+        "FromSoftware"
+      ]
+    },
+    "olgu": "Hollow Knight, Team Cherry tarafından geliştirildi.",
+    "kalip": "oyun_studyosu",
+    "konular": [
+      "hollow-knight",
+      "eser:hollow-knight",
+      "studyo:team-cherry"
+    ],
+    "alt_tur": "video_oyunu_maskot",
+    "jev_p": 0.18,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-65",
+    "taslak_id": "C02-T211",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "'Alan Wake' oyununu hangi stüdyo geliştirdi?",
+    "d": "Remedy Entertainment",
+    "y": [
+      "Bethesda Game Studios",
+      "Supergiant Games",
+      "Insomniac Games"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which studio developed 'Alan Wake'?",
+      "d": "Remedy Entertainment",
+      "y": [
+        "Bethesda Game Studios",
+        "Supergiant Games",
+        "Insomniac Games"
+      ]
+    },
+    "olgu": "Alan Wake, Remedy Entertainment tarafından geliştirildi.",
+    "kalip": "oyun_studyosu",
+    "konular": [
+      "alan-wake",
+      "eser:alan-wake",
+      "studyo:remedy-entertainment"
+    ],
+    "alt_tur": "video_oyunu_maskot",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-66",
+    "taslak_id": "C02-T547",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Microsoft Windows XP ilk kez hangi yıl yayımlandı?",
+    "d": "2001",
+    "y": [
+      "1999",
+      "2000",
+      "2003"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In which year was Microsoft Windows XP released?",
+      "d": "2001",
+      "y": [
+        "1999",
+        "2000",
+        "2003"
+      ]
+    },
+    "olgu": "Microsoft Windows XP, 2001 yılında yayımlandı.",
+    "kalip": "urun_ilk_yili",
+    "konular": [
+      "microsoft-windows-xp"
+    ],
+    "alt_tur": "urun_tarihi",
+    "jev_p": 0.18,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-67",
+    "taslak_id": "C02-T549",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "İlk Apple iMac ilk kez hangi yıl yayımlandı?",
+    "d": "1998",
+    "y": [
+      "1997",
+      "1999",
+      "2001"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In which year was the first Apple iMac released?",
+      "d": "1998",
+      "y": [
+        "1997",
+        "1999",
+        "2001"
+      ]
+    },
+    "olgu": "ilk Apple iMac, 1998 yılında yayımlandı.",
+    "kalip": "urun_ilk_yili",
+    "konular": [
+      "ilk-apple-imac"
+    ],
+    "alt_tur": "urun_tarihi",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-68",
+    "taslak_id": "C02-T550",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Nintendo DS, Kuzey Amerika'da ilk kez hangi yıl yayımlandı?",
+    "d": "2004",
+    "y": [
+      "2003",
+      "2005",
+      "2007"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In which year did Nintendo DS launch in North America?",
+      "d": "2004",
+      "y": [
+        "2003",
+        "2005",
+        "2007"
+      ]
+    },
+    "olgu": "Nintendo DS, Kuzey Amerika'da, 2004 yılında yayımlandı.",
+    "kalip": "urun_ilk_yili",
+    "konular": [
+      "nintendo-ds-kuzey-amerika-da"
+    ],
+    "alt_tur": "urun_tarihi",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-69",
+    "taslak_id": "C02-T556",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "eBay'in ilk adı neydi?",
+    "d": "AuctionWeb",
+    "y": [
+      "Relentless",
+      "TheFacebook",
+      "Facemash"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What was eBay originally called?",
+      "d": "AuctionWeb",
+      "y": [
+        "Relentless",
+        "TheFacebook",
+        "Facemash"
+      ]
+    },
+    "olgu": "eBay hizmetinin önceki adı AuctionWeb idi.",
+    "kalip": "yazilim_eski_adi",
+    "konular": [
+      "ebay"
+    ],
+    "alt_tur": "yazilim",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-70",
+    "taslak_id": "C02-T559",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Apollo 11’in Ay modülünün çağrı adı neydi?",
+    "d": "Eagle",
+    "y": [
+      "Orion",
+      "Snoopy",
+      "Falcon"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What was the call sign of Apollo 11's lunar module?",
+      "d": "Eagle",
+      "y": [
+        "Orion",
+        "Snoopy",
+        "Falcon"
+      ]
+    },
+    "olgu": "Apollo 11 Ay modülü Eagle çağrı adını kullanıyordu.",
+    "kalip": "uzay_modul_adi",
+    "konular": [
+      "apollo-11"
+    ],
+    "alt_tur": "uzay_teknolojisi",
+    "jev_p": 0.18,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-71",
+    "taslak_id": "C02-T567",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Hubble'ı 1990'da yörüngeye taşıma görevi için kullanılan aracın adı hangisiydi?",
+    "d": "Discovery",
+    "y": [
+      "Endeavour",
+      "Sojourner",
+      "Curiosity"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which vehicle was used for launching Hubble into orbit in 1990?",
+      "d": "Discovery",
+      "y": [
+        "Endeavour",
+        "Sojourner",
+        "Curiosity"
+      ]
+    },
+    "olgu": "Hubble'ı 1990'da yörüngeye taşıma görevi için Discovery aracı kullanıldı.",
+    "kalip": "uzay_gorevi_araci",
+    "konular": [
+      "hubble-1990-da-yorungeye-tas-ma-gorevi"
+    ],
+    "alt_tur": "uzay_teknolojisi",
+    "kaynak": "https://www.nasa.gov/mission/sts-31/",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-72",
+    "taslak_id": "C02-T572",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "VHS video kaset standardını geliştiren kuruluş hangisidir?",
+    "d": "JVC",
+    "y": [
+      "IBM",
+      "Sony",
+      "Adobe"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which organisation developed the VHS videocassette standard?",
+      "d": "JVC",
+      "y": [
+        "IBM",
+        "Sony",
+        "Adobe"
+      ]
+    },
+    "olgu": "VHS video kaset standardını JVC geliştirmiştir.",
+    "kalip": "standart_kurum",
+    "konular": [
+      "vhs-video-kaset"
+    ],
+    "alt_tur": "internet_tarihi",
+    "jev_p": 0.11,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-73",
+    "taslak_id": "C02-T583",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Sputnik 1'de kaç anten bulunuyordu?",
+    "d": "4",
+    "y": [
+      "2",
+      "3",
+      "5"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How many antennas did Sputnik 1 have?",
+      "d": "4",
+      "y": [
+        "2",
+        "3",
+        "5"
+      ]
+    },
+    "olgu": "Sputnik 1'in uzun anteni sayısı 4'tür.",
+    "kalip": "donanim_sayi_olgu",
+    "konular": [
+      "sputnik-1-in-uzun-anteni"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.29,
+    "jev_tek_dogru_p": 0.15,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-74",
+    "taslak_id": "C02-T137",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "TRS-80 hangi şirket tarafından üretilmiştir?",
+    "d": "Tandy",
+    "y": [
+      "Apple",
+      "Atari",
+      "Nokia"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which company made TRS-80?",
+      "d": "Tandy",
+      "y": [
+        "Apple",
+        "Atari",
+        "Nokia"
+      ]
+    },
+    "olgu": "TRS-80, Tandy tarafından üretilmiştir.",
+    "kalip": "urun_ureticisi",
+    "konular": [
+      "trs-80"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.04,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-75",
+    "taslak_id": "C02-T139",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "DX7 synthesizer hangi şirket tarafından üretilmiştir?",
+    "d": "Yamaha",
+    "y": [
+      "Roland",
+      "Apple",
+      "Atari"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which company made DX7 synthesizer?",
+      "d": "Yamaha",
+      "y": [
+        "Roland",
+        "Apple",
+        "Atari"
+      ]
+    },
+    "olgu": "DX7 synthesizer, Yamaha tarafından üretilmiştir.",
+    "kalip": "urun_ureticisi",
+    "konular": [
+      "dx7-synthesizer"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-76",
+    "taslak_id": "C02-T568",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Galileo sondasını 1989'da fırlatan mekik görevi için kullanılan aracın adı hangisiydi?",
+    "d": "Atlantis",
+    "y": [
+      "Columbia",
+      "Discovery",
+      "Endeavour"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which vehicle was used for the 1989 shuttle launch of the Galileo probe?",
+      "d": "Atlantis",
+      "y": [
+        "Columbia",
+        "Discovery",
+        "Endeavour"
+      ]
+    },
+    "olgu": "Galileo sondasını 1989'da fırlatan mekik görevi için Atlantis aracı kullanıldı.",
+    "kalip": "uzay_gorevi_araci",
+    "konular": [
+      "galileo-sondas-n-1989-da-f-rlatan-mekik-gorevi"
+    ],
+    "alt_tur": "uzay_teknolojisi",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-77",
+    "taslak_id": "C02-T575",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "PostScript sayfa tanımlama standardını geliştiren kuruluş hangisidir?",
+    "d": "Adobe",
+    "y": [
+      "Xerox",
+      "Intel",
+      "Nokia"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which organisation developed the PostScript page-description standard?",
+      "d": "Adobe",
+      "y": [
+        "Xerox",
+        "Intel",
+        "Nokia"
+      ]
+    },
+    "olgu": "PostScript sayfa tanımlama standardını Adobe geliştirmiştir.",
+    "kalip": "standart_kurum",
+    "konular": [
+      "postscript-sayfa-tan-mlama"
+    ],
+    "alt_tur": "internet_tarihi",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-78",
+    "taslak_id": "C02-T577",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Nintendo Wii aygıtı geliştirilirken hangi kod adı kullanıldı?",
+    "d": "Revolution",
+    "y": [
+      "Dolphin",
+      "Project Natal",
+      "Durango"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What was the development codename for Nintendo Wii?",
+      "d": "Revolution",
+      "y": [
+        "Dolphin",
+        "Project Natal",
+        "Durango"
+      ]
+    },
+    "olgu": "Nintendo Wii geliştirilirken Revolution kod adı kullanıldı.",
+    "kalip": "cihaz_kod_adi",
+    "konular": [
+      "nintendo-wii"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.1,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-79",
+    "taslak_id": "C02-T582",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Standart USB 2.0 Type-A fişinde kaç metal temas ucu vardır?",
+    "d": "4",
+    "y": [
+      "2",
+      "3",
+      "5"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "How many metal contacts does a standard USB 2.0 Type-A plug have?",
+      "d": "4",
+      "y": [
+        "2",
+        "3",
+        "5"
+      ]
+    },
+    "olgu": "standart USB-A fişindeki ilk USB 2.0 metal temas ucu sayısı 4'tür.",
+    "kalip": "donanim_sayi_olgu",
+    "konular": [
+      "standart-usb-a-fisindeki-ilk-usb-2-0-metal-temas-ucu"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.32,
+    "jev_tek_dogru_p": 0.1,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-80",
+    "taslak_id": "C02-T585",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "HDMI Type-A fişinde kaç pim vardır?",
+    "d": "19",
+    "y": [
+      "15",
+      "17",
+      "21"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "How many pins does a Type-A HDMI plug have?",
+      "d": "19",
+      "y": [
+        "15",
+        "17",
+        "21"
+      ]
+    },
+    "olgu": "HDMI Type A fişinin pimi sayısı 19'tür.",
+    "kalip": "donanim_sayi_olgu",
+    "konular": [
+      "hdmi-type-a-fisinin-pimi"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-81",
+    "taslak_id": "C02-T727",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Nintendo GameCube'un geliştirme kod adı neydi?",
+    "d": "Dolphin",
+    "y": [
+      "Revolution",
+      "Project Natal",
+      "Project Scorpio"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What was the development codename of Nintendo GameCube?",
+      "d": "Dolphin",
+      "y": [
+        "Revolution",
+        "Project Natal",
+        "Project Scorpio"
+      ]
+    },
+    "olgu": "Nintendo GameCube geliştirilirken Dolphin kod adı kullanıldı.",
+    "kalip": "cihaz_kod_adi",
+    "konular": [
+      "gamecube",
+      "nintendo-gamecube"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-82",
+    "taslak_id": "C02-T728",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Sony PlayStation VR geliştirilirken hangi kod adı kullanıldı?",
+    "d": "Project Morpheus",
+    "y": [
+      "Project Scorpio",
+      "Project Natal",
+      "Project Revolution"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What was the development codename of Sony PlayStation VR?",
+      "d": "Project Morpheus",
+      "y": [
+        "Project Scorpio",
+        "Project Natal",
+        "Project Revolution"
+      ]
+    },
+    "olgu": "Sony'nin PlayStation VR projesinin ilk kod adı Project Morpheus'tu.",
+    "kalip": "cihaz_kod_adi",
+    "konular": [
+      "playstation-vr"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.17,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-83",
+    "taslak_id": "C02-T730",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Apollo 13'te Ay'a iniş iptal edilince sığınak olarak kullanılan aracın çağrı adı neydi?",
+    "d": "Aquarius",
+    "y": [
+      "Odyssey",
+      "Endeavour",
+      "Challenger"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What was the call sign of the vehicle used as a lifeboat after Apollo 13's lunar landing was cancelled?",
+      "d": "Aquarius",
+      "y": [
+        "Odyssey",
+        "Endeavour",
+        "Challenger"
+      ]
+    },
+    "olgu": "Apollo 13'ün Ay modülü Aquarius, kazadan sonra mürettebata sığınak oldu.",
+    "kalip": "uzay_modul_adi",
+    "konular": [
+      "apollo-13"
+    ],
+    "alt_tur": "uzay_teknolojisi",
+    "kaynak": "https://www.nasa.gov/history/nasas-apollo-13-mission-challenged-crew-launch-team/",
+    "jev_p": 0.11,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-84",
+    "taslak_id": "C02-T731",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "1970'teki Apollo 13 uçuşunun komuta kapsülü hangi çağrı adıyla anılıyordu?",
+    "d": "Odyssey",
+    "y": [
+      "Columbia",
+      "Endeavour",
+      "Challenger"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What was the call sign of the command capsule on Apollo 13's 1970 flight?",
+      "d": "Odyssey",
+      "y": [
+        "Columbia",
+        "Endeavour",
+        "Challenger"
+      ]
+    },
+    "olgu": "Apollo 13 komuta modülünün çağrı adı Odyssey idi.",
+    "kalip": "uzay_modul_adi",
+    "konular": [
+      "apollo-13"
+    ],
+    "alt_tur": "uzay_teknolojisi",
+    "kaynak": "https://www.nasa.gov/history/nasas-apollo-13-mission-challenged-crew-launch-team/",
+    "jev_p": 0.24,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-85",
+    "taslak_id": "C02-T216",
+    "k": "spor",
+    "yerel": false,
+    "s": "Sachin Tendulkar hangi spor dalıyla tanınır?",
+    "d": "Kriket",
+    "y": [
+      "Futbol",
+      "Eskrim",
+      "Halter"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which sport is Sachin Tendulkar known for?",
+      "d": "Cricket",
+      "y": [
+        "Football",
+        "Fencing",
+        "Weightlifting"
+      ]
+    },
+    "olgu": "Sachin Tendulkar, kriket dalında yarışmıştır.",
+    "kalip": "sporcu_bransi",
+    "konular": [
+      "sachin-tendulkar"
+    ],
+    "alt_tur": "sporcu",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-86",
+    "taslak_id": "C02-T217",
+    "k": "spor",
+    "yerel": false,
+    "s": "Jonah Lomu hangi spor dalıyla tanınır?",
+    "d": "Ragbi",
+    "y": [
+      "Tenis",
+      "Yüzme",
+      "Kayak"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which sport is Jonah Lomu known for?",
+      "d": "Rugby",
+      "y": [
+        "Tennis",
+        "Swimming",
+        "Skiing"
+      ]
+    },
+    "olgu": "Jonah Lomu, ragbi dalında yarışmıştır.",
+    "kalip": "sporcu_bransi",
+    "konular": [
+      "jonah-lomu"
+    ],
+    "alt_tur": "sporcu",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-87",
+    "taslak_id": "C02-T219",
+    "k": "spor",
+    "yerel": false,
+    "s": "Simone Biles hangi spor dalıyla tanınır?",
+    "d": "Jimnastik",
+    "y": [
+      "Basketbol",
+      "Badminton",
+      "Atletizm"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which sport is Simone Biles known for?",
+      "d": "Gymnastics",
+      "y": [
+        "Basketball",
+        "Badminton",
+        "Athletics"
+      ]
+    },
+    "olgu": "Simone Biles, jimnastik dalında yarışmıştır.",
+    "kalip": "sporcu_bransi",
+    "konular": [
+      "simone-biles"
+    ],
+    "alt_tur": "sporcu",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-88",
+    "taslak_id": "C02-T222",
+    "k": "spor",
+    "yerel": false,
+    "s": "Eddy Merckx hangi spor dalıyla tanınır?",
+    "d": "Bisiklet",
+    "y": [
+      "Atletizm",
+      "Basketbol",
+      "Beyzbol"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which sport is Eddy Merckx known for?",
+      "d": "Cycling",
+      "y": [
+        "Athletics",
+        "Basketball",
+        "Baseball"
+      ]
+    },
+    "olgu": "Eddy Merckx, bisiklet dalında yarışmıştır.",
+    "kalip": "sporcu_bransi",
+    "konular": [
+      "eddy-merckx"
+    ],
+    "alt_tur": "sporcu",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-89",
+    "taslak_id": "C02-T226",
+    "k": "spor",
+    "yerel": false,
+    "s": "Mikaela Shiffrin hangi spor dalıyla tanınır?",
+    "d": "Kayak",
+    "y": [
+      "Tenis",
+      "Yüzme",
+      "Ragbi"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which sport is Mikaela Shiffrin known for?",
+      "d": "Skiing",
+      "y": [
+        "Tennis",
+        "Swimming",
+        "Rugby"
+      ]
+    },
+    "olgu": "Mikaela Shiffrin, kayak dalında yarışmıştır.",
+    "kalip": "sporcu_bransi",
+    "konular": [
+      "mikaela-shiffrin"
+    ],
+    "alt_tur": "sporcu",
+    "jev_p": 0.25,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-90",
+    "taslak_id": "C02-T229",
+    "k": "spor",
+    "yerel": false,
+    "s": "Teddy Riner hangi spor dalıyla tanınır?",
+    "d": "Judo",
+    "y": [
+      "Golf",
+      "Boks",
+      "Tenis"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which sport is Teddy Riner known for?",
+      "d": "Judo",
+      "y": [
+        "Golf",
+        "Boxing",
+        "Tennis"
+      ]
+    },
+    "olgu": "Teddy Riner, judo dalında yarışmıştır.",
+    "kalip": "sporcu_bransi",
+    "konular": [
+      "teddy-riner"
+    ],
+    "alt_tur": "sporcu",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-91",
+    "taslak_id": "C02-T233",
+    "k": "spor",
+    "yerel": false,
+    "s": "Emirates Stadium hangi futbol kulübünün stadıdır?",
+    "d": "Arsenal",
+    "y": [
+      "Chelsea",
+      "Benfica",
+      "Rangers"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which football club plays at Emirates Stadium?",
+      "d": "Arsenal",
+      "y": [
+        "Chelsea",
+        "Benfica",
+        "Rangers"
+      ]
+    },
+    "olgu": "Arsenal, Emirates Stadium stadında iç saha maçlarını oynar.",
+    "kalip": "futbol_stadyum_kulubu",
+    "konular": [
+      "emirates-stadium"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.17,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-92",
+    "taslak_id": "C02-T236",
+    "k": "spor",
+    "yerel": false,
+    "s": "Signal Iduna Park hangi futbol kulübünün stadıdır?",
+    "d": "Borussia Dortmund",
+    "y": [
+      "Manchester United",
+      "Tottenham Hotspur",
+      "Olympique Lyonnais"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which football club plays at Signal Iduna Park?",
+      "d": "Borussia Dortmund",
+      "y": [
+        "Manchester United",
+        "Tottenham Hotspur",
+        "Olympique Lyonnais"
+      ]
+    },
+    "olgu": "Borussia Dortmund, Signal Iduna Park stadında iç saha maçlarını oynar.",
+    "kalip": "futbol_stadyum_kulubu",
+    "konular": [
+      "signal-iduna-park"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-93",
+    "taslak_id": "C02-T240",
+    "k": "spor",
+    "yerel": false,
+    "s": "2024 yılında Goodison Park'ı iç saha stadı olarak kullanan kulüp hangisiydi?",
+    "d": "Everton",
+    "y": [
+      "Arsenal",
+      "Chelsea",
+      "Benfica"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which football club used Goodison Park for home matches in 2024?",
+      "d": "Everton",
+      "y": [
+        "Arsenal",
+        "Chelsea",
+        "Benfica"
+      ]
+    },
+    "olgu": "Everton, Goodison Park'ın 2024'e kadarki ev sahibi stadında iç saha maçlarını oynar.",
+    "kalip": "futbol_stadyum_kulubu",
+    "konular": [
+      "goodison-park-n-2024-e-kadarki-ev-sahibi"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-94",
+    "taslak_id": "C02-T241",
+    "k": "spor",
+    "yerel": false,
+    "s": "Stadio Diego Armando Maradona hangi futbol kulübünün stadıdır?",
+    "d": "Napoli",
+    "y": [
+      "Celtic",
+      "Arsenal",
+      "Chelsea"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which football club plays at Stadio Diego Armando Maradona?",
+      "d": "Napoli",
+      "y": [
+        "Celtic",
+        "Arsenal",
+        "Chelsea"
+      ]
+    },
+    "olgu": "Napoli, Stadio Diego Armando Maradona stadında iç saha maçlarını oynar.",
+    "kalip": "futbol_stadyum_kulubu",
+    "konular": [
+      "stadio-diego-armando-maradona"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-95",
+    "taslak_id": "C02-T243",
+    "k": "spor",
+    "yerel": false,
+    "s": "Davis Cup hangi spor dalında verilen bir kupadır?",
+    "d": "Tenis",
+    "y": [
+      "Yüzme",
+      "Kayak",
+      "Ragbi"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In which sport is the Davis Cup awarded?",
+      "d": "Tennis",
+      "y": [
+        "Swimming",
+        "Skiing",
+        "Rugby"
+      ]
+    },
+    "olgu": "Davis Cup, tenis dalındaki bir kupadır.",
+    "kalip": "spor_kupa_dali",
+    "konular": [
+      "davis-cup"
+    ],
+    "alt_tur": "odul",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-96",
+    "taslak_id": "C02-T250",
+    "k": "spor",
+    "yerel": false,
+    "s": "Larry O'Brien Trophy hangi spor dalında verilen bir kupadır?",
+    "d": "Basketbol",
+    "y": [
+      "Jimnastik",
+      "Badminton",
+      "Atletizm"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In which sport is the Larry O'Brien Trophy awarded?",
+      "d": "Basketball",
+      "y": [
+        "Gymnastics",
+        "Badminton",
+        "Athletics"
+      ]
+    },
+    "olgu": "Larry O'Brien Trophy, basketbol dalındaki bir kupadır.",
+    "kalip": "spor_kupa_dali",
+    "konular": [
+      "larry-o-brien-trophy"
+    ],
+    "alt_tur": "odul",
+    "jev_p": 0.24,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-97",
+    "taslak_id": "C02-T261",
+    "k": "spor",
+    "yerel": false,
+    "s": "Johan Cruyff hangi forma numarasıyla özdeşleşmiştir?",
+    "d": "14",
+    "y": [
+      "10",
+      "11",
+      "12"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which jersey number is closely associated with Johan Cruyff?",
+      "d": "14",
+      "y": [
+        "10",
+        "11",
+        "12"
+      ]
+    },
+    "olgu": "Johan Cruyff, 14 numaralı formasıyla özdeşleşmiştir.",
+    "kalip": "spor_numarasi",
+    "konular": [
+      "johan-cruyff"
+    ],
+    "alt_tur": "forma",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.19,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-98",
+    "taslak_id": "C02-T264",
+    "k": "spor",
+    "yerel": false,
+    "s": "'Love' terimi hangi sporla ilişkilidir?",
+    "d": "Tenis",
+    "y": [
+      "Yüzme",
+      "Kayak",
+      "Ragbi"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which sport uses the term 'Love'?",
+      "d": "Tennis",
+      "y": [
+        "Swimming",
+        "Skiing",
+        "Rugby"
+      ]
+    },
+    "olgu": "Love terimi tenis sporunda kullanılır.",
+    "kalip": "spor_terimi_dali",
+    "konular": [
+      "love"
+    ],
+    "alt_tur": "spor",
+    "jev_p": 0.25,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-99",
+    "taslak_id": "C02-T268",
+    "k": "spor",
+    "yerel": false,
+    "s": "'Alley-oop' terimi hangi sporla ilişkilidir?",
+    "d": "Basketbol",
+    "y": [
+      "Jimnastik",
+      "Badminton",
+      "Atletizm"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which sport uses the term 'Alley-oop'?",
+      "d": "Basketball",
+      "y": [
+        "Gymnastics",
+        "Badminton",
+        "Athletics"
+      ]
+    },
+    "olgu": "Alley-oop terimi basketbol sporunda kullanılır.",
+    "kalip": "spor_terimi_dali",
+    "konular": [
+      "alley-oop",
+      "eser:alley-oop"
+    ],
+    "alt_tur": "spor",
+    "jev_p": 0.16,
+    "jev_tek_dogru_p": 0.14,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-100",
+    "taslak_id": "C02-T271",
+    "k": "spor",
+    "yerel": false,
+    "s": "'Home run' terimi hangi sporla ilişkilidir?",
+    "d": "Beyzbol",
+    "y": [
+      "Futbol",
+      "Atletizm",
+      "Bisiklet"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which sport uses the term 'Home run'?",
+      "d": "Baseball",
+      "y": [
+        "Football",
+        "Athletics",
+        "Cycling"
+      ]
+    },
+    "olgu": "Home run terimi beyzbol sporunda kullanılır.",
+    "kalip": "spor_terimi_dali",
+    "konular": [
+      "home-run",
+      "eser:home-run"
+    ],
+    "alt_tur": "spor",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-101",
+    "taslak_id": "C02-T592",
+    "k": "spor",
+    "yerel": false,
+    "s": "Tony Hawk hangi spor dalıyla tanınır?",
+    "d": "Kaykay",
+    "y": [
+      "Futbol",
+      "Eskrim",
+      "Halter"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which sport is Tony Hawk known for?",
+      "d": "Skateboarding",
+      "y": [
+        "Football",
+        "Fencing",
+        "Weightlifting"
+      ]
+    },
+    "olgu": "Tony Hawk, kaykay sporcusudur.",
+    "kalip": "sporcu_bransi",
+    "konular": [
+      "tony-hawk"
+    ],
+    "alt_tur": "sporcu",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-102",
+    "taslak_id": "C02-T594",
+    "k": "spor",
+    "yerel": false,
+    "s": "Kelly Slater hangi spor dalıyla tanınır?",
+    "d": "Sörf",
+    "y": [
+      "Golf",
+      "Boks",
+      "Yüzme"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which sport is Kelly Slater known for?",
+      "d": "Surfing",
+      "y": [
+        "Golf",
+        "Boxing",
+        "Swimming"
+      ]
+    },
+    "olgu": "Kelly Slater, sörf sporcusudur.",
+    "kalip": "sporcu_bransi",
+    "konular": [
+      "kelly-slater"
+    ],
+    "alt_tur": "sporcu",
+    "jev_p": 0.11,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-103",
+    "taslak_id": "C02-T237",
+    "k": "spor",
+    "yerel": false,
+    "s": "Estádio da Luz hangi futbol kulübünün stadıdır?",
+    "d": "Benfica",
+    "y": [
+      "Arsenal",
+      "Chelsea",
+      "Rangers"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which football club plays at Estádio da Luz?",
+      "d": "Benfica",
+      "y": [
+        "Arsenal",
+        "Chelsea",
+        "Rangers"
+      ]
+    },
+    "olgu": "Benfica, Estádio da Luz stadında iç saha maçlarını oynar.",
+    "kalip": "futbol_stadyum_kulubu",
+    "konular": [
+      "estadio-da-luz"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.28,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-104",
+    "taslak_id": "C02-T269",
+    "k": "spor",
+    "yerel": false,
+    "s": "'Off-spin' terimi hangi sporla ilişkilidir?",
+    "d": "Kriket",
+    "y": [
+      "Futbol",
+      "Eskrim",
+      "Halter"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which sport uses the term 'Off-spin'?",
+      "d": "Cricket",
+      "y": [
+        "Football",
+        "Fencing",
+        "Weightlifting"
+      ]
+    },
+    "olgu": "Off-spin terimi kriket sporunda kullanılır.",
+    "kalip": "spor_terimi_dali",
+    "konular": [
+      "off-spin",
+      "eser:off-spin"
+    ],
+    "alt_tur": "spor",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-105",
+    "taslak_id": "C02-T600",
+    "k": "spor",
+    "yerel": false,
+    "s": "Roger Federer'in ilk Wimbledon şampiyonluğu hangi yılda gerçekleşti?",
+    "d": "2003",
+    "y": [
+      "2001",
+      "2002",
+      "2005"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In which year did Roger Federer win his first Wimbledon title?",
+      "d": "2003",
+      "y": [
+        "2001",
+        "2002",
+        "2005"
+      ]
+    },
+    "olgu": "Roger Federer'in ilk Wimbledon şampiyonluğu, 2003 yılında gerçekleşti.",
+    "kalip": "sporcu_sampiyonluk_yili",
+    "konular": [
+      "roger-federer-in-ilk-wimbledon-sampiyonlugu",
+      "roger-federer"
+    ],
+    "alt_tur": "sporcu",
+    "jev_p": 0.25,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-106",
+    "taslak_id": "C02-T603",
+    "k": "spor",
+    "yerel": false,
+    "s": "Serena Williams'ın ilk Grand Slam tekler şampiyonluğu hangi yılda gerçekleşti?",
+    "d": "1999",
+    "y": [
+      "1997",
+      "1998",
+      "2001"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In which year did Serena Williams win her first Grand Slam singles title?",
+      "d": "1999",
+      "y": [
+        "1997",
+        "1998",
+        "2001"
+      ]
+    },
+    "olgu": "Serena Williams'ın ilk Grand Slam tekler şampiyonluğu, 1999 yılında gerçekleşti.",
+    "kalip": "sporcu_sampiyonluk_yili",
+    "konular": [
+      "serena-williams-n-ilk-grand-slam-tekler-sampiyonlugu"
+    ],
+    "alt_tur": "sporcu",
+    "jev_p": 0.33,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-107",
+    "taslak_id": "C02-T605",
+    "k": "spor",
+    "yerel": false,
+    "s": "Michael Schumacher'in ilk Formula 1 şampiyonluğu hangi yılda gerçekleşti?",
+    "d": "1994",
+    "y": [
+      "1993",
+      "1995",
+      "1997"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In which year did Michael Schumacher win his first Formula One title?",
+      "d": "1994",
+      "y": [
+        "1993",
+        "1995",
+        "1997"
+      ]
+    },
+    "olgu": "Michael Schumacher'in ilk Formula 1 şampiyonluğu, 1994 yılında gerçekleşti.",
+    "kalip": "sporcu_sampiyonluk_yili",
+    "konular": [
+      "michael-schumacher-in-ilk-formula-1-sampiyonlugu",
+      "michael-schumacher"
+    ],
+    "alt_tur": "sporcu",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-108",
+    "taslak_id": "C02-T701",
+    "k": "spor",
+    "yerel": false,
+    "s": "Kareem Abdul-Jabbar, Lakers'a geçmeden önce hangi NBA takımında oynadı?",
+    "d": "Milwaukee Bucks",
+    "y": [
+      "Chicago Bulls",
+      "Boston Celtics",
+      "Detroit Pistons"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which NBA team did Kareem Abdul-Jabbar play for before joining the Lakers?",
+      "d": "Milwaukee Bucks",
+      "y": [
+        "Chicago Bulls",
+        "Boston Celtics",
+        "Detroit Pistons"
+      ]
+    },
+    "olgu": "Kareem Abdul-Jabbar 1969–1975 arasında Milwaukee Bucks'ta oynadı.",
+    "kalip": "spor_oyuncu_kulubu",
+    "konular": [
+      "kareem-abdul-jabbar"
+    ],
+    "alt_tur": "basketbol",
+    "jev_p": 0.04,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-109",
+    "taslak_id": "C02-T703",
+    "k": "spor",
+    "yerel": false,
+    "s": "Calcutta Cup hangi spor dalındaki bir rekabette verilir?",
+    "d": "Ragbi",
+    "y": [
+      "Kriket",
+      "Beyzbol",
+      "Basketbol"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In which sport is the Calcutta Cup contested?",
+      "d": "Rugby",
+      "y": [
+        "Cricket",
+        "Baseball",
+        "Basketball"
+      ]
+    },
+    "olgu": "Calcutta Cup, İngiltere ve İskoçya'nın ragbi karşılaşmasında verilen kupadır.",
+    "kalip": "spor_kupa_dali",
+    "konular": [
+      "calcutta-cup"
+    ],
+    "alt_tur": "odul",
+    "jev_p": 0.05,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-110",
+    "taslak_id": "C02-T705",
+    "k": "spor",
+    "yerel": false,
+    "s": "'Swiss Maestro' lakabıyla anılan tenisçi kimdir?",
+    "d": "Roger Federer",
+    "y": [
+      "Rafael Nadal",
+      "Novak Djokovic",
+      "Stan Wawrinka"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which tennis player is known as the 'Swiss Maestro'?",
+      "d": "Roger Federer",
+      "y": [
+        "Rafael Nadal",
+        "Novak Djokovic",
+        "Stan Wawrinka"
+      ]
+    },
+    "olgu": "Swiss Maestro lakabı İsviçreli tenisçi Roger Federer için kullanılır.",
+    "kalip": "sporcu_lakabi",
+    "konular": [
+      "roger-federer"
+    ],
+    "alt_tur": "sporcu",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-111",
+    "taslak_id": "C02-T287",
+    "k": "tarih",
+    "yerel": false,
+    "s": "'Güneş Kral' lakabı hangi hükümdar için kullanılmıştır?",
+    "d": "Louis XIV",
+    "y": [
+      "Richard I",
+      "George VI",
+      "Henry VIII"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which ruler was known as 'the Sun King'?",
+      "d": "Louis XIV",
+      "y": [
+        "Richard I",
+        "George VI",
+        "Henry VIII"
+      ]
+    },
+    "olgu": "Louis XIV, Güneş Kral lakabıyla tanınır.",
+    "kalip": "hukumdar_lakabi",
+    "konular": [
+      "gunes-kral",
+      "eser:gunes-kral"
+    ],
+    "alt_tur": "hukumdar",
+    "jev_p": 0.27,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-112",
+    "taslak_id": "C02-T291",
+    "k": "tarih",
+    "yerel": false,
+    "s": "HMS Beagle gemisi hangi tarihî kişinin yolculuğuyla ilişkilidir?",
+    "d": "Charles Darwin",
+    "y": [
+      "Roald Amundsen",
+      "Francis Drake",
+      "Vasco da Gama"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Whose voyage is associated with the ship HMS Beagle?",
+      "d": "Charles Darwin",
+      "y": [
+        "Roald Amundsen",
+        "Francis Drake",
+        "Vasco da Gama"
+      ]
+    },
+    "olgu": "HMS Beagle gemisi Charles Darwin'nin yolculuğuyla ilişkilidir.",
+    "kalip": "tarih_gemi_kisisi",
+    "konular": [
+      "hms-beagle"
+    ],
+    "alt_tur": "kesif",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-113",
+    "taslak_id": "C02-T293",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Amundsen'in 1910'da Güney Kutbu seferine çıktığı geminin adı neydi?",
+    "d": "Fram",
+    "y": [
+      "Beagle",
+      "Endurance",
+      "Terra Nova"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What was the name of the ship Amundsen took on his 1910 South Pole expedition?",
+      "d": "Fram",
+      "y": [
+        "Beagle",
+        "Endurance",
+        "Terra Nova"
+      ]
+    },
+    "olgu": "Fram'ın 1910 Güney Kutbu seferi gemisi Roald Amundsen'nin yolculuğuyla ilişkilidir.",
+    "kalip": "tarih_kisi_gemisi",
+    "konular": [
+      "fram-n-1910-guney-kutbu-seferi"
+    ],
+    "alt_tur": "kesif",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-114",
+    "taslak_id": "C02-T298",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Domesday Book hangi olayla ilişkilidir?",
+    "d": "İngiltere'nin Norman fethi",
+    "y": [
+      "İngiltere'nin Reform hareketi",
+      "İngiltere'nin sanayileşmesi",
+      "İngiltere'nin iç savaşı"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which event is associated with Domesday Book?",
+      "d": "The Norman conquest of England",
+      "y": [
+        "The English Reformation",
+        "The Industrial Revolution in England",
+        "The English Civil War"
+      ]
+    },
+    "olgu": "Domesday Book, i̇ngiltere'nin norman fethi ile ilişkilidir.",
+    "kalip": "tarihi_belge_olay",
+    "konular": [
+      "domesday-book"
+    ],
+    "alt_tur": "belge",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-115",
+    "taslak_id": "C02-T300",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Goodfellas' filmini kim yönetmiştir?",
+    "d": "Martin Scorsese",
+    "y": [
+      "Stanley Kubrick",
+      "Robert Zemeckis",
+      "Steven Spielberg"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who directed 'Goodfellas'?",
+      "d": "Martin Scorsese",
+      "y": [
+        "Stanley Kubrick",
+        "Robert Zemeckis",
+        "Steven Spielberg"
+      ]
+    },
+    "olgu": "Goodfellas filminin yönetmeni Martin Scorsese'dir.",
+    "kalip": "film_yonetmeni",
+    "konular": [
+      "goodfellas",
+      "kisi:martin-scorsese",
+      "eser:goodfellas"
+    ],
+    "alt_tur": "canli_cekim",
+    "jev_p": 0.04,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-116",
+    "taslak_id": "C02-T301",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Apocalypse Now' filmini kim yönetmiştir?",
+    "d": "Francis Ford Coppola",
+    "y": [
+      "Guillermo del Toro",
+      "Quentin Tarantino",
+      "Alejandro González Iñárritu"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who directed 'Apocalypse Now'?",
+      "d": "Francis Ford Coppola",
+      "y": [
+        "Guillermo del Toro",
+        "Quentin Tarantino",
+        "Alejandro González Iñárritu"
+      ]
+    },
+    "olgu": "Apocalypse Now filminin yönetmeni Francis Ford Coppola'dir.",
+    "kalip": "film_yonetmeni",
+    "konular": [
+      "apocalypse-now",
+      "kisi:francis-ford-coppola",
+      "eser:apocalypse-now"
+    ],
+    "alt_tur": "canli_cekim",
+    "jev_p": 0.09,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-117",
+    "taslak_id": "C02-T304",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Jackie Brown' filmini kim yönetmiştir?",
+    "d": "Quentin Tarantino",
+    "y": [
+      "Christopher Nolan",
+      "Steven Spielberg",
+      "Alfred Hitchcock"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who directed 'Jackie Brown'?",
+      "d": "Quentin Tarantino",
+      "y": [
+        "Christopher Nolan",
+        "Steven Spielberg",
+        "Alfred Hitchcock"
+      ]
+    },
+    "olgu": "Jackie Brown filminin yönetmeni Quentin Tarantino'dir.",
+    "kalip": "film_yonetmeni",
+    "konular": [
+      "jackie-brown",
+      "kisi:quentin-tarantino",
+      "eser:jackie-brown"
+    ],
+    "alt_tur": "canli_cekim",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-118",
+    "taslak_id": "C02-T305",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Memento' filmini kim yönetmiştir?",
+    "d": "Christopher Nolan",
+    "y": [
+      "Quentin Tarantino",
+      "Steven Spielberg",
+      "Alfred Hitchcock"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who directed 'Memento'?",
+      "d": "Christopher Nolan",
+      "y": [
+        "Quentin Tarantino",
+        "Steven Spielberg",
+        "Alfred Hitchcock"
+      ]
+    },
+    "olgu": "Memento filminin yönetmeni Christopher Nolan'dir.",
+    "kalip": "film_yonetmeni",
+    "konular": [
+      "memento",
+      "kisi:christopher-nolan",
+      "eser:memento"
+    ],
+    "alt_tur": "canli_cekim",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-119",
+    "taslak_id": "C02-T310",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Edward Scissorhands' filmini kim yönetmiştir?",
+    "d": "Tim Burton",
+    "y": [
+      "Sam Mendes",
+      "Danny Boyle",
+      "Ridley Scott"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who directed 'Edward Scissorhands'?",
+      "d": "Tim Burton",
+      "y": [
+        "Sam Mendes",
+        "Danny Boyle",
+        "Ridley Scott"
+      ]
+    },
+    "olgu": "Edward Scissorhands filminin yönetmeni Tim Burton'dir.",
+    "kalip": "film_yonetmeni",
+    "konular": [
+      "edward-scissorhands",
+      "kisi:tim-burton",
+      "eser:edward-scissorhands"
+    ],
+    "alt_tur": "canli_cekim",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-120",
+    "taslak_id": "C02-T312",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'The Green Mile' filmini kim yönetmiştir?",
+    "d": "Frank Darabont",
+    "y": [
+      "Akira Kurosawa",
+      "Martin Scorsese",
+      "Stanley Kubrick"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who directed 'The Green Mile'?",
+      "d": "Frank Darabont",
+      "y": [
+        "Akira Kurosawa",
+        "Martin Scorsese",
+        "Stanley Kubrick"
+      ]
+    },
+    "olgu": "The Green Mile filminin yönetmeni Frank Darabont'dir.",
+    "kalip": "film_yonetmeni",
+    "konular": [
+      "the-green-mile",
+      "kisi:frank-darabont",
+      "eser:the-green-mile"
+    ],
+    "alt_tur": "canli_cekim",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-121",
+    "taslak_id": "C02-T313",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'The Truman Show' filmini kim yönetmiştir?",
+    "d": "Peter Weir",
+    "y": [
+      "Tim Burton",
+      "Sam Mendes",
+      "Danny Boyle"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who directed 'The Truman Show'?",
+      "d": "Peter Weir",
+      "y": [
+        "Tim Burton",
+        "Sam Mendes",
+        "Danny Boyle"
+      ]
+    },
+    "olgu": "The Truman Show filminin yönetmeni Peter Weir'dir.",
+    "kalip": "film_yonetmeni",
+    "konular": [
+      "the-truman-show",
+      "kisi:peter-weir",
+      "eser:the-truman-show"
+    ],
+    "alt_tur": "canli_cekim",
+    "jev_p": 0.1,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-122",
+    "taslak_id": "C02-T316",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Arrival' filmini kim yönetmiştir?",
+    "d": "Denis Villeneuve",
+    "y": [
+      "Steven Spielberg",
+      "Alfred Hitchcock",
+      "Martin Scorsese"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who directed 'Arrival'?",
+      "d": "Denis Villeneuve",
+      "y": [
+        "Steven Spielberg",
+        "Alfred Hitchcock",
+        "Martin Scorsese"
+      ]
+    },
+    "olgu": "Arrival filminin yönetmeni Denis Villeneuve'dir.",
+    "kalip": "film_yonetmeni",
+    "konular": [
+      "arrival",
+      "kisi:denis-villeneuve",
+      "eser:arrival"
+    ],
+    "alt_tur": "canli_cekim",
+    "jev_p": 0.11,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-123",
+    "taslak_id": "C02-T321",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Die Hard'daki John McClane karakterini hangi oyuncu canlandırmıştır?",
+    "d": "Bruce Willis",
+    "y": [
+      "Keanu Reeves",
+      "Heath Ledger",
+      "Hugh Jackman"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which actor played John McClane in Die Hard?",
+      "d": "Bruce Willis",
+      "y": [
+        "Keanu Reeves",
+        "Heath Ledger",
+        "Hugh Jackman"
+      ]
+    },
+    "olgu": "Die Hard'daki John McClane karakterini Bruce Willis canlandırmıştır.",
+    "kalip": "film_karakter_oyuncusu",
+    "konular": [
+      "die-hard-daki-john-mcclane"
+    ],
+    "alt_tur": "canli_cekim",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-124",
+    "taslak_id": "C02-T328",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Skyfall'daki James Bond karakterini hangi oyuncu canlandırmıştır?",
+    "d": "Daniel Craig",
+    "y": [
+      "Bruce Willis",
+      "Keanu Reeves",
+      "Heath Ledger"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which actor played James Bond in Skyfall?",
+      "d": "Daniel Craig",
+      "y": [
+        "Bruce Willis",
+        "Keanu Reeves",
+        "Heath Ledger"
+      ]
+    },
+    "olgu": "Skyfall'daki James Bond karakterini Daniel Craig canlandırmıştır.",
+    "kalip": "film_karakter_oyuncusu",
+    "konular": [
+      "skyfall-daki-james-bond"
+    ],
+    "alt_tur": "canli_cekim",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-125",
+    "taslak_id": "C02-T339",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Titanic' filminin müziklerini kim bestelemiştir?",
+    "d": "James Horner",
+    "y": [
+      "Danny Elfman",
+      "Howard Shore",
+      "John Williams"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who composed the score for 'Titanic'?",
+      "d": "James Horner",
+      "y": [
+        "Danny Elfman",
+        "Howard Shore",
+        "John Williams"
+      ]
+    },
+    "olgu": "Titanic filminin müziklerini James Horner bestelemiştir.",
+    "kalip": "film_muzik_bestecisi",
+    "konular": [
+      "titanic",
+      "kisi:james-horner",
+      "eser:titanic"
+    ],
+    "alt_tur": "film_muzigi",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-126",
+    "taslak_id": "C02-T340",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Back to the Future' filminin müziklerini kim bestelemiştir?",
+    "d": "Alan Silvestri",
+    "y": [
+      "Rachel Portman",
+      "John Williams",
+      "Ennio Morricone"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who composed the score for 'Back to the Future'?",
+      "d": "Alan Silvestri",
+      "y": [
+        "Rachel Portman",
+        "John Williams",
+        "Ennio Morricone"
+      ]
+    },
+    "olgu": "Back to the Future filminin müziklerini Alan Silvestri bestelemiştir.",
+    "kalip": "film_muzik_bestecisi",
+    "konular": [
+      "back-to-the-future",
+      "kisi:alan-silvestri",
+      "eser:back-to-the-future"
+    ],
+    "alt_tur": "film_muzigi",
+    "jev_p": 0.03,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-127",
+    "taslak_id": "C02-T341",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Edward Scissorhands' filminin müziklerini kim bestelemiştir?",
+    "d": "Danny Elfman",
+    "y": [
+      "Howard Shore",
+      "James Horner",
+      "John Williams"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who composed the score for 'Edward Scissorhands'?",
+      "d": "Danny Elfman",
+      "y": [
+        "Howard Shore",
+        "James Horner",
+        "John Williams"
+      ]
+    },
+    "olgu": "Edward Scissorhands filminin müziklerini Danny Elfman bestelemiştir.",
+    "kalip": "film_muzik_bestecisi",
+    "konular": [
+      "edward-scissorhands",
+      "kisi:danny-elfman",
+      "eser:edward-scissorhands"
+    ],
+    "alt_tur": "film_muzigi",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-128",
+    "taslak_id": "C02-T365",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Ratatouille'deki Remy hangi tür hayvandır?",
+    "d": "Sıçan",
+    "y": [
+      "Fare",
+      "Köstebek",
+      "Sincap"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What kind of animal is Remy in Ratatouille?",
+      "d": "Rat",
+      "y": [
+        "Mouse",
+        "Mole",
+        "Squirrel"
+      ]
+    },
+    "olgu": "Ratatouille'deki Remy, sıçan olarak tasarlanmıştır.",
+    "kalip": "kurmaca_hayvan_turu",
+    "konular": [
+      "ratatouille-deki-remy"
+    ],
+    "alt_tur": "animasyon",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.25,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-129",
+    "taslak_id": "C02-T671",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'The Shawshank Redemption' filminin müziklerini kim bestelemiştir?",
+    "d": "Thomas Newman",
+    "y": [
+      "John Williams",
+      "Clint Mansell",
+      "Danny Elfman"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who composed the score for 'The Shawshank Redemption'?",
+      "d": "Thomas Newman",
+      "y": [
+        "John Williams",
+        "Clint Mansell",
+        "Danny Elfman"
+      ]
+    },
+    "olgu": "The Shawshank Redemption müziklerini Thomas Newman besteledi.",
+    "kalip": "film_muzik_bestecisi",
+    "konular": [
+      "the-shawshank-redemption",
+      "kisi:thomas-newman",
+      "eser:the-shawshank-redemption"
+    ],
+    "alt_tur": "film_muzigi",
+    "jev_p": 0.02,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-130",
+    "taslak_id": "C02-T682",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'One Flew Over the Cuckoo's Nest' filminin uyarlandığı kitabın yazarı kimdir?",
+    "d": "Ken Kesey",
+    "y": [
+      "Mario Puzo",
+      "Stephen King",
+      "Irvine Welsh"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who wrote the book adapted into 'One Flew Over the Cuckoo's Nest'?",
+      "d": "Ken Kesey",
+      "y": [
+        "Mario Puzo",
+        "Stephen King",
+        "Irvine Welsh"
+      ]
+    },
+    "olgu": "One Flew Over the Cuckoo's Nest, Ken Kesey kitabından uyarlandı.",
+    "kalip": "film_esin_kitap_yazari",
+    "konular": [
+      "one-flew-over-the-cuckoo-s-nest",
+      "kisi:ken-kesey",
+      "eser:one-flew-over-the-cuckoo"
+    ],
+    "alt_tur": "uyarlama",
+    "jev_p": 0.1,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-131",
+    "taslak_id": "C02-T345",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Requiem for a Dream' filminin müziklerini kim bestelemiştir?",
+    "d": "Clint Mansell",
+    "y": [
+      "John Williams",
+      "Thomas Newman",
+      "Danny Elfman"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who composed the score for 'Requiem for a Dream'?",
+      "d": "Clint Mansell",
+      "y": [
+        "John Williams",
+        "Thomas Newman",
+        "Danny Elfman"
+      ]
+    },
+    "olgu": "Requiem for a Dream filminin müziklerini Clint Mansell bestelemiştir.",
+    "kalip": "film_muzik_bestecisi",
+    "konular": [
+      "requiem-for-a-dream",
+      "kisi:clint-mansell",
+      "eser:requiem-for-a-dream"
+    ],
+    "alt_tur": "film_muzigi",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-132",
+    "taslak_id": "C02-T670",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'The Imitation Game' filminin müziklerini kim bestelemiştir?",
+    "d": "Alexandre Desplat",
+    "y": [
+      "Michael Giacchino",
+      "Bernard Herrmann",
+      "Ennio Morricone"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who composed the score for 'The Imitation Game'?",
+      "d": "Alexandre Desplat",
+      "y": [
+        "Michael Giacchino",
+        "Bernard Herrmann",
+        "Ennio Morricone"
+      ]
+    },
+    "olgu": "The Imitation Game müziklerini Alexandre Desplat besteledi.",
+    "kalip": "film_muzik_bestecisi",
+    "konular": [
+      "the-imitation-game",
+      "kisi:alexandre-desplat",
+      "eser:the-imitation-game"
+    ],
+    "alt_tur": "film_muzigi",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-133",
+    "taslak_id": "C02-T675",
+    "k": "sinema",
+    "yerel": false,
+    "s": "1996 yapımı 'Emma' filminin müziklerini kim bestelemiştir?",
+    "d": "Rachel Portman",
+    "y": [
+      "Alan Silvestri",
+      "John Williams",
+      "Ennio Morricone"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who composed the score for the 1996 film 'Emma'?",
+      "d": "Rachel Portman",
+      "y": [
+        "Alan Silvestri",
+        "John Williams",
+        "Ennio Morricone"
+      ]
+    },
+    "olgu": "Emma'nın 1996 uyarlaması müziklerini Rachel Portman besteledi.",
+    "kalip": "film_muzik_bestecisi",
+    "konular": [
+      "emma-n-n-1996-uyarlamas-",
+      "kisi:rachel-portman"
+    ],
+    "alt_tur": "film_muzigi",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-134",
+    "taslak_id": "C02-T681",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Trainspotting' filminin uyarlandığı kitabın yazarı kimdir?",
+    "d": "Irvine Welsh",
+    "y": [
+      "Stephen King",
+      "Thomas Harris",
+      "Winston Groom"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who wrote the book adapted into 'Trainspotting'?",
+      "d": "Irvine Welsh",
+      "y": [
+        "Stephen King",
+        "Thomas Harris",
+        "Winston Groom"
+      ]
+    },
+    "olgu": "Trainspotting, Irvine Welsh kitabından uyarlandı.",
+    "kalip": "film_esin_kitap_yazari",
+    "konular": [
+      "trainspotting",
+      "kisi:irvine-welsh",
+      "eser:trainspotting"
+    ],
+    "alt_tur": "uyarlama",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-135",
+    "taslak_id": "C02-T689",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Never Let Me Go' filminin uyarlandığı kitabın yazarı kimdir?",
+    "d": "Kazuo Ishiguro",
+    "y": [
+      "Philip K. Dick",
+      "Peter Benchley",
+      "Anthony Burgess"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who wrote the book adapted into 'Never Let Me Go'?",
+      "d": "Kazuo Ishiguro",
+      "y": [
+        "Philip K. Dick",
+        "Peter Benchley",
+        "Anthony Burgess"
+      ]
+    },
+    "olgu": "Never Let Me Go, Kazuo Ishiguro kitabından uyarlandı.",
+    "kalip": "film_esin_kitap_yazari",
+    "konular": [
+      "never-let-me-go",
+      "kisi:kazuo-ishiguro",
+      "eser:never-let-me-go"
+    ],
+    "alt_tur": "uyarlama",
+    "jev_p": 0.29,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-136",
+    "taslak_id": "C02-T709",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Fight Club' filminin uyarlandığı romanı kim yazmıştır?",
+    "d": "Chuck Palahniuk",
+    "y": [
+      "Bret Easton Ellis",
+      "Don DeLillo",
+      "Jonathan Franzen"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who wrote the novel adapted into 'Fight Club'?",
+      "d": "Chuck Palahniuk",
+      "y": [
+        "Bret Easton Ellis",
+        "Don DeLillo",
+        "Jonathan Franzen"
+      ]
+    },
+    "olgu": "Fight Club filmi Chuck Palahniuk'un 1996 romanından uyarlanmıştır.",
+    "kalip": "film_esin_kitap_yazari",
+    "konular": [
+      "fight-club"
+    ],
+    "alt_tur": "uyarlama",
+    "jev_p": 0.29,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-137",
+    "taslak_id": "C02-T711",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Pulp Fiction'da Butch'un aile yadigârı nesnesi hangisidir?",
+    "d": "Kol saati",
+    "y": [
+      "Çakı",
+      "Çakmak",
+      "Cep pusulası"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What family heirloom does Butch treasure in 'Pulp Fiction'?",
+      "d": "Wristwatch",
+      "y": [
+        "Pocketknife",
+        "Lighter",
+        "Pocket compass"
+      ]
+    },
+    "olgu": "Pulp Fiction'da Butch babasından kalan altın kol saatini korur.",
+    "kalip": "film_kurgu_nesne",
+    "konular": [
+      "pulp-fiction"
+    ],
+    "alt_tur": "canli_cekim",
+    "jev_p": 0.18,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-138",
+    "taslak_id": "C02-T374",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Geleneksel İskoç porridge tarifinde hangi tahıl kullanılır?",
+    "d": "Yulaf",
+    "y": [
+      "Mısır",
+      "Pirinç",
+      "Arpa"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which grain is used in traditional Scottish porridge?",
+      "d": "Oats",
+      "y": [
+        "Corn",
+        "Rice",
+        "Barley"
+      ]
+    },
+    "olgu": "porridge'in geleneksel İskoç türü yapımında temel malzeme yulafdır.",
+    "kalip": "yemek_malzemesi",
+    "konular": [
+      "porridge-in-geleneksel-iskoc-turu"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.04,
+    "jev_tek_dogru_p": 0.13,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-139",
+    "taslak_id": "C02-T377",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Geleneksel tabbouleh tarifinde kullanılan tahıl ürünü hangisidir?",
+    "d": "Bulgur",
+    "y": [
+      "Pirinç",
+      "Kuskus",
+      "Kinoa"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which grain product is traditionally used in tabbouleh?",
+      "d": "Bulgur",
+      "y": [
+        "Rice",
+        "Couscous",
+        "Quinoa"
+      ]
+    },
+    "olgu": "tabbouleh'nin geleneksel tahılı yapımında temel malzeme bulgurdır.",
+    "kalip": "yemek_malzemesi",
+    "konular": [
+      "tabbouleh-nin-geleneksel-tah-l-"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.24,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-140",
+    "taslak_id": "C02-T379",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Marzipan geleneksel olarak hangi kuruyemişle yapılır?",
+    "d": "Badem",
+    "y": [
+      "Ceviz",
+      "Fındık",
+      "Kaju"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which nut is traditionally used in marzipan?",
+      "d": "Almonds",
+      "y": [
+        "Walnuts",
+        "Hazelnuts",
+        "Cashews"
+      ]
+    },
+    "olgu": "marzipan tarifinde badem kullanılır.",
+    "kalip": "yemek_malzemesi",
+    "konular": [
+      "marzipan"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.13,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-141",
+    "taslak_id": "C02-T386",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Tiramisu için geleneksel olarak hangi peynir kullanılır?",
+    "d": "Mascarpone",
+    "y": [
+      "Mozzarella",
+      "Gorgonzola",
+      "Roquefort"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which cheese is traditionally used in tiramisu?",
+      "d": "Mascarpone",
+      "y": [
+        "Mozzarella",
+        "Gorgonzola",
+        "Roquefort"
+      ]
+    },
+    "olgu": "tiramisu geleneksel tarifinde Mascarpone peyniri kullanılır.",
+    "kalip": "yemek_malzemesi",
+    "konular": [
+      "tiramisu"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-142",
+    "taslak_id": "C02-T391",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Cannoli dolgusu için geleneksel olarak hangi peynir kullanılır?",
+    "d": "Ricotta",
+    "y": [
+      "Cheddar",
+      "Gruyère",
+      "Parmesan"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which cheese is traditionally used in cannoli filling?",
+      "d": "Ricotta",
+      "y": [
+        "Cheddar",
+        "Gruyère",
+        "Parmesan"
+      ]
+    },
+    "olgu": "cannoli dolgusu geleneksel tarifinde Ricotta peyniri kullanılır.",
+    "kalip": "yemek_malzemesi",
+    "konular": [
+      "cannoli-dolgusu"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.33,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-143",
+    "taslak_id": "C02-T393",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Pesto alla genovese tarifinin ayırt edici bitkisi veya baharatı hangisidir?",
+    "d": "Fesleğen",
+    "y": [
+      "Biberiye",
+      "Zencefil",
+      "Karanfil"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which herb or spice is characteristic of pesto alla genovese?",
+      "d": "Basil",
+      "y": [
+        "Rosemary",
+        "Ginger",
+        "Cloves"
+      ]
+    },
+    "olgu": "pesto alla genovese tarifinde fesleğen belirgin bir malzemedir.",
+    "kalip": "yemek_malzemesi",
+    "konular": [
+      "pesto-alla-genovese"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.16,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-144",
+    "taslak_id": "C02-T407",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Fusilli makarnası hangi biçimdedir?",
+    "d": "Burgu",
+    "y": [
+      "Kelebek",
+      "Kısa tüp",
+      "Küçük kulak"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What shape is fusilli pasta?",
+      "d": "Spiral",
+      "y": [
+        "Bow tie",
+        "Short tube",
+        "Little ear"
+      ]
+    },
+    "olgu": "fusilli, burgu biçimli makarnadır.",
+    "kalip": "yemek_hamuru_sekli",
+    "konular": [
+      "fusilli"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.29,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-145",
+    "taslak_id": "C02-T411",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Fettuccine makarnası hangi biçimdedir?",
+    "d": "Geniş şerit",
+    "y": [
+      "Küçük kulak",
+      "Deniz kabuğu",
+      "İnce uzun tel"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What shape is fettuccine pasta?",
+      "d": "Wide ribbon",
+      "y": [
+        "Little ear",
+        "Shell",
+        "Long thin strand"
+      ]
+    },
+    "olgu": "fettuccine, geniş şerit biçimli makarnadır.",
+    "kalip": "yemek_hamuru_sekli",
+    "konular": [
+      "fettuccine"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.2,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-146",
+    "taslak_id": "C02-T413",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Penne makarnası hangi biçimdedir?",
+    "d": "Kısa tüp",
+    "y": [
+      "Kelebek",
+      "Burgu",
+      "Küçük kulak"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What shape is penne pasta?",
+      "d": "Short tube",
+      "y": [
+        "Bow tie",
+        "Spiral",
+        "Little ear"
+      ]
+    },
+    "olgu": "penne, kısa tüp biçimli makarnadır.",
+    "kalip": "yemek_hamuru_sekli",
+    "konular": [
+      "penne"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.09,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-147",
+    "taslak_id": "C02-T422",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Aziz Patrick Günü için hangi bitki sembol olarak kullanılır?",
+    "d": "Yonca",
+    "y": [
+      "Defne",
+      "Bambu",
+      "Ökseotu"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which plant is a symbol of St Patrick's Day?",
+      "d": "Shamrock",
+      "y": [
+        "Laurel",
+        "Bamboo",
+        "Mistletoe"
+      ]
+    },
+    "olgu": "Aziz Patrick Günü sembolü olarak yonca kullanılır.",
+    "kalip": "gelenek_sembol_bitkisi",
+    "konular": [
+      "aziz-patrick-gunu"
+    ],
+    "alt_tur": "gelenek",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-148",
+    "taslak_id": "C02-T426",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Birleşik Krallık'ta Anma Günü için hangi bitki sembol olarak kullanılır?",
+    "d": "Haşhaş",
+    "y": [
+      "Yonca",
+      "Ökseotu",
+      "Defne"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which plant is a symbol of Remembrance Day in the United Kingdom?",
+      "d": "Poppy",
+      "y": [
+        "Shamrock",
+        "Mistletoe",
+        "Laurel"
+      ]
+    },
+    "olgu": "Birleşik Krallık'ta Anma Günü sembolü olarak haşhaş kullanılır.",
+    "kalip": "gelenek_sembol_bitkisi",
+    "konular": [
+      "birlesik-krall-k-ta-anma-gunu"
+    ],
+    "alt_tur": "gelenek",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-149",
+    "taslak_id": "C02-T433",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "1903 patentli otomobil cam sileceği ile tanınan mucit veya tasarımcı kimdir?",
+    "d": "Mary Anderson",
+    "y": [
+      "Louis Braille",
+      "Leslie Scott",
+      "Alfred Butts"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who is associated with inventing or designing the windscreen wiper patented in 1903?",
+      "d": "Mary Anderson",
+      "y": [
+        "Louis Braille",
+        "Leslie Scott",
+        "Alfred Butts"
+      ]
+    },
+    "olgu": "1903 patentli otomobil cam sileceği, Mary Anderson ile ilişkilidir.",
+    "kalip": "nesne_icat_kisisi",
+    "konular": [
+      "1903-patentli-otomobil-cam-silecegi"
+    ],
+    "alt_tur": "icat",
+    "jev_p": 0.03,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-150",
+    "taslak_id": "C02-T435",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "1849 patentli çengelli iğne ile tanınan mucit veya tasarımcı kimdir?",
+    "d": "Walter Hunt",
+    "y": [
+      "Laszlo Biro",
+      "Earl Tupper",
+      "Ernő Rubik"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who is associated with inventing or designing the safety pin patented in 1849?",
+      "d": "Walter Hunt",
+      "y": [
+        "Laszlo Biro",
+        "Earl Tupper",
+        "Ernő Rubik"
+      ]
+    },
+    "olgu": "1849 patentli çengelli iğne, Walter Hunt ile ilişkilidir.",
+    "kalip": "nesne_icat_kisisi",
+    "konular": [
+      "1849-patentli-cengelli-igne"
+    ],
+    "alt_tur": "icat",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-151",
+    "taslak_id": "C02-T436",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Jenga oyununda temel olarak hangi nesne kullanılır?",
+    "d": "Ahşap bloklar",
+    "y": [
+      "Harfli taşlar",
+      "Numaralı toplar",
+      "Renkli çubuklar"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which object is central to playing Jenga?",
+      "d": "Wooden blocks",
+      "y": [
+        "Letter tiles",
+        "Numbered balls",
+        "Coloured sticks"
+      ]
+    },
+    "olgu": "Jenga, ahşap bloklar ile oynanır.",
+    "kalip": "kutu_oyun_nesne",
+    "konular": [
+      "jenga"
+    ],
+    "alt_tur": "oyun",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-152",
+    "taslak_id": "C02-T447",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Hush Puppies markasının ambleminde hangi hayvan görülür?",
+    "d": "Köpek",
+    "y": [
+      "Aslan",
+      "Timsah",
+      "Boğa"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which animal appears in the Hush Puppies logo?",
+      "d": "Dog",
+      "y": [
+        "Lion",
+        "Crocodile",
+        "Bull"
+      ]
+    },
+    "olgu": "Hush Puppies ambleminde köpek bulunur.",
+    "kalip": "marka_amblem_hayvan",
+    "konular": [
+      "hush-puppies"
+    ],
+    "alt_tur": "marka_maskot_cizgi",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-153",
+    "taslak_id": "C02-T449",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Garfield'ın köpek arkadaşının adı nedir?",
+    "d": "Odie",
+    "y": [
+      "Daisy",
+      "Pluto",
+      "Goofy"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the name of Garfield's dog friend?",
+      "d": "Odie",
+      "y": [
+        "Daisy",
+        "Pluto",
+        "Goofy"
+      ]
+    },
+    "olgu": "Garfield'ın köpek arkadaşı karakterinin adı Odie'dir.",
+    "kalip": "evcil_hayvan_adi",
+    "konular": [
+      "garfield-n-kopek-arkadas-"
+    ],
+    "alt_tur": "marka_maskot_cizgi",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-154",
+    "taslak_id": "C02-T451",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Donald Duck'ın kız arkadaşının adı nedir?",
+    "d": "Daisy",
+    "y": [
+      "Pluto",
+      "Goofy",
+      "Porky"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the name of Donald Duck's girlfriend?",
+      "d": "Daisy",
+      "y": [
+        "Pluto",
+        "Goofy",
+        "Porky"
+      ]
+    },
+    "olgu": "Donald Duck'ın kız arkadaşı karakterinin adı Daisy'dir.",
+    "kalip": "cizgi_karakter_adi",
+    "konular": [
+      "donald-duck-n-k-z-arkadas-"
+    ],
+    "alt_tur": "marka_maskot_cizgi",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-155",
+    "taslak_id": "C02-T617",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Pad thai hangi ülkenin mutfağıyla özdeşleşmiştir?",
+    "d": "Tayland",
+    "y": [
+      "İspanya",
+      "Japonya",
+      "Portekiz"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which country's cuisine is pad thai associated with?",
+      "d": "Thailand",
+      "y": [
+        "Spain",
+        "Japan",
+        "Portugal"
+      ]
+    },
+    "olgu": "pad thai, Tayland mutfağının bilinen yemeğidir.",
+    "kalip": "mutfak_ulkesi",
+    "konular": [
+      "pad-thai"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-156",
+    "taslak_id": "C02-T620",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Wiener schnitzel hangi ülkenin mutfağıyla özdeşleşmiştir?",
+    "d": "Avusturya",
+    "y": [
+      "Hindistan",
+      "İngiltere",
+      "Portekiz"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which country's cuisine is Wiener schnitzel associated with?",
+      "d": "Austria",
+      "y": [
+        "India",
+        "England",
+        "Portugal"
+      ]
+    },
+    "olgu": "Wiener schnitzel, Avusturya mutfağının bilinen yemeğidir.",
+    "kalip": "mutfak_ulkesi",
+    "konular": [
+      "wiener-schnitzel"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-157",
+    "taslak_id": "C02-T625",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Aziz Patrick Günü hangi tarihte kutlanır?",
+    "d": "17 Mart",
+    "y": [
+      "31 Ekim",
+      "1 Mayıs",
+      "5 Kasım"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "On which date is St Patrick's Day celebrated?",
+      "d": "17 March",
+      "y": [
+        "31 October",
+        "1 May",
+        "5 November"
+      ]
+    },
+    "olgu": "Aziz Patrick Günü, 17 Mart tarihinde kutlanır.",
+    "kalip": "takvim_gunu",
+    "konular": [
+      "aziz-patrick-gunu"
+    ],
+    "alt_tur": "gelenek",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-158",
+    "taslak_id": "C02-T633",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Kore'nin geleneksel tören giysisinin adı nedir?",
+    "d": "Hanbok",
+    "y": [
+      "Kimono",
+      "Dirndl",
+      "Poncho"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is Korea's traditional ceremonial dress called?",
+      "d": "Hanbok",
+      "y": [
+        "Kimono",
+        "Dirndl",
+        "Poncho"
+      ]
+    },
+    "olgu": "Kore'nin geleneksel tören giysisi geleneğinde Hanbok giysisi kullanılır.",
+    "kalip": "gelenek_kiyafeti",
+    "konular": [
+      "kore-nin-geleneksel-toren-giysisi"
+    ],
+    "alt_tur": "gelenek",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-159",
+    "taslak_id": "C02-T636",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Hindistan'da vücuda sarılarak giyilen uzun kumaş giysinin adı nedir?",
+    "d": "Sari",
+    "y": [
+      "Kilt",
+      "Kimono",
+      "Hanbok"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the long cloth garment wrapped around the body in India called?",
+      "d": "Sari",
+      "y": [
+        "Kilt",
+        "Kimono",
+        "Hanbok"
+      ]
+    },
+    "olgu": "Hindistan'da vücuda sarılan uzun kumaş giysi geleneğinde Sari giysisi kullanılır.",
+    "kalip": "gelenek_kiyafeti",
+    "konular": [
+      "hindistan-da-vucuda-sar-lan-uzun-kumas-giysi"
+    ],
+    "alt_tur": "gelenek",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-160",
+    "taslak_id": "C02-T641",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Klasik Jenga setindeki ahşap blok kaç tanedir?",
+    "d": "54",
+    "y": [
+      "48",
+      "60",
+      "64"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How many wooden blocks are in a classic Jenga set?",
+      "d": "54",
+      "y": [
+        "48",
+        "60",
+        "64"
+      ]
+    },
+    "olgu": "klasik Jenga setindeki ahşap blok sayısı 54'dir.",
+    "kalip": "oyun_baslangic_sayisi",
+    "konular": [
+      "klasik-jenga-setindeki-ahsap-blok",
+      "jenga"
+    ],
+    "alt_tur": "oyun",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-161",
+    "taslak_id": "C02-T647",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Eiffel Kulesi'nin zemine dayanan kaç ayağı vardır?",
+    "d": "4",
+    "y": [
+      "2",
+      "3",
+      "5"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How many legs support the Eiffel Tower?",
+      "d": "4",
+      "y": [
+        "2",
+        "3",
+        "5"
+      ]
+    },
+    "olgu": "Eiffel Kulesi'nin zemine dayanan ayağı: 4.",
+    "kalip": "yapi_tasarim_ayrinti",
+    "konular": [
+      "eiffel-kulesi-nin-zemine-dayanan-ayag-",
+      "eiffel-tower"
+    ],
+    "alt_tur": "yapi",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-162",
+    "taslak_id": "C02-T649",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Golden Gate Köprüsü'nün kaç ana kulesi vardır?",
+    "d": "2",
+    "y": [
+      "3",
+      "4",
+      "5"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How many main towers does the Golden Gate Bridge have?",
+      "d": "2",
+      "y": [
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    "olgu": "Golden Gate Köprüsü'nün ana kulesi: 2.",
+    "kalip": "yapi_tasarim_ayrinti",
+    "konular": [
+      "golden-gate-koprusu-nun-ana-kulesi"
+    ],
+    "alt_tur": "yapi",
+    "jev_p": 0.22,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-163",
+    "taslak_id": "C02-T652",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Geleneksel şarap şişesi tıpası temel olarak hangi malzemeden yapılır?",
+    "d": "Mantar",
+    "y": [
+      "Grafit",
+      "Kauçuk",
+      "Balmumu"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is a traditional wine-bottle stopper made from?",
+      "d": "Cork",
+      "y": [
+        "Graphite",
+        "Rubber",
+        "Beeswax"
+      ]
+    },
+    "olgu": "geleneksel şarap şişesi tıpası temel malzemesi mantardır.",
+    "kalip": "gundelik_nesne_malzeme",
+    "konular": [
+      "geleneksel-sarap-sisesi-t-pas-"
+    ],
+    "alt_tur": "gundelik_hayat",
+    "jev_p": 0.16,
+    "jev_tek_dogru_p": 0.11,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-164",
+    "taslak_id": "C02-T654",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Tenis topunun iç gövdesinin ana malzemesi hangisidir?",
+    "d": "Kauçuk",
+    "y": [
+      "Mantar",
+      "Deri",
+      "Keçe"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the main material of the inner body of a tennis ball?",
+      "d": "Rubber",
+      "y": [
+        "Cork",
+        "Leather",
+        "Felt"
+      ]
+    },
+    "olgu": "tenis topunun içindeki esnek gövde temel malzemesi kauçukdır.",
+    "kalip": "gundelik_nesne_malzeme",
+    "konular": [
+      "tenis-topunun-icindeki-esnek-govde"
+    ],
+    "alt_tur": "gundelik_hayat",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-165",
+    "taslak_id": "C02-T719",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Geleneksel tagine kabının kapağı hangi biçimdedir?",
+    "d": "Konik",
+    "y": [
+      "Kübik",
+      "Düz disk",
+      "Silindir"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What shape is the lid of a traditional tagine pot?",
+      "d": "Conical",
+      "y": [
+        "Cubic",
+        "Flat disc",
+        "Cylindrical"
+      ]
+    },
+    "olgu": "Geleneksel tagine tenceresinin kapağı konik biçimdedir.",
+    "kalip": "yemek_sunum_kabi",
+    "konular": [
+      "tagine"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-166",
+    "taslak_id": "C02-T721",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Klasik Cluedo setindeki altı silahtan hangisi biridir?",
+    "d": "Hançer",
+    "y": [
+      "Balta",
+      "Tokmak",
+      "Tüfek"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which of these is one of the six weapons in classic Cluedo?",
+      "d": "Dagger",
+      "y": [
+        "Hatchet",
+        "Mallet",
+        "Rifle"
+      ]
+    },
+    "olgu": "Klasik Cluedo setinin altı silahından biri hançerdir.",
+    "kalip": "oyun_icerik_nesnesi",
+    "konular": [
+      "cluedo"
+    ],
+    "alt_tur": "oyun",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.32,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-167",
+    "taslak_id": "C02-T394",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Béarnaise sosu tarifinin ayırt edici bitkisi veya baharatı hangisidir?",
+    "d": "Tarhun",
+    "y": [
+      "Safran",
+      "Tarçın",
+      "Dereotu"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which herb or spice is characteristic of béarnaise sauce?",
+      "d": "Tarragon",
+      "y": [
+        "Saffron",
+        "Cinnamon",
+        "Dill"
+      ]
+    },
+    "olgu": "béarnaise sosu tarifinde tarhun belirgin bir malzemedir.",
+    "kalip": "yemek_malzemesi",
+    "konular": [
+      "bearnaise-sosu"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-168",
+    "taslak_id": "C02-T401",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Poire belle Hélène geleneksel olarak hangi meyveyle yapılır?",
+    "d": "Armut",
+    "y": [
+      "Limon",
+      "Vişne",
+      "Çilek"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which fruit is traditionally used in Poire belle Hélène?",
+      "d": "Pear",
+      "y": [
+        "Lemon",
+        "Sour cherry",
+        "Strawberry"
+      ]
+    },
+    "olgu": "Poire belle Hélène tarifinde armut kullanılır.",
+    "kalip": "yemek_malzemesi",
+    "konular": [
+      "poire-belle-helene"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-169",
+    "taslak_id": "C02-T408",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Orecchiette makarnası hangi biçimdedir?",
+    "d": "Küçük kulak",
+    "y": [
+      "Geniş şerit",
+      "Deniz kabuğu",
+      "İnce uzun tel"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What shape is orecchiette pasta?",
+      "d": "Little ear",
+      "y": [
+        "Wide ribbon",
+        "Shell",
+        "Long thin strand"
+      ]
+    },
+    "olgu": "orecchiette, küçük kulak biçimli makarnadır.",
+    "kalip": "yemek_hamuru_sekli",
+    "konular": [
+      "orecchiette"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-170",
+    "taslak_id": "C02-T409",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Conchiglie makarnası hangi biçimdedir?",
+    "d": "Deniz kabuğu",
+    "y": [
+      "Küçük kulak",
+      "İnce uzun tel",
+      "Pirinç tanesi"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What shape is conchiglie pasta?",
+      "d": "Shell",
+      "y": [
+        "Little ear",
+        "Long thin strand",
+        "Rice grain"
+      ]
+    },
+    "olgu": "conchiglie, deniz kabuğu biçimli makarnadır.",
+    "kalip": "yemek_hamuru_sekli",
+    "konular": [
+      "conchiglie"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.18,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-171",
+    "taslak_id": "C02-T410",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Orzo makarnası hangi biçimdedir?",
+    "d": "Pirinç tanesi",
+    "y": [
+      "İnce uzun tel",
+      "Deniz kabuğu",
+      "Küçük kulak"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What shape is orzo pasta?",
+      "d": "Rice grain",
+      "y": [
+        "Long thin strand",
+        "Shell",
+        "Little ear"
+      ]
+    },
+    "olgu": "orzo, pirinç tanesi biçimli makarnadır.",
+    "kalip": "yemek_hamuru_sekli",
+    "konular": [
+      "orzo"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.24,
+    "jev_tek_dogru_p": 0.1,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-172",
+    "taslak_id": "C02-T622",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Rogan josh hangi ülkenin mutfağıyla özdeşleşmiştir?",
+    "d": "Hindistan",
+    "y": [
+      "Avusturya",
+      "İngiltere",
+      "Portekiz"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which country's cuisine is rogan josh associated with?",
+      "d": "India",
+      "y": [
+        "Austria",
+        "England",
+        "Portugal"
+      ]
+    },
+    "olgu": "rogan josh, Hindistan mutfağının bilinen yemeğidir.",
+    "kalip": "mutfak_ulkesi",
+    "konular": [
+      "rogan-josh"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-173",
+    "taslak_id": "C02-T627",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Guy Fawkes Gecesi hangi tarihte kutlanır?",
+    "d": "5 Kasım",
+    "y": [
+      "17 Mart",
+      "31 Ekim",
+      "1 Mayıs"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "On which date is Guy Fawkes Night celebrated?",
+      "d": "5 November",
+      "y": [
+        "17 March",
+        "31 October",
+        "1 May"
+      ]
+    },
+    "olgu": "Guy Fawkes Gecesi, 5 Kasım tarihinde kutlanır.",
+    "kalip": "takvim_gunu",
+    "konular": [
+      "guy-fawkes-gecesi"
+    ],
+    "alt_tur": "gelenek",
+    "jev_p": 0.04,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-174",
+    "taslak_id": "C02-T630",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Batı Hristiyanlığı takviminde Epifani hangi tarihte kutlanır?",
+    "d": "6 Ocak",
+    "y": [
+      "1 Ocak",
+      "17 Mart",
+      "31 Ekim"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "On which date is Epiphany celebrated in the Western Christian calendar?",
+      "d": "6 January",
+      "y": [
+        "1 January",
+        "17 March",
+        "31 October"
+      ]
+    },
+    "olgu": "Epifani'nin Batı Hristiyanlığı takvimindeki tarihi, 6 Ocak tarihinde kutlanır.",
+    "kalip": "takvim_gunu",
+    "konular": [
+      "epifani-nin-bat-hristiyanl-g-takvimindeki-tarihi"
+    ],
+    "alt_tur": "gelenek",
+    "jev_p": 0.18,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-175",
+    "taslak_id": "C02-T634",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Bavyera'nın geleneksel kadın giysisinin adı nedir?",
+    "d": "Dirndl",
+    "y": [
+      "Kimono",
+      "Hanbok",
+      "Poncho"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is the traditional Bavarian women's dress called?",
+      "d": "Dirndl",
+      "y": [
+        "Kimono",
+        "Hanbok",
+        "Poncho"
+      ]
+    },
+    "olgu": "Bavyera'nın geleneksel kadın kıyafeti geleneğinde Dirndl giysisi kullanılır.",
+    "kalip": "gelenek_kiyafeti",
+    "konular": [
+      "bavyera-n-n-geleneksel-kad-n-k-yafeti"
+    ],
+    "alt_tur": "gelenek",
+    "jev_p": 0.09,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-176",
+    "taslak_id": "C02-T644",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Çift altılı standart bir domino setinde kaç taş bulunur?",
+    "d": "28",
+    "y": [
+      "24",
+      "30",
+      "32"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "How many tiles are in a standard double-six domino set?",
+      "d": "28",
+      "y": [
+        "24",
+        "30",
+        "32"
+      ]
+    },
+    "olgu": "standart Batı domino setinde çift altılı taş sayısı 28'dir.",
+    "kalip": "oyun_baslangic_sayisi",
+    "konular": [
+      "standart-bat-domino-setinde-cift-alt-l-tas"
+    ],
+    "alt_tur": "oyun",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-177",
+    "taslak_id": "C02-T716",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Geleneksel peynir fondüsünde ekmek tencereye hangi araçla batırılır?",
+    "d": "Uzun çatal",
+    "y": [
+      "Tahta kaşık",
+      "Metal kepçe",
+      "Bambu çubuk"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which utensil is used to dip bread into a traditional cheese fondue?",
+      "d": "Long fork",
+      "y": [
+        "Wooden spoon",
+        "Metal ladle",
+        "Bamboo chopstick"
+      ]
+    },
+    "olgu": "Peynir fondüsünde ekmek parçaları uzun saplı fondü çatallarıyla batırılır.",
+    "kalip": "yemek_sunum_araci",
+    "konular": [
+      "fondue"
+    ],
+    "alt_tur": "yemek",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-178",
+    "taslak_id": "C02-T717",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Piñata geleneğinde şeker dolu nesne neyle kırılır?",
+    "d": "Sopa",
+    "y": [
+      "Çekiç",
+      "Makas",
+      "Tahta kepçe"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is used to break the candy-filled object in the piñata tradition?",
+      "d": "Stick",
+      "y": [
+        "Hammer",
+        "Scissors",
+        "Wooden ladle"
+      ]
+    },
+    "olgu": "Piñata geleneğinde asılı nesne sopayla kırılır.",
+    "kalip": "gelenek_oyun_nesnesi",
+    "konular": [
+      "pinata"
+    ],
+    "alt_tur": "gelenek",
+    "jev_p": 0.16,
+    "jev_tek_dogru_p": 0.21,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-179",
+    "taslak_id": "C02-T720",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Cluedo oyununu tasarlayan İngiliz kimdir?",
+    "d": "Anthony Pratt",
+    "y": [
+      "Alfred Butts",
+      "Leslie Scott",
+      "Elizabeth Magie"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which British designer created Cluedo?",
+      "d": "Anthony Pratt",
+      "y": [
+        "Alfred Butts",
+        "Leslie Scott",
+        "Elizabeth Magie"
+      ]
+    },
+    "olgu": "Cluedo'yu Anthony E. Pratt tasarlamıştır.",
+    "kalip": "kutu_oyun_yaraticisi",
+    "konular": [
+      "cluedo"
+    ],
+    "alt_tur": "oyun",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-180",
+    "taslak_id": "C02-T454",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Gizli Bahçe' kitabının yazarı kimdir?",
+    "d": "Frances Hodgson Burnett",
+    "y": [
+      "Robert Louis Stevenson",
+      "Antoine de Saint-Exupéry",
+      "F. Scott Fitzgerald"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who wrote 'The Secret Garden'?",
+      "d": "Frances Hodgson Burnett",
+      "y": [
+        "Robert Louis Stevenson",
+        "Antoine de Saint-Exupéry",
+        "F. Scott Fitzgerald"
+      ]
+    },
+    "olgu": "Gizli Bahçe kitabını Frances Hodgson Burnett yazmıştır.",
+    "kalip": "kitap_yazari",
+    "konular": [
+      "gizli-bahce",
+      "kisi:frances-hodgson-burnett",
+      "eser:gizli-bahce"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-181",
+    "taslak_id": "C02-T457",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Zamanda Kıvrılma' kitabının yazarı kimdir?",
+    "d": "Madeleine L'Engle",
+    "y": [
+      "Charlotte Brontë",
+      "Arthur Conan Doyle",
+      "Ernest Hemingway"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who wrote 'A Wrinkle in Time'?",
+      "d": "Madeleine L'Engle",
+      "y": [
+        "Charlotte Brontë",
+        "Arthur Conan Doyle",
+        "Ernest Hemingway"
+      ]
+    },
+    "olgu": "Zamanda Kıvrılma kitabını Madeleine L'Engle yazmıştır.",
+    "kalip": "kitap_yazari",
+    "konular": [
+      "zamanda-k-vr-lma",
+      "kisi:madeleine-l-engle",
+      "eser:zamanda-kivrilma"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-182",
+    "taslak_id": "C02-T460",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Koralin' kitabının yazarı kimdir?",
+    "d": "Neil Gaiman",
+    "y": [
+      "Jane Austen",
+      "Bram Stoker",
+      "Jules Verne"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who wrote 'Coraline'?",
+      "d": "Neil Gaiman",
+      "y": [
+        "Jane Austen",
+        "Bram Stoker",
+        "Jules Verne"
+      ]
+    },
+    "olgu": "Koralin kitabını Neil Gaiman yazmıştır.",
+    "kalip": "kitap_yazari",
+    "konular": [
+      "koralin",
+      "kisi:neil-gaiman",
+      "eser:koralin"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-183",
+    "taslak_id": "C02-T461",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Altın Pusula' kitabının yazarı kimdir?",
+    "d": "Philip Pullman",
+    "y": [
+      "John Steinbeck",
+      "Charles Dickens",
+      "George Orwell"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who wrote 'Northern Lights'?",
+      "d": "Philip Pullman",
+      "y": [
+        "John Steinbeck",
+        "Charles Dickens",
+        "George Orwell"
+      ]
+    },
+    "olgu": "Altın Pusula kitabını Philip Pullman yazmıştır.",
+    "kalip": "kitap_yazari",
+    "konular": [
+      "alt-n-pusula",
+      "kisi:philip-pullman",
+      "eser:altin-pusula"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-184",
+    "taslak_id": "C02-T463",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Ulysses' romanının olayları ağırlıklı olarak hangi şehirde geçer?",
+    "d": "Dublin",
+    "y": [
+      "Londra",
+      "Boston",
+      "Paris"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which city is the main setting of 'Ulysses'?",
+      "d": "Dublin",
+      "y": [
+        "London",
+        "Boston",
+        "Paris"
+      ]
+    },
+    "olgu": "Ulysses romanı ağırlıklı olarak Dublin şehrinde geçer.",
+    "kalip": "roman_sehri",
+    "konular": [
+      "ulysses",
+      "eser:ulysses"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-185",
+    "taslak_id": "C02-T474",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Jane Eyre karakterinin mesleği nedir?",
+    "d": "Mürebbiye",
+    "y": [
+      "İtfaiyeci",
+      "Öğretmen",
+      "Gazeteci"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is Jane Eyre's profession?",
+      "d": "Governess",
+      "y": [
+        "Fireman",
+        "Teacher",
+        "Journalist"
+      ]
+    },
+    "olgu": "Jane Eyre, mürebbiye olarak çalışır.",
+    "kalip": "kurmaca_meslek",
+    "konular": [
+      "jane-eyre"
+    ],
+    "alt_tur": "karakter",
+    "jev_p": 0.16,
+    "jev_tek_dogru_p": 0.32,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-186",
+    "taslak_id": "C02-T480",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Winnie-the-Pooh hangi tür hayvandır?",
+    "d": "Ayı",
+    "y": [
+      "At",
+      "Fare",
+      "Kurt"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What kind of animal is Winnie-the-Pooh?",
+      "d": "Bear",
+      "y": [
+        "Horse",
+        "Mouse",
+        "Wolf"
+      ]
+    },
+    "olgu": "Winnie-the-Pooh, ayı türünde bir karakterdir.",
+    "kalip": "kurmaca_hayvan_turu",
+    "konular": [
+      "winnie-the-pooh"
+    ],
+    "alt_tur": "karakter",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-187",
+    "taslak_id": "C02-T483",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Hayvan Çiftliği'ndeki Boxer hangi tür hayvandır?",
+    "d": "At",
+    "y": [
+      "Eşek",
+      "Keçi",
+      "İnek"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What kind of animal is Boxer in Animal Farm?",
+      "d": "Horse",
+      "y": [
+        "Donkey",
+        "Goat",
+        "Cow"
+      ]
+    },
+    "olgu": "Hayvan Çiftliği'ndeki Boxer, at türünde bir karakterdir.",
+    "kalip": "kurmaca_hayvan_turu",
+    "konular": [
+      "animal-farm"
+    ],
+    "alt_tur": "karakter",
+    "jev_p": 0.22,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-188",
+    "taslak_id": "C02-T515",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Yüzüklerin Efendisi'ndeki Boromir karakterinin babası kimdir?",
+    "d": "Denethor",
+    "y": [
+      "Arathorn",
+      "Thranduil",
+      "Elrond"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who is Boromir's father in The Lord of the Rings?",
+      "d": "Denethor",
+      "y": [
+        "Arathorn",
+        "Thranduil",
+        "Elrond"
+      ]
+    },
+    "olgu": "Yüzüklerin Efendisi'ndeki Boromir karakterinin babası Denethor'dir.",
+    "kalip": "roman_karakter_ailesi",
+    "konular": [
+      "tolkien-middle-earth"
+    ],
+    "alt_tur": "karakter",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-189",
+    "taslak_id": "C02-T519",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Miss Havisham hangi romandaki karakterdir?",
+    "d": "Büyük Umutlar",
+    "y": [
+      "Oliver Twist",
+      "Frankenstein",
+      "Gurur ve Önyargı"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In which novel does Miss Havisham appear?",
+      "d": "Great Expectations",
+      "y": [
+        "Oliver Twist",
+        "Frankenstein",
+        "Pride and Prejudice"
+      ]
+    },
+    "olgu": "Miss Havisham, Büyük Umutlar romanındaki bir karakterdir.",
+    "kalip": "roman_karakter_eseri",
+    "konular": [
+      "miss-havisham"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-190",
+    "taslak_id": "C02-T656",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Demiryolu Çocukları' kitabının yazarı kimdir?",
+    "d": "Edith Nesbit",
+    "y": [
+      "Mary Shelley",
+      "J. M. Barrie",
+      "Ray Bradbury"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who wrote 'The Railway Children'?",
+      "d": "Edith Nesbit",
+      "y": [
+        "Mary Shelley",
+        "J. M. Barrie",
+        "Ray Bradbury"
+      ]
+    },
+    "olgu": "Demiryolu Çocukları kitabını Edith Nesbit yazdı.",
+    "kalip": "kitap_yazari",
+    "konular": [
+      "demiryolu-cocuklar-",
+      "kisi:edith-nesbit",
+      "eser:demiryolu-cocuklari"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.16,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-191",
+    "taslak_id": "C02-T657",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Rüzgâr Söğütlerde' kitabının yazarı kimdir?",
+    "d": "Kenneth Grahame",
+    "y": [
+      "Charles Dickens",
+      "Agatha Christie",
+      "John Steinbeck"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who wrote 'The Wind in the Willows'?",
+      "d": "Kenneth Grahame",
+      "y": [
+        "Charles Dickens",
+        "Agatha Christie",
+        "John Steinbeck"
+      ]
+    },
+    "olgu": "Rüzgâr Söğütlerde kitabını Kenneth Grahame yazdı.",
+    "kalip": "kitap_yazari",
+    "konular": [
+      "ruzgar-sogutlerde",
+      "kisi:kenneth-grahame",
+      "eser:ruzgar-sogutlerde"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-192",
+    "taslak_id": "C02-T659",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Siyah İnci' kitabının yazarı kimdir?",
+    "d": "Anna Sewell",
+    "y": [
+      "Jane Austen",
+      "Bram Stoker",
+      "Jules Verne"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who wrote 'Black Beauty'?",
+      "d": "Anna Sewell",
+      "y": [
+        "Jane Austen",
+        "Bram Stoker",
+        "Jules Verne"
+      ]
+    },
+    "olgu": "Siyah İnci kitabını Anna Sewell yazdı.",
+    "kalip": "kitap_yazari",
+    "konular": [
+      "siyah-inci",
+      "kisi:anna-sewell",
+      "eser:siyah-inci"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-193",
+    "taslak_id": "C02-T664",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Tom Sawyer'ın üvey kardeşinin adı nedir?",
+    "d": "Sid",
+    "y": [
+      "Ben",
+      "Joe",
+      "Huck"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the name of Tom Sawyer's half-brother?",
+      "d": "Sid",
+      "y": [
+        "Ben",
+        "Joe",
+        "Huck"
+      ]
+    },
+    "olgu": "Tom Sawyer'ın üvey kardeşi Sid'dir.",
+    "kalip": "karakter_kardes_adi",
+    "konular": [
+      "tom-sawyer-n-uvey",
+      "tom-sawyer"
+    ],
+    "alt_tur": "karakter",
+    "jev_p": 0.03,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-194",
+    "taslak_id": "C02-T665",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Küçük Kadınlar'da Jo'nun en büyük ablasının adı nedir?",
+    "d": "Meg",
+    "y": [
+      "Amy",
+      "Beth",
+      "Mary"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who is Jo's eldest sister in Little Women?",
+      "d": "Meg",
+      "y": [
+        "Amy",
+        "Beth",
+        "Mary"
+      ]
+    },
+    "olgu": "Küçük Kadınlar'da Jo'nun en büyük kardeşi Meg'dir.",
+    "kalip": "karakter_kardes_adi",
+    "konular": [
+      "little-women"
+    ],
+    "alt_tur": "karakter",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-195",
+    "taslak_id": "C02-T476",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "The Fountainhead'deki Howard Roark karakterinin mesleği nedir?",
+    "d": "Mimar",
+    "y": [
+      "Avukat",
+      "Doktor",
+      "Gazeteci"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is Howard Roark's profession in The Fountainhead?",
+      "d": "Architect",
+      "y": [
+        "Lawyer",
+        "Doctor",
+        "Journalist"
+      ]
+    },
+    "olgu": "The Fountainhead'deki Howard Roark, mimar olarak çalışır.",
+    "kalip": "kurmaca_meslek",
+    "konular": [
+      "the-fountainhead-deki-howard-roark"
+    ],
+    "alt_tur": "karakter",
+    "jev_p": 0.34,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-196",
+    "taslak_id": "C02-T492",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Ron Weasley'nin baykuşunun adı nedir?",
+    "d": "Pigwidgeon",
+    "y": [
+      "Crookshanks",
+      "Buckbeak",
+      "Fang"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is the name of Ron Weasley's owl?",
+      "d": "Pigwidgeon",
+      "y": [
+        "Crookshanks",
+        "Buckbeak",
+        "Fang"
+      ]
+    },
+    "olgu": "Ron Weasley'nin baykuşu karakterinin adı Pigwidgeon'dir.",
+    "kalip": "evcil_hayvan_adi",
+    "konular": [
+      "harry-potter"
+    ],
+    "alt_tur": "karakter",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-197",
+    "taslak_id": "C02-T505",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Saki hangi yazarın takma adıdır?",
+    "d": "Hector Hugh Munro",
+    "y": [
+      "Eric Arthur Blair",
+      "Charlotte Brontë",
+      "Charles Dodgson"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which writer used the pen name Saki?",
+      "d": "Hector Hugh Munro",
+      "y": [
+        "Eric Arthur Blair",
+        "Charlotte Brontë",
+        "Charles Dodgson"
+      ]
+    },
+    "olgu": "Saki, Hector Hugh Munro tarafından kullanılan takma addır.",
+    "kalip": "yazar_takma_ad",
+    "konular": [
+      "saki"
+    ],
+    "alt_tur": "yazar",
+    "jev_p": 0.11,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-198",
+    "taslak_id": "C02-T509",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Ellis Bell hangi yazarın takma adıdır?",
+    "d": "Emily Brontë",
+    "y": [
+      "Karen Blixen",
+      "Samuel Clemens",
+      "Mary Ann Evans"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which writer used the pen name Ellis Bell?",
+      "d": "Emily Brontë",
+      "y": [
+        "Karen Blixen",
+        "Samuel Clemens",
+        "Mary Ann Evans"
+      ]
+    },
+    "olgu": "Ellis Bell, Emily Brontë tarafından kullanılan takma addır.",
+    "kalip": "yazar_takma_ad",
+    "konular": [
+      "ellis-bell"
+    ],
+    "alt_tur": "yazar",
+    "jev_p": 0.09,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-199",
+    "taslak_id": "C02-T661",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Tom'un Gece Yarısı Bahçesi' kitabının yazarı kimdir?",
+    "d": "Philippa Pearce",
+    "y": [
+      "Charles Dickens",
+      "Agatha Christie",
+      "John Steinbeck"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who wrote 'Tom's Midnight Garden'?",
+      "d": "Philippa Pearce",
+      "y": [
+        "Charles Dickens",
+        "Agatha Christie",
+        "John Steinbeck"
+      ]
+    },
+    "olgu": "Tom'un Gece Yarısı Bahçesi kitabını Philippa Pearce yazdı.",
+    "kalip": "kitap_yazari",
+    "konular": [
+      "tom-un-gece-yar-s-bahcesi",
+      "kisi:philippa-pearce"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.16,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C02-200",
+    "taslak_id": "C02-T667",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Jane Eyre'in çocukken gönderildiği okulun adı nedir?",
+    "d": "Lowood",
+    "y": [
+      "Hogwarts",
+      "Smeltings",
+      "Nevermore"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is the name of the school Jane Eyre attends as a child?",
+      "d": "Lowood",
+      "y": [
+        "Hogwarts",
+        "Smeltings",
+        "Nevermore"
+      ]
+    },
+    "olgu": "Jane Eyre'in çocukken gönderildiği okulunun adı Lowood'dir.",
+    "kalip": "kurmaca_okul_adi",
+    "konular": [
+      "jane-eyre-in-cocukken-gonderildigi",
+      "jane-eyre"
+    ],
+    "alt_tur": "kurmaca",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  }
+]

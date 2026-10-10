@@ -72,23 +72,36 @@ function olcum(adet) {
   const kota=paylastir(Object.fromEntries(KATEGORI.map(k=>[k,tavan-say[k]])),adet);
   return {havuz,plan:{olcum_z2_z3:say,kota,z3:paylastir(kota,Math.round(adet*0.3)),tarih:new Date().toISOString()}};
 }
-function sec(st, adaylar) {
-  const secilen=[];
-  let yerel=0;
-  for (const k of KATEGORI) {
-    let katYerel=0;
-    for (const z of [2,3]) {
-      const hedef=z===3?st.plan.z3[k]:st.plan.kota[k]-st.plan.z3[k];
-      let say=0;
-      for (const t of adaylar.filter(t=>t.k===k&&t.z===z&&t.sonuc==='gecti').sort((a,b)=>a.jev_p-b.jev_p)) {
-        if (say===hedef) break;
-        if (t.yerel && (yerel>=Math.floor(st.adet*0.1)||(['tarih','edebiyat'].includes(k)&&katYerel>=Math.floor(st.plan.kota[k]*0.3)))) continue;
-        secilen.push(t);say++;
-        if(t.yerel){yerel++;katYerel++;}
-      }
+export const ALT_SINIR = {teknoloji:['video_oyunu_maskot',0.35],sinema:['animasyon',0.35],sanat:['tablo_gorsel',0.4],genel_kultur:['marka_maskot_cizgi',0.4]};
+export function cesitlilikHata(t) {
+  if(typeof t.kalip!=='string'||!t.kalip.trim()||typeof t.alt_tur!=='string'||!t.alt_tur.trim()||!Array.isArray(t.konular)||!t.konular.length||t.konular.some(x=>typeof x!=='string'||!x.trim())||new Set(t.konular).size!==t.konular.length)return 'biçim: çeşitlilik alanları eksik/bozuk';
+  const sahip=Object.entries(ALT_SINIR).find(([,v])=>v[0]===t.alt_tur)?.[0];
+  if(sahip&&sahip!==t.k)return 'biçim: sınırlı alt tür yanlış kategoride';
+  return null;
+}
+export function cesitlilikSay(secilen, st) {
+  const kalip={},konu={},alt={};
+  for(const t of secilen){kalip[t.kalip]=(kalip[t.kalip]??0)+1;for(const x of t.konular??[])konu[t.k+':'+x]=(konu[t.k+':'+x]??0)+1;const key=t.k+':'+t.alt_tur;alt[key]=(alt[key]??0)+1;}
+  return {kalip,konu,alt_tur:alt,kalip_siniri:Math.floor(st.adet*.05),konu_siniri:2,alt_sinir:Object.fromEntries(Object.entries(ALT_SINIR).map(([k,[a,p]])=>[k+':'+a,Math.floor(st.plan.kota[k]*p)]))};
+}
+export function sec(st, adaylar) {
+  const yeni=Number(st.klasor.slice(-2))>=2;
+  const kalip={},konu={},alt={};const secilen=[];let yerel=0;
+  // En dar aday kovalari önce: kalıp ortak sınırı geniş kategorinin dar kotayı kapatmasını önler.
+  const kovalar=KATEGORI.flatMap(k=>[2,3].map(z=>({k,z,h:z===3?st.plan.z3[k]:st.plan.kota[k]-st.plan.z3[k],a:adaylar.filter(t=>t.k===k&&t.z===z&&t.sonuc==='gecti')})));
+  kovalar.sort((a,b)=>(a.a.length/Math.max(1,a.h))-(b.a.length/Math.max(1,b.h)));
+  for (const {k,z,h,a} of kovalar) {
+    let say=0;
+    for(const t of a.sort((a,b)=>a.jev_p-b.jev_p)){
+      if(say===h)break;
+      if(t.yerel&&(yerel>=Math.floor(st.adet*.1)||(['tarih','edebiyat'].includes(k)&&secilen.filter(x=>x.k===k&&x.yerel).length>=Math.floor(st.plan.kota[k]*.3))))continue;
+      const ak=k+':'+t.alt_tur,lim=ALT_SINIR[k];
+      if(yeni&&((kalip[t.kalip]??0)>=Math.floor(st.adet*.05)||(t.konular??[]).some(x=>(konu[k+':'+x]??0)>=2)||(lim&&t.alt_tur===lim[0]&&(alt[ak]??0)>=Math.floor(st.plan.kota[k]*lim[1]))))continue;
+      secilen.push(t);say++;if(t.yerel)yerel++;
+      kalip[t.kalip]=(kalip[t.kalip]??0)+1;alt[ak]=(alt[ak]??0)+1;for(const x of t.konular??[])konu[k+':'+x]=(konu[k+':'+x]??0)+1;
     }
   }
-  return secilen;
+  return secilen.sort((a,b)=>KATEGORI.indexOf(a.k)-KATEGORI.indexOf(b.k)||a.z-b.z||a.id.localeCompare(b.id));
 }
 function sonYaz(st, adaylar, klasor) {
   const secilen=sec(st,adaylar);
@@ -102,11 +115,11 @@ function sonYaz(st, adaylar, klasor) {
   for(const t of adaylar.filter(t=>t.sonuc==='elendi')) {
     const ad=t.neden.replace(/[:(].*$/,'').trim();sebep[ad]=(sebep[ad]??0)+1;
   }
-  const cikti=secilen.map((t,i)=>({id:st.klasor.replace('codex-','C')+'-'+String(i+1).padStart(2,'0'),taslak_id:t.id,k:t.k,yerel:t.yerel,s:t.s,d:t.d,y:t.y,zorluk:t.z,en:t.en??null,...(!t.en?{en_neden:t.en_neden}:{}),olgu:t.olgu,...(t.kaynak?{kaynak:t.kaynak}:{}),jev_p:t.jev_p,jev_tek_dogru_p:t.tek_dogru_p,kapilar:[1,2,3,4,5],claude_inceleme:'bekliyor'}));
+  const cikti=secilen.map((t,i)=>({id:st.klasor.replace('codex-','C')+'-'+String(i+1).padStart(2,'0'),taslak_id:t.id,k:t.k,yerel:t.yerel,s:t.s,d:t.d,y:t.y,zorluk:t.z,en:t.en??null,...(!t.en?{en_neden:t.en_neden}:{}),olgu:t.olgu,...(t.kalip?{kalip:t.kalip,konular:t.konular,alt_tur:t.alt_tur}:{}),...(t.kaynak?{kaynak:t.kaynak}:{}),jev_p:t.jev_p,jev_tek_dogru_p:t.tek_dogru_p,kapilar:[1,2,3,4,5],claude_inceleme:'bekliyor'}));
   const sy=path.join(klasor,'sorular.json'), by=path.join(klasor,'bekleyen.sql');
   if(fs.existsSync(by)&&(!fs.existsSync(sy)||ozetHash(oku(sy))!==ozetHash(cikti))) fs.unlinkSync(by);
   const kategori=Object.fromEntries(KATEGORI.map(k=>[k,{z2:cikti.filter(t=>t.k===k&&t.zorluk===2).length,z3:cikti.filter(t=>t.k===k&&t.zorluk===3).length}]));
-  const ozet={klasor:st.klasor,tarih:new Date().toISOString(),uretici:'Codex',hakem:'Claude ayrı inceleme — bekliyor',hedef:st.adet,kota_gerekce:'Aktif z2+3, sik_ipucu_jev işaretsiz; az olana çok (tavan+25−sayı)',...st.plan,taslak:adaylar.length,gecen:adaylar.filter(t=>t.sonuc==='gecti').length,secilen:cikti.length,kategori,zorluk:{2:cikti.filter(t=>t.zorluk===2).length,3:cikti.filter(t=>t.zorluk===3).length},yerel:cikti.filter(t=>t.yerel).length,global:cikti.filter(t=>!t.yerel).length,en:cikti.filter(t=>t.en).length,elenen_sebep:sebep,eksik,harcama_usd:{claude:0,jev:maliyetUsd(st.jev_jeton),jev_jeton:st.jev_jeton},migration:fs.existsSync(by)?'bekleyen.sql — hazır; uygulanmadı':'bekleyen.sql — hazırlanacak; uygulanmaz'};
+  const ozet={klasor:st.klasor,tarih:new Date().toISOString(),uretici:'Codex',hakem:'Claude ayrı inceleme — bekliyor',hedef:st.adet,kota_gerekce:'Aktif z2+3, sik_ipucu_jev işaretsiz; az olana çok (tavan+25−sayı)',...st.plan,taslak:adaylar.length,gecen:adaylar.filter(t=>t.sonuc==='gecti').length,secilen:cikti.length,kategori,zorluk:{2:cikti.filter(t=>t.zorluk===2).length,3:cikti.filter(t=>t.zorluk===3).length},yerel:cikti.filter(t=>t.yerel).length,global:cikti.filter(t=>!t.yerel).length,en:cikti.filter(t=>t.en).length,elenen_sebep:sebep,eksik,harcama_usd:{claude:0,jev:maliyetUsd(st.jev_jeton),jev_jeton:st.jev_jeton},...(Number(st.klasor.slice(-2))>=2?{cesitlilik:cesitlilikSay(secilen,st)}:{}),migration:fs.existsSync(by)?'bekleyen.sql — hazır; uygulanmadı':'bekleyen.sql — hazırlanacak; uygulanmaz'};
   atomik(path.join(klasor,'ozet.json'),ozet);
   // Eksik parti eski bir sorular.json'u hazırmış gibi bırakamaz.
   if(Object.keys(eksik).length) {
@@ -147,7 +160,7 @@ export async function main(argv=process.argv) {
   const parti=[];const adaylar=[];
   for(const t0 of ham){const t={...t0,z:t0.z??t0.zorluk,en:t0.en??null};const hash=ozetHash(t);const eski=st.kayitlar[t.id];
     const r=eski?.hash===hash?eski:{hash,kapi:0};st.kayitlar[t.id]=r;
-    const neden=yerelKapilar(t,mevcut,parti);
+    const neden=(Number(ad.slice(-2))>=2?cesitlilikHata(t):null)||yerelKapilar(t,mevcut,parti);
     if(neden){adaylar.push({...t,sonuc:'elendi',neden});continue;}
     parti.push(endeks(t));
     adaylar.push({...t,...r,sonuc:r.sonuc??'bekliyor'});

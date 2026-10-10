@@ -1326,6 +1326,34 @@
           2
         ],
         "onay_jev_usd": 0.000137928
+      },
+      {
+        "klasor": "codex-02",
+        "hedef": 200,
+        "durum": "Claude incelemesi bekliyor",
+        "migration_uygulandi": false,
+        "taslak": 731,
+        "net": 200,
+        "zorluk": {
+          "2": 140,
+          "3": 60
+        },
+        "kota": {
+          "sanat": 31,
+          "muzik": 18,
+          "teknoloji": 35,
+          "spor": 26,
+          "tarih": 4,
+          "sinema": 23,
+          "genel_kultur": 42,
+          "edebiyat": 21
+        },
+        "yerel": 0,
+        "en": 200,
+        "kapilar": "1–5 geçti; çeşitlilik sınırları sağlandı; Claude hakem ayrı",
+        "migration": "codex-02/bekleyen.sql",
+        "jev_usd": 0.035604282,
+        "jev_kapilar_usd": 0.021058212000000003
       }
     ]
   }

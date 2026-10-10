@@ -2,7 +2,7 @@
 
 Stilin tek kaynağı: docs/SORU_STIL_PROFILI.md. Bu dosya sonraki “CODEX.md'ye göre codex-NN” görevlerinin çalışma sözleşmesidir.
 
-## Üretim
+## B) Üretim
 - Soruları Codex yazar. Claude API çağrısı, anahtar okuma veya ücretli Claude üretimi/hakemliği yapılmaz. Claude insan tarafından ayrı oturumda son hakem olarak kullanılır.
 - Normal net hedef 200; ilk deneme codex-01 net 50. Başlangıç taslağı yaklaşık hedefin 2,5 katıdır; kota açığı varsa ek taslak yazılır.
 - Kategoriler: sanat, muzik, teknoloji, spor, tarih, sinema, genel_kultur, edebiyat. Bilim ve coğrafya yok.
@@ -13,6 +13,16 @@ Stilin tek kaynağı: docs/SORU_STIL_PROFILI.md. Bu dosya sonraki “CODEX.md'ye
 - Yerel Türkiye soruları en çok %10; tarih ve edebiyatta en az %70 global. Her taslakta doğru cevabın bir cümlelik dayanağı olgu zorunludur.
 - Yerel TR soruda en:null ve en_neden kullanılır (stil profilinin güncel kararı). Global İngilizce doğal yarışma diliyle yazılır; şıkların sırası ve anlamı TR ile aynıdır. Çevrilemeyen soruda en:null ve açık en_neden kullanılır. Cevabı parantezle ele verme.
 - Taslak JSON dizisi: {id,k,yerel,s,d,y:[üç yanlış],z:2|3,en:{s,d,y}|null,en_neden?,olgu}. id parti içinde benzersiz ve değişmezdir.
+
+### Çeşitlilik — codex-02’den itibaren
+- Aynı soru kalıbı (ör. X’in evcil hayvanının adı, tabloda figür ne yapıyor/ne giyiyor, oyunun para birimi) parti başına en çok %5. Yeniden ifade etmek yeni kalıp sayılmaz; kalıp olgunun türünü belirtir.
+- Teknoloji: video oyunu/maskot en çok %35; gerisi gerçek teknoloji: icatlar ve mucitleri, şirketler ve kurucuları, ürün çıkış yılları, internet tarihi, donanım, yazılım, uzay teknolojisi. Bu açık kullanıcı kararıyla ürün çıkış yılları kullanılabilir.
+- Sinema: animasyon en çok %35; gerisi canlı çekim filmler, yönetmenler, oyuncular, ödüller, film müzikleri, Türk sineması.
+- Sanat: tablodaki görsel ayrıntı en çok %40; gerisi sanatçı–eser, akım, müze, mimari, heykel, Türk sanatçılar.
+- Genel kültür: marka/maskot/çizgi film karakteri en çok %40; gerisi gelenekler, yemekler, icatlar, ünlü yapılar, semboller, günlük hayat bilgisi.
+- Her kategoride aynı eser/seri/kişiden en çok 2 soru. Bir seri adı farklı eserlerde de aynı konu kimliğiyle yazılır.
+- Taslakta ek alanlar zorunlu: kalip (anlamsal olgu türü), konular (eser/seri/kişi kimlikleri dizisi), alt_tur. Sınırlı alt türler: video_oyunu_maskot, animasyon, tablo_gorsel, marka_maskot_cizgi. Kalan soruların alt türü gerçek içeriği belirtir. Yazar etiketleri içerikle karşılaştırır; etiket sınırı aşmak için değiştirilmez.
+- Seçimde oranların tam sayı üst sınırı aşağı yuvarlanır. ozet.json çeşitlilik sayımını ve sınırları taşır; kota/çeşitlilik açığı varsa parti hazır sayılmaz. codex-01 onaylı listesine bu yeni sınırlar geriye dönük uygulanmaz.
 
 ## Komutlar ve kapılar
 1. node araclar/soru-uretim/codex-kapi.mjs --klasor codex-NN --adet 200 --olc (codex-01 için 50).
@@ -47,4 +57,4 @@ Kapı 6 yok: api-uret.mjs değiştirilmez ve içe aktarılmaz. Claude incelemesi
 - Aynı anda en çok dört iş, tarayıcı açma, yeni paket kurma. .env.local ve gizli anahtarlar yazdırılmaz/loglanmaz.
 - Kesintide durum dosyasını koru ve aşağıdaki Son durum satırını nerede kalındığıyla güncelle; tamamlanmayan kapılar geçmiş gösterilmez.
 
-Son durum: codex-01 onaylandı, dört düzeltme kapı 1–5 geçti, migration 1046 uygulandı; aktif 12978 → 13028. codex-02 hazırlanacak.
+Son durum: codex-01 onaylı migration 1046 ile canlıda (+50; aktif 12978 → 13028). codex-02 hazır; 731 taslaktan net 200 (140×z2, 60×z3), kapı 1–5 ve çeşitlilik geçti. bekleyen.sql yalnız parti klasöründe; migration uygulanmadı, Claude incelemesi bekliyor. Ara kayıt .tmp/codex/codex-02/durum.json.
