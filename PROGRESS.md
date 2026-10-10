@@ -11493,3 +11493,9 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
   misafiri) silindi; canlıda prestij satırı / defter kaydı 0.
 - Not: 5199'daki başka Vite'e dokunulmadı; kendi sunucum 5211'de açılıp kapatıldı. Çalışma sırasında Codex `codex-03` commit'ini push etti
   (benim migration commit'im de onunla gitti); geçmiş doğrusal, çakışma yok.
+
+## 2026-10-10 — Codex soru hattı: codex-03 onaylı 191 soru canlıda
+**Araç:** Codex
+- Claude onayı: 9/21/34/84/97/161/183/185/196 çıkarıldı; istenen soru, şık, EN ve olgu düzeltmeleri uygulandı. 196 çıkarıldığı için ek düzeltmesi yalnız onay kaydında saklandı. Ek kapı uyarlamaları: ["Kullanıcı ek onayı: 97 çıkarıldı; net 191","01: aynı anlamdaki ziyaret sorusu metin benzerliğini giderdi; EN ilk onaydaki gibi","148: her turda geçilen köşe ifadesi Başla/başlangıç kök çakışmasını giderdi; TR şıklar ilk onaydaki gibi, EN şıklar değişmedi"].
+- 191 kayıt kapı 1–5 geçti. Migration 1051: prova ve uygulama başarılı. Aktif 13226 → 13417 (+191); tüm TR/EN doğru cevaplar ve dört şıkkın ortak sırası toplu sorguyla doğrulandı.
+- Sonraki parti için CODEX.md: tarih payını artır, genel kültürde ülke yığılmasını önle, birbirinin cevabını yanlış şık veren çiftleri seçme. Oyun koduna dokunulmadı.

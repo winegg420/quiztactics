@@ -31,6 +31,11 @@ Stilin tek kaynağı: docs/SORU_STIL_PROFILI.md. Bu dosya sonraki “CODEX.md'ye
 - Eser adlarında bilinen Türkçe yayın adını kullan; yoksa özgün adı yaz. TR ve EN eser kimliği aynı kalır.
 - Diğer kategori alt tür oranları ve eser/seri/kişi başına 2 sınırı sürer. codex-02 onaylı listesine bu kurallar geriye dönük uygulanmaz.
 
+### Sonraki parti — codex-04’ten itibaren
+- Tarih payını artır; codex-03’teki 5/200 dağılımını tekrarlama. Havuz ölçümünden sonra tarih için daha yüksek pay ayır ve kota gerekçesini kaydet.
+- Genel kültürde tek ülkeye yığılma olmasın; ülke/geleneği ayrıca sayıp dağıt (codex-03’te altı Japonya geleneği vardı).
+- Aynı partide birbirinin doğru cevabını yanlış şık olarak veren soru çifti olmasın; TR ve EN için karşılıklı cevap/yanlış şık eşleşmesini son seçimde denetle.
+
 ## Komutlar ve kapılar
 1. node araclar/soru-uretim/codex-kapi.mjs --klasor codex-NN --adet 200 --olc (codex-01 için 50).
 2. Kavramları incele; taslakları araclar/soru-uretim/codex-NN/taslaklar.json içine yaz.
@@ -64,4 +69,4 @@ Kapı 6 yok: api-uret.mjs değiştirilmez ve içe aktarılmaz. Claude incelemesi
 - Aynı anda en çok dört iş, tarayıcı açma, yeni paket kurma. .env.local ve gizli anahtarlar yazdırılmaz/loglanmaz.
 - Kesintide durum dosyasını koru ve aşağıdaki Son durum satırını nerede kalındığıyla güncelle; tamamlanmayan kapılar geçmiş gösterilmez.
 
-Son durum: codex-02 migration 1048 ile canlıda (+198; aktif 13028 → 13226). codex-03 hazır; 759 taslaktan net 200 (140×z2, 60×z3), kapı 1–5 ve çeşitlilik geçti. bekleyen.sql yalnız parti klasöründe; migration uygulanmadı, Claude incelemesi bekliyor. Ara kayıt .tmp/codex/codex-03/durum.json.
+Son durum: codex-03 kullanıcı onayıyla 191 soru; kapı 1–5 geçti, migration 1051 prova ve canlı uygulama başarılı. Aktif 13226 → 13417 (+191); TR/EN dört şık sırası doğrulandı. Sonraki parti notları B bölümünde.

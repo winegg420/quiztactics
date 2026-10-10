@@ -1373,13 +1373,13 @@
       {
         "klasor": "codex-03",
         "hedef": 200,
-        "durum": "Claude incelemesi bekliyor",
-        "migration_uygulandi": false,
+        "durum": "bitti_canlida",
+        "migration_uygulandi": true,
         "taslak": 759,
-        "net": 200,
+        "net": 191,
         "zorluk": {
-          "2": 140,
-          "3": 60
+          "2": 132,
+          "3": 59
         },
         "kota": {
           "sanat": 30,
@@ -1392,11 +1392,34 @@
           "edebiyat": 21
         },
         "yerel": 0,
-        "en": 200,
+        "en": 191,
         "kapilar": "1–5 geçti; kalıp ≤4, konu ≤2, yanlış üçlü ≤2; Claude hakem ayrı",
-        "migration": "codex-03/bekleyen.sql",
+        "migration": "supabase/migrations/20260612001051_soru_parti_codex_03.sql",
         "jev_usd": 0.040857684,
-        "jev_kapilar_usd": 0.014099862
+        "jev_kapilar_usd": 0.014099862,
+        "aktif_once": 13226,
+        "aktif_sonra": 13417,
+        "onay_cikar": [
+          9,
+          21,
+          34,
+          84,
+          97,
+          161,
+          183,
+          185,
+          196
+        ],
+        "onay_duzeltmeler": [
+          1,
+          25,
+          26,
+          51,
+          97,
+          143,
+          148
+        ],
+        "onay_jev_usd": 0.000343434
       }
     ]
   }
