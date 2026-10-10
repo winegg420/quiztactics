@@ -56,3 +56,10 @@ araclar/.duello-v4-simulasyon-son.json
 # Test hesabı silme yedeği (kişisel veri içerebilir)
 docs/test-hesap-yedek-*.json
 RAPOR.md
+
+# Oturum belirteci (JWT + refresh token) taşıyan yerel dosyalar — Güvenlik denetimi 10 Eki 2026.
+# Önceden yalnız .git/info/exclude'daydı (makineye özel); depo başka yere kopyalanırsa sızmasın.
+.arka-plan-oturum*.json
+.sezon-gorev-oturum*.json
+denetim/oturum-*.json
+denetim/betikler/tur2/*.json
