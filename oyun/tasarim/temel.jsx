@@ -4,6 +4,7 @@
 // tt() ile çevrilir (İngilizce karşılıklar: oyun/lib/ceviri/tasarim.js).
 import { useEffect, useRef } from "react";
 import QtIkon from "./Ikon.jsx";
+import BosGorsel from "./BosGorseller.jsx";
 import { CoinIkon } from "../components/ParaIkonlari.jsx";
 import { tt, aktifDil } from "../lib/dil.js";
 
@@ -401,8 +402,10 @@ export function QtListeSatiri({ bas, ikon, ikonTon = "mor", baslik, alt, sag, ok
  * <QtBosDurum ikon="kisiler" baslik={tt("Henüz arkadaşın yok")} metin={…} eylem={<QtDugme…/>} />
  * ton: mor · vurgu · dogru · yanlis (hata durumu için "yanlis" + ikon="uyari")
  * boyut="k": tek satır (ikon + cümle + düğme) — sayfanın yalnız BİR bölümü boşken. Büyük kutu yalnız sayfanın tamamı boşken.
+ * gorsel (isteğe bağlı, varsayılan KAPALI): hatalarim · mesajlar · bildirimler · arkadaslar · bulunamadi → ikon diski yerine
+ * küçük oyun görseli (BosGorseller.jsx). gorselTarz: sahne (küçük sahne) · rozet (büyük karakterli ikon rozeti). boyut="k"'da yok sayılır.
  */
-export function QtBosDurum({ ikon = "soru", ton = "mor", baslik, metin, eylem, boyut = "o", className }) {
+export function QtBosDurum({ ikon = "soru", ton = "mor", baslik, metin, eylem, boyut = "o", gorsel, gorselTarz = "sahne", className }) {
   if (boyut === "k") {
     return (
       <div className={sinif("qt-bos", "qt-bos--k", className)}>
@@ -414,11 +417,14 @@ export function QtBosDurum({ ikon = "soru", ton = "mor", baslik, metin, eylem, b
       </div>
     );
   }
+  const gorselOge = gorsel ? <BosGorsel ad={gorsel} tarz={gorselTarz} /> : null;
   return (
-    <div className={sinif("qt-bos", className)}>
-      <span className={sinif("qt-bos-ikon", `qt-bos-ikon--${ton}`)}>
-        <QtIkon ad={ikon} boyut={36} />
-      </span>
+    <div className={sinif("qt-bos", gorselOge && "qt-bos--gorsel", className)}>
+      {gorselOge ?? (
+        <span className={sinif("qt-bos-ikon", `qt-bos-ikon--${ton}`)}>
+          <QtIkon ad={ikon} boyut={36} />
+        </span>
+      )}
       {baslik && <p className="qt-bos-baslik">{baslik}</p>}
       {metin && <p className="qt-bos-metin">{metin}</p>}
       {eylem && <div className="qt-bos-eylem">{eylem}</div>}

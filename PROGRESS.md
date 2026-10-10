@@ -11357,3 +11357,20 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
   Kendi değişimimde `o.profil?.gorunen_ad` → `o.gorunenAd(profil…)` bozulması (Turnuva sayfası çöküyordu) ekran ölçümünde yakalandı, düzeltildi.
 - **Doğrulama:** `araclar/denetim-10eki-ekran.mjs` önce (canlı) / sonra (yerel) 390 px TR+EN → `tasarim/denetim-10-eki/`; konsol temiz; `arayuz-denetim` TEMİZ; build temiz.
 - **Test hesapları silindi** (`test-hesap-temizle --uygula --id=…`, yeni `--id` seçeneği): QTVisualAudit (P983165K), deneme misafiri, ArayuzDenetim297.
+
+## 2026-10-10 — Ekran revizyonu Aşama 1: Hatalarım · Profil üst bloğu · boş durumlar önizlemesi
+**Araç:** Claude Code
+**Neden:** Canlı görsel denetimde (10 Eki) onaylanan üç zayıflık için Ida'ya karar verdirmek üzere A/B önizlemesi; canlı ekranlar DEĞİŞMEDİ (Aşama 2 onaydan sonra).
+
+- **Önizleme:** `/ekran-revizyon-onizleme` (SahipKapisi; `oyun/pages/EkranRevizyonOnizlemePage.jsx`, `tasarim/ekranlar/ekran-revizyon-onizleme.css`, `er-*`).
+  Üç bölüm × "Şu anki" / A / B, 390 px telefon çerçevesi, taklit veri, TR/EN (`ceviri/ekran-revizyon.js`). Rota listeleri: BildimApp (rota + DEV bağımsız liste),
+  girisHedefi, sayfaBasligi, sesArkaPlan, robots (vite + public).
+- **QtBosDurum `gorsel` prop'u** (`temel.jsx`, yeni `tasarim/BosGorseller.jsx`, `bilesenler.css › .qt-bos--gorsel/.qt-bos-sahne/.qt-bos-rozet`):
+  hatalarim · mesajlar · bildirimler · arkadaslar · bulunamadi; `gorselTarz` sahne (A, inline SVG: kitap+onay, balonlar+uçak, uyuyan zil, piyon+boş yuvalar,
+  Q'lu kayıp kart + at hamlesi oku) | rozet (B, büyük ikon rozeti + turuncu köşe işareti). Varsayılan KAPALI → 25+ mevcut kullanım aynen.
+- **Hatalarım verisi:** `yanlis_bankam()` yalnız toplam · ogrenilen · bekleyen · kategori adetini döner. "Bu hafta düzelttiğin" sunucuda YOK (uydurulmadı) —
+  afiş şeridinde gerçek alan "{öğrenilen}/{toplam} soruyu öğrendin" kullanıldı. Haftalık sayı istenirse Aşama 2'de RPC'ye `ogrenildi_at` son 7 gün sayısı eklenir (migration).
+- **Profil:** A = tek satır kompakt kimlik + level çubuğu, ödül/vitrin "Ödüllerim" başlığıyla İstatistik sekmesinin başında; B = vitrin kartı aynı, ödüller tek satır
+  yatay şerit, sekmeler `position: sticky` (atasında transform yok). Doğrudan Ayarlar/Davet gelince iki varyantta da kısa kimlik satırı.
+- **Görüntüler:** `tasarim/ekran-revizyon/` (360/390 · TR/EN + Hatalarım boş, Profil Ayarlar, B kaydırılmış), araç `araclar/ekran-revizyon-ekran.mjs`
+  (Supabase'siz yerel sunucuya karşı). Yatay taşma 0, sayfa hatası 0.
