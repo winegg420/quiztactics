@@ -674,6 +674,9 @@ function DuelloMac({ id }) {
           () => {
             // Aynı işlemde birden çok sinyal_ver çağrısı (ör. cevap + çözümleme) sinyalleri
             // aynı anda getirir: SINYAL_BIRLESTIR_MS içinde gelenler tek okumada birleşir.
+            // 1059: gizli sekmede Realtime sinyaliyle okuma YOK — okuma (kilitle) nabız yazar ve kopuk sayılması gereken
+            // oyuncuyu "döndü" gösterip donmayı çözüyordu (canlı ölçüm 11 Eki). Görünür olunca hemen tazelenir (visibilitychange).
+            if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
             if (sinyalZamanRef.current) return;
             sinyalZamanRef.current = setTimeout(() => { sinyalZamanRef.current = null; yukle(); }, SINYAL_BIRLESTIR_MS);
           })

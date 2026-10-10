@@ -463,6 +463,9 @@ function KasaMac({ id }) {
       .on("postgres_changes",
           { event: "UPDATE", schema: "public", table: "kasa_sinyal", filter: `kasa_id=eq.${id}` },
           () => {
+            // 1059: gizli sekmede Realtime sinyaliyle okuma YOK — okuma (kilitle) nabız yazar ve kopuk sayılması gereken
+            // oyuncuyu "döndü" gösterip donmayı çözüyordu (canlı ölçüm 11 Eki). Görünür olunca hemen tazelenir (visibilitychange).
+            if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
             if (sinyalZamanRef.current) return;
             sinyalZamanRef.current = setTimeout(() => { sinyalZamanRef.current = null; yukle(); }, SINYAL_BIRLESTIR_MS);
           })
