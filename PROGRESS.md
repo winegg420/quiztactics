@@ -11648,3 +11648,10 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 **Neden:** Ida onayı (10 Eki) — renk rolü: AL/kabul = yeşil.
 
 - GorevlerPage "Ödülü al (n)" `tur="birincil"` → `tur="dogru"`; SezonYoluPage "Ödülleri al (n)" `tur="dogru"` (nabız `sy-hepsini--nabiz` aynı, ekranda tek nabız). TasmaSayfasi / OdulSayfasi "Ödülü al" zaten `tur="dogru"` idi (nabızsız) — değişmedi. OYNA ve "Battle Pass al" (altın) dokunulmadı.
+
+## 2026-10-11 — Ortak Hazine: "Rakip ara" ilk tık ölçümü + test bakımı
+**Araç:** Claude Code
+**Neden:** Ida — Hazine lobisinde "Rakip ara" ilk tıkta açılmıyor muydu (Düello'da düzeltilmişti)?
+
+- Ölçüm `araclar/kasa-ilk-tik-olcum.mjs` (taklit arama, lobi RPC'leri 0,6–1,2 sn gecikmeli; 390×844 + 360×640): düğme ilk görünüşünden 3 sn boyunca 0 px kayıyor, düğme görünür görünmez tek dokunuş aramayı açtı (3/3). Kod: Hazine lobisinde düğmenin üstünde geç yüklenen Skill seti yok (Düello'daki kayma sebebi yok). Ürün değişmedi.
+- `kasa-efekt-ekran` 360×640'ta rakip Zaman Baskısı anında joker çubuğu 11 px ekran dışına taşıyordu ("Rakibin süreni kısalttı!" ikinci bandı): Hazine'de bu bant gizli (üstteki an + rakip avatarındaki joker ikonu kalır; JokerCubugu'na `m1-bant--kisaltti` sınıfı, Klasik aynı). Bayat beklentiler güncellendi (9 Eki karar düğmesi "DEVAM → Hazine N", tavanda DEVAM düğmesi yok, not satırı yok). kasa-ekran 292/292, kasa-efekt-ekran 232/232.

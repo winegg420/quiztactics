@@ -344,8 +344,9 @@ for (const [w, h] of EKRANLAR) {
     {
       await ac("karar-955", ".ks-karar-eylem");
       const devamDugme = s.locator(".ks-karar-eylem button").nth(1);
-      ok("z9-devam-955: düğme 'DEVAM ×2' (987: ücretsiz 50:50 kalktı)", /DEVAM ×2/.test(await devamDugme.innerText()) && !/ÜCRETSİZ/.test(await devamDugme.innerText()), await devamDugme.innerText());
-      ok("z9-devam-955: not 'en çok 60' + plaka 10/60", /en çok 60/.test(await s.locator(".ks-karar-not").innerText()) && /10\s*\/60/.test(await s.locator(".ks-kadran-plaka").innerText()));
+      // 9 Eki 2026: karar düğmesi sonucu gösterir ("DEVAM → Hazine 20"); ayrı not satırı kalktı (bayat beklenti 11 Eki'de güncellendi)
+      ok("z9-devam-955: düğme 'DEVAM → Hazine 20' (×2; 987: ücretsiz 50:50 kalktı)", /DEVAM/.test(await devamDugme.innerText()) && /20/.test(await devamDugme.innerText()) && !/ÜCRETSİZ/.test(await devamDugme.innerText()), await devamDugme.innerText());
+      ok("z9-devam-955: plaka 10/60", /10\s*\/60/.test(await s.locator(".ks-kadran-plaka").first().innerText({ timeout: 5000 }).catch(() => "")));
       await kaydet("z9-devam-955-0-karar");
       kararSonrasi = "cevap-devam-955";
       await devamDugme.click();
@@ -379,9 +380,10 @@ for (const [w, h] of EKRANLAR) {
       const acD = s.locator(".ks-karar-eylem button").nth(0);
       const devD = s.locator(".ks-karar-eylem button").nth(1);
       ok(`z10-karar-kucuk: karar kartı ${tGel} ms'de geldi, ${tTam} ms'de tam görünür (≤ 900)`, tTam <= 900);
-      ok("z10-karar-kucuk: AÇ etkin 'AÇ · +2 puan' (kilit yok)", (await acD.isEnabled()) && /AÇ · \+2 puan/.test(await acD.innerText())
+      ok("z10-karar-kucuk: AÇ etkin 'AÇ → +2' (kilit yok; 9 Eki düğme metni)", (await acD.isEnabled()) && /AÇ[\s\S]*\+2/.test(await acD.innerText())
         && !(await acD.getAttribute("class") || "").includes("ks-ac-kilitli"), await acD.innerText());
-      ok("z10-karar-kucuk: DEVAM ×2 + plaka 2/60", /DEVAM ×2/.test(await devD.innerText()) && !/ÜCRETSİZ/.test(await devD.innerText()) && /2\s*\/60/.test(await s.locator(".ks-kadran-plaka").innerText()));
+      ok("z10-karar-kucuk: DEVAM → Hazine 4 (×2) + plaka 2/60", /DEVAM[\s\S]*Hazine 4/.test(await devD.innerText()) && !/ÜCRETSİZ/.test(await devD.innerText())
+        && /2\s*\/60/.test(await s.locator(".ks-kadran-plaka").first().innerText({ timeout: 5000 }).catch(() => "")), await devD.innerText());
       await tekEkran("z10-karar-kucuk");
       const kucukH = await s.evaluate(() => [...document.querySelectorAll(".ks-karar-eylem button")].filter((e) => { const r = e.getBoundingClientRect(); return r.width < 44 || r.height < 44; }).length);
       ok("z10-karar-kucuk: karar düğmeleri ≥ 44 px", kucukH === 0);
@@ -423,8 +425,9 @@ for (const [w, h] of EKRANLAR) {
     }
     // 954: DEVAM'a bas → kasa SAHİPSİZ + "ÜCRETSİZ 50:50" kartı → çubukta ÜCRETSİZ 50:50 → kullan
     // 953 (süren maç): DEVAM'a bas → kazanamadı (küçük not)
-    for (const [ad, once, sonra, kazandi, dugmeMetni] of [["w-devam-kazandi", "karar-devam-954", "cevap-devam-kazandi", true, /DEVAM · ÜCRETSİZ 50:50/],
-                                                       ["x-devam-yok", "karar-devam", "cevap-devam-yok", false, /DEVAM · %50 joker şansı/]]) {
+    // 9 Eki 2026: karar düğmesi sonucu gösterir ("DEVAM → Hazine 12"); eski "· ÜCRETSİZ 50:50" / "· %50 joker şansı" alt yazıları kalktı
+    for (const [ad, once, sonra, kazandi, dugmeMetni] of [["w-devam-kazandi", "karar-devam-954", "cevap-devam-kazandi", true, /DEVAM[\s\S]*Hazine 12/],
+                                                       ["x-devam-yok", "karar-devam", "cevap-devam-yok", false, /DEVAM[\s\S]*Hazine 12/]]) {
       await ac(once, ".ks-karar-eylem");
       const devamDugme = s.locator(".ks-karar-eylem button").nth(1);
       ok(`${ad}: DEVAM düğmesinde ${dugmeMetni.source}`, dugmeMetni.test(await devamDugme.innerText()), await devamDugme.innerText());
@@ -443,7 +446,7 @@ for (const [w, h] of EKRANLAR) {
       }
       else ok(`${ad}: metin "Bu sefer yok"`, /Bu sefer yok/.test(await s.locator(q).innerText()));
       await tekEkran(ad);
-      await s.waitForTimeout(kazandi ? 1000 : 900);
+      await s.waitForTimeout(kazandi ? 1800 : 1500);   // 990: an en az 1,0 sn; kasa_devam_an 1770 ms
       ok(`${ad}: an kısa sürede kalktı`, await s.locator(".ks-devam-an").count() === 0);
       if (kazandi) {
         await kaydet(`${ad}-cubuk-ucretsiz`);
@@ -473,8 +476,9 @@ for (const [w, h] of EKRANLAR) {
       await tekEkran(ad);
       if (ad.endsWith("-son")) ok(`${ad}: gerilim (kızarma) açık`, await s.locator(".ks-kadran--gergin").count() === 1);
       if (ad === "z4-kademe-tavan") ok(`${ad}: DOLU + 60/60`, /DOLU/.test(await s.locator(".ks-kadran-plaka").innerText()) && /60\s*\/60/.test(await s.locator(".ks-kadran-plaka").innerText()));
-      if (ad === "z7-karar-tavan") ok(`${ad}: tavanda DEVAM çarpansız + "Hazine dolu"`, !/×2/.test(await s.locator(".ks-karar-eylem button").nth(1).innerText())
-        && /Hazine dolu/.test(await s.locator(".ks-karar-not").innerText()));
+      // 988 (9 Eki 2026): tavanda DEVAM düğmesi yok, yalnız AÇ (eski "×2'siz DEVAM + Hazine dolu notu" beklentisi bayattı)
+      if (ad === "z7-karar-tavan") ok(`${ad}: tavanda yalnız AÇ (DEVAM düğmesi yok)`, await s.locator(".ks-karar-eylem button").count() === 1
+        && /AÇ/.test(await s.locator(".ks-karar-eylem button").first().innerText()), String(await s.locator(".ks-karar-eylem button").count()));
       if (ad === "z8-mini-tavan") ok(`${ad}: mini DOLU 60/60`, /DOLU/.test(await s.locator(".ks-kadran--kucuk").innerText()) && /60\s*\/60/.test(await s.locator(".ks-kadran--kucuk").innerText()));
       const kucuk = await s.evaluate(() => [...document.querySelectorAll(".ks-mac button, .ks-mac .qt-sik")].filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && !e.closest(".qt-oyuncu") && (r.width < 44 || r.height < 44); }).length);
       ok(`${ad}: dokunma hedefi ≥ 44`, kucuk === 0);

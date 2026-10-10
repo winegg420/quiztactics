@@ -567,6 +567,9 @@
 .ks-sayac--kisaldi { animation: ks-kisaldi 700ms ease-out; border-radius: 50%; }
 @keyframes ks-kisaldi { 0%, 100% { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0); } 30% { box-shadow: 0 0 0 5px rgba(229, 57, 53, .55), 0 0 16px 4px rgba(229, 57, 53, .5); } }
 .ks-joker-yuva .m1-skill { gap: 4px; }
+/* 11 Eki 2026: "Rakibin süreni kısalttı!" Hazine'de üstte an (.ks-rakip-joker-an) + rakip avatarındaki joker ikonu olarak görünür;
+   joker çubuğundaki ikinci bant 360×640'da çubuğu 11 px ekran dışına itiyordu → Hazine'de yalnız an kalır. */
+.ks-joker-yuva .m1-skill > .m1-bant--kisaltti { display: none; }
 
 /* ---------- kilitli AÇ (kasa sende, en az sınırın altında) ---------- */
 .ks-ac-kilit {

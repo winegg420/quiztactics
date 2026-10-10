@@ -298,7 +298,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
         </div>
       )}
       {rakipKisaltti && (
-        <div className="m1-bant m1-bant--hata" role="status">
+        <div className="m1-bant m1-bant--hata m1-bant--kisaltti" role="status">
           <span>{tt("Rakibin süreni kısalttı!")}</span>
         </div>
       )}
