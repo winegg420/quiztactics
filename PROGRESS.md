@@ -11333,3 +11333,27 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 
 - Canlı DB: `update oyun_ayarlari set deger='true' where anahtar='cevap_imzasi_satis_acik'` uygulandı; 5 imzanın `kozmetik_satista` = true (ölçüldü).
   Dükkân › Efekt artık herkese görünür. Kapatmak: aynı satır 'false'. PROJECT_CONTEXT ve README güncellendi.
+
+## 2026-10-10 — Canlı site denetimi (ChatGPT, quiztactics.com) düzeltmeleri
+**Araç:** Claude Code
+**Neden:** Dış denetim İngilizce arayüz, profil adı, bozuk Dükkân bağlantıları, 404 üstünde kurulum penceresi, paylaşım etiketleri ve çift adres buldu.
+
+- **Çeviri:** Gizlilik EN silme cümlesi tamamlandı; para birimi EN'de her yerde "gems" (diamond yalnız lig/rozet kademesi); Sezon Yolu joker ödülü
+  "Change Question" → "Swap Question" (**migration 1041**, canlıda; kaynak `bp_seviye_odulleri.ad_en`, 721'den); Görevler gizli coin birimi sayıya göre
+  tekil/çoğul; Koşullar'a misafir hesap cümlesi (TR+EN) + Koşullar/Gizlilik tarihi 10 Ekim 2026; antrenman bot adları grup/hızlı kurulum, maç metinleri,
+  maç sonu ve `oyuncuAdi`'nda `botAdi` ile; Turnuva haftalık ödül adı (Taç/Pelerin, RPC'den Türkçe) `tt` ile.
+- **Profil adı — kök neden:** kurulum penceresi açıkken `CerceveliAvatar` kendi `oyuncu_kartlari` kaydını "Oyuncu" adıyla önbelleğe alıyordu; `takma_ad_sec`
+  sonrası önbellek düşmediği için profil kartı (`kart.ad` önce) eski adı gösteriyordu. DB doğruydu (gorunen_ad = takma ad). Çözüm: Kurulum + Profil Ayarları'nda
+  ad/avatar/konum kaydından sonra `oyuncuKartiUnut(user.id)`. Varsayılan ad tek yerden: `oyuncu.js › gorunenAd` (boş/"Oyuncu" → dile göre, bot adı çevrilir).
+- **Bağlantılar:** Koleksiyon → `dukkanSekmesi()` (efekt · [cerceve] · avatar); Görünüm `?sekme=joker&bolum=coin`; Karakter `?sekme=avatar`.
+- **Görsel:** oyuncu kartında `.qt-modal-kapat` −10 px payı mutlak konumda 2 px taşırıyordu (358/360) → `l-kart.css`. 404 (`BulunamadiPage`, kapalı mod
+  notu hariç) `bulunamadiSayfa.js` ile kurulum/Tanıtım zorunluluğundan muaf; başka sayfada pencere aynen çıkıyor (ölçüldü).
+- **Paylaşım/adres:** `public/quiztactics-og-1200x630.png` (kaynak `tasarim/denetim-10-eki/og-gorsel-kaynak.html`, Playwright ile), og:image(+w/h/alt),
+  twitter `summary_large_image`, `og:locale:alternate en_US`, canonical; rota başlığı + canonical tek yardımcı `oyun/lib/sayfaBasligi.js` (BildimApp).
+  `vercel.json › redirects`: yalnız host quiztactics.vercel.app → https://quiztactics.com/:yol (kalıcı). Araç/rehberlerde adres quiztactics.com.
+  Supabase Auth izin listesinde `https://quiztactics.com/**` VAR (okundu, değiştirilmedi); Site URL hâlâ `https://quiztactics.vercel.app` (yönlendirme sayesinde çalışır;
+  değiştirmek Ida kararı).
+- **Araç hataları:** `arayuz-denetim` misafir düğmesini ve kurulum sihirbazını beklemeden sayıyordu → boş oturum / takma adsız hesapla "TEMİZ" diyordu; bekleme eklendi.
+  Kendi değişimimde `o.profil?.gorunen_ad` → `o.gorunenAd(profil…)` bozulması (Turnuva sayfası çöküyordu) ekran ölçümünde yakalandı, düzeltildi.
+- **Doğrulama:** `araclar/denetim-10eki-ekran.mjs` önce (canlı) / sonra (yerel) 390 px TR+EN → `tasarim/denetim-10-eki/`; konsol temiz; `arayuz-denetim` TEMİZ; build temiz.
+- **Test hesapları silindi** (`test-hesap-temizle --uygula --id=…`, yeni `--id` seçeneği): QTVisualAudit (P983165K), deneme misafiri, ArayuzDenetim297.
