@@ -157,3 +157,56 @@ Kaynak: `docs/GUVENLIK-DENETIMI-2026-10-10.md` madde 3, 4, 5 + Ek. Kapsam dış�
 - **Hız sınırı olmayan yazma RPC'leri (authenticated'a açık, ~70):** Çoğu kendi satırını değiştiren ucuz işlemler (`dm_okundu`, `bildirimleri_oku`, `*_aramadan_cik`, `*_terk`, `*_iptal`, `*_nabiz`, tercih kaydetme) ya da maç durumunu `FOR UPDATE` ile ilerleten `advance_*` / `get_match_question`. Bunlara sınır gerekmiyor ya da sınır maç hızını bozar. Bu işte düzeltilmedi; ileride bakılabilecekler: `respond_challenge` / `respond_group_challenge` / `respond_hizli_davet`, `rovans_iste`, `engel_kaldir`, `kafatopu_odaya_katil` (oda kodu tahmini), `avatar_onay_kaydet` / `kozmetik_onay_kaydet`. Hiçbiri coin/elmas vermiyor, hepsi oturum istiyor.
 
 RAPOR HAZIR — Ida'ya iletilecek.
+
+---
+
+# Profil tutarlılık turu (10 Eki 2026)
+
+**İstek:** Profil sayfasını (bütün sekmeler) tek kart + tek başlık standardına getirmek; tekrar eden bilgileri kaldırmak. İşlev/veri/RPC değişmedi, migration yok.
+
+## Ne değişti
+| Alan | Önce | Sonra |
+|---|---|---|
+| Kart stili | 3 farklı: kalın lacivert çerçeve (kimlik, sayılar), çerçevesiz QtKart (Koleksiyon, Kategori, Ustalık, Ayarlar…), soluk boş kart (kupa/seri 0) | Profil'deki bütün QtKart + QtListe: beyaz zemin, 3 px lacivert kontur, 4 px alt dudak, 18 px köşe, 16 px iç boşluk (`.qt-pf .qt-kart`, `dukkan-profil.css`). Kimlik ve sayı kartları aynı köşe/dudak. Yeni bileşen yok. |
+| Başlık stili | Altın `qt-plaka` (Ödüllerim, Koleksiyon, Kategori başarın, Seri ve jokerler, Kategori ustalığı) + gri büyük harf (VİTRİN ROZETLERİ, SIRADAKİ ÖDÜLLER) + sade | Hepsi sade lacivert `qt-baslik-3`, sola dayalı. Profil içinde `.qt-plaka` nötr; Koleksiyon başlığındaki yıldız ikonu gizli. |
+| Kimlik | XP iki kez ("47/130 XP" + "Level 28 için 83 XP"); vitrin ayrı kart; "Sonraki rütbe" en altta ayrı kart | XP tek satır "47/130 XP → Lv 28" (`LevelCubugu xpSatiri`); çubuğun altında "Sonraki rütbe: [ikon] Kahin · Lv 50" (son rütbede yok); kesik çizgiyle ayrılmış "Vitrin" satırı, rozetler 44 px, sağa hizalı (vitrin boşsa satır yok). Ayarlar/Davet'e doğrudan gelince kısa kimlik aynen (şerit yok). |
+| Sekmeler | Dar ekranda yalnız aktif sekmenin yazısı vardı | Beşi de ikon + kısa yazı (İstatistik, Ayarlar, Rozetler, Koleksiyon, Davet), eşit genişlik, aktif beyaz; ≤700 px'te ikon üstte, yazı 11 px. 360 px'te kırpık yazı 0 (ölçüldü). Sıra değişmedi. Üst bardaki dişli menü aynen. |
+| Ödüllerim | Kupa/seri boşken soluk kartta cümle | Üçü aynı kalıp: ikon + büyük sayı + küçük etiket. Kupa 0 → "0 · Kupa · turnuva kazan", seri 0 → "0 · Günlük seri" (TR/EN). |
+| Sıradaki ödül | 3 satırlık liste, gri büyük harf başlık | `LevelOdulleri vurgu`: solda görsel (avatarsa 56 px resim), sağda ad + "Lv 35'te · 8 level kaldı" + mavi çubuk, altta "Yolda: Lv 30 joker · Lv 35 joker". Varsayılan liste görünümü aynen durur (başka sayfada canlı kullanımı yok; önizleme sayfası kendi taklidini çiziyor). |
+| Kategori başarın | "242 maç · 195 maçın istatistiği"; renkli çerçeveli kutular | "195 maçtan istatistik"; satırlar sade: ikon · ad · çubuk · yüzde, ince ayırıcı. Kategori rengi ikon ve çubukta. Unvan rozeti altın kaldı. |
+| Koleksiyon özeti, Ustalık, Hatalarım | Çerçevesiz kart + altın plaka başlık | İçerik aynı; dış kart ve başlık standarda çekildi. |
+
+**Öncelik kararı (Sıradaki ödül):** istek "avatar > skill > rütbe > joker". Kodda ayrı bir "skill" ödülü yok — level ödülü olan "Skill hakkı" arayüzde "Joker" olarak gösteriliyor (`jokerAdi`). Bu yüzden uygulanan sıra **avatar > rütbe > joker**. Zaten sahip olunan avatar (coin'e dönüyor) ana ödül sayılmaz. Arama penceresi 30 level; çubuk son 5'lik basamaktan ödül level'ine ölçeklenir (Lv 27 → 35: 25'ten 35'e). Türkçe ek sayıya göre (28'de, 30'da, 40'ta, 35'te).
+
+**"242 maç · 195 maçın istatistiği" kararı (koddan):** `oyuncu_kategori_profili` (migration 204) → `toplam_mac` = `profiles.toplam_mac`, `istatistikli_mac` = `oyuncu_istatistik.istatistikli_mac`: cevap kaydı olan maç sayısı (maç bitince `istatistikli_mac_arttir` ile +1; ilk dolum cevap tablolarından). Bu **son N maç değil**, bütün geçmişten cevabı kayıtlı maçlar. Yazılan: **"195 maçtan istatistik"** / "Stats from 195 matches". Aynı bileşen oyuncu kartında da kullanıldığı için orada da bu ifade görünür.
+
+**Dosyalar:** `oyun/pages/ProfilePage.jsx`, `oyun/components/LevelCubugu.jsx` (`xpSatiri`), `oyun/components/LevelOdulleri.jsx` (`vurgu`), `oyun/components/KategoriProfili.jsx`, `oyun/tasarim/ekranlar/dukkan-profil.css`, `oyun/tasarim/ekranlar/dukkan-bilesen.css`, `oyun/lib/ceviri/profil-tutarlilik.js` (+ `oyun/lib/dil-en.js`), araç `araclar/profil-tutarlilik-ekran.mjs`.
+
+## Test
+- `npm run build` temiz (eski iPhone uyumluluk denetimi TEMİZ). `npm run test:kurallar` fail 0, `npm run test:dans` TÜMÜ GEÇTİ. `_test/sunucu` DB testleri koşulmadı (sunucu tarafı değişmedi; canlı DB yük kuralı).
+- `arayuz-denetim`: **TEMİZ** (taşma yok, sabit öğe kayması yok, dokunma hedefi ≥ 44 px, konsol temiz).
+- Önce/sonra tam sayfa: `tasarim/profil-tutarlilik/` — 112 görüntü: `<once|sonra>-<dolu|bos>-<sekme>-<360|390>-<tr|en>-<acik|koyu>.png`. "dolu" = misafir hesabı + taklit yanıt (vitrin 3 rozet, kupa 2, seri 6, Lv 27 47/130 XP, 242/195 maç; sunucuya yazılmaz), beş sekme; "bos" = misafirin gerçek boş hâli (İstatistik + Ayarlar). Dil × senaryo başına sayfa bir kez açıldı (toplam 4 yükleme); genişlik/tema/sekme aynı sayfada değişti. Sabit alt menü görüntüde gizli (içeriği örtmesin). Sonra: **taşma 0, sekme kırpığı 0, sayfa/konsol hatası 0** (önce: sekme kırpığı 56 — pasif sekmelerin yazısı gizliydi).
+- Koyu tema oyunda kapalı (`KOYU_TEMA_KAPALI`); `data-tema="koyu"` zorlanarak çekildi, önce/sonra aynı davranış, bozulma yok. Hareketi azalt: görüntüler `reducedMotion: reduce` ile alındı, yeni hareket eklenmedi.
+
+## Kontrol listesi
+| Kontrol | İstatistik | Rozetler | Koleksiyon | Davet | Ayarlar |
+|---|---|---|---|---|---|
+| Her kart aynı çerçeve | ✓ kimlik, 3 sayı, Sıradaki ödül, Koleksiyon, Kategori, Seri ve jokerler, Ustalık, Hatalarım | ✓ Vitrinim + rozet grupları | ✓ Görünümün, Koleksiyon, Unvanlar, Çerçeveler, Arka planlar, Avatarlar | ✓ | ✓ Güvence, Oyun ayarları, Takma ad, Avatar, Davet kodu, Engellediklerim, Şehir, Hesap listesi |
+| Her başlık aynı stil | ✓ | ✓ | ✓ | ✓ | ✓ ("Hesap" zemin başlığı aynı boy) |
+| Taşma / kırpılma (360 + 390, TR + EN) | 0 | 0 | 0 | 0 | 0 |
+| Tekrar eden bilgi kaldı mı | Hayır: XP tek satır, vitrin tek yerde, sonraki rütbe tek satır | — | — | — | — |
+| Boş durumlar | vitrin boş → satır yok ✓ · kupa 0 → "0 · Kupa · turnuva kazan" ✓ · seri 0 → "0 · Günlük seri" ✓ · misafir rozeti ✓ · koleksiyon boş tek satır ✓ · kategori "maç yok" ✓ | ✓ | ✓ | ✓ | misafir güvence kartı en üstte ✓ |
+
+**Bilinçli istisnalar:** Ustalık satırlarının ve rozet/koleksiyon kalemlerinin kendi iç kutuları içerik olarak kaldı ("içerik aynı"); yalnız dış kart eşitlendi. Sayı kartlarında yatay iç boşluk 8 px (üç sütun 360 px'te "1.840" sığsın), dikey 16 px. Davet kartındaki altın "300 sana / +100" çipleri ödül olduğu için kaldı. Hesap silme akışı ve "Hesap" bölümünün işlevi değişmedi.
+
+## Başka sayfalarda aynı tutarsızlık (DÜZELTİLMEDİ — yalnız rapor)
+- **Arkadaşlar:** "Arkadaşını davet et" kartı krem/altın zeminli + kalın kontur; hemen altındaki "Arkadaşların" boş durum kartı beyaz ve konturuz (yumuşak gölge); "Davet koduyla ekle" açılır satırı kartsız. Tek ekranda üç kart dili.
+- **Lig:** Yüklenirken iskelet kartı beyaz/konturuz, yüklenince liste kartı kalın konturlu (geçişte stil değişiyor). "YÜKSELME HATTI" yeşil büyük harfli ara başlık. Sayfa başlığı krem zeminli plaka.
+- **Dükkân › Joker:** Joker kartları kendi renginde degrade zemin + sol şerit (qt-oyk dili); sekme altındaki "Jokerler · Nadir avatar ve imzalar / Öteki kozmetikler" bilgi satırı kartsız iki sütun; bölüm başlığı yok. Profil'in beyaz kart standardından ayrı dil (renk = joker kimliği olduğu için bilinçli olabilir).
+- Ortak kök: `QtKart` varsayılanı konturuz (yalnız alt dudak); "oyun kartı" dili (3 px kontur) sayfa CSS'lerinde elle veriliyor. Bütün site için `QtKart`'a ortak konturlu bir varyant eklemek düşünülebilir — bu iş Profil'le sınırlı tutuldu.
+
+## Dikkat
+- Çalışma sırasında canlı Supabase'de statement timeout'lar görüldü; aynı saatte başka oturumun incelediği Kasa olayıyla (migration 1055) çakışıyor. Ekran aracı bu yüzden sayfa başına tek yükleme yapıyor.
+- Eski "Sonraki rütbe" kartındaki rütbe ilerleme çubuğu kalktı (bilgi tek satıra indi; istek gereği).
+
+RAPOR HAZIR — Ida'ya iletilecek.

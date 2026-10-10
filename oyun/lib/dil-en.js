@@ -13,6 +13,7 @@ import enDenetim5 from "./ceviri/denetim5.js";
 import enDenetim6 from "./ceviri/denetim6.js";
 import enMacSonuOnizleme from "./ceviri/mac-sonu-onizleme.js";
 import enEkranRevizyon from "./ceviri/ekran-revizyon.js";
+import enProfilTutarlilik from "./ceviri/profil-tutarlilik.js";
 import enArama from "./ceviri/arama.js";
 import enPremium from "./ceviri/premium.js";
 import enCikisOnay from "./ceviri/cikis-onay.js";
@@ -39,4 +40,4 @@ import enDuello4 from "./ceviri/duello4.js";   // Düello v4 tek arena (9 Eki 20
 import enCevapImzasi from "./ceviri/cevap-imzasi.js";   // Cevap İmzası (1040, 10 Eki 2026)
 import enAvatarPrestij from "./ceviri/avatar-prestij.js";   // Avatar Prestij (1049, 10 Eki 2026)
 
-export default Object.assign({}, temel, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama, enDenetim5, enDenetim6, enHakimiyet, enHakimiyetEkran, enHakimiyetJoker, enSezonYolu, enSezonYoluParca, enGorevler, enAvatarSatis, enKategoriMaci, enKasa, enDuelloSecim, enDuelloPuan, enKisaMetin, enAnaSahne, enDuelloOnizleme, enDuello4, enCevapImzasi, enAvatarPrestij, enEkranRevizyon, enMacSonuSpBp);
+export default Object.assign({}, temel, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama, enDenetim5, enDenetim6, enHakimiyet, enHakimiyetEkran, enHakimiyetJoker, enSezonYolu, enSezonYoluParca, enGorevler, enAvatarSatis, enKategoriMaci, enKasa, enDuelloSecim, enDuelloPuan, enKisaMetin, enAnaSahne, enDuelloOnizleme, enDuello4, enCevapImzasi, enAvatarPrestij, enEkranRevizyon, enMacSonuSpBp, enProfilTutarlilik);

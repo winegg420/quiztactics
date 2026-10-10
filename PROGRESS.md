@@ -11561,3 +11561,14 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - 1055 (canlı): `kasa_durum` `SET lock_timeout 2s`; kilit alınamazsa kilitsiz görünüm (200). Canlı kilit testi: satır kilitliyken 2,1 sn'de 200.
 - İstemci: KasaPage + DuelloPage durum okuması 10 sn'de AbortController ile kesilir; Kasa cevabı sunucu/ağ hatasında aynı turda bir kez yeniden denenir ("zaten cevapladın" = kayıtlı), olmazsa net mesaj; yükleniyor ekranı Kasa renginde "Maç yükleniyor…", 8 sn'de "Maç açılamadı" + "Tekrar dene".
 - `skill-sistemi-test` İkinci Şans beklentisi `["1v1","duello","kasa"]`. Ayrıntı: RAPOR.md › Kasa takılması.
+
+## 2026-10-10 — Profil tutarlılık turu (tek kart + tek başlık standardı)
+**Araç:** Claude Code
+**Neden:** Ida — Profil parça parça revize edilmişti: üç kart stili, iki başlık stili, tekrar eden bilgi. Bütün sayfa (5 sekme) tek standarda.
+
+- Kart: Profil'deki bütün QtKart/QtListe beyaz + 3 px lacivert kontur + 4 px dudak + 18 px köşe + 16 px iç boşluk (`.qt-pf .qt-kart`, `--qt-pf-r`). Başlık: sade lacivert qt-baslik-3; Profil içinde `.qt-plaka` nötr (altın = ödül/prestij).
+- Kimlik: XP tek satır "47/130 XP → Lv 28" (`LevelCubugu xpSatiri`), altında "Sonraki rütbe: … · Lv N" (ayrı kart kalktı), kesik çizgili "Vitrin" satırı 44 px (ayrı vitrin kartı kalktı). Kısa kimlik aynen.
+- Sekmeler: beşi ikon + kısa yazı, eşit genişlik; ≤700 px ikon üstte 11 px yazı. Ödüllerim: üç kart tek kalıp, boşken "0" (kupa "Kupa · turnuva kazan").
+- Sıradaki ödül: `LevelOdulleri vurgu` — avatar > rütbe > joker (ayrı "skill" ödülü yok; "Skill hakkı" = Joker), "Lv X'te · N level kaldı" (Türkçe ek sayıya göre), "Yolda: …".
+- Kategori: "N maçtan istatistik" (istatistikli_mac = cevap kaydı olan maç, son N değil — migration 204); satırlar sade + ince ayırıcı.
+- Test: build temiz · test:kurallar + test:dans geçti · arayuz-denetim TEMİZ · `araclar/profil-tutarlilik-ekran.mjs` 112 önce/sonra görüntü (`tasarim/profil-tutarlilik/`), sonra taşma 0 / sekme kırpığı 0 / hata 0. Lig/Arkadaşlar/Dükkân tutarsızlıkları yalnız raporlandı. Ayrıntı: RAPOR.md › Profil tutarlılık turu.

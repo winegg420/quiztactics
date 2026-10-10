@@ -1,0 +1,16 @@
+// İngilizce çeviri eki — Profil tutarlılık turu (10 Eki 2026): kimlik XP satırı, vitrin satırı, sonraki rütbe,
+// Ödüllerim boş durumları, sıradaki ödül kartı, kategori maç sayısı. Anahtar Türkçe metnin kendisidir (dil.js kuralı).
+export default {
+  "{xp} XP → Lv {n}": "{xp} XP → Lv {n}",
+  "Vitrin": "Showcase",
+  "Sonraki rütbe": "Next rank",
+  "Kupa · turnuva kazan": "Trophies · win a tournament",
+  "Günlük seri": "Daily streak",
+  "Sıradaki ödül": "Next reward",
+  "Lv {n}'{ek} · {k} level kaldı": "At Lv {n} · {k} levels to go",
+  "Yolda:": "Coming up:",
+  "Lv {n} joker": "Lv {n} joker",
+  "Lv {n} {ad} rütbesi": "Lv {n} {ad} rank",
+  "Lv {n} {ad}": "Lv {n} {ad}",
+  "{n} maçtan istatistik": "Stats from {n} matches",
+};

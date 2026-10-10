@@ -30,7 +30,7 @@
   padding: var(--qt-b-3) var(--qt-b-4) var(--qt-b-4);
   border: 3px solid var(--oyk-kontur, #0b1220);
   border-top: 0;
-  border-radius: 0 0 22px 22px;
+  border-radius: 0 0 var(--qt-pf-r) var(--qt-pf-r);
   background: var(--qt-yuzey);
   box-shadow: 0 4px 0 var(--oyk-kontur, #0b1220);
 }
@@ -46,43 +46,34 @@
   align-content: start;
   gap: 2px;
   min-height: 108px;
-  padding: var(--qt-b-3) var(--qt-b-1);
+  padding: var(--qt-b-4) var(--qt-b-2);   /* 3 sütun 360 px'te: yatay iç boşluk yarım (sayı sığsın) */
   border: 3px solid var(--oyk-kontur, #0b1220);
-  border-radius: 16px;
+  border-radius: var(--qt-pf-r);
   background: var(--qt-yuzey);
-  box-shadow: 0 3px 0 var(--oyk-kontur, #0b1220);
+  box-shadow: 0 4px 0 var(--oyk-kontur, #0b1220);
   text-align: center;
 }
 .qt-pf-sayi--altin.qt-pf-sayi { --_ik-z: var(--qt-coin); --_ik-y: var(--qt-coin-yazi); }
 .qt-pf-sayi--vurgu.qt-pf-sayi { --_ik-z: var(--qt-vurgu); --_ik-y: var(--qt-vurgu-yazi); }
-/* Henüz değeri olmayan kart: soluk ve yassı — "0 Puan" ile iki hedef cümlesi aynı ağırlıkta durmaz. */
-.qt-pf-sayi--bos.qt-pf-sayi { border-color: var(--qt-cizgi-guclu); background: var(--qt-yuzey-2); box-shadow: none; }
 .qt-pf-sayi-ikon {
   display: grid; place-items: center; width: 34px; height: 34px; margin-bottom: 2px;
   border: 2px solid var(--oyk-kontur, #0b1220); border-radius: 50%;
   background: var(--_ik-z); color: var(--_ik-y);
 }
-.qt-pf-sayi--bos .qt-pf-sayi-ikon { border-color: var(--qt-cizgi-guclu); }
 .qt-pf-sayi.qt-pf-sayi b { font-family: var(--qt-f-baslik); font-size: var(--qt-y-2xl); font-weight: var(--qt-a-siyah); line-height: 1.15; color: var(--qt-metin); }
 .qt-pf-sayi.qt-pf-sayi > span { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); line-height: 1.3; }
-.qt-pf-sayi.qt-pf-sayi > .qt-pf-sayi-hedef { margin-top: var(--qt-b-1); font-size: var(--qt-y-s); color: var(--qt-metin); overflow-wrap: anywhere; }
-@media (max-width: 400px) { .qt-pf-sayi.qt-pf-sayi > .qt-pf-sayi-hedef { font-size: var(--qt-y-xs); } }
+.qt-pf-sayi.qt-pf-sayi > span:last-child { overflow-wrap: anywhere; }
 
 /* ——— Sekmeler ——— */
 .qt-pf-sekmeler { min-width: 0; scroll-margin-top: var(--qt-b-16); }
-/* Beş sekme 360–430 px'te kaymadan TEK satıra sığsın: dar ekranda yalnız aktif sekme ikon + (kısa) etiket taşır,
-   diğerleri 44×44 ikon düğmesidir (etiket ekran okuyucuya açık kalır). Geniş ekranda hepsi ikon + tam etiket. */
-.qt-pf-sek-kisa { display: none; }
+/* Tutarlılık turu (10 Eki 2026): beş sekme de ikon + kısa yazı, eşit genişlik, aktif olan beyaz zemin (QtSekmeler ortak).
+   Dar ekranda ikon üstte, yazı altta (11 px) — 360 px'te "Koleksiyon" dahil hiçbiri kırpılmaz, şerit kaymaz. */
+.qt-pf-sekmeler .qt-sekmeler { overflow-x: hidden; }
+.qt-pf-sekmeler .qt-sekme { flex: 1 1 0; min-width: 0; padding-inline: var(--qt-b-2); }
 @media (max-width: 700px) {
-  .qt-pf-sekmeler .qt-sekmeler { gap: 2px; overflow-x: hidden; }
-  .qt-pf-sekmeler .qt-sekme { flex: 0 0 var(--qt-dokunma); min-width: var(--qt-dokunma); padding-inline: 0; gap: 4px; font-size: 14px; }
-  .qt-pf-sekmeler .qt-sekme--secili { flex: 1 1 auto; min-width: 0; padding-inline: var(--qt-b-2); }
-  .qt-pf-sekmeler .qt-sekme:not(.qt-sekme--secili) > span,
-  .qt-pf-sekmeler .qt-sekme--secili .qt-pf-sek-uzun {
-    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
-  }
-  .qt-pf-sekmeler .qt-sekme--secili .qt-pf-sek-kisa { display: inline; }
-  .qt-pf-sekmeler .qt-sekme--secili > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .qt-pf-sekmeler .qt-sekmeler { gap: 2px; }
+  .qt-pf-sekmeler .qt-sekme { flex-direction: column; gap: 2px; min-height: 52px; padding: 4px 1px; font-size: 11px; line-height: 1.1; }
+  .qt-pf-sekmeler .qt-sekme > span { max-width: 100%; }
 }
 
 /* ——— Ayar satırları (QtAnahtar ile aynı hizada) ——— */
@@ -262,7 +253,7 @@
    iOS: bu öğelerde ve atalarında transform/filter yok (arka plan katmanı z-index ile, .abp-sahip isolation). */
 .qt-pf-kisa {
   display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; min-width: 0;
-  padding: 12px 14px; border: 3px solid var(--oyk-kontur, #0b1220); border-radius: 22px;
+  padding: 12px 14px; border: 3px solid var(--oyk-kontur, #0b1220); border-radius: var(--qt-pf-r);
   background: var(--qt-yuzey); box-shadow: 0 4px 0 var(--oyk-kontur, #0b1220); color: var(--qt-metin); overflow: hidden;
 }
 .qt-pf-kimlik > .qt-pf-kisa:not(:last-child) { border-bottom-left-radius: 0; border-bottom-right-radius: 0; box-shadow: none; }
@@ -276,7 +267,36 @@
 .qt-pf-kimlik > .qt-pf-serit { border-top: 0; }
 .qt-pf-oduller { display: grid; gap: var(--qt-b-3); min-width: 0; }
 .qt-pf-oduller-baslik { justify-self: start; margin: 0; }
-.qt-pf-vitrin { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--qt-b-2); }
-.qt-pf-vitrin-baslik, .qt-pf-level-odul .qt-dk-level-odul-baslik { font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); text-transform: uppercase; letter-spacing: 0.04em; }
-.qt-pf-level-odul { padding: var(--qt-b-3) var(--qt-b-4); border: 3px solid var(--oyk-kontur, #0b1220); border-radius: 18px; background: var(--qt-yuzey); box-shadow: 0 4px 0 var(--oyk-kontur, #0b1220); }
-.qt-pf-level-odul:empty { display: none; }
+
+/* ===================== Tutarlılık turu (Ida, 10 Eki 2026): TEK kart + TEK başlık standardı =====================
+   Kart: beyaz zemin + 3 px lacivert kontur + 4 px alt dudak (kimlik kartının dili) · köşe --qt-pf-r · iç boşluk --qt-b-4.
+   Ortak QtKart (.qt-kart) ve QtListe (.qt-liste) Profil'in BÜTÜN sekmelerinde bu standarda çekilir; yeni bileşen yok.
+   Başlık: sade lacivert qt-baslik-3, sola dayalı; altın .qt-plaka bölüm başlığında kullanılmaz (altın = ödül/prestij). */
+.qt-pf { --qt-pf-r: 18px; }
+.qt-pf .qt-kart.qt-kart,
+.qt-pf .qt-liste.qt-liste:not(.qt-liste--kartli) {
+  border: 3px solid var(--oyk-kontur, #0b1220);
+  border-radius: var(--qt-pf-r);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  box-shadow: 0 4px 0 var(--oyk-kontur, #0b1220);
+}
+.qt-pf .qt-kart.qt-kart:not(.qt-kart--dolgu-yok) { padding: var(--qt-b-4); }
+/* Kart içindeki kart (ör. koleksiyon önizlemesi) çerçeve almaz: tek seviye */
+.qt-pf .qt-kart .qt-kart.qt-kart { border: 0; box-shadow: none; padding: 0; }
+.qt-pf .qt-baslik-3 { color: var(--qt-metin); font-size: var(--qt-y-l); text-align: left; }
+.qt-pf .qt-plaka { padding: 0; border-radius: 0; background: none; box-shadow: none; }
+.qt-pf .qt-pf-zemin-baslik { color: var(--qt-zemin-metin); }
+
+/* Kimlik şeridi: sonraki rütbe tek satır + vitrin satırı (kesik çizgi) */
+.qt-pf-sonraki-rutbe { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+.qt-pf-sonraki-rutbe b { color: var(--qt-metin); font-weight: var(--qt-a-siyah); }
+.qt-pf-sonraki-rutbe svg { color: var(--qt-ikinci); }
+.qt-pf-vitrin-satir {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--qt-b-2); min-width: 0;
+  margin-top: var(--qt-b-1); padding-top: var(--qt-b-3); border-top: 2px dashed var(--qt-cizgi-guclu);
+}
+.qt-pf-vitrin-baslik { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
+.qt-pf-vitrin-satir .qt-vitrin { gap: var(--qt-b-2); margin-left: auto; }
+
+.qt-pf .qt-kp-baslik > svg { display: none; }   /* bölüm başlıkları ikonsuz, sade */

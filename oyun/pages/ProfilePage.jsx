@@ -32,7 +32,7 @@ import UstalikIzgarasi from "../components/UstalikIzgarasi.jsx";
 import KategoriProfili from "../components/KategoriProfili.jsx";
 import { konumHaftaKilitli, konumKilidiKalan, sureMetni } from "../lib/konum.js";
 import Bayrak from "../components/Bayrak.jsx";
-import { rutbeBul, sonrakiRutbe } from "../lib/ranks.js";
+import { sonrakiRutbe } from "../lib/ranks.js";
 import { y } from "../lib/yol.js";
 import { GARDIROP_ACIK } from "../lib/ozellikBayraklari.js";
 import {
@@ -51,7 +51,6 @@ import {
   QtCip,
   QtDugme,
   QtIkon,
-  QtIlerleme,
   QtKart,
   QtListe,
   QtListeSatiri,
@@ -180,7 +179,6 @@ export default function ProfilePage() {
 
   // P2A: rütbe LEVEL'e bağlı (lig puanı ayrı: "Puan" plakası ve Lig sayfası).
   const level = Number(profile.level) || 1;
-  const r = rutbeBul(level);
   const sonraki = sonrakiRutbe(level);
 
   const bildirimDegistir = async () => {
@@ -231,8 +229,8 @@ export default function ProfilePage() {
   };
 
   const sekmeler = [
-    // Dar ekranda aktif sekmeye sığsın diye kısa etiket (CSS: dukkan-profil.css › .qt-pf-sek-kisa); ekran okuyucu tam adı okur
-    { kod: "istatistik", ad: <><span className="qt-pf-sek-uzun">{tt("İstatistiklerim")}</span><span className="qt-pf-sek-kisa" aria-hidden="true">{tt("İstatistik")}</span></>, ikon: "grafik" },
+    // Tutarlılık turu (10 Eki 2026): beş sekme de ikon + kısa yazı, eşit genişlik (CSS: dukkan-profil.css › .qt-pf-sekmeler)
+    { kod: "istatistik", ad: tt("İstatistik"), ikon: "grafik" },
     { kod: "ayarlar", ad: tt("Ayarlar"), ikon: "ayar" },
     { kod: "rozet", ad: tt("Rozetler"), ikon: "madalya" },
     { kod: "koleksiyon", ad: tt("Koleksiyon"), ikon: "palet" },
@@ -267,7 +265,20 @@ export default function ProfilePage() {
         {!(kisaKimlik && (sekme === "ayarlar" || sekme === "davet")) && (
           <div className="qt-pf-serit">
             {/* Rütbe etiketi kaldırıldı (2 Eki 2026): LevelCubugu zaten "Level N · {rütbe}" gösteriyor, tekrardı. */}
-            <LevelCubugu profile={profile} canli levelYok />
+            <LevelCubugu profile={profile} canli levelYok xpSatiri />
+            {/* Tutarlılık turu: eski ayrı "Sonraki rütbe" kartı → çubuğun altında tek küçük satır; son rütbede yok */}
+            {sonraki && (
+              <p className="qt-pf-sonraki-rutbe">
+                {tt("Sonraki rütbe")}: <QtIkon ad={sonraki.ikon} boyut={14} /> <b>{sonraki.ad}</b> · {tt("Lv {n}", { n: sonraki.min })}
+              </p>
+            )}
+            {/* Vitrin rozetleri (en çok 3) kimliğin altında kesik çizgiyle ayrılmış satır; boşsa satır yok */}
+            {kart?.vitrin?.length > 0 && (
+              <div className="qt-pf-vitrin-satir">
+                <span className="qt-pf-vitrin-baslik">{tt("Vitrin")}</span>
+                <VitrinRozetleri vitrin={kart.vitrin} boyut={44} />
+              </div>
+            )}
           </div>
         )}
       </section>
@@ -281,8 +292,8 @@ export default function ProfilePage() {
         {sekme === "istatistik" && (<>
       {/* ---------- Ödüllerim (revizyon A): eskiden kimlik kartının altındaydı ---------- */}
       <section className="qt-pf-oduller" aria-labelledby="qt-pf-oduller-b">
-      <h2 id="qt-pf-oduller-b" className={sinif("qt-baslik-3 qt-plaka qt-pf-oduller-baslik", sirali)} style={siraStili(2)}>{tt("Ödüllerim")}</h2>
-      {/* ---------- Üç sayı: puan mor · kupa altın · seri turuncu (oyun kartı dili); hedefi olan kart soluk ---------- */}
+      <h2 id="qt-pf-oduller-b" className={sinif("qt-baslik-3 qt-pf-zemin-baslik qt-pf-oduller-baslik", sirali)} style={siraStili(2)}>{tt("Ödüllerim")}</h2>
+      {/* ---------- Üç sayı: puan mavi · kupa altın · seri turuncu; tek kalıp ikon + büyük sayı + küçük etiket (boşken de "0") ---------- */}
       <ul className="qt-pf-sayilar">
         <li className={sirali} style={siraStili(2)}>
           <div className="qt-pf-sayi qt-pf-sayi--mor">
@@ -292,50 +303,35 @@ export default function ProfilePage() {
             <span>{tt("Toplam puan")}</span>
           </div>
         </li>
-        {/* Boş durum: kocaman bir "0" yerine hedefi göster. */}
+        {/* Boş durum aynı kalıpta: "0" + hedefli etiket (soluk/farklı kart yok) */}
         <li className={sirali} style={siraStili(3)}>
-          <div className={sinif("qt-pf-sayi qt-pf-sayi--altin", !(profile.sampiyonluk > 0) && "qt-pf-sayi--bos")}>
+          <div className="qt-pf-sayi qt-pf-sayi--altin">
             <span className="qt-pf-sayi-ikon" aria-hidden="true"><QtIkon ad="kupa" boyut={20} /></span>
-            {profile.sampiyonluk > 0 ? (
-              <>
-                <b className="qt-sayi"><SayanSayi deger={profile.sampiyonluk} /></b>
-                <span>{tt("Şampiyonluk")}</span>
-              </>
-            ) : (
-              <span className="qt-pf-sayi-hedef">{tt("Turnuva kazan, ilk kupan gelsin")}</span>
-            )}
+            <b className="qt-sayi"><SayanSayi deger={Number(profile.sampiyonluk) || 0} /></b>
+            <span>{profile.sampiyonluk > 0 ? tt("Şampiyonluk") : tt("Kupa · turnuva kazan")}</span>
           </div>
         </li>
         <li className={sirali} style={siraStili(4)}>
-          <div className={sinif("qt-pf-sayi qt-pf-sayi--vurgu", !((profile.seri ?? 0) > 0) && "qt-pf-sayi--bos")}>
+          <div className="qt-pf-sayi qt-pf-sayi--vurgu">
             <span className={sinif("qt-pf-sayi-ikon", (profile.seri ?? 0) > 0 && "qt-h-salla-ara")} aria-hidden="true"><QtIkon ad="ates" boyut={20} /></span>
-            {(profile.seri ?? 0) > 0 ? (
-              <>
-                <b className="qt-sayi">{profile.seri}</b>
-                <span>{tt("Günlük Seri")}</span>
-              </>
-            ) : (
-              <span className="qt-pf-sayi-hedef">{tt("Maç oyna, serin başlasın")}</span>
-            )}
+            <b className="qt-sayi">{Number(profile.seri) || 0}</b>
+            <span>{tt("Günlük seri")}</span>
           </div>
         </li>
       </ul>
-      {/* Vitrin rozetleri (en çok 3; eskiden vitrin kartında) */}
-      {kart?.vitrin?.length > 0 && (
-        <QtKart className={sinif("qt-pf-vitrin", sirali)} style={siraStili(5)}>
-          <span className="qt-pf-vitrin-baslik">{tt("Vitrin rozetleri")}</span>
-          <VitrinRozetleri vitrin={kart.vitrin} boyut={36} />
-        </QtKart>
-      )}
-      {/* 1039: sıradaki 3 level ödülü (avatar · skill · rütbe) */}
-      <div className={sinif("qt-pf-level-odul", sirali)} style={siraStili(5)}><LevelOdulleri level={profile?.level} /></div>
+      {/* Vitrin rozetleri kimlik kartının altındaki satıra taşındı (tutarlılık turu). */}
+      {/* 1039 + tutarlılık turu: en yakın önemli level ödülü büyük (avatar > rütbe > joker), diğerleri "Yolda" satırı */}
+      <QtKart as="section" className={sinif("qt-pf-bolum qt-pf-level-odul", sirali)} style={siraStili(5)} aria-labelledby="qt-pf-sodul">
+        <h2 id="qt-pf-sodul" className="qt-baslik-3">{tt("Sıradaki ödül")}</h2>
+        <LevelOdulleri level={profile?.level} vurgu />
+      </QtKart>
       {/* 646: Koleksiyon Puanı özeti (rozet · unvan · puan + nadirlik dağılımı); tam döküm Koleksiyon sekmesinde */}
       <KoleksiyonDokumu sirali={sirali} sira={6} />
       </section>
 
           {/* Kategori başarısı + unvan (Paket 14, 4.8/4.10) */}
           <QtKart as="section" className={sinif("qt-pf-bolum", sirali)} style={siraStili(6)} aria-labelledby="qt-pf-kategori">
-            <h2 id="qt-pf-kategori" className="qt-baslik-3 qt-plaka">{tt("Kategori başarın")}</h2>
+            <h2 id="qt-pf-kategori" className="qt-baslik-3">{tt("Kategori başarın")}</h2>
             <KategoriProfili userId={user?.id} />
           </QtKart>
           <UstalikIzgarasi sirali={sirali} sira={7} />
@@ -355,23 +351,7 @@ export default function ProfilePage() {
             </QtListe>
           )}
 
-          {sonraki && (
-            <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-rutbe">
-              <div className="qt-pf-bolum-baslik">
-                <h2 id="qt-pf-rutbe" className="qt-baslik-3">
-                  {tt("Sonraki rütbe:")} <QtIkon ad={sonraki.ikon} boyut={18} /> {sonraki.ad}
-                </h2>
-                <span className="qt-kucuk qt-soluk">{tt("Level {n}", { n: level })}/{sonraki.min}</span>
-              </div>
-              <QtIlerleme
-                deger={level - r.min}
-                en={Math.max(1, sonraki.min - r.min)}
-                ton="vurgu"
-                canli
-                etiket={tt("{0} rütbesine ilerleme", { 0: sonraki.ad })}
-              />
-            </QtKart>
-          )}
+          {/* "Sonraki rütbe" kartı kimlikteki level çubuğunun altına tek satır olarak taşındı (tutarlılık turu). */}
         </>)}
 
         {sekme === "ayarlar" && (<>

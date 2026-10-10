@@ -206,7 +206,6 @@
    çubuk kalın, konturlu, kategori renginde; rütbe çipi (Çırak/Kalfa/Usta…) kendi rengiyle kalın kenarlı hap.
    Yalnız Profil kartlarında (.qt-pf-bolum / .qt-dk-ust-kart); oyuncu kartındaki küçük görünüm (--kucuk) aynen kalır. */
 @supports (color: color-mix(in srgb, red, blue)) {
-  .qt-pf-bolum .qt-dk-kprofil:not(.qt-dk-kprofil--kucuk) .qt-dk-kprofil-satir,
   .qt-dk-ust-kart .qt-dk-ustalik-satir {
     padding: 8px 10px; border: 2.5px solid color-mix(in srgb, var(--kp-r, #7c93b5) 60%, #1d2152); border-radius: 14px;
     background: linear-gradient(180deg, #fff 0%, color-mix(in srgb, var(--kp-r, #7c93b5) 16%, #fff) 100%);
@@ -222,10 +221,8 @@
 .qt-dk-ust-kart .qt-dk-ustalik-ad .bd-kat-plaka svg { width: 18px; height: 18px; }
 .qt-pf-bolum .qt-dk-kprofil:not(.qt-dk-kprofil--kucuk) .qt-ilerleme--konturlu,
 .qt-dk-ust-kart .qt-dk-ustalik .qt-ilerleme--konturlu { height: 16px; }
-.qt-pf-bolum .qt-dk-kprofil:not(.qt-dk-kprofil--kucuk) .qt-dk-kprofil-yuzde {
-  min-width: 3rem; padding: 0 8px; border-radius: var(--qt-r-hap); background: #fff; box-shadow: inset 0 0 0 2px #1d2152;
-  text-align: center; line-height: 1.6;
-}
+/* Tutarlılık turu (10 Eki 2026): yüzde düz sayı (hap yok), satırlar arası ince ayırıcı — aşağıdaki blok */
+.qt-pf-bolum .qt-dk-kprofil:not(.qt-dk-kprofil--kucuk) .qt-dk-kprofil-yuzde { min-width: 3rem; text-align: right; }
 .qt-dk-ust-kart .qt-dk-ustalik-satir .qt-ilerleme--konturlu { --_r: var(--kp-r, #7c93b5); }
 /* Rütbe çipi: kalın lacivert kenar, kendi rengi (cirak/kalfa/usta/ustat/efsane zeminleri yukarıda) */
 .qt-dk-ustalik-seviye { padding: 1px 10px; box-shadow: inset 0 0 0 2px #1d2152, 0 2px 0 #1d2152; font-weight: var(--qt-a-siyah); }
@@ -234,3 +231,23 @@
 }
 .qt-dk-ustalik-satir .qt-dk-ustalik-alt { font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
 .qt-dk-ust-kart .qt-dk-ustalik { gap: var(--qt-b-3); }
+
+/* ——— Tutarlılık turu (Ida, 10 Eki 2026) ———
+   Profil › Kategori başarın: renkli çerçeveli kutular yerine sade satır — ikon · ad · çubuk · yüzde, aralarında ince ayırıcı.
+   Kategori rengi ikon plakasında ve çubukta kalır. Oyuncu kartındaki küçük görünüm (--kucuk) aynen. */
+.qt-pf-bolum .qt-dk-kprofil:not(.qt-dk-kprofil--kucuk) .qt-dk-kprofil-liste { gap: 0; }
+.qt-pf-bolum .qt-dk-kprofil:not(.qt-dk-kprofil--kucuk) .qt-dk-kprofil-satir { min-height: 48px; padding: 6px 0; }
+.qt-pf-bolum .qt-dk-kprofil:not(.qt-dk-kprofil--kucuk) .qt-dk-kprofil-satir + .qt-dk-kprofil-satir { border-top: 1px solid var(--qt-cizgi); }
+
+/* Sıradaki ödül (LevelOdulleri vurgu): solda 56 px görsel, sağda ad + kalan + mavi çubuk; altında "Yolda" satırı */
+.qt-dk-sodul { display: grid; gap: var(--qt-b-2); min-width: 0; }
+.qt-dk-sodul-ust { display: grid; grid-template-columns: 56px minmax(0, 1fr); align-items: center; gap: var(--qt-b-3); }
+.qt-dk-sodul-gorsel {
+  display: grid; place-items: center; width: 56px; height: 56px; overflow: hidden;
+  border: 3px solid var(--oyk-kontur, #0b1220); border-radius: 50%; background: var(--qt-ikinci-acik); color: var(--qt-ikinci-koyu);
+}
+.qt-dk-sodul-gorsel img { width: 100%; height: 100%; object-fit: cover; }
+.qt-dk-sodul-metin { display: grid; gap: 4px; min-width: 0; }
+.qt-dk-sodul-ad { font-size: var(--qt-y-m); font-weight: var(--qt-a-siyah); color: var(--qt-metin); overflow-wrap: anywhere; line-height: 1.2; }
+.qt-dk-sodul-kalan { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+.qt-dk-sodul-yolda { margin: 0; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); overflow-wrap: anywhere; }

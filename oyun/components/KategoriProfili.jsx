@@ -1,8 +1,9 @@
 /**
  * KATEGORİ PROFİLİ (Paket 14, 4.8 / 4.10) — oyuncu kartı ve profil.
  * Sunucu: oyuncu_kategori_profili (asgari örneklemin altında yüzde gelmez).
- * Hiç maçı yoksa "Hiç maç yapmadı, istatistiği yok"; varsa kaç maç yaptığı
- * ve kaç maçın istatistiği olduğu yazar. En güçlü kategori unvan olur.
+ * Hiç maçı yoksa "Hiç maç yapmadı, istatistiği yok"; varsa "N maçtan istatistik" yazar. En güçlü kategori unvan olur.
+ * N = oyuncu_istatistik.istatistikli_mac: cevap kaydı olan maç sayısı (204: maç bitince +1, geri doldurma cevap
+ * tablolarından). "Son N maç" DEĞİL — bütün geçmiş; toplam_mac'tan küçük olabilir (cevapsız/eski maçlar sayılmaz).
  */
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
@@ -67,9 +68,9 @@ export default function KategoriProfili({ userId, profil: disaridan = null, kucu
     <div className={"qt-dk-kprofil" + (kucuk ? " qt-dk-kprofil--kucuk" : "")}>
       <div className="qt-dk-kprofil-ust">
         {unvan && <QtRozet ton="coin" ikon="madalya" boyut="k">{ceviri(unvan)}</QtRozet>}
-        <span className="qt-kucuk qt-soluk">
-          {ceviri("{mac} maç · {istatistikli} maçın istatistiği", { mac: toplamMac, istatistikli })}
-        </span>
+        {istatistikli > 0 && (
+          <span className="qt-kucuk qt-soluk">{ceviri("{n} maçtan istatistik", { n: istatistikli })}</span>
+        )}
       </div>
       {satirlar.length === 0 ? (
         <p className="qt-kucuk qt-soluk">{ceviri("Henüz kategori istatistiği yok")}</p>
