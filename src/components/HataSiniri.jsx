@@ -2,6 +2,8 @@ import { Component } from "react";
 import { hataBildir } from "../lib/hataIzleme.js";
 import { tt } from "../../oyun/lib/dil.js";
 import { parcaHatasiMi, tembelleriSifirla } from "../lib/tembelYukle.js";
+import { QtBosDurum, QtDugme, QtKart } from "../../oyun/tasarim/temel.jsx";
+import "../../oyun/tasarim/ekranlar/g-sayfalar.css";
 
 /**
  * Uygulama genelinde hata sınırı.
@@ -98,31 +100,41 @@ export default class HataSiniri extends Component {
       );
     }
 
+    // Kök kip (Güvenlik denetimi 10 Eki 2026): 404 ile aynı oyun dili (sahne görseli + Qt düğmeler).
+    // Ham hata metni yalnız geliştirmede görünür — canlıda iç ayrıntı ekrana çıkmaz, Sentry'ye gider.
     return (
-      <div className="hata-siniri">
-        <div className="hata-siniri-kart">
-          <h1>{tt("Bir şeyler ters gitti")}</h1>
-          <p>
-            {tt("Beklenmedik bir hata oluştu. Sayfayı yenilemek çoğu zaman yeterli oluyor; sorun sürerse ana sayfaya dönebilirsin.")}
-          </p>
-          <div className="hata-siniri-butonlar">
-            <button className="btn" onClick={() => window.location.reload()}>
-              {tt("Sayfayı yenile")}
-            </button>
-            <button
-              className="btn ikincil"
-              onClick={() => {
-                window.location.href = "/";
-              }}
-            >
-              {tt("Ana sayfa")}
-            </button>
-          </div>
-          <details>
-            <summary>{tt("Teknik ayrıntı")}</summary>
-            <code>{String(this.state.hata?.message ?? this.state.hata)}</code>
-          </details>
-        </div>
+      <div className="hata-siniri g-bulunamadi" role="alert">
+        <QtKart dolgu="b" className="g-bulunamadi-kart">
+          <QtBosDurum
+            gorsel="bulunamadi"
+            gorselTarz="sahne"
+            ton="mor"
+            baslik={<span role="heading" aria-level={1}>{tt("Bir şeyler ters gitti")}</span>}
+            metin={tt("Beklenmedik bir hata oluştu. Sayfayı yenilemek çoğu zaman yeterli oluyor; sorun sürerse ana sayfaya dönebilirsin.")}
+            eylem={
+              <div className="hata-siniri-butonlar">
+                <QtDugme ikon="yenile" onClick={() => window.location.reload()}>
+                  {tt("Sayfayı yenile")}
+                </QtDugme>
+                <QtDugme
+                  tur="ikincil"
+                  ikon="ev"
+                  onClick={() => {
+                    window.location.href = "/";
+                  }}
+                >
+                  {tt("Ana sayfa")}
+                </QtDugme>
+              </div>
+            }
+          />
+          {import.meta.env.DEV && (
+            <details className="hata-siniri-ayrinti">
+              <summary>{tt("Teknik ayrıntı")}</summary>
+              <code>{String(this.state.hata?.message ?? this.state.hata)}</code>
+            </details>
+          )}
+        </QtKart>
       </div>
     );
   }
