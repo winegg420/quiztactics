@@ -886,7 +886,7 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 .sy-sahne .sy-dugum-hucre::before { background: rgb(255 255 255 / 0.22); }
 .sy-sahne .sy-satir--gecildi .sy-dugum-hucre::before { background: var(--sy-ilerleme); }
 
-/* "Ödülleri al": TURUNCU (eylem) + nabız (yalnız alınacak varken) */
+/* "Ödülleri al": YEŞİL (QtDugme tur=dogru — AL/kabul rengi, 11 Eki 2026) + nabız (yalnız alınacak varken) */
 .sy-hepsini--nabiz { animation: sy-dugme-nabiz 1.4s ease-in-out infinite; }
 @keyframes sy-dugme-nabiz { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
 .sy-sonraki-bilgi {

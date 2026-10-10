@@ -299,10 +299,10 @@ export default function SezonYoluPage() {
           <>
             {islemHata && <p className="sy-hata sy-hata--sayfa" role="alert">{islemHata}</p>}
             {bpVar && bonus && <BonusSatiri bonus={bonus} islemde={islem === "bonus"} mesgul={Boolean(islem)} onAl={bonusAl} />}
-            {/* Tek büyük düğme (10 Eki 2026): alınabilir ödül varsa TURUNCU nabızlı "Ödülleri al (n)"; yoksa sade bilgi şeridi "sıradaki ödül ne zaman"
+            {/* Tek büyük düğme (10 Eki 2026): alınabilir ödül varsa YEŞİL (AL/kabul rengi, 11 Eki 2026) nabızlı "Ödülleri al (n)"; yoksa sade bilgi şeridi "sıradaki ödül ne zaman"
                 (silik/devre dışı düğme değil); BP yoksa altın "Battle Pass al". Sıradaki büyük ödül hero'ya taşındı. */}
             {alinabilirSayi > 0 ? (
-              <QtDugme tamGenislik ikon="hediye" className="sy-hepsini sy-hepsini--nabiz" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem)}
+              <QtDugme tamGenislik tur="dogru" ikon="hediye" className="sy-hepsini sy-hepsini--nabiz" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem)}
                 ref={topluRef} onClick={topluAl}>
                 {tt("Ödülleri al ({n})", { n: alinabilirSayi })}
               </QtDugme>

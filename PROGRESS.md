@@ -11642,3 +11642,9 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 **Neden:** Ida onayı (10 Eki) — bölüm başlıkları Profil'deki gibi sade lacivert; altın/krem qt-plaka başlıkta yok.
 
 - Tarama: qt-plaka yalnız başlıklarda kullanılıyordu — UstalikIzgarasi (Seri ve skiller, Kategori ustalığı), KoleksiyonDokumu (Koleksiyon), CalismaPage/Hatalarım (Kategori, Soru sayısı). Hepsinden sınıf kalktı (qt-baslik-3 kaldı); Hatalarım başlık rengi `--qt-metin`. qt-plaka'nın başlık dışı kullanımı yok; altın/krem hap/şerit/rozet öğeleri (ar-detay, ms-saat, davet kartı, bi-serit, m1-sayim-not, gh-kp, qt-kp-kat-puan) başlık değil, dokunulmadı. `/ekran-revizyon-onizleme` ve `.qt-plaka` kuralı aynen duruyor.
+
+## 2026-10-11 — Büyük "Ödülü al" düğmeleri yeşil
+**Araç:** Claude Code
+**Neden:** Ida onayı (10 Eki) — renk rolü: AL/kabul = yeşil.
+
+- GorevlerPage "Ödülü al (n)" `tur="birincil"` → `tur="dogru"`; SezonYoluPage "Ödülleri al (n)" `tur="dogru"` (nabız `sy-hepsini--nabiz` aynı, ekranda tek nabız). TasmaSayfasi / OdulSayfasi "Ödülü al" zaten `tur="dogru"` idi (nabızsız) — değişmedi. OYNA ve "Battle Pass al" (altın) dokunulmadı.

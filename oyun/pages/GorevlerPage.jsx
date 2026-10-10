@@ -246,7 +246,7 @@ export default function GorevlerPage() {
     <>
       {mesaj && <p className="gv-mesaj gk-mesaj" role="alert">{mesaj}</p>}
       {hazir > 0 && (
-        <QtDugme tur="birincil" tamGenislik boyut="o" className="gv-toplu" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem) && islem !== "toplu"}
+        <QtDugme tur="dogru" tamGenislik boyut="o" className="gv-toplu" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem) && islem !== "toplu"}
                  onClick={() => { dokunus(); topluAl(); }}>{tt("Ödülü al ({n})", { n: sayiMetni(hazir) })}</QtDugme>
       )}
     </>
