@@ -30,7 +30,7 @@ import { anahtarOku, claudeCagir, harcama, apiUsd, havuz } from '../soru-temizli
 
 const URETICI = 'claude-opus-5-5';
 const HAKEM = 'claude-sonnet-5-5';
-const KATEGORI = ['sanat', 'muzik', 'teknoloji', 'spor', 'tarih', 'sinema'];
+const KATEGORI = ['sanat', 'muzik', 'teknoloji', 'spor', 'tarih', 'sinema', 'genel_kultur', 'edebiyat'];
 const Z3_PAY = 0.3;
 const YEREL_PAY = 0.1;
 const ESIK_P = 0.75;
@@ -59,7 +59,7 @@ const butceDoldu = () => toplamUsd() > BUTCE;
 
 // ---- Kota: aktif zorluk 2 sayısı az olana çok ----
 function kotaHesapla() {
-  const satir = sorgu(`select kategori, count(*)::int n from public.questions where aktif and zorluk = 2 and kategori = any(array[${KATEGORI.map((k) => `'${k}'`).join(',')}]) group by kategori`);
+  const satir = sorgu(`select kategori, count(*)::int n from public.questions where aktif and zorluk in (2, 3) and not ('sik_ipucu_jev' = any(coalesce(supheli_isaretler, '{}'))) and kategori = any(array[${KATEGORI.map((k) => `'${k}'`).join(',')}]) group by kategori`);
   const z2 = Object.fromEntries(KATEGORI.map((k) => [k, Number(satir.find((r) => r.kategori === k)?.n ?? 0)]));
   const tavan = Math.max(...Object.values(z2)) + 25; // en kalabalık kategori de pay alsın
   const agirlik = Object.fromEntries(KATEGORI.map((k) => [k, tavan - z2[k]]));
