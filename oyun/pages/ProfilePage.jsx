@@ -127,6 +127,8 @@ export default function ProfilePage() {
   const [siliniyor, setSiliniyor] = useState(false);
   // Hatalarım bankası özeti
   const [banka, setBanka] = useState(null);
+  // Tutarlılık turu 2: ustalık satırları UstalikIzgarasi'nin tek RPC'sinden gelir, "Kategori başarın" ile birleşir
+  const [ustalik, setUstalik] = useState(null);
   const vsTema = kozmetikTemasi(useKartAlani(user?.id, "vs_karti"));   // 540: profil başlığı VS kartı teması
   // Oyun hissi: ilk ekran blokları sıralı girer (6 öğe ≤ 360 ms); yalnız ilk açılışta, sekme değişiminde yeniden oynamaz.
   const sirali = useSiraliGiris(Boolean(profile));
@@ -332,9 +334,9 @@ export default function ProfilePage() {
           {/* Kategori başarısı + unvan (Paket 14, 4.8/4.10) */}
           <QtKart as="section" className={sinif("qt-pf-bolum", sirali)} style={siraStili(6)} aria-labelledby="qt-pf-kategori">
             <h2 id="qt-pf-kategori" className="qt-baslik-3">{tt("Kategori başarın")}</h2>
-            <KategoriProfili userId={user?.id} />
+            <KategoriProfili userId={user?.id} ustalik={ustalik} />
           </QtKart>
-          <UstalikIzgarasi sirali={sirali} sira={7} />
+          <UstalikIzgarasi sirali={sirali} sira={7} kategoriYok onSeviyeler={setUstalik} />
 
           {/* ---------- Hatalarım bankası ---------- */}
           {banka && (

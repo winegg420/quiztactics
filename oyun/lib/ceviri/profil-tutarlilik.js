@@ -13,4 +13,8 @@ export default {
   "Lv {n} {ad} rütbesi": "Lv {n} {ad} rank",
   "Lv {n} {ad}": "Lv {n} {ad}",
   "{n} maçtan istatistik": "Stats from {n} matches",
+  "Kullanılan skill": "Jokers used",
+  "+ joker": "+ joker",
+  "+ {ad} rütbesi": "+ {ad} rank",
+  "+ {ad}": "+ {ad}",
 };

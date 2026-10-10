@@ -251,3 +251,52 @@
 .qt-dk-sodul-ad { font-size: var(--qt-y-m); font-weight: var(--qt-a-siyah); color: var(--qt-metin); overflow-wrap: anywhere; line-height: 1.2; }
 .qt-dk-sodul-kalan { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
 .qt-dk-sodul-yolda { margin: 0; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); overflow-wrap: anywhere; }
+
+/* ——— Tutarlılık turu 2 (Ida, 10 Eki 2026) ———
+   Seri ve jokerler: iki sayı Ödüllerim'deki beyaz sayı kartı kalıbında (.qt-pf-sayi); eski renkli kutu dili bu varyantta yok.
+   Joker envanteri: ikon + kısa ad + adet, 2 sütunlu sade liste; renk yalnız ikonda, zemin beyaz. */
+.qt-dk-sayilar.qt-dk-sayilar--iki { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.qt-dk-sayilar.qt-dk-sayilar--iki li { display: grid; justify-items: stretch; min-width: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.qt-dk-sayilar.qt-dk-sayilar--iki svg { color: inherit; }
+.qt-dk-envanter.qt-dk-envanter--liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-2); }
+.qt-dk-envanter--liste .qt-dk-envanter-cip {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px; min-width: 0; min-height: 36px;
+  padding: 4px 10px 4px 6px; border: 2px solid var(--qt-cizgi); border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey); color: var(--qt-metin); box-shadow: none; font-size: var(--qt-y-s);
+}
+.qt-dk-envanter-ad { min-width: 0; overflow-wrap: anywhere; line-height: 1.15; font-weight: var(--qt-a-kalin); }
+.qt-dk-envanter--liste .qt-dk-envanter-cip b { font-weight: var(--qt-a-siyah); }
+
+/* Kategori başarın + ustalık birleşik satır (KategoriProfili `ustalik`): ikon · ad + rütbe rozeti · çubuk · yüzde / alt satır.
+   Dar ekranda çubuk ikinci satıra iner. Kategori rengi ikon plakasında ve çubukta. */
+.qt-dk-kpb {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "ik ad yz" "ik cb cb" "ik alt alt";
+  align-items: center; column-gap: 10px; row-gap: 4px; min-width: 0; padding: 8px 0; font-size: var(--qt-y-s);
+}
+.qt-dk-kpb + .qt-dk-kpb { border-top: 1px solid var(--qt-cizgi); }
+.qt-dk-kpb-ik { grid-area: ik; align-self: start; display: grid; }
+.qt-dk-kpb-ad { grid-area: ad; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.qt-dk-kpb-ad .qt-dk-kprofil-ad { min-width: 0; }
+.qt-dk-kpb .qt-dk-kpb-cb { grid-area: cb; --_r: var(--kp-r, var(--qt-dogru)); }
+@supports (color: color-mix(in srgb, red, blue)) { .qt-dk-kpb .qt-dk-kpb-cb { --_r: color-mix(in srgb, var(--kp-r, var(--qt-dogru)) 86%, #0b1220); } }
+.qt-dk-kpb-yz { grid-area: yz; justify-self: end; }
+.qt-dk-kpb-alt { grid-area: alt; }
+.qt-dk-kpb .qt-dk-ustalik-seviye { flex: none; }
+@media (min-width: 560px) {
+  .qt-dk-kpb { grid-template-columns: auto minmax(9rem, 14rem) minmax(0, 1fr) auto; grid-template-areas: "ik ad cb yz" "ik alt alt alt"; }
+}
+.qt-pf-bolum .qt-dk-kprofil--birlesik .bd-kat-plaka {
+  width: 32px !important; height: 32px !important; border-radius: 10px; border: 2.5px solid #1d2152; box-sizing: border-box;
+}
+.qt-pf-bolum .qt-dk-kprofil--birlesik .bd-kat-plaka svg { width: 18px; height: 18px; }
+.qt-pf-bolum .qt-dk-kprofil--birlesik .qt-ilerleme--konturlu { height: 14px; }
+.qt-dk-kprofil--birlesik .qt-dk-kprofil-liste { gap: 0; }
+.qt-dk-kprofil--birlesik .qt-dk-kprofil-yuzde { min-width: 3rem; text-align: right; }
+@supports (color: color-mix(in srgb, red, blue)) {
+  .qt-dk-kpb .qt-dk-ustalik-seviye--cirak { background: color-mix(in srgb, var(--kp-r, #8a96b0) 18%, #fff); color: #1f2a5c; }
+}
+
+/* Sıradaki ödül: büyük ödülle aynı level'daki ek ödül ("+ joker") */
+.qt-dk-sodul-ek { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+.qt-dk-kpb-dogru { color: var(--qt-dogru-koyu, #138a4c); font-weight: var(--qt-a-siyah); }

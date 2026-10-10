@@ -11573,3 +11573,12 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - Kategori: "N maçtan istatistik" (istatistikli_mac = cevap kaydı olan maç, son N değil — migration 204); satırlar sade + ince ayırıcı.
 - Test: build temiz · test:kurallar + test:dans geçti · arayuz-denetim TEMİZ · `araclar/profil-tutarlilik-ekran.mjs` 112 önce/sonra görüntü (`tasarim/profil-tutarlilik/`), sonra taşma 0 / sekme kırpığı 0 / hata 0. Lig/Arkadaşlar/Dükkân tutarsızlıkları yalnız raporlandı. Ayrıntı: RAPOR.md › Profil tutarlılık turu.
 - Test (aynı gün): canlı bota karşı 2 tam Serbest Hazine maçı (20 ve 23 tur, `bitti/hedef`; ikincisi 400 ms gecikme + 12 sn kopma) · yerel taklitle toparlanma testi yeni kod GEÇTİ / eski kod Tur 4'te donuk · cevap yeniden denemesi · Düello askıda açılış · Klasik canlı 20/20 · build + npm test + arayuz-denetim temiz · ArayuzDenetim131 ve 826 silindi (0). Ayrı bulgu: grup maçı kilit yığılması + uzun `cron_hizli_tik` DB'yi yavaşlatıyor (RAPOR.md).
+
+## 2026-10-10 — Profil tutarlılık turu 2 (İstatistik alt yarısı)
+**Araç:** Claude Code
+**Neden:** Ida — canlıda kalan eski stil: renkli Seri/joker kutuları, aynı 10 kategori iki bölümde, Sıradaki ödülde level tekrarı.
+
+- Seri ve jokerler: güncel seri + izlenen video kalktı; en uzun seri + kullanılan joker `qt-pf-sayi` kalıbında; joker envanteri ikon · ad · adet, 2 sütun, beyaz.
+- Kategori başarın + Kategori ustalığı tek bölüm (`KategoriProfili ustalik`, veri `UstalikIzgarasi onSeviyeler` — ek RPC yok): ikon · ad · rütbe rozeti · kategori renginde çubuk · yüzde + "N doğru · X için K kaldı"; sıra en çok doğru; verisiz kategori çizilmez. Oyuncu kartı (kucuk) eski görünümde.
+- Sıradaki ödül: aynı level'daki ek ödül kartta "+ joker"; Yolda yalnız başka level'lar.
+- Test: build temiz · test:kurallar/dans geçti · arayuz-denetim TEMİZ · `araclar/profil-tutarlilik-2-ekran.mjs` 24 önce/sonra (bos/bir/on), taşma 0, hata 0. Araç oturumu her bağlamdan sonra geri yazıyor (yenileme belirteci tek kullanımlık). Ayrıntı: RAPOR.md › Profil tutarlılık turu 2.

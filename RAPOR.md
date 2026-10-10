@@ -257,3 +257,45 @@ DB yavaşlamasının tetikleyicisi grup maçı akışı: istemci `grup_mac_nabiz
 **Migration:** 1055 (`20260612001055_kasa_durum_kilit_beklemesi.sql`) — canlıda uygulandı.
 
 RAPOR HAZIR — Ida'ya iletilecek.
+
+---
+
+# Profil tutarlılık turu 2 — İstatistik sekmesinin alt yarısı (10 Eki 2026)
+
+**İstek:** 68a92b5'in üst kısmına dokunmadan Seri ve jokerler, iki kategori bölümü ve Sıradaki ödül tekrarını düzeltmek. Migration yok; Kasa dosyalarına dokunulmadı.
+
+## Ne değişti
+| Alan | Önce | Sonra |
+|---|---|---|
+| Seri ve jokerler | 4 renkli zeminli kutu (güncel seri, en uzun seri, kullanılan joker, izlenen video) + yalnız ikon + sayı çipleri | "Güncel seri" (Ödüllerim'deki Günlük seri ile aynıydı) ve "İzlenen video" kalktı. "En uzun seri" + "Kullanılan joker" Ödüllerim'deki beyaz sayı kartıyla birebir aynı kalıpta (`qt-pf-sayi`: ikon + büyük sayı + küçük etiket). Joker envanteri 2 sütunlu sade liste: ikon · kısa ad · adet ("50:50 · 19"); zemin beyaz, renk yalnız ikonda; uzun ad ("Soru Değiştir") iki satıra sarar, kesilmez. Başlık aynı. |
+| Kategoriler | İki bölüm: "Kategori başarın" (yüzde) + "Kategori ustalığı" (renkli zeminli 10 kart: doğru + rütbe) | Tek bölüm "Kategori başarın". Üstte unvan rozeti (altın) + "199 maçtan istatistik · 3.961 doğru". Satır: kategori ikonu · ad · rütbe rozeti (Çırak/Kalfa/Usta/Üstat/Efsane, mevcut stil) · doğru oranı çubuğu (kategori renginde) · yüzde; altında gri "299 doğru · Usta için 1 kaldı". Sıra ustalık sırası (en çok doğru üstte). Verisi olmayan kategori (0 doğru, yüzde yok) çizilmez. 360 px'te çubuk ad satırının altına iner; ≥ 560 px'te aynı satırda. |
+| Sıradaki ödül | "Yolda: Lv 30 joker · Lv 35 joker" — Lv 35 büyük ödülün kendi level'ı | Büyük ödülle aynı level'daki öteki ödül kartın içinde küçük ek: "Büyücü (avatar) + joker". "Yolda" yalnız başka level'lar: "Lv 30 joker · Lv 40 joker". |
+
+**Veri:** Ustalık satırları tek RPC'den (`ustalik_seviyelerim`) gelir; `UstalikIzgarasi` veriyi `onSeviyeler` ile ProfilePage'e verir, ProfilePage `KategoriProfili`'ne `ustalik` prop'u olarak geçirir. Yeni RPC yok, çağrı sayısı aynı.
+
+## Başka yerlerdeki görünüm
+- `KategoriProfili` oyuncu kartında da kullanılıyor (`OyuncuKarti.jsx`, `kucuk`): `ustalik` verilmediği için **eski görünüm aynen** (yüzde satırları, rütbe/doğru yok). Birleşik görünüm yalnız Profil'de.
+- `UstalikIzgarasi` yalnız Profil'de kullanılıyor. `kategoriYok` verilmezse eski "Kategori ustalığı" kartı hâlâ çizilir (kod duruyor, silinmedi).
+- `LevelOdulleri` vurgu görünümü yalnız Profil'de; varsayılan liste görünümü değişmedi.
+
+**Dosyalar:** `oyun/components/UstalikIzgarasi.jsx` (`kategoriYok`, `onSeviyeler`, `SEVIYE_KOD` dışa açıldı), `oyun/components/KategoriProfili.jsx` (`ustalik`), `oyun/components/LevelOdulleri.jsx` (ek + Yolda), `oyun/pages/ProfilePage.jsx` (2 satır bağlantı), `oyun/tasarim/ekranlar/dukkan-bilesen.css`, `oyun/lib/ceviri/profil-tutarlilik.js`, araç `araclar/profil-tutarlilik-2-ekran.mjs`.
+
+## Test
+- `npm run build` temiz (eski iPhone denetimi TEMİZ) · `test:kurallar` fail 0 · `test:dans` TÜMÜ GEÇTİ · `arayuz-denetim` **TEMİZ**.
+- Önce/sonra tam sayfa (İstatistik sekmesi): `tasarim/profil-tutarlilik-2/<once|sonra>-<bos|bir|on>-<360|390>-<tr|en>.png` — 24 görüntü. Taklit veri (sunucuya yazılmaz): **bos** hiç maç yok · **bir** yalnız Tarih (40 doğru, Çırak, %62) · **on** 10 kategori, Teknoloji **Usta**, Tarih "299 doğru · Usta için 1 kaldı", Müzik Üstat, Edebiyat Efsane, 9 joker. Sonra: taşma 0, sayfa/konsol hatası 0.
+- Araç düzeltmesi: oturum her bağlamdan sonra dosyaya geri yazılıyor (Supabase yenileme belirteci tek kullanımlık; eski kopya ikinci bağlamda 400 alıyordu). Denetim oturumu süresi dolduğu için yeni misafir hesabı açıldı.
+
+## Sayfa baştan sona kontrol (İstatistik)
+| Kart | Beyaz + lacivert çerçeve | Renk yalnız ikon/çubuk/rozette |
+|---|---|---|
+| Kimlik + level şeridi + vitrin | ✓ | ✓ |
+| Ödüllerim (3 sayı) | ✓ | ✓ ikon diski |
+| Sıradaki ödül | ✓ | ✓ mavi çubuk |
+| Koleksiyon | ✓ | ✓ (boş hâlde ikon dairesi açık mavi) |
+| Kategori başarın | ✓ | ✓ ikon plakası, çubuk, rütbe rozeti, altın unvan rozeti |
+| Seri ve jokerler | ✓ | ✓ ikon diski / joker ikonu |
+| Hatalarım | ✓ | ✓ ikon kutusu |
+
+Renkli zeminli kutu kalmadı. Not: Seri ve jokerler'deki iki sayı kartı Ödüllerim kalıbında olduğu için kendi çerçevesiyle kart içinde duruyor (istek "birebir aynı kalıp").
+
+RAPOR HAZIR — Ida'ya iletilecek.

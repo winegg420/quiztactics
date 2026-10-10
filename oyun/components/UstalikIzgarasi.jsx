@@ -18,13 +18,16 @@ const SEVIYE_TON = {
   "Efsane": "coin",
 };
 // Seviye adı etiketi (qt-dk-ustalik-seviye--*): hepsi açık zemin üstünde koyu yazı, ≥ 4,5:1 (dukkan-bilesen.css).
-const SEVIYE_KOD = { "Çırak": "cirak", "Kalfa": "kalfa", "Usta": "usta", "Üstat": "ustat", "Efsane": "efsane" };
+export const SEVIYE_KOD = { "Çırak": "cirak", "Kalfa": "kalfa", "Usta": "usta", "Üstat": "ustat", "Efsane": "efsane" };
 
 /**
  * Profil sayfası: kategori ustalığı, en uzun seri ve skill istatistikleri.
  * `sirali`/`sira`: ilk kartın sıralı girişi (ProfilePage verir). Çubuklar dolarak gelir, yalnız oturumdaki ilk açılışta.
+ * Tutarlılık turu 2 (10 Eki 2026): `kategoriYok` → "Kategori ustalığı" kartı çizilmez (Profil'de KategoriProfili ile birleşti);
+ * `onSeviyeler` ustalık verisini dışarı verir (ikinci RPC yok). Seri kartı: güncel seri (Ödüllerim'de var) ve izlenen video
+ * kalktı; en uzun seri + kullanılan joker Ödüllerim'deki beyaz sayı kartı kalıbında; joker envanteri adlı 2 sütunlu liste.
  */
-export default function UstalikIzgarasi({ sirali = "", sira = null }) {
+export default function UstalikIzgarasi({ sirali = "", sira = null, kategoriYok = false, onSeviyeler }) {
   const [seviyeler, setSeviyeler] = useState([]);
   const [seri, setSeri] = useState(null);
   const [envanter, setEnvanter] = useState([]);
@@ -41,7 +44,7 @@ export default function UstalikIzgarasi({ sirali = "", sira = null }) {
         ]);
         if (!aktif) return;
         if (u.error) console.warn("[Bildim] ustalik_seviyelerim başarısız:", u.error.message);
-        else setSeviyeler(u.data ?? []);
+        else { setSeviyeler(u.data ?? []); onSeviyeler?.(u.data ?? []); }
         if (!s.error) setSeri(Array.isArray(s.data) ? s.data[0] : s.data);
         if (!e.error) setEnvanter(e.data ?? []);
       } catch (e) { console.warn("[Bildim] ustalik_seviyelerim başarısız:", e?.message ?? e);
@@ -74,10 +77,8 @@ export default function UstalikIzgarasi({ sirali = "", sira = null }) {
   const giris = useBirKezSirali("ustalik", seviyeler.length > 0);
   const toplamDogru = seviyeler.reduce((t, s) => t + (s.dogru_sayisi ?? 0), 0);
   const kutular = [
-    { ikon: "ates", deger: seri?.seri_gun ?? 0, ad: tt("güncel seri") },
-    { ikon: "kupa", deger: seri?.seri_en_uzun ?? 0, ad: tt("en uzun seri") },
-    { ikon: "yildiz", deger: istatistik?.kullanilan ?? 0, ad: tt("kullanılan skill") },
-    { ikon: "oyna", deger: istatistik?.reklam ?? 0, ad: tt("izlenen video") },
+    { ikon: "ates", ton: "vurgu", deger: seri?.seri_en_uzun ?? 0, ad: tt("En uzun seri") },
+    { ikon: "yildiz", ton: "mor", deger: istatistik?.kullanilan ?? 0, ad: tt("Kullanılan skill") },
   ];
 
   return (
@@ -85,27 +86,32 @@ export default function UstalikIzgarasi({ sirali = "", sira = null }) {
       {/* ---------- Seri + skill istatistikleri ---------- */}
       <QtKart as="section" className={sinif("qt-dk-ust-kart", sirali)} style={sira != null ? siraStili(sira) : undefined} aria-labelledby="qt-dk-seri-baslik">
         <h2 id="qt-dk-seri-baslik" className="qt-baslik-3 qt-plaka">{tt("Seri ve skiller")}</h2>
-        <ul className="qt-dk-sayilar">
+        {/* Ödüllerim'deki sayı kartıyla aynı kalıp (qt-pf-sayi: dukkan-profil.css) */}
+        <ul className="qt-dk-sayilar qt-dk-sayilar--iki">
           {kutular.map((k) => (
             <li key={k.ad}>
-              <QtIkon ad={k.ikon} boyut={20} />
-              <b className="qt-sayi">{sayiBicim(Number(k.deger))}</b>
-              <span>{k.ad}</span>
+              <div className={sinif("qt-pf-sayi", k.ton === "vurgu" && "qt-pf-sayi--vurgu")}>
+                <span className="qt-pf-sayi-ikon" aria-hidden="true"><QtIkon ad={k.ikon} boyut={20} /></span>
+                <b className="qt-sayi">{sayiBicim(Number(k.deger))}</b>
+                <span>{k.ad}</span>
+              </div>
             </li>
           ))}
         </ul>
         {envanter.length > 0 && (
-          <ul className="qt-dk-envanter" aria-label={tt("Envanterin")}>
+          <ul className="qt-dk-envanter qt-dk-envanter--liste" aria-label={tt("Envanterin")}>
             {envanter.map((e) => (
               <li key={e.tur} className="qt-dk-envanter-cip">
                 <SkillRozeti tur={e.tur} boyut={22} />
-                <span className="qt-sayi">{e.adet}</span>
-                <span className="qt-gizli">{JOKER_BILGI[e.tur]?.ad ?? e.tur}</span>
+                <span className="qt-dk-envanter-ad">{JOKER_BILGI[e.tur]?.ad ?? e.tur}</span>
+                <b className="qt-sayi">{e.adet}</b>
               </li>
             ))}
           </ul>
         )}
       </QtKart>
+
+      {!kategoriYok && (<>
 
       {/* ---------- Kategori ustalığı ---------- */}
       <QtKart as="section" className="qt-dk-ust-kart" aria-labelledby="qt-dk-ustalik-baslik">
@@ -146,6 +152,7 @@ export default function UstalikIzgarasi({ sirali = "", sira = null }) {
           </ul>
         )}
       </QtKart>
+      </>)}
     </>
   );
 }

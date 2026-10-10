@@ -70,12 +70,15 @@ export default function LevelOdulleri({ level, adet = 3, vurgu = false }) {
     if (!vurgu) return sonuc;
     // En yakın önemli ödül: pencere içinde en yüksek öncelikli türün en yakını
     const ana = [...kalemler].sort((a, b) => (ONCELIK[a.tur] - ONCELIK[b.tur]) || (a.level - b.level))[0] ?? null;
-    const yolda = kalemler.filter((k) => k !== ana).sort((a, b) => a.level - b.level).slice(0, 2);
-    return { ana, yolda };
+    // Tutarlılık turu 2: büyük ödülün level'ındaki diğer ödüller kartın içinde "+ joker"; Yolda yalnız BAŞKA level'lar
+    const ek = ana ? kalemler.filter((k) => k !== ana && k.level === ana.level) : [];
+    const yolda = kalemler.filter((k) => k !== ana && k.level !== ana?.level).sort((a, b) => a.level - b.level).slice(0, 2);
+    return { ana, ek, yolda };
   }, [sahiplik, hazir, katalog, aralik, rutbeCoin, sahipCoin, level, adet, en]);
 
   if (vurgu) {
-    const { ana, yolda } = satirlar;
+    const { ana, ek, yolda } = satirlar;
+    const ekMetin = (k) => (k.tur === "skill" ? tt("+ joker") : k.tur === "rutbe" ? tt("+ {ad} rütbesi", { ad: k.rutbeAd }) : tt("+ {ad}", { ad: k.ad }));
     if (!ana) return null;
     const simdi = Number(level) || 1;
     const kalan = Math.max(0, ana.level - simdi);
@@ -92,7 +95,10 @@ export default function LevelOdulleri({ level, adet = 3, vurgu = false }) {
               : <QtIkon ad={ana.tur === "rutbe" ? (ana.ikon ?? "yildiz") : ana.tur === "avatar" ? "kisi" : "yildiz"} boyut={28} />}
           </span>
           <div className="qt-dk-sodul-metin">
-            <b className="qt-dk-sodul-ad">{ana.tur === "avatar" ? tt("{ad} (avatar)", { ad: ana.ad }) : ana.ad}</b>
+            <b className="qt-dk-sodul-ad">
+              {ana.tur === "avatar" ? tt("{ad} (avatar)", { ad: ana.ad }) : ana.ad}
+              {ek.length > 0 && <small className="qt-dk-sodul-ek"> {ek.map(ekMetin).join(" ")}</small>}
+            </b>
             <span className="qt-dk-sodul-kalan">{tt("Lv {n}'{ek} · {k} level kaldı", { n: ana.level, ek: bulunmaEki(ana.level), k: kalan })}</span>
             <QtIlerleme deger={Math.max(0, simdi - bas5)} en={Math.max(1, ana.level - bas5)} ton="mor" etiket={tt("Sıradaki ödül")} />
           </div>
