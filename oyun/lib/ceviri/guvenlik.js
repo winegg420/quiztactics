@@ -92,7 +92,7 @@ export default {
   "Kullanım Koşulları kabulü:": "Terms of Use acceptance:",
   "mesajlaşmadan önce koşulları kabul ettiğin tarih.": "the date you accepted the terms before messaging.",
   "düğmesiyle kalıcı olarak silebilirsin; profilin, maç kayıtların, rozetlerin, mesajların, engellemelerin ve gönderdiğin şikâyetler silinir. Bu işlem geri alınamaz. Dilersen":
-    "button; your profile, match records, badges, messages, blocks and the reports you sent are deleted. This can't be undone. You can also",
+    "button; your profile, match records, badges, messages, blocks and the reports you sent are deleted. This can't be undone. You can also request deletion by writing to",
   "İstisna: başka oyuncuların senin hakkında gönderdiği şikâyet kayıtları (şikâyet edilen mesajın o anki metni dahil), kural ihlallerinin kanıtı olarak hesabın silindikten sonra 1 yıl saklanır ve bu sürenin sonunda otomatik olarak silinir. Bu kayıtları yalnız yöneticiler görür.":
     "Exception: reports that other players sent about you (including the text of the reported message at that moment) are kept for 1 year after your account is deleted, as evidence of rule violations, and are deleted automatically at the end of that period. Only moderators can see these records.",
   // ——— Sunucu hata mesajları (ttSunucu) ———
