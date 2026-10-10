@@ -105,7 +105,7 @@ export default function TurnuvaTanitim() {
                 key={o.user_id}
                 vurgulu={i === 0}
                 bas={<CerceveliAvatar profile={o.profil} userId={o.user_id} boyut={40} />}
-                baslik={<>{`${i + 1}. `}<OyuncuAdiDugmesi userId={o.user_id} profil={o.profil}>{o.gorunenAd(profil?.gorunen_ad)}</OyuncuAdiDugmesi></>}
+                baslik={<>{`${i + 1}. `}<OyuncuAdiDugmesi userId={o.user_id} profil={o.profil}>{gorunenAd(o.profil?.gorunen_ad)}</OyuncuAdiDugmesi></>}
                 sag={<QtRozet ton={i === 0 ? "coin" : "dogru"} boyut="k" ikon="onay">{o.dogru_sayisi ?? 0}</QtRozet>}
               />
             ))}

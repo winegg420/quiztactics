@@ -479,7 +479,7 @@ export default function FriendsPage() {
                       ikon="carpi"
                       tur="saydam"
                       className="ls-reddet"
-                      etiket={tt("{ad} isteğini reddet", { ad: f.gorunenAd(req?.gorunen_ad) })}
+                      etiket={tt("{ad} isteğini reddet", { ad: gorunenAd(f.req?.gorunen_ad) })}
                       onClick={() => cevapla(f.id, false)}
                     />
                   </>
@@ -654,7 +654,7 @@ export default function FriendsPage() {
                     tur="ikincil"
                     boyut="k"
                     onClick={() => geriCek(f.id)}
-                    aria-label={tt("{ad} kişisine gönderilen isteği geri çek", { ad: f.gorunenAd(add?.gorunen_ad) })}
+                    aria-label={tt("{ad} kişisine gönderilen isteği geri çek", { ad: gorunenAd(f.add?.gorunen_ad) })}
                   >
                     {tt("Geri çek")}
                   </QtDugme>
