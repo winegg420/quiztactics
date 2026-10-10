@@ -1,4 +1,5 @@
 import { tt } from "./dil.js";
+import { botAdi } from "./botAdi.js";
 // Oyuncu görünen adı yardımcıları.
 //
 // Takma ad seçmemiş herkesin görünen adı sunucuda "Oyuncu" oluyor; aynı ekranda
@@ -17,8 +18,10 @@ export function oyuncuAdi(profil, yedekId = null) {
   const id = profil?.id ?? yedekId ?? null;
 
   if (!ad) return id ? `${VARSAYILAN} #${kisaKimlik(id)}` : VARSAYILAN;
-  if (ad === VARSAYILAN && id) return `${VARSAYILAN} #${kisaKimlik(id)}`;
-  return ad;
+  // Sunucudaki varsayılan ad Türkçe "Oyuncu"dur; EN'de de "Player #…" yazılır.
+  if ((ad === VARSAYILAN || ad === "Oyuncu") && id) return `${VARSAYILAN} #${kisaKimlik(id)}`;
+  if (ad === "Oyuncu") return VARSAYILAN;
+  return botAdi(ad);
 }
 
 /** uuid'in son 4 hanesi — kısa ve yeterince ayırt edici. */

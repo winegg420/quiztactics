@@ -33,6 +33,7 @@ import { sesCoin } from "../lib/ses.js";
 import { tt, ttSunucu } from "../lib/dil.js";
 import "../tasarim/ekranlar/m1-sonuc.css";
 import { CoinIkon } from "./ParaIkonlari.jsx";
+import { botAdi } from "../lib/botAdi.js";
 
 // Adım eşikleri (ms). i. eşik geçilince adim = i + 1.
 // 1 zemin · 2 banner · 3 avatarlar · 4 kalp/skor · 5 ödül sayımı ·
@@ -75,11 +76,11 @@ function Taraf({ kisi, rol, yan, adim, atlandi, canToplam, sen }) {
         </AvatarDugmesi>
       </div>
       <div className="m1-ss-isim">
-        <span className="m1-ss-isim-metin">{kisi?.profil?.gorunen_ad ?? ""}</span>
+        <span className="m1-ss-isim-metin">{botAdi(kisi?.profil?.gorunen_ad) ?? ""}</span>
         {sen && <SenRozeti />}
       </div>
       {canToplam ? (
-        <QtCan dolu={Math.max(0, kisi?.can ?? 0)} toplam={canToplam} etiket={kisi?.profil?.gorunen_ad} boyut={18} />
+        <QtCan dolu={Math.max(0, kisi?.can ?? 0)} toplam={canToplam} etiket={botAdi(kisi?.profil?.gorunen_ad)} boyut={18} />
       ) : skor != null ? (
         <div className="m1-ss-skor">
           {atlandi ? skor : <SayanSayi deger={adim >= 4 ? skor : 0} sure={ODUL_SAYIM_MS} />}

@@ -34,6 +34,7 @@ import { HazirKapisi, KopukPerde } from "../components/MacHazirlik.jsx";
 import { useDil } from "../lib/dilKanca.js";
 import { GB_MS } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
+import { botAdi } from "../lib/botAdi.js";
 
 const GRUP_SECIMI = `*,
   katilimcilar:group_match_players(group_match_id, user_id, davet_durumu, skor, joined_at, hazir, terk_at,
@@ -479,7 +480,7 @@ export default function GroupMatchPage() {
           {(() => {
             if (!bekleyenler.length) return tt("Herkes hazır olunca maç otomatik başlayacak.");
             const ben = bekleyenler.some((b) => b.user_id === user.id);
-            const digerleri = bekleyenler.filter((b) => b.user_id !== user.id).map((b) => b.profil?.gorunen_ad).join(", ");
+            const digerleri = bekleyenler.filter((b) => b.user_id !== user.id).map((b) => botAdi(b.profil?.gorunen_ad)).join(", ");
             if (ben && digerleri) return tt("Sen ve {0} henüz kabul etmediniz.", { 0: digerleri });
             if (ben) return tt("Sen henüz kabul etmedin.");
             return tt("{0} henüz kabul etmedi.", { 0: digerleri });
@@ -517,7 +518,7 @@ export default function GroupMatchPage() {
         toplamOyuncu={nabiz?.toplam_oyuncu ?? siraliSkor.length}
         // Paket 42 D.4: kendi adı "Sen" olarak yazılır (tek durum dili, Klasik ile aynı)
         bekleyenAdlar={(nabiz?.bekleyenler ?? []).map((ad) =>
-          ad === siraliSkor.find((k) => k.user_id === user.id)?.profil?.gorunen_ad ? tt("Sen") : ad)}
+          ad === siraliSkor.find((k) => k.user_id === user.id)?.profil?.gorunen_ad ? tt("Sen") : botAdi(ad))}
         onHazir={hazirla}
         onCik={() => navigate(y("/meydan"))}
         bilgiler={[

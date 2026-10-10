@@ -897,7 +897,7 @@ export default function ChallengesPage() {
   );
   const adlar = (liste, skorlu = false) => (liste ?? [])
     .filter((k) => k.user_id !== user.id)
-    .map((k) => (skorlu ? `${k.profil?.gorunen_ad} (${k.skor})` : oyuncuAdi(k.profil, k.user_id)))
+    .map((k) => (skorlu ? `${botAdi(k.profil?.gorunen_ad)} (${k.skor})` : oyuncuAdi(k.profil, k.user_id)))
     .join(", ");
   // Kabul / Reddet çifti (gelen davet satırları)
   // Kabul: dokunuş + "rakip bulundu" sesi, sonra AYNI kabul çağrısı. Reddet sessizdir. ilk: sayfadaki tek zıplayan düğme.
@@ -1384,7 +1384,7 @@ export default function ChallengesPage() {
                     ikon={p.bot_isabet != null ? "robot" : undefined}
                     onClick={() => grupSecimToggle(p.id)}
                   >
-                    {p.gorunen_ad}
+                    {botAdi(p.gorunen_ad)}
                   </QtCip>
                 );
               })}
@@ -1427,7 +1427,7 @@ export default function ChallengesPage() {
                     <QtCip key={p.id} secili={secili} disabled={dolu}
                            ikon={p.bot_isabet != null ? "robot" : undefined}
                            onClick={() => hizliSecimToggle(p.id)}>
-                      {p.gorunen_ad}
+                      {botAdi(p.gorunen_ad)}
                     </QtCip>
                   );
                 })}

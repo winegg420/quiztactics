@@ -26,6 +26,7 @@ import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { TEPKILER, tepkiTanimi } from "../lib/tepkiler.js";
 import { TepkiAvatar, TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
 import IsimEfekti from "../components/IsimEfekti.jsx";
+import { botAdi } from "../lib/botAdi.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import SesliSohbet from "../components/SesliSohbet.jsx";
 import { useOyunModu } from "../lib/oyunModu.js";
@@ -802,7 +803,7 @@ export default function MatchPage() {
         <div className="m1-mesaj">
           <span className="m1-mesaj-ikon" aria-hidden="true"><QtIkon ad="saat" boyut={36} /></span>
           <h1 className="qt-baslik-1">{tt("Cevap bekleniyor")}</h1>
-          <p>{tt("{0} henüz kabul etmedi.", { 0: rakipProfil?.gorunen_ad ?? "" })}</p>
+          <p>{tt("{0} henüz kabul etmedi.", { 0: botAdi(rakipProfil?.gorunen_ad) ?? "" })}</p>
           {kalanDk !== null && (
             <p>
               {kalanDk >= 60
@@ -966,10 +967,10 @@ export default function MatchPage() {
               />
               {(() => {
                 const sonucYazi = berabere
-                  ? tt("{0} ile {1}-{2} berabere kaldım", { 0: rakipProfil?.gorunen_ad, 1: benimSkor, 2: rakipSkor })
+                  ? tt("{0} ile {1}-{2} berabere kaldım", { 0: botAdi(rakipProfil?.gorunen_ad), 1: benimSkor, 2: rakipSkor })
                   : kazandim
-                    ? tt("{0} karşısında {1}-{2} kazandım!", { 0: rakipProfil?.gorunen_ad, 1: benimSkor, 2: rakipSkor })
-                    : tt("{0} karşısında kıl payı kaybettim", { 0: rakipProfil?.gorunen_ad });
+                    ? tt("{0} karşısında {1}-{2} kazandım!", { 0: botAdi(rakipProfil?.gorunen_ad), 1: benimSkor, 2: rakipSkor })
+                    : tt("{0} karşısında kıl payı kaybettim", { 0: botAdi(rakipProfil?.gorunen_ad) });
                 const mesaj = tt("Quiz Tactics'te {0} Sen de gel, kapışalım: {1}/?davet={2}", { 0: sonucYazi, 1: window.location.origin, 2: user.id });
                 const enc = encodeURIComponent(mesaj);
                 return (
@@ -1060,7 +1061,7 @@ export default function MatchPage() {
           <p className="m1-ss-not">
             {rakipBot
               ? tt("Maç bitti ama oturum açık: istersen burada kalıp sohbet edebilirsin. Çıkmak sana kalmış.")
-              : tt("Maç bitti ama oturum açık: istersen burada kalıp {0} ile konuşmaya devam edebilirsin. Çıkmak sana kalmış.", { 0: rakipProfil?.gorunen_ad ?? "" })}
+              : tt("Maç bitti ama oturum açık: istersen burada kalıp {0} ile konuşmaya devam edebilirsin. Çıkmak sana kalmış.", { 0: botAdi(rakipProfil?.gorunen_ad) ?? "" })}
           </p>
 
           <div className="bd-ses-yuva" ref={setSesYuva} />
@@ -1136,7 +1137,7 @@ export default function MatchPage() {
           <span className="qt-ikon-disk qt-ikon-disk--mavi" style={{ "--_boy": "96px" }} aria-hidden="true"><QtIkon ad="saat" boyut={46} /></span>
           <h1 className="qt-baslik-1">{tt("Senin bölümün bitti")}</h1>
           <p>
-            {tt("{0} sorunun tamamını oynadın. {1} kendi zamanında oynayınca maç sonuçlanacak — bittiğinde sana haber vereceğiz.", { 0: toplamSoru, 1: rakipProfil?.gorunen_ad ?? "" })}
+            {tt("{0} sorunun tamamını oynadın. {1} kendi zamanında oynayınca maç sonuçlanacak — bittiğinde sana haber vereceğiz.", { 0: toplamSoru, 1: botAdi(rakipProfil?.gorunen_ad) ?? "" })}
           </p>
           <QtMacUst sen={senOyuncu} rakip={rakipOyuncu} skor={[benimSkor ?? 0, rakipSkor ?? 0]} />
           <div className="m1-dugmeler">
@@ -1206,7 +1207,7 @@ export default function MatchPage() {
         {rakipOnde && !bilgiKapandi && (
           <div className="m1-bant m1-bant--bilgi">
             <span>
-              {tt("{0} senden önde. Bu maç sıra beklemeden oynanır — sen kendi hızında devam et, rakibin de kendi zamanında oynar.", { 0: rakipProfil?.gorunen_ad ?? "" })}
+              {tt("{0} senden önde. Bu maç sıra beklemeden oynanır — sen kendi hızında devam et, rakibin de kendi zamanında oynar.", { 0: botAdi(rakipProfil?.gorunen_ad) ?? "" })}
             </span>
             <QtIkonDugme tur="saydam" ikon="carpi" etiket={tt("Kapat")} onClick={() => setBilgiKapandi(true)} />
           </div>
@@ -1291,7 +1292,7 @@ export default function MatchPage() {
         {cevapladim && (
           <div className="m1-bekleme" role="status">
             {senkron
-              ? tt("{0} cevaplayınca soru geçecek…", { 0: rakipProfil?.gorunen_ad ?? "" })
+              ? tt("{0} cevaplayınca soru geçecek…", { 0: botAdi(rakipProfil?.gorunen_ad) ?? "" })
               : tt("Sıradaki soru geliyor…")}
           </div>
         )}
