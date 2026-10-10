@@ -504,6 +504,9 @@ a.qt-dk-elmas-satir * { text-decoration: none; }
   .qt-dk-kural-oge > svg { width: 18px; height: 18px; }
   .qt-dk-kural-oge > span { display: flex; align-items: baseline; gap: 4px; overflow: hidden; white-space: nowrap; }
   .qt-dk-kural-oge small { overflow: hidden; text-overflow: ellipsis; }
+  /* 1040: "Jokerler · Nadir avatar ve imzalar" dar ekranda tek satıra sığmıyor → başlık kesilmez, gerekirse ikinci satıra iner */
+  .qt-dk-kural-oge > span { flex-wrap: wrap; white-space: normal; }
+  .qt-dk-kural-oge small { white-space: nowrap; }
   /* açık sekmenin para birimi geniş + tam yazı; diğeri ikon + ad (yazı kesilmez) */
   .qt-dk-kural { grid-template-columns: 1.7fr 1fr; }
   .qt-dk-kural:has(.qt-dk-kural-oge--elmas.qt-dk-kural-oge--acik) { grid-template-columns: 1fr 1.7fr; }

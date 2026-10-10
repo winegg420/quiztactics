@@ -8,6 +8,7 @@ import { JOKER_BILGI, AKTIF_MAC_SKILLERI, envanterNesne, jokerDukkanModlari, jok
 import SkillRozeti from "../components/SkillRozeti.jsx";
 import JokerSatinAlModal from "../components/JokerSatinAlModal.jsx";
 import DukkanKozmetik, { DukkanAvatarlar, useKozmetikDukkan } from "../components/DukkanKozmetik.jsx";
+import DukkanCevapImzasi from "../components/DukkanCevapImzasi.jsx";
 import { DUKKAN_TURLERI, dukkandaGorunur } from "../lib/kozmetik.js";
 import { DUKKAN_PREMIUM_CERCEVE_ACIK } from "../lib/ozellikBayraklari.js";
 import { jokerKurallari } from "../lib/jokerKurallari.js";
@@ -58,6 +59,9 @@ const SEKMELER = [
   { kod: "joker",   ad: tt("Joker"),          ikon: "yildiz",  para: "coin" },
   ...(DUKKAN_PREMIUM_CERCEVE_ACIK ? [{ kod: "cerceve", ad: tt("Çerçeve"),        ikon: "madalya", para: "elmas" }] : []),   // dondurulmuş (ozellikBayraklari.js)
   { kod: "avatar",  ad: tt("Avatar"), ikon: "kisi",    para: "elmas" },
+  // 1040: Cevap İmzası — Nadir coin'le, Epik / Efsanevi elmasla (iki para; kural şeridinde vurgu yok). Sekme yalnız katalogda
+  // imza varken görünür: satış kapalıyken (cevap_imzasi_satis_acik = false) normal oyuncunun kataloğu boş → yalnız sahip hesap görür.
+  { kod: "efekt",   ad: tt("Efekt|sekme"),  ikon: "yildiz",  para: null, kozmetikTuru: "cevap_imzasi" },
 ];
 // COIN SEKMESİ YOK (2 Eki 2026): ürün satmıyordu — coin parayla satılmaz, elmasla coin dönüşümü de yok. İçindeki
 // "Coin nasıl kazanılır?" notu ve (reklam yapılandırılmışsa) ödüllü video Joker sekmesinin altına taşındı.
@@ -174,9 +178,12 @@ export default function JokerDukkani() {
   const kozmetik = useKozmetikDukkan();
   const dukkanKatalogu = useMemo(() => kozmetik.katalog.filter(dukkandaGorunur), [kozmetik.katalog]);   // Altın isim dükkândan kalktı (BP'ye ait)
   const istenenSekme = ESKI_SEKME[arama.get("sekme")] ?? arama.get("sekme");
-  const sekme = SEKMELER.some((x) => x.kod === istenenSekme) ? istenenSekme : VARSAYILAN_SEKME;
+  // 1040: kozmetik türüne bağlı sekme (Efekt) yalnız katalogda o türden kalem varken; katalog okunurken istenen sekme korunur (iskelet)
+  const sekmeler = SEKMELER.filter((x) => !x.kozmetikTuru || kozmetik.katalog.some((k) => k.tur === x.kozmetikTuru));
+  const sekme = sekmeler.some((x) => x.kod === istenenSekme) || (!kozmetik.hazir && SEKMELER.some((x) => x.kod === istenenSekme))
+    ? istenenSekme : VARSAYILAN_SEKME;
   const sekmeParasi = SEKMELER.find((x) => x.kod === sekme)?.para;
-  const kozmetikSekmesi = sekme === "cerceve" || sekme === "avatar";
+  const kozmetikSekmesi = sekme === "cerceve" || sekme === "avatar" || sekme === "efekt";
   const sekmeSec = (kod) => setArama({ sekme: kod }, { replace: true });
   // Maç içinden gelen ?mod= yönlendirmesi geriye uyum için son mod kaydını günceller; düz listeyi filtrelemez.
   const adresMod = modKoduCoz(arama.get("mod"));
@@ -483,7 +490,7 @@ export default function JokerDukkani() {
         <QtSekmeler
           className="qt-dk-sekmeler"
           etiket={tt("Dükkân bölümleri")}
-          sekmeler={SEKMELER}
+          sekmeler={sekmeler}
           aktif={sekme}
           onSec={sekmeSec}
         />
@@ -498,7 +505,7 @@ export default function JokerDukkani() {
       <ul className="qt-dk-kural" aria-label={tt("Dükkân kuralı")}>
         <li className={sinif("qt-dk-kural-oge qt-dk-kural-oge--coin", sekmeParasi === "coin" && "qt-dk-kural-oge--acik")}>
           <CoinIkon boyut={22} />
-          <span><b>{tt("Jokerler · Nadir avatarlar")}</b><small>{tt("coin ile alınır")}</small></span>
+          <span><b>{tt("Jokerler · Nadir avatar ve imzalar")}</b><small>{tt("coin ile alınır")}</small></span>
         </li>
         <li className={sinif("qt-dk-kural-oge qt-dk-kural-oge--elmas", sekmeParasi === "elmas" && "qt-dk-kural-oge--acik")}>
           <ElmasIkon boyut={22} />
@@ -534,6 +541,13 @@ export default function JokerDukkani() {
                 onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
             </section>
           </>
+        )}
+
+        {/* ---------- EFEKT: Cevap İmzası (1040) — Nadir coin'le, Epik / Efsanevi elmasla; kartın içinde demo ---------- */}
+        {sekme === "efekt" && kozmetik.hazir && (
+          <DukkanCevapImzasi katalog={kozmetik.katalog} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile} sirali={sirali}
+            elmasYetmedi={elmasKazanGoster} coinYetmedi={coinKazanGoster} elmasBakiye={elmas.bakiye} coinBakiye={bakiye}
+            onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
         )}
 
         {(sekme === "joker" || sekme === "elmas") && !hazir && (

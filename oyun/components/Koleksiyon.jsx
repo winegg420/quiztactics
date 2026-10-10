@@ -25,7 +25,8 @@ import UnvanSecici from "./UnvanSecici.jsx";
 import KoleksiyonDokumu, { useBirKezSirali } from "./KoleksiyonDokumu.jsx";
 import { NadirlikEtiketi, ElmasFiyat } from "./DukkanAuralar.jsx";
 import { KOZMETIK_SEKMELERI, KozmetikOnizlemePenceresi, KozmetikSimge, kozmetikAdi, premiumMi, useKozmetikDukkan } from "./DukkanKozmetik.jsx";
-import { kozmetikHatasi, kozmetikTak } from "../lib/kozmetik.js";
+import { kozmetikHatasi, kozmetikParasi, kozmetikTak } from "../lib/kozmetik.js";
+import { ImzaFiyat } from "./DukkanCevapImzasi.jsx";
 import { aktifDil } from "../lib/dil.js";
 import { avatarKilitliMi, useAvatarSahiplik, useHazirAvatarlar } from "../lib/avatarKatalogu.js";
 import { nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
@@ -334,10 +335,15 @@ export default function Koleksiyon() {
                       </div>
                     ) : (
                       <Link className="qt-cs-oge qt-cs-oge--kilitli" to={y(`/joker?sekme=${s.kod}`)}
-                            aria-label={tt("{ad} — Dükkân'da {n} elmas", { ad: kozmetikAdi(x), n: x.fiyat ?? "" })}>
+                            aria-label={kozmetikParasi(x) === "coin"
+                              ? tt("{ad} — Dükkân'da {n} coin", { ad: kozmetikAdi(x), n: x.fiyat ?? "" })
+                              : tt("{ad} — Dükkân'da {n} elmas", { ad: kozmetikAdi(x), n: x.fiyat ?? "" })}>
                         <KozmetikSimge kalem={x} profile={profile} boyut={56} />
                         <span className="qt-cs-ad">{kozmetikAdi(x)}</span>
-                        <span className="qt-cs-kosul">{x.satilik && x.fiyat != null ? <ElmasFiyat fiyat={x.fiyat} boyut={14} /> : <QtIkon ad="kilit" boyut={12} />}</span>
+                        {/* 1040: Cevap İmzası kilitlisi "Dükkân'da · fiyat" (Nadir coin, Epik/Efsanevi elmas) */}
+                        <span className="qt-cs-kosul">{x.satilik && x.fiyat != null
+                          ? (s.tur === "cevap_imzasi" ? <>{tt("Dükkân'da")} · <ImzaFiyat kalem={x} boyut={14} /></> : <ElmasFiyat fiyat={x.fiyat} boyut={14} />)
+                          : <QtIkon ad="kilit" boyut={12} />}</span>
                       </Link>
                     )}
                   </li>

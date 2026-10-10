@@ -36,6 +36,7 @@ import { avatarSahiplikYukle, avatarSatinAl, useAvatarSahiplik, useHazirAvatarla
 import { NADIRLIKLAR, NADIRLIK_AD, nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
 import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg, etiketNadirligi } from "./AvatarNadirlikGoruntu.jsx";
 import NadirlikEtiketi from "./NadirlikEtiketi.jsx";
+import { ImzaSimgesi } from "./CevapImzasi.jsx";
 import "../tasarim/ekranlar/dukkan-cerceve.css";
 import "../tasarim/ekranlar/dukkan-kozmetik.css";
 
@@ -52,6 +53,8 @@ export const KOZMETIK_SEKMELERI = [
   { kod: "isim", tur: "isim_efekti", ad: "İsim Efekti", ikon: "kalem" },
   { kod: "zafer", tur: "zafer_efekti", ad: "Zafer Efekti", ikon: "kupa" },
   { kod: "tepki", tur: "tepki_paketi", ad: "Tepki", ikon: "havali" },
+  // 1040: Cevap İmzası — kod = Dükkân sekmesi (Koleksiyon'daki kilitli kalem /joker?sekme=efekt'e gider)
+  { kod: "efekt", tur: "cevap_imzasi", ad: "Cevap İmzası", ikon: "yildiz" },
 ];
 
 /**
@@ -152,6 +155,7 @@ function ArkaPlanOrnegi({ kalem, profile, yukseklik = 100, hareketli = false, ku
 }
 
 export function KozmetikSimge({ kalem, profile, boyut = 64, hareketli = false }) {
+  if (kalem.tur === "cevap_imzasi") return <ImzaSimgesi anahtar={kalem.anahtar} boyut={Math.min(boyut, 56)} />;   // 1040: durağan simge
   if (kalem.tur === "premium_aura") return <ArkaPlanOrnegi kalem={kalem} profile={profile} yukseklik={Math.min(boyut, 64)} hareketli={hareketli} kucuk />;
   // 560: premium — kendi avatarınla, yalnız o kalem
   if (premiumMi(kalem)) {
@@ -455,6 +459,7 @@ const ACIKLAMA = {
   tepki_paketi: "Maçta rakibine gönderebileceğin 4 yeni tepki. Paket takılmaz, alınca maçta hazır.",
   premium_cerceve: "Hareketli çerçeve: profilinde, ana sayfada, VS anında ve maç sonunda canlanır; listelerde sade durur. Rakibin de görür.",
   premium_aura: "Arka Plan — oyuncu kartının arkasındaki hareketli sahne. Ana sayfada, profilinde ve maç başında herkes görür.",
+  cevap_imzasi: "Doğru cevapladığında doğru şıkta oynar. Yalnız sen görürsün.",
 };
 
 /**
