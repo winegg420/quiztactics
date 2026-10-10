@@ -928,8 +928,16 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.com]`.
   eski fonksiyon `coin_satin_alma_isle` üzerinden yeni deftere devreder. Satın alma zaten kapalı.
   10 Eki ölçümü: canlı `satin_alma_dogrula` 9 Eyl sürümü, `send-push` 12 Haz sürümü, `satin_alma_iade_tara` yok.
   `send-push` canlıda `verify_jwt = false` ama `config.toml`'da kaydı yok → dağıtırken `--no-verify-jwt`.
-- **Güvenlik denetimi (10 Eki 2026): 0 Acil, 12 yetki kuralı önerisi Ida onayı bekliyor** —
-  `docs/GUVENLIK-DENETIMI-2026-10-10.md › A` (push aboneliği doğrulaması, misafir captcha, yan oyun tabloları, FB kimliği, PUBLIC EXECUTE).
+- **Güvenlik denetimi (10 Eki 2026) A bölümü UYGULANDI (migration 1047, Ida onayı 14:48):** A.1, A.4–A.9, A.11, A.12.
+  Bugünkü kural: `public` şemada **anon'a açık tek fonksiyon `ses_secimleri_oyun`** (giriş ekranı müziği); başka hiçbir
+  RPC giriş yapılmadan çağrılmaz. İç yardımcılar/tetikleyiciler + `coin_harca`, `eski_davetleri_temizle`,
+  `mac_oyuncu_indeksi` authenticated'a da kapalı (yalnız postgres/cron + service_role). postgres'in yeni açtığı
+  fonksiyonlar PUBLIC/anon'a kendiliğinden açılmaz (authenticated + service_role açılır); yeni tablolarda anon'a yazma yok.
+  Push aboneliği: yalnız FCM/Mozilla/Apple/Windows push alan adı, ≤ 1000 karakter, kullanıcı başına 5, başkasının
+  adresi devralınmaz (istemci yeniden abone olur). FB kimliği `auth.identities`'ten. Turnuva sorusu yalnız kayıtlı +
+  elenmemiş oyuncuya. `avatarlar` kovası 2 MB, png/jpeg/webp. Geri alma: `docs/guvenlik-a-geri-al.sql`.
+  **Açık kalan:** A.2 captcha ve A.3 yan oyun tabloları (bu işin dışında); A.10 `net.http_*` migration ile yapılamıyor
+  (sahibi `supabase_admin`, postgres geri alamıyor) — Supabase tarafı; supabase_admin'in varsayılan yetkileri de değiştirilemiyor.
 
 
 - **1000 soru partisi + Jev zorluk (270–274) beklemede.** Üretildi ve provadan

@@ -48,13 +48,27 @@ export async function bildirimleriAc() {
       applicationServerKey: base64UrlToUint8Array(VAPID_PUBLIC_KEY),
     });
   }
+  let { error } = await aboneligiKaydet(abone);
+  // Aynı cihazda önce başka hesap bildirim açmışsa sunucu o adresi devretmez:
+  // tarayıcı aboneliğini yenile (yeni adres) ve onu kaydet.
+  if (error && String(error.message ?? "").includes("başka bir hesaba")) {
+    await abone.unsubscribe();
+    abone = await kayit.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: base64UrlToUint8Array(VAPID_PUBLIC_KEY),
+    });
+    ({ error } = await aboneligiKaydet(abone));
+  }
+  if (error) throw error;
+}
+
+function aboneligiKaydet(abone) {
   const j = abone.toJSON();
-  const { error } = await supabase.rpc("save_push_subscription", {
+  return supabase.rpc("save_push_subscription", {
     p_endpoint: abone.endpoint,
     p_p256dh: j.keys.p256dh,
     p_auth: j.keys.auth,
   });
-  if (error) throw error;
 }
 
 export async function bildirimleriKapat() {

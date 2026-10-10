@@ -11436,3 +11436,25 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
   kök hata ekranı bilerek çökertildi (390 TR / 360 EN, taşma yok). Canlıda Sentry DSN var (`ingest.de.sentry.io`).
 - Not: 5199'daki başka bir Vite (Supabase ortamı olmadan) dokunulmadı; kendi sunucum 5205'te açılıp kapatıldı. Test oturumu `.arayuz-denetim-oturum.json` yerel
   (eski oturum süresi dolmuştu; arayuz-denetim yeni misafir hesabı açtı — iş sonunda silindi).
+
+## 2026-10-10 — Güvenlik denetimi A bölümü uygulandı (migration 1047)
+**Araç:** Claude Code
+**Neden:** Ida 14:48'de A.1, A.4–A.12'yi onayladı (A.2 captcha, A.3 yan oyun tabloları bu işin dışında).
+
+- **Migration** `20260612001047_guvenlik_a_yetki_temizligi.sql` — prova (`migration-prova` + `araclar/guvenlik-a-prova.mjs`, tek işlem, geri
+  alındı) 64/64 → canlıya uygulandı. Geri alma `docs/guvenlik-a-geri-al.sql` (özgün ACL'lerden üretildi; işlem içinde uygula→geri al→sayılar aynı).
+- **Uygulanan:** A.1 push (alan adı listesi, ≤1000, 5/kullanıcı, devralma yok) · A.4 FB kimliği `auth.identities`'ten, öneriler anon'a kapalı ·
+  A.5 anon'a açık 66 fonksiyon → **1** (`ses_secimleri_oyun`, giriş ekranı müziği; oturumsuz çağrılan tek RPC), 35 istemci RPC'si
+  authenticated'da kaldı, 30 iç fonksiyon authenticated'a da kapandı; postgres varsayılanı PUBLIC/anon EXECUTE vermez · A.6 `coin_harca` ·
+  A.7 turnuva sorusu yalnız kayıtlı + elenmemiş · A.8 `eski_davetleri_temizle`, `mac_oyuncu_indeksi` · A.9 `avatarlar` 2 MB + png/jpeg/webp ·
+  A.11 yeni tablolarda anon yazma yok · A.12 `kasa_deneme_ozeti` security_invoker.
+- **Uygulanamadı:** A.10 `net.http_*` — sahibi `supabase_admin`, postgres'in REVOKE'u etkisiz (ölçüldü). Ayrıca `supabase_admin` varsayılan
+  yetkileri ("permission denied to change default privileges") değiştirilemiyor.
+- **İstemci:** `ChallengesPage` açılışta `eski_davetleri_temizle` çağırıyordu (rapor "çağırmıyor" diyordu) → kaldırıldı, cron yapıyor.
+  `TournamentPage` soruyu yalnız kayıtlı + elenmemişken çeker (`soruHakkim`). `push.js`: "başka bir hesaba kayıtlı" hatasında tarayıcı
+  aboneliğini yenileyip yeni adresi kaydeder.
+- **Ölçümler:** canlıda push aboneliği 0, FB kimliği 0 (google 24, email 6), avatarlar 95 png (en büyük 68 KB). Bütün cron işleri `postgres`
+  rolüyle; uygulamadan sonra `hizli_tik`/`dakika_tik` başarılı.
+- **Doğrulama:** canlı salt-okuma (has_function_privilege, storage.buckets, reloptions; prova artığı 0, `idle in transaction` 0) ·
+  build temiz · `arayuz-denetim` TEMİZ (açtığı misafir hesabı `hesabimi_sil` ile silindi, DB'de 0) · oturumsuz `/`, `/gizlilik`, `/kosullar`
+  konsol temiz, yalnız `ses_secimleri_oyun` 200. Google girişi otomatik denenemez; girişli ana sayfa misafir oturumuyla denetlendi.

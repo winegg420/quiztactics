@@ -334,9 +334,13 @@ export default function TournamentPage() {
     }
   });
 
+  // Soruyu yalnız kayıtlı ve elenmemiş oyuncu çeker: sunucu (get_tournament_question)
+  // izleyiciye ve elenene soru vermez — boşuna yeniden deneme döngüsü olmasın.
+  const soruHakkim = oyuncular.some((o) => o.user_id === user?.id && !o.elendi);
+
   // Aktif soru değiştiğinde soruyu çek
   useEffect(() => {
-    if (!turnuva || turnuva.durum !== "aktif" || turnuva.aktif_soru < 0) {
+    if (!turnuva || turnuva.durum !== "aktif" || turnuva.aktif_soru < 0 || !soruHakkim) {
       setSoru(null);
       return;
     }
@@ -360,7 +364,7 @@ export default function TournamentPage() {
       bekleMs: bekle,
     });
     return () => { iptal = true; clearTimeout(zamanlayici); durdur(); };
-  }, [turnuva?.id, turnuva?.durum, turnuva?.aktif_soru, soruDeneme]);
+  }, [turnuva?.id, turnuva?.durum, turnuva?.aktif_soru, soruDeneme, soruHakkim]);
 
   // Turnuva bitince puanlar değişmiş olabilir
   useEffect(() => {

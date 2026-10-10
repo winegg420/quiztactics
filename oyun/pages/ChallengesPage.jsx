@@ -449,26 +449,8 @@ export default function ChallengesPage() {
     setHizliMaclar([...(suren ?? []), ...(biten ?? [])]);
   }, []);
 
-  // Sayfa açılınca 24 saatten eski, yanıtlanmamış davetler temizlensin.
-  // (Saatlik cron da aynı işi yapar; cron durursa liste yine birikmesin diye
-  //  burada da tetikleniyor.)
-  useEffect(() => {
-    let iptal = false;
-    (async () => {
-      try {
-        const { data, error } = await supabase.rpc("eski_davetleri_temizle");
-        if (error) throw error;
-        if (!iptal && data > 0) {
-          grupYukle();
-          hizliYukle();
-          yukle();
-        }
-      } catch (e) { console.warn("[Bildim] eski_davetleri_temizle başarısız:", e?.message ?? e);
-        /* RPC yoksa (migration bekliyor) veya ağ hatası — sessiz geç */
-      }
-    })();
-    return () => { iptal = true; };
-  }, [grupYukle, hizliYukle, yukle]);
+  // 24 saatten eski, yanıtlanmamış davetleri yalnız saatlik cron temizler
+  // (bildim-eski-davet-temizle). Güvenlik A.8 (10 Eki 2026): fonksiyon istemciye kapalı.
 
   useEffect(() => {
     // Dondurulmuş mod: bayrak kapalıyken ne okunur ne kanal açılır (sayfa her açılışta 2 sorgu + 1 kanal harcıyordu).

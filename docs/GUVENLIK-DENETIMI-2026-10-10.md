@@ -14,22 +14,46 @@ ve bedava coin/elmas/ödül alamıyor. Öneriler daha çok yan oyun tabloları, 
 
 ## A. Sahibinin onayı gereken güvenlik kuralı değişiklikleri (önem sırasıyla)
 
-Hiçbiri uygulanmadı. Hepsi yetki/izin değişikliği olduğu için Ida'nın onayını bekliyor.
+Ida 10 Eki 2026 14:48'de A.1, A.4–A.12'yi onayladı; aynı gün **migration 1047** (`20260612001047_guvenlik_a_yetki_temizligi.sql`) ile uygulandı.
+Geri alma: `docs/guvenlik-a-geri-al.sql`. A.2 ve A.3 bu işin dışında (bekliyor). Uygulama notları tablonun altında.
 
 | # | Değişiklik | Neden | Risk seviyesi |
 |---|---|---|---|
-| 1 | **Push aboneliği doğrulaması** (`save_push_subscription`): endpoint alan adı izin listesi (fcm.googleapis.com, *.push.services.mozilla.com, *.push.apple.com, *.notify.windows.com), ≤ 1000 karakter, kullanıcı başına ≤ 5 abonelik; `on conflict (endpoint)` başka kullanıcının endpoint'ini **devralmasın** | Bugün herhangi bir adres kaydedilebiliyor → `send-push` sunucusu rastgele adreslere istek atar (sınırlı SSRF); başkasının cihazının bildirimleri üstlenilebilir | Orta-Yüksek |
+| 1 | **Push aboneliği doğrulaması** (`save_push_subscription`): endpoint alan adı izin listesi (fcm.googleapis.com, *.push.services.mozilla.com, *.push.apple.com, *.notify.windows.com), ≤ 1000 karakter, kullanıcı başına ≤ 5 abonelik; `on conflict (endpoint)` başka kullanıcının endpoint'ini **devralmasın** | Bugün herhangi bir adres kaydedilebiliyor → `send-push` sunucusu rastgele adreslere istek atar (sınırlı SSRF); başkasının cihazının bildirimleri üstlenilebilir | Orta-Yüksek · **UYGULANDI (migration 1047)** |
 | 2 | **Misafir (anonim) girişe captcha** (Supabase Auth › hCaptcha/Turnstile) | `security_captcha_enabled = false`; misafir hesap IP başına saatte 30 açılabiliyor. Davet ödülü (100 coin) ve reklam tavanı hesap çoğaltarak katlanır | Orta |
 | 3 | **Yan oyun tabloları:** `pr_users` ve `dg_profiles` için `revoke update ... from authenticated` (yazma RPC'ye taşınsın); `pr_races` UPDATE `using (true)` politikası kalksın (oda sahibi kontrolü); `dg_ghosts` sahip kolonu + `user_id = auth.uid()`; `pr_error_logs` INSERT `with check (user_id = auth.uid())` | Oyuncu kendi PatiRun puanını / DidaGP XP'sini doğrudan istediği değere yazabiliyor, başkasının yarışını/hayaletini ezebiliyor. Bu değerler anon'a açık `birlesik_siralama()`'ya giriyor | Orta (ana oyunla para bağı yok) |
-| 4 | **Facebook kimliği** (`facebook_kimligi_kaydet`): `fb_id` istemciden değil `auth.identities`'ten okunsun; `facebook_arkadas_onerileri` anon'dan kapatılsın | Biri başkasının FB kimliğini sahiplenip onun arkadaşlarına "Facebook arkadaşı" olarak önerilebilir | Orta |
-| 5 | **PUBLIC/anon EXECUTE temizliği:** 57 fonksiyonda PUBLIC'e EXECUTE açık (38'i security definer) → anon 47 definer fonksiyonu çağırabiliyor. `revoke execute ... from public, anon` + `grant ... to authenticated`; `alter default privileges in schema public revoke execute on functions from public` | Bugün açık yok (çoğu `auth.uid()` boşsa reddediyor) ama gereksiz saldırı yüzeyi. Anon'a gerçekten açık kalması gerekenler ayrı seçilmeli (ör. `sonraki_turnuva_*`, `birlesik_siralama` bilinçli mi?) | Düşük-Orta |
-| 6 | `coin_harca` istemciye kapatılsın (`elmas_harca` zaten kapalı) | Yalnız kendi coin'ini düşürür ama `p_tur`/`p_referans` serbest → `coin_hareketleri`'ne sahte kayıt; istemci kodu çağırmıyor | Düşük |
-| 7 | `get_tournament_question` üyelik/elenme kontrolü | Anon dahil herkes aktif turnuva sorusunu (cevapsız) çekebiliyor | Düşük |
-| 8 | `eski_davetleri_temizle` (cron işi) ve `mac_oyuncu_indeksi` (iç yardımcı) authenticated'dan kapatılsın | İstemcinin çağırması gerekmiyor; ikincisi başka maçın soru indeksini gösteriyor | Düşük |
-| 9 | `avatarlar` kovası: `file_size_limit` 2 MB + `allowed_mime_types` png/jpeg/webp | Herkese açık kovada boyut/tür sınırı yok (yazma yalnız kendi klasörüne) | Düşük |
-| 10 | `net.http_*` (pg_net) anon/authenticated'dan kapatılsın | `net` şeması REST'e açık değil, savunma derinliği | Düşük |
-| 11 | Varsayılan tablo yetkisi: `alter default privileges in schema public revoke insert, update, delete on tables from anon` | 56 tabloda anon'a yazma GRANT'ı var (Supabase varsayılanı); RLS kapattığı için fiilen kapalı | Düşük |
-| 12 | `kasa_deneme_ozeti` view'ı `security_invoker = on` | Definer view; bugün kimse SELECT edemiyor | Düşük |
+| 4 | **Facebook kimliği** (`facebook_kimligi_kaydet`): `fb_id` istemciden değil `auth.identities`'ten okunsun; `facebook_arkadas_onerileri` anon'dan kapatılsın | Biri başkasının FB kimliğini sahiplenip onun arkadaşlarına "Facebook arkadaşı" olarak önerilebilir | Orta · **UYGULANDI (migration 1047)** |
+| 5 | **PUBLIC/anon EXECUTE temizliği:** 57 fonksiyonda PUBLIC'e EXECUTE açık (38'i security definer) → anon 47 definer fonksiyonu çağırabiliyor. `revoke execute ... from public, anon` + `grant ... to authenticated`; `alter default privileges in schema public revoke execute on functions from public` | Bugün açık yok (çoğu `auth.uid()` boşsa reddediyor) ama gereksiz saldırı yüzeyi. Anon'a gerçekten açık kalması gerekenler ayrı seçilmeli (ör. `sonraki_turnuva_*`, `birlesik_siralama` bilinçli mi?) | Düşük-Orta · **UYGULANDI (migration 1047)** |
+| 6 | `coin_harca` istemciye kapatılsın (`elmas_harca` zaten kapalı) | Yalnız kendi coin'ini düşürür ama `p_tur`/`p_referans` serbest → `coin_hareketleri`'ne sahte kayıt; istemci kodu çağırmıyor | Düşük · **UYGULANDI (migration 1047)** |
+| 7 | `get_tournament_question` üyelik/elenme kontrolü | Anon dahil herkes aktif turnuva sorusunu (cevapsız) çekebiliyor | Düşük · **UYGULANDI (migration 1047)** |
+| 8 | `eski_davetleri_temizle` (cron işi) ve `mac_oyuncu_indeksi` (iç yardımcı) authenticated'dan kapatılsın | İstemcinin çağırması gerekmiyor; ikincisi başka maçın soru indeksini gösteriyor | Düşük · **UYGULANDI (migration 1047)** |
+| 9 | `avatarlar` kovası: `file_size_limit` 2 MB + `allowed_mime_types` png/jpeg/webp | Herkese açık kovada boyut/tür sınırı yok (yazma yalnız kendi klasörüne) | Düşük · **UYGULANDI (migration 1047)** |
+| 10 | `net.http_*` (pg_net) anon/authenticated'dan kapatılsın | `net` şeması REST'e açık değil, savunma derinliği | Düşük · **UYGULANAMADI — sahibi supabase_admin (aşağıda)** |
+| 11 | Varsayılan tablo yetkisi: `alter default privileges in schema public revoke insert, update, delete on tables from anon` | 56 tabloda anon'a yazma GRANT'ı var (Supabase varsayılanı); RLS kapattığı için fiilen kapalı | Düşük · **UYGULANDI (migration 1047)** |
+| 12 | `kasa_deneme_ozeti` view'ı `security_invoker = on` | Definer view; bugün kimse SELECT edemiyor | Düşük · **UYGULANDI (migration 1047)** |
+
+### A — uygulama notları (10 Eki 2026, migration 1047)
+- **A.1:** canlıda **0 push aboneliği** vardı (listede olmayan alan adı yok). Alan adı `fcm.googleapis.com`, `*.push.services.mozilla.com`,
+  `*.push.apple.com`, `*.notify.windows.com` (yalnız https; `@`/port hilesi geçmez); endpoint ≤ 1000, p256dh ≤ 200, auth ≤ 100;
+  kullanıcı başına 5 (en eski silinir); `on conflict` yalnız kendi satırını günceller, başkasınınki "başka bir hesaba kayıtlı" ile reddedilir.
+  İstemci (`oyun/lib/push.js`): bu hatada tarayıcı aboneliğini yenileyip yeni adresi kaydeder (aynı cihazda hesap değişimi).
+- **A.4:** `p_fb_id` geriye uyum için alınır ama kullanılmaz; kimlik `auth.identities` (provider='facebook') `provider_id`'den. Canlıda FB kimliği 0.
+- **A.5:** anon'a açık 66 fonksiyon vardı. İstemci kodunda giriş yapılmadan çağrılan **tek RPC `ses_secimleri_oyun`** (giriş ekranı müziği,
+  `oyun/lib/sesArkaPlan.js`); oturumsuz yalnız giriş, /gizlilik, /kosullar açılıyor. Davet önizleme, turnuva sayacı, sıralama girişten sonra.
+  → 35 istemci RPC'si: anon/PUBLIC kapandı, authenticated açık. 30 iç fonksiyon (yardımcılar, 3 tetikleyici, `birlesik_siralama`,
+  `pr_apply_race_result`, `sonraki_turnuva_bilgi/tarihi`, `turnuva_saati`, `yanlis_kaydet` …; hiçbiri istemcide/RLS'te/invoker zincirde yok)
+  authenticated'a da kapandı. Varsayılan: `alter default privileges for role postgres revoke execute on functions from public` (genel —
+  şema düzeyinde PUBLIC geri alınamıyor, PostgreSQL kuralı) + şema public'te anon. `supabase_admin`'in varsayılanı postgres'ten değiştirilemiyor.
+- **A.6:** istemci `coin_harca` çağırmıyordu (doğrulandı). **A.8:** `eski_davetleri_temizle` istemcide çağrılıyordu (Meydan sayfası açılışı) →
+  çağrı kaldırıldı, saatlik cron (postgres) yapıyor.
+- **A.7:** istemci (`TournamentPage`) yalnız kayıtlı + elenmemişken soru çeker (izleyici/elenen için boş yeniden deneme yok).
+- **A.9:** kovada 95 dosya, hepsi png, en büyüğü 68 KB — sınıra uymayan yok.
+- **A.10 UYGULANAMADI:** `net` şeması ve `net.http_*` sahibi `supabase_admin`, EXECUTE PUBLIC'ten geliyor; postgres'in REVOKE'u etkisiz
+  (işlem içinde ölçüldü). Supabase tarafında (destek) yapılabilir. Not: `net.worker_restart()`, `net.wake()` da anon/authenticated'a açık.
+- **A.11:** yalnız postgres'in varsayılanı (yeni tablolar); mevcut 56 tablonun GRANT'ı aynen (RLS kapatıyor). supabase_admin varsayılanı değiştirilemiyor.
+- **Prova** (`araclar/guvenlik-a-prova.mjs`, tek işlem + geri alma): 64/64 — anon kapalı/açık, 224 istemci RPC adı ve RLS fonksiyonları
+  authenticated'a açık, maç arama/Klasik/Düello/Hazine/satın alma/BP/görev/DM/arkadaşlık, push (4 geçerli alan adı, sahte/userinfo/http/uzun
+  reddi, devralma reddi, 5 sınırı), turnuva (kayıtlı alır, kayıtsız/elenen alamaz), FB, cron işleri postgres'le.
 
 ## B. Döndürülmesi (rotate) gereken anahtarlar
 
