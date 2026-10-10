@@ -208,7 +208,9 @@ export default function QuestionCard({
       if (!cevapVerildiRef.current) kalanRef.current = k;
       if (kaymaRef.current.anahtar !== soruAnahtar) kaymaRef.current = { anahtar: soruAnahtar, ...sayacKaymasi(k) };
       const g = sayacGoster(k, kaymaRef.current);
-      setGosterKalan(g);
+      // 10 Eki 2026 (Düello/Hazine ile aynı): cevap verilince gösterilen sayaç o anki değerde durur (cevap gitmezse
+      // cevapVerildiRef geri alınır, sayaç yeniden akar). Süre mantığı gerçek `kalan`da kalır.
+      if (!cevapVerildiRef.current) setGosterKalan(g);
       // Son 5 saniye: her tam saniyede bir tik sesi (cevap verildiyse susar)
       if (g > 0 && g <= 5 && !cevapVerildiRef.current) {
         const sn = Math.ceil(g);

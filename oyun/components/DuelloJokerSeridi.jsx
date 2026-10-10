@@ -45,7 +45,8 @@ export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan,
   const genelEngel = !soruAcik ? c("Soru açılınca kullanılır.")
     : d.uzatma ? c("Altın Soru'da joker kullanılamaz.")
     : hakBitti ? c("Bu maçtaki joker kullanımın doldu.")
-    : cevapladim ? c("Cevap verdikten sonra joker kullanılamaz.")
+    // 10 Eki 2026 (Ida): cevaptan sonra sayaç durur; burada "süre doldu" değil, cevabın gittiği yazar.
+    : cevapladim ? (cv.rakip_cevapladi ? c("Cevabın gitti") : c("Cevabın gitti · rakip bekleniyor"))
     : soruHakBitti ? c("Bu soruda joker hakkını kullandın")
     : kalanSn <= 0 ? c("Süren doldu — sonuç bekleniyor.")
     : null;

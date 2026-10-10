@@ -607,7 +607,8 @@ export default function GroupMatchPage() {
   }
 
   if (mac.durum === "bitti") {
-    if (!macSonuOzet) return <div className="msk-bekle" aria-busy="true" />;
+    // 10 Eki 2026: özet hata verdiyse sahne özetsiz kurulur (eskiden sonsuza dek boş sayfa kalıyordu).
+    if (!macSonuOzet && !macSonuHata) return <div className="msk-bekle" aria-busy="true" />;
     const kazandim = mac.kazanan === user.id;
     const berabere = mac.kazanan === null;
     const sahneVeri = ozettenSahne(macSonuOzet);
@@ -634,7 +635,7 @@ export default function GroupMatchPage() {
           <>
             {oyuncuListesi(siraliSkor, (k) => <b className="qt-sayi">{k.skor}</b>, true)}
             {/* Paket 20 I.3: ödülsüz mod — döküm yalnız açılan rozet + günlük görev ilerlemesini gösterir */}
-            <OdulDokumu kaynak={`grup:${id}`} veri={macSonuOzet.dokum} gorevleriGoster={false} />
+            <OdulDokumu kaynak={`grup:${id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />
             <MacSorulari kaynak={`grup:${id}`} />
             <YanlisSatiri macTur="grup" macId={id} onAdet={setYanlisAdet} />
           </>

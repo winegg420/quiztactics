@@ -2,7 +2,7 @@
    iOS: position:fixed YOK; transform'lu animasyonlar yalnız iç sahnede (.d4-sahne, .d4-hat) — içlerinde fixed katman yok.
    Yükseklik dvh (kökten). Dokunma hedefi ≥ 44 px; 360 px'te taşma yok. Hareket yalnız transform/opacity ve
    prefers-reduced-motion: no-preference içinde. Düello düğmesi kan kırmızısı (--qt-mod-duello). */
-.d4-arena { gap: 6px; }
+.d4-arena { gap: 6px; position: relative; }   /* bağlantı bandı katmanı (.m2-bant--katman) buna göre durur */
 .d4-arena > .d4-sahne { flex: 1 1 auto; }
 
 /* ---------------------------------------------------------------- üst çubuk: oyuncular · tur · sayaç · çekirdek */
@@ -62,6 +62,10 @@
 .d4-baslik { display: flex; align-items: center; gap: 8px; min-width: 0; }
 /* 1034 · tek dokunuş kart akışı: adım yazısı; duyuru sırasında vurgulanır, kartlar kilitli (sayaç durur) */
 .d4-kart-yazi { font-size: 19px !important; text-wrap: balance; }
+/* 10 Eki 2026: iki adımın yazısı aynı ızgara hücresinde — başlık yüksekliği adım değişince sabit (kartlar zıplamaz) */
+.d4-kart-yazi { display: grid; align-items: center; }
+.d4-kart-yazi-ic { grid-area: 1 / 1; }
+.d4-kart-yazi-ic[aria-hidden="true"] { visibility: hidden; }
 .d4-kart-yazi--duyuru { color: var(--qt-vurgu, #FFD34D) !important; animation: d4-kart-duyuru 0.45s ease-out both; }
 @keyframes d4-kart-duyuru { from { opacity: 0; scale: 0.92; } to { opacity: 1; scale: 1; } }
 .d4-kartlar--duyuru { opacity: 0.72; transition: opacity 0.2s; }

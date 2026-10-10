@@ -587,3 +587,12 @@
 .m2-giris:not(.ks-giris) > .m2-giris-eylem > .m2-giris-not { margin-top: calc(var(--qt-b-2) - var(--qt-b-4)); }
 /* "Hakkın yok": alarm kırmızısı yerine sade soluk not (joker hâlâ maçta coin'le alınabilir) */
 .m2-giris:not(.ks-giris) .qt-dk-seti-yuva .qt-dk-seti-adet--yok { color: var(--qt-metin-soluk); font-weight: var(--qt-a-normal); }
+
+/* 10 Eki 2026: bağlantı/kopukluk bandı yerleşimi KAYDIRMAZ — maç kabının üst kenarında katman olarak durur (üst çubuğun
+   üstüne biner, dokunuşu geçirir). Eskiden akış içindeydi: bant çıkınca kartlar/şıklar aşağı kayıyor, ikinci dokunuş
+   yanlış yere düşüyordu. Kap `position: relative` olmalı (.ks-mac, .d4-arena). iOS: fixed değil, transform yok. */
+.m2-bant--katman {
+  position: absolute; z-index: 40; top: 4px; left: 10px; right: 10px;
+  pointer-events: none; box-shadow: 0 4px 14px rgb(0 0 0 / 0.18);
+}
+body.bd-oyun-modu .m2-mac > .m2-bant.m2-bant--katman { padding: var(--qt-b-1, 4px) var(--qt-b-2); }

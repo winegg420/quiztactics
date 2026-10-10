@@ -20,6 +20,7 @@ import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import QuestionCard from "../components/QuestionCard.jsx";
 import SkillSeti from "../components/SkillSeti.jsx";
+import SureDolduGecis from "../components/SureDolduGecis.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
 import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
@@ -66,7 +67,7 @@ export default function TournamentPage() {
   const [terkEttim, setTerkEttim] = useState(false);   // A.1: "Çık ve elen" → turnuva_terk (ödülsüz)
   // A.3: yeni maç sonu sahnesinin verisi (tek çağrı: mac_sonu_ozet) — turnuva bitince, katıldıysan.
   const turnuvaKatildim = oyuncular.some((o) => o.user_id === user?.id);
-  const { ozet: macSonuOzet } = useMacSonuOzet(
+  const { ozet: macSonuOzet, hata: macSonuHata } = useMacSonuOzet(
     turnuva?.durum === "bitti" && turnuvaKatildim ? `turnuva:${turnuva.id}` : null);
   const [soru, setSoru] = useState(null);
   // Soru bütün denemelere rağmen gelmedi mi? (sessiz donma yerine görünür hata)
@@ -587,15 +588,22 @@ export default function TournamentPage() {
         try { sessionStorage.setItem(kapanmaAnahtari, "1"); } catch { /* özel mod */ }
         setSonucKapandi((x) => x + 1);
       };
-      if (!macSonuOzet) return <div className="msk-bekle" aria-busy="true" />;
-      const sahneVeri = ozettenSahne(macSonuOzet);
       const benSatir = oyuncular.find((o) => o.user_id === user?.id);
+      // 10 Eki 2026: özet gelene dek boş sayfa yerine "Turnuva bitti" perdesi (Klasik/Grup ile aynı); özet hata verirse
+      // sahne özetsiz kurulur.
+      if (!macSonuOzet && !macSonuHata) {
+        return (
+          <SureDolduGecis baslik={turnuva.kazanan === user?.id ? tt("ŞAMPİYON!") : tt("Turnuva bitti")} skor={benSatir?.dogru_sayisi ?? 0}
+                          skorEtiket={tt("doğru")} kazandi={turnuva.kazanan === user?.id} kaybetti={turnuva.kazanan !== user?.id} sessiz />
+        );
+      }
+      const sahneVeri = ozettenSahne(macSonuOzet);
       // Derece: sunucunun ödül dağıtımında yazdığı sıra (turnuva_derece); yoksa aynı düzenle istemcide.
       const siraliOyuncular = [...oyuncular].filter((o) => !o.terk_at).sort((a, b) =>
         (a.elendi === b.elendi ? 0 : a.elendi ? 1 : -1)
         || ((b.elenme_sorusu ?? Infinity) - (a.elenme_sorusu ?? Infinity))
         || ((b.dogru_sayisi ?? 0) - (a.dogru_sayisi ?? 0)));
-      const sira = macSonuOzet.dokum?.kalemler?.find((k) => k.kalem === "turnuva_derece")?.detay?.sira
+      const sira = macSonuOzet?.dokum?.kalemler?.find((k) => k.kalem === "turnuva_derece")?.detay?.sira
         ?? (siraliOyuncular.findIndex((o) => o.user_id === user?.id) + 1 || null);
       const sampiyonBenim = turnuva.kazanan === user?.id;
       // A.3 kararı: turnuvada orta sahnede kendi sonucun + derecen ("N. · M oyuncu arasında"); şampiyon
@@ -634,7 +642,7 @@ export default function TournamentPage() {
                   <div className="m1-ss-taraf-ek">{tt("Şampiyon")}</div>
                 </div>
               )}
-              <OdulDokumu kaynak={`turnuva:${turnuva.id}`} veri={macSonuOzet.dokum} gorevleriGoster={false} />
+              <OdulDokumu kaynak={`turnuva:${turnuva.id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />
               <MacSorulari kaynak={`turnuva:${turnuva.id}`} />
               <YanlisSatiri macTur="turnuva" macId={turnuva.id} onAdet={setTurnuvaYanlis} />
             </>

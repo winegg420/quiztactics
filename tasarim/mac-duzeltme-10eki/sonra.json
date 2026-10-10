@@ -1,0 +1,48 @@
+{
+ "K1": {
+  "bantOrnek": 0,
+  "toplam": 54
+ },
+ "K2": {
+  "ilkBantSn": 13.159,
+  "temel": {
+   "sahneY": 220,
+   "sikY": 398
+  },
+  "bantli": {
+   "sahneY": 220,
+   "sikY": 398
+  }
+ },
+ "K3": {
+  "gizliIstek": 0,
+  "kasaDurumMs": 7,
+  "kalpAtMs": 5
+ },
+ "K4": {
+  "bosMs": 0
+ },
+ "D1": {
+  "sayac": [
+   "11",
+   "11"
+  ],
+  "metin": "Cevabın gitti · rakip bekleniyor"
+ },
+ "D2-360": {
+  "adim1": 230,
+  "adim2": 230,
+  "sureDoldu": 230
+ },
+ "D2-390": {
+  "adim1": 219,
+  "adim2": 219,
+  "sureDoldu": 219
+ },
+ "D3": {
+  "bantOrnek": 0
+ },
+ "D4": {
+  "bosMs": 0
+ }
+}

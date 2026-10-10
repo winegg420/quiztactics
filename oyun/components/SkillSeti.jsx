@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import {
@@ -31,8 +31,9 @@ import "../tasarim/ekranlar/dukkan-bilesen.css";
  *
  * @param {"1v1"|"duello"} macTur
  * @param {boolean} [acikBaslar] seçim listesi açık başlasın (Klasik pencere adımı)
+ * @param {() => void} [onHazir] karar bilinince (çizildi ya da hiç çizilmeyecek) bildirilir — lobi düğmesi kaymasın diye
  */
-export default function SkillSeti({ macTur = "1v1", acikBaslar = false }) {
+export default function SkillSeti({ macTur = "1v1", acikBaslar = false, onHazir }) {
   const loadoutModu = LOADOUT_MODLARI.includes(macTur);
   // Düello v4'te Baskın ve Kalkan yok: seçim listesinde ve yuvalarda gösterilmez.
   const { v4 } = useDuelloKurallari();
@@ -45,6 +46,12 @@ export default function SkillSeti({ macTur = "1v1", acikBaslar = false }) {
   const [acik, setAcik] = useState(acikBaslar);
   const [hata, setHata] = useState(null);
   const [kaydediliyor, setKaydediliyor] = useState(false);
+  // 10 Eki 2026: Düello lobisinde "Rakip ara" bu kart yüklenince ~220 px aşağı kayıyordu (ilk dokunuş boşa düşüyordu).
+  const hazirRef = useRef(onHazir);
+  hazirRef.current = onHazir;
+  useEffect(() => {
+    if (!loadoutModu || kapali !== null) hazirRef.current?.();
+  }, [loadoutModu, kapali]);
   const uygunlar = AKTIF_MAC_SKILLERI.filter((id) => SKILL_TANIMLARI[id].allowedModes?.includes(macTur) && !v4Gizli.includes(id));
 
   useEffect(() => {

@@ -18,6 +18,7 @@ import { aktifDil } from "../../lib/dil.js";
 import { soruUzunlukSinifi } from "../../lib/soruUzunluk.js";
 import { secenekleriCoz } from "../DuelloV2.jsx";
 import { BasiliTut } from "../../lib/useBasiliTut.js";
+import { useDonukSayac } from "../../lib/useDonukSayac.js";
 import { QtDugme, QtIkon, QtSayac, QtSik, QtSikler, QtSoruKarti, sinif } from "../../tasarim/index.js";
 import { sesDogru, sesYanlis, sesTik, sesKategoriGeriSayim, sesTurGecis, sesCanKaybi, sesSoruGeldi,
   sesKategoriSecildi, sesRakipCevapladi, sesSonSaniyeler } from "../../lib/ses.js";
@@ -148,6 +149,16 @@ export default function Duello4Arena({
   const soruFazi = ["notr", "cevap", "son"].includes(d.faz);
   const cv = d.cevap ?? {};
   const kilitli = Boolean(cv.ben_cevapladim);
+  // 10 Eki 2026: cevap verilince (istek yoldayken de) sayaç durur; joker şeridi "Cevabın gitti · rakip bekleniyor" der.
+  const cevapVerdim = soruFazi && (kilitli || (secim !== null && secim !== undefined));
+  const sayacSn = useDonukSayac(gosterSn, cevapVerdim, String(v.soru_no ?? ""));
+  // Otomatik seçim adım adım (sunucu oto_gonder / oto_sec; eski yanıtta yalnız oto): rakibe giden = gönderilen, kontrol
+  // sahibinin kendi sorusu = seçilen. "Süre doldu · otomatik seçildi" yalnız GERÇEKTEN otomatik seçilen kategori için.
+  const otoAdim = v.oto_gonder !== undefined || v.oto_sec !== undefined;
+  const otoGonder = otoAdim ? Boolean(v.oto_gonder) : Boolean(v.oto);
+  const otoSec = otoAdim ? Boolean(v.oto_sec) : Boolean(v.oto);
+  const otoBenim = benKontrol ? otoSec : otoGonder;   // benim sorumun kategorisi
+  const otoRakip = benKontrol ? otoGonder : otoSec;   // rakibin sorusunun kategorisi
   const rakipAd = adKisalt(rakip.gorunen_ad);
   const oranRakip = c("Rakip");   // kart oranlarında kısa etiket (ad kesilmesin)
   const h = d.faz === "sonuc" ? d.son_hamle : null;
@@ -250,7 +261,7 @@ export default function Duello4Arena({
         <div className="d4-orta">
           <span className="d4-tur">{v.son ? c("SON DÜELLO") : kontrol == null ? c("NÖTR") : <>{c("Tur")} <b className="qt-sayi">{v.tur}/{v.max_tur}</b></>}</span>
           {sayacVar
-            ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={d.faz === "kart" ? 3 : 5} boyut="k" durdu={kilitli || d.kopuk != null || (d.faz === "kart" && gosterimBas != null && sunucuSimdi < gosterimBas)} ekBalon={ekBalon} className="d4-sayac" />
+            ? <QtSayac kalan={soruFazi ? sayacSn : gosterSn} toplam={toplamSn} esik={d.faz === "kart" ? 3 : 5} boyut="k" durdu={cevapVerdim || d.kopuk != null || (d.faz === "kart" && gosterimBas != null && sunucuSimdi < gosterimBas)} ekBalon={ekBalon} className="d4-sayac" />
             : <span className="d4-sayac d4-sayac--bos" aria-hidden="true" />}
         </div>
         <Oyuncu o={rakip} c={c} rakipMi kontrolde={kontrol === rakip.id} seri={Number(v.seri ?? 0)} hedef={hedef} tepki={tepkiRakip}
@@ -300,11 +311,13 @@ export default function Duello4Arena({
             <span className="d4-adim">{ikinci ? "2/2" : "1/2"}</span>
             {KART_TEK_DOKUNUS
               ? <h2 key={ikinci ? "k2" : "k1"} className={sinif("d4-kart-yazi", duyuruda && "d4-kart-yazi--duyuru")} role="status">
-                  {ikinci ? c("Kendi kategorini seç") : c("Rakibe gönderilecek kategoriyi seç")}
+                  {/* İki adımın yazısı aynı hücrede üst üste: başlık yüksekliği adım değişince DEĞİŞMEZ (EN'de 1. adım 2 satır,
+                      2. adım 1 satırdı → kartlar zıplıyor, ikinci dokunuş yanlış karta düşüyordu — 10 Eki 2026). */}
+                  <span className="d4-kart-yazi-ic" aria-hidden={ikinci ? true : undefined}>{c("Rakibe gönderilecek kategoriyi seç")}</span>
+                  <span className="d4-kart-yazi-ic" aria-hidden={ikinci ? undefined : true}>{c("Kendi kategorini seç")}</span>
                 </h2>
               : <h2>{ikinci ? c("KENDİNE SEÇ") : c("RAKİBE GÖNDER")}</h2>}
           </div>
-          {sureBitti && <p className="d4-alt d4-oto-not" role="status">{c("Süre doldu · otomatik seçiliyor")}</p>}
           <div className={sinif("d4-kartlar", duyuruda && "d4-kartlar--duyuru")}>
             {kartlar.map((x, i) => {
               const durum = x.k === gonderilen ? "rakibe"
@@ -317,6 +330,8 @@ export default function Duello4Arena({
               );
             })}
           </div>
+          {/* Kartların ALTINDA: üstte çıkınca kartları aşağı itiyordu (10 Eki 2026) */}
+          {sureBitti && <p className="d4-alt d4-oto-not" role="status">{c("Süre doldu · otomatik seçiliyor")}</p>}
         </div>
       );
       if (!KART_TEK_DOKUNUS) eylem = (
@@ -355,7 +370,8 @@ export default function Duello4Arena({
             <b>{c(kategoriAdi(v.rakip_kategori))}</b>
           </div>
         </div>
-        {v.oto && <p className="d4-alt">{c("Süre doldu · otomatik seçildi")}</p>}
+        {(otoBenim || otoRakip) && <p className="d4-alt">{otoBenim && otoRakip ? c("Süre doldu · otomatik seçildi")
+          : c("Süre doldu · {k} otomatik seçildi", { k: c(kategoriAdi(otoBenim ? v.benim_kategori : v.rakip_kategori)) })}</p>}
       </div>
     );
   } else if (soruFazi && soruMetni) {
@@ -402,13 +418,13 @@ export default function Duello4Arena({
         {d.faz === "cevap" && v.rakip_kategori && (
           // Otomatik seçim bilgisi burada da durur: istemci soruyu açılış anından geç görürse (ağ / sekme) bilgi kaybolmasın.
           <p className="d4-rakip-kat"><KategoriIkon anahtar={v.rakip_kategori} boyut={16} />{c("Rakibin sorusu: {k}", { k: c(kategoriAdi(v.rakip_kategori)) })}
-            {v.oto && <span className="d4-oto-etiket"> · {c("Süre doldu · otomatik seçildi")}</span>}</p>
+            {otoRakip && <span className="d4-oto-etiket"> · {c("Süre doldu · otomatik seçildi")}</span>}</p>
         )}
       </div>
     );
     if (d.faz !== "son") {
       eylem = (
-        <V2Skill d={{ ...d, faz: "cevap", uzatma: false, hakimiyet: null }} calisan={calisan} kalanSn={gosterSn} serbest={jokerSerbest}
+        <V2Skill d={{ ...d, faz: "cevap", uzatma: false, hakimiyet: null, cevap: { ...cv, ben_cevapladim: cevapVerdim } }} calisan={calisan} kalanSn={sayacSn} serbest={jokerSerbest}
                  sonKullanilan={sonKullanilan} onKullan={onJoker} c={c} skillDeger={skillDeger} />
       );
     }
@@ -447,7 +463,7 @@ export default function Duello4Arena({
       <MacUstSerit onCik={onCik} cikisEtiketi={c("Düellodan çık")} rozet={c("Düello")} />
       {ust}
       {kopukBant && (
-        <p className="m2-bant m2-bant--uyari" role="status">
+        <p className="m2-bant m2-bant--uyari m2-bant--katman" role="status">
           <QtIkon ad="uyari" boyut={18} />
           <span>
             {kopukBant.benMi ? c("Bağlantın koptu — düello bekliyor.") : c("Rakibin bağlantısı koptu — düello durduruldu.")}
@@ -456,7 +472,7 @@ export default function Duello4Arena({
         </p>
       )}
       {yenidenBant && (
-        <p className="m2-bant m2-bant--uyari" role="status"><QtIkon ad="yenile" boyut={18} /><span>{c("Bağlantı yeniden kuruluyor…")}</span></p>
+        <p className="m2-bant m2-bant--uyari m2-bant--katman" role="status"><QtIkon ad="yenile" boyut={18} /><span>{c("Bağlantı yeniden kuruluyor…")}</span></p>
       )}
       <main className={sinif("d4-sahne", sarsinti && "d4-sahne--sarsinti")} key={`${d.faz}-${v.soru_no}-${v.tur}`}>
         {panel}

@@ -43,6 +43,7 @@ import { useOyunModu } from "../lib/oyunModu.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle, tikBasligiEkle } from "../lib/zaman.js";
 import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
 import { BasiliTut } from "../lib/useBasiliTut.js";
+import { useDonukSayac } from "../lib/useDonukSayac.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesDokunus, sesRakipBulundu, sesSoruGeldi,
@@ -83,7 +84,7 @@ const DURUM_ZAMAN_ASIMI_MS = 10000;   // statement_timeout 8 sn + ağ payı; dah
 const sunucuYetisemedi = (e) => ["zaman_asimi", "sunucu", "ag"].includes(hataTuru(e));
 const GECIKMIS_YOKLAMA_MS = 2000;
 const GECIKMIS_PENCERE_MS = 30000;
-const GECIKME_BANT_MS = 4000;
+const BANT_SESSIZLIK_MS = 10000;   // "Bağlantı yeniden kuruluyor" yalnız bu kadar süre başarılı yanıt gelmediyse
 const KASA_ARAMA_SINIR_SN = 60;
 const IPUCU_SN = 3;
 // 951 anları (kasa-efekt.css süreleriyle eşleşir)
@@ -338,7 +339,8 @@ function KasaMac({ id }) {
   const [calisan, setCalisan] = useState(null);
   const [terkOnay, setTerkOnay] = useState(false);
   useOyunModu(d?.durum === "aktif");
-  const { ozet: macSonuOzet } = useMacSonuOzet(d?.durum === "bitti" && d?.id ? `kasa:${d.id}` : null);
+  const { ozet: macSonuOzet, hata: macSonuHata } = useMacSonuOzet(d?.durum === "bitti" && d?.id ? `kasa:${d.id}` : null);
+  const sonFinRef = useRef(null);   // 10 Eki 2026: final sahnesi bitti ama özet gelmediyse sahne ekranda kalır
   // 957: maç içi tepki (Klasik/Düello ile aynı; yalnız tepki_acik_modlar'daki modda — bugün Antrenman). Sunucu
   // özel kanalı ('tepki-kasa-<id>', yalnız iki oyuncu) verir; sayfanın kasa kanalı tepki taşımaz.
   const tepkiRakipId = (d?.oyuncular ?? []).find((o) => o.id !== d?.ben)?.id ?? null;
@@ -385,6 +387,7 @@ function KasaMac({ id }) {
   const sonYukleRef = useRef(0);
   const hataSayisiRef = useRef(0);
   const yenidenDeneRef = useRef(null);
+  const sonBasariRef = useRef(Date.now());   // son başarılı kasa_durum yanıtı (bant yalnız ≥ 10 sn sessizlikte)
   const [yenidenBaglaniyor, setYenidenBaglaniyor] = useState(false);
   // 1055: ilk veri 8 sn'de gelmezse yükleniyor ikonu yerine okunur "Maç açılamadı" + "Tekrar dene" (arka planda deneme sürer)
   const [yuklemeGecikti, setYuklemeGecikti] = useState(false);
@@ -406,6 +409,7 @@ function KasaMac({ id }) {
       const { data, error } = await supabase.rpc("kasa_durum", { p_id: id }).abortSignal(kes.signal);
       const alindi = Date.now();
       if (error) throw error;
+      sonBasariRef.current = Date.now();
       if (data) {
         // 980: istek/yanıt orta noktası + penceredeki en kısa gidiş-dönüş (eskisi yanıt anı + en büyük farktı:
         // giriş geri sayımı ve sayaç dönüş gecikmesi kadar geride kalıyor, örnek pencereden düşünce sıçrıyordu)
@@ -606,6 +610,9 @@ function KasaMac({ id }) {
     if (fazKaymaRef.current.anahtar !== anahtar) fazKaymaRef.current = { anahtar, ...sayacKaymasi(kalanSn) };
     return sayacGoster(kalanSn, fazKaymaRef.current);
   }, [kalanSn, kopukDonukSn, d?.tur, d?.altin, d?.savunma?.durum, d?.faz, benimBitis]);   // eslint-disable-line react-hooks/exhaustive-deps
+  // 10 Eki 2026 (Düello ile aynı): cevap verilince (istek yoldayken de) sayaç o anki değerde durur.
+  const cevapSayacSn = useDonukSayac(gosterSn, d?.faz === "cevap" && (Boolean(d?.cevap?.ben_cevapladim) || secim !== null),
+    d ? `${turAnahtari(d)}-${d.savunma?.durum ?? ""}` : "");
   useEffect(() => {
     if (kalanSn <= 0 || kopukDonukSn != null) return undefined;
     const z = setTimeout(() => setSimdi(Date.now()), sayacSinirMs(kalanSn, fazKaymaRef.current) + 5);
@@ -1079,7 +1086,12 @@ function KasaMac({ id }) {
       : null;
     // 951: son AÇ'ın yavaş sahnesi (kazanan: kapı açılır, altın patlar, skor hedefe sayar · kaybeden: kasa kapanır/kararır).
     // Geçişin ilk karesinde (effect durumu yazmadan önce) de sahne çizilir — kutlama bir kare bile görünmesin.
-    const fin = finalAn ?? (oncekiDurumRef.current === "aktif" && d.durum === "bitti" ? kasaFinalVerisi(d) : null);
+    const fin0 = finalAn ?? (oncekiDurumRef.current === "aktif" && d.durum === "bitti" ? kasaFinalVerisi(d) : null);
+    if (fin0) sonFinRef.current = fin0;
+    // 10 Eki 2026: özet gelene dek (1–2 sn) boş sayfa çizilmez — final sahnesi oynadıysa o, oynamadıysa maç sahnesi
+    // ekranda kalır (aşağıdaki maç ekranı). Özet hiç gelmezse (hata) sonuç ekranı özetsiz kurulur.
+    const ozetBekleniyor = d.durum === "bitti" && !macSonuOzet && !macSonuHata;
+    const fin = fin0 ?? (ozetBekleniyor ? sonFinRef.current : null);
     if (fin) {
       return (
         <div className="ks-bitti ks-bitti--final" onClick={anlariBitir}>
@@ -1088,7 +1100,7 @@ function KasaMac({ id }) {
         </div>
       );
     }
-    if (d.durum === "bitti" && !macSonuOzet) return <div className="ks-bitti"><div className="msk-bekle" aria-busy="true" /></div>;
+    if (!ozetBekleniyor) {
     const e = d.ezeli;
     const ezeliMetin = e && Number(e.ben) + Number(e.rakip) > 0
       ? (Number(e.ben) > Number(e.rakip) ? c("Bu oyuncuyla {ben}-{rakip} öndesin", e)
@@ -1164,6 +1176,7 @@ function KasaMac({ id }) {
         />
       </div>
     );
+    }
   }
 
   // ---------------- maç ekranı ----------------
@@ -1171,7 +1184,7 @@ function KasaMac({ id }) {
   const toplamSn = d.faz === "karar" ? Number(d.sureler?.karar ?? 8) : Number(d.sureler?.soru ?? 15);
   const sayacVar = d.faz === "cevap" || d.faz === "karar";
   const sayac = sayacVar
-    ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={d.faz === "karar" ? 3 : 5} boyut="k" durdu={kilitli || kopukDonukSn != null}
+    ? <QtSayac kalan={d.faz === "cevap" ? cevapSayacSn : gosterSn} toplam={toplamSn} esik={d.faz === "karar" ? 3 : 5} boyut="k" durdu={kilitli || kopukDonukSn != null}
                className={sinif("ks-sayac", d.joker?.kisaltildi && d.faz === "cevap" && "ks-sayac--kisaldi")}
                ekBalon={d.faz === "cevap" ? ekBalon : null} />
     : <span className="ks-sayac ks-sayac--yok" aria-hidden="true">·</span>;
@@ -1181,8 +1194,10 @@ function KasaMac({ id }) {
   const kopukBant = d.kopuk
     ? { benMi: Boolean(d.kopuk.ben_mi), kalan: d.kopuk.bitis ? Math.max(0, Math.ceil((new Date(d.kopuk.bitis).getTime() - (simdi + farkRef.current)) / 1000)) : null }
     : null;
-  const gecikmisMs = fazBitisRef.current != null ? simdi + farkRef.current - fazBitisRef.current : 0;
-  const yenidenBant = !kopukBant && (yenidenBaglaniyor || (sayacVar && !kilitli && gecikmisMs > GECIKME_BANT_MS));
+  // 10 Eki 2026: bant YALNIZ gerçek bağlantı sorununda — okuma hata veriyor ve son başarılı yanıttan beri ≥ 10 sn geçti.
+  // Eskiden faz bitişinden 4 sn sonra yeni faz gelmemesi de bant açıyordu; oysa sunucu cevapsız oyuncu için 5 sn geç varış
+  // payı bekler (991) → neredeyse her tur geçişinde yanlış bant. Tur geçişi / yeni soru beklemesi bağlantı sorunu değildir.
+  const yenidenBant = !kopukBant && yenidenBaglaniyor && simdi - sonBasariRef.current >= BANT_SESSIZLIK_MS;
   const kararMetni = d.faz === "cevap" ? kasaKararMetni(d, c) : null;
   const sav = kasaSavunma(d);   // 987: süren Savunma Sorusu (ben savunuyorum / izliyorum)
   // efekt sürerken gösterilen değerler (yalnız sunum)
@@ -1366,7 +1381,7 @@ function KasaMac({ id }) {
         <TepkiCubugu tepki={tepki} className="ks-tepki" />
       </div>
       {kopukBant && (
-        <p className="m2-bant m2-bant--uyari" role="status">
+        <p className="m2-bant m2-bant--uyari m2-bant--katman" role="status">
           <QtIkon ad="uyari" boyut={18} />
           <span>
             {kopukBant.benMi ? c("Bağlantın koptu — maç bekliyor.") : c("Rakibin bağlantısı koptu — maç durduruldu.")}
@@ -1375,7 +1390,7 @@ function KasaMac({ id }) {
         </p>
       )}
       {yenidenBant && (
-        <p className="m2-bant m2-bant--uyari" role="status">
+        <p className="m2-bant m2-bant--uyari m2-bant--katman" role="status">
           <QtIkon ad="yenile" boyut={18} />
           <span>{c("Bağlantı yeniden kuruluyor…")}</span>
         </p>

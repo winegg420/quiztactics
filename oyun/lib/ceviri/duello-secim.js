@@ -12,6 +12,7 @@ export default {
   "sonra yine sen": "then you again",
   "sonra sen": "then you",
   "Süre doldu · otomatik seçildi": "Time's up · auto-picked",
+  "Süre doldu · {k} otomatik seçildi": "Time's up · {k} auto-picked",
   "Rakibin süresi doldu": "Opponent ran out of time",
   "Otomatik seçildi: {kat}": "Auto-picked: {kat}",
 

@@ -114,6 +114,8 @@ export default {
   "Soru açılınca kullanılır.": "Usable once the question opens.",
   "Bu maçtaki joker kullanımın doldu.": "You've used all your joker uses for this match.",
   "Cevap verdikten sonra joker kullanılamaz.": "Jokers can't be used after you answer.",
+  "Cevabın gitti · rakip bekleniyor": "Answer sent · waiting for opponent",
+  "Cevabın gitti": "Answer sent",
   "Bu soruda joker hakkını kullandın": "You've used your joker for this question",
   "Setinde Düello'da kullanılabilen joker yok.": "Your set has no jokers you can use in Duel.",
   "{k}/{t} kullanıldı": "{k}/{t} used",

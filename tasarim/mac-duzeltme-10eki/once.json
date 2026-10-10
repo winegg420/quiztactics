@@ -1,0 +1,48 @@
+{
+ "K1": {
+  "bantOrnek": 21,
+  "toplam": 54
+ },
+ "K2": {
+  "ilkBantSn": 12.637,
+  "temel": {
+   "sahneY": 220,
+   "sikY": 398
+  },
+  "bantli": {
+   "sahneY": 268,
+   "sikY": 446
+  }
+ },
+ "K3": {
+  "gizliIstek": 0,
+  "kasaDurumMs": 6,
+  "kalpAtMs": 5
+ },
+ "K4": {
+  "bosMs": 2300
+ },
+ "D1": {
+  "sayac": [
+   "10",
+   "7"
+  ],
+  "metin": "Cevap verdikten sonra joker kullanılamaz."
+ },
+ "D2-360": {
+  "adim1": 254,
+  "adim2": 263,
+  "sureDoldu": 263
+ },
+ "D2-390": {
+  "adim1": 237,
+  "adim2": 263,
+  "sureDoldu": 263
+ },
+ "D3": {
+  "bantOrnek": 22
+ },
+ "D4": {
+  "bosMs": 2300
+ }
+}

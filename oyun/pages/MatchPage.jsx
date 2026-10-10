@@ -898,7 +898,8 @@ export default function MatchPage() {
     }
 
     // D-456: sonuç özeti gelene dek "Maç bitti!" perdesi kalır (özet yavaşken boş kabuk görünüyordu); özet hata verirse perde kalkar.
-    if (mac.durum === "bitti" && sonucHazir && (!gecisBitti || (!macSonuOzet && !macSonuHata)) && !mac.terk_eden) {
+    // 10 Eki 2026: rakip terk edince de perde kalır (yalnız kendi terkimde yok) — özet gelene dek boş sayfa görünmesin.
+    if (mac.durum === "bitti" && sonucHazir && (!gecisBitti || (!macSonuOzet && !macSonuHata)) && mac.terk_eden !== user.id) {
       return (
         <SureDolduGecis
           baslik={tt("Maç bitti!")}
@@ -922,7 +923,8 @@ export default function MatchPage() {
       const farkSoru = Math.round(Math.abs((benimSkor ?? 0) - (rakipSkor ?? 0)) / SORU_PUANI);
       // A.3: yeni sahne (MacSonuKutlama) — veriler mac_sonu_ozet'ten (tek çağrı). Özet gelene dek
       // (genelde < 0,3 sn) sahne kurulmaz: zaman çizelgesi takılınca bir kez başlar.
-      if (!macSonuOzet) return <div className="msk-bekle" aria-busy="true" aria-label={tt("Yükleniyor…")} />;
+      // 10 Eki 2026: özet hata verdiyse sahne özetsiz kurulur (eskiden bu satırda sonsuza dek boş sayfa kalıyordu).
+      if (!macSonuOzet && !macSonuHata) return <div className="msk-bekle" aria-busy="true" aria-label={tt("Yükleniyor…")} />;
       const sahne = ozettenSahne(macSonuOzet);
       const altYazi = sahne.terk || berabere || farkSoru < 1
         ? undefined
@@ -955,8 +957,8 @@ export default function MatchPage() {
           detay={
             <>
               {/* Paket 20 I.3: satır satır döküm (aynı sunucu kaydı, ikinci sorgu yok) */}
-              <OdulDokumu kaynak={`mac:${id}`} veri={macSonuOzet.dokum} gorevleriGoster={false} />
-              <MacSonuDokum macId={id} kazanilanPuan={Number(macSonuOzet.dokum?.toplam?.lig) || 0} />
+              <OdulDokumu kaynak={`mac:${id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />
+              <MacSonuDokum macId={id} kazanilanPuan={Number(macSonuOzet?.dokum?.toplam?.lig) || 0} />
               <MacSorulari kaynak={`mac:${id}`} />
               <MacSonuEklentisi
                 macTur="1v1"

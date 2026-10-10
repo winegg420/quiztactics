@@ -96,10 +96,13 @@ const SINYAL_BIRLESTIR_MS = 30;    // aynı anda gelen Realtime sinyallerini tek
 const HATA_GERI_CEKILME_MS = [1000, 2000, 4000, 8000];
 const DURUM_ZAMAN_ASIMI_MS = 10000;   // 1055: statement_timeout 8 sn + ağ payı
 // Faz bitişi geçtiği hâlde yeni faz gelmediyse (cron/DB takılması) yoklama 4 sn yerine 2 sn'de bir sürer
-// (her durum okuması sunucuda fazı tembel ilerletir) ve GECIKME_BANT_MS'den sonra bant görünür.
+// (her durum okuması sunucuda fazı tembel ilerletir).
+// 10 Eki 2026: "Bağlantı yeniden kuruluyor…" YALNIZ okuma hata veriyor ve son başarılı yanıttan beri ≥ BANT_SESSIZLIK_MS
+// geçtiyse. Eskiden faz bitişinden 4 sn sonra yeni faz gelmemesi de bant açıyordu; sunucu cevapsız oyuncu için 5 sn geç
+// varış payı beklediğinden (991) neredeyse her tur geçişinde yanlış bant çıkıyordu.
+const BANT_SESSIZLIK_MS = 10000;
 const GECIKMIS_YOKLAMA_MS = 2000;
 const GECIKMIS_PENCERE_MS = 30000;
-const GECIKME_BANT_MS = 4000;
 
 // ------------------------------------------------------------ giriş + arama
 // Tasarım A: tek sütun, mod rengi kırmızı başlık kartı + tek birincil eylem.
@@ -131,6 +134,12 @@ function DuelloGiris() {
   const kalan = Number(acilis?.kalan ?? 0);
   const gereken = Number(acilis?.gereken ?? 0);
   const oynanan = Math.max(0, gereken - kalan);
+  // 10 Eki 2026: "Rakip ara" yalnız üstündeki her şey (kural metni + Skill seti) yerleşince çizilir. Eskiden düğme
+  // önce çizilip Skill seti gelince ~220 px aşağı kayıyordu → ilk dokunuş boş yere düşüyor, ikinci dokunuş gerekiyordu.
+  // Skill seti hiç yanıt vermezse 2,5 sn'de yine çizilir.
+  const [setHazir, setSetHazir] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setSetHazir(true), 2500); return () => clearTimeout(t); }, []);
+  const yerlesti = setHazir && kuralHazir;
 
   return (
     <div className="m2-giris">
@@ -171,11 +180,11 @@ function DuelloGiris() {
       ) : !hazir ? null : (
         <>
           <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
-          <SkillSeti macTur="duello" />
+          <SkillSeti macTur="duello" onHazir={() => setSetHazir(true)} />
         </>
       )}
       <div className="m2-giris-eylem">
-        {hazir && !kilitli && (
+        {hazir && !kilitli && yerlesti && (
           <>
             <QtDugme tamGenislik boyut="b" ikon="duello"
                      onClick={() => { sesKilidiAc(); sesDokunus(); if (duelloTanitimGoruldu()) setArama(true); else setTanitim("arama"); }}>
@@ -491,7 +500,7 @@ function DuelloMac({ id }) {
   const vurusZamanRef = useRef(null);
   const bitisSesRef = useRef(false);
   // A.3: yeni maç sonu sahnesinin verisi (tek çağrı: mac_sonu_ozet) — düello bitince bir kez okunur.
-  const { ozet: macSonuOzet } = useMacSonuOzet(d?.durum === "bitti" && d?.id ? `duello:${d.id}` : null);
+  const { ozet: macSonuOzet, hata: macSonuHata } = useMacSonuOzet(d?.durum === "bitti" && d?.id ? `duello:${d.id}` : null);
   const sonTikRef = useRef(null);
   // Tasarım A anları (yalnız sunum)
   const sayimRef = useRef(null);            // kategori geri sayımı: son çalınan saniye
@@ -537,6 +546,7 @@ function DuelloMac({ id }) {
   // 760: art arda başarısız okuma sayısı + tek yeniden deneme zamanlayıcısı (geri çekilmeli)
   const hataSayisiRef = useRef(0);
   const yenidenDeneRef = useRef(null);
+  const sonBasariRef = useRef(Date.now());   // son başarılı duello_durum yanıtı (bant yalnız ≥ 10 sn sessizlikte)
   const [yenidenBaglaniyor, setYenidenBaglaniyor] = useState(false);
   const yukleTek = useCallback(async () => {
     yukleniyorRef.current = true;
@@ -560,6 +570,7 @@ function DuelloMac({ id }) {
       ]);
       const { data, error } = durumCevap;
       if (error) throw error;
+      sonBasariRef.current = Date.now();
       if (data) {
         const onceki = skillDurumRef.current;
         // v4: her soru kendi numarasıyla (tur/saldırı sırası yok) — yeni soruda bitiş sıçraması "Ek Süre" sanılmasın.
@@ -1361,7 +1372,11 @@ function DuelloMac({ id }) {
           : (kazandim ? ceviri("{a}-{b} önde, kazandın", yuvaSkor) : ceviri("{a}-{b} geride, kaybettin", yuvaSkor));
     // A.3: yeni sahne — veriler mac_sonu_ozet'ten (tek çağrı). Özet gelene dek sahne kurulmaz.
     const v4Mac = d.surum === 4;
-    if (d.durum === "bitti" && !macSonuOzet) return <div className="bd-duello"><div className="msk-bekle" aria-busy="true" /></div>;
+    // 10 Eki 2026: özet gelene dek (1–2 sn) boş sayfa yerine son sahne ekranda kalır (v4: arena aşağıda çizilir).
+    // Özet hiç gelmezse (hata) sahne özetsiz kurulur — boş sayfada takılı kalınmaz.
+    const ozetBekleniyor = d.durum === "bitti" && !macSonuOzet && !macSonuHata;
+    if (ozetBekleniyor && !v4Mac) return <div className="bd-duello"><div className="msk-bekle" aria-busy="true" /></div>;
+    if (!ozetBekleniyor) {
     const sahne = ozettenSahne(d.durum === "bitti" ? macSonuOzet : null);
     return (
       <div className="bd-duello">
@@ -1437,6 +1452,7 @@ function DuelloMac({ id }) {
         </MacSonuKutlama>
       </div>
     );
+    }
   }
 
   // Skill satın alma penceresi (JokerSatinAlModal paylaşılan bileşen).
@@ -1485,7 +1501,6 @@ function DuelloMac({ id }) {
       : baglanti?.kopuk
         ? { benMi: Boolean(baglanti.ben_mi), kalan: baglanti.kalan_sn == null ? null : Math.max(0, baglanti.kalan_sn - Math.floor((simdi - (baglanti.alindi ?? simdi)) / 1000)) }
         : null;
-    const gecikmis4 = fazBitisRef.current != null ? simdi + farkRef.current - fazBitisRef.current : 0;
     const ekBalon4 = skillEfekt?.tur === "sure"
       ? { anahtar: `s${skillEfekt.deger}${fazAnahtari}`, metin: `+${skillEfekt.deger}` }
       : skillEfekt?.tur === "zaman_baskisi" ? { anahtar: `z${skillEfekt.deger}${fazAnahtari}`, metin: `−${skillEfekt.deger}` } : null;
@@ -1495,7 +1510,7 @@ function DuelloMac({ id }) {
         <Duello4Arena d={d} ben={ben} rakip={rakip} c={c2} seviyeler={seviyeler}
                       gosterSn={kopukDonukSn ?? gosterSn} oran={(kopukDonukSn ?? kalanGoster) / Math.max(1, toplam4)}
                       farkMs={farkRef.current} simdi={simdi} kopukBant={kopukBant4}
-                      yenidenBant={!kopukBant4 && (yenidenBaglaniyor || (["notr", "cevap", "son", "kart"].includes(d.faz) && !d.cevap?.ben_cevapladim && gecikmis4 > GECIKME_BANT_MS))}
+                      yenidenBant={!kopukBant4 && d.durum === "aktif" && yenidenBaglaniyor && simdi - sonBasariRef.current >= BANT_SESSIZLIK_MS}
                       hata={hata} calisan={calisan} secim={secim} ikinciSansElendi={ikinciSansElendi} kiriliyor={kiriliyor}
                       ekBalon={ekBalon4} jokerSerbest={jokerSerbest} sonKullanilan={sonKullanilan} skillDeger={skillDeger}
                       onCevap={cevapVer} onKart={kategoriSec} onJoker={v2SkillKullan} onYenile={() => { yukle().catch(() => {}); }}
@@ -1591,9 +1606,8 @@ function DuelloMac({ id }) {
     : baglanti?.kopuk
       ? { benMi: Boolean(baglanti.ben_mi), kalan: baglanti.kalan_sn == null ? null : Math.max(0, baglanti.kalan_sn - Math.floor((simdi - (baglanti.alindi ?? simdi)) / 1000)) }
       : null;
-  // Faz bitişi GECIKME_BANT_MS geçtiği hâlde yeni faz gelmediyse ya da okuma hata veriyorsa: "Bağlantı yeniden kuruluyor…"
-  const gecikmisMs = fazBitisRef.current != null ? simdi + farkRef.current - fazBitisRef.current : 0;
-  const yenidenBant = !kopukBant && (yenidenBaglaniyor || (sayacGosterilir && !kilitli && gecikmisMs > GECIKME_BANT_MS));
+  // 10 Eki 2026: yalnız okuma hata veriyor ve ≥ 10 sn başarılı yanıt yoksa: "Bağlantı yeniden kuruluyor…"
+  const yenidenBant = !kopukBant && yenidenBaglaniyor && simdi - sonBasariRef.current >= BANT_SESSIZLIK_MS;
   let sahne2 = null;
   if (secimFaz && sm) {
     if (secimIpucuRef.current.id !== d.id) secimIpucuRef.current = { id: d.id, goster: secimIpucuGoster(d.id) };
