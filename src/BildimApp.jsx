@@ -43,6 +43,7 @@ import "../oyun/tasarim/ekranlar/satin-al-onay.css";
 import "../oyun/tasarim/ekranlar/mac-sonu-kutlama.css";
 import "../oyun/tasarim/ekranlar/mac-oyuncu.css";
 import "../oyun/tasarim/ekranlar/mac-ses.css";
+import { useSayfaBasligi } from "../oyun/lib/sayfaBasligi.js";
 const ChallengesPage = tembelYukle(() => import("../oyun/pages/ChallengesPage.jsx"));
 const MatchPage = tembelYukle(() => import("../oyun/pages/MatchPage.jsx"));
 // Ajan H: grup maçı tembel (nadir mod) — ses/müzik eklerinin ana paketi büyütmemesi için.
@@ -141,6 +142,7 @@ export default function BildimApp() {
   const { session, loading } = useAuth();
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  useSayfaBasligi(pathname);   // sekme başlığı + canonical (oyun/lib/sayfaBasligi.js)
 
   // Giriş sonrası derin bağlantıyı geri yükle (bkz. src/lib/girisHedefi.js).
   useEffect(() => {
