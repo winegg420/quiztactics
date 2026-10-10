@@ -11374,3 +11374,11 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
   yatay şerit, sekmeler `position: sticky` (atasında transform yok). Doğrudan Ayarlar/Davet gelince iki varyantta da kısa kimlik satırı.
 - **Görüntüler:** `tasarim/ekran-revizyon/` (360/390 · TR/EN + Hatalarım boş, Profil Ayarlar, B kaydırılmış), araç `araclar/ekran-revizyon-ekran.mjs`
   (Supabase'siz yerel sunucuya karşı). Yatay taşma 0, sayfa hatası 0.
+
+## 2026-10-10 — Soru üretimi kolay-04…07 (Claude API hattı, kredi bitene kadar)
+- **Sonuç:** 4 parti, **+698 aktif soru** (04: 194 · 05: 198 · 06: 198 · 07: 108); migration 001042–001045 canlıya uygulandı (prova → uygula). Aktif havuz 12.978; z2+z3 rekabetçi 8.469.
+- **Harcama:** ≈ $46,3 (Claude + Jev). kolay-07 gece yarısı Console "kredi bakiyesi çok düşük" (HTTP 400) verdi: 92 taslak kapıya girmeden kaldı (elenen sayıldı), kalan kredi ≈ 0.
+- **Değişiklik:** `api-uret.mjs` 8 kategori (genel_kultur, edebiyat), ölçüm z2+z3 ve `sik_ipucu_jev` işaretsiz, istek ≤20 soru (zaman aşımında 10), edebiyat/tarih yeni sorularda ≥%70 global, kapıya girmemiş taslakları devam ederken yeniden kapıya alır.
+- **Hata/ders:** istek parçalamada yuvarlama (`round`) 0 soru isteyen ~216 boş çağrı döngüsü yarattı (~$5 boşa). Düzeltildi (`ceil` + boş istek koruması).
+- **Gözlem:** benzer/tekrar elemesi taslakların ~%25'i; havuz doygunlaştı (tarih/sanat/müzik zor). Zorluk kapısı hakem tahmini ile yapıldı (kolay_03 yöntemi); ayrı Jev zorluk puanı bu hatta yok.
+- **Okunur liste:** `araclar/soru-uretim/kolay-0N/okunur-liste.md`. Ida onayı beklenmedi (görev gereği).
