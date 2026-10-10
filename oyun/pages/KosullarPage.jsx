@@ -42,6 +42,7 @@ export default function KosullarPage() {
       <h2>{tt("2. Hesap")}</h2>
       <ul>
         <li>{tt("Hesap açmak için geçerli bir e-posta adresi veya desteklenen bir sosyal hesap gerekir.")}</li>
+        <li>{tt("Hesap açmadan misafir olarak da oynayabilirsin. Misafir hesap yalnız açtığın cihazda ve tarayıcıda durur; profil sayfasından e-posta ya da Google hesabına bağlamazsan çıkış yaptığında, tarayıcı verilerini sildiğinde veya cihaz değiştirdiğinde kaybolur ve geri getirilemez.")}</li>
         <li>
           {tt("Hesabının güvenliğinden sen sorumlusun. Hesabını başkasıyla paylaşma; paylaşırsan doğacak sonuçlardan sen sorumlu olursun.")}
         </li>
