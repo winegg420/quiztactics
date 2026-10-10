@@ -1293,8 +1293,8 @@
       {
         "klasor": "codex-01",
         "hedef": 50,
-        "durum": "Claude incelemesi bekliyor",
-        "migration_uygulandi": false,
+        "durum": "bitti_canlida",
+        "migration_uygulandi": true,
         "taslak": 183,
         "net": 50,
         "zorluk": {
@@ -1314,9 +1314,18 @@
         "yerel": 1,
         "en": 49,
         "kapilar": "1–5 geçti; Claude hakem ayrı",
-        "migration": "codex-01/bekleyen.sql",
+        "migration": "supabase/migrations/20260612001046_soru_parti_codex_01.sql",
         "jev_usd": 0.005298426,
-        "jev_kapilar_usd": 0.003609606
+        "jev_kapilar_usd": 0.003609606,
+        "aktif_once": 12978,
+        "aktif_sonra": 13028,
+        "onay_duzeltmeler": [
+          7,
+          33,
+          50,
+          2
+        ],
+        "onay_jev_usd": 0.000137928
       }
     ]
   }

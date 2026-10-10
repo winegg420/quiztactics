@@ -11408,3 +11408,9 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - **Doğrulama:** build temiz · `arayuz-denetim` TEMİZ · `araclar/ekran-revizyon-asama2.mjs` (yeni; misafir oturumu, Hatalarım dolu hâli taklit yanıt,
   EN için profilim dili yalnız tarayıcıda) 11 ekran × 360/390 × TR/EN = 44 kare önce/sonra `tasarim/ekran-revizyon/asama2/`: taşma 0, konsol 0
   (son kısmi koşuda bir kez Supabase 504 `cihaz_bildir` — sunucu tarafı, geçici). Not: aynı klasördeki eski Vite (5173) kullanıldı, iş sonunda kapatıldı.
+
+## 2026-10-10 — Codex soru hattı: codex-01 onaylı 50 soru canlıda
+**Araç:** Codex
+- Claude incelemesi sonrası 07/33/50 TR ve 02 EN (René) düzeltildi; değişen dört kayıt mevcut kapı 1–5’ten tekrar geçti. Çıkarılan yok.
+- Migration 1046 prova → uygulama başarılı. Aktif havuz 12978 → 13028 (+50); 50 TR doğru cevabı ve 49 EN çeviri/şık sırası toplu sorguyla doğrulandı.
+- Oyun koduna dokunulmadı. codex-02 çeşitlilik kurallarıyla hazırlanacak; ayrı onay gelmeden uygulanmayacak.

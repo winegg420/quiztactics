@@ -2,7 +2,7 @@
   "klasor": "codex-01",
   "tarih": "2026-10-10T10:23:58.767Z",
   "uretici": "Codex",
-  "hakem": "Claude ayrı inceleme — bekliyor",
+  "hakem": "Claude incelemesi kullanıcı tarafından onaylandı",
   "hedef": 50,
   "kota_gerekce": "Aktif z2+3, sik_ipucu_jev işaretsiz; az olana çok (tavan+25−sayı)",
   "olcum_z2_z3": {
@@ -94,12 +94,31 @@
     "jev_jeton": 85943,
     "is_akisi_jev_jeton": 40210,
     "is_akisi_jev": 0.0016888200000000002,
-    "toplam_jev": 0.005298426
+    "toplam_jev": 0.005298426,
+    "onay_jev_jeton": 3284,
+    "onay_jev": 0.000137928
   },
-  "migration": "bekleyen.sql — hazır, Claude incelemesi bekliyor; uygulanmadı",
+  "migration": "supabase/migrations/20260612001046_soru_parti_codex_01.sql",
   "ilk_taslak": 125,
   "ek_taslak": 58,
   "migration_no_taslak": 1046,
   "migration_no_aciklama": "Numara ayrılmadı; Claude onayından sonra son migration + 1 yeniden ölçülecek",
-  "testler": "codex-kapi.test.mjs: 6 test; eşikler, eksik yanıt, tekrar, EN-null ve sıkı şık dengesi; npm run build + postbuild başarılı; kapsam ve SQL çıktısı doğrulandı"
+  "testler": "codex-kapi.test.mjs: 6 test; eşikler, eksik yanıt, tekrar, EN-null ve sıkı şık dengesi; npm run build + postbuild başarılı; kapsam ve SQL çıktısı doğrulandı",
+  "onay": {
+    "cikar": [],
+    "duzelt": [
+      7,
+      33,
+      50,
+      2
+    ],
+    "kapilar": "Dört düzeltme 1–5 geçti",
+    "prova": "başarılı",
+    "uygulama": "başarılı",
+    "aktif_once": 12978,
+    "aktif_sonra": 13028,
+    "canli_eslesme": 50,
+    "en_eslesme": 49
+  },
+  "migration_uygulandi": true
 }
