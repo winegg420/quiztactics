@@ -74,7 +74,7 @@ export default {
     "obscene text or images; any sexual content involving minors is strictly prohibited and will be reported to the authorities.",
   "Spam:": "Spam:",
   "reklam, zincir mesaj, dolandırıcılık ya da zararlı bağlantı göndermek.": "sending ads, chain messages, scams or harmful links.",
-  "hesap, coin veya elmas alım-satımı teklif etmek, hile aracı paylaşmak.": "offering to buy or sell accounts, coins or diamonds, sharing cheating tools.",
+  "hesap, coin veya elmas alım-satımı teklif etmek, hile aracı paylaşmak.": "offering to buy or sell accounts, coins or gems, sharing cheating tools.",
   "Kişisel bilgi paylaşımı:": "Sharing personal information:",
   "kendinin veya başkasının telefonunu, adresini, okulunu, şifresini ya da benzeri kişisel bilgisini paylaşmak veya istemek.":
     "sharing or asking for your own or someone else's phone number, address, school, password or similar personal information.",

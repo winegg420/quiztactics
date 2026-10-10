@@ -26,7 +26,7 @@ const EN = {
   "Günlük": "Everyday",
   "Kostümlü": "Costume",
   "Bedava": "Free",
-  "{n} elmas": "{n} diamonds",
+  "{n} elmas": "{n} gems",
   "Oyuna girsin": "Add to game",
   "Girmesin": "Leave out",
   "Kaydedilemedi": "Could not save",
