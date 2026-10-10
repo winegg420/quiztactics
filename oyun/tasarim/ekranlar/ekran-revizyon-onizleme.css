@@ -9,6 +9,7 @@
 .er-dil, .er-secici { display: flex; flex-wrap: wrap; align-items: center; gap: var(--qt-b-2); }
 .er-secici-ad { font-weight: var(--qt-a-siyah); }
 .er-hata { color: var(--qt-yanlis-koyu); }
+.er-not { padding: 8px 12px; border: 2px solid #1d2152; border-radius: 12px; background: var(--qt-coin-acik); color: var(--qt-metin); }
 .er-bolum { display: grid; gap: var(--qt-b-3); min-width: 0; }
 .er-bolum-baslik { margin: 0; font: var(--qt-a-siyah) var(--qt-y-xl)/1.2 var(--qt-f-baslik); }
 

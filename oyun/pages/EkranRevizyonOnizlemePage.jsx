@@ -424,6 +424,8 @@ export default function EkranRevizyonOnizlemePage() {
       <header className="er-ust">
         <h1 className="qt-baslik-1">{tt("Ekran revizyonu — önizleme")}</h1>
         <p>{tt("Taklit veriyle; canlı ekranlar değişmedi. Her bölümde Şu anki · A · B.")}</p>
+        {/* Aşama 2 (10 Eki 2026) canlıya alındı: "Şu anki" sütunları artık ESKİ hâli gösterir. Sayfa Ida kararıyla kaldırılacak. */}
+        <p className="er-not" role="note">{tt("Aşama 2 uygulandı: canlıda Hatalarım A, Profil A, boş durumlar A (Hatalarım · Mesajlar · Bildirimler · 404) ve B (Arkadaşlar · Lig). \"Şu anki\" sütunu artık eski hâli gösterir.")}</p>
         <div className="er-dil" role="group" aria-label={tt("Dil")}>
           {["tr", "en"].map((d) => (
             <QtCip key={d} secili={aktifDil() === d} onClick={() => dilSec(d)}>{d.toUpperCase()}</QtCip>

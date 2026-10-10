@@ -45,4 +45,7 @@ export default {
   "Boş durumlar": "Empty states",
   "Küçük sahne görseli": "Small scene illustration",
   "Büyük ikon rozeti": "Large icon badge",
+  // ——— Aşama 2 (canlı) ———
+  "Aşama 2 uygulandı: canlıda Hatalarım A, Profil A, boş durumlar A (Hatalarım · Mesajlar · Bildirimler · 404) ve B (Arkadaşlar · Lig). \"Şu anki\" sütunu artık eski hâli gösterir.":
+    "Stage 2 is live: My Mistakes A, Profile A, empty states A (My Mistakes · Messages · Notifications · 404) and B (Friends · League). The \"Current\" column now shows the old version.",
 };
