@@ -1,0 +1,102 @@
+{
+  "klasor": "kolay-06",
+  "tarih": "2026-10-10",
+  "uretici": "claude-opus-5-5",
+  "hakem": "claude-sonnet-5-5",
+  "kota_gerekce": "Aktif zorluk 2 sayısı az olan kategoriye çok (ağırlık = en kalabalık + 25 − kategori)",
+  "z2_olcum": {
+    "sanat": 687,
+    "muzik": 763,
+    "teknoloji": 627,
+    "spor": 734,
+    "tarih": 883,
+    "sinema": 753,
+    "genel_kultur": 601,
+    "edebiyat": 741
+  },
+  "kota": {
+    "sanat": 30,
+    "muzik": 20,
+    "teknoloji": 38,
+    "spor": 23,
+    "tarih": 3,
+    "sinema": 21,
+    "genel_kultur": 42,
+    "edebiyat": 23
+  },
+  "z3_hedef": {
+    "sanat": 9,
+    "muzik": 6,
+    "teknoloji": 11,
+    "spor": 7,
+    "tarih": 1,
+    "sinema": 6,
+    "genel_kultur": 13,
+    "edebiyat": 7
+  },
+  "taslak": 667,
+  "gecen": 246,
+  "secilen": 198,
+  "kategori": {
+    "sanat": 30,
+    "muzik": 20,
+    "teknoloji": 38,
+    "spor": 23,
+    "tarih": 3,
+    "sinema": 21,
+    "genel_kultur": 40,
+    "edebiyat": 23
+  },
+  "zorluk": {
+    "2": 137,
+    "3": 61
+  },
+  "yerel": 13,
+  "en": 185,
+  "eksik": {
+    "sanat": {
+      "z2": 1,
+      "z3": 0
+    },
+    "genel_kultur": {
+      "z2": 2,
+      "z3": 0
+    }
+  },
+  "elenen_sebep": {
+    "biçim/kural": 58,
+    "benzer": 174,
+    "Jev ipucu": 37,
+    "hakem: eskiyebilir": 4,
+    "hakem: aşırı kolay": 37,
+    "birebir var": 29,
+    "hakem: tartışmalı": 49,
+    "uyarı": 12,
+    "hakem: doğru şık tartismali": 6,
+    "hakem: EN uygun değil": 4,
+    "cevap soruda": 7,
+    "hakem: yasak tip mantikla_bulunur": 3,
+    "hakem: yasak tip tanimlama": 1
+  },
+  "harcama_usd": {
+    "claude": 11.228,
+    "jev": 0.0126,
+    "toplam": 11.241,
+    "jeton": {
+      "claude-opus-5-5": {
+        "girdi": 92485,
+        "cikti": 389347,
+        "cagri": 40,
+        "onbellek_yaz": 179494,
+        "onbellek_oku": 341765
+      },
+      "claude-sonnet-5-5": {
+        "girdi": 548887,
+        "cikti": 93908,
+        "cagri": 350,
+        "onbellek_yaz": 0,
+        "onbellek_oku": 0
+      }
+    }
+  }
+}
