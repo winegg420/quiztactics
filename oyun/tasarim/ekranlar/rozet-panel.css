@@ -115,3 +115,12 @@
   .qt-rp-rozet { transition: none; }
   .qt-rp-rozet:active, .qt-rp-rozet--kilitli:active { transform: none; }
 }
+
+/* Aile kartı: kalan kilitli rozetler "Tümünü gör" ile açılır; gizli rozetler tek kutuda */
+.qt-rp-tumu { min-height: 44px; width: 100%; border: 2px solid var(--qt-cizgi-guclu); border-radius: var(--qt-r-m); background: var(--qt-yuzey-2); color: var(--qt-metin); font: inherit; font-weight: var(--qt-a-siyah); cursor: pointer; }
+.qt-rp-tumu:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+.qt-rp-gizli { grid-auto-flow: column; grid-template-columns: auto 1fr; align-items: center; justify-items: start; column-gap: var(--qt-b-3); row-gap: 0; }
+.qt-rp-gizli-isaret { grid-row: span 2; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 3px dashed var(--qt-cizgi-guclu); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); }
+
+/* Gizli rozet kutusu: sayı ve açıklama ayrı satırda (yan yana yapışmasın) */
+.qt-rp-kart.qt-rp-gizli { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }

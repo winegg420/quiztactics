@@ -39,7 +39,7 @@ import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
 import { DUKKAN_PREMIUM_CERCEVE_ACIK } from "../lib/ozellikBayraklari.js";
-import { QtDugme, QtIkon, QtKart, dokunus, sinif, siraStili } from "../tasarim/index.js";
+import { QtDugme, QtIkon, QtKart, QtSekmeler, dokunus, sinif, siraStili } from "../tasarim/index.js";
 import "../tasarim/ekranlar/cerceve-secici.css";
 
 // Koleksiyon bölümü → Dükkân sekmesi (JokerDukkani.jsx › SEKMELER: elmas · joker · [cerceve] · avatar · efekt).
@@ -58,6 +58,8 @@ export function kosulMetni(kosul) {
 }
 
 const PREMIUM_BASLIK = { premium_cerceve: "Premium Çerçeveler", premium_aura: "Premium Arka Planlar" };
+// Kozmetik bölümü → iç sekme (premium çerçeve → Çerçeve, kalanı Efekt). Arka planlar dondurulmuş: ayrı sekme YOK, varsa eski içerik Efekt'te kalır
+const bolumSekmesi = (s) => (s.tur === "premium_cerceve" ? "cerceve" : "efekt");
 const KAYNAK_ADI = { lig: "Lig", turnuva: "Turnuva", level: "Level", etkinlik: "Etkinlik" };
 
 export default function Koleksiyon() {
@@ -77,6 +79,7 @@ export default function Koleksiyon() {
   const navigate = useNavigate();
   // Premium (hareketli) kalem: karta dokununca büyük önizleme penceresi (tak / satın al orada)
   const [pencere, setPencere] = useState(null);
+  const [ickSekme, setIckSekme] = useState("avatar");   // iç sekme: aynı anda tek ızgara
   // Oyun hissi: ilk kartlar sıralı girer (≤ 4 öğe); yalnız oturumdaki ilk açılışta, sekme değişiminde yeniden oynamaz.
   const sirali = useBirKezSirali("koleksiyon", Boolean(cerceveler && auralar));
 
@@ -180,6 +183,15 @@ export default function Koleksiyon() {
   // Premium çerçeve takılıyken kazanılan çerçevenin üstünü örter (CerceveliAvatar): ikisi "Takılı" görünmesin
   const prestijDurum = (secili, anahtarMesgul) => (secili && premiumCerceveTakili ? tt("Premium önde") : durumYazi(secili, anahtarMesgul));
 
+  const efektVar = KOZMETIK_SEKMELERI.some((s) => s.tur && bolumSekmesi(s) === "efekt" && kozmetik.katalog.some((x) => x.tur === s.tur));
+  const icSekmeler = [
+    { kod: "avatar", ad: tt("Avatar") },
+    { kod: "cerceve", ad: tt("Çerçeve") },
+    { kod: "unvan", ad: tt("Unvan") },
+    ...(efektVar ? [{ kod: "efekt", ad: tt("Efekt") }] : []),
+  ];
+  const aktifIc = icSekmeler.some((x) => x.kod === ickSekme) ? ickSekme : "avatar";
+
   return (
     <div className="qt-ks">
       {/* Önizleme: şu an herkesin gördüğü hâl */}
@@ -201,12 +213,17 @@ export default function Koleksiyon() {
       {hata && <p className="qt-cs-hata" role="alert">{hata}</p>}
 
       {/* ---------- Koleksiyon Puanı dökümü (646) ---------- */}
-      <KoleksiyonDokumu tam sirali={sirali} sira={1} />
+      <KoleksiyonDokumu tam katlanir sirali={sirali} sira={1} />
+
+      {/* ---------- İç sekmeler: aynı anda tek ızgara ---------- */}
+      <QtSekmeler etiket={tt("Koleksiyon bölümleri")} sekmeler={icSekmeler} aktif={aktifIc} onSec={(k) => { dokunus(); setIckSekme(k); }} />
+      <div id={`qt-panel-${aktifIc}`} role="tabpanel" className="qt-ks-panel">
 
       {/* ---------- Unvanlar (643) ---------- */}
-      <UnvanSecici />
+      {aktifIc === "unvan" && <UnvanSecici />}
 
       {/* ---------- Çerçeveler (kazanılır, satılmaz) ---------- */}
+      {aktifIc === "cerceve" && (
       <QtKart as="section" className={sinif("qt-cs", sirali)} style={siraStili(2)} aria-labelledby="qt-ks-cerceve">
         <h2 id="qt-ks-cerceve" className="qt-baslik-3">{tt("Kazanılan Çerçeveler")}</h2>
         <p className="qt-kucuk qt-soluk">{tt("Çerçeve satılmaz, kazanılır: lig, turnuva, level ve etkinliklerle.")}</p>
@@ -249,9 +266,10 @@ export default function Koleksiyon() {
           })}
         </ul>
       </QtKart>
+      )}
 
       {/* ---------- Arka Planlar (eski katalog) — 552'den beri boş; boşken çizilmez, premium arka planlar aşağıda ---------- */}
-      {arkaPlanVar && auralar.length > 0 && (
+      {aktifIc === "efekt" && arkaPlanVar && auralar.length > 0 && (
       <QtKart as="section" className={sinif("qt-cs", sirali)} style={siraStili(3)} aria-labelledby="qt-ks-aura">
         <h2 id="qt-ks-aura" className="qt-baslik-3">{tt("Arka Planlar")}</h2>
         <p className="qt-kucuk qt-soluk">{tt("Arka plan avatarının arkasında durur. Dükkân'da elmasla alınır.")}</p>
@@ -296,7 +314,7 @@ export default function Koleksiyon() {
       )}
 
       {/* ---------- 540: VS Kartı · İsim Efekti · Zafer Efekti · Tepki ---------- */}
-      {KOZMETIK_SEKMELERI.filter((s) => s.tur && kozmetik.katalog.some((x) => x.tur === s.tur)).map((s) => {
+      {KOZMETIK_SEKMELERI.filter((s) => s.tur && bolumSekmesi(s) === aktifIc && kozmetik.katalog.some((x) => x.tur === s.tur)).map((s) => {
         const liste = kozmetik.katalog.filter((x) => x.tur === s.tur).sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0));
         const takilir = s.tur !== "tepki_paketi";
         const takili = liste.find((x) => x.takili)?.anahtar ?? null;
@@ -362,12 +380,15 @@ export default function Koleksiyon() {
         );
       })}
 
+      </div>
+
       <KozmetikOnizlemePenceresi kalem={pencere ? kozmetik.katalog.find((x) => x.anahtar === pencere) ?? null : null}
         onKapat={() => setPencere(null)} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
         elmasYetmedi={() => { setPencere(null); navigate(y("/joker?sekme=elmas&bolum=kazan")); }}
         onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
 
       {/* ---------- Avatarlar ---------- */}
+      {aktifIc === "avatar" && (
       <QtKart as="section" className="qt-cs" aria-labelledby="qt-ks-avatar">
         <h2 id="qt-ks-avatar" className="qt-baslik-3">{tt("Avatarlar")}</h2>
         {/* 820: kilitli avatar (sahip olunmayan Epik / Efsanevi) seçilemez — nereden alınacağı burada yazar */}
@@ -414,6 +435,7 @@ export default function Koleksiyon() {
             onTak={(url) => { setEdinmeAvatar(null); avatarSec(url); }} />
         )}
       </QtKart>
+      )}
     </div>
   );
 }

@@ -58,3 +58,12 @@
 }
 /* Yeni çizimli kazanılan çerçeveler (plaka, dal) kutunun altına taşar: ada binmesin */
 .qt-cs-oge > .p2 { margin: 0 6px 14px; }
+
+.qt-ks-panel { display: grid; gap: var(--qt-b-4); min-width: 0; }
+/* Oyun ekranı turu 2 (11 Eki 2026): Koleksiyon avatar ızgarası telefonda 4 sütun, küçük kart — sekme ≤ 2.500 px */
+@media (max-width: 600px) {
+  .qt-ks ul.qt-cs-izgara.qt-ks-avatarlar { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .qt-ks ul.qt-ks-avatarlar .qt-cs-oge.qt-ks-avatar { min-height: 0; padding: 5px 2px; gap: 1px; }
+  .qt-ks ul.qt-ks-avatarlar .qt-ks-avatar img { width: 42px; height: 42px; }
+  .qt-ks ul.qt-ks-avatarlar .qt-cs-ad { font-size: 11px; line-height: 1.15; letter-spacing: -0.01em; overflow-wrap: normal; word-break: normal; }
+}

@@ -53,3 +53,11 @@
 /* Notlar: oyuncu dili, kırpılmaz, alt satıra sarar */
 .qt-kp-liste li.qt-kp-not { padding: 6px 10px; border-radius: 10px; background: var(--qt-yuzey-2); color: var(--qt-metin); line-height: 1.4; overflow-wrap: anywhere; white-space: normal; }
 @media (max-width: 379px) { .qt-kp-liste li.qt-kp-kat { grid-template-columns: auto minmax(0, 1fr) auto; } .qt-kp-kat-ik { grid-row: 1 / span 2; align-self: center; } .qt-kp-kat-adet { grid-column: 2; justify-self: start; } .qt-kp-kat-puan { grid-column: 3; grid-row: 1 / span 2; align-self: center; } }
+
+/* Katlanır özet (Koleksiyon sekmesi): tek satır, dokununca döküm açılır */
+.qt-kp--ozet { padding: 0; }
+.qt-kp-ac { display: flex; align-items: center; gap: var(--qt-b-2); width: 100%; min-height: 48px; padding: var(--qt-b-2) var(--qt-b-3); border: 0; background: transparent; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.qt-kp-ac:focus-visible, .qt-kp-kapat:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+.qt-kp-ac-ad { font-weight: var(--qt-a-siyah); }
+.qt-kp-ac-ozet { flex: 1; min-width: 0; font-size: var(--qt-y-xs); color: var(--qt-metin-soluk); overflow-wrap: anywhere; }
+.qt-kp-kapat { margin-left: auto; min-height: 44px; padding: 0 var(--qt-b-2); border: 0; background: transparent; font: inherit; font-size: var(--qt-y-xs); color: var(--qt-metin-soluk); cursor: pointer; }

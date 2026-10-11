@@ -42,6 +42,7 @@ export default function RozetlerPaneli({ userId }) {
   const [secili, setSecili] = useState(null);
   const [kaydediliyor, setKaydediliyor] = useState(false);
   const [vitrinHata, setVitrinHata] = useState(null);
+  const [acikGruplar, setAcikGruplar] = useState({});
   // Sıralı giriş + yeni rozet parıltısı yalnız oturumdaki ilk açılışta (sekme değişiminde yeniden oynamaz).
   const sirali = useBirKezSirali("rozet", Boolean(veri));
   const ilkAcilis = useRef(sirali !== "").current;
@@ -83,6 +84,27 @@ export default function RozetlerPaneli({ userId }) {
       setKaydediliyor(false);
     }
   };
+  const gizliler = rozetler.filter((r) => r.gizli && !r.kazanildi);
+  const rozetOgesi = (r) => {
+    const ilerliyor = !r.kazanildi && r.hedef > 0;
+    const yeni = yeniMi(r);
+    return (
+      <button type="button" className={sinif("qt-rp-rozet", !r.kazanildi && "qt-rp-rozet--kilitli", yeni && "qt-rp-rozet--yeni")}
+              onClick={() => sec(r)}
+              aria-label={`${r.ad}${r.kazanildi ? "" : ` — ${tt("Kilitli")}`}${yeni ? ` — ${tt("Yeni kazanıldı")}` : ""}`}>
+        <RozetGorseli r={r} boyut={56} />
+        {yeni && <span className="qt-rp-yeni" aria-hidden="true">{tt("Yeni")}</span>}
+        {yeni && ilkAcilis && <span className="qt-rb-parilti" aria-hidden="true" />}
+        <span className="qt-rp-ad">{r.ad}</span>
+        {ilerliyor && (
+          <span className="qt-rp-ilerleme">
+            <QtIlerleme deger={r.deger ?? 0} en={r.hedef} ton="mor" etiket={`${r.deger ?? 0}/${r.hedef}`} />
+            <span className="qt-rp-sayi qt-sayi">{sayiBicim(r.deger ?? 0)}/{sayiBicim(r.hedef)}</span>
+          </span>
+        )}
+      </button>
+    );
+  };
   const vitrindeMi = secili ? vitrin.includes(secili.anahtar) : false;
   const sec = (r) => { dokunus(); setSecili(r); };
   const vitrinDegistir = () => {
@@ -122,41 +144,42 @@ export default function RozetlerPaneli({ userId }) {
       {gruplar.map((g, gi) => {
         const liste = rozetler.filter((r) => r.grup === g.anahtar);
         if (!liste.length) return null;
-        const kazanilan = liste.filter((r) => r.kazanildi).length;
+        const kazanilan = liste.filter((r) => r.kazanildi);
+        const kilitli = liste.filter((r) => !r.kazanildi && !r.gizli);
+        // Sıradaki hedef: ilerlemesi en yüksek kilitli rozet (ilerleme yoksa listedeki ilk)
+        const oran = (r) => (r.hedef > 0 ? (r.deger ?? 0) / r.hedef : -1);
+        const hedef = kilitli.reduce((e, r) => (e == null || oran(r) > oran(e) ? r : e), null);
+        const kalan = kilitli.filter((r) => r !== hedef);
+        const acik = Boolean(acikGruplar[g.anahtar]);
+        const gorunen = [...kazanilan, ...(hedef ? [hedef] : []), ...(acik ? kalan : [])];
         return (
           <QtKart as="section" key={g.anahtar} className={sinif("qt-rp-kart", sirali)} style={siraStili(gi + 1)} aria-labelledby={`qt-rp-g-${g.anahtar}`}>
             <div className="qt-rp-baslik">
               <h3 id={`qt-rp-g-${g.anahtar}`} className="qt-baslik-3">{g.ad}</h3>
-              <span className="qt-kucuk qt-soluk">{kazanilan}/{liste.length}</span>
+              <span className="qt-kucuk qt-soluk">{kazanilan.length}/{liste.length}</span>
             </div>
-            <ul className="qt-rp-izgara">
-              {liste.map((r) => {
-                const gizli = r.gizli && !r.kazanildi;
-                const ilerliyor = !r.kazanildi && r.hedef > 0;
-                const yeni = yeniMi(r);
-                return (
-                  <li key={r.anahtar}>
-                    <button type="button" className={sinif("qt-rp-rozet", !r.kazanildi && "qt-rp-rozet--kilitli", yeni && "qt-rp-rozet--yeni")}
-                            onClick={() => sec(r)}
-                            aria-label={gizli ? tt("Gizli rozet") : `${r.ad}${r.kazanildi ? "" : ` — ${tt("Kilitli")}`}${yeni ? ` — ${tt("Yeni kazanıldı")}` : ""}`}>
-                      <RozetGorseli r={r} boyut={56} />
-                      {yeni && <span className="qt-rp-yeni" aria-hidden="true">{tt("Yeni")}</span>}
-                      {yeni && ilkAcilis && <span className="qt-rb-parilti" aria-hidden="true" />}
-                      <span className="qt-rp-ad">{gizli ? tt("Gizli rozet") : r.ad}</span>
-                      {ilerliyor && (
-                        <span className="qt-rp-ilerleme">
-                          <QtIlerleme deger={r.deger ?? 0} en={r.hedef} ton="mor" etiket={`${r.deger ?? 0}/${r.hedef}`} />
-                          <span className="qt-rp-sayi qt-sayi">{sayiBicim(r.deger ?? 0)}/{sayiBicim(r.hedef)}</span>
-                        </span>
-                      )}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
+            {gorunen.length > 0 && (
+              <ul className="qt-rp-izgara">
+                {gorunen.map((r) => <li key={r.anahtar}>{rozetOgesi(r)}</li>)}
+              </ul>
+            )}
+            {kalan.length > 0 && (
+              <button type="button" className="qt-rp-tumu" aria-expanded={acik}
+                      onClick={() => { dokunus(); setAcikGruplar((a) => ({ ...a, [g.anahtar]: !a[g.anahtar] })); }}>
+                {acik ? tt("Kilitlileri gizle") : tt("Tümünü gör ({n})", { n: kalan.length })}
+              </button>
+            )}
           </QtKart>
         );
       })}
+
+      {gizliler.length > 0 && (
+        <QtKart className="qt-rp-kart qt-rp-gizli">
+          <span className="qt-rp-gizli-isaret" aria-hidden="true">?</span>
+          <span className="qt-govde">{tt("{n} gizli rozet", { n: gizliler.length })}</span>
+          <span className="qt-kucuk qt-soluk">{tt("Nasıl kazanılacağı sır.")}</span>
+        </QtKart>
+      )}
 
       <QtModal acik={Boolean(secili)} onKapat={() => { setSecili(null); setVitrinHata(null); }}
                baslik={secili ? (secili.gizli && !secili.kazanildi ? tt("Gizli rozet") : secili.ad) : ""}

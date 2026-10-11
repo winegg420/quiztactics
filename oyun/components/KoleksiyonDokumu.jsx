@@ -25,8 +25,9 @@ export function useBirKezSirali(anahtar, hazir) {
   return ilk ? sirali : "";
 }
 
-export default function KoleksiyonDokumu({ tam = false, sirali = "", sira = null }) {
+export default function KoleksiyonDokumu({ tam = false, sirali = "", sira = null, katlanir = false }) {
   const [d, setD] = useState(null);
+  const [acik, setAcik] = useState(!katlanir);
   useEffect(() => {
     let aktif = true;
     koleksiyonDokum().then((v) => { if (aktif) setD(v); }).catch(() => { if (aktif) setD(null); });
@@ -39,9 +40,24 @@ export default function KoleksiyonDokumu({ tam = false, sirali = "", sira = null
   const toplam = NADIR.reduce((t, [a]) => t + (d.nadirlik?.[a]?.puan ?? 0), 0) || 1;
   // Boş koleksiyon: gri çubuk + "0 rozet · 0 unvan" yerine tek satır hedef (özet kartında; döküm sekmesinde sayılar durur).
   const bos = !tam && rozet === 0 && unvan === 0;
+  // Katlanır (Koleksiyon sekmesi): tek satırlık özet; dokununca döküm açılır.
+  if (katlanir && !acik) {
+    return (
+      <QtKart as="section" className={sinif("qt-kp qt-kp--ozet", sirali)} style={sira != null ? siraStili(sira) : undefined} aria-labelledby="qt-kp-b">
+        <button type="button" className="qt-kp-ac" aria-expanded={false} onClick={() => setAcik(true)}>
+          <QtIkon ad="yildiz" boyut={20} />
+          <span id="qt-kp-b" className="qt-kp-ac-ad">{tt("Koleksiyon Puanı")}</span>
+          <span className="qt-kp-ac-ozet">{tt("{n} rozet", { n: rozet })} · {tt("{n} unvan", { n: unvan })} · <b className="qt-sayi">{tt("{n} puan", { n: koleksiyonSayi(d.puan) })}</b></span>
+          <QtIkon ad="asagi" boyut={16} />
+        </button>
+      </QtKart>
+    );
+  }
   return (
     <QtKart as="section" className={sinif("qt-kp", sirali)} style={sira != null ? siraStili(sira) : undefined} aria-labelledby="qt-kp-b">
-      <h2 id="qt-kp-b" className="qt-baslik-3 qt-kp-baslik"><QtIkon ad="yildiz" boyut={20} /> {tt("Koleksiyon")}</h2>
+      <h2 id="qt-kp-b" className="qt-baslik-3 qt-kp-baslik"><QtIkon ad="yildiz" boyut={20} /> {tt("Koleksiyon")}
+        {katlanir && <button type="button" className="qt-kp-kapat" aria-expanded={true} onClick={() => setAcik(false)}>{tt("Gizle")}</button>}
+      </h2>
       {bos ? (
         <QtBosDurum boyut="k" ikon="madalya" ton="mor" baslik={tt("İlk rozetin için maç oyna")} />
       ) : (
