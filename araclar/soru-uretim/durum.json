@@ -1424,8 +1424,8 @@
       {
         "klasor": "codex-04",
         "hedef": 200,
-        "net": 200,
-        "durum": "Claude incelemesi bekliyor; Ida onayı yok",
+        "net": 197,
+        "durum": "yeniden Claude incelemesi bekliyor; kapı 37/132 çözülmedi",
         "migration_uygulandi": false,
         "migration": "codex-04/bekleyen.sql",
         "taslak": 802,
@@ -1445,10 +1445,52 @@
         },
         "yerel": 0,
         "en": 200,
-        "kapilar": "1–5; kapı 3 yerel SQL, havuz önceki kopya",
+        "kapilar": "195/197; 37 şık dengesi, 132 aynı olgu",
         "canli_yasak": true,
-        "jev_usd": 0.035296044
+        "jev_usd": 0.035296044,
+        "onay_cikar": [
+          73,
+          98,
+          184
+        ],
+        "onay_duzeltmeler": [
+          21,
+          37,
+          56,
+          132,
+          178,
+          186
+        ],
+        "jev_onay_usd": 0.006786402
+      },
+      {
+        "klasor": "codex-05",
+        "hedef": 200,
+        "net": 0,
+        "durum": "kapı 1–5 ve kota tamamlama",
+        "migration_uygulandi": false,
+        "canli_yasak": true,
+        "ara_kayit": ".tmp/codex/codex-05/durum.json"
+      },
+      {
+        "klasor": "codex-06",
+        "hedef": 200,
+        "net": 0,
+        "durum": "sırada",
+        "migration_uygulandi": false,
+        "canli_yasak": true
+      },
+      {
+        "klasor": "codex-07",
+        "hedef": 200,
+        "net": 0,
+        "durum": "sırada",
+        "migration_uygulandi": false,
+        "canli_yasak": true
       }
-    ]
+    ],
+    "canli_yasak": true,
+    "dal": "soru-havuzu",
+    "kip": "yerel biriktirme; migration uygulanmaz"
   }
 }

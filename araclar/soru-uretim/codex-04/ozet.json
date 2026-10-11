@@ -38,7 +38,7 @@
   "tarih_alt_pay": 0.15,
   "taslak": 802,
   "gecen": 244,
-  "secilen": 200,
+  "secilen": 197,
   "kategori": {
     "sanat": {
       "z2": 19,
@@ -53,11 +53,11 @@
       "z3": 8
     },
     "spor": {
-      "z2": 16,
+      "z2": 15,
       "z3": 7
     },
     "tarih": {
-      "z2": 21,
+      "z2": 20,
       "z3": 9
     },
     "sinema": {
@@ -65,21 +65,21 @@
       "z3": 6
     },
     "genel_kultur": {
-      "z2": 25,
-      "z3": 11
+      "z2": 26,
+      "z3": 10
     },
     "edebiyat": {
-      "z2": 13,
+      "z2": 12,
       "z3": 6
     }
   },
   "zorluk": {
-    "2": 140,
-    "3": 60
+    "2": 138,
+    "3": 59
   },
   "yerel": 0,
-  "global": 200,
-  "en": 200,
+  "global": 197,
+  "en": 197,
   "elenen_sebep": {
     "benzer": 273,
     "biçim/kural": 67,
@@ -100,7 +100,8 @@
     "is_akisi_jev_jeton": 546531,
     "is_akisi_jev": 0.022954302,
     "toplam_jev": 0.035296044,
-    "maliyet_not": "Kapılar ve kaydedilmiş ön denetim/iş akışı çağrıları; Claude API $0."
+    "maliyet_not": "Kapılar ve kaydedilmiş ön denetim/iş akışı çağrıları; Claude API $0.",
+    "onay_kapilar_jev": 0.006786402
   },
   "cesitlilik": {
     "ulke_odak": {
@@ -988,7 +989,7 @@
       "genel_kultur:marka_maskot_cizgi": 14
     }
   },
-  "migration": "bekleyen.sql — hazır; Ida onayı bekliyor; uygulanmadı",
+  "migration": "bekleyen.sql: kapı başarısızlığından dolayı engellendi; SQL hazırlanmadı/uygulanmadı",
   "migration_uygulandi": false,
   "migration_no_taslak": 1059,
   "migration_no_aciklama": "Numara ayrılmaz; onay sonrası son numara+1 yeniden ölçülür",
@@ -1033,5 +1034,27 @@
     "claude_api": false
   },
   "testler": "12 kapı/çeşitlilik testi geçti; build ve postbuild geçti; içerik hashleri, 1600 yerel TR/EN şık dizilimi ve SQL eşliği doğrulandı",
-  "uretici_not": "Önceki partide kullanılmamış Codex taslakları ve yeni yazılmış taslaklar; havuza anlamca tekrarlar ayıklandı."
+  "uretici_not": "Önceki partide kullanılmamış Codex taslakları ve yeni yazılmış taslaklar; havuza anlamca tekrarlar ayıklandı.",
+  "claude_onay": "İlk inceleme onaylı; son kapıda 37 ve 132 için yeniden inceleme istendi. Ida bu iki kaydı inceleme bekliyor bırakmayı seçti.",
+  "canli_yasak": true,
+  "onay_cikar": [
+    73,
+    98,
+    184
+  ],
+  "onay_duzeltmeler": [
+    21,
+    37,
+    56,
+    132,
+    178,
+    186
+  ],
+  "kapilar": {
+    "gecen": 195,
+    "inceleme_bekleyen": [
+      37,
+      132
+    ]
+  }
 }

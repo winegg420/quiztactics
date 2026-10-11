@@ -33,6 +33,16 @@ export function paylastir(agirlik, adet) {
   return sonuc;
 }
 function endeks(t) { return {soru:t.s, dogru:t.d, n:normalize(t.s), dn:normalize(t.d), kok:kokler(t.s)}; }
+export function ekHavuzOku(kok, adlar, kendi) {
+  const tum=[];
+  for(const ad of [...new Set((adlar??'').split(',').map(x=>x.trim()).filter(Boolean))]) {
+    if(!/^codex-\d{2}$/.test(ad)||ad===kendi) throw new Error('Ek havuz adı geçersiz veya kendi partisi: '+ad);
+    const liste=oku(path.join(kok,'araclar/soru-uretim',ad,'sorular.json'));
+    if(!Array.isArray(liste)||liste.some(t=>typeof t.s!=='string'||typeof t.d!=='string'||typeof t.olgu!=='string'))throw new Error('Ek havuz bozuk: '+ad);
+    tum.push(...liste.map(t=>({...t,...endeks(t),kaynak_parti:ad,olgu_n:normalize(t.olgu)})));
+  }
+  return tum;
+}
 export function yerelKapilar(t, mevcut, parti) {
   if (t.ele_neden) return t.ele_neden;
   if (!KATEGORI.includes(t.k)) return 'biçim: kategori kapsam dışında';
@@ -50,8 +60,10 @@ export function yerelKapilar(t, mevcut, parti) {
   if (ele.length) return 'uyarı: '+ele.join('; ');
   if (t.en && t.en.y.some(x=>typeof x!=='string'||!x.trim())) return 'biçim: EN boş/bozuk yanlış şık';
   const e = endeks(t);
+  const olguN=normalize(t.olgu);
   for (const kk of kokler(t.d)) if (kk.length>=4 && e.kok.has(kk)) return 'cevap soruda: '+t.d;
   for (const m of [...mevcut,...parti]) {
+    if (m.olgu_n && m.olgu_n===olguN) return 'aynı olgu: '+m.soru;
     if (m.n===e.n) return 'birebir: '+m.soru;
     const j=jaccard(e.kok,m.kok);
     if ((m.dn===e.dn && j>=0.3)||j>=0.6) return 'benzer ('+j.toFixed(2)+'): '+m.soru+' → '+m.dogru;
@@ -163,8 +175,9 @@ export async function main(argv=process.argv) {
   fs.mkdirSync(klasor,{recursive:true});
   let st=fs.existsSync(dy)?oku(dy):null;
   const saltYerel=argv.includes('--yerel');
-  const seriDurum=oku(path.join(KOK,'araclar/soru-uretim/durum.json')).codex_seri?.partiler?.find(x=>x.klasor===ad);
-  if((st?.canli_yasak||seriDurum?.canli_yasak)&&!saltYerel)throw new Error('Bu parti canlı bağlantıya kapalı; --yerel zorunlu');
+  const seriKayit=oku(path.join(KOK,'araclar/soru-uretim/durum.json')).codex_seri;
+  const seriDurum=seriKayit?.partiler?.find(x=>x.klasor===ad);
+  if((st?.canli_yasak||seriDurum?.canli_yasak||seriKayit?.canli_yasak)&&!saltYerel)throw new Error('Bu parti canlı bağlantıya kapalı; --yerel zorunlu');
   if(saltYerel&&(!st||argv.includes('--havuzu-yenile')||argv.includes('--olc')))throw new Error('Yerel kipte ölçüm/havuz yenileme yasak; mevcut havuz kopyası gerekir');
   if(saltYerel){st.denetime_ortam='Yerel PostgreSQL 17; repo SQL 222/227/298; varsayılan eşikler 1.4/3/2; havuz önceki snapshot';}
   if(st&&st.adet!==adet) throw new Error('Parti hedefi değiştirilemez; yeni parti kullan');
@@ -178,7 +191,10 @@ export async function main(argv=process.argv) {
     // Onay sonrası kota korunur; yeni havuz yalnız tekrar denetimi içindir.
     st.havuz_yenileme=new Date().toISOString(); atomik(dy,st);
   }
-  const mevcut=oku(path.join(ara,'havuz.json')).map(t=>({...t,...endeks({s:t.soru,d:t.dogru??''})}));
+  const ekAdlar=arg('--ek-havuz',st.ek_havuz?.join(',')??'');
+  const ek=ekHavuzOku(KOK,ekAdlar,ad);
+  st.ek_havuz=[...new Set(ekAdlar.split(',').map(x=>x.trim()).filter(Boolean))];st.ek_havuz_hash=ozetHash(ek);
+  const mevcut=[...oku(path.join(ara,'havuz.json')).map(t=>({...t,...endeks({s:t.soru,d:t.dogru??''})})),...ek];
   const girdi=path.resolve(KOK,arg('--girdi',path.join('araclar','soru-uretim',ad,'taslaklar.json')));
   const ham=oku(girdi);
   if(!Array.isArray(ham)||ham.some(t=>typeof t.id!=='string'||!/^[-A-Za-z0-9]+$/.test(t.id)||['constructor','prototype'].includes(t.id))||new Set(ham.map(t=>t.id)).size!==ham.length)throw new Error('Taslak dizisi ve benzersiz id zorunlu');

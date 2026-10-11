@@ -153,6 +153,8 @@ async function main() {
     process.exit(1);
   }
   const codexDurum=new URL('../../.tmp/codex/'+klasorAd+'/durum.json',import.meta.url);
+  const biriktirme=JSON.parse(fs.readFileSync(new URL('./durum.json',import.meta.url),'utf8')).codex_seri;
+  if(codexHatti&&biriktirme?.canli_yasak&&(!process.argv.includes('--yerel')||!bekleyen))throw new Error('Biriktirme kipinde yalnız --yerel --bekleyen izinli');
   const seriDurum=codexHatti?JSON.parse(fs.readFileSync(new URL('./durum.json',import.meta.url),'utf8')).codex_seri?.partiler?.find(x=>x.klasor===klasorAd):null;
   if(codexHatti&&(seriDurum?.canli_yasak||(fs.existsSync(codexDurum)&&JSON.parse(fs.readFileSync(codexDurum,'utf8')).canli_yasak))&&!process.argv.includes('--yerel'))throw new Error('Parti canlı bağlantıya kapalı; --yerel zorunlu');
   if(process.argv.includes('--yerel')&&!bekleyen)throw new Error('Yerel kip yalnız bekleyen migration hazırlayabilir');
