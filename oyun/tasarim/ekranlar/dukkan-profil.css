@@ -300,3 +300,31 @@
 .qt-pf-vitrin-satir .qt-vitrin { gap: var(--qt-b-2); margin-left: auto; }
 
 .qt-pf .qt-kp-baslik > svg { display: none; }   /* bölüm başlıkları ikonsuz, sade */
+
+/* ===================== Oyun ekranı turu (Ida, 11 Eki 2026): lig sahnesi geri + kısa kimlik =====================
+   9 Eki onaylı profil lig sahnesi 10 Eki revizyon A / tutarlılık turunda (qt-ok → qt-pf-kisa) kaybolmuştu. Kimlik kartının
+   üst bölümü yeniden ligin açık sahnesi (tokenlar.css › --qt-lig-<lig>-sahne / -sahne-isik); ışın merkezi avatarın arkasında
+   (sol iç boşluk 14 + kontur 3 + avatar yarıçapı 32 = 49 px). Kontur/dudak lacivert kalır (Profil kart standardı).
+   iOS: transform/filter yok; ışın ::before katmanında (z-index -1, isolation). Takılı kart arka planı varsa sahne çizilmez. */
+.qt-pf-kisa--lig {
+  position: relative; isolation: isolate;
+  --sahne-zemin: var(--qt-lig-notr-sahne);
+  --sahne-isik: var(--qt-lig-notr-sahne-isik);
+  background: var(--sahne-zemin);
+}
+.qt-pf-kisa--lig[data-lig="bronz"]  { --sahne-zemin: var(--qt-lig-bronz-sahne);  --sahne-isik: var(--qt-lig-bronz-sahne-isik); }
+.qt-pf-kisa--lig[data-lig="gumus"]  { --sahne-zemin: var(--qt-lig-gumus-sahne);  --sahne-isik: var(--qt-lig-gumus-sahne-isik); }
+.qt-pf-kisa--lig[data-lig="altin"]  { --sahne-zemin: var(--qt-lig-altin-sahne);  --sahne-isik: var(--qt-lig-altin-sahne-isik); }
+.qt-pf-kisa--lig[data-lig="elmas"]  { --sahne-zemin: var(--qt-lig-elmas-sahne);  --sahne-isik: var(--qt-lig-elmas-sahne-isik); }
+.qt-pf-kisa--lig[data-lig="efsane"] { --sahne-zemin: var(--qt-lig-efsane-sahne); --sahne-isik: var(--qt-lig-efsane-sahne-isik); }
+.qt-pf-kisa--lig::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background:
+    radial-gradient(circle at 49px 50%, rgb(255 255 255 / 0.8) 0, rgb(255 255 255 / 0) 90px),
+    repeating-conic-gradient(from 0deg at 49px 50%, var(--sahne-zemin) 0deg 15deg, var(--sahne-isik) 15deg 30deg);
+}
+/* Kısa kimlik (hedef ≤ 225 px): sonraki rütbe solda, vitrin rozetleri aynı satırda sağda; başlık ve kesik çizgi yok */
+.qt-pf-serit { gap: var(--qt-b-1); padding-block: var(--qt-b-2) var(--qt-b-3); }
+.qt-pf-rutbe-vitrin { display: flex; align-items: center; justify-content: space-between; gap: var(--qt-b-2); min-width: 0; min-height: 35px; }
+.qt-pf-rutbe-vitrin > .qt-pf-sonraki-rutbe { flex: 1 1 auto; min-width: 0; margin: 0; }
+.qt-pf-rutbe-vitrin .qt-vitrin { flex: none; gap: 6px; margin-left: auto; }

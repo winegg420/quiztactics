@@ -250,7 +250,8 @@ export default function ProfilePage() {
           isim efekti, unvan, lig + level (+BP), misafir; altında level/XP çubuğu. Eski dikey vitrin kartının bilgileri burada,
           ödüller (sayılar, vitrin rozetleri, level ödülleri, koleksiyon) İstatistik › Ödüllerim'de. Başkasının kartı aynen. */}
       <section className={sinif("qt-pf-kimlik", sirali)} style={siraStili(0)} aria-label={tt("Oyuncu kimliği")}>
-        <div className={`qt-pf-kisa${kartArkaPlanSinifi(arkaPlan)}`}>
+        {/* Lig sahnesi geri (11 Eki 2026): takılı kart arka planı yoksa zemin ligin açık sahnesi + ışın (CSS: .qt-pf-kisa--lig) */}
+        <div className={`qt-pf-kisa${arkaPlan ? "" : " qt-pf-kisa--lig"}${kartArkaPlanSinifi(arkaPlan)}`} data-lig={kart?.lig ?? ""}>
           <KartArkaPlanKatmani sanat={arkaPlan} hareketli yukseklik={100} />
           <CerceveliAvatar profile={profile} userId={user?.id} boyut={64} hareketli {...(kart ? { kart } : {})} />
           <div className="qt-pf-kisa-metin">
@@ -268,17 +269,15 @@ export default function ProfilePage() {
           <div className="qt-pf-serit">
             {/* Rütbe etiketi kaldırıldı (2 Eki 2026): LevelCubugu zaten "Level N · {rütbe}" gösteriyor, tekrardı. */}
             <LevelCubugu profile={profile} canli levelYok xpSatiri />
-            {/* Tutarlılık turu: eski ayrı "Sonraki rütbe" kartı → çubuğun altında tek küçük satır; son rütbede yok */}
-            {sonraki && (
-              <p className="qt-pf-sonraki-rutbe">
-                {tt("Sonraki rütbe")}: <QtIkon ad={sonraki.ikon} boyut={14} /> <b>{sonraki.ad}</b> · {tt("Lv {n}", { n: sonraki.min })}
-              </p>
-            )}
-            {/* Vitrin rozetleri (en çok 3) kimliğin altında kesik çizgiyle ayrılmış satır; boşsa satır yok */}
-            {kart?.vitrin?.length > 0 && (
-              <div className="qt-pf-vitrin-satir">
-                <span className="qt-pf-vitrin-baslik">{tt("Vitrin")}</span>
-                <VitrinRozetleri vitrin={kart.vitrin} boyut={44} />
+            {/* Oyun ekranı turu (11 Eki 2026): sonraki rütbe solda, vitrin rozetleri (en çok 3, ~%80) AYNI satırda sağda; başlık/kesik çizgi yok */}
+            {(sonraki || kart?.vitrin?.length > 0) && (
+              <div className="qt-pf-rutbe-vitrin">
+                {sonraki ? (
+                  <p className="qt-pf-sonraki-rutbe">
+                    {tt("Sonraki rütbe")}: <QtIkon ad={sonraki.ikon} boyut={14} /> <b>{sonraki.ad}</b> · {tt("Lv {n}", { n: sonraki.min })}
+                  </p>
+                ) : <span />}
+                {kart?.vitrin?.length > 0 && <VitrinRozetleri vitrin={kart.vitrin} boyut={35} />}
               </div>
             )}
           </div>
