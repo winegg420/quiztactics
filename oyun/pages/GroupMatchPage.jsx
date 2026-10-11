@@ -411,9 +411,8 @@ export default function GroupMatchPage() {
     }
   };
 
-  // Hazır kapısı da Klasik'teki gibi tam ekran sahne (alt menü gizli) — yalnız görünüm.
-  const grupHazirKapisi = mac?.durum === "aktif" && !(mac?.basladi ?? true);
-  useOyunModu((Boolean(soru) || grupHazirKapisi) && mac?.durum === "aktif");
+  // Aktif maç her durumda (sorular arası, bekleme) maç şeridini çizer: oyun modu açık kalır, çift başlık olmaz (11 Eki 2026).
+  useOyunModu(mac?.durum === "aktif");
 
   // Ida (24 Eyl): maç sürerken geri tuşu da çıkış onayını açar (lobi/bekleme, bitmiş ya da terk edilmiş maç hariç).
   const grupKatilimim = (mac?.katilimcilar ?? []).find((k) => k.user_id === user?.id);
