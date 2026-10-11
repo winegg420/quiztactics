@@ -1425,13 +1425,13 @@
         "klasor": "codex-04",
         "hedef": 200,
         "net": 197,
-        "durum": "yeniden Claude incelemesi bekliyor; kapı 37/132 çözülmedi",
+        "durum": "197 kayıt; 195 kapı geçişi, 37/132 Ida kararıyla yeniden inceleme bekliyor",
         "migration_uygulandi": false,
         "migration": "codex-04/bekleyen.sql",
         "taslak": 802,
         "zorluk": {
-          "2": 140,
-          "3": 60
+          "2": 138,
+          "3": 59
         },
         "kota": {
           "sanat": 27,
@@ -1444,7 +1444,7 @@
           "tarih": 30
         },
         "yerel": 0,
-        "en": 200,
+        "en": 197,
         "kapilar": "195/197; 37 şık dengesi, 132 aynı olgu",
         "canli_yasak": true,
         "jev_usd": 0.035296044,
@@ -1522,10 +1522,35 @@
       {
         "klasor": "codex-06",
         "hedef": 200,
-        "net": 0,
-        "durum": "sırada",
+        "net": 200,
+        "durum": "Claude incelemesi bekliyor",
         "migration_uygulandi": false,
-        "canli_yasak": true
+        "canli_yasak": true,
+        "ara_kayit": ".tmp/codex/codex-06/durum.json",
+        "taslak": 536,
+        "kota": {
+          "sanat": 26,
+          "muzik": 20,
+          "teknoloji": 27,
+          "spor": 23,
+          "sinema": 22,
+          "genel_kultur": 31,
+          "edebiyat": 21,
+          "tarih": 30
+        },
+        "zorluk": {
+          "2": 140,
+          "3": 60
+        },
+        "yerel": 2,
+        "en": 198,
+        "kapilar": "200/200, 1–5 yerel geçti",
+        "ek_havuz": [
+          "codex-04",
+          "codex-05"
+        ],
+        "migration": "codex-06/bekleyen.sql",
+        "jev_usd": 0.034162632
       },
       {
         "klasor": "codex-07",
