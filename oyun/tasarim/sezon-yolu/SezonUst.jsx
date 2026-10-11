@@ -109,6 +109,7 @@ export function FaydaCipleri({ carpan }) {
     ["hizli", tt("SP ×{c}", { c: carpan })],
     ["bayrak", tt("Günlük bonus görev")],
     ["madalya", tt("Altın halka")],
+    ["kisi", tt("Avatarın sezon boyunca parlar")],
   ];
   return (
     <ul className="sy-faydalar" aria-label={tt("Battle Pass avantajları")}>

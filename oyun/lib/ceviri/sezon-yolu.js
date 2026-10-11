@@ -65,6 +65,7 @@ export default {
   "Geriye dönük ücretli ödüller: ulaştığın bütün seviyelerin ödülü hemen düşer": "Back-dated paid rewards: prizes for every level you've reached drop right away",
   "Sezon boyunca altın isim": "Gold name all season",
   "Avatar çerçevende altın halka": "Gold ring on your avatar frame",
+  "Avatarın sezon boyunca parlar": "Your avatar shines all season",
   "SP ×{c}: seviyeler daha hızlı dolar": "SP ×{c}: levels fill faster",
   "Günlük bonus görev": "Daily bonus task",
   "28/28'de sezona özel unvan": "Season-only title at 28/28",

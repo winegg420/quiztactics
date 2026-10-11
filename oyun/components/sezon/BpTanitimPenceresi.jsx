@@ -93,6 +93,8 @@ export default function BpTanitimPenceresi({ engel = false }) {
           <span>{tt("altın isim")}</span>
           <i aria-hidden="true">·</i>
           <span>{tt("daha hızlı SP ×{c}", { c: carpan })}</span>
+          <i aria-hidden="true">·</i>
+          <span>{tt("Avatarın sezon boyunca parlar")}</span>
         </p>
         <QtDugme tamGenislik onClick={al}>
           {tt("Battle Pass al · {f} elmas", { f: veri.fiyat })}

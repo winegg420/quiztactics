@@ -1,4 +1,4 @@
-// Avatar Prestij pırıltısı (1049) — TEK paylaşılan görünürlük gözcüsü. Efekt yalnız CSS'tir (styles.css › .av-parla);
+// Battle Pass avatar parlaması (1049 pırıltısı, 1061’den beri BP sahipliğine bağlı) — TEK paylaşılan görünürlük gözcüsü. Efekt yalnız CSS'tir (styles.css › .av-parla);
 // burası yalnız ekranda (± 120 px) olan avatarlarda katmanı açar (.av-parla--acik). Zamanlayıcı yok, React durumu yok.
 // Neden: 100 satırlık Dünya listesinde ekran dışındaki 200 sonsuz animasyon kaydırmayı 57 → 46 kare/sn'ye
 // (CPU ×4'te 21 → 7) düşürüyordu; yalnız görünenler açıkken 54–55 (×4'te 19–20) — ölçüm 10 Eki 2026.

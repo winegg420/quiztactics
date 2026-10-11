@@ -22,7 +22,7 @@ import { useEffect, useRef } from "react";
 import { useNadirlikSahneli } from "../lib/avatarNadirlik.js";
 import { parlaIzle } from "../lib/parlaGozcu.js";
 
-// 1049 Avatar Prestij: `prestij` true ise fotoğrafın İÇİNDE ara ara çakan 4 köşeli beyaz yıldızlar (yalnız CSS,
+// 1061 Battle Pass parlaması: `parla` true ise (aktif sezonun BP sahibi) fotoğrafın İÇİNDE ara ara çakan 4 köşeli beyaz yıldızlar (yalnız CSS,
 // styles.css › .av-parla). Aynı ekrandaki pırıltılar birlikte çakmasın diye gecikme kimlikten türer (0–1,8 sn).
 function parlaGecikme(anahtar) {
   let h = 0;
@@ -37,7 +37,7 @@ export function AvatarParla({ anahtar }) {
   return <span ref={ref} className="av-parla" aria-hidden="true" style={{ "--av-parla-g": parlaGecikme(anahtar) }} />;
 }
 
-export default function Avatar({ profile, boyut = 42, prestij = false, kimlik }) {
+export default function Avatar({ profile, boyut = 42, parla = false, kimlik }) {
   const ad = profile?.gorunen_ad ?? profile?.username ?? "?";
   const gorsel =
     profile?.gorunen_avatar !== undefined
@@ -57,7 +57,7 @@ export default function Avatar({ profile, boyut = 42, prestij = false, kimlik })
       ) : (
         harf
       )}
-      {prestij && <AvatarParla anahtar={kimlik ?? profile?.id ?? profile?.user_id ?? gorsel ?? ad} />}
+      {parla && <AvatarParla anahtar={kimlik ?? profile?.id ?? profile?.user_id ?? gorsel ?? ad} />}
     </div>
   );
 }
