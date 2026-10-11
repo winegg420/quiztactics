@@ -554,3 +554,34 @@ a.qt-dk-elmas-satir * { text-decoration: none; }
 .qt-dk-elmas-liste .qt-dk-elmas-satir .qt-dk-elmas-miktar { min-height: 32px; padding: 0 12px; background: #fff; box-shadow: inset 0 0 0 2.5px var(--qt-ikinci-dudak); }
 .qt-dk-elmas-liste .qt-dk-elmas-satir--altin .qt-dk-elmas-miktar { box-shadow: inset 0 0 0 2.5px #c39a2c; color: #5c3d00; }
 @media (max-width: 379px) { .qt-dk-elmas-liste .qt-dk-elmas-satir { gap: 8px; padding-inline: 8px; } .qt-dk-elmas-liste .qt-dk-elmas-ik { width: 40px; height: 40px; } }
+
+/* ——— Oyun ekranı turu (11 Eki 2026): Joker sekmesi kısaldı ———
+   1) Paketler sekmenin EN ÜSTÜNDE yatay vitrin: kart ~%84 genişlik, scroll-snap, çubuk gizli, sağdaki kartın kenarı görünür.
+   2) Tekli jokerler 2 sütun ızgara: ikon üstte ortada, ad 17 px, mod çipi 11 px (sarar), "Sende: N", altta tam genişlik 1× / 10×.
+      Uzun açıklama kartta gizli — satın alma onay penceresinde (onayAc › aciklama) ve title'da durur. */
+.qt-dk-paket-izgara.qt-dk-paket-vitrin {
+  display: grid; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 84%;
+  gap: var(--qt-b-3); overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory;
+  scrollbar-width: none; padding: 2px 2px 8px; margin: -2px -2px 0;
+}
+.qt-dk-paket-izgara.qt-dk-paket-vitrin::-webkit-scrollbar { display: none; }
+.qt-dk-paket-izgara.qt-dk-paket-vitrin > li { scroll-snap-align: start; }
+@media (min-width: 640px) { .qt-dk-paket-izgara.qt-dk-paket-vitrin { grid-auto-columns: calc(50% - var(--qt-b-3) / 2); } }
+
+.qt-dk-skill-liste.qt-dk-skill-liste--izgara { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-2); }
+.qt-dk-skill-liste--izgara > li { display: grid; min-width: 0; }
+.qt-dk-skill-liste--izgara .qt-oyk.qt-dk-skill {
+  grid-template-columns: minmax(0, 1fr); justify-items: center; align-content: start; align-items: start;
+  gap: 6px; padding: 10px 8px 10px 14px; text-align: center; height: 100%;
+}
+.qt-dk-skill-liste--izgara .qt-dk-skill-ikon.qt-dk-skill-ikon--rozet { width: 52px; height: 54px; }
+.qt-dk-skill-liste--izgara .qt-dk-skill-metin { justify-items: center; gap: 4px; width: 100%; }
+.qt-dk-skill-liste--izgara .qt-dk-skill-metin h3 { font-size: 17px; line-height: 1.15; overflow-wrap: anywhere; }
+.qt-dk-skill-liste--izgara .qt-dk-skill-metin p { display: none; }
+.qt-dk-skill-liste--izgara .qt-dk-skill-rozetler { justify-content: center; margin-top: 0; gap: 4px; }
+.qt-dk-skill-liste--izgara .qt-dk-modrozet { font-size: 11px; line-height: 1.15; padding-block: 3px; white-space: normal; text-align: center; }
+.qt-dk-skill-liste--izgara .qt-dk-skill-al {
+  grid-column: 1 / -1; align-self: end; width: 100%; min-width: 0;
+  grid-template-columns: minmax(0, 1fr); grid-auto-flow: row; gap: 6px;
+}
+.qt-dk-skill-liste--izgara .qt-dk-skill-al > .qt-dugme { width: 100%; min-width: 0; padding-inline: 6px; }
