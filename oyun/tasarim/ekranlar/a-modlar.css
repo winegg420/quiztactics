@@ -110,3 +110,52 @@
   font-size: 11px;
   line-height: 1.2;
 }
+
+/* ---------- /modlar oyun ekranı (11 Eki 2026) ----------
+   Üç ANA mod: ana sayfa mod kartı dili (mod rengi + açık ışın + büyük figür; ModFiguru + .qt-isin-sahne ortak).
+   Klasik tam genişlik ~150 px, Düello + Ortak Hazine yan yana ~132 px. Diğer modlar: 3 eşit küçük kart ~128 px. */
+.a-modlar-ana { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-3); }
+.a-modlar-ana > .a-mod-ana--klasik { grid-column: 1 / -1; }
+.a-modlar .qt-mod.a-mod-ana {
+  flex-direction: row; align-items: center; justify-content: space-between; gap: 4px;
+  min-height: 132px; padding: 10px 6px 12px 14px;
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.35), 0 var(--qt-dudak) 0 var(--_md);
+}
+.a-modlar .qt-mod.a-mod-ana--klasik { min-height: 150px; padding-left: 18px; --isin-m: calc(100% - 66px) 50%; }
+.a-modlar .qt-mod.a-mod-ana:is(.a-mod-ana--duello, .a-mod-ana--kasa) { --isin-m: calc(100% - 30px) 70%; flex-direction: column; align-items: stretch; justify-content: space-between; }
+.a-mod-ana-metin { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; position: relative; z-index: 1; }
+.a-modlar .qt-mod.a-mod-ana .qt-mod-ad { font-size: 22px; overflow-wrap: anywhere; }
+.a-modlar .qt-mod.a-mod-ana--klasik .qt-mod-ad { font-size: 30px; }
+.a-modlar .qt-mod.a-mod-ana .qt-mod-alt { font-size: 13px; line-height: 1.25; }
+.a-modlar .qt-mod.a-mod-ana--klasik .qt-mod-alt { font-size: 14px; max-width: 24ch; }
+.a-modlar .qt-mod.a-mod-ana .qt-mod-rozet { position: static; margin-top: 2px; max-width: 100%; white-space: normal; }
+.a-modlar .qt-mod.a-mod-ana--duello .qt-mod-ad { text-shadow: 0 2px 0 rgb(0 0 0 / 0.18); }
+.a-mod-ana-figur.as-figur { width: 104px; height: 104px; }
+.a-modlar .a-mod-ana:is(.a-mod-ana--duello, .a-mod-ana--kasa) .a-mod-ana-figur.as-figur { position: absolute; right: 8px; bottom: 10px; width: 48px; height: 48px; z-index: 0; }
+.a-modlar .a-mod-ana:is(.a-mod-ana--duello, .a-mod-ana--kasa) .a-mod-ana-metin { padding-right: 4px; }
+.a-modlar .a-mod-ana:is(.a-mod-ana--duello, .a-mod-ana--kasa) .qt-mod-rozet { margin-right: 52px; }
+/* Kapalı Ortak Hazine: kilitli kart aynı yuvada, ışınsız */
+.qt-mod.qt-mod--kilitli.a-mod-ana { min-height: 132px; }
+
+.a-modlar-diger-baslik { color: var(--qt-zemin-metin); }
+.a-modlar-kucuk { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--qt-b-2); }
+.a-modlar .qt-mod.a-mod-kucuk {
+  --isin-m: 50% 34%; --isin-g: 0.6;
+  align-items: center; justify-content: flex-start; gap: 6px;
+  min-height: 128px; padding: 12px 6px 12px; text-align: center;
+}
+.a-modlar .qt-mod.a-mod-kucuk .qt-mod-ikon { position: static; width: 50px; height: 50px; flex: none; }
+.a-modlar .qt-mod.a-mod-kucuk .qt-mod-metin { align-items: center; }
+.a-modlar .qt-mod.a-mod-kucuk .qt-mod-ad { font-size: 17px; line-height: 1.1; overflow-wrap: anywhere; hyphens: auto; }
+.a-modlar .qt-mod.a-mod-kucuk .qt-mod-alt { display: none; }
+.a-modlar .qt-mod.a-mod-kucuk .qt-mod-rozet { position: static; order: 2; margin-top: auto; max-width: 100%; white-space: normal; text-align: center; }
+@media (max-width: 600px) {
+  .a-modlar .qt-mod.a-mod-kucuk:has(.qt-mod-rozet), .a-modlar .qt-mod.a-mod-ana:has(.qt-mod-rozet) { padding-top: 12px; }
+  .a-modlar .qt-mod.a-mod-kucuk .qt-mod-rozet, .a-modlar .qt-mod.a-mod-ana .qt-mod-rozet { margin-top: auto; }
+  .a-modlar .qt-mod.a-mod-ana .qt-mod-rozet { margin-top: 2px; }
+}
+@media (max-width: 370px) {
+  .a-modlar .qt-mod.a-mod-ana--klasik .qt-mod-ad { font-size: 27px; }
+  .a-modlar .a-mod-ana--klasik .a-mod-ana-figur.as-figur { width: 88px; height: 88px; }
+  .a-modlar .qt-mod.a-mod-ana:not(.a-mod-ana--klasik) .qt-mod-ad { font-size: 19px; }
+}

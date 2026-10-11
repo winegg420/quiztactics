@@ -1087,12 +1087,7 @@ html.as-kaydirmasiz { --qt-zemin: var(--as-s-zemin); }
 }
 .as-sahne .as-mod-serit--duello .as-mod-serit-metin :is(b, small) { color: #fff; }   /* Düello yazısı BEYAZ */
 .as-sahne .as-mod-serit--duello .as-mod-serit-metin b { text-shadow: 0 2px 0 rgb(0 0 0 / 0.18); }
-.as-figur { position: relative; display: block; flex: none; pointer-events: none; }
-.as-figur > img, .as-figur > svg { display: block; }
-.as-figur-ana { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 3px 0 rgb(31 42 92 / 0.28)); }
-.as-figur--klasik .as-figur-yan { position: absolute; top: 2%; left: -6%; width: 34%; height: auto; }
-.as-figur--duello .as-figur-ana { position: relative; z-index: 1; }
-.as-figur--duello .as-figur-arka { position: absolute; z-index: 0; top: -18%; right: -16%; width: 72%; height: auto; rotate: 14deg; }
+/* .as-figur kuralları oyun/components/mod-figur.css’e taşındı (ModFiguru ortak bileşen, 11 Eki 2026) */
 
 /* Klasik: büyük, tam genişlik — metin solda, figür sağda (ışınların merkezi) */
 .as-sahne .as-mod-serit--klasik { grid-template-columns: minmax(0, 1fr) auto; gap: 6px; padding: 0 8px 0 18px; }

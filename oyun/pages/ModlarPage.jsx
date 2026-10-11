@@ -21,12 +21,28 @@ import { KLASIK_JOKERLER, DUELLO_JOKERLER, DUELLO_V4_JOKERLER } from "../lib/jok
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
+import ModFiguru from "../components/ModFiguru.jsx";
 import { QtModKart, QtListe, QtListeSatiri, SayfaBasligi, dokunus, siraStili, useSiraliGiris } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-modlar.css";
 
 // Gerçek joker sayıları — prototipteki "6 JOKER / 5 JOKER" yazıları uydurmaydı.
 const DUELLO_JOKER = DUELLO_JOKERLER.length;
 const KLASIK_JOKER = KLASIK_JOKERLER.length;
+
+/** Ana mod kartı: QtModKart'ın sınıf/renk dili + ışın sahnesi + büyük figür (ana sayfa mod şeridiyle aynı). */
+function AnaModKart({ mod, ad, alt, rozet, onClick, className, style }) {
+  return (
+    <button type="button" className={`qt-mod qt-mod--${mod} qt-isin-sahne a-mod-ana a-mod-ana--${mod} ${className ?? ""}`}
+            style={style} onClick={onClick}>
+      <span className="a-mod-ana-metin">
+        <span className="qt-mod-ad">{ad}</span>
+        <span className="qt-mod-alt">{alt}</span>
+        <span className="qt-mod-rozet">{rozet}</span>
+      </span>
+      <ModFiguru tur={mod} className="a-mod-ana-figur" />
+    </button>
+  );
+}
 
 export default function ModlarPage() {
   const { tur: turSayisi, v4 } = useDuelloKurallari();   // Düello tur sayısı metne gömülmez (960: seçim modunda 20, kapalıysa eski 16)
@@ -68,71 +84,83 @@ export default function ModlarPage() {
       {/* 860: kategori seçilirse Klasik Maç / Saf Bilgi'nin bütün soruları o kategoriden gelir (Düello hariç). */}
       <KategoriSecici deger={kategoriTercih} onDegistir={setKategoriTercih} aciklama={tt("Klasik Maç ve Saf Bilgi için")} />
 
-      {/* Canlı maç modları: sayılar oyun/lib/jokerler.js'ten hesaplanır */}
-      <section className="a-modlar-izgara" aria-label={tt("Oyun modları")}>
-        <QtModKart
+      {/* Üç ANA mod (11 Eki 2026): ana sayfa mod kartı dili — kendi mod rengi + açık ışın + büyük figür
+          (ModFiguru ortak bileşen). Klasik tam genişlik; Düello ve Ortak Hazine yan yana. */}
+      <section className="a-modlar-ana" aria-label={tt("Oyun modları")}>
+        <AnaModKart
           mod="klasik"
           className={sirali}
           style={siraStili(0)}
           ad={tt("Klasik Maç")}
-          alt={tt("Skillerini kullan ve rakibini geç.")}
+          alt={tt("Jokerlerini kullan ve rakibini geç.")}
           rozet={tt("{n} joker türü", { n: KLASIK_JOKER })}
           onClick={sec(() => macAra(false))}
         />
-        <QtModKart
+        <AnaModKart
           mod="duello"
           className={sirali}
           style={siraStili(1)}
           ad={ceviri("Düello")}
-          alt={v4 ? tt("Kontrolü al, üst üste 3 doğru yap.") : tt("Skillerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.")}
+          alt={v4 ? tt("Kontrolü al, 3/3 yap.") : tt("Skillerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.")}
           rozet={tt("{n} joker türü · {t} tur", { n: v4 ? DUELLO_V4_JOKERLER.length : DUELLO_JOKER, t: turSayisi })}
           onClick={sec(() => navigate(y("/duello")))}
         />
-        <QtModKart
-          mod="saf"
-          className={sirali}
-          style={siraStili(2)}
-          ad={ceviri("Saf Bilgi")}
-          alt={tt("Kategori seç, yalnız bilgiyle yarış.")}
-          rozet={tt("Skillsiz")}
-          onClick={sec(() => macAra(true))}
-        />
-        <QtModKart
-          mod="turnuva"
-          className={sirali}
-          style={siraStili(3)}
-          ad={tt("Turnuva")}
-          alt={tt("Elene elene sona kal ve büyük ödülü kazan.")}
-          rozet={tt("Her gün")}
-          onClick={sec(() => navigate(y("/turnuva")))}
-        />
+        {/* KASA (deneysel, 950): kapalıyken mevcut kilitli kart kalıbı (kilitMetni) */}
+        {kasaAcik ? (
+          <AnaModKart
+            mod="kasa"
+            className={sirali}
+            style={siraStili(2)}
+            ad={tt("Ortak Hazine")}
+            alt={tt("Tek bil, hazineyi al, doğru anda aç.")}
+            rozet={tt("{n} puan", { n: kasaHedef })}
+            onClick={sec(() => navigate(y("/kasa")))}
+          />
+        ) : (
+          <QtModKart
+            mod="kasa"
+            className={`a-mod-ana a-mod-ana--kasa ${sirali}`}
+            style={siraStili(2)}
+            ad={tt("Ortak Hazine")}
+            kilitli
+            kilitMetni={tt("Bu mod şu an kapalı.")}
+          />
+        )}
       </section>
 
-      {/* Grup maçı ödülsüz arkadaş modudur (coin/lig/seri yok, rozet var) —
-          kurulumu /meydan sayfasının içinde. */}
-      <QtModKart
-        mod="grup"
-        genis
-        className={sirali}
-        style={siraStili(4)}
-        ad={tt("Grup Maçı")}
-        alt={tt("3–5 arkadaş · ödülsüz. Aynı sorularda eğlencesine yarış.")}
-        rozet={tt("Kur")}
-        onClick={sec(() => navigate(y("/meydan")))}
-      />
-
-      {/* KASA (deneysel, 950): kapalıyken mevcut kilitli kart kalıbı (kilitMetni) */}
-      <QtModKart
-        mod="kasa"
-        genis
-        className={sirali}
-        style={siraStili(5)}
-        ad={tt("Ortak Hazine")}
-        alt={tt("Tek başına bil, hazineyi al; doğru anda aç. {h} puana ilk ulaşan kazanır.", { h: kasaHedef })}
-        kilitli={!kasaAcik}
-        kilitMetni={tt("Bu mod şu an kapalı.")}
-        onClick={kasaAcik ? sec(() => navigate(y("/kasa"))) : undefined}
-      />
+      <section className="a-modlar-bolum" aria-labelledby="a-modlar-diger-mod">
+        <h2 id="a-modlar-diger-mod" className="qt-baslik-3 a-modlar-diger-baslik">{tt("Diğer modlar")}</h2>
+        <div className="a-modlar-kucuk">
+          <QtModKart
+            mod="saf"
+            className={`a-mod-kucuk qt-isin-sahne ${sirali}`}
+            style={siraStili(3)}
+            ad={ceviri("Saf Bilgi")}
+            rozet={tt("Jokersiz")}
+            aria-label={`${ceviri("Saf Bilgi")} — ${tt("Kategori seç, yalnız bilgiyle yarış.")}`}
+            onClick={sec(() => macAra(true))}
+          />
+          <QtModKart
+            mod="turnuva"
+            className={`a-mod-kucuk qt-isin-sahne ${sirali}`}
+            style={siraStili(4)}
+            ad={tt("Turnuva")}
+            rozet={tt("Her gün")}
+            aria-label={`${tt("Turnuva")} — ${tt("Elene elene sona kal ve büyük ödülü kazan.")}`}
+            onClick={sec(() => navigate(y("/turnuva")))}
+          />
+          {/* Grup maçı ödülsüz arkadaş modudur — kurulumu /meydan sayfasının içinde. */}
+          <QtModKart
+            mod="grup"
+            className={`a-mod-kucuk qt-isin-sahne ${sirali}`}
+            style={siraStili(5)}
+            ad={tt("Grup Maçı")}
+            rozet={tt("Kur")}
+            aria-label={`${tt("Grup Maçı")} — ${tt("3–5 arkadaş · ödülsüz. Aynı sorularda eğlencesine yarış.")}`}
+            onClick={sec(() => navigate(y("/meydan")))}
+          />
+        </div>
+      </section>
 
       <section className="a-modlar-bolum" aria-labelledby="a-modlar-diger-b">
         <h2 id="a-modlar-diger-b" className="qt-baslik-2">{tt("Arkadaşların ve sen")}</h2>

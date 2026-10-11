@@ -18,7 +18,6 @@ import { geriSayim, sonrakiTurnuva, turnuvaSaatleri, turnuvaSaatiGoster, yerelSa
 import { y } from "../../lib/yol.js";
 import { CoinIkon } from "../../components/ParaIkonlari.jsx";
 import { useGorevler, gorevOzeti, kalanMetni, useKalanSn } from "../../lib/gorevler.js";
-import { AMBLEMLER } from "../../tasarim/rozet/amblemler.jsx";
 
 const sayi = (n) => new Intl.NumberFormat("tr-TR").format(Number(n) || 0);
 const MADALYA_TON = ["altin", "gumus", "bronz"];   // turnuva ödül sırası: 1. 2. 3.
@@ -126,7 +125,7 @@ export function modListesi(v, b) {
     { anahtar: "grup", ad: tt("Grup Maçı"), ikon: "grup", alt: tt("3–5 kişi"), git: () => b.git("/meydan?bolum=grup") },
     { anahtar: "saf", ad: tt("Saf Bilgi"), ikon: "safBilgi", alt: tt("Skill yok"), git: () => b.safBilgi() },
     // KASA (950): kapalıyken AnaSayfaA süzer (oyun_ayarlari.kasa_modu_acik)
-    { anahtar: "kasa", ad: tt("Ortak Hazine"), ikon: "coin", alt: tt("Soruyu tek başına bilen hazineyi alır."), git: () => b.git("/kasa") },
+    { anahtar: "kasa", ad: tt("Ortak Hazine"), ikon: "sandik", alt: tt("Soruyu tek başına bilen hazineyi alır."), git: () => b.git("/kasa") },
     { anahtar: "calisma", ad: tt("Hatalarım"), ikon: "kitap", alt: tt("Yanlışlarını çalış"),
       rozet: rozetSayi(v.banka), rozetEtiketi: tt("{n} soru bekliyor", { n: v.banka }), git: () => b.git("/calisma") },
   ];
@@ -172,7 +171,7 @@ const DEVAM_MOD_BILGI = {
   duello: { ikon: "duello", baslik: () => tt("Düello") },
   grup: { ikon: "grup", baslik: () => tt("Grup Maçı") },
   turnuva: { ikon: "kupa", baslik: () => tt("Turnuva") },
-  kasa: { ikon: "coin", baslik: () => tt("Ortak Hazine") },
+  kasa: { ikon: "sandik", baslik: () => tt("Ortak Hazine") },
 };
 
 /**
@@ -396,41 +395,8 @@ export function GorevListesi({ v, sinir = 3 }) {
   );
 }
 
-/** Amblem sembolü (rozet setinin kalın konturlu çizimi) tek başına, ±17 birimlik tuvalde. */
-function AmblemSembolu({ ad, className }) {
-  const Sembol = AMBLEMLER[ad]?.Sembol;
-  if (!Sembol) return null;
-  return <svg className={className} viewBox="-17 -17 34 34" aria-hidden="true" focusable="false"><Sembol /></svg>;
-}
-
-/**
- * Mod kartı sahne figürü (8 Eki 2026, onaylı eskiz): yalnız mevcut varlıklar — rozet amblemleri
- * (soru, kılıçlar) ve dükkân/kozmetik görselleri (sandık, şimşek, parıltı; Noto Emoji 3D, Apache 2.0).
- * Süs; düğmenin etiketi aria-label'da.
- */
-export function ModFiguru({ tur }) {
-  if (tur === "klasik") {
-    return (
-      <span className="as-figur as-figur--klasik" aria-hidden="true">
-        <AmblemSembolu ad="soru" className="as-figur-ana" />
-        <img className="as-figur-yan" src="/dukkan/parilti.webp" alt="" width="40" height="40" decoding="async" />
-      </span>
-    );
-  }
-  if (tur === "duello") {
-    return (
-      <span className="as-figur as-figur--duello" aria-hidden="true">
-        <img className="as-figur-arka" src="/kozmetik/simsek.webp" alt="" width="48" height="48" decoding="async" />
-        <AmblemSembolu ad="kiliclar" className="as-figur-ana" />
-      </span>
-    );
-  }
-  return (
-    <span className="as-figur as-figur--kasa" aria-hidden="true">
-      <img className="as-figur-ana" src="/dukkan/sandik.webp" alt="" width="64" height="64" decoding="async" />
-    </span>
-  );
-}
+// ModFiguru + AmblemSembolu ortak bileşene taşındı (11 Eki 2026): /modlar ana mod kartları da kullanır.
+export { ModFiguru } from "../../components/ModFiguru.jsx";
 
 /** Dekor: uçuşan soru işaretleri, yıldız ve konfeti (CSS ile yavaşça süzülür). */
 export function Susleme({ tur = "lobi" }) {
