@@ -489,7 +489,7 @@ export default function GroupMatchPage() {
   if (mac.durum === "bekliyor") {
     const bekleyenler = katilimcilar.filter((k) => k.davet_durumu === "bekliyor");
     return sahne(
-      <div className="m1-mesaj">
+      <div className="m1-mesaj m1-grup-lobi">
         <span className="m1-mesaj-ikon" aria-hidden="true"><QtIkon ad="saat" boyut={36} /></span>
         <h1 className="qt-baslik-1">{tt("Grup maçı bekleniyor")}</h1>
         <p>
@@ -505,7 +505,7 @@ export default function GroupMatchPage() {
         </p>
         <div className="m1-grup-liste">
           {oyuncuListesi(katilimcilar, (k) => (
-            <QtRozet boyut="k" ton={k.davet_durumu === "kabul" ? "dogru" : k.davet_durumu === "red" ? "yanlis" : "notr"}>
+            <QtRozet boyut="k" className={`m1-grup-durum m1-grup-durum--${k.davet_durumu}`} ton={k.davet_durumu === "kabul" ? "dogru" : k.davet_durumu === "red" ? "yanlis" : "notr"}>
               {k.davet_durumu === "kabul" ? tt("Hazır") : k.davet_durumu === "red" ? tt("Reddetti") : tt("Bekliyor…")}
             </QtRozet>
           ))}
@@ -514,7 +514,7 @@ export default function GroupMatchPage() {
         <div className="m1-dugmeler">
           {benimKayit?.davet_durumu === "bekliyor" && (
             <>
-              <QtDugme tamGenislik ikon="onay" onClick={() => cevapVer(true)}>{tt("Kabul Et")}</QtDugme>
+              <QtDugme tur="dogru" tamGenislik ikon="onay" onClick={() => cevapVer(true)}>{tt("Kabul Et")}</QtDugme>
               <QtDugme tur="tehlike" tamGenislik ikon="carpi" onClick={() => cevapVer(false)}>{tt("Reddet")}</QtDugme>
             </>
           )}
@@ -533,9 +533,7 @@ export default function GroupMatchPage() {
         benHazir={Boolean(nabiz?.ben_hazir)}
         hazirSayisi={nabiz?.hazir_sayisi ?? 0}
         toplamOyuncu={nabiz?.toplam_oyuncu ?? siraliSkor.length}
-        // Paket 42 D.4: kendi adı "Sen" olarak yazılır (tek durum dili, Klasik ile aynı)
-        bekleyenAdlar={(nabiz?.bekleyenler ?? []).map((ad) =>
-          ad === siraliSkor.find((k) => k.user_id === user.id)?.profil?.gorunen_ad ? tt("Sen") : botAdi(ad))}
+        // 11 Eki 2026: "Beklenen: …" satırı verilmez — "n/m hazır" çipi + satır rozetleri aynı bilgiyi taşır (tekrar yok)
         onHazir={hazirla}
         onCik={() => navigate(y("/meydan"))}
         bilgiler={[
@@ -551,7 +549,7 @@ export default function GroupMatchPage() {
               const hazir = k.user_id === user.id
                 ? Boolean(nabiz?.ben_hazir)
                 : !(nabiz?.bekleyenler ?? []).includes(k.profil?.gorunen_ad);
-              return <QtRozet boyut="k" ton={hazir ? "dogru" : "uyari"}>{hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>;
+              return <QtRozet boyut="k" className={`m1-grup-durum m1-grup-durum--${hazir ? "kabul" : "bekliyor"}`} ton={hazir ? "dogru" : "uyari"}>{hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>;
             })}
           </div>
         }

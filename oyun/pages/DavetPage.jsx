@@ -69,7 +69,7 @@ export default function DavetPage() {
         const ad = gorunenAd(sonuc?.gorunen_ad);
         const mesajlar = {
           istek_gonderildi: tt("{0} kişisine arkadaşlık isteği gönderildi", { 0: ad }),
-          arkadas_oldu: tt("{0} artık arkadaşın!", { 0: ad }),
+          arkadas_oldu: sonuc?.gorunen_ad ? tt("{0} ile arkadaş oldunuz", { 0: ad }) : tt("{0} artık arkadaşın!", { 0: ad }),
           zaten_arkadas: tt("{0} zaten arkadaşın.", { 0: ad }),
         };
         setDurum("basarili");
@@ -91,13 +91,15 @@ export default function DavetPage() {
   const ton = durum === "basarili" ? "dogru" : durum === "hata" ? "yanlis" : "mor";
   return (
     <div className="ls-sayfa dv-sayfa">
-      <QtKart dolgu="b" className="dv-kart">
+      <QtKart dolgu="b" className={`dv-kart dv-kart--${durum}`}>
         <div role={durum === "hata" ? "alert" : "status"} aria-live="polite">
           <QtBosDurum
             ikon={ikon}
             ton={ton}
             baslik={durum === "basarili" ? tt("Davet uygulandı") : tt("Arkadaş daveti")}
-            metin={mesaj}
+            metin={durum === "bekliyor"
+              ? <><span className="dv-yukleniyor" aria-hidden="true"><i /><i /><i /></span>{mesaj}</>
+              : mesaj}
             eylem={
               <QtDugme tur={durum === "hata" ? "birincil" : "ikincil"} ikon="kisiler" onClick={() => navigate(y("/arkadaslar"))}>
                 {tt("Arkadaşlara git")}

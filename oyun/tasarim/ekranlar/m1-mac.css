@@ -763,3 +763,26 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
     background: var(--qt-yuzey); color: var(--qt-metin); box-shadow: 0 2px 0 var(--qt-cizgi);
   }
 }
+
+/* =====================================================================
+   GRUP LOBİSİ + HAZIR KAPISI (11 Eki 2026)
+   Satır: avatar · ad (+ "sen") · durum rozeti aynı dikey eksende ortalı; rozetler eşit genişlikte, satır sağında.
+   Lobi: içerik düğmelerle üst kenar arasında ortalanır, Kabul/Reddet/Geri dön başparmak bölgesinde (fixed yok).
+   Hazır (grup): başlık-liste bloğu ile bilgi+düğmeler arasındaki boşluk ikiye bölünür (ortada tek büyük boşluk yok).
+   ===================================================================== */
+.m1-grup-liste .qt-satir-metin { justify-content: center; }
+.m1-grup-liste .qt-satir-baslik { display: flex; align-items: center; gap: 6px; min-width: 0; overflow-wrap: normal; }
+.m1-grup-liste .qt-satir-baslik .ls-ad-dugme { min-width: 0; min-height: 0; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m1-grup-liste .qt-satir-baslik .ls-sen { flex: none; }
+.m1-grup-liste .qt-satir-sag { align-self: center; }
+.m1-grup-durum { min-width: 92px; justify-content: center; }
+.m1-grup-durum--bekliyor { opacity: 0.7; }
+.m1-mac > .m1-grup-lobi { flex: 1 1 auto; padding-bottom: 0; }
+.m1-grup-lobi > .m1-mesaj-ikon { margin-top: auto; }
+.m1-grup-lobi > .m1-dugmeler { margin-top: auto; padding-top: var(--qt-b-3); }
+.m1-mac > .m1-hazir--grup > .qt-baslik-1 { margin-top: auto; }
+/* Lobi oyun modunda değil: üst çubuk + alt menü görünür → sahne görünür alana sığar, Geri dön alt menünün altına girmez */
+body:not(.bd-oyun-modu) .m1-mac:has(> .m1-grup-lobi) {
+  min-height: calc(100dvh - var(--qt-ustcubuk-yuk, 64px) - var(--qt-altmenu-yukseklik, 72px) - env(safe-area-inset-bottom, 0px));
+  padding-bottom: var(--qt-b-3);
+}

@@ -92,7 +92,7 @@ export function HazirKapisi({
   const { kalan, sure } = useLoadoutKalan(bekleyenSn);
   const sayacGorunur = !hepsiHazir && kalan > 0;
   return (
-    <div className="m1-mesaj m1-hazir">
+    <div className={`m1-mesaj m1-hazir m1-hazir--${macTur}`}>
       {/* Baykuş maskot kaldırıldı (Ida, 24 Eyl 2026): başlık doğrudan sahnenin üstünde */}
       <h1 className="qt-baslik-1">{hepsiHazir ? tt("Maç başlıyor…") : benHazir ? tt("Rakip bekleniyor") : tt("Hazır mısın?")}</h1>
       <p>

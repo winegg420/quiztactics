@@ -250,6 +250,21 @@
 /* ---------- Davet sayfası ---------- */
 .dv-sayfa { justify-content: center; min-height: 60dvh; }
 .dv-kart { max-width: 460px; width: 100%; margin-inline: auto; }
+/* 11 Eki 2026: oyun görünümü — kalın lacivert kontur + dudak (ana sayfa dili), büyük konturlu ikon dairesi,
+   üç durumda da aynı yükseklik (bekliyor → başarılı/hata geçişinde kart zıplamaz). Yeni görsel yok. */
+.dv-kart { border: 3px solid #1f2a5c; box-shadow: 0 5px 0 #1f2a5c; }
+.dv-kart .qt-bos { min-height: 300px; justify-content: center; }
+.dv-kart .qt-bos-ikon { width: 88px; height: 88px; border: 3px solid currentColor; }
+.dv-kart--basarili .qt-bos-ikon { background: var(--qt-dogru-acik); color: var(--qt-dogru-koyu); }
+.dv-kart--hata .qt-bos-ikon { background: var(--qt-yanlis-acik); color: var(--qt-yanlis-koyu); }
+.dv-kart .qt-bos-baslik { font-size: var(--qt-y-2xl); color: #1f2a5c; }
+.dv-kart .qt-bos-metin { color: var(--qt-metin); overflow-wrap: anywhere; }
+.dv-yukleniyor { display: flex; justify-content: center; gap: 6px; margin-bottom: var(--qt-b-2); }
+.dv-yukleniyor i { width: 9px; height: 9px; border-radius: 50%; background: var(--qt-ikinci); animation: dv-nokta 0.9s ease-in-out infinite; }
+.dv-yukleniyor i:nth-child(2) { animation-delay: 0.15s; }
+.dv-yukleniyor i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes dv-nokta { 0%, 80%, 100% { opacity: 0.3; } 40% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .dv-yukleniyor i { animation: none; opacity: 0.6; } }
 
 /* ============================================================
    MESAJLAR (ms-) — sohbet listesi
