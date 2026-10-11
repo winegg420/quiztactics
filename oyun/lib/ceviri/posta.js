@@ -1,8 +1,10 @@
 // Posta kutusu (1060) — EN karşılıkları (anahtar = Türkçe metin).
 // "AL|posta": Türkçede "AL", İngilizcede "CLAIM" (başka yerdeki "Al" = "Buy" ile karışmasın).
+// "Tür|posta": genel sözlükteki "Tür" = "Species" (karakter vitrini) ile karışmasın.
 export default {
   "Posta kutusu": "Mailbox",
   "AL|posta": "CLAIM",
+  "Tür|posta": "Type",
   "Ödül": "Reward",
   "Zaten sende": "Already yours",
   "Süresi doldu": "Expired",
