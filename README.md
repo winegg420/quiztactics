@@ -11,7 +11,7 @@ Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık
 - 🏅 **Lig** — Bronz → Gümüş → Altın → Elmas → Efsane; 25 kişilik gruplar, ilk 5 yükselir, son 5 düşer, pazartesi 00:00 (TSİ) sıfırlanır.
 - 🎟️ **Sezon Yolu (Battle Pass)** — 28 günlük sezon; Sezon Puanı herkese ödül verir, Battle Pass (elmasla) ek ödüller açar.
 - 🧑‍🎨 **Avatarlar** — Yaygın avatarlar ücretsiz; Nadir avatarlar level atladıkça, Sezon Yolu'nun ücretsiz kolunda ya da Dükkân'da coinle açılır; Epik ve Efsanevi elmasla (bazıları Battle Pass ödülü).
-- ✨ **Avatar Prestij** — Sahip olduğun avatarı 2.500 coin'le bir kez geliştir: avatarının fotoğrafında ara ara beyaz yıldızlar çakar; her ekranda herkes görür. Saf kozmetik, güç vermez.
+- ✨ **Battle Pass parlaması** — Sezonun Battle Pass'ine sahipsen avatarının fotoğrafında ara ara beyaz yıldızlar çakar; her ekranda herkes görür. Sezon bitip yeni Battle Pass alınmazsa kalkar. Saf kozmetik, güç vermez.
 - 🏅 **Herkes çerçeveli** — Her oyuncunun avatarında en az ligin çerçevesi görünür (yeni oyuncu Bronz'dan başlar); kazanılmış başka çerçeve takılıysa o görünür.
 - ✨ **Cevap İmzası** — doğru cevapta doğru şıkta oynayan, yalnız oyuncunun kendisinin gördüğü kişisel efekt (Dükkân › Efekt; Nadir coinle, Epik/Efsanevi elmasla).
 - 📶 **Bağlantı koparsa 60 sn** — Klasik, Saf Bilgi, Düello ve Ortak Hazine'de bağlantın koparsa ya da uygulamadan çıkarsan maç 60 saniye bekler: süre/soru kaybetmezsin, dönünce kaldığın yerden sürer; rakibin kalan süreyi görür.

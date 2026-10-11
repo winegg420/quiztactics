@@ -1,0 +1,2141 @@
+{
+ "uretim": "2026-10-11T14:55:38.950Z",
+ "adres": "http://localhost:5188",
+ "kesilenYazmalar": [],
+ "taklitsizRpc": [
+  "cihaz_bildir",
+  "bekleyen_sayim",
+  "kalp_at",
+  "dm_okunmamis_sayim",
+  "posta_kutusu",
+  "bekleyen_davetlerim",
+  "rozet_bildirimlerim",
+  "seri_durumum",
+  "gonderdigim_davetler",
+  "duello_aktif_benim",
+  "ses_secimleri_oyun",
+  "koleksiyon_dokum",
+  "oyuncu_kategori_profili",
+  "ustalik_seviyelerim",
+  "sesli_sohbet_izni",
+  "tepki_durumu",
+  "avatar_nadirlik_renkleri",
+  "elmas_paketleri",
+  "skill_dukkani",
+  "cerceve_katalogu",
+  "aura_katalogu"
+ ],
+ "tabloOkumalari": [
+  "oyun_ayarlari",
+  "tournaments",
+  "matches",
+  "duello_davetleri",
+  "kasa_davetleri",
+  "group_matches",
+  "joker_islemleri",
+  "friendships",
+  "profiles",
+  "match_jokers",
+  "joker_paketleri"
+ ],
+ "ekranlar": [
+  {
+   "senaryo": "bp",
+   "ekran": "ana",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 3,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "sonukBaskasi": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "avParlaToplam": 3,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "ana",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 3,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "sonukBaskasi": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "avParlaToplam": 3,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "ana",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 3,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "sonukBaskasi": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "avParlaToplam": 3,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "ana",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 3,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "sonukBaskasi": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "avParlaToplam": 3,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "profil",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 1,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "profil",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 1,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "profil",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 1,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "profil",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 1,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "siralama",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 4,
+    "parla": 4
+   },
+   "sonukBaskasi": {
+    "toplam": 5,
+    "parla": 0
+   },
+   "avParlaToplam": 5,
+   "avParlaAcik": 5,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "siralama",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 4,
+    "parla": 4
+   },
+   "sonukBaskasi": {
+    "toplam": 5,
+    "parla": 0
+   },
+   "avParlaToplam": 5,
+   "avParlaAcik": 5,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "siralama",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 4,
+    "parla": 4
+   },
+   "sonukBaskasi": {
+    "toplam": 5,
+    "parla": 0
+   },
+   "avParlaToplam": 5,
+   "avParlaAcik": 5,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "siralama",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 4,
+    "parla": 4
+   },
+   "sonukBaskasi": {
+    "toplam": 5,
+    "parla": 0
+   },
+   "avParlaToplam": 5,
+   "avParlaAcik": 5,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "mac",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 2,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "mac",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 2,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "mac",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 2,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "mac",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 2,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "mac-sonu",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "mac-sonu",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "mac-sonu",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "mac-sonu",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "dukkan-avatar",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 15,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 1,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": {
+    "kolon": 3,
+    "oge": 14,
+    "sonSatirOge": 2,
+    "sonAlt": 1216,
+    "sayfaAlt": 1334
+   },
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "dukkan-avatar",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 15,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 1,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": {
+    "kolon": 3,
+    "oge": 14,
+    "sonSatirOge": 2,
+    "sonAlt": 1216,
+    "sayfaAlt": 1334
+   },
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "dukkan-avatar",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 15,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 1,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": {
+    "kolon": 3,
+    "oge": 14,
+    "sonSatirOge": 2,
+    "sonAlt": 1216,
+    "sayfaAlt": 1334
+   },
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "dukkan-avatar",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 15,
+    "parla": 1
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 1,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": {
+    "kolon": 3,
+    "oge": 14,
+    "sonSatirOge": 2,
+    "sonAlt": 1230,
+    "sayfaAlt": 1348
+   },
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "koleksiyon",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 2,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause chi"
+   ],
+   "sorun": [
+    "konsol 1"
+   ],
+   "gecti": false
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "koleksiyon",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 2,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause chi"
+   ],
+   "sorun": [
+    "konsol 1"
+   ],
+   "gecti": false
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "koleksiyon",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 2,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause chi"
+   ],
+   "sorun": [
+    "konsol 1"
+   ],
+   "gecti": false
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "koleksiyon",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 2,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause chi"
+   ],
+   "sorun": [
+    "konsol 1"
+   ],
+   "gecti": false
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "sezon",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "sezon",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "sezon",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bp",
+   "ekran": "sezon",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "ana",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 3,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "sonukBaskasi": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "ana",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 3,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "sonukBaskasi": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "ana",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 3,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "sonukBaskasi": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "ana",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 3,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "sonukBaskasi": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "profil",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "profil",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "profil",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "profil",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "siralama",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 4,
+    "parla": 4
+   },
+   "sonukBaskasi": {
+    "toplam": 5,
+    "parla": 0
+   },
+   "avParlaToplam": 4,
+   "avParlaAcik": 4,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "siralama",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 4,
+    "parla": 4
+   },
+   "sonukBaskasi": {
+    "toplam": 5,
+    "parla": 0
+   },
+   "avParlaToplam": 4,
+   "avParlaAcik": 4,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "siralama",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 4,
+    "parla": 4
+   },
+   "sonukBaskasi": {
+    "toplam": 5,
+    "parla": 0
+   },
+   "avParlaToplam": 4,
+   "avParlaAcik": 4,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "siralama",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 4,
+    "parla": 4
+   },
+   "sonukBaskasi": {
+    "toplam": 5,
+    "parla": 0
+   },
+   "avParlaToplam": 4,
+   "avParlaAcik": 4,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "mac",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 1,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "mac",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 1,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "mac",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 1,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "mac",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 1,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 1,
+    "parla": 1
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 1,
+   "avParlaAcik": 1,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "mac-sonu",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "mac-sonu",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "mac-sonu",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "mac-sonu",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "dukkan-avatar",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 15,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": {
+    "kolon": 3,
+    "oge": 14,
+    "sonSatirOge": 2,
+    "sonAlt": 1216,
+    "sayfaAlt": 1334
+   },
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "dukkan-avatar",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 15,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": {
+    "kolon": 3,
+    "oge": 14,
+    "sonSatirOge": 2,
+    "sonAlt": 1216,
+    "sayfaAlt": 1334
+   },
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "dukkan-avatar",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 15,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": {
+    "kolon": 3,
+    "oge": 14,
+    "sonSatirOge": 2,
+    "sonAlt": 1216,
+    "sayfaAlt": 1334
+   },
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "dukkan-avatar",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 15,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": {
+    "kolon": 3,
+    "oge": 14,
+    "sonSatirOge": 2,
+    "sonAlt": 1230,
+    "sayfaAlt": 1348
+   },
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "koleksiyon",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause chi"
+   ],
+   "sorun": [
+    "konsol 1"
+   ],
+   "gecti": false
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "koleksiyon",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause chi"
+   ],
+   "sorun": [
+    "konsol 1"
+   ],
+   "gecti": false
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "koleksiyon",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause chi"
+   ],
+   "sorun": [
+    "konsol 1"
+   ],
+   "gecti": false
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "koleksiyon",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": false,
+   "izgara": null,
+   "konsolHata": [
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause chi"
+   ],
+   "sorun": [
+    "konsol 1"
+   ],
+   "gecti": false
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "sezon-satinal",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": true,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "sezon-satinal",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": true,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "sezon-satinal",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": true,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "sezon-satinal",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "sonukBaskasi": {
+    "toplam": 0,
+    "parla": 0
+   },
+   "avParlaToplam": 0,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": true,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "bp-tanitim",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 3,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "sonukBaskasi": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": true,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "bp-tanitim",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 3,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "sonukBaskasi": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": true,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "bp-tanitim",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 3,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "sonukBaskasi": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": true,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  },
+  {
+   "senaryo": "bpsiz",
+   "ekran": "bp-tanitim",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "yatayTasma": 0,
+   "ben": {
+    "toplam": 3,
+    "parla": 0
+   },
+   "parlakBaskasi": {
+    "toplam": 2,
+    "parla": 2
+   },
+   "sonukBaskasi": {
+    "toplam": 2,
+    "parla": 0
+   },
+   "avParlaToplam": 2,
+   "avParlaAcik": 0,
+   "prestijMetni": null,
+   "qtDcPrestij": 0,
+   "parlarSatiri": true,
+   "izgara": null,
+   "konsolHata": [],
+   "sorun": [],
+   "gecti": true
+  }
+ ],
+ "yuzSatir": [
+  {
+   "ekran": "siralama-100",
+   "boyut": "390x844",
+   "dil": "tr",
+   "once": {
+    "satir": 100,
+    "toplam": 100,
+    "acik": 11
+   },
+   "kaydirma": {
+    "kareSn": 59.7,
+    "enUzunKareMs": 33.5,
+    "kaydirilabilir": 5528
+   },
+   "sonra": {
+    "satir": 100,
+    "toplam": 100,
+    "acik": 19
+   },
+   "gecti": true,
+   "konsolHata": []
+  },
+  {
+   "ekran": "siralama-100",
+   "boyut": "360x780",
+   "dil": "tr",
+   "once": {
+    "satir": 100,
+    "toplam": 100,
+    "acik": 10
+   },
+   "kaydirma": {
+    "kareSn": 59.7,
+    "enUzunKareMs": 33.4,
+    "kaydirilabilir": 5592
+   },
+   "sonra": {
+    "satir": 100,
+    "toplam": 100,
+    "acik": 18
+   },
+   "gecti": true,
+   "konsolHata": []
+  }
+ ]
+}

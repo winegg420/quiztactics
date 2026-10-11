@@ -11,6 +11,7 @@ const AVANTAJLAR = [
   ["hediye", "Geriye dönük ücretli ödüller: ulaştığın bütün seviyelerin ödülü hemen düşer"],
   ["yildiz", "Sezon boyunca altın isim"],
   ["madalya", "Avatar çerçevende altın halka"],
+  ["kisi", "Avatarın sezon boyunca parlar"],
   ["hizli", "SP ×{c}: seviyeler daha hızlı dolar"],
   ["bayrak", "Günlük bonus görev"],
   ["kupa", "28/28'de sezona özel unvan"],

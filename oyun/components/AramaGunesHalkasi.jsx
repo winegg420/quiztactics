@@ -111,7 +111,7 @@ function sureYaz(sn) {
  * resim yüklenince üstüne yumuşakça biner. Önceden yüklenmeyen avatar (gerçek oyuncunun özel/Google fotoğrafı)
  * inene kadar daire boş beyaz kalıyordu.
  */
-function AvatarResim({ src, ad, prestij = false }) {
+function AvatarResim({ src, ad, parla = false }) {
   const [yuklu, setYuklu] = useState(false);
   const imgRef = useRef(null);
   useEffect(() => {
@@ -124,7 +124,7 @@ function AvatarResim({ src, ad, prestij = false }) {
       {harf}
       <NadirlikImg ref={imgRef} className={yuklu ? "gh-av-yuklu" : "gh-av-bekle"} src={src} alt="" width="120" height="120" decoding="async" draggable="false" referrerPolicy="no-referrer"
         onLoad={() => setYuklu(true)} onError={() => setYuklu(false)} />
-      {prestij && <AvatarParla anahtar={src} />}{/* 1049: Avatar Prestij pırıltısı */}
+      {parla && <AvatarParla anahtar={src} />}{/* 1061: Battle Pass parlaması */}
     </>
   );
 }
@@ -285,7 +285,7 @@ export default function AramaGunesHalkasi({
             </span>
             <span className="gh-merkez" aria-hidden="true">
               {vs ? (
-                <span className="gh-makara-kilit" key="kilit"><AvatarResim src={rakip.gorunen_avatar} ad={rakip.gorunen_ad} prestij={kartlar[rakip.id]?.avatar_prestij === true} /></span>
+                <span className="gh-makara-kilit" key="kilit"><AvatarResim src={rakip.gorunen_avatar} ad={rakip.gorunen_ad} parla={kartlar[rakip.id]?.bp_parlama === true} /></span>
               ) : durum === "hata" ? (
                 <span className="gh-makara-kilit" key="hata"><span className="gh-harf">?</span></span>
               ) : (

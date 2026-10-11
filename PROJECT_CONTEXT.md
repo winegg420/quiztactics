@@ -503,14 +503,12 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   gizli bot takmaz, `kozmetik_ver` (etkinlik ödülü). Çizim `oyun/tasarim/premium/` (tembel), `CerceveliAvatar` karttaki
   `premium_cerceve/premium_aura`'yı çizer (2. tur: pc_alev2/simsek2/kraliyet2 570, pc_ejderha2 580); hareket yalnız profil/lobi/VS/maç sonu, ≤48 px durağan. Lig amblemi
   (`ligAmblemi.jsx`) oyuncu adının yanında her yerde. Eski dükkân auraları pasif.
-- **Avatar Prestij (1049 canlıda, Ida 10 Eki 2026):** sahip olunan (ücretsiz dahil) avatar coin'le BİR KEZ geliştirilir — tek kademe, ikinci yok.
-  Efekt yalnız avatar fotoğrafının İÇİNDE ara ara çakan 4 köşeli beyaz yıldızlar (Ida onaylı CSS birebir, `src/styles.css › .av-parla`; halka/rozet/çerçeve
-  değişmez; hareketi azaltta kapalı); HER YERDE, her boyutta, herkes görür (Düello dahil — "Düello'da efekt yok" kuralı bunu kapsamaz). Yalnız ekrandaki
-  avatarda katman açık (`src/lib/parlaGozcu.js`, tek IntersectionObserver; 100 satırda kaydırma ölçüldü). Ayar `avatar_prestij_fiyat` **2500** coin ·
-  `avatar_prestij_acik` true. Veri `oyuncu_avatar_prestij` (RLS: yalnız kendi satırı okunur), RPC `avatar_prestij_al` (yalnız authenticated; FOR UPDATE +
-  `coin_harca`, defter tür `avatar_prestij`; hatalar kapali/sahip_degil/zaten_alindi/coin_yetersiz), `oyuncu_kartlari.avatar_prestij` (takılı avatar;
-  gizli botta false). Koleksiyon Puanı: her prestijli avatar ayrı kalem, ağırlık nadir. Arayüz Dükkân › Avatar › Prestij + Koleksiyon "Prestij" etiketi.
-  Testler `araclar/avatar-prestij-canli-testi.mjs` (tek seferlik, test hesabını siler) · `araclar/avatar-prestij-ekran.mjs`.
+- **Battle Pass parlaması (1061 canlıda, Ida 11 Eki 2026; Avatar Prestij tümüyle kaldırıldı — coinle avatar geliştirme yok):** aktif sezonun
+  Battle Pass sahibinin avatarı, takılı avatar hangisi olursa olsun parlar; sezon biter ve yeni BP alınmazsa kalkar. Efekt avatar fotoğrafının İÇİNDE ara ara
+  çakan 4 köşeli beyaz yıldızlar (`src/styles.css › .av-parla`; halka/çerçeve değişmez; hareketi azaltta kapalı); HER YERDE, herkes görür (Düello dahil).
+  Yalnız ekrandaki avatarda katman açık (`src/lib/parlaGozcu.js`, tek IntersectionObserver). Kaynak `oyuncu_kartlari.bp_parlama` (= `sezon_bp`, aynı
+  `sezon_bp_gorunur`; gizli botta false; ek sorgu yok) ve `lig_grubum_ozet` satırları; CerceveliAvatar → Avatar `parla`. BP tanıtımında satır
+  "Avatarın sezon boyunca parlar". Test `araclar/bp-parlama-sql-testi.mjs` (ROLLBACK; `--canli` salt okuma) · `araclar/bp-parlama-ekran.mjs` (taklit).
 - **Avatar edinme = ilerleme (1039 canlıda, Ida 9 Eki 2026; 820–822'nin üstüne):** her avatarın TEK edinme yolu var, tek kaynak
   `avatar_nitelikleri.edinme` (+ `edinme_level`, `edinme_sezon_seviye`): Yaygın 21 `ucretsiz` · Nadir 6 `level` (Lv 3 Kedili Kız · 10 Viking ·
   15 Dedektif · 25 Şövalye · 35 Büyücü · 50 Kral; `xp_ver` level döngüsünde iç `level_avatar_ver` verir) · Nadir 2 `sezon` (Sezon Yolu
@@ -848,7 +846,7 @@ grup (hayvan·insan·meslek·kahraman·fantastik·robot·uzayli·uzay; göz atma
 Sahne (zemin) rengi nadirlikten türer; **bayrak `avatar_nadirlik_renk = true` (770, 1 Eki 2026)**. Nadirlik verisi Ida'nın işaretlemesiyle yazıldı: aktif 62 avatar =
 Yaygın 21 · Nadir 15 · Epik 18 · Efsanevi 8 (8 pasif avatar değişmedi). Renkler: Yaygın gri-mavi · Nadir yeşil · **Epik = oyunun Epik moru (`--qt-nadir-epik`, #8b2fd6)** ·
 Efsanevi altın; **mor yalnız Epik için ayrılmıştır**, kırmızı kullanılmaz. Avatar seçim ekranları (Profil › Ayarlar, Kurulum, Koleksiyon) nadirliğe göre
-bölümlenir: **Yaygın → Nadir → Epik → Efsanevi** (yaygınlar üstte); **Dükkân › Avatar** (11 Eki 2026) yalnız ücretli: Nadir/coin → Epik/elmas → Efsanevi/elmas, her bölümde sahip olunanlar sonda, önizleme ilk alınabilir avatar, Prestij kartları ızgaranın altında, para kuralı iki tek satır hap ("Coin: Joker · Nadir" · "Elmas: Epik · Efsanevi"; yalnız Avatar + Efekt sekmesi), başlık "● Efsanevi · 8". Ham `<img>` yerleri `NadirlikImg` (oyun/components/AvatarNadirlikGoruntu.jsx) ile renge bağlı;
+bölümlenir: **Yaygın → Nadir → Epik → Efsanevi** (yaygınlar üstte); **Dükkân › Avatar** (11 Eki 2026) yalnız ücretli: Nadir/coin → Epik/elmas → Efsanevi/elmas, her bölümde sahip olunanlar sonda, önizleme ilk alınabilir avatar, para kuralı iki tek satır hap ("Coin: Joker · Nadir" · "Elmas: Epik · Efsanevi"; yalnız Avatar + Efekt sekmesi), başlık "● Efsanevi · 8". Ham `<img>` yerleri `NadirlikImg` (oyun/components/AvatarNadirlikGoruntu.jsx) ile renge bağlı;
 harita/bölümleme `src/lib/avatarNadirlik.js`. İşaretleme sayfası `/avatar-nadirlik` (yalnız sahip, seçim DB'ye yazılmaz, "Kopyala"). Tek çizim noktası `src/components/Avatar.jsx`.
 
 ### Mod paritesi — KALICI KURAL

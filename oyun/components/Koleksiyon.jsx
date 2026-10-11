@@ -29,11 +29,10 @@ import { kozmetikHatasi, kozmetikParasi, kozmetikTak } from "../lib/kozmetik.js"
 import { ImzaFiyat } from "./DukkanCevapImzasi.jsx";
 import { aktifDil } from "../lib/dil.js";
 import { avatarKilitliMi, useAvatarSahiplik, useHazirAvatarlar } from "../lib/avatarKatalogu.js";
-import { prestijAnahtari, usePrestijlerim } from "../lib/avatarPrestij.js";
 import { nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
 import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 import { AvatarEdinmeKarti } from "./AvatarEdinme.jsx";
-import { cerceveKatalogu, cerceveTak, auraKatalogu, auraTak, oyuncuKartiUnut } from "../lib/cerceve.js";
+import { cerceveKatalogu, cerceveTak, auraKatalogu, auraTak, oyuncuKarti, oyuncuKartiUnut } from "../lib/cerceve.js";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
@@ -66,10 +65,18 @@ export default function Koleksiyon() {
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
   const nadirlikHaritasi = useNadirlikHaritasi();   // 770: bayrak açıkken nadirliğe göre bölümler
   const avatarSahiplik = useAvatarSahiplik();   // 820: Epik / Efsanevi avatar kilitli görünür, seçilemez
-  const prestijlerim = usePrestijlerim();   // 1049: prestijli avatar kartında "Prestij" etiketi + kendi avatarımda pırıltı
   const [edinmeAvatar, setEdinmeAvatar] = useState(null);   // 1039: kilitli avatara dokununca edinme kartı
   const { user, profile, refreshProfile } = useAuth();
-  const benPrestij = prestijlerim.has(prestijAnahtari(profile?.avatar_url));   // takılı avatarım prestijli mi
+  // 1061: aktif sezonun Battle Pass'i bende mi → çerçeve önizlemelerinde avatarım parlar (önbellekli oyuncu kartı, ek sorgu yok)
+  const [benParla, setBenParla] = useState(false);
+  useEffect(() => {
+    if (!user?.id) return undefined;
+    let aktif = true;
+    oyuncuKarti(user.id)
+      .then((k) => { if (aktif) setBenParla(k?.bp_parlama === true); })
+      .catch((e) => console.warn("[Koleksiyon] oyuncu kartı okunamadı:", e?.message ?? e));
+    return () => { aktif = false; };
+  }, [user?.id]);
   const [cerceveler, setCerceveler] = useState(null);
   const [auralar, setAuralar] = useState(null);
   const [hata, setHata] = useState(null);
@@ -181,7 +188,7 @@ export default function Koleksiyon() {
   const arkaPlanVar = kozmetik.arkaPlanAcik;   // 1 Eki: arka planlar dondurulmuş → bölüm, sayaç ve metin görünmez
   const durumYazi = (secili, anahtarMesgul) => (secili ? tt("Takılı") : mesgul === anahtarMesgul ? tt("Takılıyor…") : tt("Tak"));
   // Premium çerçeve takılıyken kazanılan çerçevenin üstünü örter (CerceveliAvatar): ikisi "Takılı" görünmesin
-  const prestijDurum = (secili, anahtarMesgul) => (secili && premiumCerceveTakili ? tt("Premium önde") : durumYazi(secili, anahtarMesgul));
+  const cerceveDurum = (secili, anahtarMesgul) => (secili && premiumCerceveTakili ? tt("Premium önde") : durumYazi(secili, anahtarMesgul));
 
   const efektVar = KOZMETIK_SEKMELERI.some((s) => s.tur && bolumSekmesi(s) === "efekt" && kozmetik.katalog.some((x) => x.tur === s.tur));
   const icSekmeler = [
@@ -232,10 +239,10 @@ export default function Koleksiyon() {
             <button type="button" className="qt-cs-oge" aria-pressed={takiliCerceve === null} disabled={Boolean(mesgul)}
                     onClick={() => cerceveSec(null)}>
               <CerceveGorseli anahtar={null} boyut={64}>
-                <Avatar profile={profile ?? {}} boyut={icBoyut(64, false)} prestij={benPrestij} kimlik={user?.id} />
+                <Avatar profile={profile ?? {}} boyut={icBoyut(64, false)} parla={benParla} kimlik={user?.id} />
               </CerceveGorseli>
               <span className="qt-cs-ad">{tt("Çerçevesiz")}</span>
-              <span className="qt-cs-durum">{prestijDurum(takiliCerceve === null, "c:yok")}</span>
+              <span className="qt-cs-durum">{cerceveDurum(takiliCerceve === null, "c:yok")}</span>
             </button>
           </li>
           {cerceveler.map((c) => {
@@ -249,16 +256,16 @@ export default function Koleksiyon() {
                         onClick={() => cerceveSec(c.anahtar)}>
                   {kazanilanMi(c.anahtar) ? (
                     // lig / level / turnuva: yeni çizim (tembel; listede durağan)
-                    <CerceveliAvatar profile={profile ?? {}} cerceve={c.anahtar} aura={null} premiumCerceve={null} premiumAura={null} boyut={64} prestij={benPrestij} />
+                    <CerceveliAvatar profile={profile ?? {}} cerceve={c.anahtar} aura={null} premiumCerceve={null} premiumAura={null} boyut={64} parla={benParla} />
                   ) : (
                     <CerceveGorseli anahtar={c.anahtar} satir={c} boyut={64}>
-                      <Avatar profile={profile ?? {}} boyut={icBoyut(64, !!tanim)} prestij={benPrestij} kimlik={user?.id} />
+                      <Avatar profile={profile ?? {}} boyut={icBoyut(64, !!tanim)} parla={benParla} kimlik={user?.id} />
                     </CerceveGorseli>
                   )}
                   <span className="qt-cs-ad">{ad}</span>
                   <span className="qt-cs-kaynak">{tt(KAYNAK_ADI[c.kaynak] ?? "Etkinlik")}</span>
                   {c.sahip
-                    ? <span className="qt-cs-durum">{prestijDurum(c.takili, `c:${c.anahtar}`)}</span>
+                    ? <span className="qt-cs-durum">{cerceveDurum(c.takili, `c:${c.anahtar}`)}</span>
                     : <span className="qt-cs-kosul"><QtIkon ad="kilit" boyut={12} /> {kosulMetni(c.kosul)}</span>}
                 </button>
               </li>
@@ -421,7 +428,6 @@ export default function Koleksiyon() {
                         {kilitli && <AvatarKilitRozeti s={avatarSahiplik.get(a.url)} />}
                       </span>
                       <span className="qt-cs-ad">{a.ad}</span>
-                      {prestijlerim.has(prestijAnahtari(a.url)) && <span className="qt-cs-kaynak qt-ks-prestij">{tt("Prestij")}</span>}
                     </button>
                   </li>
                 );

@@ -156,7 +156,7 @@ export function EtkinlikSatiri({ e }) {
   return (
     <Link to={y(e.yol)} className={`as-etkinlik as-etkinlik--${e.ton}`}>
       <span className="as-etkinlik-bas">
-        {/* 1049: çerçevesiz oyuncu yok — lig çerçevesi + prestij oyuncu kartından (toplu, önbellekli) */}
+        {/* 1049: çerçevesiz oyuncu yok — lig çerçevesi + BP parlaması oyuncu kartından (toplu, önbellekli) */}
         {e.avatar ? <CerceveliAvatar profile={e.avatar} userId={e.avatar.id} boyut={40} /> : <QtIkon ad={e.ikon} boyut={22} />}
       </span>
       <span className="as-etkinlik-metin"><b>{e.baslik}</b><small>{e.alt}</small></span>
@@ -537,7 +537,7 @@ export function LigKarti({ v }) {
                                cerceve={r.cerceve ?? null} kart={{ cerceve: r.cerceve ?? null, cerceve_nadirlik: r.cerceve_nadirlik,
                                  // 560: premium alanlar satırda varsa (lig_grubum_ozet) ek sorgu yok
                                  ...("premium_cerceve" in r ? { premium_cerceve: r.premium_cerceve ?? null, premium_aura: r.premium_aura ?? null } : {}),
-                                 ...("avatar_prestij" in r ? { avatar_prestij: r.avatar_prestij === true } : {}) }} boyut={28} />   {/* 1049 */}
+                                 ...("bp_parlama" in r ? { bp_parlama: r.bp_parlama === true } : {}) }} boyut={28} />   {/* 1049 */}
               {/* Ajan C: ada dokununca oyuncu kartı (satırın geri kalanı lig sayfasına gider). Liste aria-hidden:
                   klavye/ekran okuyucu aynı kartı lig sayfasındaki satırdan açar. */}
               <OyuncuAdiDugmesi userId={r.user_id} profil={{ gorunen_ad: r.ad, gorunen_avatar: r.avatar }} ad={r.ad}
