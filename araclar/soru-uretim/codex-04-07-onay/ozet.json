@@ -1,0 +1,54 @@
+{
+  "tarih": "2026-10-11T20:17:06.025Z",
+  "canli_yasak": true,
+  "migration_uygulandi": false,
+  "dal": "soru-havuzu",
+  "durum": "Claude ve Ida onaylı; 778/778 kapı 1–5 geçti; SQL bekleyen taslak",
+  "partiler": [
+    {
+      "klasor": "codex-04",
+      "soru": 194,
+      "gecen": 194,
+      "ret": 0,
+      "hash": "db88b0c60c1f4a9c176d1f233c2aa8b5052f9ca3b8be9c20e86d3e6acd6b0b01"
+    },
+    {
+      "klasor": "codex-05",
+      "soru": 196,
+      "gecen": 196,
+      "ret": 0,
+      "hash": "dcde8066bcf0c6f13ad5fe86a8aa44d79d677e176b1f523f8d9f3c147557d2e0"
+    },
+    {
+      "klasor": "codex-06",
+      "soru": 195,
+      "gecen": 195,
+      "ret": 0,
+      "hash": "a32eed8675062a91d7fab2e6f2262a9a9c778d910c0854a982431e8db4653de5"
+    },
+    {
+      "klasor": "codex-07",
+      "soru": 193,
+      "gecen": 193,
+      "ret": 0,
+      "hash": "750ee360a89bb81f642e89221acfff4b11df889f14f5911867d1e43b617523fe"
+    }
+  ],
+  "retler": [],
+  "sql": "bekleyen.sql",
+  "ek_onay_cikar": {
+    "codex-04": [
+      1
+    ],
+    "codex-06": [
+      103,
+      126
+    ],
+    "codex-07": [
+      177,
+      193
+    ]
+  },
+  "soru": 778,
+  "gecen": 778
+}

@@ -1,6 +1,6 @@
 {
   "klasor": "codex-06",
-  "tarih": "2026-10-11T13:52:49.753Z",
+  "tarih": "2026-10-11T20:17:06.025Z",
   "uretici": "Codex",
   "hakem": "Claude ayrı inceleme — bekliyor",
   "hedef": 200,
@@ -40,11 +40,11 @@
   "snapshot_tarih": "2026-10-10T14:50:48.092Z",
   "taslak": 536,
   "gecen": 243,
-  "secilen": 200,
+  "secilen": 195,
   "kategori": {
     "sanat": {
-      "z2": 18,
-      "z3": 8
+      "z2": 19,
+      "z3": 7
     },
     "muzik": {
       "z2": 14,
@@ -55,33 +55,33 @@
       "z3": 8
     },
     "spor": {
-      "z2": 16,
+      "z2": 14,
       "z3": 7
     },
     "tarih": {
       "z2": 21,
-      "z3": 9
-    },
-    "sinema": {
-      "z2": 15,
       "z3": 7
     },
+    "sinema": {
+      "z2": 17,
+      "z3": 5
+    },
     "genel_kultur": {
-      "z2": 22,
-      "z3": 9
+      "z2": 24,
+      "z3": 7
     },
     "edebiyat": {
       "z2": 15,
-      "z3": 6
+      "z3": 5
     }
   },
   "zorluk": {
-    "2": 140,
-    "3": 60
+    "2": 143,
+    "3": 52
   },
   "yerel": 2,
-  "global": 198,
-  "en": 198,
+  "global": 193,
+  "en": 193,
   "elenen_sebep": {
     "Jev ipucu": 25,
     "Yazar": 16,
@@ -977,10 +977,10 @@
       "genel_kultur:marka_maskot_cizgi": 12
     }
   },
-  "migration": "bekleyen.sql — taslak 9006; uygulanmadı",
+  "migration": "../codex-04-07-onay/bekleyen.sql",
   "canli_yasak": true,
   "migration_uygulandi": false,
-  "kapilar": "200/200, 1–5 yerel geçti",
+  "kapilar": "195/195; 0 ret",
   "en_elle_kontrol": {
     "kontrol_edildi": 198,
     "cevrilmeyen": 2,
@@ -995,5 +995,52 @@
   "kategori_elle_inceleme": [
     "Operadaki Hayalet sahne kostümü: sanat/müzikal",
     "Terrakota asker figürünün temsil ettiği görev: sanat/heykel"
-  ]
+  ],
+  "onay_sonrasi": {
+    "cikar": [
+      83,
+      85,
+      103,
+      126,
+      194
+    ],
+    "geri_kon": [],
+    "duzelt": [
+      30,
+      34,
+      48,
+      55,
+      80,
+      88,
+      103,
+      126,
+      139,
+      15,
+      35,
+      107,
+      109,
+      121,
+      138,
+      142,
+      148,
+      168,
+      174,
+      184,
+      25,
+      123,
+      143,
+      171,
+      172,
+      197
+    ],
+    "inceleme_numaralari_korundu": true,
+    "retler": [],
+    "eski_uretim_ozeti": "Ölçüm/kota/çeşitlilik/elenme alanları ilk üretime aittir; onay sonrası sayı yukarıdadır.",
+    "dogrulama_135": {
+      "sonuc": "Küpe yanlış şıkkı korundu; kutudaki mücevher kolye.",
+      "kaynak": "https://www.fred.com/en-int/maison-fred/edito-PW.html",
+      "destek": "https://d23.com/this-day/pretty-woman-premieres/"
+    },
+    "ek_onay": "Ida: beş kapı reddi çıkarılsın, 778 ile birleşik SQL hazırlansın."
+  }
 }

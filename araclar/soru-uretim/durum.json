@@ -1424,14 +1424,14 @@
       {
         "klasor": "codex-04",
         "hedef": 200,
-        "net": 197,
-        "durum": "197 kayıt; 195 kapı geçişi, 37/132 Ida kararıyla yeniden inceleme bekliyor",
+        "net": 194,
+        "durum": "Claude ve Ida onaylı; kapı 1–5 geçti, birleşik bekleyen SQL",
         "migration_uygulandi": false,
-        "migration": "codex-04/bekleyen.sql",
+        "migration": "codex-04-07-onay/bekleyen.sql",
         "taslak": 802,
         "zorluk": {
-          "2": 138,
-          "3": 59
+          "2": 136,
+          "3": 58
         },
         "kota": {
           "sanat": 27,
@@ -1444,30 +1444,37 @@
           "tarih": 30
         },
         "yerel": 0,
-        "en": 197,
-        "kapilar": "195/197; 37 şık dengesi, 132 aynı olgu",
+        "en": 194,
+        "kapilar": "194/194",
         "canli_yasak": true,
         "jev_usd": 0.035296044,
         "onay_cikar": [
+          1,
+          72,
           73,
-          98,
+          88,
+          132,
           184
         ],
         "onay_duzeltmeler": [
-          21,
           37,
-          56,
-          132,
-          178,
-          186
+          140,
+          193,
+          175,
+          124,
+          169
         ],
-        "jev_onay_usd": 0.006786402
+        "jev_onay_usd": 0.006786402,
+        "onay_geri_kon": [
+          98
+        ],
+        "onay_retler": []
       },
       {
         "klasor": "codex-05",
         "hedef": 200,
-        "net": 200,
-        "durum": "Claude incelemesi bekliyor",
+        "net": 196,
+        "durum": "Claude ve Ida onaylı; kapı 1–5 geçti, birleşik bekleyen SQL",
         "migration_uygulandi": false,
         "canli_yasak": true,
         "ara_kayit": ".tmp/codex/codex-05/durum.json",
@@ -1508,22 +1515,46 @@
         },
         "zorluk": {
           "2": 140,
-          "3": 60
+          "3": 56
         },
         "yerel": 1,
-        "en": 199,
-        "kapilar": "1–5 yerel 200/200",
+        "en": 195,
+        "kapilar": "196/196",
         "ek_havuz": [
           "codex-04"
         ],
-        "migration": "codex-05/bekleyen.sql",
-        "jev_usd": 0.03597132
+        "migration": "codex-04-07-onay/bekleyen.sql",
+        "jev_usd": 0.03597132,
+        "onay_cikar": [
+          18,
+          46,
+          65,
+          197
+        ],
+        "onay_geri_kon": [],
+        "onay_duzeltmeler": [
+          194,
+          26,
+          167,
+          120,
+          122,
+          111,
+          101,
+          74,
+          66,
+          152,
+          39,
+          40,
+          126,
+          178
+        ],
+        "onay_retler": []
       },
       {
         "klasor": "codex-06",
         "hedef": 200,
-        "net": 200,
-        "durum": "Claude incelemesi bekliyor",
+        "net": 195,
+        "durum": "Claude ve Ida onaylı; kapı 1–5 geçti, birleşik bekleyen SQL",
         "migration_uygulandi": false,
         "canli_yasak": true,
         "ara_kayit": ".tmp/codex/codex-06/durum.json",
@@ -1539,24 +1570,61 @@
           "tarih": 30
         },
         "zorluk": {
-          "2": 140,
-          "3": 60
+          "2": 143,
+          "3": 52
         },
         "yerel": 2,
-        "en": 198,
-        "kapilar": "200/200, 1–5 yerel geçti",
+        "en": 193,
+        "kapilar": "195/195",
         "ek_havuz": [
           "codex-04",
           "codex-05"
         ],
-        "migration": "codex-06/bekleyen.sql",
-        "jev_usd": 0.034162632
+        "migration": "codex-04-07-onay/bekleyen.sql",
+        "jev_usd": 0.034162632,
+        "onay_cikar": [
+          83,
+          85,
+          103,
+          126,
+          194
+        ],
+        "onay_geri_kon": [],
+        "onay_duzeltmeler": [
+          30,
+          34,
+          48,
+          55,
+          80,
+          88,
+          103,
+          126,
+          139,
+          15,
+          35,
+          107,
+          109,
+          121,
+          138,
+          142,
+          148,
+          168,
+          174,
+          184,
+          25,
+          123,
+          143,
+          171,
+          172,
+          197
+        ],
+        "onay_retler": []
       },
       {
         "klasor": "codex-07",
         "hedef": 200,
-        "net": 200,
-        "durum": "Claude incelemesi bekliyor",
+        "net": 193,
+        "durum": "Claude ve Ida onaylı; kapı 1–5 geçti, birleşik bekleyen SQL",
         "migration_uygulandi": false,
         "canli_yasak": true,
         "ara_kayit": ".tmp/codex/codex-07/durum.json",
@@ -1572,23 +1640,57 @@
           "tarih": 30
         },
         "zorluk": {
-          "2": 140,
-          "3": 60
+          "2": 136,
+          "3": 57
         },
         "yerel": 5,
-        "en": 195,
-        "kapilar": "200/200, 1–5 yerel geçti",
+        "en": 188,
+        "kapilar": "193/193",
         "ek_havuz": [
           "codex-04",
           "codex-05",
           "codex-06"
         ],
-        "migration": "codex-07/bekleyen.sql",
-        "jev_usd": 0.038221764
+        "migration": "codex-04-07-onay/bekleyen.sql",
+        "jev_usd": 0.038221764,
+        "onay_cikar": [
+          17,
+          37,
+          128,
+          132,
+          177,
+          178,
+          193
+        ],
+        "onay_geri_kon": [],
+        "onay_duzeltmeler": [
+          14,
+          177,
+          44,
+          129,
+          98,
+          9,
+          10,
+          3,
+          24,
+          46,
+          63,
+          19,
+          193,
+          199
+        ],
+        "onay_retler": []
       }
     ],
     "canli_yasak": true,
     "dal": "soru-havuzu",
-    "kip": "yerel biriktirme; migration uygulanmaz"
+    "kip": "yerel biriktirme; migration uygulanmaz",
+    "son_asama": "Claude ve Ida onaylı; 778/778 kapı 1–5 geçti; SQL bekleyen taslak",
+    "birlesik_bekleyen": {
+      "dosya": "codex-04-07-onay/bekleyen.sql",
+      "soru": 778,
+      "canli_yasak": true,
+      "migration_uygulandi": false
+    }
   }
 }

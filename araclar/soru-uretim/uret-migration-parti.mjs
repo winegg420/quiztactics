@@ -40,7 +40,9 @@ const codexHatti = process.argv.includes('--codex');
 const bekleyen = process.argv.includes('--bekleyen');
 // Codex'te migration klasörü ancak ayrı Claude onayı alındıktan sonra açılır.
 if (codexHatti && !bekleyen && !process.argv.includes('--onayli')) throw new Error('Codex: önce --bekleyen; ayrı Claude onayından sonra --onayli');
-if (bekleyen && (!codexHatti || !/^codex-\d{2}$/.test(klasorAd))) throw new Error('--bekleyen yalnız --codex --klasor codex-NN ile kullanılır');
+const birlesik = process.argv.includes('--birlesik');
+if (birlesik && (!codexHatti || !bekleyen || !process.argv.includes('--yerel') || !/^codex-\d{2}-\d{2}-onay$/.test(klasorAd))) throw new Error('--birlesik yalnız yerel Codex onay klasöründe --bekleyen ile kullanılır');
+if (bekleyen && (!codexHatti || (!/^codex-\d{2}$/.test(klasorAd) && !birlesik))) throw new Error('--bekleyen yalnız Codex parti/onay klasöründe kullanılır');
 const GIRDI = new URL(`./${klasorAd}/sorular.json`, import.meta.url);
 const DOSYA = `2026061200${String(no).padStart(4, '0')}_${dosyaAd}.sql`;
 const HEDEF = bekleyen ? new URL(`./${klasorAd}/bekleyen.sql`, import.meta.url) : new URL(`../../supabase/migrations/${DOSYA}`, import.meta.url);
@@ -91,7 +93,7 @@ ${codexHatti ? `-- Kalite: Codex yazımı; codex-kapi.mjs kapı 1–5 (TR/EN bi�
 -- bu işlemde eklenen satırların şıkları karıştırılır — TR ve EN AYNI permütasyonla
 -- (dogru_cevap indeksi ortak olduğu için şart). \`created_at >= transaction_timestamp()\`
 -- koşulu ZORUNLUDUR; onsuz tüm havuz karışır ve oynanan maçlarda indeks kayar.
--- Üretici: node araclar/soru-uretim/uret-migration-parti.mjs --parti ${parti} --no ${no}${arg('--klasor') ? ` --klasor ${klasorAd}` : ''}${arg('--ad') ? ` --ad ${dosyaAd}` : ''}${cevirisiz ? ' --cevirisiz' : ''}${apiHatti ? ' --api' : ''}${codexHatti ? ' --codex' : ''}${bekleyen ? ' --bekleyen' : ''}${process.argv.includes('--yerel') ? ' --yerel' : ''}${codexHatti && !bekleyen ? ' --onayli' : ''}
+-- Üretici: node araclar/soru-uretim/uret-migration-parti.mjs --parti ${parti} --no ${no}${arg('--klasor') ? ` --klasor ${klasorAd}` : ''}${arg('--ad') ? ` --ad ${dosyaAd}` : ''}${cevirisiz ? ' --cevirisiz' : ''}${apiHatti ? ' --api' : ''}${codexHatti ? ' --codex' : ''}${bekleyen ? ' --bekleyen' : ''}${birlesik ? ' --birlesik' : ''}${process.argv.includes('--yerel') ? ' --yerel' : ''}${codexHatti && !bekleyen ? ' --onayli' : ''}
 -- ============================================================
 
 insert into public.questions (soru, secenekler, dogru_cevap, kategori, kapsam, ulke, zorluk) values

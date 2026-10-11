@@ -1,4 +1,3 @@
--- CODEX-04: 197 soru; SQL üretimi engellendi.
--- 37: şık dengesi. 132: mevcut havuzla aynı olgu.
--- Ida: bu iki soruyla yeniden Claude incelemesi bekliyor bırak.
--- Eski 200 soruluk taslak geçersizdir. Hiçbir migration uygulanmadı.
+-- Bu partinin ayrı SQL taslağı kaldırıldı.
+-- Tek birleşik bekleyen SQL: ../codex-04-07-onay/bekleyen.sql
+-- Kapı 1–5 geçti; canlıya bağlantı/uygulama yapılmadı.

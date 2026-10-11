@@ -1,0 +1,193 @@
+{
+  "tarih": "2026-10-11T20:17:06.025Z",
+  "cikar": [
+    1,
+    72,
+    88,
+    132
+  ],
+  "geri_kon": [
+    98
+  ],
+  "degisiklikler": [
+    {
+      "id": "C04-37",
+      "alanlar": {
+        "d": {
+          "once": "Ördek yürüyüşü (duck walk)",
+          "sonra": "Ördek yürüyüşü"
+        }
+      }
+    },
+    {
+      "id": "C04-98",
+      "islem": "geri koy",
+      "sonra": {
+        "id": "C04-98",
+        "taslak_id": "C04-T427",
+        "k": "tarih",
+        "yerel": false,
+        "s": "Napolyon Bonapart'ın Joséphine'den sonraki eşinin adı nedir?",
+        "d": "Marie Louise",
+        "y": [
+          "Maria Carolina",
+          "Marie Thérèse",
+          "Maria Christina"
+        ],
+        "zorluk": 2,
+        "en": {
+          "s": "What was the name of Napoleon Bonaparte's wife after Josephine?",
+          "d": "Marie Louise",
+          "y": [
+            "Maria Carolina",
+            "Marie Thérèse",
+            "Maria Christina"
+          ]
+        },
+        "olgu": "Napolyon 1810'da Avusturya arşidüşesi Marie Louise ile evlendi.",
+        "kalip": "es_adi",
+        "konular": [
+          "kisi:napolyon"
+        ],
+        "alt_tur": "biyografi",
+        "ulke_odak": "global",
+        "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+        "z": 2,
+        "inceleme_no": 98
+      }
+    },
+    {
+      "id": "C04-124",
+      "alanlar": {
+        "s": {
+          "once": "Magna Carta ilk kez hangi hükümdarlık simgesiyle onaylandı?",
+          "sonra": "Magna Carta 1215'te neyle onaylandı?"
+        },
+        "en": {
+          "once": {
+            "s": "What royal device was used to authenticate the original Magna Carta?",
+            "d": "Seal",
+            "y": [
+              "Handwritten signature",
+              "Fingerprint",
+              "Engraved monogram"
+            ]
+          },
+          "sonra": {
+            "s": "How was Magna Carta authenticated in 1215?",
+            "d": "Seal",
+            "y": [
+              "Handwritten signature",
+              "Fingerprint",
+              "Engraved monogram"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C04-140",
+      "alanlar": {
+        "y": {
+          "once": [
+            "Newton",
+            "Darwin",
+            "Copernicus"
+          ],
+          "sonra": [
+            "Isaac Newton",
+            "Charles Darwin",
+            "Kepler"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "What is Doc Brown's dog's name in Back to the Future?",
+            "d": "Einstein",
+            "y": [
+              "Newton",
+              "Darwin",
+              "Copernicus"
+            ]
+          },
+          "sonra": {
+            "s": "What is Doc Brown's dog's name in Back to the Future?",
+            "d": "Einstein",
+            "y": [
+              "Isaac Newton",
+              "Charles Darwin",
+              "Kepler"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C04-169",
+      "alanlar": {
+        "en": {
+          "once": {
+            "s": "What grain is used in the risengrod left for the nisse in Danish Christmas tradition?",
+            "d": "Rice",
+            "y": [
+              "Oats",
+              "Barley",
+              "Wheat"
+            ]
+          },
+          "sonra": {
+            "s": "What grain is used in the risengrød left for the nisse in Danish Christmas tradition?",
+            "d": "Rice",
+            "y": [
+              "Oats",
+              "Barley",
+              "Wheat"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C04-175",
+      "alanlar": {
+        "s": {
+          "once": "Mahjong oyununda dört oyuncunun yön adları arasında ilk dağıtıcı hangisidir?",
+          "sonra": "Mahjong'da ilk eli dağıtan oyuncu hangi yönle anılır?"
+        },
+        "en": {
+          "once": {
+            "s": "Which wind designation belongs to the first dealer in a four-player mahjong game?",
+            "d": "East",
+            "y": [
+              "West",
+              "North",
+              "South"
+            ]
+          },
+          "sonra": {
+            "s": "Which wind designation belongs to the player who deals the first hand in mahjong?",
+            "d": "East",
+            "y": [
+              "West",
+              "North",
+              "South"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C04-193",
+      "alanlar": {
+        "s": {
+          "once": "Paddington Ayısı hangi renk pardösüyle tanınır?",
+          "sonra": "Paddington Ayısı hangi renk kabanyle tanınır?"
+        },
+        "olgu": {
+          "once": "Paddington mavi pardösü giyer.",
+          "sonra": "Paddington mavi kaban giyer."
+        }
+      }
+    }
+  ]
+}

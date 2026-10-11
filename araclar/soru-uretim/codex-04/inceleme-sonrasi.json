@@ -1,47 +1,6 @@
 [
   {
-    "id": "C04-R322",
-    "taslak_id": "C04-R322",
-    "k": "sanat",
-    "yerel": false,
-    "s": "Frida Kahlo'nun evlendiği duvar ressamı kimdir?",
-    "d": "Diego Rivera",
-    "y": [
-      "José Clemente Orozco",
-      "David Alfaro Siqueiros",
-      "Rufino Tamayo"
-    ],
-    "zorluk": 2,
-    "en": {
-      "s": "Which muralist did Frida Kahlo marry?",
-      "d": "Diego Rivera",
-      "y": [
-        "José Clemente Orozco",
-        "David Alfaro Siqueiros",
-        "Rufino Tamayo"
-      ]
-    },
-    "olgu": "Frida Kahlo, Diego Rivera ile evlenmiştir.",
-    "kalip": "es_adi",
-    "konular": [
-      "kisi:frida-kahlo",
-      "kisi:diego-rivera"
-    ],
-    "alt_tur": "biyografi",
-    "jev_p": 0.71,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
-  },
-  {
-    "id": "C04-R390",
+    "id": "C04-02",
     "taslak_id": "C04-R390",
     "k": "sanat",
     "yerel": false,
@@ -68,20 +27,12 @@
       "eser:kugu-golu"
     ],
     "alt_tur": "bale",
-    "jev_p": 0.48,
-    "jev_tek_dogru_p": 0.09,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 2
   },
   {
-    "id": "C04-R408",
+    "id": "C04-03",
     "taslak_id": "C04-R408",
     "k": "sanat",
     "yerel": false,
@@ -109,20 +60,12 @@
       "eser:balloon-dog"
     ],
     "alt_tur": "heykel",
-    "jev_p": 0.57,
-    "jev_tek_dogru_p": 0.16,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 3
   },
   {
-    "id": "C04-R409",
+    "id": "C04-04",
     "taslak_id": "C04-R409",
     "k": "sanat",
     "yerel": false,
@@ -149,20 +92,12 @@
       "eser:kanatli-zafer"
     ],
     "alt_tur": "heykel",
-    "jev_p": 0.65,
-    "jev_tek_dogru_p": 0.07,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 4
   },
   {
-    "id": "C04-T538",
+    "id": "C04-05",
     "taslak_id": "C04-T538",
     "k": "sanat",
     "yerel": false,
@@ -190,20 +125,12 @@
     ],
     "alt_tur": "eser",
     "ulke_odak": "global",
-    "jev_p": 0.1,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 5
   },
   {
-    "id": "C04-T539",
+    "id": "C04-06",
     "taslak_id": "C04-T539",
     "k": "sanat",
     "yerel": false,
@@ -231,20 +158,12 @@
     ],
     "alt_tur": "eser",
     "ulke_odak": "global",
-    "jev_p": 0.04,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 6
   },
   {
-    "id": "C04-T544",
+    "id": "C04-07",
     "taslak_id": "C04-T544",
     "k": "sanat",
     "yerel": false,
@@ -272,20 +191,12 @@
     ],
     "alt_tur": "tablo_gorsel",
     "ulke_odak": "global",
-    "jev_p": 0.08,
-    "jev_tek_dogru_p": 0.11,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 7
   },
   {
-    "id": "C04-T546",
+    "id": "C04-08",
     "taslak_id": "C04-T546",
     "k": "sanat",
     "yerel": false,
@@ -313,20 +224,12 @@
     ],
     "alt_tur": "tablo_gorsel",
     "ulke_odak": "global",
-    "jev_p": 0.26,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 8
   },
   {
-    "id": "C04-T552",
+    "id": "C04-09",
     "taslak_id": "C04-T552",
     "k": "sanat",
     "yerel": false,
@@ -354,20 +257,12 @@
     ],
     "alt_tur": "mimari",
     "ulke_odak": "global",
-    "jev_p": 0.14,
-    "jev_tek_dogru_p": 0.08,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 9
   },
   {
-    "id": "C04-T554",
+    "id": "C04-10",
     "taslak_id": "C04-T554",
     "k": "sanat",
     "yerel": false,
@@ -395,20 +290,12 @@
     ],
     "alt_tur": "mimari",
     "ulke_odak": "global",
-    "jev_p": 0.33,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 10
   },
   {
-    "id": "C04-T555",
+    "id": "C04-11",
     "taslak_id": "C04-T555",
     "k": "sanat",
     "yerel": false,
@@ -436,20 +323,12 @@
     ],
     "alt_tur": "grafik",
     "ulke_odak": "global",
-    "jev_p": 0.23,
-    "jev_tek_dogru_p": 0.07,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 11
   },
   {
-    "id": "C04-T556",
+    "id": "C04-12",
     "taslak_id": "C04-T556",
     "k": "sanat",
     "yerel": false,
@@ -477,20 +356,12 @@
     ],
     "alt_tur": "tablo_gorsel",
     "ulke_odak": "global",
-    "jev_p": 0.22,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 12
   },
   {
-    "id": "C04-T559",
+    "id": "C04-13",
     "taslak_id": "C04-T559",
     "k": "sanat",
     "yerel": false,
@@ -518,20 +389,12 @@
     ],
     "alt_tur": "muzikal",
     "ulke_odak": "global",
-    "jev_p": 0.12,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 13
   },
   {
-    "id": "C04-T560",
+    "id": "C04-14",
     "taslak_id": "C04-T560",
     "k": "sanat",
     "yerel": false,
@@ -559,20 +422,12 @@
     ],
     "alt_tur": "muzikal",
     "ulke_odak": "global",
-    "jev_p": 0.14,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 14
   },
   {
-    "id": "C04-T756",
+    "id": "C04-15",
     "taslak_id": "C04-T756",
     "k": "sanat",
     "yerel": false,
@@ -599,20 +454,12 @@
       "eser:las-meninas"
     ],
     "alt_tur": "tablo_gorsel",
-    "jev_p": 0.52,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 15
   },
   {
-    "id": "C04-T758",
+    "id": "C04-16",
     "taslak_id": "C04-T758",
     "k": "sanat",
     "yerel": false,
@@ -639,20 +486,12 @@
       "eser:thinker"
     ],
     "alt_tur": "heykel",
-    "jev_p": 0.22,
-    "jev_tek_dogru_p": 0.09,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 16
   },
   {
-    "id": "C04-T775",
+    "id": "C04-17",
     "taslak_id": "C04-T775",
     "k": "sanat",
     "yerel": false,
@@ -679,20 +518,12 @@
       "eser:love"
     ],
     "alt_tur": "heykel",
-    "jev_p": 0.22,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 17
   },
   {
-    "id": "C04-T776",
+    "id": "C04-18",
     "taslak_id": "C04-T776",
     "k": "sanat",
     "yerel": false,
@@ -719,20 +550,12 @@
       "yapi:bilbao"
     ],
     "alt_tur": "mimari",
-    "jev_p": 0.29000000000000004,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 18
   },
   {
-    "id": "C04-T777",
+    "id": "C04-19",
     "taslak_id": "C04-T777",
     "k": "sanat",
     "yerel": false,
@@ -759,20 +582,12 @@
       "yapi:prague-dancing"
     ],
     "alt_tur": "mimari",
-    "jev_p": 0.44,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 19
   },
   {
-    "id": "C04-R021",
+    "id": "C04-20",
     "taslak_id": "C04-R021",
     "k": "sanat",
     "yerel": false,
@@ -799,20 +614,12 @@
       "brancusi-nin-uzayda-kus-unun-moma-versiyonu"
     ],
     "alt_tur": "heykel",
-    "jev_p": 0.29,
-    "jev_tek_dogru_p": 0.23,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 20
   },
   {
-    "id": "C04-R026",
+    "id": "C04-21",
     "taslak_id": "C04-R026",
     "k": "sanat",
     "yerel": false,
@@ -840,20 +647,12 @@
       "eser:boccioni"
     ],
     "alt_tur": "heykel",
-    "jev_p": 0.31,
-    "jev_tek_dogru_p": 0.14,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 21
   },
   {
-    "id": "C04-R323",
+    "id": "C04-22",
     "taslak_id": "C04-R323",
     "k": "sanat",
     "yerel": false,
@@ -881,20 +680,12 @@
       "kisi:alfred-stieglitz"
     ],
     "alt_tur": "biyografi",
-    "jev_p": 0.55,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 22
   },
   {
-    "id": "C04-R328",
+    "id": "C04-23",
     "taslak_id": "C04-R328",
     "k": "sanat",
     "yerel": false,
@@ -922,20 +713,12 @@
       "eser:guernica"
     ],
     "alt_tur": "eser",
-    "jev_p": 0.43,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 23
   },
   {
-    "id": "C04-R364",
+    "id": "C04-24",
     "taslak_id": "C04-R364",
     "k": "sanat",
     "yerel": false,
@@ -963,20 +746,12 @@
       "eser:sunflower-seeds"
     ],
     "alt_tur": "heykel",
-    "jev_p": 0.39,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 24
   },
   {
-    "id": "C04-R397",
+    "id": "C04-25",
     "taslak_id": "C04-R397",
     "k": "sanat",
     "yerel": false,
@@ -1004,20 +779,12 @@
       "kisi:edouard-manet"
     ],
     "alt_tur": "biyografi",
-    "jev_p": 0.29,
-    "jev_tek_dogru_p": 0.15,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 25
   },
   {
-    "id": "C04-T772",
+    "id": "C04-26",
     "taslak_id": "C04-T772",
     "k": "sanat",
     "yerel": false,
@@ -1044,20 +811,12 @@
       "kisi:diego-rivera"
     ],
     "alt_tur": "eser",
-    "jev_p": 0.43,
-    "jev_tek_dogru_p": 0.24,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 26
   },
   {
-    "id": "C04-T774",
+    "id": "C04-27",
     "taslak_id": "C04-T774",
     "k": "sanat",
     "yerel": false,
@@ -1084,20 +843,12 @@
       "eser:raft-medusa"
     ],
     "alt_tur": "eser",
-    "jev_p": 0.41000000000000003,
-    "jev_tek_dogru_p": 0.12,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 27
   },
   {
-    "id": "C04-R053",
+    "id": "C04-28",
     "taslak_id": "C04-R053",
     "k": "muzik",
     "yerel": false,
@@ -1125,20 +876,12 @@
       "eser:nevermind"
     ],
     "alt_tur": "album",
-    "jev_p": 0.52,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 28
   },
   {
-    "id": "C04-R060",
+    "id": "C04-29",
     "taslak_id": "C04-R060",
     "k": "muzik",
     "yerel": false,
@@ -1167,20 +910,12 @@
       "eser:don-giovanni"
     ],
     "alt_tur": "klasik",
-    "jev_p": 0.55,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 29
   },
   {
-    "id": "C04-R064",
+    "id": "C04-30",
     "taslak_id": "C04-R064",
     "k": "muzik",
     "yerel": false,
@@ -1209,20 +944,12 @@
       "the-beatles"
     ],
     "alt_tur": "album",
-    "jev_p": 0.58,
-    "jev_tek_dogru_p": 0.1,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 30
   },
   {
-    "id": "C04-T563",
+    "id": "C04-31",
     "taslak_id": "C04-T563",
     "k": "muzik",
     "yerel": false,
@@ -1250,20 +977,12 @@
     ],
     "alt_tur": "sarki",
     "ulke_odak": "global",
-    "jev_p": 0.16,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 31
   },
   {
-    "id": "C04-T570",
+    "id": "C04-32",
     "taslak_id": "C04-T570",
     "k": "muzik",
     "yerel": false,
@@ -1291,20 +1010,12 @@
     ],
     "alt_tur": "album",
     "ulke_odak": "global",
-    "jev_p": 0.34,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 32
   },
   {
-    "id": "C04-T571",
+    "id": "C04-33",
     "taslak_id": "C04-T571",
     "k": "muzik",
     "yerel": false,
@@ -1332,20 +1043,12 @@
     ],
     "alt_tur": "calgi",
     "ulke_odak": "global",
-    "jev_p": 0.17,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 33
   },
   {
-    "id": "C04-T574",
+    "id": "C04-34",
     "taslak_id": "C04-T574",
     "k": "muzik",
     "yerel": false,
@@ -1373,20 +1076,12 @@
     ],
     "alt_tur": "grup",
     "ulke_odak": "global",
-    "jev_p": 0.29,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 34
   },
   {
-    "id": "C04-T704",
+    "id": "C04-35",
     "taslak_id": "C04-T704",
     "k": "muzik",
     "yerel": false,
@@ -1413,20 +1108,12 @@
       "grup:kiss"
     ],
     "alt_tur": "grup",
-    "jev_p": 0.61,
-    "jev_tek_dogru_p": 0.1,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 35
   },
   {
-    "id": "C04-T705",
+    "id": "C04-36",
     "taslak_id": "C04-T705",
     "k": "muzik",
     "yerel": false,
@@ -1453,25 +1140,17 @@
       "eser:thriller"
     ],
     "alt_tur": "sarki",
-    "jev_p": 0.21,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 36
   },
   {
-    "id": "C04-T707",
+    "id": "C04-37",
     "taslak_id": "C04-T707",
     "k": "muzik",
     "yerel": false,
     "s": "Chuck Berry'nin sahnede çömelerek ileri hareket ettiği ünlü hareket nasıl anılır?",
-    "d": "Ördek yürüyüşü (duck walk)",
+    "d": "Ördek yürüyüşü",
     "y": [
       "Ay yürüyüşü",
       "Tavuk dansı",
@@ -1493,20 +1172,12 @@
       "kisi:chuck-berry"
     ],
     "alt_tur": "calgi",
-    "jev_p": 0.04,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 37
   },
   {
-    "id": "C04-T708",
+    "id": "C04-38",
     "taslak_id": "C04-T708",
     "k": "muzik",
     "yerel": false,
@@ -1533,20 +1204,12 @@
       "eser:money-for-nothing"
     ],
     "alt_tur": "sarki",
-    "jev_p": 0.19,
-    "jev_tek_dogru_p": 0.08,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 38
   },
   {
-    "id": "C04-T575",
+    "id": "C04-39",
     "taslak_id": "C04-T575",
     "k": "muzik",
     "yerel": false,
@@ -1574,20 +1237,12 @@
     ],
     "alt_tur": "sarki",
     "ulke_odak": "global",
-    "jev_p": 0.33,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 39
   },
   {
-    "id": "C04-T578",
+    "id": "C04-40",
     "taslak_id": "C04-T578",
     "k": "muzik",
     "yerel": false,
@@ -1615,20 +1270,12 @@
     ],
     "alt_tur": "sarki",
     "ulke_odak": "global",
-    "jev_p": 0.29,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 40
   },
   {
-    "id": "C04-T579",
+    "id": "C04-41",
     "taslak_id": "C04-T579",
     "k": "muzik",
     "yerel": false,
@@ -1656,20 +1303,12 @@
     ],
     "alt_tur": "album",
     "ulke_odak": "global",
-    "jev_p": 0.12,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 41
   },
   {
-    "id": "C04-T580",
+    "id": "C04-42",
     "taslak_id": "C04-T580",
     "k": "muzik",
     "yerel": false,
@@ -1697,20 +1336,12 @@
     ],
     "alt_tur": "sarki",
     "ulke_odak": "global",
-    "jev_p": 0.18,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 42
   },
   {
-    "id": "C04-T581",
+    "id": "C04-43",
     "taslak_id": "C04-T581",
     "k": "muzik",
     "yerel": false,
@@ -1738,20 +1369,12 @@
     ],
     "alt_tur": "grup",
     "ulke_odak": "global",
-    "jev_p": 0.05,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 43
   },
   {
-    "id": "C04-R075",
+    "id": "C04-44",
     "taslak_id": "C04-R075",
     "k": "teknoloji",
     "yerel": false,
@@ -1778,20 +1401,12 @@
       "ilk-ipad"
     ],
     "alt_tur": "urun_tarihi",
-    "jev_p": 0.48,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 44
   },
   {
-    "id": "C04-R077",
+    "id": "C04-45",
     "taslak_id": "C04-R077",
     "k": "teknoloji",
     "yerel": false,
@@ -1818,20 +1433,12 @@
       "nintendo-game-boy"
     ],
     "alt_tur": "video_oyunu_maskot",
-    "jev_p": 0.52,
-    "jev_tek_dogru_p": 0.13,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 45
   },
   {
-    "id": "C04-R082",
+    "id": "C04-46",
     "taslak_id": "C04-R082",
     "k": "teknoloji",
     "yerel": false,
@@ -1858,20 +1465,12 @@
       "ilk-sony-walkman"
     ],
     "alt_tur": "urun_tarihi",
-    "jev_p": 0.45,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 46
   },
   {
-    "id": "C04-T587",
+    "id": "C04-47",
     "taslak_id": "C04-T587",
     "k": "teknoloji",
     "yerel": false,
@@ -1899,20 +1498,12 @@
     ],
     "alt_tur": "donanim",
     "ulke_odak": "global",
-    "jev_p": 0.29,
-    "jev_tek_dogru_p": 0.09,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 47
   },
   {
-    "id": "C04-T594",
+    "id": "C04-48",
     "taslak_id": "C04-T594",
     "k": "teknoloji",
     "yerel": false,
@@ -1940,20 +1531,12 @@
     ],
     "alt_tur": "donanim",
     "ulke_odak": "global",
-    "jev_p": 0.18,
-    "jev_tek_dogru_p": 0.1,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 48
   },
   {
-    "id": "C04-T595",
+    "id": "C04-49",
     "taslak_id": "C04-T595",
     "k": "teknoloji",
     "yerel": false,
@@ -1981,20 +1564,12 @@
     ],
     "alt_tur": "donanim",
     "ulke_odak": "global",
-    "jev_p": 0.42,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 49
   },
   {
-    "id": "C04-T597",
+    "id": "C04-50",
     "taslak_id": "C04-T597",
     "k": "teknoloji",
     "yerel": false,
@@ -2022,20 +1597,12 @@
     ],
     "alt_tur": "yazilim",
     "ulke_odak": "global",
-    "jev_p": 0.35,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 50
   },
   {
-    "id": "C04-T600",
+    "id": "C04-51",
     "taslak_id": "C04-T600",
     "k": "teknoloji",
     "yerel": false,
@@ -2063,20 +1630,12 @@
     ],
     "alt_tur": "sirket",
     "ulke_odak": "global",
-    "jev_p": 0.18,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 51
   },
   {
-    "id": "C04-T604",
+    "id": "C04-52",
     "taslak_id": "C04-T604",
     "k": "teknoloji",
     "yerel": false,
@@ -2104,20 +1663,12 @@
     ],
     "alt_tur": "donanim",
     "ulke_odak": "global",
-    "jev_p": 0.52,
-    "jev_tek_dogru_p": 0.16,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 52
   },
   {
-    "id": "C04-T605",
+    "id": "C04-53",
     "taslak_id": "C04-T605",
     "k": "teknoloji",
     "yerel": false,
@@ -2145,20 +1696,12 @@
     ],
     "alt_tur": "donanim",
     "ulke_odak": "global",
-    "jev_p": 0.35,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 53
   },
   {
-    "id": "C04-T609",
+    "id": "C04-54",
     "taslak_id": "C04-T609",
     "k": "teknoloji",
     "yerel": false,
@@ -2186,20 +1729,12 @@
     ],
     "alt_tur": "donanim",
     "ulke_odak": "global",
-    "jev_p": 0.12,
-    "jev_tek_dogru_p": 0.11,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 54
   },
   {
-    "id": "C04-T611",
+    "id": "C04-55",
     "taslak_id": "C04-T611",
     "k": "teknoloji",
     "yerel": false,
@@ -2227,20 +1762,12 @@
     ],
     "alt_tur": "donanim",
     "ulke_odak": "global",
-    "jev_p": 0.18,
-    "jev_tek_dogru_p": 0.1,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 55
   },
   {
-    "id": "C04-T710",
+    "id": "C04-56",
     "taslak_id": "C04-T710",
     "k": "teknoloji",
     "yerel": false,
@@ -2267,20 +1794,12 @@
       "urun:blackberry"
     ],
     "alt_tur": "donanim",
-    "jev_p": 0.13,
-    "jev_tek_dogru_p": 0.14,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 56
   },
   {
-    "id": "C04-T719",
+    "id": "C04-57",
     "taslak_id": "C04-T719",
     "k": "teknoloji",
     "yerel": false,
@@ -2307,20 +1826,12 @@
       "urun:dyson"
     ],
     "alt_tur": "donanim",
-    "jev_p": 0.14,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 57
   },
   {
-    "id": "C04-T721",
+    "id": "C04-58",
     "taslak_id": "C04-T721",
     "k": "teknoloji",
     "yerel": false,
@@ -2347,20 +1858,12 @@
       "urun:macintosh"
     ],
     "alt_tur": "donanim",
-    "jev_p": 0.24,
-    "jev_tek_dogru_p": 0.09,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 58
   },
   {
-    "id": "C04-T780",
+    "id": "C04-59",
     "taslak_id": "C04-T780",
     "k": "teknoloji",
     "yerel": false,
@@ -2387,20 +1890,12 @@
       "sirket:pixar"
     ],
     "alt_tur": "video_oyunu_maskot",
-    "jev_p": 0.1,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 59
   },
   {
-    "id": "C04-T788",
+    "id": "C04-60",
     "taslak_id": "C04-T788",
     "k": "teknoloji",
     "yerel": false,
@@ -2427,20 +1922,12 @@
       "urun:macintosh"
     ],
     "alt_tur": "donanim",
-    "jev_p": 0.34,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 60
   },
   {
-    "id": "C04-T797",
+    "id": "C04-61",
     "taslak_id": "C04-T797",
     "k": "teknoloji",
     "yerel": false,
@@ -2467,20 +1954,12 @@
       "urun:ibm-pc"
     ],
     "alt_tur": "donanim",
-    "jev_p": 0.22,
-    "jev_tek_dogru_p": 0.09,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 61
   },
   {
-    "id": "C04-T798",
+    "id": "C04-62",
     "taslak_id": "C04-T798",
     "k": "teknoloji",
     "yerel": false,
@@ -2507,20 +1986,12 @@
       "urun:psp"
     ],
     "alt_tur": "video_oyunu_maskot",
-    "jev_p": 0.09,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 62
   },
   {
-    "id": "C04-T801",
+    "id": "C04-63",
     "taslak_id": "C04-T801",
     "k": "teknoloji",
     "yerel": false,
@@ -2547,20 +2018,12 @@
       "hizmet:twitter"
     ],
     "alt_tur": "internet",
-    "jev_p": 0.26,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 63
   },
   {
-    "id": "C04-T802",
+    "id": "C04-64",
     "taslak_id": "C04-T802",
     "k": "teknoloji",
     "yerel": false,
@@ -2587,20 +2050,12 @@
       "urun:wii"
     ],
     "alt_tur": "video_oyunu_maskot",
-    "jev_p": 0.12,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 64
   },
   {
-    "id": "C04-R339",
+    "id": "C04-65",
     "taslak_id": "C04-R339",
     "k": "teknoloji",
     "yerel": false,
@@ -2628,20 +2083,12 @@
       "kurum:forethought"
     ],
     "alt_tur": "yazilim",
-    "jev_p": 0.43,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 65
   },
   {
-    "id": "C04-R371",
+    "id": "C04-66",
     "taslak_id": "C04-R371",
     "k": "teknoloji",
     "yerel": false,
@@ -2668,20 +2115,12 @@
       "urun:rocket-ebook"
     ],
     "alt_tur": "donanim",
-    "jev_p": 0.39,
-    "jev_tek_dogru_p": 0.17,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 66
   },
   {
-    "id": "C04-T619",
+    "id": "C04-67",
     "taslak_id": "C04-T619",
     "k": "teknoloji",
     "yerel": false,
@@ -2709,20 +2148,12 @@
     ],
     "alt_tur": "video_oyunu_maskot",
     "ulke_odak": "global",
-    "jev_p": 0.19,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 67
   },
   {
-    "id": "C04-T620",
+    "id": "C04-68",
     "taslak_id": "C04-T620",
     "k": "teknoloji",
     "yerel": false,
@@ -2750,20 +2181,12 @@
     ],
     "alt_tur": "uzay",
     "ulke_odak": "global",
-    "jev_p": 0.08,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 68
   },
   {
-    "id": "C04-T621",
+    "id": "C04-69",
     "taslak_id": "C04-T621",
     "k": "teknoloji",
     "yerel": false,
@@ -2791,20 +2214,12 @@
     ],
     "alt_tur": "uzay",
     "ulke_odak": "global",
-    "jev_p": 0.37,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 69
   },
   {
-    "id": "C04-T622",
+    "id": "C04-70",
     "taslak_id": "C04-T622",
     "k": "teknoloji",
     "yerel": false,
@@ -2832,20 +2247,12 @@
     ],
     "alt_tur": "video_oyunu_maskot",
     "ulke_odak": "global",
-    "jev_p": 0.12,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 70
   },
   {
-    "id": "C04-T623",
+    "id": "C04-71",
     "taslak_id": "C04-T623",
     "k": "teknoloji",
     "yerel": false,
@@ -2873,60 +2280,12 @@
     ],
     "alt_tur": "donanim",
     "ulke_odak": "global",
-    "jev_p": 0.39,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 71
   },
   {
-    "id": "C04-T725",
-    "taslak_id": "C04-T725",
-    "k": "teknoloji",
-    "yerel": false,
-    "s": "Apple'ın Lisa bilgisayarı Steve Jobs'ın hangi yakınının adını taşır?",
-    "d": "Kızı",
-    "y": [
-      "Annesi",
-      "Kız kardeşi",
-      "Büyükannesi"
-    ],
-    "zorluk": 3,
-    "en": {
-      "s": "Which of Steve Jobs's relatives gave her name to Apple's Lisa computer?",
-      "d": "Daughter",
-      "y": [
-        "Mother",
-        "Sister",
-        "Grandmother"
-      ]
-    },
-    "olgu": "Lisa Jobs'ın kızının adıdır.",
-    "kalip": "urun_ozgun_kod_ad",
-    "konular": [
-      "urun:apple-lisa"
-    ],
-    "alt_tur": "donanim",
-    "jev_p": 0.22,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
-  },
-  {
-    "id": "C04-R290",
+    "id": "C04-74",
     "taslak_id": "C04-R290",
     "k": "spor",
     "yerel": false,
@@ -2953,20 +2312,12 @@
       "marta-vieira-da-silva"
     ],
     "alt_tur": "sporcu",
-    "jev_p": 0.61,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 74
   },
   {
-    "id": "C04-R344",
+    "id": "C04-75",
     "taslak_id": "C04-R344",
     "k": "spor",
     "yerel": false,
@@ -2993,20 +2344,12 @@
       "kulup:juventus"
     ],
     "alt_tur": "futbol",
-    "jev_p": 0.43,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 75
   },
   {
-    "id": "C04-T627",
+    "id": "C04-76",
     "taslak_id": "C04-T627",
     "k": "spor",
     "yerel": false,
@@ -3034,20 +2377,12 @@
     ],
     "alt_tur": "futbol",
     "ulke_odak": "global",
-    "jev_p": 0.14,
-    "jev_tek_dogru_p": 0.08,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 76
   },
   {
-    "id": "C04-T630",
+    "id": "C04-77",
     "taslak_id": "C04-T630",
     "k": "spor",
     "yerel": false,
@@ -3075,20 +2410,12 @@
     ],
     "alt_tur": "basketbol",
     "ulke_odak": "global",
-    "jev_p": 0.31,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 77
   },
   {
-    "id": "C04-T634",
+    "id": "C04-78",
     "taslak_id": "C04-T634",
     "k": "spor",
     "yerel": false,
@@ -3116,20 +2443,12 @@
     ],
     "alt_tur": "golf",
     "ulke_odak": "global",
-    "jev_p": 0.58,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 78
   },
   {
-    "id": "C04-T635",
+    "id": "C04-79",
     "taslak_id": "C04-T635",
     "k": "spor",
     "yerel": false,
@@ -3157,20 +2476,12 @@
     ],
     "alt_tur": "basketbol",
     "ulke_odak": "global",
-    "jev_p": 0.2,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 79
   },
   {
-    "id": "C04-T636",
+    "id": "C04-80",
     "taslak_id": "C04-T636",
     "k": "spor",
     "yerel": false,
@@ -3198,20 +2509,12 @@
     ],
     "alt_tur": "basketbol",
     "ulke_odak": "global",
-    "jev_p": 0.23,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 80
   },
   {
-    "id": "C04-T637",
+    "id": "C04-81",
     "taslak_id": "C04-T637",
     "k": "spor",
     "yerel": false,
@@ -3239,20 +2542,12 @@
     ],
     "alt_tur": "futbol",
     "ulke_odak": "global",
-    "jev_p": 0.45,
-    "jev_tek_dogru_p": 0.11,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 81
   },
   {
-    "id": "C04-T639",
+    "id": "C04-82",
     "taslak_id": "C04-T639",
     "k": "spor",
     "yerel": false,
@@ -3280,20 +2575,12 @@
     ],
     "alt_tur": "tenis",
     "ulke_odak": "global",
-    "jev_p": 0.05,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 82
   },
   {
-    "id": "C04-T640",
+    "id": "C04-83",
     "taslak_id": "C04-T640",
     "k": "spor",
     "yerel": false,
@@ -3321,20 +2608,12 @@
     ],
     "alt_tur": "basketbol",
     "ulke_odak": "global",
-    "jev_p": 0.11,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 83
   },
   {
-    "id": "C04-T641",
+    "id": "C04-84",
     "taslak_id": "C04-T641",
     "k": "spor",
     "yerel": false,
@@ -3362,20 +2641,12 @@
     ],
     "alt_tur": "futbol",
     "ulke_odak": "global",
-    "jev_p": 0.05,
-    "jev_tek_dogru_p": 0.1,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 84
   },
   {
-    "id": "C04-T642",
+    "id": "C04-85",
     "taslak_id": "C04-T642",
     "k": "spor",
     "yerel": false,
@@ -3403,20 +2674,12 @@
     ],
     "alt_tur": "futbol",
     "ulke_odak": "global",
-    "jev_p": 0.39999999999999997,
-    "jev_tek_dogru_p": 0.08,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 85
   },
   {
-    "id": "C04-T644",
+    "id": "C04-86",
     "taslak_id": "C04-T644",
     "k": "spor",
     "yerel": false,
@@ -3444,20 +2707,12 @@
     ],
     "alt_tur": "futbol",
     "ulke_odak": "global",
-    "jev_p": 0.35,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 86
   },
   {
-    "id": "C04-T728",
+    "id": "C04-87",
     "taslak_id": "C04-T728",
     "k": "spor",
     "yerel": false,
@@ -3484,60 +2739,12 @@
       "kulup:bulls"
     ],
     "alt_tur": "basketbol",
-    "jev_p": 0.06,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 87
   },
   {
-    "id": "C04-T729",
-    "taslak_id": "C04-T729",
-    "k": "spor",
-    "yerel": false,
-    "s": "Boston Celtics armasındaki figür hangi giysiyi başında taşır?",
-    "d": "Melon şapka",
-    "y": [
-      "Silindir şapka",
-      "Beyzbol şapkası",
-      "Hasır şapka"
-    ],
-    "zorluk": 2,
-    "en": {
-      "s": "What does the figure on the Boston Celtics logo wear on his head?",
-      "d": "Bowler hat",
-      "y": [
-        "Top hat",
-        "Baseball cap",
-        "Straw hat"
-      ]
-    },
-    "olgu": "Celtics armasındaki figür melon şapka takar.",
-    "kalip": "takim_arma_giyim",
-    "konular": [
-      "kulup:celtics"
-    ],
-    "alt_tur": "basketbol",
-    "jev_p": 0.23,
-    "jev_tek_dogru_p": 0.08,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
-  },
-  {
-    "id": "C04-T651",
+    "id": "C04-89",
     "taslak_id": "C04-T651",
     "k": "spor",
     "yerel": false,
@@ -3565,20 +2772,12 @@
     ],
     "alt_tur": "futbol",
     "ulke_odak": "global",
-    "jev_p": 0.2,
-    "jev_tek_dogru_p": 0.13,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 89
   },
   {
-    "id": "C04-T657",
+    "id": "C04-90",
     "taslak_id": "C04-T657",
     "k": "spor",
     "yerel": false,
@@ -3606,20 +2805,12 @@
     ],
     "alt_tur": "basketbol",
     "ulke_odak": "global",
-    "jev_p": 0.38,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 90
   },
   {
-    "id": "C04-T658",
+    "id": "C04-91",
     "taslak_id": "C04-T658",
     "k": "spor",
     "yerel": false,
@@ -3647,20 +2838,12 @@
     ],
     "alt_tur": "futbol",
     "ulke_odak": "global",
-    "jev_p": 0.33,
-    "jev_tek_dogru_p": 0.07,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 91
   },
   {
-    "id": "C04-T659",
+    "id": "C04-92",
     "taslak_id": "C04-T659",
     "k": "spor",
     "yerel": false,
@@ -3688,20 +2871,12 @@
     ],
     "alt_tur": "olimpiyat",
     "ulke_odak": "global",
-    "jev_p": 0.28,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 92
   },
   {
-    "id": "C04-T663",
+    "id": "C04-93",
     "taslak_id": "C04-T663",
     "k": "spor",
     "yerel": false,
@@ -3729,20 +2904,12 @@
     ],
     "alt_tur": "tenis",
     "ulke_odak": "global",
-    "jev_p": 0.38,
-    "jev_tek_dogru_p": 0.07,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 93
   },
   {
-    "id": "C04-T736",
+    "id": "C04-94",
     "taslak_id": "C04-T736",
     "k": "spor",
     "yerel": false,
@@ -3769,20 +2936,12 @@
       "kulup:boca"
     ],
     "alt_tur": "futbol",
-    "jev_p": 0.29,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 94
   },
   {
-    "id": "C04-T737",
+    "id": "C04-95",
     "taslak_id": "C04-T737",
     "k": "spor",
     "yerel": false,
@@ -3809,20 +2968,12 @@
       "kisi:gordon-banks"
     ],
     "alt_tur": "futbol",
-    "jev_p": 0.28,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 95
   },
   {
-    "id": "C04-R402",
+    "id": "C04-96",
     "taslak_id": "C04-R402",
     "k": "tarih",
     "yerel": false,
@@ -3850,20 +3001,12 @@
       "gemi:titanic"
     ],
     "alt_tur": "denizcilik",
-    "jev_p": 0.4,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 96
   },
   {
-    "id": "C04-R419",
+    "id": "C04-97",
     "taslak_id": "C04-R419",
     "k": "tarih",
     "yerel": false,
@@ -3891,20 +3034,45 @@
       "kisi:josephine"
     ],
     "alt_tur": "hukumdar",
-    "jev_p": 0.64,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 97
   },
   {
-    "id": "C04-T428",
+    "id": "C04-98",
+    "taslak_id": "C04-T427",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Napolyon Bonapart'ın Joséphine'den sonraki eşinin adı nedir?",
+    "d": "Marie Louise",
+    "y": [
+      "Maria Carolina",
+      "Marie Thérèse",
+      "Maria Christina"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What was the name of Napoleon Bonaparte's wife after Josephine?",
+      "d": "Marie Louise",
+      "y": [
+        "Maria Carolina",
+        "Marie Thérèse",
+        "Maria Christina"
+      ]
+    },
+    "olgu": "Napolyon 1810'da Avusturya arşidüşesi Marie Louise ile evlendi.",
+    "kalip": "es_adi",
+    "konular": [
+      "kisi:napolyon"
+    ],
+    "alt_tur": "biyografi",
+    "ulke_odak": "global",
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 98
+  },
+  {
+    "id": "C04-99",
     "taslak_id": "C04-T428",
     "k": "tarih",
     "yerel": false,
@@ -3932,20 +3100,12 @@
     ],
     "alt_tur": "biyografi",
     "ulke_odak": "global",
-    "jev_p": 0.15,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 99
   },
   {
-    "id": "C04-T430",
+    "id": "C04-100",
     "taslak_id": "C04-T430",
     "k": "tarih",
     "yerel": false,
@@ -3973,20 +3133,12 @@
     ],
     "alt_tur": "olay",
     "ulke_odak": "global",
-    "jev_p": 0.38,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 100
   },
   {
-    "id": "C04-T432",
+    "id": "C04-101",
     "taslak_id": "C04-T432",
     "k": "tarih",
     "yerel": false,
@@ -4014,20 +3166,12 @@
     ],
     "alt_tur": "olay",
     "ulke_odak": "global",
-    "jev_p": 0.36,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 101
   },
   {
-    "id": "C04-T433",
+    "id": "C04-102",
     "taslak_id": "C04-T433",
     "k": "tarih",
     "yerel": false,
@@ -4055,20 +3199,12 @@
     ],
     "alt_tur": "belge",
     "ulke_odak": "global",
-    "jev_p": 0.58,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 102
   },
   {
-    "id": "C04-T434",
+    "id": "C04-103",
     "taslak_id": "C04-T434",
     "k": "tarih",
     "yerel": false,
@@ -4096,20 +3232,12 @@
     ],
     "alt_tur": "biyografi",
     "ulke_odak": "global",
-    "jev_p": 0.23,
-    "jev_tek_dogru_p": 0.15,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 103
   },
   {
-    "id": "C04-T440",
+    "id": "C04-104",
     "taslak_id": "C04-T440",
     "k": "tarih",
     "yerel": false,
@@ -4137,20 +3265,12 @@
     ],
     "alt_tur": "yapi",
     "ulke_odak": "global",
-    "jev_p": 0.42,
-    "jev_tek_dogru_p": 0.08,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 104
   },
   {
-    "id": "C04-T441",
+    "id": "C04-105",
     "taslak_id": "C04-T441",
     "k": "tarih",
     "yerel": false,
@@ -4178,20 +3298,12 @@
     ],
     "alt_tur": "belge",
     "ulke_odak": "global",
-    "jev_p": 0.11,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 105
   },
   {
-    "id": "C04-T442",
+    "id": "C04-106",
     "taslak_id": "C04-T442",
     "k": "tarih",
     "yerel": false,
@@ -4219,20 +3331,12 @@
     ],
     "alt_tur": "olay",
     "ulke_odak": "global",
-    "jev_p": 0.7,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 106
   },
   {
-    "id": "C04-T443",
+    "id": "C04-107",
     "taslak_id": "C04-T443",
     "k": "tarih",
     "yerel": false,
@@ -4260,20 +3364,12 @@
     ],
     "alt_tur": "biyografi",
     "ulke_odak": "global",
-    "jev_p": 0.42,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 107
   },
   {
-    "id": "C04-T447",
+    "id": "C04-108",
     "taslak_id": "C04-T447",
     "k": "tarih",
     "yerel": false,
@@ -4301,20 +3397,12 @@
     ],
     "alt_tur": "belge",
     "ulke_odak": "global",
-    "jev_p": 0.13,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 108
   },
   {
-    "id": "C04-T450",
+    "id": "C04-109",
     "taslak_id": "C04-T450",
     "k": "tarih",
     "yerel": false,
@@ -4342,20 +3430,12 @@
     ],
     "alt_tur": "belge",
     "ulke_odak": "global",
-    "jev_p": 0.53,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 109
   },
   {
-    "id": "C04-T451",
+    "id": "C04-110",
     "taslak_id": "C04-T451",
     "k": "tarih",
     "yerel": false,
@@ -4383,20 +3463,12 @@
     ],
     "alt_tur": "biyografi",
     "ulke_odak": "global",
-    "jev_p": 0.73,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 110
   },
   {
-    "id": "C04-T452",
+    "id": "C04-111",
     "taslak_id": "C04-T452",
     "k": "tarih",
     "yerel": false,
@@ -4424,20 +3496,12 @@
     ],
     "alt_tur": "biyografi",
     "ulke_odak": "global",
-    "jev_p": 0.05,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 111
   },
   {
-    "id": "C04-T453",
+    "id": "C04-112",
     "taslak_id": "C04-T453",
     "k": "tarih",
     "yerel": false,
@@ -4465,20 +3529,12 @@
     ],
     "alt_tur": "olay",
     "ulke_odak": "global",
-    "jev_p": 0.11,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 112
   },
   {
-    "id": "C04-T699",
+    "id": "C04-113",
     "taslak_id": "C04-T699",
     "k": "tarih",
     "yerel": false,
@@ -4506,20 +3562,12 @@
     ],
     "alt_tur": "olay",
     "ulke_odak": "global",
-    "jev_p": 0.19,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 113
   },
   {
-    "id": "C04-T700",
+    "id": "C04-114",
     "taslak_id": "C04-T700",
     "k": "tarih",
     "yerel": false,
@@ -4547,20 +3595,12 @@
     ],
     "alt_tur": "biyografi",
     "ulke_odak": "global",
-    "jev_p": 0.67,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 114
   },
   {
-    "id": "C04-T766",
+    "id": "C04-115",
     "taslak_id": "C04-T766",
     "k": "tarih",
     "yerel": false,
@@ -4587,20 +3627,12 @@
       "kisi:florence-nightingale"
     ],
     "alt_tur": "biyografi",
-    "jev_p": 0.32,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 115
   },
   {
-    "id": "C04-T767",
+    "id": "C04-116",
     "taslak_id": "C04-T767",
     "k": "tarih",
     "yerel": false,
@@ -4627,20 +3659,12 @@
       "yapi:reichstag"
     ],
     "alt_tur": "yapi",
-    "jev_p": 0.21,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 116
   },
   {
-    "id": "C04-T456",
+    "id": "C04-117",
     "taslak_id": "C04-T456",
     "k": "tarih",
     "yerel": false,
@@ -4668,20 +3692,12 @@
     ],
     "alt_tur": "belge",
     "ulke_odak": "global",
-    "jev_p": 0.21,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 117
   },
   {
-    "id": "C04-T460",
+    "id": "C04-118",
     "taslak_id": "C04-T460",
     "k": "tarih",
     "yerel": false,
@@ -4709,20 +3725,12 @@
     ],
     "alt_tur": "biyografi",
     "ulke_odak": "global",
-    "jev_p": 0.22,
-    "jev_tek_dogru_p": 0.11,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 118
   },
   {
-    "id": "C04-T461",
+    "id": "C04-119",
     "taslak_id": "C04-T461",
     "k": "tarih",
     "yerel": false,
@@ -4750,20 +3758,12 @@
     ],
     "alt_tur": "savas",
     "ulke_odak": "global",
-    "jev_p": 0.45,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 119
   },
   {
-    "id": "C04-T463",
+    "id": "C04-120",
     "taslak_id": "C04-T463",
     "k": "tarih",
     "yerel": false,
@@ -4791,20 +3791,12 @@
     ],
     "alt_tur": "belge",
     "ulke_odak": "global",
-    "jev_p": 0.14,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 120
   },
   {
-    "id": "C04-T464",
+    "id": "C04-121",
     "taslak_id": "C04-T464",
     "k": "tarih",
     "yerel": false,
@@ -4832,20 +3824,12 @@
     ],
     "alt_tur": "biyografi",
     "ulke_odak": "global",
-    "jev_p": 0.13,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 121
   },
   {
-    "id": "C04-T466",
+    "id": "C04-122",
     "taslak_id": "C04-T466",
     "k": "tarih",
     "yerel": false,
@@ -4873,20 +3857,12 @@
     ],
     "alt_tur": "biyografi",
     "ulke_odak": "global",
-    "jev_p": 0.3,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 122
   },
   {
-    "id": "C04-T467",
+    "id": "C04-123",
     "taslak_id": "C04-T467",
     "k": "tarih",
     "yerel": false,
@@ -4914,24 +3890,16 @@
     ],
     "alt_tur": "belge",
     "ulke_odak": "global",
-    "jev_p": 0.11,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 123
   },
   {
-    "id": "C04-T469",
+    "id": "C04-124",
     "taslak_id": "C04-T469",
     "k": "tarih",
     "yerel": false,
-    "s": "Magna Carta ilk kez hangi hükümdarlık simgesiyle onaylandı?",
+    "s": "Magna Carta 1215'te neyle onaylandı?",
     "d": "Mühür",
     "y": [
       "El yazısı imza",
@@ -4940,7 +3908,7 @@
     ],
     "zorluk": 3,
     "en": {
-      "s": "What royal device was used to authenticate the original Magna Carta?",
+      "s": "How was Magna Carta authenticated in 1215?",
       "d": "Seal",
       "y": [
         "Handwritten signature",
@@ -4955,20 +3923,12 @@
     ],
     "alt_tur": "belge",
     "ulke_odak": "global",
-    "jev_p": 0.09,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 124
   },
   {
-    "id": "C04-T768",
+    "id": "C04-125",
     "taslak_id": "C04-T768",
     "k": "tarih",
     "yerel": false,
@@ -4995,20 +3955,12 @@
       "olay:iron-curtain"
     ],
     "alt_tur": "olay",
-    "jev_p": 0.12,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 125
   },
   {
-    "id": "C04-R173",
+    "id": "C04-126",
     "taslak_id": "C04-R173",
     "k": "sinema",
     "yerel": false,
@@ -5037,20 +3989,12 @@
       "eser:a-clockwork-orange"
     ],
     "alt_tur": "canli_cekim",
-    "jev_p": 0.21,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 126
   },
   {
-    "id": "C04-R176",
+    "id": "C04-127",
     "taslak_id": "C04-R176",
     "k": "sinema",
     "yerel": false,
@@ -5079,20 +4023,12 @@
       "eser:the-terminator"
     ],
     "alt_tur": "canli_cekim",
-    "jev_p": 0.57,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 127
   },
   {
-    "id": "C04-R178",
+    "id": "C04-128",
     "taslak_id": "C04-R178",
     "k": "sinema",
     "yerel": false,
@@ -5121,20 +4057,12 @@
       "eser:the-grand-budapest-hotel"
     ],
     "alt_tur": "canli_cekim",
-    "jev_p": 0.61,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 128
   },
   {
-    "id": "C04-R180",
+    "id": "C04-129",
     "taslak_id": "C04-R180",
     "k": "sinema",
     "yerel": false,
@@ -5163,20 +4091,12 @@
       "eser:la-la-land"
     ],
     "alt_tur": "canli_cekim",
-    "jev_p": 0.57,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 129
   },
   {
-    "id": "C04-R189",
+    "id": "C04-130",
     "taslak_id": "C04-R189",
     "k": "sinema",
     "yerel": false,
@@ -5203,20 +4123,12 @@
       "one-flew-over-the-cuckoo-s-nest-teki-mcmurphy"
     ],
     "alt_tur": "canli_cekim",
-    "jev_p": 0.37,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 130
   },
   {
-    "id": "C04-R190",
+    "id": "C04-131",
     "taslak_id": "C04-R190",
     "k": "sinema",
     "yerel": false,
@@ -5245,61 +4157,12 @@
       "seri:orta-dunya"
     ],
     "alt_tur": "canli_cekim",
-    "jev_p": 0.31,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 131
   },
   {
-    "id": "C04-R191",
-    "taslak_id": "C04-R191",
-    "k": "sinema",
-    "yerel": false,
-    "s": "'Yüzüklerin Efendisi' filmlerindeki Gandalf karakterini hangi oyuncu canlandırmıştır?",
-    "d": "Ian McKellen",
-    "y": [
-      "Bruce Willis",
-      "Keanu Reeves",
-      "Heath Ledger"
-    ],
-    "zorluk": 2,
-    "en": {
-      "s": "Which actor played Gandalf in The Lord of the Rings?",
-      "d": "Ian McKellen",
-      "y": [
-        "Bruce Willis",
-        "Keanu Reeves",
-        "Heath Ledger"
-      ]
-    },
-    "olgu": "The Lord of the Rings'teki Gandalf karakterini Ian McKellen canlandırmıştır.",
-    "kalip": "film_karakter_oyuncusu",
-    "konular": [
-      "tolkien-middle-earth",
-      "lord-of-the-rings"
-    ],
-    "alt_tur": "canli_cekim",
-    "jev_p": 0.17,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
-  },
-  {
-    "id": "C04-R308",
+    "id": "C04-133",
     "taslak_id": "C04-R308",
     "k": "sinema",
     "yerel": false,
@@ -5328,20 +4191,12 @@
       "eser:cinema-paradiso"
     ],
     "alt_tur": "film_muzigi",
-    "jev_p": 0.61,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 133
   },
   {
-    "id": "C04-R347",
+    "id": "C04-134",
     "taslak_id": "C04-R347",
     "k": "sinema",
     "yerel": false,
@@ -5370,20 +4225,12 @@
       "kisi:ben-affleck"
     ],
     "alt_tur": "senaryo",
-    "jev_p": 0.48,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 134
   },
   {
-    "id": "C04-R349",
+    "id": "C04-135",
     "taslak_id": "C04-R349",
     "k": "sinema",
     "yerel": false,
@@ -5410,20 +4257,12 @@
       "eser:groundhog-day"
     ],
     "alt_tur": "canli_cekim",
-    "jev_p": 0.3,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 135
   },
   {
-    "id": "C04-R350",
+    "id": "C04-136",
     "taslak_id": "C04-R350",
     "k": "sinema",
     "yerel": false,
@@ -5450,20 +4289,12 @@
       "eser:amelie"
     ],
     "alt_tur": "canli_cekim",
-    "jev_p": 0.52,
-    "jev_tek_dogru_p": 0.08,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 136
   },
   {
-    "id": "C04-R380",
+    "id": "C04-137",
     "taslak_id": "C04-R380",
     "k": "sinema",
     "yerel": false,
@@ -5490,20 +4321,12 @@
       "seri:yaratik"
     ],
     "alt_tur": "canli_cekim",
-    "jev_p": 0.39,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 137
   },
   {
-    "id": "C04-R381",
+    "id": "C04-138",
     "taslak_id": "C04-R381",
     "k": "sinema",
     "yerel": false,
@@ -5530,20 +4353,12 @@
       "eser:buyuk-budapeste-oteli"
     ],
     "alt_tur": "canli_cekim",
-    "jev_p": 0.42,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 138
   },
   {
-    "id": "C04-R382",
+    "id": "C04-139",
     "taslak_id": "C04-R382",
     "k": "sinema",
     "yerel": false,
@@ -5570,38 +4385,30 @@
       "eser:memento"
     ],
     "alt_tur": "canli_cekim",
-    "jev_p": 0.47,
-    "jev_tek_dogru_p": 0.12,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 139
   },
   {
-    "id": "C04-T664",
+    "id": "C04-140",
     "taslak_id": "C04-T664",
     "k": "sinema",
     "yerel": false,
     "s": "'Geleceğe Dönüş'te Doc Brown'ın köpeğinin adı nedir?",
     "d": "Einstein",
     "y": [
-      "Newton",
-      "Darwin",
-      "Copernicus"
+      "Isaac Newton",
+      "Charles Darwin",
+      "Kepler"
     ],
     "zorluk": 3,
     "en": {
       "s": "What is Doc Brown's dog's name in Back to the Future?",
       "d": "Einstein",
       "y": [
-        "Newton",
-        "Darwin",
-        "Copernicus"
+        "Isaac Newton",
+        "Charles Darwin",
+        "Kepler"
       ]
     },
     "olgu": "Doc Brown'ın köpeğinin adı Einstein'dır.",
@@ -5611,20 +4418,12 @@
     ],
     "alt_tur": "canli_cekim",
     "ulke_odak": "global",
-    "jev_p": 0.39,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 140
   },
   {
-    "id": "C04-T666",
+    "id": "C04-141",
     "taslak_id": "C04-T666",
     "k": "sinema",
     "yerel": false,
@@ -5652,20 +4451,12 @@
     ],
     "alt_tur": "canli_cekim",
     "ulke_odak": "global",
-    "jev_p": 0.02,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 141
   },
   {
-    "id": "C04-T667",
+    "id": "C04-142",
     "taslak_id": "C04-T667",
     "k": "sinema",
     "yerel": false,
@@ -5693,20 +4484,12 @@
     ],
     "alt_tur": "canli_cekim",
     "ulke_odak": "global",
-    "jev_p": 0.51,
-    "jev_tek_dogru_p": 0.22,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 142
   },
   {
-    "id": "C04-T672",
+    "id": "C04-143",
     "taslak_id": "C04-T672",
     "k": "sinema",
     "yerel": false,
@@ -5734,20 +4517,12 @@
     ],
     "alt_tur": "canli_cekim",
     "ulke_odak": "global",
-    "jev_p": 0.13,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 143
   },
   {
-    "id": "C04-T675",
+    "id": "C04-144",
     "taslak_id": "C04-T675",
     "k": "sinema",
     "yerel": false,
@@ -5775,20 +4550,12 @@
     ],
     "alt_tur": "canli_cekim",
     "ulke_odak": "global",
-    "jev_p": 0.53,
-    "jev_tek_dogru_p": 0.07,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 144
   },
   {
-    "id": "C04-T676",
+    "id": "C04-145",
     "taslak_id": "C04-T676",
     "k": "sinema",
     "yerel": false,
@@ -5816,20 +4583,12 @@
     ],
     "alt_tur": "canli_cekim",
     "ulke_odak": "global",
-    "jev_p": 0.44,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 145
   },
   {
-    "id": "C04-T477",
+    "id": "C04-146",
     "taslak_id": "C04-T477",
     "k": "genel_kultur",
     "yerel": false,
@@ -5857,20 +4616,12 @@
     ],
     "alt_tur": "mutfak",
     "ulke_odak": "ES",
-    "jev_p": 0.36,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 146
   },
   {
-    "id": "C04-T478",
+    "id": "C04-147",
     "taslak_id": "C04-T478",
     "k": "genel_kultur",
     "yerel": false,
@@ -5898,20 +4649,12 @@
     ],
     "alt_tur": "mutfak",
     "ulke_odak": "KR",
-    "jev_p": 0.32,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 147
   },
   {
-    "id": "C04-T482",
+    "id": "C04-148",
     "taslak_id": "C04-T482",
     "k": "genel_kultur",
     "yerel": false,
@@ -5939,20 +4682,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "MX",
-    "jev_p": 0.15,
-    "jev_tek_dogru_p": 0.07,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 148
   },
   {
-    "id": "C04-T483",
+    "id": "C04-149",
     "taslak_id": "C04-T483",
     "k": "genel_kultur",
     "yerel": false,
@@ -5980,20 +4715,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "SE",
-    "jev_p": 0.45,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 149
   },
   {
-    "id": "C04-T485",
+    "id": "C04-150",
     "taslak_id": "C04-T485",
     "k": "genel_kultur",
     "yerel": false,
@@ -6021,20 +4748,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "GB",
-    "jev_p": 0.31,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 150
   },
   {
-    "id": "C04-T486",
+    "id": "C04-151",
     "taslak_id": "C04-T486",
     "k": "genel_kultur",
     "yerel": false,
@@ -6062,20 +4781,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "IN",
-    "jev_p": 0.19,
-    "jev_tek_dogru_p": 0.09,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 151
   },
   {
-    "id": "C04-T487",
+    "id": "C04-152",
     "taslak_id": "C04-T487",
     "k": "genel_kultur",
     "yerel": false,
@@ -6103,20 +4814,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "BR",
-    "jev_p": 0.41,
-    "jev_tek_dogru_p": 0.08,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 152
   },
   {
-    "id": "C04-T488",
+    "id": "C04-153",
     "taslak_id": "C04-T488",
     "k": "genel_kultur",
     "yerel": false,
@@ -6144,20 +4847,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "AR",
-    "jev_p": 0.39,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 153
   },
   {
-    "id": "C04-T489",
+    "id": "C04-154",
     "taslak_id": "C04-T489",
     "k": "genel_kultur",
     "yerel": false,
@@ -6185,20 +4880,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "TH",
-    "jev_p": 0.59,
-    "jev_tek_dogru_p": 0.07,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 154
   },
   {
-    "id": "C04-T490",
+    "id": "C04-155",
     "taslak_id": "C04-T490",
     "k": "genel_kultur",
     "yerel": false,
@@ -6226,20 +4913,12 @@
     ],
     "alt_tur": "mutfak",
     "ulke_odak": "PT",
-    "jev_p": 0.41,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 155
   },
   {
-    "id": "C04-T491",
+    "id": "C04-156",
     "taslak_id": "C04-T491",
     "k": "genel_kultur",
     "yerel": false,
@@ -6267,20 +4946,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "ES",
-    "jev_p": 0.19,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 156
   },
   {
-    "id": "C04-T492",
+    "id": "C04-157",
     "taslak_id": "C04-T492",
     "k": "genel_kultur",
     "yerel": false,
@@ -6308,20 +4979,12 @@
     ],
     "alt_tur": "mutfak",
     "ulke_odak": "global",
-    "jev_p": 0.15,
-    "jev_tek_dogru_p": 0.08,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 157
   },
   {
-    "id": "C04-T493",
+    "id": "C04-158",
     "taslak_id": "C04-T493",
     "k": "genel_kultur",
     "yerel": false,
@@ -6349,20 +5012,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "ID",
-    "jev_p": 0.24,
-    "jev_tek_dogru_p": 0.11,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 158
   },
   {
-    "id": "C04-T495",
+    "id": "C04-159",
     "taslak_id": "C04-T495",
     "k": "genel_kultur",
     "yerel": false,
@@ -6390,20 +5045,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "GR",
-    "jev_p": 0.43,
-    "jev_tek_dogru_p": 0.14,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 159
   },
   {
-    "id": "C04-T499",
+    "id": "C04-160",
     "taslak_id": "C04-T499",
     "k": "genel_kultur",
     "yerel": false,
@@ -6431,20 +5078,12 @@
     ],
     "alt_tur": "yapi",
     "ulke_odak": "IN",
-    "jev_p": 0.06,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 160
   },
   {
-    "id": "C04-T500",
+    "id": "C04-161",
     "taslak_id": "C04-T500",
     "k": "genel_kultur",
     "yerel": false,
@@ -6472,20 +5111,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "global",
-    "jev_p": 0.14,
-    "jev_tek_dogru_p": 0.11,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 161
   },
   {
-    "id": "C04-T519",
+    "id": "C04-162",
     "taslak_id": "C04-T519",
     "k": "genel_kultur",
     "yerel": false,
@@ -6513,20 +5144,12 @@
     ],
     "alt_tur": "gunluk",
     "ulke_odak": "global",
-    "jev_p": 0.19,
-    "jev_tek_dogru_p": 0.07,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 162
   },
   {
-    "id": "C04-T520",
+    "id": "C04-163",
     "taslak_id": "C04-T520",
     "k": "genel_kultur",
     "yerel": false,
@@ -6554,20 +5177,12 @@
     ],
     "alt_tur": "gunluk",
     "ulke_odak": "global",
-    "jev_p": 0.16,
-    "jev_tek_dogru_p": 0.15,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 163
   },
   {
-    "id": "C04-T521",
+    "id": "C04-164",
     "taslak_id": "C04-T521",
     "k": "genel_kultur",
     "yerel": false,
@@ -6595,20 +5210,12 @@
     ],
     "alt_tur": "gunluk",
     "ulke_odak": "global",
-    "jev_p": 0.53,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 164
   },
   {
-    "id": "C04-T525",
+    "id": "C04-165",
     "taslak_id": "C04-T525",
     "k": "genel_kultur",
     "yerel": false,
@@ -6636,20 +5243,12 @@
     ],
     "alt_tur": "gunluk",
     "ulke_odak": "global",
-    "jev_p": 0.27,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 165
   },
   {
-    "id": "C04-T527",
+    "id": "C04-166",
     "taslak_id": "C04-T527",
     "k": "genel_kultur",
     "yerel": false,
@@ -6677,20 +5276,12 @@
     ],
     "alt_tur": "gunluk",
     "ulke_odak": "global",
-    "jev_p": 0.47,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 166
   },
   {
-    "id": "C04-T529",
+    "id": "C04-167",
     "taslak_id": "C04-T529",
     "k": "genel_kultur",
     "yerel": false,
@@ -6718,20 +5309,12 @@
     ],
     "alt_tur": "mutfak",
     "ulke_odak": "IT",
-    "jev_p": 0.17,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 167
   },
   {
-    "id": "C04-T789",
+    "id": "C04-168",
     "taslak_id": "C04-T789",
     "k": "genel_kultur",
     "yerel": false,
@@ -6759,20 +5342,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "DE",
-    "jev_p": 0.04,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 168
   },
   {
-    "id": "C04-T790",
+    "id": "C04-169",
     "taslak_id": "C04-T790",
     "k": "genel_kultur",
     "yerel": false,
@@ -6785,7 +5360,7 @@
     ],
     "zorluk": 2,
     "en": {
-      "s": "What grain is used in the risengrod left for the nisse in Danish Christmas tradition?",
+      "s": "What grain is used in the risengrød left for the nisse in Danish Christmas tradition?",
       "d": "Rice",
       "y": [
         "Oats",
@@ -6800,20 +5375,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "DK",
-    "jev_p": 0.37,
-    "jev_tek_dogru_p": 0.09,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 169
   },
   {
-    "id": "C04-T792",
+    "id": "C04-170",
     "taslak_id": "C04-T792",
     "k": "genel_kultur",
     "yerel": false,
@@ -6841,20 +5408,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "AU",
-    "jev_p": 0.14,
-    "jev_tek_dogru_p": 0.09,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 170
   },
   {
-    "id": "C04-T501",
+    "id": "C04-171",
     "taslak_id": "C04-T501",
     "k": "genel_kultur",
     "yerel": false,
@@ -6882,20 +5441,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "CZ",
-    "jev_p": 0.21,
-    "jev_tek_dogru_p": 0.23,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 171
   },
   {
-    "id": "C04-T504",
+    "id": "C04-172",
     "taslak_id": "C04-T504",
     "k": "genel_kultur",
     "yerel": false,
@@ -6923,20 +5474,12 @@
     ],
     "alt_tur": "mutfak",
     "ulke_odak": "HU",
-    "jev_p": 0.03,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 172
   },
   {
-    "id": "C04-T509",
+    "id": "C04-173",
     "taslak_id": "C04-T509",
     "k": "genel_kultur",
     "yerel": false,
@@ -6964,20 +5507,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "IN",
-    "jev_p": 0.17,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 173
   },
   {
-    "id": "C04-T512",
+    "id": "C04-174",
     "taslak_id": "C04-T512",
     "k": "genel_kultur",
     "yerel": false,
@@ -7005,24 +5540,16 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "NZ",
-    "jev_p": 0.57,
-    "jev_tek_dogru_p": 0.07,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 174
   },
   {
-    "id": "C04-T513",
+    "id": "C04-175",
     "taslak_id": "C04-T513",
     "k": "genel_kultur",
     "yerel": false,
-    "s": "Mahjong oyununda dört oyuncunun yön adları arasında ilk dağıtıcı hangisidir?",
+    "s": "Mahjong'da ilk eli dağıtan oyuncu hangi yönle anılır?",
     "d": "Doğu",
     "y": [
       "Batı",
@@ -7031,7 +5558,7 @@
     ],
     "zorluk": 3,
     "en": {
-      "s": "Which wind designation belongs to the first dealer in a four-player mahjong game?",
+      "s": "Which wind designation belongs to the player who deals the first hand in mahjong?",
       "d": "East",
       "y": [
         "West",
@@ -7046,20 +5573,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "CN",
-    "jev_p": 0.17,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 175
   },
   {
-    "id": "C04-T514",
+    "id": "C04-176",
     "taslak_id": "C04-T514",
     "k": "genel_kultur",
     "yerel": false,
@@ -7087,20 +5606,12 @@
     ],
     "alt_tur": "mutfak",
     "ulke_odak": "ES",
-    "jev_p": 0.15,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 176
   },
   {
-    "id": "C04-T516",
+    "id": "C04-177",
     "taslak_id": "C04-T516",
     "k": "genel_kultur",
     "yerel": false,
@@ -7128,20 +5639,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "JP",
-    "jev_p": 0.13,
-    "jev_tek_dogru_p": 0.08,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 177
   },
   {
-    "id": "C04-T517",
+    "id": "C04-178",
     "taslak_id": "C04-T517",
     "k": "genel_kultur",
     "yerel": false,
@@ -7169,20 +5672,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "US",
-    "jev_p": 0.14,
-    "jev_tek_dogru_p": 0.09,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 178
   },
   {
-    "id": "C04-T535",
+    "id": "C04-179",
     "taslak_id": "C04-T535",
     "k": "genel_kultur",
     "yerel": false,
@@ -7210,20 +5705,12 @@
     ],
     "alt_tur": "mutfak",
     "ulke_odak": "VN",
-    "jev_p": 0.49,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 179
   },
   {
-    "id": "C04-T536",
+    "id": "C04-180",
     "taslak_id": "C04-T536",
     "k": "genel_kultur",
     "yerel": false,
@@ -7251,20 +5738,12 @@
     ],
     "alt_tur": "mutfak",
     "ulke_odak": "ET",
-    "jev_p": 0.42,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 180
   },
   {
-    "id": "C04-T537",
+    "id": "C04-181",
     "taslak_id": "C04-T537",
     "k": "genel_kultur",
     "yerel": false,
@@ -7292,20 +5771,12 @@
     ],
     "alt_tur": "gelenek",
     "ulke_odak": "NO",
-    "jev_p": 0.22,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 181
   },
   {
-    "id": "C04-R217",
+    "id": "C04-182",
     "taslak_id": "C04-R217",
     "k": "edebiyat",
     "yerel": false,
@@ -7333,20 +5804,12 @@
       "kisi:louis-sachar"
     ],
     "alt_tur": "roman",
-    "jev_p": 0.23,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 182
   },
   {
-    "id": "C04-R219",
+    "id": "C04-183",
     "taslak_id": "C04-R219",
     "k": "edebiyat",
     "yerel": false,
@@ -7375,20 +5838,12 @@
       "eser:doktor-dolittle"
     ],
     "alt_tur": "roman",
-    "jev_p": 0.08,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 183
   },
   {
-    "id": "C04-R241",
+    "id": "C04-185",
     "taslak_id": "C04-R241",
     "k": "edebiyat",
     "yerel": false,
@@ -7416,20 +5871,12 @@
       "seri:harry-potter"
     ],
     "alt_tur": "kurmaca_nesne",
-    "jev_p": 0.53,
-    "jev_tek_dogru_p": 0.02,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 185
   },
   {
-    "id": "C04-R303",
+    "id": "C04-186",
     "taslak_id": "C04-R303",
     "k": "edebiyat",
     "yerel": false,
@@ -7456,20 +5903,12 @@
       "little-women"
     ],
     "alt_tur": "karakter",
-    "jev_p": 0.38,
-    "jev_tek_dogru_p": 0.18,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 186
   },
   {
-    "id": "C04-R357",
+    "id": "C04-187",
     "taslak_id": "C04-R357",
     "k": "edebiyat",
     "yerel": false,
@@ -7496,20 +5935,12 @@
       "seri:harry-potter"
     ],
     "alt_tur": "roman",
-    "jev_p": 0.08,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 187
   },
   {
-    "id": "C04-R359",
+    "id": "C04-188",
     "taslak_id": "C04-R359",
     "k": "edebiyat",
     "yerel": false,
@@ -7536,20 +5967,12 @@
       "kisi:anton-cehov"
     ],
     "alt_tur": "biyografi",
-    "jev_p": 0.52,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 188
   },
   {
-    "id": "C04-R360",
+    "id": "C04-189",
     "taslak_id": "C04-R360",
     "k": "edebiyat",
     "yerel": false,
@@ -7576,20 +5999,12 @@
       "eser:1984"
     ],
     "alt_tur": "roman",
-    "jev_p": 0.51,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 189
   },
   {
-    "id": "C04-R383",
+    "id": "C04-190",
     "taslak_id": "C04-R383",
     "k": "edebiyat",
     "yerel": false,
@@ -7616,20 +6031,12 @@
       "eser:oz-buyucusu"
     ],
     "alt_tur": "roman",
-    "jev_p": 0.45,
-    "jev_tek_dogru_p": 0.06,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 190
   },
   {
-    "id": "C04-R387",
+    "id": "C04-191",
     "taslak_id": "C04-R387",
     "k": "edebiyat",
     "yerel": false,
@@ -7656,20 +6063,12 @@
       "seri:sherlock-holmes"
     ],
     "alt_tur": "roman",
-    "jev_p": 0.54,
-    "jev_tek_dogru_p": 0.03,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 191
   },
   {
-    "id": "C04-T741",
+    "id": "C04-192",
     "taslak_id": "C04-T741",
     "k": "edebiyat",
     "yerel": false,
@@ -7696,24 +6095,16 @@
       "eser:pippi"
     ],
     "alt_tur": "roman",
-    "jev_p": 0.1,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 192
   },
   {
-    "id": "C04-T742",
+    "id": "C04-193",
     "taslak_id": "C04-T742",
     "k": "edebiyat",
     "yerel": false,
-    "s": "Paddington Ayısı hangi renk pardösüyle tanınır?",
+    "s": "Paddington Ayısı hangi renk kabanyle tanınır?",
     "d": "Mavi",
     "y": [
       "Kırmızı",
@@ -7730,26 +6121,18 @@
         "Yellow"
       ]
     },
-    "olgu": "Paddington mavi pardösü giyer.",
+    "olgu": "Paddington mavi kaban giyer.",
     "kalip": "roman_karakter_imza_kiyafet",
     "konular": [
       "eser:paddington"
     ],
     "alt_tur": "roman",
-    "jev_p": 0.17,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 193
   },
   {
-    "id": "C04-T744",
+    "id": "C04-194",
     "taslak_id": "C04-T744",
     "k": "edebiyat",
     "yerel": false,
@@ -7776,20 +6159,12 @@
       "eser:pinocchio"
     ],
     "alt_tur": "roman",
-    "jev_p": 0.17,
-    "jev_tek_dogru_p": 0.04,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 2
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 2,
+    "inceleme_no": 194
   },
   {
-    "id": "C04-T683",
+    "id": "C04-195",
     "taslak_id": "C04-T683",
     "k": "edebiyat",
     "yerel": false,
@@ -7817,20 +6192,12 @@
     ],
     "alt_tur": "roman",
     "ulke_odak": "global",
-    "jev_p": 0.17,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 195
   },
   {
-    "id": "C04-T687",
+    "id": "C04-196",
     "taslak_id": "C04-T687",
     "k": "edebiyat",
     "yerel": false,
@@ -7858,20 +6225,12 @@
     ],
     "alt_tur": "roman",
     "ulke_odak": "global",
-    "jev_p": 0.15,
-    "jev_tek_dogru_p": 0.09,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 196
   },
   {
-    "id": "C04-T689",
+    "id": "C04-197",
     "taslak_id": "C04-T689",
     "k": "edebiyat",
     "yerel": false,
@@ -7899,20 +6258,12 @@
     ],
     "alt_tur": "roman",
     "ulke_odak": "global",
-    "jev_p": 0.28,
-    "jev_tek_dogru_p": 0.11,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 197
   },
   {
-    "id": "C04-T692",
+    "id": "C04-198",
     "taslak_id": "C04-T692",
     "k": "edebiyat",
     "yerel": false,
@@ -7940,20 +6291,12 @@
     ],
     "alt_tur": "roman",
     "ulke_odak": "global",
-    "jev_p": 0.17,
-    "jev_tek_dogru_p": 0.05,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 198
   },
   {
-    "id": "C04-T748",
+    "id": "C04-199",
     "taslak_id": "C04-T748",
     "k": "edebiyat",
     "yerel": false,
@@ -7980,20 +6323,12 @@
       "eser:hitchhiker"
     ],
     "alt_tur": "roman",
-    "jev_p": 0.18,
-    "jev_tek_dogru_p": 0.19,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 199
   },
   {
-    "id": "C04-T749",
+    "id": "C04-200",
     "taslak_id": "C04-T749",
     "k": "edebiyat",
     "yerel": false,
@@ -8020,16 +6355,8 @@
       "eser:neverending"
     ],
     "alt_tur": "roman",
-    "jev_p": 0.08,
-    "jev_tek_dogru_p": 0.09,
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "claude_inceleme": "bekliyor",
-    "z": 3
+    "claude_inceleme": "onaylı; kapılar yeniden denetleniyor",
+    "z": 3,
+    "inceleme_no": 200
   }
 ]

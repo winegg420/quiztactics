@@ -1,6 +1,6 @@
 {
   "klasor": "codex-04",
-  "tarih": "2026-10-10T14:50:48.092Z",
+  "tarih": "2026-10-11T20:17:06.025Z",
   "uretici": "Codex",
   "hakem": "Claude ayrı inceleme — bekliyor",
   "hedef": 200,
@@ -38,10 +38,10 @@
   "tarih_alt_pay": 0.15,
   "taslak": 802,
   "gecen": 244,
-  "secilen": 197,
+  "secilen": 194,
   "kategori": {
     "sanat": {
-      "z2": 19,
+      "z2": 18,
       "z3": 8
     },
     "muzik": {
@@ -50,18 +50,18 @@
     },
     "teknoloji": {
       "z2": 21,
-      "z3": 8
+      "z3": 7
     },
     "spor": {
-      "z2": 15,
+      "z2": 14,
       "z3": 7
     },
     "tarih": {
-      "z2": 20,
+      "z2": 21,
       "z3": 9
     },
     "sinema": {
-      "z2": 14,
+      "z2": 13,
       "z3": 6
     },
     "genel_kultur": {
@@ -74,12 +74,12 @@
     }
   },
   "zorluk": {
-    "2": 138,
-    "3": 59
+    "2": 136,
+    "3": 58
   },
   "yerel": 0,
-  "global": 197,
-  "en": 197,
+  "global": 194,
+  "en": 194,
   "elenen_sebep": {
     "benzer": 273,
     "biçim/kural": 67,
@@ -989,7 +989,7 @@
       "genel_kultur:marka_maskot_cizgi": 14
     }
   },
-  "migration": "bekleyen.sql: kapı başarısızlığından dolayı engellendi; SQL hazırlanmadı/uygulanmadı",
+  "migration": "../codex-04-07-onay/bekleyen.sql",
   "migration_uygulandi": false,
   "migration_no_taslak": 1059,
   "migration_no_aciklama": "Numara ayrılmaz; onay sonrası son numara+1 yeniden ölçülür",
@@ -1050,11 +1050,28 @@
     178,
     186
   ],
-  "kapilar": {
-    "gecen": 195,
-    "inceleme_bekleyen": [
-      37,
+  "kapilar": "194/194; 0 ret",
+  "onay_sonrasi": {
+    "cikar": [
+      1,
+      72,
+      88,
       132
-    ]
+    ],
+    "geri_kon": [
+      98
+    ],
+    "duzelt": [
+      37,
+      140,
+      193,
+      175,
+      124,
+      169
+    ],
+    "inceleme_numaralari_korundu": true,
+    "retler": [],
+    "eski_uretim_ozeti": "Ölçüm/kota/çeşitlilik/elenme alanları ilk üretime aittir; onay sonrası sayı yukarıdadır.",
+    "ek_onay": "Ida: beş kapı reddi çıkarılsın, 778 ile birleşik SQL hazırlansın."
   }
 }

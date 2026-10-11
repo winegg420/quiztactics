@@ -1,0 +1,621 @@
+{
+  "tarih": "2026-10-11T20:17:06.025Z",
+  "cikar": [
+    83,
+    85,
+    103,
+    126,
+    194
+  ],
+  "geri_kon": [],
+  "degisiklikler": [
+    {
+      "id": "C06-15",
+      "alanlar": {
+        "d": {
+          "once": "Gravür",
+          "sonra": "Asitle oyma (etching)"
+        },
+        "y": {
+          "once": [
+            "Litografi",
+            "Serigrafi",
+            "Linol baskı"
+          ],
+          "sonra": [
+            "Taş baskı (litografi)",
+            "İpek baskı (serigrafi)",
+            "Linolyum baskı (linol baskı)"
+          ]
+        }
+      }
+    },
+    {
+      "id": "C06-25",
+      "alanlar": {
+        "zorluk": {
+          "once": 3,
+          "sonra": 2
+        }
+      }
+    },
+    {
+      "id": "C06-30",
+      "alanlar": {
+        "d": {
+          "once": "Puro",
+          "sonra": "Sigara"
+        },
+        "y": {
+          "once": [
+            "İpek",
+            "Parfüm",
+            "Porselen"
+          ],
+          "sonra": [
+            "İpek kumaş",
+            "Parfüm",
+            "Porselen"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "At the start of the opera, Carmen works in a factory making which product?",
+            "d": "Cigars",
+            "y": [
+              "Silk",
+              "Perfume",
+              "Porcelain"
+            ]
+          },
+          "sonra": {
+            "s": "At the start of the opera, Carmen works in a factory making which product?",
+            "d": "Cigarettes",
+            "y": [
+              "Silk fabric",
+              "Perfume",
+              "Porcelain"
+            ]
+          }
+        },
+        "olgu": {
+          "once": "Carmen Sevilla'daki puro fabrikasında çalışır.",
+          "sonra": "Carmen Sevilla'daki sigara fabrikasında çalışır."
+        }
+      }
+    },
+    {
+      "id": "C06-34",
+      "alanlar": {
+        "s": {
+          "once": "Saksafona soyadını veren mucidin ilk adı nedir?",
+          "sonra": "Saksafona soyadını veren mucit hangi adla tanınır?"
+        },
+        "y": {
+          "once": [
+            "Antoine",
+            "Auguste",
+            "Adrien"
+          ],
+          "sonra": [
+            "Alphonse",
+            "Auguste",
+            "Adrien"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "What was the first name of the inventor whose surname gave the saxophone its name?",
+            "d": "Adolphe",
+            "y": [
+              "Antoine",
+              "Auguste",
+              "Adrien"
+            ]
+          },
+          "sonra": {
+            "s": "By what first name is the inventor whose surname gave the saxophone its name known?",
+            "d": "Adolphe",
+            "y": [
+              "Alphonse",
+              "Auguste",
+              "Adrien"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C06-35",
+      "alanlar": {
+        "s": {
+          "once": "Ray Charles'ın kamuoyunda 'The Genius' diye anılan müziğinde temel klavyeli çalgısı hangisiydi?",
+          "sonra": "'The Genius' lakaplı Ray Charles sahnede hangi klavyeli çalgıyla tanınır?"
+        },
+        "en": {
+          "once": {
+            "s": "Which keyboard instrument was central to Ray Charles's performances?",
+            "d": "Piano",
+            "y": [
+              "Organ",
+              "Accordion",
+              "Synthesizer"
+            ]
+          },
+          "sonra": {
+            "s": "Which keyboard instrument is Ray Charles, nicknamed 'The Genius', known for playing on stage?",
+            "d": "Piano",
+            "y": [
+              "Organ",
+              "Accordion",
+              "Synthesizer"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C06-48",
+      "alanlar": {
+        "y": {
+          "once": [
+            "Dokunmatik disk",
+            "Oyun kolu",
+            "Optik okuyucu"
+          ],
+          "sonra": [
+            "Çevirmeli disk",
+            "Oyun kolu",
+            "Kalem yuvası"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "What distinctive input component sat below the screen on classic BlackBerry phones?",
+            "d": "Keyboard",
+            "y": [
+              "Touch disc",
+              "Game controller",
+              "Optical reader"
+            ]
+          },
+          "sonra": {
+            "s": "What distinctive input component sat below the screen on classic BlackBerry phones?",
+            "d": "Keyboard",
+            "y": [
+              "Rotary dial",
+              "Game controller",
+              "Stylus holder"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C06-55",
+      "alanlar": {
+        "y": {
+          "once": [
+            "Mozilla",
+            "Apache",
+            "Linux Foundation"
+          ],
+          "sonra": [
+            "WikiLeaks",
+            "Apache",
+            "Linux Foundation"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "What is the nonprofit organisation that supports Wikipedia called?",
+            "d": "Wikimedia",
+            "y": [
+              "Mozilla",
+              "Apache",
+              "Linux Foundation"
+            ]
+          },
+          "sonra": {
+            "s": "What is the nonprofit organisation that supports Wikipedia called?",
+            "d": "Wikimedia",
+            "y": [
+              "WikiLeaks",
+              "Apache",
+              "Linux Foundation"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C06-80",
+      "alanlar": {
+        "s": {
+          "once": "Kariyerinin önemli bölümünde koruyucu başlıkla oynayan Çek futbol kalecisi kimdir?",
+          "sonra": "Kariyerinin önemli bölümünde koruyucu başlıkla oynayan futbol kalecisi kimdir?"
+        },
+        "en": {
+          "once": {
+            "s": "Which Czech football goalkeeper wore protective headgear for much of his career?",
+            "d": "Petr Čech",
+            "y": [
+              "Jens Lehmann",
+              "Edwin van der Sar",
+              "Iker Casillas"
+            ]
+          },
+          "sonra": {
+            "s": "Which football goalkeeper wore protective headgear for much of his career?",
+            "d": "Petr Čech",
+            "y": [
+              "Jens Lehmann",
+              "Edwin van der Sar",
+              "Iker Casillas"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C06-88",
+      "alanlar": {
+        "s": {
+          "once": "'Batigol' lakabıyla tanınan Arjantinli forvet kimdir?",
+          "sonra": "'Batigol' lakaplı forvet hangi İtalyan kulübünün efsanesidir?"
+        },
+        "d": {
+          "once": "Gabriel Batistuta",
+          "sonra": "Fiorentina"
+        },
+        "y": {
+          "once": [
+            "Claudio Caniggia",
+            "Juan Sebastián Verón",
+            "Javier Saviola"
+          ],
+          "sonra": [
+            "Internazionale",
+            "Sampdoria",
+            "Lazio"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "Which Argentine striker was known as Batigol?",
+            "d": "Gabriel Batistuta",
+            "y": [
+              "Claudio Caniggia",
+              "Juan Sebastián Verón",
+              "Javier Saviola"
+            ]
+          },
+          "sonra": {
+            "s": "At which Italian club is the striker nicknamed 'Batigol' a legend?",
+            "d": "Fiorentina",
+            "y": [
+              "Internazionale",
+              "Sampdoria",
+              "Lazio"
+            ]
+          }
+        },
+        "olgu": {
+          "once": "Batigol Gabriel Batistuta'nın lakabıdır.",
+          "sonra": "'Batigol' lakaplı Gabriel Batistuta, Fiorentina'nın efsane forvetlerindendir."
+        }
+      }
+    },
+    {
+      "id": "C06-107",
+      "alanlar": {
+        "s": {
+          "once": "Korkunç lakabıyla bilinen ilk Rus çarı hangisidir?",
+          "sonra": "İlk Rus çarı olan ve 'Korkunç' lakabıyla anılan hükümdar kimdir?"
+        },
+        "en": {
+          "once": {
+            "s": "Which first Russian tsar is known by the epithet the Terrible?",
+            "d": "Ivan IV",
+            "y": [
+              "Peter I",
+              "Nicholas II",
+              "Paul I"
+            ]
+          },
+          "sonra": {
+            "s": "Who was the first Russian tsar, known by the epithet 'the Terrible'?",
+            "d": "Ivan IV",
+            "y": [
+              "Peter I",
+              "Nicholas II",
+              "Paul I"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C06-109",
+      "alanlar": {
+        "s": {
+          "once": "Amerikan Pony Express posta hizmetinin taşıyıcıları hangi hayvana binerdi?",
+          "sonra": "1860–1861 yıllarında çalışan hızlı Amerikan posta hizmetinin taşıyıcıları hangi hayvana binerdi?"
+        }
+      }
+    },
+    {
+      "id": "C06-121",
+      "alanlar": {
+        "s": {
+          "once": "Venedik dükasının üzerinde dükün diz çöktüğü aziz kimdir?",
+          "sonra": "Venedik altın dukasında dojun önünde diz çöktüğü aziz kimdir?"
+        },
+        "en": {
+          "once": {
+            "s": "Which saint appears receiving the kneeling doge on a Venetian ducat?",
+            "d": "Mark",
+            "y": [
+              "Peter",
+              "Paul",
+              "Nicholas"
+            ]
+          },
+          "sonra": {
+            "s": "Before which saint does the doge kneel on a Venetian gold ducat?",
+            "d": "Mark",
+            "y": [
+              "Peter",
+              "Paul",
+              "Nicholas"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C06-123",
+      "alanlar": {
+        "zorluk": {
+          "once": 3,
+          "sonra": 2
+        }
+      }
+    },
+    {
+      "id": "C06-138",
+      "alanlar": {
+        "s": {
+          "once": "Big filminde Josh ile patronu oyuncakçıda hangi büyük müzik aletinin tuşlarında zıplar?",
+          "sonra": "Büyük (Big) filminde Josh ile patronu oyuncakçıda hangi büyük müzik aletinin tuşlarında zıplar?"
+        },
+        "olgu": {
+          "once": "Big filminde Josh ile patronu dev piyanonun tuşlarında zıplar.",
+          "sonra": "Büyük (Big) filminde Josh ile patronu dev piyanonun tuşlarında zıplar."
+        }
+      }
+    },
+    {
+      "id": "C06-139",
+      "alanlar": {
+        "y": {
+          "once": [
+            "Kaptan",
+            "Makinist",
+            "Şoför"
+          ],
+          "sonra": [
+            "Kabin memuru",
+            "Makinist",
+            "Şoför"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "In 'Catch Me If You Can', which job does Frank impersonate in a Pan Am uniform?",
+            "d": "Pilot",
+            "y": [
+              "Captain",
+              "Train driver",
+              "Chauffeur"
+            ]
+          },
+          "sonra": {
+            "s": "In 'Catch Me If You Can', which job does Frank impersonate in a Pan Am uniform?",
+            "d": "Pilot",
+            "y": [
+              "Flight attendant",
+              "Train driver",
+              "Chauffeur"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C06-142",
+      "alanlar": {
+        "s": {
+          "once": "Dolly Parton'ın 9 to 5 filminde birlikte rol aldığı iki kadın oyuncudan biri kimdir?",
+          "sonra": "Dolly Parton'ın Dokuzdan Beşe (9 to 5) filminde birlikte rol aldığı iki kadın oyuncudan biri kimdir?"
+        },
+        "olgu": {
+          "once": "9 to 5'ın üç kadın başrolü Dolly Parton, Lily Tomlin ve Jane Fonda'dır.",
+          "sonra": "Dokuzdan Beşe (9 to 5)'ın üç kadın başrolü Dolly Parton, Lily Tomlin ve Jane Fonda'dır."
+        }
+      }
+    },
+    {
+      "id": "C06-143",
+      "alanlar": {
+        "zorluk": {
+          "once": 3,
+          "sonra": 2
+        }
+      }
+    },
+    {
+      "id": "C06-148",
+      "alanlar": {
+        "s": {
+          "once": "2001: Uzay Yolu Macerası'ndaki gemi bilgisayarının adı nedir?",
+          "sonra": "2001: Bir Uzay Destanı'ndaki gemi bilgisayarının adı nedir?"
+        },
+        "zorluk": {
+          "once": 3,
+          "sonra": 2
+        }
+      }
+    },
+    {
+      "id": "C06-168",
+      "alanlar": {
+        "d": {
+          "once": "Karamelize şeker",
+          "sonra": "Karamel"
+        },
+        "y": {
+          "once": [
+            "Kızarmış buğday unu",
+            "Eritilmiş beyaz peynir",
+            "Öğütülmüş badem içi"
+          ],
+          "sonra": [
+            "Bal",
+            "Kristal şeker",
+            "Tereyağı"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "What forms the thin hard layer on top of crème brûlée?",
+            "d": "Caramelised sugar",
+            "y": [
+              "Toasted wheat flour",
+              "Melted feta cheese",
+              "Ground almond kernels"
+            ]
+          },
+          "sonra": {
+            "s": "What forms the thin hard layer on top of crème brûlée?",
+            "d": "Caramel",
+            "y": [
+              "Honey",
+              "Granulated sugar",
+              "Butter"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C06-171",
+      "alanlar": {
+        "zorluk": {
+          "once": 3,
+          "sonra": 2
+        }
+      }
+    },
+    {
+      "id": "C06-172",
+      "alanlar": {
+        "zorluk": {
+          "once": 3,
+          "sonra": 2
+        }
+      }
+    },
+    {
+      "id": "C06-174",
+      "alanlar": {
+        "d": {
+          "once": "Bacon",
+          "sonra": "Domuz pastırması (lardon)"
+        },
+        "y": {
+          "once": [
+            "Salam",
+            "Tavuk",
+            "Jambon"
+          ],
+          "sonra": [
+            "Salam (kurutulmuş dana eti)",
+            "Tavuk (kemiksiz göğüs eti)",
+            "Sucuk (baharatlı kıyma eti)"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "What is the characteristic meat ingredient in traditional quiche Lorraine?",
+            "d": "Bacon",
+            "y": [
+              "Salami",
+              "Chicken",
+              "Ham"
+            ]
+          },
+          "sonra": {
+            "s": "What is the characteristic meat ingredient in traditional quiche Lorraine?",
+            "d": "Lardon",
+            "y": [
+              "Salami (cured beef)",
+              "Chicken (boneless breast)",
+              "Sucuk (spiced ground meat)"
+            ]
+          }
+        },
+        "olgu": {
+          "once": "Quiche Lorraine geleneksel olarak bacon içerir.",
+          "sonra": "Quiche Lorraine geleneksel olarak domuz pastırması (lardon) içerir."
+        }
+      }
+    },
+    {
+      "id": "C06-184",
+      "alanlar": {
+        "y": {
+          "once": [
+            "Kraliyet mensubiyeti",
+            "Manastır yaşamı",
+            "Askerî komutanlık"
+          ],
+          "sonra": [
+            "Göç",
+            "Savaş yetimliği",
+            "Hapis"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "What social condition belongs to Sethe's past in Toni Morrison's 'Beloved'?",
+            "d": "Slavery",
+            "y": [
+              "Royal status",
+              "Monastic life",
+              "Military command"
+            ]
+          },
+          "sonra": {
+            "s": "What social condition belongs to Sethe's past in Toni Morrison's 'Beloved'?",
+            "d": "Slavery",
+            "y": [
+              "Migration",
+              "War orphanhood",
+              "Imprisonment"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C06-197",
+      "alanlar": {
+        "zorluk": {
+          "once": 3,
+          "sonra": 2
+        }
+      }
+    }
+  ]
+}

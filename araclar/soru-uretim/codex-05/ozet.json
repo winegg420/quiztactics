@@ -1,6 +1,6 @@
 {
   "klasor": "codex-05",
-  "tarih": "2026-10-11T12:36:35.982Z",
+  "tarih": "2026-10-11T20:17:06.025Z",
   "uretici": "Codex",
   "hakem": "Claude ayrı inceleme — bekliyor",
   "hedef": 200,
@@ -40,18 +40,22 @@
   "snapshot_tarih": "2026-10-10T14:50:48.092Z",
   "taslak": 1149,
   "gecen": 237,
-  "secilen": 200,
+  "secilen": 196,
   "kategori": {
     "sanat": {
-      "z2": 18,
+      "z2": 17,
       "z3": 8
     },
     "muzik": {
       "z2": 13,
+      "z3": 5
+    },
+    "sinema": {
+      "z2": 16,
       "z3": 6
     },
     "teknoloji": {
-      "z2": 20,
+      "z2": 18,
       "z3": 8
     },
     "spor": {
@@ -59,29 +63,25 @@
       "z3": 7
     },
     "tarih": {
-      "z2": 21,
-      "z3": 9
-    },
-    "sinema": {
-      "z2": 15,
-      "z3": 6
+      "z2": 22,
+      "z3": 8
     },
     "genel_kultur": {
-      "z2": 23,
-      "z3": 10
+      "z2": 24,
+      "z3": 9
     },
     "edebiyat": {
       "z2": 14,
-      "z3": 6
+      "z3": 5
     }
   },
   "zorluk": {
     "2": 140,
-    "3": 60
+    "3": 56
   },
   "yerel": 1,
-  "global": 199,
-  "en": 199,
+  "global": 195,
+  "en": 195,
   "elenen_sebep": {
     "benzer": 360,
     "biçim/kural": 92,
@@ -982,10 +982,10 @@
       "genel_kultur:marka_maskot_cizgi": 13
     }
   },
-  "migration": "bekleyen.sql — taslak 9005; uygulanmadı",
+  "migration": "../codex-04-07-onay/bekleyen.sql",
   "canli_yasak": true,
   "migration_uygulandi": false,
-  "kapilar": "200/200, 1–5 yerel geçti",
+  "kapilar": "196/196; 0 ret",
   "en_elle_kontrol": {
     "kontrol_edildi": 199,
     "cevrilmeyen": 1,
@@ -995,5 +995,34 @@
       "Arka Pencere ve Sevginin Gücü Türkçe eser adları"
     ],
     "dusuk_guven_jev_en_uyarisi": "Son seçilen TR/EN anlamı ve şık sırası Codex tarafından karşılaştırıldı; uyarılar zorunlu kapı geçişi yerine kullanılmadı."
+  },
+  "onay_sonrasi": {
+    "cikar": [
+      18,
+      46,
+      65,
+      197
+    ],
+    "geri_kon": [],
+    "duzelt": [
+      194,
+      26,
+      167,
+      120,
+      122,
+      111,
+      101,
+      74,
+      66,
+      152,
+      39,
+      40,
+      126,
+      178
+    ],
+    "inceleme_numaralari_korundu": true,
+    "retler": [],
+    "eski_uretim_ozeti": "Ölçüm/kota/çeşitlilik/elenme alanları ilk üretime aittir; onay sonrası sayı yukarıdadır.",
+    "ek_onay": "Ida: beş kapı reddi çıkarılsın, 778 ile birleşik SQL hazırlansın."
   }
 }

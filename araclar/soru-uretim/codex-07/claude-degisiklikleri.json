@@ -1,0 +1,251 @@
+{
+  "tarih": "2026-10-11T20:17:06.025Z",
+  "cikar": [
+    17,
+    37,
+    128,
+    132,
+    177,
+    178,
+    193
+  ],
+  "geri_kon": [],
+  "degisiklikler": [
+    {
+      "id": "C07-03",
+      "alanlar": {
+        "y": {
+          "once": [
+            "Bacaklar",
+            "Ayaklar",
+            "Kulaklar"
+          ],
+          "sonra": [
+            "Bacaklar",
+            "Baş",
+            "Burun"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "Which major limbs are missing from the Venus de Milo today?",
+            "d": "Arms",
+            "y": [
+              "Legs",
+              "Feet",
+              "Ears"
+            ]
+          },
+          "sonra": {
+            "s": "Which major limbs are missing from the Venus de Milo today?",
+            "d": "Arms",
+            "y": [
+              "Legs",
+              "Head",
+              "Nose"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C07-09",
+      "alanlar": {
+        "y": {
+          "once": [
+            "Diz çökmüş",
+            "Bağdaş kurmuş",
+            "Koşar"
+          ],
+          "sonra": [
+            "Diz çökmüş",
+            "Bağdaş kurmuş",
+            "Koşan"
+          ]
+        }
+      }
+    },
+    {
+      "id": "C07-10",
+      "alanlar": {
+        "k": {
+          "once": "sanat",
+          "sonra": "edebiyat"
+        }
+      }
+    },
+    {
+      "id": "C07-14",
+      "alanlar": {
+        "y": {
+          "once": [
+            "Yılan",
+            "Kaplumbağa",
+            "Timsah"
+          ],
+          "sonra": [
+            "Yılan",
+            "Kaplumbağa",
+            "Kurbağa"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "Which animals walk out of a notebook page in Escher's 'Reptiles'?",
+            "d": "Lizards",
+            "y": [
+              "Snakes",
+              "Turtles",
+              "Crocodiles"
+            ]
+          },
+          "sonra": {
+            "s": "Which animals walk out of a notebook page in Escher's 'Reptiles'?",
+            "d": "Lizards",
+            "y": [
+              "Snakes",
+              "Turtles",
+              "Frogs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C07-19",
+      "alanlar": {
+        "zorluk": {
+          "once": 3,
+          "sonra": 2
+        }
+      }
+    },
+    {
+      "id": "C07-24",
+      "alanlar": {
+        "s": {
+          "once": "The Unicorn Rests in a Garden duvar halısındaki tekboynuz hangi ağaca zincirlenmiştir?",
+          "sonra": "Tutsak Tekboynuz (The Unicorn in Captivity) duvar halısındaki tekboynuz hangi ağaca zincirlenmiştir?"
+        },
+        "en": {
+          "once": {
+            "s": "To which tree is the unicorn chained in the tapestry 'The Unicorn Rests in a Garden'?",
+            "d": "Pomegranate",
+            "y": [
+              "Black mulberry",
+              "Sweet chestnut",
+              "Hazelnut"
+            ]
+          },
+          "sonra": {
+            "s": "To which tree is the unicorn chained in the tapestry 'The Unicorn in Captivity'?",
+            "d": "Pomegranate",
+            "y": [
+              "Black mulberry",
+              "Sweet chestnut",
+              "Hazelnut"
+            ]
+          }
+        },
+        "olgu": {
+          "once": "The Unicorn Rests in a Garden'daki tekboynuz bir nar ağacına bağlıdır.",
+          "sonra": "Tutsak Tekboynuz (The Unicorn in Captivity)'daki tekboynuz bir nar ağacına bağlıdır."
+        }
+      }
+    },
+    {
+      "id": "C07-44",
+      "alanlar": {
+        "s": {
+          "once": "Beatles'ın Sgt. Pepper kapağındaki bütün grup üyelerinin giysileri hangi türdendir?",
+          "sonra": "Sgt. Pepper kapağında öndeki Beatles üyeleri hangi tür renkli giysiler giyer?"
+        },
+        "en": {
+          "once": {
+            "s": "What kind of clothing do all the Beatles members wear on the 'Sgt. Pepper' cover?",
+            "d": "Uniform",
+            "y": [
+              "Tuxedo",
+              "Tailcoat",
+              "Sportswear"
+            ]
+          },
+          "sonra": {
+            "s": "What kind of colourful clothing do the Beatles members in the foreground of the Sgt. Pepper cover wear?",
+            "d": "Uniform",
+            "y": [
+              "Tuxedo",
+              "Tailcoat",
+              "Sportswear"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C07-46",
+      "alanlar": {
+        "s": {
+          "once": "New Order'ın 1983 Blue Monday single'ının disketi andıran kapağı hangi şirketin kataloğundaydı?",
+          "sonra": "New Order'ın disket görünümlü 1983 tarihli Blue Monday plağını hangi plak şirketi yayımladı?"
+        }
+      }
+    },
+    {
+      "id": "C07-63",
+      "alanlar": {
+        "en": {
+          "once": {
+            "s": "What component provided scrolling on Apple's 2005 Mighty Mouse?",
+            "d": "Trackball",
+            "y": [
+              "Scroll wheel",
+              "Touchpad",
+              "Joystick"
+            ]
+          },
+          "sonra": {
+            "s": "What component provided scrolling on Apple's 2005 Mighty Mouse?",
+            "d": "Scroll ball",
+            "y": [
+              "Scroll wheel",
+              "Touchpad",
+              "Joystick"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C07-98",
+      "alanlar": {
+        "s": {
+          "once": "Otto von Bismarck'ın 1871'de başbakanlığına getirildiği yeni devlet hangisidir?",
+          "sonra": "Otto von Bismarck'ın 1871'de şansölyeliğine getirildiği yeni devlet hangisidir?"
+        }
+      }
+    },
+    {
+      "id": "C07-129",
+      "alanlar": {
+        "s": {
+          "once": "Ölüm Kitabı filmindeki Paul Sheldon'ın mesleği nedir?",
+          "sonra": "Misery filmindeki Paul Sheldon'ın mesleği nedir?"
+        },
+        "olgu": {
+          "once": "Ölüm Kitabı'nın Paul Sheldon karakteri romancıdır.",
+          "sonra": "Misery'nın Paul Sheldon karakteri romancıdır."
+        }
+      }
+    },
+    {
+      "id": "C07-199",
+      "alanlar": {
+        "s": {
+          "once": "'Cesur Yeni Dünya'da merkezdeki üretimle doğan insanların üst sınıfı hangi Yunan harfiyle anılır?",
+          "sonra": "Cesur Yeni Dünya'da en üst kast hangi Yunan harfiyle anılır?"
+        }
+      }
+    }
+  ]
+}
