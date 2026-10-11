@@ -152,6 +152,20 @@ export default function QuestionCard({
     return undefined;
   }, [zeminKat]);
   useEffect(() => { setDegisenSoru(null); }, [soruProp]);
+  // Soru metni gerçekten taşarsa (kendi içinde kayar, çubuk gizli) altta hafif solma: data-tasar, sona inince kalkar.
+  useEffect(() => {
+    const m = kokRef.current?.querySelector(".qt-soru-metin");
+    if (!m) return undefined;
+    const olc = () => {
+      const tasar = m.scrollHeight - m.clientHeight > 1 && m.scrollTop + m.clientHeight < m.scrollHeight - 1;
+      if (tasar) m.setAttribute("data-tasar", ""); else m.removeAttribute("data-tasar");
+    };
+    olc();
+    m.addEventListener("scroll", olc, { passive: true });
+    const ro = typeof ResizeObserver === "function" ? new ResizeObserver(olc) : null;
+    ro?.observe(m);
+    return () => { m.removeEventListener("scroll", olc); ro?.disconnect(); };
+  }, [soru?.question_id, soru?.soru_index, soru?.soru]);
 
   // Yeni soru geldiğinde durumu sıfırla
   useEffect(() => {
@@ -539,7 +553,17 @@ export default function QuestionCard({
         ))}
       </QtSikler>
 
-      <QtSonucBandi ton={bant?.ton} metin={bant?.metin} anahtar={bant?.anahtar} />
+      {/* Sonuç yuvası (11 Eki 2026): bant + "adil miydi?" oylaması AYNI, sabit yükseklikli satırda. Soru sırasında
+          boş ama yer kaplar — cevaptan sonra soru kartı ve şıklar 0 px oynar. */}
+      <div className="m1-sonuc-yuva">
+        <QtSonucBandi ton={bant?.ton} metin={bant?.metin} anahtar={bant?.anahtar} />
+        {sonuc && (
+          <div className="m1-oylama" role="group" aria-label={tt("Bu soru adil miydi?")}>
+            <QtIkonDugme ikon="onay" etiket={tt("Adil")} aria-pressed={oy === true} onClick={() => oyVer(true)} />
+            <QtIkonDugme ikon="carpi" etiket={tt("Adil değil")} aria-pressed={oy === false} onClick={() => oyVer(false)} />
+          </div>
+        )}
+      </div>
 
       {/* Yeni joker ekonomisi (sunucu tabanlı).
           "Hızlı Olan Kazanır" modunda joker YOK: mod "ilk doğru cevap kazanır"
@@ -583,14 +607,6 @@ export default function QuestionCard({
             onClick={() => { if (!jokerler.kullanildi.sure) jokerler.onKullan("sure"); }}
           />
         </QtSkillCubugu>
-      )}
-
-      {sonuc && (
-        <div className="m1-oylama" role="group" aria-label={tt("Bu soru adil miydi?")}>
-          <span aria-hidden="true">{tt("Bu soru adil miydi?")}</span>
-          <QtIkonDugme ikon="onay" etiket={tt("Adil")} aria-pressed={oy === true} onClick={() => oyVer(true)} />
-          <QtIkonDugme ikon="carpi" etiket={tt("Adil değil")} aria-pressed={oy === false} onClick={() => oyVer(false)} />
-        </div>
       )}
     </div>
   );
