@@ -30,6 +30,11 @@
 .ci-katman .isin-cubuk { position: absolute; left: 50%; top: -14px; width: 3px; height: 10px; margin-left: -1.5px; background: #fff36b; border-radius: 2px; transform-origin: 50% 26px; opacity: 0; animation: ci-isin-cubuk .7s .2s ease-out forwards; z-index: 4; box-shadow: 0 0 6px #fff36b; }
 @keyframes ci-isin-cubuk { 0% { opacity: 0; transform: rotate(var(--a)) translateY(4px) scaleY(.4); } 30% { opacity: 1; } 100% { opacity: 0; transform: rotate(var(--a)) translateY(-8px) scaleY(1); } }
 /* Maketteki .catlak / .murekkep / .skor-iz bu beş üründe kullanılmıyor (taşınmadı). */
+/* v3 (11 Eki 2026): Yıldız Patlaması ve Bilgi Ampulü artık canvas (CevapImzasi.jsx); yukarıdaki .yildiz / .ampul kuralları kullanılmıyor. */
+
+/* Neon Tik oynadığı şıkta normal tik işareti gizli: yer korunur (visibility, display değil) → rakip avatarı (.qt-sik-ek) ve
+   şık düzeni kaymaz. Öznitelik yalnız Neon Tik oynarken CevapImzasi tarafından konur. */
+.qt-sik-yuva[data-ci-tik-gizli] .qt-sik-isaret { visibility: hidden; }
 
 /* ---------- Durağan simge (Dükkân / Koleksiyon) ---------- */
 .ci-simge { display: inline-grid; place-items: center; flex: none; border-radius: 12px; background: #1d2152; box-shadow: inset 0 0 0 2px rgba(255,255,255,.12); }

@@ -9,6 +9,8 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 
 export const CEVAP_IMZASI_TURU = "cevap_imzasi";
 export const IMZA_ANAHTARLARI = ["imza_neon_tik", "imza_yildiz", "imza_ampul", "imza_elektrik", "imza_yanan_kart"];
+/** DONDURULMUŞ imzalar — takılı görünse bile oynamaz (Yanan Kart, 11 Eki 2026; sunucuda kalem kapalı, migration 1067). */
+export const DONDURULAN_IMZALAR = ["imza_yanan_kart"];
 
 const OLAY = "bildim-cevap-imzasi";
 let yerel = null;   // { uid, anahtar } — son tak/çıkar (oturum boyu)
@@ -29,5 +31,5 @@ export function useTakiliImza() {
     return () => window.removeEventListener(OLAY, f);
   }, []);
   const anahtar = yerel && yerel.uid === user?.id ? yerel.anahtar : profile?.takili_cevap_imzasi;
-  return IMZA_ANAHTARLARI.includes(anahtar) ? anahtar : null;
+  return IMZA_ANAHTARLARI.includes(anahtar) && !DONDURULAN_IMZALAR.includes(anahtar) ? anahtar : null;
 }

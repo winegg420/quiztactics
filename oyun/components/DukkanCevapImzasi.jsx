@@ -1,6 +1,6 @@
 /**
  * DÜKKÂN › EFEKT — Cevap İmzası (1040, Ida 10 Eki 2026). Beş ürün: Neon Tik · Yıldız Patlaması (Nadir, coin) · Bilgi Ampulü ·
- * Elektrik Akımı (Epik, elmas) · Yanan Kart (Efsanevi, elmas). Fiyat ve para sunucudan (kozmetik_katalogu: fiyat, icerik.para);
+ * Elektrik Akımı (Epik, elmas) · Yanan Kart (Efsanevi, elmas — 11 Eki 2026 DONDURULDU, listelenmez). Fiyat ve para sunucudan (kozmetik_katalogu: fiyat, icerik.para);
  * koda fiyat gömülmez.
  *
  * Her kart: ad, nadirlik rengi, fiyat, "Al" / "Sahipsin" + "Tak" / "Takılı · Çıkar". Karta dokununca KARTIN İÇİNDE küçük demo
@@ -21,7 +21,7 @@ import OdulAni, { UcanOge, useOdulAni } from "./OdulAni.jsx";
 import { dukkanNadirligi, kozmetikAdi } from "./DukkanKozmetik.jsx";
 import { etiketNadirligi } from "./AvatarNadirlikGoruntu.jsx";
 import { kozmetikHatasi, kozmetikParasi, kozmetikSatinAl, kozmetikTak } from "../lib/kozmetik.js";
-import { CEVAP_IMZASI_TURU } from "../lib/cevapImzasi.js";
+import { CEVAP_IMZASI_TURU, DONDURULAN_IMZALAR } from "../lib/cevapImzasi.js";
 import { coinTazele } from "../lib/coin.js";
 import { elmasTazele } from "../lib/elmas.js";
 import { sesHataUyari } from "../lib/ses.js";
@@ -69,7 +69,8 @@ function ImzaDemosu({ anahtar }) {
 
 export default function DukkanCevapImzasi({ katalog, sahipHesap = false, yenile, elmasYetmedi, coinYetmedi, onBilgi, onHata, elmasBakiye, coinBakiye, sirali }) {
   const { user } = useAuth();
-  const liste = (katalog ?? []).filter((x) => x.tur === CEVAP_IMZASI_TURU).sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0));
+  // Dondurulmuş imza (Yanan Kart) sunucuda zaten kapalı; eski önbellekli katalogda da görünmesin
+  const liste = (katalog ?? []).filter((x) => x.tur === CEVAP_IMZASI_TURU && !DONDURULAN_IMZALAR.includes(x.anahtar)).sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0));
   const [acik, setAcik] = useState(() => liste.find((x) => x.takili)?.anahtar ?? null);   // demosu açık kart
   const [onay, setOnay] = useState(null);     // satın alma onayındaki kalem
   const [islem, setIslem] = useState(null);   // "tak:<anahtar>" | null
