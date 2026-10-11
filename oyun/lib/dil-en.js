@@ -45,5 +45,11 @@ import enEkranTurnuva from "./ceviri/ekran-turnuva.js";   // Oyun ekranı turu (
 import enEkranDukkan from "./ceviri/ekran-dukkan.js";   // Oyun ekranı turu (11 Eki 2026)
 import enEkranProfil from "./ceviri/ekran-profil.js";   // Oyun ekranı turu (11 Eki 2026)
 import enEkranMeydan from "./ceviri/ekran-meydan.js";   // Oyun ekranı turu (11 Eki 2026)
+import enT2Dukkan2 from "./ceviri/ekran-dukkan2.js";   // Oyun ekranı turu 2
+import enT2Arkadas2 from "./ceviri/ekran-arkadas2.js";   // Oyun ekranı turu 2
+import enT2Mesaj2 from "./ceviri/ekran-mesaj2.js";   // Oyun ekranı turu 2
+import enT2Meydan2 from "./ceviri/ekran-meydan2.js";   // Oyun ekranı turu 2
+import enT2Koleksiyon2 from "./ceviri/ekran-koleksiyon2.js";   // Oyun ekranı turu 2
+import enT2Calisma2 from "./ceviri/ekran-calisma2.js";   // Oyun ekranı turu 2
 
-export default Object.assign({}, temel, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama, enDenetim5, enDenetim6, enHakimiyet, enHakimiyetEkran, enHakimiyetJoker, enSezonYolu, enSezonYoluParca, enGorevler, enAvatarSatis, enKategoriMaci, enKasa, enDuelloSecim, enDuelloPuan, enKisaMetin, enAnaSahne, enDuelloOnizleme, enDuello4, enCevapImzasi, enAvatarPrestij, enEkranRevizyon, enMacSonuSpBp, enProfilTutarlilik, enEkranModlar, enEkranGorevler, enEkranTurnuva, enEkranDukkan, enEkranProfil, enEkranMeydan);
+export default Object.assign({}, temel, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama, enDenetim5, enDenetim6, enHakimiyet, enHakimiyetEkran, enHakimiyetJoker, enSezonYolu, enSezonYoluParca, enGorevler, enAvatarSatis, enKategoriMaci, enKasa, enDuelloSecim, enDuelloPuan, enKisaMetin, enAnaSahne, enDuelloOnizleme, enDuello4, enCevapImzasi, enAvatarPrestij, enEkranRevizyon, enMacSonuSpBp, enProfilTutarlilik, enEkranModlar, enEkranGorevler, enEkranTurnuva, enEkranDukkan, enEkranProfil, enEkranMeydan, enT2Dukkan2, enT2Arkadas2, enT2Mesaj2, enT2Meydan2, enT2Koleksiyon2, enT2Calisma2);
