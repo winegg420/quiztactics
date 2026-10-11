@@ -497,7 +497,7 @@ export default function FriendsPage() {
                       aria-label={tt("{ad} profilini aç", { ad: p?.gorunen_ad ?? tt("Arkadaşın") }) + (durumEtiket ? `, ${durumEtiket}` : "")}
                     >
                       <span className="ar-avatar-kap">
-                        <AvatarCerceve profile={p} boyut={56} />
+                        <AvatarCerceve profile={p} boyut={52} />
                         {durum && <span className={`ar-durum-nokta ar-durum-nokta--${durum}`} aria-hidden="true" />}
                       </span>
                       <span className="ar-bilgi">

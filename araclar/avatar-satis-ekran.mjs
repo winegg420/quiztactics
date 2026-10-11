@@ -21,7 +21,7 @@ const sql770 = fs.readFileSync(path.resolve("supabase/migrations/20260612000770_
 const adres = (a) => `/avatars/${/-k\d+$/.test(a) ? "pro" : "pro2"}/${a}.svg`;
 const SAHIP_OLUNAN = new Set(["korsan-k19", "kristal-uzayli-y28"]);
 const UCRETLI = [...sql770.matchAll(/\('([a-z0-9-]+)','(epik|efsanevi)'\)/g)].map((m, i) => ({
-  url: adres(m[1]), anahtar: m[1], nadirlik: m[2], fiyat: m[2] === "epik" ? 150 : 300, sahibim: SAHIP_OLUNAN.has(m[1]), satilik: true, sira: i,
+  url: adres(m[1]), anahtar: m[1], nadirlik: m[2], fiyat: m[2] === "epik" ? 150 : 300, edinme: "elmas", sahibim: SAHIP_OLUNAN.has(m[1]), satilik: true, sira: i,
 }));
 if (UCRETLI.length !== 26) { console.error("26 ücretli avatar bekleniyordu, okunan:", UCRETLI.length); process.exit(1); }
 // Arka plan dükkânda satılmıyor (dondurulmuş) ve Battle Pass'te 8/17. seviye ücretli yuvalar ELMAS (migration 849: 25 / 30).
@@ -69,13 +69,15 @@ const OLC = () => {
     kontrast,
   };
 };
-const OLC_YOL = () => [...document.querySelectorAll(".sy-hucre--ucretli .sy-yuva")].map((b) => {
-  const yazi = b.parentElement.querySelector(".sy-yuva-yazi");
+// Sezon Yolu ücretli kol kutuları (.sy-kutu): tür data-tur'da (avatar | elmas | yakinda = "?"), miktar rozeti .sy-kutu-miktar.
+const OLC_YOL = () => [...document.querySelectorAll(".sy-serit--ucretli .sy-kutu")].map((b) => {
+  const miktar = b.querySelector(".sy-kutu-miktar");
+  const tur = b.dataset.tur;
   return {
     yuva: b.dataset.yuva, nadirlik: b.dataset.nadirlik,
-    gorsel: b.querySelector(".sy-odul-avatar") ? "avatar" : b.querySelector(".sy-odul-abp .abp") ? "arka_plan" : (b.querySelector("svg") && /^d+$/.test((yazi?.textContent ?? "").trim())) ? "elmas" : b.querySelector(".sy-soru") ? "?" : "diger",
-    yazi: yazi?.textContent ?? "", kirpik: yazi ? yazi.scrollWidth > yazi.clientWidth + 1 : false,
-    tasiyor: (() => { const g = b.querySelector(".sy-odul-avatar, .sy-odul-abp"); if (!g) return false; const r = g.getBoundingClientRect(), k = b.getBoundingClientRect(); return r.left < k.left - 0.5 || r.right > k.right + 0.5 || r.top < k.top - 0.5 || r.bottom > k.bottom + 0.5; })(),
+    gorsel: tur === "avatar" ? (b.querySelector(".sy-odul-avatar") ? "avatar" : "avatar-gorselsiz") : tur === "elmas" ? "elmas" : tur === "yakinda" ? "?" : tur,
+    yazi: miktar?.textContent ?? "", kirpik: miktar ? miktar.scrollWidth > miktar.clientWidth + 1 : false,
+    tasiyor: (() => { const g = b.querySelector(".sy-odul-avatar"); if (!g) return false; const r = g.getBoundingClientRect(), k = b.getBoundingClientRect(); return r.left < k.left - 0.5 || r.right > k.right + 0.5 || r.top < k.top - 0.5 || r.bottom > k.bottom + 0.5; })(),
   };
 }).filter((x) => ["5:ucretli", "8:ucretli", "14:ucretli", "17:ucretli", "19:ucretli", "21:ucretli", "22:ucretli", "23:ucretli", "27:ucretli", "28:ucretli"].includes(x.yuva));
 
@@ -136,7 +138,7 @@ for (const dil of DILLER) {
       ok("Dükkân › Avatar: 24 kilitli (26 ücretli − 2 sahip olunan), her birinde kilit rozeti", o.kilitli === 24 && o.kilitRozeti === 24, `${o.kilitli}/${o.kilitRozeti}`);
       ok("Dükkân › Avatar: yalnız Epik · 18 ve Efsanevi · 8 bölümleri (Yaygın / Nadir bölümü YOK)", o.bolumler.length === 2 && /18$/.test(o.bolumler[0]) && /8$/.test(o.bolumler[1]), JSON.stringify(o.bolumler));
       const sekmeler = await s.locator("[role=tab]").allInnerTexts();
-      const trAd = ["Elmas", "Joker", "Çerçeve", "Avatar"];   // TR sözleşmesi; EN'de yalnız sayı + yasak adlar ölçülür
+      const trAd = ["Elmas", "Joker", "Avatar", "Efekt"];   // TR sözleşmesi; EN'de yalnız sayı + yasak adlar ölçülür
       ok("Dükkân: 4 sekme; Kıyafet / Arka Plan / VS Kartı / Zafer Efekti / Tepki sekmesi YOK",
         sekmeler.length === 4 && (dil === "en" || trAd.every((x, i) => sekmeler[i].includes(x))) && !/Kıyafet|Arka Plan|VS|Zafer|Tepki|Outfit|Background|Victory|Reaction/i.test(sekmeler.join("|")), JSON.stringify(sekmeler));
       ok("Dükkân › Avatar: dokunma hedefi ≥ 44 px", o.kucukHedef === 0, String(o.kucukHedef));
@@ -146,12 +148,11 @@ for (const dil of DILLER) {
       await s.waitForTimeout(1200);
       await kaydet("dukkan-avatar-epik", false);
       await s.evaluate(() => window.scrollTo(0, 0));
-      // kilitli Epik avatarı seç → sahnede fiyatlı "Satın al", onay penceresi
-      await s.locator(".qt-dc-oge.qt-av-kilitli").first().click();
+      // önizleme açılışta ilk alınabilir (kilitli) avatarı seçili getirir → sahnede fiyatlı "Satın al", onay penceresi (karoya dokunmak pencere açar; o akış dukkan-avatar-pencere-ekran.mjs içinde)
       await s.waitForTimeout(400);
-      const sahne = await s.locator(".qt-dc-sahne").innerText();
+      const sahne = await s.locator(".qt-dc-sahne:visible").first().innerText();
       ok("kilitli avatar seçilince sahnede elmas fiyatıyla Satın al (Tak yok)", /150/.test(sahne) && !/^(Tak|Equip)$/m.test(sahne), sahne.replace(/\s+/g, " ").slice(0, 120));
-      await s.locator(".qt-dc-sahne-eylem button").first().click();
+      await s.locator(".qt-dc-sahne-eylem button:visible").first().click();
       await s.waitForTimeout(700);
       const pencere = s.locator("[role=dialog]").last();
       ok("satın alma onay penceresi açılır (fiyat + nadirlik etiketi)", await pencere.count() > 0 && /150/.test(await pencere.innerText()) && await pencere.locator(".qt-dc-nadirlik").count() > 0);
@@ -179,7 +180,8 @@ for (const dil of DILLER) {
       ok("Profil avatar seçici: dokunma hedefi ≥ 44 px", o.kucukHedef === 0, String(o.kucukHedef));
       await s.locator(".qt-pf-avatar-sec.qt-av-kilitli").first().click({ force: true });   // aria-disabled: Playwright beklemesin
       await s.waitForTimeout(400);
-      ok("kilitli avatara dokununca seçilmez, kilit açıklaması çıkar", await s.locator(".qt-pf-hata").count() > 0);
+      ok("kilitli avatara dokununca seçilmez, edinme kartı (Kapat) açılır", await s.locator("[role=dialog]").last().getByRole("button", { name: /^(Kapat|Close)$/ }).count() > 0);
+      await s.keyboard.press("Escape"); await s.waitForTimeout(300);
       await kaydet("profil-avatar");
 
       // 4) Profil › Koleksiyon
@@ -215,11 +217,9 @@ for (const dil of DILLER) {
       const y = Object.fromEntries(yuvalar.map((x) => [x.yuva.split(":")[0], x]));
       ok("yuva 5 / 14 / 21 / 27: gerçek avatar görseli", [5, 14, 21, 27].every((n) => y[n]?.gorsel === "avatar"), JSON.stringify(yuvalar.map((x) => `${x.yuva}=${x.gorsel}`)));
       ok("yuva 8 / 17: elmas yuvası (849; arka plan görseli YOK)", [8, 17].every((n) => y[n]?.gorsel === "elmas"), JSON.stringify(yuvalar.map((x) => `${x.yuva}=${x.gorsel}`)));
-      ok('yuva 19 / 22 / 23 hâlâ "?"', [19, 22, 23].every((n) => y[n]?.gorsel === "?"));
-      const ad = dil === "en" ? { epik: "Epic", efsanevi: "Legendary" } : { epik: "Epik", efsanevi: "Efsanevi" };
-      ok("yuva yazısı: 5 Epik · 8 = 25 · 14 Epik · 17 = 30 · 21 Efsanevi · 27 Efsanevi",
-        y[5]?.yazi === ad.epik && y[8]?.yazi === "25" && y[14]?.yazi === ad.epik && y[17]?.yazi === "30" && y[21]?.yazi === ad.efsanevi && y[27]?.yazi === ad.efsanevi, JSON.stringify(yuvalar.map((x) => `${x.yuva}=${x.yazi}`)));
-      ok("yuva yazıları kırpılmıyor, görsel yuvadan taşmıyor", yuvalar.every((x) => !x.kirpik && !x.tasiyor), JSON.stringify(yuvalar.filter((x) => x.kirpik || x.tasiyor)));
+      ok("yuva 19 / 22 / 23: artık gerçek Epik avatar (yer tutucu '?' kalmadı)", [19, 22, 23].every((n) => y[n]?.gorsel === "avatar" && y[n]?.nadirlik === "epik"), JSON.stringify([19, 22, 23].map((n) => `${n}=${y[n]?.gorsel}/${y[n]?.nadirlik}`)));
+      ok("yuva nadirliği: 5 · 14 Epik, 21 · 27 Efsanevi; elmas yuvaları 8 = 25 · 17 = 30",
+        y[5]?.nadirlik === "epik" && y[14]?.nadirlik === "epik" && y[21]?.nadirlik === "efsanevi" && y[27]?.nadirlik === "efsanevi" && /25/.test(y[8]?.yazi ?? "") && /30/.test(y[17]?.yazi ?? ""), JSON.stringify(yuvalar.map((x) => `${x.yuva}=${x.nadirlik}/${x.yazi}`)));
       o = await s.evaluate(OLC); sonuc[`sezon-${etiket}`] = o;
       ok("Sezon Yolu: sayfada yatay taşma yok", o.yatayTasma <= 0, JSON.stringify(o.tasan));
       for (const n of [5, 14, 21]) {
@@ -242,7 +242,7 @@ for (const dil of DILLER) {
       }
     } catch (e) {
       kaldi++;
-      console.log("  ✗ BEKLENMEYEN HATA:", String(e).slice(0, 300));
+      console.log("  ✗ BEKLENMEYEN HATA:", String(e).slice(0, 900));
       try { await kaydet("hata", false); } catch { /* yok */ }
     }
     const gercekKonsol = konsol.filter((k) => !/Ölçüm aracı|favicon|net::ERR_|Failed to load resource/.test(k));

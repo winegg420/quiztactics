@@ -355,8 +355,8 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
   };
 
   const ad = kisi?.gorunen_ad ?? tt("Arkadaşın");
-  // Oyna: yalnız arkadaşken, engel yokken ve koşullar kabul edilmişken (Arkadaşlar'daki akışla aynı)
-  const oynaGorunur = arkadas === true && Boolean(iletisim?.iletisim) && Boolean(iletisim?.kosullar_kabul);
+  // Oyna: yalnız arkadaşken ve iki taraftan hiçbiri engellemediyse (mesajlaşma koşulu kabulü maç teklifini engellemez)
+  const oynaGorunur = arkadas === true && iletisim?.iletisim === true && iletisim?.engelledim !== true;
   const stil = gorunum ? { top: `${gorunum.ust}px`, height: `${gorunum.yukseklik}px` } : undefined;
 
   if (bulunamadi) {

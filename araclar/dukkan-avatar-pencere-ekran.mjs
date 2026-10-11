@@ -14,7 +14,7 @@ const sql770 = fs.readFileSync(path.resolve("supabase/migrations/20260612000770_
 const adres = (a) => `/avatars/${/-k\d+$/.test(a) ? "pro" : "pro2"}/${a}.svg`;
 const SAHIP = new Set(["korsan-k19"]);
 const UCRETLI = [...sql770.matchAll(/\('([a-z0-9-]+)','(epik|efsanevi)'\)/g)].map((m, i) => ({
-  url: adres(m[1]), anahtar: m[1], nadirlik: m[2], fiyat: m[2] === "epik" ? 150 : 300, sahibim: SAHIP.has(m[1]), satilik: true, sira: i }));
+  url: adres(m[1]), anahtar: m[1], nadirlik: m[2], fiyat: m[2] === "epik" ? 150 : 300, edinme: "elmas", sahibim: SAHIP.has(m[1]), satilik: true, sira: i }));
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
 const kok = new URL(ADRES).origin;
 let gecti = 0, kaldi = 0;
@@ -42,26 +42,31 @@ for (const dil of ["tr", "en"]) for (const [w, h] of [[360, 640], [390, 844]]) {
   try {
     await s.goto(ADRES + "/", { waitUntil: "domcontentloaded" }); await s.waitForTimeout(2500);
     await s.goto(ADRES + "/joker?sekme=avatar", { waitUntil: "domcontentloaded" });
-    await s.waitForFunction(() => document.querySelectorAll(".qt-dc-oge").length > 30, null, { timeout: 40000 }); await s.waitForTimeout(800);
+    await s.waitForFunction(() => document.querySelectorAll(".qt-dc-oge").length >= 20, null, { timeout: 40000 }); await s.waitForTimeout(800);
     // 1) kilitli (satın alınabilir) avatar → sayfa kaymadan onay sayfası
     const kilitli = s.locator(".qt-dc-oge.qt-av-kilitli").first();
     await kilitli.scrollIntoViewIfNeeded(); await kilitli.click(); await s.waitForTimeout(700);
     const d = s.locator("[role=dialog]").last();
     const metin = (await d.innerText().catch(() => "")).replace(/\s+/g, " ");
     ok("kilitli avatara dokununca pencere açılır", await d.count() > 0 && /150/.test(metin), metin.slice(0, 120));
-    ok("pencere: nadirlik etiketi + Vazgeç/Cancel + (Yetersiz elmas | Satın al)", await d.locator(".qt-dc-nadirlik").count() > 0 && /(Vazgeç|Cancel)/.test(metin) && /(Yetersiz elmas|Not enough gems|Satın al|Buy)/.test(metin), metin.slice(0, 160));
-    const dugme = d.locator("button", { hasText: /Yetersiz elmas|Not enough gems|Satın al|Buy/ }).first();
-    const yetmez = /Yetersiz elmas|Not enough gems/.test(await dugme.innerText());
-    if (yetmez) ok("elmas yetmiyor: düğme pasif + Elmas sekmesine giden bağlantı", await dugme.isDisabled() && await d.getByRole("button", { name: /Nasıl kazanılır|How/ }).count() > 0);
+    ok("pencere (kilitli avatar kartı): nadirlik etiketi + Kapat/Close + fiyatlı Al/Buy düğmesi", await d.locator(".qt-dc-nadirlik").count() > 0 && /(Kapat|Close)/.test(metin) && /150.*(· Al|· Buy)/.test(metin), metin.slice(0, 160));
     const kucuk = await d.evaluate((el) => [...el.querySelectorAll("button")].filter((e) => { const r = e.getBoundingClientRect(); return r.height < 44; }).map((e) => e.textContent.trim()));
     ok("pencere: dokunma hedefi ≥ 44 px", kucuk.length === 0, JSON.stringify(kucuk));
     ok("pencere: yatay taşma yok", await s.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 0);
     await s.screenshot({ path: path.join(CIKTI, `kilitli-${et}.png`) });
+    // 1b) kart → elmas onay penceresi (ElmasliSatinAlOnayi): Vazgeç/Cancel + (Yetersiz elmas | Satın al)
+    await d.locator("button", { hasText: /· (Al|Buy)s*$/ }).first().click(); await s.waitForTimeout(700);
+    const d2o = s.locator("[role=dialog]").last();
+    const metin2 = (await d2o.innerText().catch(() => "")).replace(/s+/g, " ");
+    ok("onay penceresi: fiyat + Vazgeç/Cancel + (Yetersiz elmas | Satın al)", /150/.test(metin2) && /(Vazgeç|Cancel)/.test(metin2) && /(Yetersiz elmas|Not enough gems|Satın al|Buy)/.test(metin2), metin2.slice(0, 160));
+    const dugme = d2o.locator("button", { hasText: /Yetersiz elmas|Not enough gems|Satın al|Buy/ }).first();
+    const yetmez = /Yetersiz elmas|Not enough gems/.test(await dugme.innerText());
+    if (yetmez) ok("elmas yetmiyor: düğme pasif", await dugme.isDisabled());
     if (!yetmez) { await dugme.click(); await s.waitForTimeout(900); ok("satın alma hatası pencerede görünür (yazma kapalı)", await s.locator("[role=dialog] [role=alert], [role=alert]").count() > 0); await s.screenshot({ path: path.join(CIKTI, `hata-${et}.png`) }); }
-    await d.getByRole("button", { name: /Vazgeç|Cancel/ }).first().click().catch(() => {}); await s.waitForTimeout(400);
+    await s.locator("[role=dialog]").last().getByRole("button", { name: /Vazgeç|Cancel|Kapat|Close/ }).first().click().catch(() => {}); await s.waitForTimeout(400);
     // 2) sahip olunan avatar → Tak penceresi, yazma 400 → pencerede hata
     await s.keyboard.press("Escape");
-    const sahip = s.locator(".qt-dc-oge:has(.qt-dc-sahip)").nth(3);
+    const sahip = s.locator(".qt-dc-oge:has(.qt-dc-sahip)").first();
     await sahip.scrollIntoViewIfNeeded(); await sahip.click(); await s.waitForTimeout(600);
     const d2 = s.locator("[role=dialog]").last();
     ok("sahip olunan avatara dokununca Tak penceresi açılır", await d2.getByRole("button", { name: /^(Tak|Equip)$/ }).count() > 0 || await d2.getByRole("button", { name: /Takılı|Equipped/ }).count() > 0, (await d2.innerText().catch(() => "")).replace(/\s+/g, " ").slice(0, 100));

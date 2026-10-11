@@ -601,7 +601,7 @@
 .ms-yaz-baslik { margin: 0 0 var(--qt-b-2); font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
 .ms-yaz-serit {
   display: flex; gap: var(--qt-b-3); overflow-x: auto; scroll-snap-type: x proximity;
-  scrollbar-width: none; -ms-overflow-style: none; padding-bottom: var(--qt-b-1);
+  scrollbar-width: none; -ms-overflow-style: none; padding: 16px 10px var(--qt-b-1); margin-inline: -10px;   /* çerçeve süsleri (üst/yan ~14 px) kesilmesin */
 }
 .ms-yaz-serit::-webkit-scrollbar { display: none; }
 .ms-yaz-kisi {
@@ -609,4 +609,5 @@
   display: flex; flex-direction: column; align-items: center; gap: var(--qt-b-1);
   background: none; border: 0; cursor: pointer; font: inherit; color: var(--qt-metin);
 }
+.ms-yaz-kisi > :first-child { margin-bottom: 14px; }   /* alt süs bitince isim 4 px aşağıda başlar */
 .ms-yaz-ad { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }

@@ -397,15 +397,18 @@ button.a-meydan-kisi--arkadas:disabled { cursor: default; opacity: 0.75; }
 .a-meydan-kisi-ad .ls-ad-dugme > * { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* 11 Eki 2026 — grup / hızlı panel: parti yuvaları + 4 sütunlu avatarlı rakip ızgarası */
-.a-meydan-parti { display: flex; gap: var(--qt-b-2); justify-content: center; }
-.a-meydan-yuva { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; flex: 1 1 0; min-width: 0; max-width: 72px; min-height: 64px; }
+.a-meydan-parti { display: flex; gap: var(--qt-b-2); justify-content: flex-start; flex-wrap: wrap; }
+/* Bütün yuvalar (Sen · dolu · boş) aynı 64×76 kutu: avatar üstten 8 px, ad altta */
+.a-meydan-yuva { box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 2px;
+  flex: none; width: 64px; height: 76px; padding: 8px 2px 0; min-width: 0; border: 2px solid var(--qt-cizgi); border-radius: var(--qt-r-l); background: var(--qt-yuzey-2); }
 .a-meydan-yuva-ad { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
-.a-meydan-yuva--bos { border: 2px dashed var(--qt-cizgi); border-radius: var(--qt-r-l); color: var(--qt-metin-soluk); }
+.a-meydan-yuva--ben { border-color: var(--qt-ikinci); background: var(--qt-ikinci-acik); }
+.a-meydan-yuva--bos { justify-content: center; padding-top: 0; border-style: dashed; background: transparent; color: var(--qt-metin-soluk); }
 .a-meydan-yuva-soru { font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); }
 .a-meydan-izgara { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--qt-b-2); }
 .a-meydan-izgara-kart { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-  min-width: 0; min-height: 88px; margin: 0; padding: var(--qt-b-2) 4px; border: 0; border-radius: var(--qt-r-l); font: inherit; cursor: pointer;
-  background: var(--qt-yuzey); color: var(--qt-metin); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-cizgi);
+  min-width: 0; min-height: 88px; margin: 0; padding: 8px 4px var(--qt-b-2); border: 2px solid var(--qt-cizgi); border-radius: var(--qt-r-l); font: inherit; cursor: pointer; justify-content: flex-start;
+  background: var(--qt-yuzey-2); color: var(--qt-metin); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-cizgi);
   -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: box-shadow var(--qt-s-kisa) ease, opacity var(--qt-s-kisa) ease; }
 .a-meydan-izgara-kart:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
 .a-meydan-izgara-kart:disabled { cursor: default; opacity: 0.45; }
