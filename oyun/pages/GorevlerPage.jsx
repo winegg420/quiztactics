@@ -11,7 +11,7 @@
 // `gk-` = bu ekranın sınıfları (ölçüm betiklerinin kancaları). Eski liste görünümünün `gv-` kuralları gorevler.css'te durur.
 // ============================================================
 import { useEffect, useRef, useState } from "react";
-import { QtDugme, QtIskelet, QtSahne, dokunus, sinif } from "../tasarim/index.js";
+import { QtDugme, QtIkon, QtIskelet, QtSahne, dokunus, sinif } from "../tasarim/index.js";
 import { odulPatlat, kisaKonfeti, hareketAzaltildi } from "../tasarim/sahne/OdulPatlamasi.jsx";
 import { odulHissi } from "../tasarim/hareket.js";
 import DurumKutusu from "../components/DurumKutusu.jsx";
@@ -211,6 +211,19 @@ export default function GorevlerPage() {
   const yolYazisi = gunluk
     ? (tumuTamam ? tt("Yarın yeni sandık · {s}", { s: kalanMetni(kalanSn) }) : yolMetni(toplam - yanan))
     : sandikAlindi ? tt("Sandık alındı") : sandikHazir ? tt("Sandık hazır!") : yolMetni(Math.max(0, (sandik?.hedef || toplam) - yanan));
+  // Öbür sekmenin sandık özeti: Günlük'te haftalık sandık, Haftalık'ta günlük sandık.
+  const ozet = (() => {
+    if (gunluk) {
+      const hListe = hft?.gorevler ?? [];
+      const h = sandik?.hedef || hListe.length || 3;
+      const n = Math.min(h, hListe.filter((g) => efAlindi("haftalik", g)).length);
+      return { sekme: "haftalik", baslik: tt("Haftalık sandık"), n, h, tamam: Boolean(sandik?.alindi) };
+    }
+    const gListe = gun?.gorevler ?? [];
+    const h = gListe.length || 3;
+    const n = Math.min(h, gListe.filter((g) => efAlindi("gunluk", g)).length);
+    return { sekme: "gunluk", baslik: tt("Günlük sandık"), n, h, tamam: gListe.length > 0 && n >= h };
+  })();
   // Hazır kartlardan yalnız ilki nabız atar (ekranda tek nabız).
   const ilkHazir = liste.find((g) => alinabilirMi(g) && !alinan.has(`${kapsam}:${g.quest_id}`));
 
@@ -299,6 +312,26 @@ export default function GorevlerPage() {
                             onAl={() => { dokunus(); gorevAlIslem(kapsam, g); }} />
               ))}
             </ul>
+
+            {/* Öbür sekmenin sandık özeti (11 Eki 2026): veri zaten elde (gorevlerim), ek istek yok. Dokununca o sekmeye geçer. */}
+            <button type="button" className={sinif("gk-ozet", ozet.tamam && "gk-ozet--tamam")}
+                    onClick={() => { dokunus(); setSekme(ozet.sekme); }}>
+              <img className="gk-ozet-sandik" src="/dukkan/sandik.webp" alt="" width="56" height="56" loading="lazy" decoding="async" />
+              <span className="gk-ozet-govde">
+                <span className="gk-ozet-baslik">{ozet.baslik}</span>
+                <span className="gk-ozet-alt">
+                  {ozet.tamam
+                    ? tt("{n}/{h} görev · Sandık alındı", { n: ozet.n, h: ozet.h })
+                    : tt("{n}/{h} görev · {k} görev daha", { n: ozet.n, h: ozet.h, k: ozet.h - ozet.n })}
+                </span>
+                <span className="gk-ozet-bar" aria-hidden="true"><i style={{ width: `${ozet.h > 0 ? Math.round((ozet.n / ozet.h) * 100) : 0}%` }} /></span>
+              </span>
+              {ozet.tamam && <span className="gk-ozet-tik" aria-hidden="true"><QtIkon ad="onay" boyut={20} /></span>}
+            </button>
+            <p className="gk-yenilenme">
+              <QtIkon ad="saat" boyut={16} />
+              <span>{gunluk ? tt("Yeni günlük görevler {s} sonra", { s: kalanMetni(kalanGun) }) : tt("Yeni haftalık görevler {s} sonra", { s: kalanMetni(kalanHft) })}</span>
+            </p>
           </div>
         )}
       </div>

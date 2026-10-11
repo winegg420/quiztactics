@@ -149,6 +149,36 @@
 }
 .gk-arka .gk-odul { color: var(--qt-coin-yazi); }
 
+/* Uzun ekranda kartlar ~250 px (içerik aynı, boşluk eşit dağılır) */
+@media (min-height: 700px) {
+  .gk-yuz { min-height: 250px; align-content: space-between; }
+}
+
+/* ---------- Öbür sekmenin sandık özeti + yenilenme hapı (11 Eki 2026) ---------- */
+.gk-ozet {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; width: 100%; min-height: 76px;
+  padding: 10px 14px 12px; box-sizing: border-box; border: 3px solid var(--qt-coin-dudak); border-radius: var(--qt-r-m);
+  background: var(--qt-coin-acik); color: var(--qt-coin-yazi); box-shadow: 0 5px 0 var(--qt-coin-dudak);
+  font: inherit; text-align: left; cursor: pointer; transition: transform 120ms var(--qt-egri-cikis);
+}
+.gk-ozet:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--qt-coin-dudak); }
+.gk-ozet:focus-visible { outline: 3px solid var(--qt-ikinci); outline-offset: 3px; }
+.gk-ozet-sandik { width: 56px; height: 56px; object-fit: contain; }
+.gk-ozet-govde { display: grid; gap: 4px; min-width: 0; }
+.gk-ozet-baslik { font: var(--qt-a-siyah) 17px/1.15 var(--qt-f-baslik); overflow-wrap: anywhere; }
+.gk-ozet-alt { font-size: 13px; font-weight: var(--qt-a-kalin); line-height: 1.25; overflow-wrap: anywhere; }
+.gk-ozet-bar { display: block; height: 8px; border-radius: 4px; background: rgba(58, 38, 0, 0.15); overflow: hidden; }
+.gk-ozet-bar i { display: block; height: 100%; border-radius: inherit; background: var(--qt-coin-dudak); }
+.gk-ozet--tamam .gk-ozet-bar i { background: var(--qt-dogru-dudak); }
+.gk-ozet-tik {
+  display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 3px solid var(--qt-dogru-dudak);
+  background: var(--qt-dogru); color: var(--qt-dogru-yazi);
+}
+.gk-yenilenme {
+  display: inline-flex; align-items: center; justify-self: center; gap: 6px; margin: 0; padding: 6px 14px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16); color: #fff; font-size: 13px; font-weight: var(--qt-a-kalin); text-align: center;
+}
+
 @media (max-width: 379px) {
   .gk-kartlar { gap: 6px; }
   .gk-yuz { padding: 6px 4px 7px; gap: 5px; }
@@ -209,6 +239,7 @@
 
 /* ---------- Hareketi azalt: animasyon yok, anında son hâl ---------- */
 @media (prefers-reduced-motion: reduce) {
+  .gk-ozet { transition: none; }
   .gk-isin, .gk-yuzer, .gk-sar--salla, .gk-kart, .gk-dugum--yanik, .gk-dugum--altin, .gk-ac, .gk-ac--kapan, .gk-ac-sd--sallan, .gk-ac-sd--buyu, .gk-ac-odul, .gk-ac-topla { animation: none; }
   .gk-kart.qt-h-nabiz::after { animation: none; opacity: 1; }
   .gk-yuzler, .gk-cizgi::after, .gk-sd-kapak, .gk-sd-altin, .gk-sd-kilit { transition: none; }
