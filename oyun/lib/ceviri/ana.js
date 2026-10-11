@@ -95,6 +95,7 @@ export default {
   "Ortak puanı büyüt, doğru anda aç": "Grow the shared pot, open at the right moment",
   // Mod kartları (7 Eki 2026, Sekme B): Düello + Ortak Hazine yarım kartta tek kısa satır
   "Kategorini savun": "Defend your category",
+  "Kontrolü al, 3/3 yap": "Take control, hit 3/3",
   "Doğru anda aç": "Open at the right time",
   "En son oynadığın: {mod}": "Last played: {mod}",
   "Oyun modları": "Game modes",
