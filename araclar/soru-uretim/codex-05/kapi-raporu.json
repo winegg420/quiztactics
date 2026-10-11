@@ -1,6 +1,6 @@
 {
   "klasor": "codex-05",
-  "tarih": "2026-10-11T20:17:06.025Z",
+  "tarih": "2026-10-11T21:08:29.793Z",
   "toplam": 196,
   "gecen": 196,
   "ret": 0,
@@ -1147,9 +1147,9 @@
         4,
         5
       ],
-      "jev_p": 0.16,
+      "jev_p": 0.2,
       "tek_dogru_p": 0.02,
-      "icerik_hash": "d5653b363f6dac7eddad06e2c61be53c64ca3ad5176f59b9f41bd60837f29600"
+      "icerik_hash": "c6116e5c51e3cbb59784ecda90db17c45f8a081063301a7664e4d78b37fee6aa"
     },
     {
       "id": "C05-75",

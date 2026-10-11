@@ -1,6 +1,6 @@
-# Claude onaylı, canlıya alınmayı bekliyor (195)
+# Claude onaylı — 195 soru, 194 kapı geçişi
 
-Kapı 1–5: 195/195 geçti. Canlı bağlantı ve uygulama yapılmadı. İnceleme numaraları korunmuştur.
+Kapı 1–5: 194/195 geçti. Canlı bağlantı ve uygulama yapılmadı. İnceleme numaraları korunmuştur.
 
 | Kategori | z2 | z3 |
 |---|---:|---:|
@@ -15,7 +15,7 @@ Kapı 1–5: 195/195 geçti. Canlı bağlantı ve uygulama yapılmadı. İncelem
 
 Yerel/global: 2/193. Claude çıkar: 83, 85, 103, 126, 194.
 
-Kapı retleri: Yok.
+Kapı retleri: 174: biçim/kural: TR kural: dogru_en_uzun,dogru_coklu_kelime
 
 01 | sanat | 2 | Manet'nin 'Flüt Çalan Çocuk' tablosunda çocuğun kıyafeti hangi meslekle ilişkilidir? | ✔ Asker | ✗ Denizci · Çoban · Aşçı | Flüt Çalan Çocuk tablosunun figürü askerî üniforma giyer. | EN: The boy's outfit in Manet's 'The Fifer' is associated with which occupation? — Soldier
 02 | sanat | 2 | Dalí'nin 'Filler' tablosundaki fillerin sırtında hangi anıtsal nesneler vardır? | ✔ Dikilitaşlar | ✗ Piramitler · Sütunlar · Zafer takları | Dalí'nin Filler tablosundaki filler dikilitaş taşır. | EN: What monumental objects sit on the elephants' backs in Dalí's 'The Elephants'? — Obelisks
@@ -186,7 +186,7 @@ Kapı retleri: Yok.
 171 | genel_kultur | 2 | Geleneksel İngilizce yıldönümü listelerinde 25. evlilik yılı hangi metalle adlandırılır? | ✔ Gümüş | ✗ Altın · Platin · Bakır | 25. evlilik yıldönümü gümüş yıldönümü olarak bilinir. | EN: In traditional English-language anniversary lists, which metal names the 25th wedding anniversary? — Silver
 172 | genel_kultur | 2 | Kızartıldığında kolayca erimemesiyle tanınan Kıbrıs peyniri hangisidir? | ✔ Hellim | ✗ Feta · Ricotta · Mascarpone | Hellim kızartılırken biçimini koruyan Kıbrıs peyniridir. | EN: Which Cypriot cheese is known for not melting easily when fried? — Halloumi
 173 | genel_kultur | 3 | Beef Wellington'da mantarlı etin çevresini hangi hamur kaplar? | ✔ Milföy | ✗ Yufka · Pizza hamuru · Mısır hamuru | Beef Wellington'ın dışı milföyle kaplıdır. | EN: What pastry encloses the mushroom-covered beef in a Beef Wellington? — Puff pastry
-174 | genel_kultur | 3 | Geleneksel quiche Lorraine'in ayırt edici et malzemesi hangisidir? | ✔ Domuz pastırması (lardon) | ✗ Salam (kurutulmuş dana eti) · Tavuk (kemiksiz göğüs eti) · Sucuk (baharatlı kıyma eti) | Quiche Lorraine geleneksel olarak domuz pastırması (lardon) içerir. | EN: What is the characteristic meat ingredient in traditional quiche Lorraine? — Lardon
+174 | genel_kultur | 3 | Geleneksel quiche Lorraine'in ayırt edici et malzemesi hangisidir? | ✔ Domuz pastırması | ✗ Salam · Tavuk · Sucuk | Quiche Lorraine geleneksel olarak domuz pastırması (lardon) içerir. | EN: What is the characteristic meat ingredient in traditional quiche Lorraine? — Lardon
 175 | genel_kultur | 3 | Geleneksel Hint kulfi tatlısı hangi sunum durumuyla tanınır? | ✔ Donmuş | ✗ Fırından sıcak · Buharda pişmiş · Kaynar şerbette | Kulfi donmuş bir sütlü Hint tatlısıdır. | EN: In what serving state is traditional Indian kulfi known? — Frozen
 176 | genel_kultur | 3 | Hermès'in 1984'te tasarladığı ünlü çantaya ismiyle esin veren sanatçı kimdir? | ✔ Jane Birkin | ✗ Grace Kelly · Audrey Hepburn · Brigitte Bardot | Hermès'in 1984'te tasarladığı Birkin çantası Jane Birkin'in adını taşır. | EN: Which performer inspired the name of the famous bag Hermès designed in 1984? — Jane Birkin
 177 | genel_kultur | 3 | İrlanda'nın Claddagh yüzüğünde iki elin tuttuğu kalbin üstünde hangi nesne vardır? | ✔ Taç | ✗ Çiçek · Haç · Yıldız | Claddagh yüzüğünde iki elin tuttuğu kalbin üzerinde bir taç bulunur. | EN: What appears above the heart held by two hands on an Irish Claddagh ring? — Crown

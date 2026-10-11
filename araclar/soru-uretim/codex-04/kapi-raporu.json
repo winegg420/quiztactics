@@ -1,6 +1,6 @@
 {
   "klasor": "codex-04",
-  "tarih": "2026-10-11T20:17:06.025Z",
+  "tarih": "2026-10-11T21:08:29.793Z",
   "toplam": 194,
   "gecen": 194,
   "ret": 0,
@@ -3003,9 +3003,9 @@
         4,
         5
       ],
-      "jev_p": 0.29,
+      "jev_p": 0.19,
       "tek_dogru_p": 0.06,
-      "icerik_hash": "709c6ff97e2b0526efc88bd0e367fd42d02d969fb4b6efc03a938fd23d1e0fe8"
+      "icerik_hash": "6f4720534717f7d9cb24f04ffebea86ae4f8199e76b90bf3e87156988f0aadf4"
     },
     {
       "id": "C04-194",

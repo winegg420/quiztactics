@@ -2959,7 +2959,7 @@
     "d": "Yunan kahramanı",
     "y": [
       "Roma imparatoru",
-      "Viking komutan",
+      "Viking komutanı",
       "Mısır firavunu"
     ],
     "zorluk": 2,
@@ -2989,7 +2989,7 @@
       4,
       5
     ],
-    "jev_p": 0.16,
+    "jev_p": 0.2,
     "jev_tek_dogru_p": 0.02
   },
   {

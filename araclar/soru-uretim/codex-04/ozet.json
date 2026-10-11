@@ -1,6 +1,6 @@
 {
   "klasor": "codex-04",
-  "tarih": "2026-10-11T20:17:06.025Z",
+  "tarih": "2026-10-11T21:08:29.793Z",
   "uretici": "Codex",
   "hakem": "Claude ayrı inceleme — bekliyor",
   "hedef": 200,
@@ -989,7 +989,7 @@
       "genel_kultur:marka_maskot_cizgi": 14
     }
   },
-  "migration": "../codex-04-07-onay/bekleyen.sql",
+  "migration": "../codex-04-07-onay/bekleyen.sql (06/174 nedeniyle engelli)",
   "migration_uygulandi": false,
   "migration_no_taslak": 1059,
   "migration_no_aciklama": "Numara ayrılmaz; onay sonrası son numara+1 yeniden ölçülür",
@@ -1072,6 +1072,11 @@
     "inceleme_numaralari_korundu": true,
     "retler": [],
     "eski_uretim_ozeti": "Ölçüm/kota/çeşitlilik/elenme alanları ilk üretime aittir; onay sonrası sayı yukarıdadır.",
-    "ek_onay": "Ida: beş kapı reddi çıkarılsın, 778 ile birleşik SQL hazırlansın."
+    "ek_onay": "Ida: beş kapı reddi çıkarılsın, 778 ile birleşik SQL hazırlansın.",
+    "son_duzeltme": {
+      "tarih": "2026-10-11T21:08:29.793Z",
+      "numara": 193,
+      "not": "Yazım/ek düzeltmesi."
+    }
   }
 }

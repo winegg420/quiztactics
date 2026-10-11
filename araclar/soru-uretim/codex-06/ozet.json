@@ -1,6 +1,6 @@
 {
   "klasor": "codex-06",
-  "tarih": "2026-10-11T20:17:06.025Z",
+  "tarih": "2026-10-11T21:08:29.793Z",
   "uretici": "Codex",
   "hakem": "Claude ayrı inceleme — bekliyor",
   "hedef": 200,
@@ -977,10 +977,10 @@
       "genel_kultur:marka_maskot_cizgi": 12
     }
   },
-  "migration": "../codex-04-07-onay/bekleyen.sql",
+  "migration": "../codex-04-07-onay/bekleyen.sql (06/174 nedeniyle engelli)",
   "canli_yasak": true,
   "migration_uygulandi": false,
-  "kapilar": "195/195; 0 ret",
+  "kapilar": "194/195; 1 ret",
   "en_elle_kontrol": {
     "kontrol_edildi": 198,
     "cevrilmeyen": 2,
@@ -1034,13 +1034,31 @@
       197
     ],
     "inceleme_numaralari_korundu": true,
-    "retler": [],
+    "retler": [
+      {
+        "id": "C06-174",
+        "inceleme_no": 174,
+        "neden": "biçim/kural: TR kural: dogru_en_uzun,dogru_coklu_kelime",
+        "s": "Geleneksel quiche Lorraine'in ayırt edici et malzemesi hangisidir?",
+        "d": "Domuz pastırması",
+        "y": [
+          "Salam",
+          "Tavuk",
+          "Sucuk"
+        ]
+      }
+    ],
     "eski_uretim_ozeti": "Ölçüm/kota/çeşitlilik/elenme alanları ilk üretime aittir; onay sonrası sayı yukarıdadır.",
     "dogrulama_135": {
       "sonuc": "Küpe yanlış şıkkı korundu; kutudaki mücevher kolye.",
       "kaynak": "https://www.fred.com/en-int/maison-fred/edito-PW.html",
       "destek": "https://d23.com/this-day/pretty-woman-premieres/"
     },
-    "ek_onay": "Ida: beş kapı reddi çıkarılsın, 778 ile birleşik SQL hazırlansın."
+    "ek_onay": "Ida: beş kapı reddi çıkarılsın, 778 ile birleşik SQL hazırlansın.",
+    "son_duzeltme": {
+      "tarih": "2026-10-11T21:08:29.793Z",
+      "numara": 174,
+      "not": "Şıklar Ida talimatıyla sadeleştirildi; denge reddi nedeniyle uzatılmadı."
+    }
   }
 }

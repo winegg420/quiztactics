@@ -1,4 +1,4 @@
-# Claude onaylı, canlıya alınmayı bekliyor (193)
+# Claude onaylı — 193 soru, 193 kapı geçişi
 
 Kapı 1–5: 193/193 geçti. Canlı bağlantı ve uygulama yapılmadı. İnceleme numaraları korunmuştur.
 
@@ -77,7 +77,7 @@ Kapı retleri: Yok.
 60 | teknoloji | 2 | Sony'nin Betamax sistemi görüntüyü hangi fiziksel ortama kaydediyordu? | ✔ Manyetik bant | ✗ Optik disk · Delikli şerit · Manyetik disk | Betamax videoyu manyetik banda kaydeder. | EN: What physical medium recorded video in Sony's Betamax system? — Magnetic tape
 61 | teknoloji | 2 | Sony'nin 1979 Walkman TPS-L2 modelinde kaç kulaklık girişi vardı? | ✔ 2 | ✗ 1 · 3 · 4 | Walkman TPS-L2 iki kulaklık girişi taşır. | EN: How many headphone sockets did Sony's 1979 Walkman TPS-L2 have? — 2
 62 | teknoloji | 2 | Sinclair ZX Spectrum'un ilk 1982 modelinin tuşları hangi malzemedendi? | ✔ Kauçuk | ✗ Bakalit · Ahşap · Metal | İlk ZX Spectrum kauçuk tuşlara sahipti. | EN: What material were the keys on the original 1982 Sinclair ZX Spectrum made from? — Rubber
-63 | teknoloji | 2 | Apple'ın 2005 Mighty Mouse'unda kaydırmayı sağlayan parça hangisiydi? | ✔ İztopu | ✗ Kaydırma tekerleği · Dokunmatik yüzey · Yön çubuğu | 2005 Apple Mighty Mouse kaydırma için küçük bir iztopu kullanmıştır. | EN: What component provided scrolling on Apple's 2005 Mighty Mouse? — Scroll ball
+63 | teknoloji | 2 | Apple'ın 2005 Mighty Mouse'unda sayfayı yukarı ve aşağı hareket ettiren parça hangisiydi? | ✔ Kaydırma topu | ✗ Kaydırma tekerleği · Dokunmatik yüzey · Yön çubuğu | 2005 Apple Mighty Mouse kaydırma için küçük bir kaydırma topu kullanmıştır. | EN: What component provided scrolling on Apple's 2005 Mighty Mouse? — Scroll ball
 64 | teknoloji | 2 | Apollo 15'in Ay'da kullandığı Lunar Roving Vehicle kaç tekerlekliydi? | ✔ 4 | ✗ 3 · 5 · 6 | Ay aracı dört tekerlekliydi. | EN: How many wheels did Apollo 15's Lunar Roving Vehicle have? — 4
 65 | teknoloji | 2 | Nintendo DS'nin kapağı açıldığında toplam kaç ekran görülür? | ✔ 2 | ✗ 1 · 3 · 4 | Nintendo DS iki ekranlıdır. | EN: How many screens are visible when a Nintendo DS is opened? — 2
 66 | teknoloji | 3 | LinkedIn'in kurucuları arasında yer alan girişimci kimdir? | ✔ Reid Hoffman | ✗ Reed Hastings · Drew Houston · Kevin Systrom | Reid Hoffman LinkedIn'in kurucularındandır. | EN: Which entrepreneur was among LinkedIn's founders? — Reid Hoffman

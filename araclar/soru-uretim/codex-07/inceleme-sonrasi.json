@@ -1920,8 +1920,8 @@
     "taslak_id": "C07-N0506",
     "k": "teknoloji",
     "yerel": false,
-    "s": "Apple'ın 2005 Mighty Mouse'unda kaydırmayı sağlayan parça hangisiydi?",
-    "d": "İztopu",
+    "s": "Apple'ın 2005 Mighty Mouse'unda sayfayı yukarı ve aşağı hareket ettiren parça hangisiydi?",
+    "d": "Kaydırma topu",
     "y": [
       "Kaydırma tekerleği",
       "Dokunmatik yüzey",
@@ -1937,7 +1937,7 @@
         "Joystick"
       ]
     },
-    "olgu": "2005 Apple Mighty Mouse kaydırma için küçük bir iztopu kullanmıştır.",
+    "olgu": "2005 Apple Mighty Mouse kaydırma için küçük bir kaydırma topu kullanmıştır.",
     "kalip": "urun_ozgun_kaydirma_parcasi",
     "konular": [
       "apple-mighty-mouse"

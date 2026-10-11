@@ -1,4 +1,4 @@
-# Claude onaylı, canlıya alınmayı bekliyor (194)
+# Claude onaylı — 194 soru, 194 kapı geçişi
 
 Kapı 1–5: 194/194 geçti. Canlı bağlantı ve uygulama yapılmadı. İnceleme numaraları korunmuştur.
 
@@ -203,7 +203,7 @@ Kapı retleri: Yok.
 190 | edebiyat | 2 | 'Oz Büyücüsü' kitabında Korkuluk ne elde etmek ister? | ✔ Beyin | ✗ Kalp · Cesaret · Ses | Oz Büyücüsü kitabında Korkuluk beyin ister. | EN: What does the Scarecrow seek in the book 'The Wonderful Wizard of Oz'? — Brain
 191 | edebiyat | 2 | 'Sherlock Holmes' öykülerindeki Dr. Watson'ın ilk adı nedir? | ✔ John | ✗ James · William · Henry | Watson'ın ilk adı John'dur. | EN: What is Dr Watson's first name in the Sherlock Holmes stories? — John
 192 | edebiyat | 2 | Pippi Uzunçorap'ın kızıl saçları hangi biçimde kullanılır? | ✔ İki örgü | ✗ Tek at kuyruğu · Kısa küt kesim · Topuz | Pippi'nin saçları iki örgü hâlindedir. | EN: How does Pippi Longstocking wear her red hair? — Two braids
-193 | edebiyat | 2 | Paddington Ayısı hangi renk kabanyle tanınır? | ✔ Mavi | ✗ Kırmızı · Yeşil · Sarı | Paddington mavi kaban giyer. | EN: What colour duffle coat is Paddington Bear known for? — Blue
+193 | edebiyat | 2 | Paddington Ayısı hangi renk kabanıyla tanınır? | ✔ Mavi | ✗ Kırmızı · Yeşil · Sarı | Paddington mavi kaban giyer. | EN: What colour duffle coat is Paddington Bear known for? — Blue
 194 | edebiyat | 2 | Pinokyo okulu bırakıp eğlenceye dalınca hangi hayvana dönüşür? | ✔ Eşek | ✗ Domuz · Tavşan · Köpek | Pinokyo Oyuncaklar Ülkesi'nde eşeğe dönüşür. | EN: What animal does Pinocchio turn into after abandoning school for endless fun? — Donkey
 195 | edebiyat | 3 | 'Büyük Umutlar'da Bayan Havisham'ın durmuş saatleri günün hangi olayını simgeler? | ✔ Düğünün iptali | ✗ Babasının cenazesi · Kız kardeşinin gidişi · Kocasının ölümü | Saatler düğünün iptal olduğu zamanda durmuştur. | EN: What event is symbolised by Miss Havisham's stopped clocks in Great Expectations? — Her cancelled wedding
 196 | edebiyat | 3 | 'Yaşlı Adam ve Deniz'de Santiago'nun yakaladığı büyük balık hangi türdür? | ✔ Marlin | ✗ Ton balığı · Köpekbalığı · Kılıçbalığı | Santiago büyük bir marlin yakalar. | EN: What kind of large fish does Santiago catch in The Old Man and the Sea? — Marlin

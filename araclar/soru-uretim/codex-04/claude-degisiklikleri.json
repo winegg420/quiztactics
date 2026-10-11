@@ -189,5 +189,52 @@
         }
       }
     }
-  ]
+  ],
+  "son_duzeltme": {
+    "tarih": "2026-10-11T21:08:29.793Z",
+    "numara": 193,
+    "not": "Yazım/ek düzeltmesi.",
+    "kayit": {
+      "id": "C04-193",
+      "taslak_id": "C04-T742",
+      "k": "edebiyat",
+      "yerel": false,
+      "s": "Paddington Ayısı hangi renk kabanıyla tanınır?",
+      "d": "Mavi",
+      "y": [
+        "Kırmızı",
+        "Yeşil",
+        "Sarı"
+      ],
+      "zorluk": 2,
+      "en": {
+        "s": "What colour duffle coat is Paddington Bear known for?",
+        "d": "Blue",
+        "y": [
+          "Red",
+          "Green",
+          "Yellow"
+        ]
+      },
+      "olgu": "Paddington mavi kaban giyer.",
+      "kalip": "roman_karakter_imza_kiyafet",
+      "konular": [
+        "eser:paddington"
+      ],
+      "alt_tur": "roman",
+      "claude_inceleme": "onaylı; canlıya alınmadı",
+      "z": 2,
+      "inceleme_no": 193,
+      "kapi_sonuc": "gecti",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.19,
+      "jev_tek_dogru_p": 0.06
+    }
+  }
 }

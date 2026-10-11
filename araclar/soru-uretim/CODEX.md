@@ -84,4 +84,4 @@ Kapı 6 yok: api-uret.mjs değiştirilmez ve içe aktarılmaz. Claude incelemesi
 - Aynı anda en çok dört iş, tarayıcı açma, yeni paket kurma. .env.local ve gizli anahtarlar yazdırılmaz/loglanmaz.
 - Kesintide durum dosyasını koru ve aşağıdaki Son durum satırını nerede kalındığıyla güncelle; tamamlanmayan kapılar geçmiş gösterilmez.
 
-Son durum: soru-havuzu dalı; Claude düzeltmeleri ve Ida ek çıkarma onayı tamamlandı. codex-04=194, codex-05=196, codex-06=195, codex-07=193; 778/778 kapı 1–5 geçti. Tek birleşik bekleyen SQL codex-04-07-onay/bekleyen.sql; taslak numara, SQL uygulanmadı, canlı bağlantı yok. Onay inceleme numaraları ve .tmp/codex durumları korunur.
+Son durum: Son dört düzeltme uygulandı. 04=194/194, 05=196/196, 06=194/195, 07=193/193; toplam 777/778 kapı 1–5 geçti. 06/174 Domuz pastırması / Salam / Tavuk / Sucuk şıkları denge kapısında reddedildi; Ida talimatıyla uzatılmadı, kayıt silinmedi. Birleşik bekleyen.sql engelli olarak güncellendi; yürütülebilir SQL üretimi ret çözülene kadar bekler. Canlı bağlantı/uygulama yok; mevcut soru-havuzu dalı. .tmp/codex durumları korunur.

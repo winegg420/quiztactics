@@ -1,9 +1,9 @@
 {
   "klasor": "codex-06",
-  "tarih": "2026-10-11T20:17:06.025Z",
+  "tarih": "2026-10-11T21:08:29.793Z",
   "toplam": 195,
-  "gecen": 195,
-  "ret": 0,
+  "gecen": 194,
+  "ret": 1,
   "canli_yasak": true,
   "ortam": "Yerel PostgreSQL 17; repo SQL 222/227/298; varsayılan eşikler 1.4/3/2; havuz önceki snapshot",
   "ek_havuz": [
@@ -13,7 +13,20 @@
   ],
   "snapshot_yenilendi": false,
   "kapilar": "1–5; ilk başarısız kapı sonraki kapıları durdurur",
-  "retler": [],
+  "retler": [
+    {
+      "id": "C06-174",
+      "inceleme_no": 174,
+      "neden": "biçim/kural: TR kural: dogru_en_uzun,dogru_coklu_kelime",
+      "s": "Geleneksel quiche Lorraine'in ayırt edici et malzemesi hangisidir?",
+      "d": "Domuz pastırması",
+      "y": [
+        "Salam",
+        "Tavuk",
+        "Sucuk"
+      ]
+    }
+  ],
   "kayitlar": [
     {
       "id": "C06-01",
@@ -2722,18 +2735,12 @@
     {
       "id": "C06-174",
       "inceleme_no": 174,
-      "sonuc": "gecti",
-      "neden": null,
-      "kapilar": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "jev_p": 0.15,
-      "tek_dogru_p": 0.04,
-      "icerik_hash": "26528a62901eaeac4be13cf34fb7c7fc5dc5029101e2292221e8a45ec68f5b2f"
+      "sonuc": "elendi",
+      "neden": "biçim/kural: TR kural: dogru_en_uzun,dogru_coklu_kelime",
+      "kapilar": [],
+      "jev_p": null,
+      "tek_dogru_p": null,
+      "icerik_hash": "d904b8abe5e4dd4a646ea1aca5f4ad248b1ca798250b01b062ce307716c79e3c"
     },
     {
       "id": "C06-175",
