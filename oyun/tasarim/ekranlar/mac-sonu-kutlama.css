@@ -870,6 +870,13 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
   animation: msk-yuksel var(--qt-s-uzun) var(--qt-egri-cikis) calc(var(--t-coin) - 300ms) backwards;
 }
 @media (prefers-reduced-motion: reduce) { .msk-mod-ozet { animation: none; } }
+/* 1062: "Ort. cevap 6,2 sn · rakip 8,1 sn" — Klasik/Saf Bilgi/Ortak Hazine, tek sade satır */
+.msk-ort-cevap {
+  display: table; margin: 6px auto 0; padding: 3px 12px; border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey); background: color-mix(in srgb, var(--qt-yuzey) 88%, transparent);
+  color: var(--qt-metin); text-align: center; font-size: 13px; font-weight: 700; line-height: 1.3;
+  font-variant-numeric: tabular-nums; overflow-wrap: anywhere;
+}
 
 /* =====================================================================
    8 Eki 2026 — AÇIK SAHNE (bütün modlar; ana sayfa "oyun sahnesi" dili)

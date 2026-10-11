@@ -128,6 +128,10 @@ export default function MatchPage() {
   const seviyeler = useOyuncuSeviyeleri([mac?.oyuncu1, mac?.oyuncu2]);
   const [soru, setSoru] = useState(null);
   const [cevapladim, setCevapladim] = useState(false);
+  // 1062: benim için kapanan soru (cevap/süre dolumu) + o sorudaki rakip şıkkı { idx, cevap }
+  const [kapananIndeks, setKapananIndeks] = useState(null);
+  const [rakipSik, setRakipSik] = useState(null);
+  const rakipSikIstendiRef = useRef(null);
   const [jokerKullanildi, setJokerKullanildi] = useState({ elli: false, sure: false });
   const [jokerHata, setJokerHata] = useState(null);
   const [balonlar, setBalonlar] = useState({}); // { [user_id]: mesaj }
@@ -640,6 +644,25 @@ export default function MatchPage() {
     return () => clearTimeout(t);
   }, [ilerleme.rakip]);
 
+  // 1062: rakibin seçtiği şık. Yeni yoklama YOK: soru benim için kapandıktan sonra (cevap / süre dolumu) ve rakip
+  // o soruyu geçince (maç satırı zaten realtime + mevcut yoklamayla geliyor) soru başına EN FAZLA bir çağrı.
+  // Sunucu soru açıkken null döndürür; hata olursa işaret sessizce çizilmez, maç akışı etkilenmez.
+  const rakipIlerlemesi = !mac ? 0 : (mac.oyuncu1 === user.id ? (mac.oyuncu2_soru ?? 0) : (mac.oyuncu1_soru ?? 0));
+  useEffect(() => {
+    if (kapananIndeks == null || rakipIlerlemesi <= kapananIndeks || rakipSikIstendiRef.current === kapananIndeks) return;
+    rakipSikIstendiRef.current = kapananIndeks;
+    const idx = kapananIndeks;
+    (async () => {
+      try {
+        const { data, error } = await supabase.rpc("mac_rakip_cevabi", { p_match_id: id, p_soru_index: idx });
+        if (error) throw error;
+        if (Number.isInteger(data) && data >= 0 && data <= 3) setRakipSik({ idx, cevap: data });
+      } catch (e) {
+        console.warn("[Bildim] rakibin şıkkı okunamadı:", e?.message ?? e);
+      }
+    })();
+  }, [kapananIndeks, rakipIlerlemesi, id]);
+
   // Ajan I: "Hazır mısın?" kapısı da tam ekran sahne (arama sahnesiyle aynı; üst/alt menü gizli)
   // geriSayim !== null: 3-2-1 geri sayımı da oyun modu sayılır, yoksa o sırada gelen
   // bildirim/davet sesi bd-oyun-modu korumasını atlayıp çalıyordu.
@@ -693,6 +716,7 @@ export default function MatchPage() {
     if (satir?.tekrar_hakki) return satir;
     cevapZamaniRef.current = Date.now();
     setCevapladim(true);
+    if (Number.isInteger(soru?.soru_index)) setKapananIndeks(soru.soru_index);
 
     // Skor tabelası ANINDA güncellensin: sunucu kazanılan puanla birlikte
     // güncel iki skoru da döndürüyor (migration 137). Eskiden tabela
@@ -753,6 +777,7 @@ export default function MatchPage() {
       }
 
       cevapZamaniRef.current = Date.now();
+      if (Number.isInteger(soru?.soru_index)) setKapananIndeks(soru.soru_index);
       setTimeout(macYukle, GB_MS);
       return satir.dogru_cevap;
     } catch (e) {
@@ -770,7 +795,7 @@ export default function MatchPage() {
       macYukle();
       throw e; // QuestionCard hatayı görüp kendi kilidini de açsın
     }
-  }, [id, macYukle]);
+  }, [id, macYukle, soru?.soru_index]);
 
   // A.3: maç sonu kazancı (lig puanı + coin) artık mac_sonu_ozet ile tek çağrıda gelir (mac_odulum çağrılmaz).
 
@@ -956,7 +981,7 @@ export default function MatchPage() {
           gorevler={sahne.gorevler}
           rozetler={sahne.rozetler}
           detayRozet={yanlisAdet}
-          modOzet={sahne.terk ? null : <MacOzetSatiri kaynak={`mac:${id}`} />}
+          modOzet={sahne.terk ? null : <MacOzetSatiri kaynak={`mac:${id}`} ortCevap={macSonuOzet?.ort_cevap} />}
           detay={
             <>
               {/* Paket 20 I.3: satır satır döküm (aynı sunucu kaydı, ikinci sorgu yok) */}
@@ -1294,6 +1319,11 @@ export default function MatchPage() {
             macId={id}
             kategori={mac.kategori}
             toplamSoru={toplamSoru}
+            rakipSik={rakipSik && rakipSik.idx === soru.soru_index ? {
+              cevap: rakipSik.cevap,
+              rakip: <CerceveliAvatar profile={rakipProfil} userId={rakipProfil?.id} boyut={24} kart={seviyeler[rakipProfil?.id]} />,
+              ben: <CerceveliAvatar profile={benimProfil} userId={benimProfil?.id} boyut={24} kart={seviyeler[benimProfil?.id]} />,
+            } : null}
           />
         )}
 

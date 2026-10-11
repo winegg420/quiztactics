@@ -64,6 +64,9 @@ export default function QuestionCard({
   className = "",
   // Toplam soru sayısı (verilirse kartta "Soru n / t" yazar).
   toplamSoru = null,
+  // 1062: rakibin seçtiği şık — { cevap: 0-3, rakip: <avatar>, ben: <avatar> }. Yalnız soru kapandıktan (sonuç) sonra
+  // çizilir; aynı şıkkı ben de seçtiysem iki avatar yan yana. Sunucu soru açıkken zaten null döndürür.
+  rakipSik = null,
 }) {
   const [kalan, setKalan] = useState(SURE);
   // GÖSTERİLEN sayaç (rakam, tik sesi, son-5-sn vurgusu): soru ekrana geç geldiyse ilk rakam kesirle başlar
@@ -547,6 +550,12 @@ export default function QuestionCard({
             metin={s}
             durum={sikDurumu(i)}
             kiriliyor={kirilan.includes(i)}
+            ek={sonuc && rakipSik?.cevap === i ? (
+              <span className="qt-sik-ek" role="img" aria-label={tt("Rakibin cevabı")}>
+                {secim === i && rakipSik.ben}
+                {rakipSik.rakip}
+              </span>
+            ) : null}
             onClick={() => cevapla(i)}
             {...basiliTut.sikProps(i)}
           />

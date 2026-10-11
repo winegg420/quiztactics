@@ -1162,6 +1162,14 @@ html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))
 .qt-sik--solgun { opacity: 0.45; }
 .qt-sik--kiriliyor { visibility: hidden; }
 .qt-sik-yuva--elendi .qt-sik { visibility: hidden; }
+/* 1062: rakibin seçtiği şık — şıkkın sağ üst kenarına binen küçük avatar(lar). Mutlak konum: şık yüksekliği/yerleşimi
+   0 px oynar; nötr beyaz + lacivert kontur, doğru/yanlış renklerine dokunmaz. */
+.qt-sik-ek { position: absolute; top: -9px; right: 10px; z-index: 2; display: flex; gap: 3px; pointer-events: none; }
+.qt-sik-ek > * { flex: none; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--qt-metin); }
+@media (prefers-reduced-motion: no-preference) {
+  .qt-sik-ek { animation: qt-sik-ek-gir 220ms cubic-bezier(.2, .9, .3, 1.2) both; }
+}
+@keyframes qt-sik-ek-gir { from { opacity: 0; scale: .6; } to { opacity: 1; scale: 1; } }
 .qt-sik-elendi {
   position: absolute;
   inset: 0;

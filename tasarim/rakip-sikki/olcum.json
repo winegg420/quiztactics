@@ -1,0 +1,64 @@
+{
+  "klasik-farkli 390x844 tr": {
+    "isaret": 1,
+    "avatar": 1,
+    "tasma": 0
+  },
+  "klasik-ayni 390x844 tr": {
+    "isaret": 1,
+    "avatar": 2,
+    "tasma": 0
+  },
+  "klasik-yok 390x844 tr": {
+    "isaret": 0,
+    "avatar": 0,
+    "tasma": 0
+  },
+  "kasa 390x844 tr": {
+    "isaret": 1,
+    "tasma": 0
+  },
+  "sonu-var 390x844 tr": {
+    "satir": "Ort. cevap 6,2 sn · rakip 8,1 sn",
+    "tasma": 0
+  },
+  "sonu-tek 390x844 tr": {
+    "satir": "Ort. cevap 5,5 sn",
+    "tasma": 0
+  },
+  "sonu-yok 390x844 tr": {
+    "satir": null,
+    "tasma": 0
+  },
+  "klasik-farkli 360x780 en": {
+    "isaret": 1,
+    "avatar": 1,
+    "tasma": 0
+  },
+  "klasik-ayni 360x780 en": {
+    "isaret": 1,
+    "avatar": 2,
+    "tasma": 0
+  },
+  "klasik-yok 360x780 en": {
+    "isaret": 0,
+    "avatar": 0,
+    "tasma": 0
+  },
+  "kasa 360x780 en": {
+    "isaret": 1,
+    "tasma": 0
+  },
+  "sonu-var 360x780 en": {
+    "satir": "Avg. answer 6.2s · opponent 8.1s",
+    "tasma": 0
+  },
+  "sonu-tek 360x780 en": {
+    "satir": "Avg. answer 5.5s",
+    "tasma": 0
+  },
+  "sonu-yok 360x780 en": {
+    "satir": null,
+    "tasma": 0
+  }
+}
