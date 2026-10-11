@@ -140,6 +140,7 @@ export default function CalismaPage() {
 
   // ---------- Başlat ----------
   const basla = async () => {
+    if (yukleniyor) return;   // banka gelmeden yanlış moda (pratik turu) başlanmaz
     setHata(null);
     setCalisiyor(true);
     bittiRef.current = false;
@@ -374,8 +375,9 @@ export default function CalismaPage() {
               <QtCip key={n} secili={soruSayisi === n} onClick={() => setSoruSayisi(n)}>{n}</QtCip>
             ))}
           </div>
-          <p className="m1-cal-not">
-            {bankaKat === 0
+          {/* Yayın öncesi tarama (11 Eki 2026): banka gelmeden "Bankan temiz · pratik turu" yazılmaz, Başla pasif */}
+          <p className="m1-cal-not" aria-busy={yukleniyor || undefined}>
+            {yukleniyor ? tt("Yükleniyor…") : bankaKat === 0
               ? tt("Bankan temiz — bu bir pratik turu: {n} yeni soru.", { n: soruSayisi })
               : tahminYeni > 0
                 ? tt("Bu tur: {b} soru bankandan + {y} yeni soru.", { b: tahminBanka, y: tahminYeni })
@@ -385,9 +387,9 @@ export default function CalismaPage() {
 
         {hataBandi}
         <div className="m1-cal-eylem">
-          <QtDugme tamGenislik boyut="b" ikon="kitap" yukleniyor={calisiyor} onClick={basla}>
+          <QtDugme tamGenislik boyut="b" ikon="kitap" yukleniyor={calisiyor} devreDisi={yukleniyor} onClick={basla}>
             <span className="m1-cal-eylem-metin">
-              <span>{calisiyor ? tt("Hazırlanıyor…") : bankaKat === 0 ? tt("Pratik turuna başla") : tt("Çalışmaya başla")}</span>
+              <span>{calisiyor ? tt("Hazırlanıyor…") : yukleniyor ? tt("Yükleniyor…") : bankaKat === 0 ? tt("Pratik turuna başla") : tt("Çalışmaya başla")}</span>
               {/* Seçim özeti düğmenin İÇİNDE (Meydan tek eylem gibi) — sticky iken alttaki kartların üstüne binmez */}
               <span className="m1-cal-eylem-ozet">{tt("{n} soru", { n: soruSayisi })} · {kategori === null ? tt("Tümü") : kategoriEtiket(kategori)}</span>
             </span>

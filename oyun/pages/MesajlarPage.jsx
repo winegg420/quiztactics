@@ -7,7 +7,7 @@ import SohbetKutusu from "../components/SohbetKutusu.jsx";
 import IsimEfekti from "../components/IsimEfekti.jsx";
 import { y } from "../lib/yol.js";
 import { arkadaslariGetir } from "../lib/arkadasListesi.js";
-import { tt } from "../lib/dil.js";
+import { tt, tarihDili } from "../lib/dil.js";
 import { hataTuru, hataTuruMesaji } from "../lib/hata.js";
 import GeriDugmesi from "../components/GeriDugmesi.jsx";
 import { QtKart, QtDugme, QtListe, QtListeSatiri, QtBosDurum, QtIskelet, QtSayiRozeti, SayfaBasligi } from "../tasarim/index.js";
@@ -24,8 +24,8 @@ const saatMetni = (iso) => {
     const t = new Date(iso);
     const bugun = new Date();
     return t.toDateString() === bugun.toDateString()
-      ? t.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-      : t.toLocaleDateString([], { day: "numeric", month: "short" });
+      ? t.toLocaleTimeString(tarihDili(), { hour: "2-digit", minute: "2-digit" })
+      : t.toLocaleDateString(tarihDili(), { day: "numeric", month: "short" });
   } catch {
     return "";
   }

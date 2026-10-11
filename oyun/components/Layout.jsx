@@ -1,5 +1,5 @@
-import { Outlet, NavLink, Link, useNavigate, useLocation } from "react-router-dom";
-import { Suspense, useEffect, useState } from "react";
+import { Outlet, NavLink, Link, useNavigate, useLocation, useNavigationType } from "react-router-dom";
+import { Suspense, useEffect, useLayoutEffect, useState } from "react";
 import HataSiniri from "../../src/components/HataSiniri.jsx";
 import BaglantiSeridi from "./BaglantiSeridi.jsx";
 import { useAuth } from "../../src/context/AuthContext.jsx";
@@ -75,6 +75,13 @@ export default function Layout() {
   const navigate = useNavigate();
   // D-103: sayfa içi hata kartı adres değişince temizlenir
   const { pathname } = useLocation();
+  // Yayın öncesi tarama (11 Eki 2026): yeni sayfa EN ÜSTTEN açılır (Arkadaşlar / Lig / Meydan Okuma önceki sayfanın
+  // kaydırma konumunda, ortadan açılıyordu). Geri/ileri tuşu (POP) dokunulmaz — tarayıcı eski konumu korur.
+  const gezinme = useNavigationType();
+  useLayoutEffect(() => {
+    if (gezinme === "POP") return;
+    try { if (window.scrollY || document.documentElement.scrollTop) window.scrollTo(0, 0); } catch { /* eski tarayıcı */ }
+  }, [pathname]);   // eslint-disable-line react-hooks/exhaustive-deps
   // Profildeki dil tercihi bu tarayıcıdaki sayfa dilinden farklıysa bir kez eşitler.
   useDil();
   const [bekleyen, setBekleyen] = useState(0);

@@ -260,5 +260,13 @@
 /* Maç sonu "Düello özeti" (11 Eki 2026): .hk-ele mod özeti ailesi (beyaz zemin, 2 px Düello kırmızısı + 3 px dudak);
    satırlarda iki hap (ben mavi / rakip kırmızı — .hk-ele-k renkleri). 360 px'te haplar alt satıra iner, kesilmez. */
 .d4-ozet .hk-ele-satir { grid-template-columns: 48px minmax(0, 1fr); }
+/* 11 Eki 2026: ad sütunu iki satırda ORTAK ve en uzun ada göre (EN "Opponent" 48 px'e sığmayıp hapın altına giriyordu).
+   Satırlar alt ızgara (subgrid) — haplar iki satırda aynı hizadan başlar. Subgrid yoksa eski 48 px düzeni kalır. */
+@supports (grid-template-columns: subgrid) {
+  .d4-ozet { grid-template-columns: minmax(48px, max-content) minmax(0, 1fr); column-gap: 8px; }
+  .d4-ozet > * { grid-column: 1 / -1; }
+  .d4-ozet .hk-ele-satir { grid-template-columns: subgrid; }
+  .d4-ozet .hk-ele-ad { white-space: nowrap; }
+}
 .d4-ozet .hk-ele-k { overflow: visible; padding: 3px 9px; gap: 3px; white-space: nowrap; font-size: 12px; }
 .d4-ozet-nokta { letter-spacing: 1px; font-size: 11px; line-height: 1; }

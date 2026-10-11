@@ -10,7 +10,7 @@ import { useBirKezSirali } from "./KoleksiyonDokumu.jsx";
 import { rozetlerim, rozetVitriniSec } from "../lib/rozet.js";
 import { oyuncuKartiUnut } from "../lib/cerceve.js";
 import { hataMesaji } from "../lib/hata.js";
-import { tt } from "../lib/dil.js";
+import { tt, tarihDili } from "../lib/dil.js";
 import { QtDugme, QtIlerleme, QtKart, QtModal, QtRozet, dokunus, sayiBicim, sinif, siraStili } from "../tasarim/index.js";
 import "../tasarim/ekranlar/rozet-panel.css";
 
@@ -23,7 +23,7 @@ const yeniMi = (r) => {
 };
 
 function tarih(t) {
-  try { return new Date(t).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" }); } catch { return ""; }
+  try { return new Date(t).toLocaleDateString(tarihDili(), { day: "numeric", month: "long", year: "numeric" }); } catch { return ""; }
 }
 
 /** Tek rozetin madalyonu (veri satırından). */
