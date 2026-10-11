@@ -1,0 +1,370 @@
+{
+ "uretim": "2026-10-11T15:06:49.770Z",
+ "kesilen": [],
+ "taklitsiz": [
+  "cihaz_bildir",
+  "bekleyen_sayim",
+  "kalp_at",
+  "dm_okunmamis_sayim",
+  "posta_kutusu",
+  "sezon_ozetim",
+  "bekleyen_davetlerim",
+  "rozet_bildirimlerim",
+  "ses_secimleri_oyun",
+  "oyuncu_kartlari"
+ ],
+ "sonuc": [
+  {
+   "ekran": "lobi",
+   "boyut": "390x844",
+   "dil": "tr",
+   "olcum": {
+    "vh": 844,
+    "yatayTasma": 0,
+    "dikeyKaydirma": 32,
+    "satirlar": [
+     {
+      "ad": "Sen sen",
+      "avatar": 350,
+      "baslik": 350,
+      "rozet": 350,
+      "rozetSag": 346,
+      "rozetGen": 92
+     },
+     {
+      "ad": "Deniz",
+      "avatar": 414,
+      "baslik": 414,
+      "rozet": 414,
+      "rozetSag": 346,
+      "rozetGen": 92
+     },
+     {
+      "ad": "Ayşe Yılmazoğlu",
+      "avatar": 478,
+      "baslik": 478,
+      "rozet": 478,
+      "rozetSag": 346,
+      "rozetGen": 92
+     },
+     {
+      "ad": "Mert",
+      "avatar": 542,
+      "baslik": 542,
+      "rozet": 542,
+      "rozetSag": 346,
+      "rozetGen": 92
+     }
+    ],
+    "senListede": true,
+    "beklenenSatiri": false,
+    "dugmeler": {
+     "top": 610,
+     "bottom": 770,
+     "altBosluk": 74
+    },
+    "tumDugmeler": [
+     {
+      "yazi": "Kabul Et",
+      "bg": "rgb(47, 210, 122)"
+     },
+     {
+      "yazi": "Reddet",
+      "bg": "rgb(255, 90, 106)"
+     },
+     {
+      "yazi": "Geri dön",
+      "bg": "rgba(0, 0, 0, 0)"
+     }
+    ],
+    "davet": null
+   },
+   "konsol": []
+  },
+  {
+   "ekran": "hazir",
+   "boyut": "390x844",
+   "dil": "tr",
+   "olcum": {
+    "vh": 844,
+    "yatayTasma": 0,
+    "dikeyKaydirma": 0,
+    "satirlar": [
+     {
+      "ad": "Sen sen",
+      "avatar": 228,
+      "baslik": 228,
+      "rozet": 228,
+      "rozetSag": 358,
+      "rozetGen": 92
+     },
+     {
+      "ad": "Deniz",
+      "avatar": 280,
+      "baslik": 280,
+      "rozet": 280,
+      "rozetSag": 358,
+      "rozetGen": 92
+     },
+     {
+      "ad": "Ayşe Yılmazoğlu",
+      "avatar": 332,
+      "baslik": 332,
+      "rozet": 332,
+      "rozetSag": 358,
+      "rozetGen": 92
+     },
+     {
+      "ad": "Mert",
+      "avatar": 384,
+      "baslik": 384,
+      "rozet": 384,
+      "rozetSag": 358,
+      "rozetGen": 92
+     }
+    ],
+    "senListede": true,
+    "beklenenSatiri": false,
+    "dugmeler": {
+     "top": 736,
+     "bottom": 832,
+     "altBosluk": 12
+    },
+    "tumDugmeler": [
+     {
+      "yazi": "Hazırım",
+      "bg": "rgb(255, 122, 46)"
+     },
+     {
+      "yazi": "Vazgeç",
+      "bg": "rgb(255, 255, 255)"
+     }
+    ],
+    "davet": null
+   },
+   "konsol": []
+  },
+  {
+   "ekran": "davet-basarili",
+   "boyut": "390x844",
+   "dil": "tr",
+   "olcum": {
+    "vh": 844,
+    "yatayTasma": 0,
+    "dikeyKaydirma": 0,
+    "satirlar": [],
+    "senListede": false,
+    "beklenenSatiri": false,
+    "dugmeler": null,
+    "tumDugmeler": [],
+    "davet": {
+     "yukseklik": 354,
+     "baslik": "Davet uygulandı",
+     "metin": "Deniz ile arkadaş oldunuz",
+     "ikonBg": "rgb(220, 248, 234)",
+     "dugmeBg": "rgb(255, 255, 255)"
+    }
+   },
+   "konsol": []
+  },
+  {
+   "ekran": "davet-hata",
+   "boyut": "390x844",
+   "dil": "tr",
+   "olcum": {
+    "vh": 844,
+    "yatayTasma": 0,
+    "dikeyKaydirma": 0,
+    "satirlar": [],
+    "senListede": false,
+    "beklenenSatiri": false,
+    "dugmeler": null,
+    "tumDugmeler": [],
+    "davet": {
+     "yukseklik": 354,
+     "baslik": "Arkadaş daveti",
+     "metin": "Bu davet kodu bulunamadı.",
+     "ikonBg": "rgb(255, 227, 230)",
+     "dugmeBg": "rgb(255, 122, 46)"
+    }
+   },
+   "konsol": []
+  },
+  {
+   "ekran": "lobi",
+   "boyut": "360x780",
+   "dil": "en",
+   "olcum": {
+    "vh": 780,
+    "yatayTasma": 0,
+    "dikeyKaydirma": 77,
+    "satirlar": [
+     {
+      "ad": "Sen you",
+      "avatar": 355,
+      "baslik": 355,
+      "rozet": 355,
+      "rozetSag": 318,
+      "rozetGen": 92
+     },
+     {
+      "ad": "Deniz",
+      "avatar": 419,
+      "baslik": 419,
+      "rozet": 419,
+      "rozetSag": 318,
+      "rozetGen": 92
+     },
+     {
+      "ad": "Ayşe Yılmazoğlu",
+      "avatar": 483,
+      "baslik": 483,
+      "rozet": 483,
+      "rozetSag": 318,
+      "rozetGen": 92
+     },
+     {
+      "ad": "Mert",
+      "avatar": 547,
+      "baslik": 547,
+      "rozet": 547,
+      "rozetSag": 318,
+      "rozetGen": 92
+     }
+    ],
+    "senListede": true,
+    "beklenenSatiri": false,
+    "dugmeler": {
+     "top": 591,
+     "bottom": 751,
+     "altBosluk": 29
+    },
+    "tumDugmeler": [
+     {
+      "yazi": "Accept",
+      "bg": "rgb(47, 210, 122)"
+     },
+     {
+      "yazi": "Decline",
+      "bg": "rgb(255, 90, 106)"
+     },
+     {
+      "yazi": "Go back",
+      "bg": "rgba(0, 0, 0, 0)"
+     }
+    ],
+    "davet": null
+   },
+   "konsol": []
+  },
+  {
+   "ekran": "hazir",
+   "boyut": "360x780",
+   "dil": "en",
+   "olcum": {
+    "vh": 780,
+    "yatayTasma": 0,
+    "dikeyKaydirma": 0,
+    "satirlar": [
+     {
+      "ad": "Sen you",
+      "avatar": 208,
+      "baslik": 208,
+      "rozet": 208,
+      "rozetSag": 330,
+      "rozetGen": 92
+     },
+     {
+      "ad": "Deniz",
+      "avatar": 260,
+      "baslik": 260,
+      "rozet": 260,
+      "rozetSag": 330,
+      "rozetGen": 92
+     },
+     {
+      "ad": "Ayşe Yılmazoğlu",
+      "avatar": 312,
+      "baslik": 312,
+      "rozet": 312,
+      "rozetSag": 330,
+      "rozetGen": 92
+     },
+     {
+      "ad": "Mert",
+      "avatar": 364,
+      "baslik": 364,
+      "rozet": 364,
+      "rozetSag": 330,
+      "rozetGen": 92
+     }
+    ],
+    "senListede": true,
+    "beklenenSatiri": false,
+    "dugmeler": {
+     "top": 672,
+     "bottom": 768,
+     "altBosluk": 12
+    },
+    "tumDugmeler": [
+     {
+      "yazi": "I'm ready",
+      "bg": "rgb(255, 122, 46)"
+     },
+     {
+      "yazi": "Cancel",
+      "bg": "rgb(255, 255, 255)"
+     }
+    ],
+    "davet": null
+   },
+   "konsol": []
+  },
+  {
+   "ekran": "davet-basarili",
+   "boyut": "360x780",
+   "dil": "en",
+   "olcum": {
+    "vh": 780,
+    "yatayTasma": 0,
+    "dikeyKaydirma": 0,
+    "satirlar": [],
+    "senListede": false,
+    "beklenenSatiri": false,
+    "dugmeler": null,
+    "tumDugmeler": [],
+    "davet": {
+     "yukseklik": 354,
+     "baslik": "Invite applied",
+     "metin": "You and Deniz are now friends",
+     "ikonBg": "rgb(220, 248, 234)",
+     "dugmeBg": "rgb(255, 255, 255)"
+    }
+   },
+   "konsol": []
+  },
+  {
+   "ekran": "davet-hata",
+   "boyut": "360x780",
+   "dil": "en",
+   "olcum": {
+    "vh": 780,
+    "yatayTasma": 0,
+    "dikeyKaydirma": 0,
+    "satirlar": [],
+    "senListede": false,
+    "beklenenSatiri": false,
+    "dugmeler": null,
+    "tumDugmeler": [],
+    "davet": {
+     "yukseklik": 354,
+     "baslik": "Friend invite",
+     "metin": "Bu davet kodu bulunamadı.",
+     "ikonBg": "rgb(255, 227, 230)",
+     "dugmeBg": "rgb(255, 122, 46)"
+    }
+   },
+   "konsol": []
+  }
+ ]
+}

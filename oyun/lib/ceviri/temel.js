@@ -1311,6 +1311,7 @@ export default {
     "Önce profilini tamamla, sonra davet otomatik uygulanacak.": "Complete your profile first; the invite will then be applied automatically.",
     "{0} kişisine arkadaşlık isteği gönderildi": "Friend request sent to {0}",
     "{0} artık arkadaşın!": "{0} is now your friend!",
+    "{0} ile arkadaş oldunuz": "You and {0} are now friends",
     "{0} zaten arkadaşın.": "{0} is already your friend.",
     "İstek gönderildi": "Request sent",
     "Davet uygulanamadı.": "The invite couldn't be applied.",
