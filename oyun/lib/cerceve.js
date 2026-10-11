@@ -122,6 +122,19 @@ export function oyuncuKartiUnut(userId) {
   }
 }
 
+// 11 Eki 2026: kendi profilim tazelenince (maç sonu, sekme dönüşü) önbellekteki kartımın level/ligi eskiyse kart düşer —
+// arama sahnesi, VS kartı ve maç şeridi güncel seviyeyi okur (AuthContext › refreshProfile "qt-profil" olayı).
+try {
+  window.addEventListener("qt-profil", (e) => {
+    const p = e?.detail;
+    const k = p?.id ? onbellek.get(p.id) : null;
+    if (!k) return;
+    const eski = (p.level != null && k.level != null && Number(p.level) !== Number(k.level))
+      || (p.lig && k.lig && p.lig !== k.lig);
+    if (eski) oyuncuKartiUnut(p.id);
+  });
+} catch { /* pencere yok */ }
+
 /** Kart değişince açık bileşenler yeniden okusun. Dönüş: aboneliği kaldıran fonksiyon. */
 export function oyuncuKartiDinle(f) {
   dinleyiciler.add(f);

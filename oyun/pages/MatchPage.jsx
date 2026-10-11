@@ -30,7 +30,8 @@ import IsimEfekti from "../components/IsimEfekti.jsx";
 import { botAdi } from "../lib/botAdi.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import SesliSohbet from "../components/SesliSohbet.jsx";
-import { useOyunModu } from "../lib/oyunModu.js";
+import { useOyunModu, useMacSonuGecisi } from "../lib/oyunModu.js";
+import { sonModuYaz } from "../lib/sonMod.js";
 import { soruCek } from "../lib/soruCek.js";
 import { kanalBekleme, kanalYenilenmeli, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
 import { useMacNabiz } from "../lib/nabiz.js";
@@ -667,6 +668,10 @@ export default function MatchPage() {
   // geriSayim !== null: 3-2-1 geri sayımı da oyun modu sayılır, yoksa o sırada gelen
   // bildirim/davet sesi bd-oyun-modu korumasını atlayıp çalıyordu.
   useOyunModu((Boolean(soru) || senkronBekliyor || geriSayim !== null) && mac?.durum === "aktif");
+  // Maç bitti → "Maç bitti!" ara ekranı ve özet beklemesi de oyun modunda (kabuk kutlamaya dek dönmez)
+  useMacSonuGecisi(mac?.durum === "bitti" && mac?.terk_eden !== user?.id);
+  // Ana sayfa "En son oynadığın": Klasik maç (Saf Bilgi = jokersiz sayılmaz) hangi yoldan açılırsa açılsın
+  useEffect(() => { if (mac?.id && mac.durum === "aktif" && !mac.jokersiz) sonModuYaz("klasik"); }, [mac?.id, mac?.durum, mac?.jokersiz]);
 
   useEffect(() => {
     if (mac?.durum !== "bitti") { setSonucHazir(false); return undefined; }
@@ -1329,7 +1334,8 @@ export default function MatchPage() {
 
         {cevapladim && (
           <div className="m1-bekleme" role="status">
-            {senkron
+            {/* Rakip bu soruyu zaten cevapladıysa soru benim cevabımla geçer — "X cevaplayınca" yazılmaz */}
+            {senkron && !(ilerleme.rakip > kendiIndeks)
               ? tt("{0} cevaplayınca soru geçecek…", { 0: botAdi(rakipProfil?.gorunen_ad) ?? "" })
               : tt("Sıradaki soru geliyor…")}
           </div>

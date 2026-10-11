@@ -108,6 +108,9 @@ export function AuthProvider({ children }) {
         const profil = data.takma_ad_secildi === false && data.gorunen_ad === "Oyuncu" ? { ...data, gorunen_ad: tt("Oyuncu") } : data;
         setProfile(profil);
         profilSakla(userId, profil);
+        // 11 Eki 2026: oyun modülleri kendi önbelleklerini tazelesin (ör. oyuncu kartı: maç sonu level atlayınca
+        // arama/VS/maç şeridi eski "Lv" gösteriyordu). Kabuk oyun klasöründen import etmez → olay.
+        try { window.dispatchEvent(new CustomEvent("qt-profil", { detail: profil })); } catch { /* eski tarayıcı */ }
       }
       setProfilHata(false);
     } catch (e) { console.warn("[Auth] profilim başarısız:", e?.message ?? e);

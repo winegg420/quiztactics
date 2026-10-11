@@ -16,7 +16,7 @@ import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useGeriTusuOnayi } from "../lib/geriTusuOnayi.js";
-import { useOyunModu } from "../lib/oyunModu.js";
+import { useOyunModu, useMacSonuGecisi } from "../lib/oyunModu.js";
 import { soruCek } from "../lib/soruCek.js";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
@@ -414,6 +414,7 @@ export default function GroupMatchPage() {
 
   // Aktif maç her durumda (sorular arası, bekleme) maç şeridini çizer: oyun modu açık kalır, çift başlık olmaz (11 Eki 2026).
   useOyunModu(mac?.durum === "aktif");
+  useMacSonuGecisi(mac?.durum === "bitti");   // 11 Eki 2026: "Maç bitti!" perdesi kutlamaya dek oyun modunda
 
   // Ida (24 Eyl): maç sürerken geri tuşu da çıkış onayını açar (lobi/bekleme, bitmiş ya da terk edilmiş maç hariç).
   const grupKatilimim = (mac?.katilimcilar ?? []).find((k) => k.user_id === user?.id);
