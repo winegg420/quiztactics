@@ -10,7 +10,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import Countdown from "../components/Countdown.jsx";
 import { BugunKalanTurnuvalar } from "../components/TurnuvaSaatleri.jsx";
-import { siradakiLobi, kalanSure, gosterimTavani, tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
+import { sonrakiTurnuvaSaati, siradakiLobi, kalanSure, gosterimTavani, tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
 import YanlisSatiri from "../components/YanlisSatiri.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
@@ -100,11 +100,12 @@ export default function TournamentPage() {
   const [kuralAcik, setKuralAcik] = useState(false);
   const [tvAyar, setTvAyar] = useState(null);
   useEffect(() => {
-    if (!kuralAcik || tvAyar) return undefined;
+    // Ödül kutuları (turnuva sahnesi) da bu ayardan okur: ana sayfa şeridiyle aynı kaynak (oyun_ayarlari)
+    if (tvAyar) return undefined;
     let aktif = true;
     ayarlar().then((a) => { if (aktif) setTvAyar(a ?? {}); }).catch(() => { if (aktif) setTvAyar({}); });
     return () => { aktif = false; };
-  }, [kuralAcik, tvAyar]);
+  }, [tvAyar]);
   const navigate = useNavigate();
   const advanceKilidi = useRef(false);
   // Paket 36: biten turnuvanın sonuç sahnesi. Ödül toplamı ve sıra SUNUCUNUN
@@ -526,7 +527,9 @@ export default function TournamentPage() {
     return () => { ayarla(false); };
   }, [turnuvaAktif]);
 
-  useOyunModu(Boolean(soru) && turnuva?.durum === "aktif");
+  // Aktif turnuva ekranı her zaman maç şeridini (MacUstSerit) çizer: sorular arasında ve izleyici/elenmişken de
+  // oyun modu açık kalır, yoksa uygulama üst çubuğu + maç şeridi çift başlık olur (11 Eki 2026).
+  useOyunModu(turnuva?.durum === "aktif" && !terkEttim);
 
   // Ida (24 Eyl): yarışırken geri tuşu da çıkış onayını açar (lobi, bitmiş turnuva, elenmiş/izleyici hariç).
   const yarisiyorum = Boolean(turnuvaAktif && !yukleniyor && !turnuvaHata && !terkEttim
@@ -676,20 +679,23 @@ export default function TournamentPage() {
             <YanlisSatiri macTur="turnuva" macId={turnuva.id} />
           </>
         )}
-        <QtKart className="m1-tv-sayim">
-          <h1 className="qt-baslik-2">{tt("Sıradaki turnuva")}</h1>
+        <QtKart className="m1-tv-sayim m1-tv-sahne">
+          <TurnuvaSahneUst />
           <Countdown bicim="qt" />
-          <BugunKalanTurnuvalar className="m1-tv-kalanlar" />
+          <TurnuvaOdulleri ayar={tvAyar} />
           {haftalikGiysi?.ad && (
             <QtRozet ton="coin" ikon="hediye">{tt("Bu haftanın ilk 3 ödülü: {ad}", { ad: tt(haftalikGiysi.ad) })}</QtRozet>
           )}
           {hataBandi}
           <div className="m1-tv-dugmeler">
-            <QtDugme tamGenislik boyut="b" ikon="kupa" onClick={lobiyeKatil}>
+            <QtDugme tur="dogru" tamGenislik boyut="b" ikon="kupa" onClick={lobiyeKatil}>
               {tt("Lobiye katıl")}
             </QtDugme>
           </div>
         </QtKart>
+        <div className="m1-tv-sahne-alt">
+          <BugunKalanTurnuvalar className="m1-tv-kalanlar" />
+        </div>
 
         <TurnuvaTanitim />
       </div>
@@ -700,12 +706,11 @@ export default function TournamentPage() {
   if (turnuva.durum === "lobi") {
     return (
       <div className="m1-tv">
-        <QtKart className="m1-tv-sayim">
-          <h1 className="qt-baslik-2">{tt("Turnuva lobisi")}</h1>
+        <QtKart className="m1-tv-sayim m1-tv-sahne">
+          <TurnuvaSahneUst saat={turnuva.seans} />
           <Countdown bicim="qt" onSifir={turnuvaYukle} />
-          <BugunKalanTurnuvalar className="m1-tv-kalanlar" />
+          <TurnuvaOdulleri ayar={tvAyar} />
           {hataBandi}
-          <QtDugme tur="hayalet" boyut="k" ikon="bilgi" onClick={() => setKuralAcik(true)}>{tt("Turnuva nasıl işler?")}</QtDugme>
           <SkillSeti macTur="turnuva" />
           <div className="m1-tv-dugmeler">
             {benimKayit ? (
@@ -713,12 +718,16 @@ export default function TournamentPage() {
                 {tt("Lobiden ayrıl")}
               </QtDugme>
             ) : (
-              <QtDugme tamGenislik boyut="b" ikon="kupa" onClick={lobiyeKatil}>
+              <QtDugme tur="dogru" tamGenislik boyut="b" ikon="kupa" onClick={lobiyeKatil}>
                 {tt("Lobiye katıl")}
               </QtDugme>
             )}
           </div>
         </QtKart>
+        <div className="m1-tv-sahne-alt">
+          <BugunKalanTurnuvalar className="m1-tv-kalanlar" />
+          <QtDugme tur="hayalet" boyut="k" ikon="bilgi" onClick={() => setKuralAcik(true)}>{tt("Turnuva nasıl işler?")}</QtDugme>
+        </div>
         <section className="m1-tv-lobi">
           {kartOyuncu && (
             <OyuncuKarti
@@ -977,5 +986,39 @@ export default function TournamentPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Turnuva sahnesi (11 Eki 2026): kupa dairesi + "HH:MM Turnuvası" başlığı.
+// Saat: lobi satırının seansı ("20:00"); yoksa sıradaki turnuvanın saati (geri sayımla aynı kaynak).
+function TurnuvaSahneUst({ saat }) {
+  const s = typeof saat === "string" && /^d{1,2}:d{2}$/.test(saat) ? saat : sonrakiTurnuvaSaati();
+  return (
+    <>
+      <span className="m1-tv-kupa" aria-hidden="true"><QtIkon ad="kupa" boyut={36} /></span>
+      <h1 className="m1-tv-sahne-baslik">{tt("{saat} Turnuvası", { saat: s })}</h1>
+    </>
+  );
+}
+
+// İlk üç ödül: oyun_ayarlari.coin_turnuva_1..3 (+ elmas_turnuva_n) — ana sayfa şeridiyle aynı kaynak, koda gömülmez.
+const MADALYA = ["altin", "gumus", "bronz"];
+function TurnuvaOdulleri({ ayar }) {
+  if (!ayar) return null;
+  const sayi = (k) => { const v = Number(ayar?.[k]); return Number.isFinite(v) ? v : null; };
+  const odul = [1, 2, 3].map((n) => ({ n, coin: sayi(`coin_turnuva_${n}`), elmas: sayi(`elmas_turnuva_${n}`) }))
+    .filter((o) => o.coin !== null || (o.elmas ?? 0) > 0);
+  if (!odul.length) return null;
+  return (
+    <ul className="m1-tv-oduller" aria-label={tt("Ödüller")}>
+      {odul.map((o) => (
+        <li key={o.n} className={`m1-tv-odul m1-tv-odul--${MADALYA[o.n - 1]}`}>
+          <span className="m1-tv-odul-madalya"><QtIkon ad="madalya" boyut={22} /><b>{o.n}.</b></span>
+          {o.coin !== null && <span className="m1-tv-odul-miktar qt-sayi">{o.coin}</span>}
+          {o.coin !== null && <span className="m1-tv-odul-birim">{tt("coin")}</span>}
+          {(o.elmas ?? 0) > 0 && <span className="m1-tv-odul-elmas">{tt("+{n} elmas", { n: o.elmas })}</span>}
+        </li>
+      ))}
+    </ul>
   );
 }
