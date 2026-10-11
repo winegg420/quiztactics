@@ -7120,20 +7120,20 @@
     "k": "genel_kultur",
     "yerel": false,
     "s": "Geleneksel quiche Lorraine'in ayırt edici et malzemesi hangisidir?",
-    "d": "Domuz pastırması (lardon)",
+    "d": "Domuz pastırması",
     "y": [
-      "Salam (kurutulmuş dana eti)",
-      "Tavuk (kemiksiz göğüs eti)",
-      "Sucuk (baharatlı kıyma eti)"
+      "Salam",
+      "Tavuk",
+      "Sucuk"
     ],
     "zorluk": 3,
     "en": {
       "s": "What is the characteristic meat ingredient in traditional quiche Lorraine?",
       "d": "Lardon",
       "y": [
-        "Salami (cured beef)",
-        "Chicken (boneless breast)",
-        "Sucuk (spiced ground meat)"
+        "Salami",
+        "Chicken",
+        "Sucuk"
       ]
     },
     "olgu": "Quiche Lorraine geleneksel olarak domuz pastırması (lardon) içerir.",
@@ -7146,16 +7146,11 @@
     "claude_inceleme": "onaylı; canlıya alınmadı",
     "z": 3,
     "inceleme_no": 174,
-    "kapi_sonuc": "gecti",
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "jev_p": 0.15,
-    "jev_tek_dogru_p": 0.04
+    "kapi_sonuc": "elendi",
+    "kapi_neden": "biçim/kural: TR kural: dogru_en_uzun,dogru_coklu_kelime",
+    "kapilar": [],
+    "jev_p": null,
+    "jev_tek_dogru_p": null
   },
   {
     "id": "C06-175",

@@ -247,5 +247,52 @@
         }
       }
     }
-  ]
+  ],
+  "son_duzeltme": {
+    "tarih": "2026-10-11T21:08:29.793Z",
+    "numara": 63,
+    "not": "Kaydırma topu korundu; sorudaki kaydırma kökü aynı anlamlı ifadeyle kaldırıldı.",
+    "kayit": {
+      "id": "C07-63",
+      "taslak_id": "C07-N0506",
+      "k": "teknoloji",
+      "yerel": false,
+      "s": "Apple'ın 2005 Mighty Mouse'unda sayfayı yukarı ve aşağı hareket ettiren parça hangisiydi?",
+      "d": "Kaydırma topu",
+      "y": [
+        "Kaydırma tekerleği",
+        "Dokunmatik yüzey",
+        "Yön çubuğu"
+      ],
+      "zorluk": 2,
+      "en": {
+        "s": "What component provided scrolling on Apple's 2005 Mighty Mouse?",
+        "d": "Scroll ball",
+        "y": [
+          "Scroll wheel",
+          "Touchpad",
+          "Joystick"
+        ]
+      },
+      "olgu": "2005 Apple Mighty Mouse kaydırma için küçük bir kaydırma topu kullanmıştır.",
+      "kalip": "urun_ozgun_kaydirma_parcasi",
+      "konular": [
+        "apple-mighty-mouse"
+      ],
+      "alt_tur": "donanim",
+      "claude_inceleme": "onaylı; canlıya alınmadı",
+      "z": 2,
+      "inceleme_no": 63,
+      "kapi_sonuc": "gecti",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.15,
+      "jev_tek_dogru_p": 0.15
+    }
+  }
 }

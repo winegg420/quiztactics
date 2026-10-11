@@ -1,40 +1,54 @@
 {
-  "tarih": "2026-10-11T20:17:06.025Z",
+  "tarih": "2026-10-11T21:08:29.793Z",
   "canli_yasak": true,
   "migration_uygulandi": false,
   "dal": "soru-havuzu",
-  "durum": "Claude ve Ida onaylı; 778/778 kapı 1–5 geçti; SQL bekleyen taslak",
+  "durum": "Son düzeltmeler uygulandı; 777/778 geçiş. 06/174 şık dengesi reddi nedeniyle birleşik SQL üretimi engelli.",
   "partiler": [
     {
       "klasor": "codex-04",
       "soru": 194,
       "gecen": 194,
       "ret": 0,
-      "hash": "db88b0c60c1f4a9c176d1f233c2aa8b5052f9ca3b8be9c20e86d3e6acd6b0b01"
+      "hash": "d01546f02f54e595889d5c216c997eb096d5769850de9998dda6e1be05867a11"
     },
     {
       "klasor": "codex-05",
       "soru": 196,
       "gecen": 196,
       "ret": 0,
-      "hash": "dcde8066bcf0c6f13ad5fe86a8aa44d79d677e176b1f523f8d9f3c147557d2e0"
+      "hash": "e138bf2ae8ef1ffb054aa87605f672dd18a34f8485fedbcfd8b60c9c8da5e0c8"
     },
     {
       "klasor": "codex-06",
       "soru": 195,
-      "gecen": 195,
-      "ret": 0,
-      "hash": "a32eed8675062a91d7fab2e6f2262a9a9c778d910c0854a982431e8db4653de5"
+      "gecen": 194,
+      "ret": 1,
+      "hash": "bee5d16974bf805047e4d029b3aa9912fc5233234984039ab595a9822e0ba54d"
     },
     {
       "klasor": "codex-07",
       "soru": 193,
       "gecen": 193,
       "ret": 0,
-      "hash": "750ee360a89bb81f642e89221acfff4b11df889f14f5911867d1e43b617523fe"
+      "hash": "12a382f9aae0a588506f9603352081313382eb128ca6562c0194db7c5079f975"
     }
   ],
-  "retler": [],
+  "retler": [
+    {
+      "parti": "codex-06",
+      "id": "C06-174",
+      "inceleme_no": 174,
+      "neden": "biçim/kural: TR kural: dogru_en_uzun,dogru_coklu_kelime",
+      "s": "Geleneksel quiche Lorraine'in ayırt edici et malzemesi hangisidir?",
+      "d": "Domuz pastırması",
+      "y": [
+        "Salam",
+        "Tavuk",
+        "Sucuk"
+      ]
+    }
+  ],
   "sql": "bekleyen.sql",
   "ek_onay_cikar": {
     "codex-04": [
@@ -50,5 +64,6 @@
     ]
   },
   "soru": 778,
-  "gecen": 778
+  "gecen": 777,
+  "sql_hazir": false
 }

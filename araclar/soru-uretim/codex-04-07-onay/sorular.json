@@ -8150,7 +8150,7 @@
     "taslak_id": "C04-T742",
     "k": "edebiyat",
     "yerel": false,
-    "s": "Paddington Ayısı hangi renk kabanyle tanınır?",
+    "s": "Paddington Ayısı hangi renk kabanıyla tanınır?",
     "d": "Mavi",
     "y": [
       "Kırmızı",
@@ -8184,7 +8184,7 @@
       4,
       5
     ],
-    "jev_p": 0.29,
+    "jev_p": 0.19,
     "jev_tek_dogru_p": 0.06,
     "kaynak_parti": "codex-04"
   },
@@ -11523,7 +11523,7 @@
     "d": "Yunan kahramanı",
     "y": [
       "Roma imparatoru",
-      "Viking komutan",
+      "Viking komutanı",
       "Mısır firavunu"
     ],
     "zorluk": 2,
@@ -11553,7 +11553,7 @@
       4,
       5
     ],
-    "jev_p": 0.16,
+    "jev_p": 0.2,
     "jev_tek_dogru_p": 0.02,
     "kaynak_parti": "codex-05"
   },
@@ -24261,20 +24261,20 @@
     "k": "genel_kultur",
     "yerel": false,
     "s": "Geleneksel quiche Lorraine'in ayırt edici et malzemesi hangisidir?",
-    "d": "Domuz pastırması (lardon)",
+    "d": "Domuz pastırması",
     "y": [
-      "Salam (kurutulmuş dana eti)",
-      "Tavuk (kemiksiz göğüs eti)",
-      "Sucuk (baharatlı kıyma eti)"
+      "Salam",
+      "Tavuk",
+      "Sucuk"
     ],
     "zorluk": 3,
     "en": {
       "s": "What is the characteristic meat ingredient in traditional quiche Lorraine?",
       "d": "Lardon",
       "y": [
-        "Salami (cured beef)",
-        "Chicken (boneless breast)",
-        "Sucuk (spiced ground meat)"
+        "Salami",
+        "Chicken",
+        "Sucuk"
       ]
     },
     "olgu": "Quiche Lorraine geleneksel olarak domuz pastırması (lardon) içerir.",
@@ -24287,16 +24287,11 @@
     "claude_inceleme": "onaylı; canlıya alınmadı",
     "z": 3,
     "inceleme_no": 174,
-    "kapi_sonuc": "gecti",
-    "kapilar": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "jev_p": 0.15,
-    "jev_tek_dogru_p": 0.04,
+    "kapi_sonuc": "elendi",
+    "kapi_neden": "biçim/kural: TR kural: dogru_en_uzun,dogru_coklu_kelime",
+    "kapilar": [],
+    "jev_p": null,
+    "jev_tek_dogru_p": null,
     "kaynak_parti": "codex-06"
   },
   {
@@ -27962,8 +27957,8 @@
     "taslak_id": "C07-N0506",
     "k": "teknoloji",
     "yerel": false,
-    "s": "Apple'ın 2005 Mighty Mouse'unda kaydırmayı sağlayan parça hangisiydi?",
-    "d": "İztopu",
+    "s": "Apple'ın 2005 Mighty Mouse'unda sayfayı yukarı ve aşağı hareket ettiren parça hangisiydi?",
+    "d": "Kaydırma topu",
     "y": [
       "Kaydırma tekerleği",
       "Dokunmatik yüzey",
@@ -27979,7 +27974,7 @@
         "Joystick"
       ]
     },
-    "olgu": "2005 Apple Mighty Mouse kaydırma için küçük bir iztopu kullanmıştır.",
+    "olgu": "2005 Apple Mighty Mouse kaydırma için küçük bir kaydırma topu kullanmıştır.",
     "kalip": "urun_ozgun_kaydirma_parcasi",
     "konular": [
       "apple-mighty-mouse"
@@ -27996,8 +27991,8 @@
       4,
       5
     ],
-    "jev_p": 0.22,
-    "jev_tek_dogru_p": 0.13,
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.15,
     "kaynak_parti": "codex-07"
   },
   {

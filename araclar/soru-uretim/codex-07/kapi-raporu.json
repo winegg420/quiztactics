@@ -1,6 +1,6 @@
 {
   "klasor": "codex-07",
-  "tarih": "2026-10-11T20:17:06.025Z",
+  "tarih": "2026-10-11T21:08:29.793Z",
   "toplam": 193,
   "gecen": 193,
   "ret": 0,
@@ -987,9 +987,9 @@
         4,
         5
       ],
-      "jev_p": 0.22,
-      "tek_dogru_p": 0.13,
-      "icerik_hash": "683b6578ebfb3801e337b2a76ff03753dffc7e3722ad1d150bdb5bc40b1a1e7e"
+      "jev_p": 0.15,
+      "tek_dogru_p": 0.15,
+      "icerik_hash": "901681e98f2f9660924898f6adc21c8144b02371b491e1e6a21175acc0a584b6"
     },
     {
       "id": "C07-64",

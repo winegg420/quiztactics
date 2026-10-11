@@ -1,4 +1,4 @@
-# Claude onaylı, canlıya alınmayı bekliyor (196)
+# Claude onaylı — 196 soru, 196 kapı geçişi
 
 Kapı 1–5: 196/196 geçti. Canlı bağlantı ve uygulama yapılmadı. İnceleme numaraları korunmuştur.
 
@@ -87,7 +87,7 @@ Kapı retleri: Yok.
 71 | teknoloji | 3 | Minecraft'ın ilk müziklerini C418 adıyla yapan bestecinin gerçek adı nedir? | ✔ Daniel Rosenfeld | ✗ Martin O'Donnell · Jeremy Soule · Jesper Kyd | C418 Daniel Rosenfeld'in sahne adıdır. | EN: What is the real name of C418, who composed Minecraft's early music? — Daniel Rosenfeld
 72 | teknoloji | 3 | 1961'de Alan Shepard'ın uzaya çıktığı Mercury kapsülünün çağrı adı neydi? | ✔ Freedom 7 | ✗ Liberty Bell 7 · Friendship 7 · Aurora 7 | Alan Shepard'ın kapsülü Freedom 7'dir. | EN: What was the call sign of the Mercury capsule in which Alan Shepard flew into space in 1961? — Freedom 7
 73 | teknoloji | 3 | Amazon logosunun kıvrımlı oku hangi iki harfi birleştirir? | ✔ A ve Z | ✗ A ve M · M ve N · O ve N | Amazon'un oku A'dan Z'ye uzanır. | EN: Which two letters are linked by the curved arrow in Amazon's logo? — A and Z
-74 | spor | 2 | Ajax kulübü adını hangi tür tarihî/mitolojik kişiden alır? | ✔ Yunan kahramanı | ✗ Roma imparatoru · Viking komutan · Mısır firavunu | Ajax adını Yunan mitolojisindeki Aias'tan alır. | EN: What kind of historical or mythological figure gives Ajax its name? — Greek hero
+74 | spor | 2 | Ajax kulübü adını hangi tür tarihî/mitolojik kişiden alır? | ✔ Yunan kahramanı | ✗ Roma imparatoru · Viking komutanı · Mısır firavunu | Ajax adını Yunan mitolojisindeki Aias'tan alır. | EN: What kind of historical or mythological figure gives Ajax its name? — Greek hero
 75 | spor | 2 | Yeni Zelanda All Blacks formasında hangi bitkinin simgesi bulunur? | ✔ Eğreltiotu | ✗ Meşe yaprağı · Yonca · Akçaağaç yaprağı | All Blacks gümüş eğreltiotu amblemini kullanır. | EN: Which plant appears as an emblem on New Zealand's All Blacks jersey? — Fern
 76 | spor | 2 | Biatloncu kayak dışında sırtında hangi ekipmanı taşır? | ✔ Tüfek | ✗ Yay · Mızrak · Kılıç | Biatlonda sporcular sırtlarında tüfek taşır. | EN: What equipment does a biathlete carry on their back besides using skis? — Rifle
 77 | spor | 2 | Rafael Nadal'ın uzun yıllar koçluğunu yapan Toni Nadal onun hangi akrabasıdır? | ✔ Amcası | ✗ Babası · Kardeşi · Kuzeni | Toni Nadal Rafael Nadal'ın amcasıdır. | EN: How is Toni Nadal, Rafael Nadal’s longtime coach, related to Rafael? — Uncle

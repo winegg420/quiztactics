@@ -1425,7 +1425,7 @@
         "klasor": "codex-04",
         "hedef": 200,
         "net": 194,
-        "durum": "Claude ve Ida onaylı; kapı 1–5 geçti, birleşik bekleyen SQL",
+        "durum": "Son düzeltme kapı 1–5 geçti",
         "migration_uygulandi": false,
         "migration": "codex-04-07-onay/bekleyen.sql",
         "taslak": 802,
@@ -1474,7 +1474,7 @@
         "klasor": "codex-05",
         "hedef": 200,
         "net": 196,
-        "durum": "Claude ve Ida onaylı; kapı 1–5 geçti, birleşik bekleyen SQL",
+        "durum": "Son düzeltme kapı 1–5 geçti",
         "migration_uygulandi": false,
         "canli_yasak": true,
         "ara_kayit": ".tmp/codex/codex-05/durum.json",
@@ -1554,7 +1554,7 @@
         "klasor": "codex-06",
         "hedef": 200,
         "net": 195,
-        "durum": "Claude ve Ida onaylı; kapı 1–5 geçti, birleşik bekleyen SQL",
+        "durum": "Son düzeltme uygulandı; 06/174 şık dengesi reddi bekliyor",
         "migration_uygulandi": false,
         "canli_yasak": true,
         "ara_kayit": ".tmp/codex/codex-06/durum.json",
@@ -1575,7 +1575,7 @@
         },
         "yerel": 2,
         "en": 193,
-        "kapilar": "195/195",
+        "kapilar": "194/195",
         "ek_havuz": [
           "codex-04",
           "codex-05"
@@ -1618,13 +1618,26 @@
           172,
           197
         ],
-        "onay_retler": []
+        "onay_retler": [
+          {
+            "id": "C06-174",
+            "inceleme_no": 174,
+            "neden": "biçim/kural: TR kural: dogru_en_uzun,dogru_coklu_kelime",
+            "s": "Geleneksel quiche Lorraine'in ayırt edici et malzemesi hangisidir?",
+            "d": "Domuz pastırması",
+            "y": [
+              "Salam",
+              "Tavuk",
+              "Sucuk"
+            ]
+          }
+        ]
       },
       {
         "klasor": "codex-07",
         "hedef": 200,
         "net": 193,
-        "durum": "Claude ve Ida onaylı; kapı 1–5 geçti, birleşik bekleyen SQL",
+        "durum": "Son düzeltme kapı 1–5 geçti",
         "migration_uygulandi": false,
         "canli_yasak": true,
         "ara_kayit": ".tmp/codex/codex-07/durum.json",
@@ -1685,10 +1698,12 @@
     "canli_yasak": true,
     "dal": "soru-havuzu",
     "kip": "yerel biriktirme; migration uygulanmaz",
-    "son_asama": "Claude ve Ida onaylı; 778/778 kapı 1–5 geçti; SQL bekleyen taslak",
+    "son_asama": "Son düzeltmeler uygulandı; 777/778 geçiş. 06/174 şık dengesi reddi nedeniyle birleşik SQL üretimi engelli.",
     "birlesik_bekleyen": {
       "dosya": "codex-04-07-onay/bekleyen.sql",
       "soru": 778,
+      "gecen": 777,
+      "sql_hazir": false,
       "canli_yasak": true,
       "migration_uygulandi": false
     }

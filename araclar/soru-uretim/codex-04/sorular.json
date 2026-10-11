@@ -7964,7 +7964,7 @@
     "taslak_id": "C04-T742",
     "k": "edebiyat",
     "yerel": false,
-    "s": "Paddington Ayısı hangi renk kabanyle tanınır?",
+    "s": "Paddington Ayısı hangi renk kabanıyla tanınır?",
     "d": "Mavi",
     "y": [
       "Kırmızı",
@@ -7998,7 +7998,7 @@
       4,
       5
     ],
-    "jev_p": 0.29,
+    "jev_p": 0.19,
     "jev_tek_dogru_p": 0.06
   },
   {

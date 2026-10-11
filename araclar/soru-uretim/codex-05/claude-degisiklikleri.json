@@ -278,5 +278,52 @@
         }
       }
     }
-  ]
+  ],
+  "son_duzeltme": {
+    "tarih": "2026-10-11T21:08:29.793Z",
+    "numara": 74,
+    "not": "Yazım/ek düzeltmesi.",
+    "kayit": {
+      "id": "C05-74",
+      "taslak_id": "C05-N0960",
+      "k": "spor",
+      "yerel": false,
+      "s": "Ajax kulübü adını hangi tür tarihî/mitolojik kişiden alır?",
+      "d": "Yunan kahramanı",
+      "y": [
+        "Roma imparatoru",
+        "Viking komutanı",
+        "Mısır firavunu"
+      ],
+      "zorluk": 2,
+      "en": {
+        "s": "What kind of historical or mythological figure gives Ajax its name?",
+        "d": "Greek hero",
+        "y": [
+          "Roman emperor",
+          "Viking commander",
+          "Egyptian pharaoh"
+        ]
+      },
+      "olgu": "Ajax adını Yunan mitolojisindeki Aias'tan alır.",
+      "kalip": "spor_ozgun_takim_lakabi",
+      "konular": [
+        "ajax"
+      ],
+      "alt_tur": "takim",
+      "claude_inceleme": "onaylı; canlıya alınmadı",
+      "z": 2,
+      "inceleme_no": 74,
+      "kapi_sonuc": "gecti",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.2,
+      "jev_tek_dogru_p": 0.02
+    }
+  }
 }
