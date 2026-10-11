@@ -119,6 +119,7 @@ const DuelloOnizlemePage = tembelYukle(() => import("../oyun/tasarim/duello-oniz
 const LigSahneOnizlemePage = tembelYukle(() => import("../oyun/tasarim/lig-sahnesi/LigSahneOnizlemePage.jsx"));   // lig sahnesi eski/yeni (8 Eki 2026) — girişli herkes, menüde yok
 const GorselRevizyonPage =tembelYukle(() => import("../oyun/tasarim/gorsel-revizyon/GorselRevizyonPage.jsx"));   // görsel revizyon adayları (tasarim/BRIEF_GORSEL_REVIZYON.md) — girişli herkes, menüde yok
 const YonetimSikayetlerPage = tembelYukle(() => import("../oyun/pages/YonetimSikayetlerPage.jsx"));   // 620: şikâyet yönetimi — yalnız yönetici (sunucu), menüde yok
+const YonetimPostaPage = tembelYukle(() => import("../oyun/pages/YonetimPostaPage.jsx"));   // 1060: posta gönder — yalnız sahip (SahipKapisi + sunucu sahip_mi), menüde yok
 
 // Maç sayfası maç kimliğine anahtarlı: rövanş / yeni maç aynı rotada /mac/eski → /mac/yeni geçince React
 // bileşeni yeniden kurmuyordu; eski maçın durumu (ilerleme damgası, kanallar, zamanlayıcılar) yeni maça
@@ -264,6 +265,7 @@ export default function BildimApp() {
           <Route path="gorunum-3b" element={GARDIROP_ACIK ? <Navigate to="../gorunum" replace /> : <BulunamadiPage kapaliMod kapaliOzellik />} />
           <Route path="profil" element={<ProfilePage />} />
           <Route path="yonetim/sikayetler" element={<YonetimSikayetlerPage />} />
+          <Route path="yonetim/posta" element={<SahipKapisi><YonetimPostaPage /></SahipKapisi>} />
           {/* Paket 41 I: bilinmeyen adres → 404 (eskiden sessizce ana sayfa) */}
           <Route path="*" element={<BulunamadiPage />} />
         </Route>

@@ -10,6 +10,11 @@ import { tt } from "../lib/dil.js";
 import { bildirimMetni } from "../lib/konum.js";
 import { useDmOkunmamis, dmTazele } from "../lib/mesajlar.js";
 import { bildirimDinle } from "../lib/bildirimKanali.js";
+import PostaDetay from "./PostaDetay.jsx";
+import {
+  POSTA_GONDEREN, postaBaslik, odulBekliyor, postaRozetSayisi, postaKutusuOku, postaKutusuOkundu,
+} from "../lib/posta.js";
+import "../tasarim/ekranlar/posta.css";
 
 const TIP_IKON = {
   mac_daveti: "kilic",
@@ -192,7 +197,13 @@ export default function BildirimZili() {
   // Paket 35 E: okunmamış direkt mesajlar zilde AYRICA sayılır (bildirimler tablosuna yazılmaz;
   // yazılsaydı çift sayılırdı). Zili açmak onları okundu yapmaz — sohbeti açmak yapar.
   const dmOkunmamis = useDmOkunmamis(user?.id);
-  const toplam = okunmamis + dmOkunmamis;
+  // 1060: posta kutusu — yönetim postaları (ödüllü / duyuru). Okunmamış + ödülü bekleyen sayılır.
+  const [postalar, setPostalar] = useState([]);
+  const [acikPosta, setAcikPosta] = useState(null);
+  const postaSayisi = postaRozetSayisi(postalar);
+  const odulVar = postalar.some(odulBekliyor);
+  const postaOkunmamis = postalar.some((p) => !p.okundu);
+  const toplam = okunmamis + dmOkunmamis + postaSayisi;
   // Panel body'ye portallanır; konumu zil düğmesinin ekrandaki yerine göre hesaplanır.
   const zilRef = useRef(null);
   const [konum, setKonum] = useState(null);
@@ -202,14 +213,11 @@ export default function BildirimZili() {
   const yukle = useCallback(async () => {
     if (!user) return;
     try {
-      const { data, error } = await supabase
-        .from("bildirimler")
-        .select("id, tip, metin, yol, okundu, created_at")
-        .order("created_at", { ascending: false })
-        .limit(30);
-      if (error) throw error;
-      setListe(okunmuslariSinirla(grupla(oncelikSirala(data ?? []))));
-      setOkunmamis((data ?? []).filter((b) => !b.okundu).length);
+      // 1060: tek çağrı — bildirimler + postalar (posta_kutusu)
+      const { bildirimler: data, postalar: postaListe } = await postaKutusuOku();
+      setListe(okunmuslariSinirla(grupla(oncelikSirala(data))));
+      setOkunmamis(data.filter((b) => !b.okundu).length);
+      setPostalar(postaListe);
       setYuklemeHata(false);
     } catch (e) {
       console.error("[Bildim] bildirimler alınamadı:", e);
@@ -255,14 +263,14 @@ export default function BildirimZili() {
     const yeniDurum = !acik;
     if (yeniDurum) konumOlc();
     setAcik(yeniDurum);
-    if (yeniDurum && okunmamis > 0) {
+    if (yeniDurum && (okunmamis > 0 || postaOkunmamis)) {
       try {
-        // supabase-js hatada reject ETMEZ; {error} dönen değerden okunur.
-        const { error } = await supabase.rpc("bildirimleri_oku");
-        if (error) throw error;
+        // 1060: bildirimler + görünür postalar okundu (posta_kutusu_oku içinde bildirimleri_oku)
+        await postaKutusuOkundu();
         setOkunmamis(0);
         setListe((l) => l.map((b) => ({ ...b, okundu: true })));
-      } catch (e) { console.warn("[Bildim] bildirimleri_oku başarısız:", e?.message ?? e);
+        setPostalar((l) => l.map((p) => ({ ...p, okundu: true })));
+      } catch (e) { console.warn("[Bildim] posta_kutusu_oku başarısız:", e?.message ?? e);
         /* sessiz geç */
       }
     }
@@ -278,15 +286,15 @@ export default function BildirimZili() {
     setTumuIsleniyor(true);
     setTumuHata(false);
     let hataVar = false;
-    if (okunmamis > 0) {
+    if (okunmamis > 0 || postaOkunmamis) {
       try {
-        const { error } = await supabase.rpc("bildirimleri_oku");
-        if (error) throw error;
+        await postaKutusuOkundu();
         setOkunmamis(0);
         setListe((l) => l.map((b) => ({ ...b, okundu: true })));
+        setPostalar((l) => l.map((p) => ({ ...p, okundu: true })));
       } catch (e) {
         hataVar = true;
-        console.warn("[Bildim] bildirimleri_oku başarısız:", e?.message ?? e);
+        console.warn("[Bildim] posta_kutusu_oku başarısız:", e?.message ?? e);
       }
     }
     if (dmOkunmamis > 0) {
@@ -329,17 +337,17 @@ export default function BildirimZili() {
       <div
         className="bz-panel"
         role="dialog"
-        aria-label={tt("Bildirimler")}
+        aria-label={tt("Posta kutusu")}
         style={konum ? { top: konum.ust } : undefined}
       >
         {/* Paket 42 P.3: panelin kendi kapatma düğmesi */}
         <div className="bz-baslik">
-          <h2 className="qt-baslik-3">{tt("Bildirimler")}</h2>
+          <h2 className="qt-baslik-3">{tt("Posta kutusu")}</h2>
           <button
             type="button"
             className="bz-tumu"
             onClick={tumunuOku}
-            disabled={tumuIsleniyor || toplam === 0}
+            disabled={tumuIsleniyor || (okunmamis + dmOkunmamis === 0 && !postaOkunmamis)}
           >
             {tumuIsleniyor ? tt("İşaretleniyor…") : tt("Tümünü okundu say")}
           </button>
@@ -365,7 +373,7 @@ export default function BildirimZili() {
               <p>{tt("Yüklenemedi.")} {tt("Bağlantını kontrol edip tekrar dene.")}</p>
               <QtDugme tur="ikincil" boyut="k" ikon="yenile" onClick={yukle}>{tt("Tekrar dene")}</QtDugme>
             </div>
-          ) : liste.length === 0 && dmOkunmamis === 0 ? (
+          ) : liste.length === 0 && dmOkunmamis === 0 && postalar.length === 0 ? (
             /* Ekran revizyonu: boş durum A (küçük sahne çizimi: uyuyan zil) */
             <QtBosDurum
               ikon="zil"
@@ -377,7 +385,27 @@ export default function BildirimZili() {
               eylem={<QtDugme boyut="k" ikon="oyna" onClick={() => { setAcik(false); navigate(y()); }}>{tt("Maç yap")}</QtDugme>}
             />
           ) : (
-            liste.map((b) => (
+            <>
+            {/* 1060: yönetim postaları üstte; ödülü bekleyen en üstte (sunucu sıralar) */}
+            {postalar.map((p) => {
+              const bekliyor = odulBekliyor(p);
+              const odullu = Array.isArray(p.oduller) && p.oduller.length > 0;
+              return (
+                <QtListeSatiri
+                  key={`posta-${p.id}`}
+                  kapSinif="bz-posta-satir"
+                  ikon={odullu ? "hediye" : "bildirim"}
+                  ikonTon={odullu ? "coin" : "vurgu"}
+                  vurgulu={!p.okundu || bekliyor}
+                  baslik={<span className="bz-metin">{postaBaslik(p)}</span>}
+                  alt={`${POSTA_GONDEREN} · ${zamanMetni(p.olusturuldu)}`}
+                  sag={bekliyor ? <span className="bz-posta-cip bz-posta-cip--odul">{tt("Ödül")}</span>
+                    : odullu ? <span className="bz-posta-cip bz-posta-cip--alindi">{tt("Alındı")}</span> : null}
+                  onClick={() => setAcikPosta(p.id)}
+                />
+              );
+            })}
+            {liste.map((b) => (
               <QtListeSatiri
                 key={b.id}
                 ikon={TIP_IKON[b.tip] ?? "zil"}
@@ -390,7 +418,8 @@ export default function BildirimZili() {
                   if (b.yol) navigate(b.yol);
                 }}
               />
-            ))
+            ))}
+            </>
           )}
         </div>
       </div>
@@ -398,16 +427,24 @@ export default function BildirimZili() {
   );
 
   return (
-    <div className="bz-sarmal" ref={zilRef}>
+    <div className={`bz-sarmal${odulVar ? " bz-sarmal--altin" : ""}`} ref={zilRef}>
       <QtIkonDugme
         ikon="zil"
-        etiket={tt("Bildirimler")}
+        etiket={tt("Posta kutusu")}
         rozet={toplam > 0 ? toplam : undefined}
         aria-expanded={acik}
         aria-haspopup="dialog"
         onClick={ac}
       />
       {acik && typeof document !== "undefined" && createPortal(panel, document.body)}
+      {acikPosta && (
+        <PostaDetay
+          posta={postalar.find((p) => p.id === acikPosta)}
+          onKapat={() => setAcikPosta(null)}
+          onAlindi={(id, verilen) => setPostalar((l) => l.map((p) =>
+            p.id === id ? { ...p, alindi: new Date().toISOString(), verilen, okundu: true } : p))}
+        />
+      )}
     </div>
   );
 }
