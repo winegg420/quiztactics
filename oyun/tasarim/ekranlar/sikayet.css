@@ -44,7 +44,33 @@
 .ok-guvenlik button:focus-visible { outline: 3px solid var(--qt-vurgu); outline-offset: 2px; }
 
 /* Sohbet: başlıktaki güvenlik düğmeleri + kapalı / koşul kartı */
-.ms-ust .ms-guvenlik { display: flex; gap: 2px; margin-left: auto; flex: none; }
+.ms-ust .ms-guvenlik { display: flex; gap: 2px; margin-left: auto; flex: none; position: relative; }
+/* Sohbet üst şeridi: ad yanında mavi "Oyna" (Arkadaşlar'daki ikincil mavi) */
+.ms-ust .ms-oyna { flex: none; min-height: var(--qt-dokunma, 44px); }
+.ms-ust .ms-oyna.qt-dugme {
+  --_z: var(--qt-ikinci-acik);
+  --_y: var(--qt-ikinci-koyu);
+  --_d: var(--qt-ikinci-dudak);
+  padding-inline: 12px; gap: 4px;
+}
+/* Dar ekranda ad kesilmesin: ikon gizlenir, yalnız "Oyna" yazısı */
+@media (max-width: 400px) { .ms-ust .ms-oyna.qt-dugme .qt-ikon { display: none; } }
+/* "⋯" menüsü (transform/fixed yok: header içinde absolute) */
+.ms-menu {
+  position: absolute; top: calc(100% + 4px); right: 0; z-index: 5; min-width: 180px;
+  display: flex; flex-direction: column; padding: var(--qt-b-1);
+  background: var(--qt-yuzey); color: var(--qt-metin);
+  border: 2px solid var(--qt-cizgi); border-radius: var(--qt-r-m);
+  box-shadow: 0 var(--qt-dudak-s, 3px) 0 var(--qt-cizgi);
+}
+.ms-menu button {
+  display: flex; align-items: center; gap: var(--qt-b-2); width: 100%; min-height: 44px; padding: 0 var(--qt-b-3);
+  border: 0; border-radius: var(--qt-r-s, 8px); background: transparent; color: inherit; text-align: left;
+  font: inherit; font-weight: var(--qt-a-kalin); cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.ms-menu button:active { background: var(--qt-yuzey-2); }
+.ms-menu button:focus-visible { outline: 3px solid var(--qt-odak, var(--qt-vurgu)); outline-offset: -3px; }
+@media (hover: hover) and (pointer: fine) { .ms-menu button:hover { background: var(--qt-yuzey-2); } }
 .ms-kosul {
   display: flex; flex-direction: column; gap: var(--qt-b-2); padding: var(--qt-b-3);
   background: var(--qt-yuzey); border-top: 2px solid var(--qt-cizgi); color: var(--qt-metin); font-size: var(--qt-y-s);

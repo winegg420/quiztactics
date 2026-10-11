@@ -5,6 +5,8 @@ import AvatarCerceve from "./AvatarCerceve.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
 import OyuncuKarti from "./OyuncuKarti.jsx";
 import { QtIkon, QtIkonDugme, QtDugme } from "../tasarim/index.js";
+import ModSecimPenceresi from "./ModSecimPenceresi.jsx";
+import { useArkadasaMacTeklifi } from "../lib/arkadasMaci.js";
 import "../tasarim/ekranlar/l-sosyal.css";
 import EmojiSecici from "./EmojiSecici.jsx";
 import { hataMesaji } from "../lib/hata.js";
@@ -81,6 +83,11 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
   const [pencere, setPencere] = useState(null);       // { tur: "sikayet" | "engel", mesaj? }
   const [kosulKabul, setKosulKabul] = useState(false);
   const uzunBas = useRef(null);
+  const [menuAcik, setMenuAcik] = useState(false);     // "⋯" menüsü (Engelle / Şikâyet et)
+  const [modAcik, setModAcik] = useState(false);       // Oyna → ModSecimPenceresi
+  const [bilgi, setBilgi] = useState(null);
+  const menuRef = useRef(null);
+  const { meydanOku, modSec } = useArkadasaMacTeklifi({ setHata, setBilgi, onBasari: () => setModAcik(false) });
 
   const listeRef = useRef(null);
   const girisRef = useRef(null);
@@ -110,6 +117,20 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
     govde.style.overflow = "hidden";
     return () => { govde.style.overflow = eski; };
   }, []);
+
+  // ---- "⋯" menüsü: Esc ve dışarı tıklama kapatır, açılınca ilk öğeye odak
+  useEffect(() => {
+    if (!menuAcik) return undefined;
+    menuRef.current?.querySelector("[data-ms-menu-ilk]")?.focus();
+    const tus = (e) => { if (e.key === "Escape") { e.stopPropagation(); setMenuAcik(false); menuRef.current?.querySelector(".ms-daha")?.focus(); } };
+    const disari = (e) => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuAcik(false); };
+    document.addEventListener("keydown", tus, true);
+    document.addEventListener("pointerdown", disari, true);
+    return () => {
+      document.removeEventListener("keydown", tus, true);
+      document.removeEventListener("pointerdown", disari, true);
+    };
+  }, [menuAcik]);
 
   // ---- Okundu: sohbet açılınca ve açıkken gelen her mesajda
   const okunduIsaretle = useCallback(async () => {
@@ -334,6 +355,8 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
   };
 
   const ad = kisi?.gorunen_ad ?? tt("Arkadaşın");
+  // Oyna: yalnız arkadaşken, engel yokken ve koşullar kabul edilmişken (Arkadaşlar'daki akışla aynı)
+  const oynaGorunur = arkadas === true && Boolean(iletisim?.iletisim) && Boolean(iletisim?.kosullar_kabul);
   const stil = gorunum ? { top: `${gorunum.ust}px`, height: `${gorunum.yukseklik}px` } : undefined;
 
   if (bulunamadi) {
@@ -370,12 +393,33 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
           {/* Paket 42 J.3: dokununca profil açıldığını belli eden ok */}
           <QtIkon ad="ileri" boyut={18} className="ms-kisi-ok" />
         </button>
-        {/* 620: engelle / şikâyet et */}
-        <span className="ms-guvenlik">
-          <QtIkonDugme ikon={iletisim?.engelledim ? "onay" : "kilit"} tur="saydam"
-                       etiket={iletisim?.engelledim ? tt("Engeli kaldır") : tt("Engelle")}
-                       onClick={() => setPencere({ tur: "engel" })} />
-          <QtIkonDugme ikon="bayrak" tur="saydam" etiket={tt("Şikâyet et")} onClick={() => setPencere({ tur: "sikayet" })} />
+        {oynaGorunur && (
+          <QtDugme tur="ikincil" boyut="k" ikon="oyna" className="ms-oyna"
+                   onClick={() => setModAcik(true)}
+                   aria-haspopup="dialog"
+                   aria-label={tt("{ad} ile oyna", { ad })}>
+            {tt("Oyna")}
+          </QtDugme>
+        )}
+        {/* 620: engelle / şikâyet et — tek "⋯" menüsü */}
+        <span className="ms-guvenlik" ref={menuRef}>
+          <QtIkonDugme ikon="ucNokta" tur="saydam" etiket={tt("Daha fazla")}
+                       className="ms-daha"
+                       aria-haspopup="menu" aria-expanded={menuAcik}
+                       onClick={() => setMenuAcik((a) => !a)} />
+          {menuAcik && (
+            <div className="ms-menu" role="menu" aria-label={tt("Daha fazla")}>
+              <button type="button" role="menuitem" data-ms-menu-ilk
+                      onClick={() => { setMenuAcik(false); setPencere({ tur: "engel" }); }}>
+                <QtIkon ad={iletisim?.engelledim ? "onay" : "kilit"} boyut={18} />
+                {iletisim?.engelledim ? tt("Engeli kaldır") : tt("Engelle")}
+              </button>
+              <button type="button" role="menuitem"
+                      onClick={() => { setMenuAcik(false); setPencere({ tur: "sikayet" }); }}>
+                <QtIkon ad="bayrak" boyut={18} /> {tt("Şikâyet et")}
+              </button>
+            </div>
+          )}
         </span>
       </header>
 
@@ -427,6 +471,8 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
           {tt("Yeni mesaj")} <QtIkon ad="asagi" boyut={16} />
         </button>
       )}
+
+      {bilgi && <p className="ms-bilgi" role="status">{bilgi}</p>}
 
       {hata && (
         <p className="ms-hata" role="alert">
@@ -503,7 +549,16 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
       )}
 
       {kartAcik && (
-        <OyuncuKarti userId={kisiId} onIzleme={kisi} onKapat={() => { setKartAcik(false); iletisimYenile(); }} />
+        <OyuncuKarti userId={kisiId} onIzleme={kisi} onKapat={() => { setKartAcik(false); iletisimYenile(); }}
+          onOyna={oynaGorunur ? () => { setKartAcik(false); setModAcik(true); } : undefined}
+          onMeydanOku={oynaGorunur ? async (id) => {
+            const m = await meydanOku(id);
+            if (m) throw new Error(m);
+            setKartAcik(false);
+          } : undefined} />
+      )}
+      {modAcik && oynaGorunur && (
+        <ModSecimPenceresi profil={{ ...(kisi ?? {}), id: kisiId }} onSec={(mod) => modSec(kisiId, mod)} onKapat={() => setModAcik(false)} />
       )}
       {pencere?.tur === "sikayet" && (
         <SikayetPenceresi kisiId={kisiId} kisiAd={ad} mesaj={pencere.mesaj ?? null} engelliMi={Boolean(iletisim?.engelledim)}

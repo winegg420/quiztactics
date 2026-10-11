@@ -45,12 +45,13 @@ const ALANLAR =
  * @param {(id:string) => void|Promise} [o.onOyna]        "Oyna" → mod seçim penceresi (yalnız arkadaş)
  * @param {(id:string) => void|Promise} [o.onMesaj]       "Mesaj at" (yalnız arkadaş)
  * @param {(id:string) => void|Promise} [o.onArkadasEkle] "Arkadaş ekle" (arkadaş DEĞİLSE)
+ * @param {(id:string) => void} [o.onArkadastanCikar] küçük ikincil metin düğmesi (yalnız arkadaş listesinden açılınca)
  * @param {string} [o.oynaPasifNeden] verilirse Oyna + Meydan oku pasif, sebebi kartta yazar
  *                                    (Paket 35 D: bu kişiye bekleyen meydan okuma var)
  * @param {string} [o.bilgiNotu]      eylemlerin altında kısa durum (ör. "Arkadaşlık isteği gönderildi")
  */
 export default function OyuncuKarti({
-  userId, onIzleme = null, onKapat, onMeydanOku, onOyna, onMesaj, onArkadasEkle, oynaPasifNeden = null,
+  userId, onIzleme = null, onKapat, onMeydanOku, onOyna, onMesaj, onArkadasEkle, onArkadastanCikar, oynaPasifNeden = null,
   bilgiNotu = null,
 }) {
   const [p, setP] = useState(onIzleme);
@@ -133,7 +134,7 @@ export default function OyuncuKarti({
       onKapat={onKapat}
       baslik={<span className="qt-gizli">{tt("Oyuncu kartı")}</span>}
       className="ok-kart"
-      altlik={eylemler.length > 0 || oynaPasifNeden || bilgiNotu || baskasi ? (
+      altlik={eylemler.length > 0 || oynaPasifNeden || bilgiNotu || baskasi || onArkadastanCikar ? (
         <div className="ok-altlik">
           {eylemler.length > 0 && (
             <div className={`ok-eylemler${eylemler.length === 1 ? " ok-eylemler--tek" : ""}`}>
@@ -169,6 +170,13 @@ export default function OyuncuKarti({
               </button>
               <button type="button" onClick={() => setPencere("sikayet")}>
                 <QtIkon ad="bayrak" boyut={16} /> {tt("Şikâyet et")}
+              </button>
+            </div>
+          )}
+          {onArkadastanCikar && (
+            <div className="ok-guvenlik">
+              <button type="button" className="ok-cikar" onClick={() => onArkadastanCikar(userId)}>
+                {tt("Arkadaşlıktan çıkar")}
               </button>
             </div>
           )}

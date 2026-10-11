@@ -100,6 +100,9 @@
 .ar-liste .ar-durum-etiket { font-weight: var(--qt-a-siyah); box-shadow: inset 0 0 0 1.5px currentColor; }
 .ar-liste .ar-durum-nokta { width: 16px; height: 16px; }
 .ar-liste .ar-detay { white-space: nowrap; }
+/* Avatar 56 px: satır ≤ 72 px (844 px ekranda en az 5 arkadaş) */
+.ar-liste .ar-ac { min-height: 0; padding-block: 4px; }
+.ar-liste .ar-satir { min-height: 64px; }
 .ar-liste .ar-ac { gap: var(--qt-b-2); }
 .ar-liste .ar-satir { gap: 2px; padding-right: 4px; }
 .ar-liste .ar-bilgi .ls-ad { white-space: normal; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: clip; }

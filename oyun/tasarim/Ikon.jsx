@@ -392,6 +392,7 @@ const Y = {
     </>
   ),
   liste: <path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01" />,
+  ucNokta: <path d="M5 12h.01M12 12h.01M19 12h.01" strokeWidth="3.6" />,
   kalem: (
     <>
       <path className={D} d="M16.5 3.5a2.5 2.5 0 0 1 3.5 3.5L8 19l-4.5 1.5L5 16Z" />

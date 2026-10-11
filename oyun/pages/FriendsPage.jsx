@@ -26,6 +26,7 @@ import "../tasarim/ekranlar/l-sosyal.css";
 import { useArkadasCevrimici } from "../lib/cevrimici.js";
 import "./arkadasCevrimici.css";
 import { gorunenAd } from "../lib/oyuncu.js";
+import { useArkadasaMacTeklifi } from "../lib/arkadasMaci.js";
 
 const DOSTLUK_SECIMI = `id, requester, addressee, durum,
   req:profiles!friendships_requester_fkey(id, gorunen_ad, gorunen_avatar, gorunum, puan),
@@ -271,67 +272,10 @@ export default function FriendsPage() {
     }
   };
 
-  // Paket 30 B: iki davet de mod seçim penceresinden çağrılır. Hata sayfanın üstüne
-  // değil pencerenin İÇİNE düşsün diye metin olarak döner (null = başarılı).
-  const meydanOku = async (hedefId, jokersiz = false) => {
-    setHata(null);
-    try {
-      const { error, data } = await supabase.rpc("create_challenge", { p_rakip: hedefId, p_jokersiz: jokersiz });
-      if (error) throw error;
-      setModHedef(null);
-      // Paket 35 D: sayfadan ÇIKMA — satırın altında bekleyen şerit görünür.
-      // Rakip anında kabul ettiyse (açık bot) maç zaten başlamıştır → maça gir.
-      if (data) {
-        const { data: m } = await supabase.from("matches").select("durum").eq("id", data).maybeSingle();
-        if (m?.durum === "aktif") { navigate(y(`/mac/${data}`)); return null; }
-      }
-      await bekleyenleriYukle();
-      return null;
-    } catch (e) {
-      return hataMesaji(e, tt("Meydan okuma başlatılamadı."));
-    }
-  };
-
-  // Paket 24 · A.1.5: düello daveti bugüne kadar yalnız Meydan Okuma sayfasındaydı.
-  // Açık bot anında kabul eder ve doğrudan düelloya girilir; gerçek oyuncuda davet bekler.
-  const duelloyaCagir = async (hedefId) => {
-    setHata(null);
-    setBilgi(null);
-    try {
-      const { data, error } = await supabase.rpc("duello_davet_et", { p_rakip: hedefId });
-      if (error) throw error;
-      setModHedef(null);
-      if (data?.duello_id) {
-        navigate(y(`/duello/${data.duello_id}`));
-        return null;
-      }
-      setBilgi(tt("Düello daveti gönderildi — rakip kabul edince düello başlayacak."));
-      await bekleyenleriYukle();   // Paket 35 D: şerit düello davetinde de görünür
-      return null;
-    } catch (e) {
-      return hataMesaji(e, tt("Düello daveti gönderilemedi."));
-    }
-  };
-
-  // 957: Kasa daveti — Düello ile aynı akış: açık bot anında maç kurar, gerçek oyuncuda davet bekler.
-  const kasayaCagir = async (hedefId) => {
-    setHata(null);
-    setBilgi(null);
-    try {
-      const { data, error } = await supabase.rpc("kasa_davet_et", { p_rakip: hedefId, p_dereceli: true });
-      if (error) throw error;
-      setModHedef(null);
-      if (data?.kasa_id) {
-        navigate(y(`/kasa/${data.kasa_id}`));
-        return null;
-      }
-      setBilgi(tt("Ortak Hazine daveti gönderildi — rakip kabul edince maç başlayacak."));
-      await bekleyenleriYukle();
-      return null;
-    } catch (e) {
-      return hataMesaji(e, tt("Ortak Hazine daveti gönderilemedi."));
-    }
-  };
+  // Meydan okuma / düello / kasa davetleri ortak hook'ta (Sohbet de aynısını kullanır).
+  const { meydanOku, modSec } = useArkadasaMacTeklifi({
+    setHata, setBilgi, bekleyenleriYukle, onBasari: () => setModHedef(null),
+  });
 
   const digerProfil = (f) => (f.requester === user.id ? f.add : f.req);
   const gelenIstekler = dostluklar.filter(
@@ -426,6 +370,12 @@ export default function FriendsPage() {
             setKartHedef(null);
           }}
           onMesaj={kartHedef.id === user.id ? undefined : (id) => { setKartHedef(null); navigate(y(`/mesajlar/${id}`)); }}
+          onArkadastanCikar={kartHedef.id === user.id ? undefined : () => {
+            const d = arkadaslarHam.find((x) => digerProfil(x)?.id === kartHedef.id);
+            if (!d) return;
+            setKartHedef(null);
+            setSilOnay(d.id);
+          }}
         />
       )}
 
@@ -448,9 +398,7 @@ export default function FriendsPage() {
       {modHedef && (
         <ModSecimPenceresi
           profil={modHedef}
-          onSec={(mod) => (mod === "duello" ? duelloyaCagir(modHedef.id)
-            : mod === "kasa" ? kasayaCagir(modHedef.id)
-            : meydanOku(modHedef.id, mod === "saf"))}
+          onSec={(mod) => modSec(modHedef.id, mod)}
           onKapat={() => setModHedef(null)}
         />
       )}
@@ -496,9 +444,6 @@ export default function FriendsPage() {
       <section className="ls-bolum" aria-labelledby="ar-arkadaslar">
         <h2 id="ar-arkadaslar" className="qt-baslik-3 ls-bolum-baslik">
           {tt("Arkadaşların")}
-          {listeDurum === "hazir" && arkadaslar.length > 0 && (
-            <span className="ls-sayi">{sayiBicim(arkadaslar.length)}</span>
-          )}
         </h2>
 
         {listeDurum === "yukleniyor" && (
@@ -552,7 +497,7 @@ export default function FriendsPage() {
                       aria-label={tt("{ad} profilini aç", { ad: p?.gorunen_ad ?? tt("Arkadaşın") }) + (durumEtiket ? `, ${durumEtiket}` : "")}
                     >
                       <span className="ar-avatar-kap">
-                        <AvatarCerceve profile={p} boyut={44} />
+                        <AvatarCerceve profile={p} boyut={56} />
                         {durum && <span className={`ar-durum-nokta ar-durum-nokta--${durum}`} aria-hidden="true" />}
                       </span>
                       <span className="ar-bilgi">
@@ -587,13 +532,6 @@ export default function FriendsPage() {
                       {tt("Oyna")}
                     </QtDugme>
                     </span>
-                    <QtIkonDugme
-                      ikon="carpi"
-                      tur="saydam"
-                      className="ar-cikar"
-                      etiket={tt("{ad} arkadaşlıktan çıkar", { ad: p?.gorunen_ad ?? tt("Arkadaşını") })}
-                      onClick={() => setSilOnay(f.id)}
-                    />
                   </div>
                   {aktifMac && (
                     <div className="ar-bekleyen ar-bekleyen--basladi" role="status">
