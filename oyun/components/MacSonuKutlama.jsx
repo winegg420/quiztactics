@@ -145,7 +145,7 @@ function Taraf({ kisi, rol, yan, canToplam, sen, zafer }) {
         {/* 560: telefonda ad hapı dar (ad "D…"ya iniyordu) → amblem avatarın alt köşesinde rozet; genişte ad yanında */}
         <OyuncuLigAmblemi lig={kisi?.lig} userId={kisi?.profil?.id} boyut={22} className="msk-amblem-rozet" />
       </div>
-      <div className="msk-isim msk-a">
+      <div className={`msk-isim msk-a${Array.from(kisi?.profil?.gorunen_ad ?? "").length <= 8 ? " msk-isim--kisa" : ""}`}>
         <AdDugmesi userId={kisi?.profil?.id} profil={kisi?.profil}>
           <span className="msk-isim-metin">
             <IsimEfekti userId={kisi?.profil?.id} {...(kisi?.isimEfekti !== undefined ? { ef: kisi.isimEfekti } : {})} acik hareketli={rol === "kazanan"}>

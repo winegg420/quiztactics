@@ -8,6 +8,7 @@ import SenRozeti from "../components/SenRozeti.jsx";
 import YanlisSatiri from "../components/YanlisSatiri.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
+import MacOzetSatiri from "../components/MacOzetSatiri.jsx";
 import SureDolduGecis from "../components/SureDolduGecis.jsx";
 import MacSonuKutlama from "../components/MacSonuKutlama.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
@@ -630,6 +631,7 @@ export default function GroupMatchPage() {
         gorevler={sahneVeri.gorevler}
         rozetler={sahneVeri.rozetler}
         detayRozet={yanlisAdet}
+        modOzet={<MacOzetSatiri kaynak={`grup:${id}`} />}
         detay={
           <>
             {oyuncuListesi(siraliSkor, (k) => <b className="qt-sayi">{k.skor}</b>, true)}

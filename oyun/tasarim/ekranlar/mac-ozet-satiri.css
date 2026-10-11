@@ -1,0 +1,18 @@
+/* Maç sonu "Maç özeti" (Klasik / Saf Bilgi / Grup) — Düello özeti (.hk-ele / .d4-ozet) ile aynı kart dili,
+   mod rengi Klasik vurgusu. 360 px'te haplar alt satıra iner, kesilmez. */
+.mo-ozet {
+  display: grid; gap: 6px; padding: 10px 12px; text-align: left;
+  border-radius: var(--qt-r-l, 18px); background: var(--qt-yuzey, #fff); color: var(--qt-metin);
+  border: 2px solid var(--qt-mod-klasik, #3b6cf0); box-shadow: 0 3px 0 var(--qt-mod-klasik-dudak, #2549b8);
+}
+.mo-ozet-baslik {
+  display: flex; align-items: center; gap: 6px; margin: 0;
+  font-size: var(--qt-y-s, 13px); font-weight: 900; letter-spacing: .02em; text-transform: uppercase;
+  color: var(--qt-mod-klasik-dudak, #2549b8);
+}
+.mo-ozet-satir { display: flex; flex-wrap: wrap; gap: 4px 6px; margin: 0; min-width: 0; }
+.mo-ozet-hap {
+  padding: 3px 9px; border-radius: var(--qt-r-hap, 999px); white-space: nowrap;
+  font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums;
+  background: var(--qt-mod-klasik-acik, #e6edff); color: var(--qt-mod-klasik-dudak, #2549b8);
+}

@@ -12,6 +12,7 @@ import MacSonuEklentisi from "../components/MacSonuEklentisi.jsx";
 import MacSonuDokum from "../components/MacSonuDokum.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
+import MacOzetSatiri from "../components/MacOzetSatiri.jsx";
 import HesapGuvenceOnerisi from "../components/HesapGuvence.jsx";
 import MeydanaDonus from "../components/MeydanaDonus.jsx";
 import "../tasarim/ekranlar/ikon-disk.css";
@@ -955,6 +956,7 @@ export default function MatchPage() {
           gorevler={sahne.gorevler}
           rozetler={sahne.rozetler}
           detayRozet={yanlisAdet}
+          modOzet={sahne.terk ? null : <MacOzetSatiri kaynak={`mac:${id}`} />}
           detay={
             <>
               {/* Paket 20 I.3: satır satır döküm (aynı sunucu kaydı, ikinci sorgu yok) */}

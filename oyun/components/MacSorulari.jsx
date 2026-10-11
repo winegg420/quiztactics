@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "../../src/lib/supabase.js";
+import { macSorulariGetir } from "../lib/macSorulariVeri.js";
 import { tt } from "../lib/dil.js";
 import { QtIkon, QtRozet } from "../tasarim/index.js";
 import SoruBildir from "./SoruBildir.jsx";
@@ -21,15 +21,8 @@ export default function MacSorulari({ kaynak, sorular: verilen, baslik, acikBasl
     if (verilen) { setSorular(verilen); return; }
     if (!kaynak) return;
     let aktif = true;
-    (async () => {
-      try {
-        const { data, error } = await supabase.rpc("mac_sorulari", { p_kaynak: kaynak });
-        if (error) throw error;
-        if (aktif) setSorular(Array.isArray(data) ? data : []);
-      } catch (e) {
-        console.error("[Bildim] mac_sorulari başarısız:", e);
-      }
-    })();
+    // Maç özeti satırıyla aynı kaynak tek sorguyla paylaşılır (lib/macSorulariVeri.js)
+    macSorulariGetir(kaynak).then((liste) => { if (aktif && liste) setSorular(liste); });
     return () => { aktif = false; };
   }, [kaynak, verilen]);
 
