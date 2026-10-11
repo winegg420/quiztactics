@@ -127,12 +127,28 @@
 
 /* Konfeti stili ortak dosyaya taşındı: oyun/tasarim/hareket.css › .qt-konfeti (Konfeti.jsx kendi stilini taşır) */
 
+/* Sonuç yuvası (11 Eki 2026): bant solda, "adil miydi?" ✓/✕ sağda; SABİT yükseklik — soru sırasında boş ama yer
+   kaplar, cevaptan sonra kart ve şıklar 0 px oynar. */
+.m1-sonuc-yuva { display: flex; align-items: center; gap: var(--qt-b-2); height: 44px; min-width: 0; }
+.m1-sonuc-yuva > .qt-sonuc-yuva { flex: 1 1 auto; min-width: 0; min-height: 0; height: 100%; margin: 0; justify-items: start; }
+.m1-sonuc-yuva .qt-sonuc {
+  justify-self: start;
+  padding: 5px 14px;
+  font-size: var(--qt-y-s);
+  line-height: 1.2;
+  text-align: left;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
 /* Adil mi oylaması */
 .m1-oylama {
   display: flex;
+  flex: none;
   align-items: center;
   justify-content: center;
-  gap: var(--qt-b-2);
+  gap: 4px;
   color: var(--qt-zemin-soluk);
   font-size: var(--qt-y-s);
   font-weight: var(--qt-a-kalin);
@@ -467,7 +483,13 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
     align-items: center;
   }
   /* Güvenli ortalama: sığmayan metin üstten kesilmez, kart içinde kayar */
-  body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-metin { margin-block: auto; min-height: 0; max-width: 100%; padding-bottom: 4px; overflow-y: auto; overscroll-behavior: contain; }
+  body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-metin { margin-block: auto; min-height: 0; max-width: 100%; padding-bottom: 4px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
+  /* Kaydırma kalır, çubuk/oklar gizli; metin gerçekten taşarsa (QuestionCard › data-tasar) altta hafif solma */
+  body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-metin::-webkit-scrollbar { display: none; }
+  body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-metin[data-tasar] {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 22px), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 22px), transparent);
+  }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt { margin-top: 0; }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) .m1-skill { gap: var(--qt-b-1); }
   /* Açılan tepki paneli ve hazır cümleler tek satır, kendi içinde yatay kayar (sahne uzamaz) */
@@ -547,8 +569,7 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-sik-harf { width: 32px; height: 32px; font-size: var(--qt-y-m); }
   /* Sonuç bandı yeri incelir; joker çubuğu tek satır, kısa */
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-sonuc-yuva { min-height: 32px; }
-  /* Boş sonuç yuvası yer tutmaz (canlı bölge ağaçta kalır); bant gelince soru kartı esner */
-  body.bd-oyun-modu .m1-mac > .m1-soru .qt-sonuc-yuva:empty { min-height: 0; margin-top: calc(var(--qt-b-2) * -1); }
+  /* Sonuç yuvası sabit yüksekliktedir (.m1-sonuc-yuva) — boşken de yer tutar, ekran zıplamaz. */
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-sonuc { padding: 5px 14px; font-size: var(--qt-y-s); }
   body.bd-oyun-modu .m1-mac > .m1-soru .m1-skill--cok .qt-skill-cubugu { grid-template-columns: repeat(var(--_n, 7), minmax(44px, 1fr)); }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-skill { min-height: 50px; padding: 4px 1px 3px; gap: 2px; }
@@ -689,3 +710,56 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
 /* Joker çubuğu yuvası: cevaptan sonra yer tutar, soluk ve dokunulmaz (kayma yok; ekran turu 62→63) */
 .m1-joker-yuva { transition: opacity var(--qt-s-hizli, .15s) ease; }
 .m1-joker-yuva--pasif { opacity: .45; pointer-events: none; }
+
+/* =====================================================================
+   KLASİK AİLESİ MAÇ EKRANI TURU (11 Eki 2026) — tek ekran düzeninde, yükseklik ≥ 701 px.
+   Soru kartı İÇERİĞE göre 150–210 px (esnemez: cevaptan sonra hiçbir şey kaymaz); kazanılan yer şıklara.
+   Şık 58 px, harf rozeti 32 px, yazı 17 px. Artan boşluk içerikten SONRA (altta) kalır: bekleme satırı gelince
+   kart/şıklar oynamaz. Tepki düğmeleri joker çubuğunun altında tek satır. Kısa ekran (≤ 700 px) eski kurallarla.
+   ===================================================================== */
+@media (min-height: 701px) and (max-width: 560px), (min-height: 701px) and (min-width: 561px) and (max-height: 960px) {
+  body.bd-oyun-modu .m1-mac > .m1-soru > .qt-soru { flex: none; min-height: 0; }
+  body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-kart { flex: none; min-height: 150px; max-height: 210px; }
+  body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-metin { font-size: clamp(19px, 2.9dvh, 24px); }
+  body.bd-oyun-modu .m1-mac > .m1-soru .qt-sikler { gap: 8px; }
+  body.bd-oyun-modu .m1-mac > .m1-soru .qt-sik,
+  body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--uzun .qt-sik,
+  body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--cok-uzun .qt-sik { min-height: 58px; font-size: 17px; }
+  body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--uzun .qt-sik { font-size: 16px; }
+  body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--cok-uzun .qt-sik { font-size: 15px; }
+  body.bd-oyun-modu .m1-mac > .m1-soru .qt-sik-harf { width: 32px; height: 32px; }
+  /* Tepki satırı: emoji + sohbet düğmeleri yan yana, ortalı; açılan paneller kendi satırında */
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--qt-b-2); }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt > .bd-ses-yuva:empty { display: none; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt > :is(.bd-ses-yuva, .m1-tepki[role="group"], .m1-kaliplar) { flex: 1 0 100%; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt > .qt-tepki { position: relative; flex: none; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt > .qt-tepki > .qt-tepki-panel { position: absolute; z-index: 5; bottom: calc(100% + 6px); left: 50%; translate: -50% 0; width: max-content; max-width: min(320px, 92vw); }
+}
+/* Bekleme satırı ("… cevaplayınca soru geçecek") akış DIŞINDA: tepki satırının hemen üstünde, artan boşlukta durur —
+   gelince soru kartı ve şıklar kaymaz. Kart yer daralırsa (uzun soru, Turnuva şeridi) 120 px'e kadar iner; cevap
+   sonrası akışa hiçbir şey girmediği için bu küçülme maç içinde değişmez. */
+@media (max-width: 560px), (min-width: 561px) and (max-height: 960px) {
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) { position: relative; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-bekleme {
+    position: absolute; left: 12px; right: 12px; z-index: 2; pointer-events: none;
+    bottom: calc(44px + var(--qt-b-2) * 2 + env(safe-area-inset-bottom, 0px));
+    margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  /* Turnuva: "Hayatta kalanlar" tek satır, kendi içinde yatay kayar; başlık yalnız ekran okuyucuya */
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt:has(> .m1-tv-hayatta) { flex-direction: row; flex-wrap: nowrap; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt > .m1-tv-canli { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt > .m1-tv-hayatta { flex: 1 1 auto; min-width: 0; display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; justify-content: flex-start; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt > .m1-tv-hayatta > * { flex: none; }
+}
+@media (min-height: 701px) and (max-width: 560px), (min-height: 701px) and (min-width: 561px) and (max-height: 960px) {
+  body.bd-oyun-modu .m1-mac > .m1-soru > .qt-soru { flex: 0 1 auto; }
+  body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-kart { flex: 0 1 auto; min-height: 120px; }
+}
+@media (max-width: 560px), (min-width: 561px) and (max-height: 960px) {
+  /* Soluk joker çubuğunun üstüne düşerse okunur kalsın: ortalı küçük hap */
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-bekleme {
+    left: 50%; right: auto; translate: -50% 0; max-width: calc(100% - 24px);
+    padding: 3px 12px; border-radius: var(--qt-r-hap);
+    background: var(--qt-yuzey); color: var(--qt-metin); box-shadow: 0 2px 0 var(--qt-cizgi);
+  }
+}
