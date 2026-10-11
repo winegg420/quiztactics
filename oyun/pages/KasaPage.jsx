@@ -40,7 +40,8 @@ import { useAyar } from "../lib/ayarlar.js";
 import { rpcDene } from "../lib/rpcDene.js";
 import { sure, sureOlcek, varsayilanSure } from "../lib/sureler.js";
 import { aramaAraligiSn } from "../lib/gorunurluk.js";
-import { useOyunModu } from "../lib/oyunModu.js";
+import { useOyunModu, useMacSonuGecisi } from "../lib/oyunModu.js";
+import { sonModuYaz } from "../lib/sonMod.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle, tikBasligiEkle } from "../lib/zaman.js";
 import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
 import { BasiliTut } from "../lib/useBasiliTut.js";
@@ -145,6 +146,8 @@ function KasaGiris() {
   const tavan = useAyar("kasa_tavan", 0);
   const carpan = useAyar("kasa_devam_carpan", 1);
   const kararSn = useAyar("kasa_karar_sn", 5);
+  // 11 Eki 2026: karar sayacı gösterim payını da sayar (gerçek süre) — kuraldaki sayı ekrandaki sayaçla aynı
+  const kararPayMs = useAyar("kasa_gosterim_payi_ms", 2000);
   const { dil } = useDil();
   const carpanX = carpanYazisi(carpan, dil);
   const [dereceli, setDereceli] = useDereceliTercih();
@@ -228,7 +231,7 @@ function KasaGiris() {
         {tavan > 0 && <li>{tavan < hedef
           ? ceviri("Hazine en çok {t} olur: tek AÇ maçı bitirmez.", { t: tavan })
           : ceviri("Hazine en çok {t} olur.", { t: tavan })}</li>}
-        <li>{ceviri("Karar süresi {s} sn; dolarsa DEVAM sayılır.", { s: kararSn })}</li>
+        <li>{ceviri("Karar süresi {s} sn; dolarsa DEVAM sayılır.", { s: kararSn + Math.round(kararPayMs / 1000) })}</li>
         <li>{ceviri("Jokerler: 50:50, Ek Süre, Zaman Baskısı, İkinci Şans.")}</li>
         {savunmaAcik && <li>{ceviri("Bilerek DEVAM dersen {h} kazanırsın: hazine rakibe geçecekken sana {s} gelir.",
           { h: ceviri(SAVUNMA_HAKKI), s: ceviri(SAVUNMA_SORUSU) })}</li>}
@@ -327,7 +330,7 @@ function KasaArama({ dereceli, onBulundu, onIptal, bilgi = null }) {
 // ------------------------------------------------------------ maç
 function KasaMac({ id }) {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, refreshProfile } = useAuth();
   const { ceviri: c, dil } = useDil();
   const [d, setD] = useState(null);
   const dGuncelRef = useRef(null);
@@ -340,6 +343,16 @@ function KasaMac({ id }) {
   const [calisan, setCalisan] = useState(null);
   const [terkOnay, setTerkOnay] = useState(false);
   useOyunModu(d?.durum === "aktif");
+  useMacSonuGecisi(d?.durum === "bitti");   // 11 Eki 2026: final sahnesi (sandık) kutlamaya dek oyun modunda
+  // 11 Eki 2026 (mod paritesi — Klasik/Düello/Grup/Turnuva gibi): maç bitince profil (level/coin/rütbe) tazelenir;
+  // değişen level/lig oyuncu kartı önbelleğini de düşürür (AuthContext → qt-profil olayı → cerceve.js).
+  const bitisTazeleRef = useRef(false);
+  useEffect(() => {
+    if (d?.durum !== "bitti" || bitisTazeleRef.current || !user?.id) return;
+    bitisTazeleRef.current = true;
+    refreshProfile?.(user.id);
+  }, [d?.durum, refreshProfile, user?.id]);
+  useEffect(() => { if (d?.id && d.durum === "aktif") sonModuYaz("kasa"); }, [d?.id, d?.durum]);
   const { ozet: macSonuOzet, hata: macSonuHata } = useMacSonuOzet(d?.durum === "bitti" && d?.id ? `kasa:${d.id}` : null);
   const sonFinRef = useRef(null);   // 10 Eki 2026: final sahnesi bitti ama özet gelmediyse sahne ekranda kalır
   // 957: maç içi tepki (Klasik/Düello ile aynı; yalnız tepki_acik_modlar'daki modda — bugün Antrenman). Sunucu
@@ -602,9 +615,12 @@ function KasaMac({ id }) {
   const kalanSn = useMemo(() => {
     if (!benimBitis) return 0;
     const sunucuSimdi = Math.max(simdi, Date.now()) + farkRef.current;
-    const bas = gosterimBas ? Math.max(sunucuSimdi, gosterimBas) : sunucuSimdi;
+    // Yayın öncesi tarama (11 Eki 2026): KARAR sayacı gösterim payında donmaz — karar sahibi pay boyunca da AÇ/DEVAM
+    // diyebilir (sunucu kabul eder), yani gerçek süre karar_sn + pay. Sayaç sunucu faz_bitis'e kalanı sayar (5'te ~2,5 sn
+    // bekleyip sonra saymıyordu); 0 = sunucunun süre bitişi. Cevap fazında pay sayacı aynen gizler (soru sahnesi).
+    const bas = gosterimBas && d?.faz !== "karar" ? Math.max(sunucuSimdi, gosterimBas) : sunucuSimdi;
     return Math.max(0, (new Date(benimBitis).getTime() - bas) / 1000);
-  }, [benimBitis, gosterimBas, simdi]);
+  }, [benimBitis, gosterimBas, simdi, d?.faz]);
   const fazKaymaRef = useRef({ anahtar: null, k0: 0, kayma: 0 });
   const kopukDonukSn = d?.kopuk && Number.isFinite(Number(d.kopuk.faz_kalan_sn)) ? Math.max(0, Number(d.kopuk.faz_kalan_sn)) : null;
   const gosterSn = useMemo(() => {
@@ -622,6 +638,39 @@ function KasaMac({ id }) {
     const z = setTimeout(() => setSimdi(Date.now()), sayacSinirMs(kalanSn, fazKaymaRef.current) + 5);
     return () => clearTimeout(z);
   }, [kalanSn, gosterSn, kopukDonukSn]);
+
+  // Yayın öncesi tarama (11 Eki 2026): karar süresi doldu → düğmeler HEMEN pasif + "Süre doldu · DEVAM" (0'da basılan AÇ
+  // yükleniyor gösterip sayılmıyordu). 0 = sunucu faz_bitis; oyuncunun süresi kısalmaz.
+  const kararSureDoldu = d?.durum === "aktif" && d?.faz === "karar" && kopukDonukSn == null && Boolean(benimBitis) && kalanSn <= 0;
+  // Ölü bekleme yok: karar sahibi hiç dokunmadıysa KENDİ istemcisi süre bitince sunucuya bildirir (kasa_karar p_ac = null →
+  // sunucu faz_bitis geçtiyse süre dolumunu hemen uygular; 1063). Eskiden panel geç varış payı (3 sn) + yoklama kadar, ~4 sn
+  // 0'da donuk kalıyordu. Rakibin istemcisi bildirmez — karar sahibinin ağda yolda olan dokunuşunu kesmesin (pay onun için).
+  const calisanRef = useRef(null);
+  calisanRef.current = calisan;
+  const sureDolduRef = useRef(null);
+  useEffect(() => {
+    if (!d || d.durum !== "aktif" || d.faz !== "karar" || d.karar?.veren !== d.ben || kopukDonukSn != null || !d.faz_bitis) return undefined;
+    const anahtar = `${turAnahtari(d)}-${d.faz_bitis}`;
+    if (sureDolduRef.current === anahtar) return undefined;
+    let iptal = false;
+    const zamanlar = [];
+    const bildir = async (deneme) => {
+      if (iptal || calisanRef.current || dGuncelRef.current?.faz !== "karar") return;
+      sureDolduRef.current = anahtar;
+      try {
+        const { error } = await supabase.rpc("kasa_karar", { p_id: id, p_ac: null });
+        if (error) throw error;
+        await yukle();
+      } catch (e) {
+        // Saat farkıyla sunucuya erken vardıysa bir kez daha; faz zaten geçtiyse yalnız tazelenir (hata gösterilmez)
+        if (deneme === 0 && /dolmad/i.test(e?.message ?? "")) { sureDolduRef.current = null; zamanlar.push(setTimeout(() => bildir(1), 600)); return; }
+        yukle().catch(() => {});
+      }
+    };
+    const ms = new Date(d.faz_bitis).getTime() - (Date.now() + farkRef.current) + 150;
+    zamanlar.push(setTimeout(() => bildir(0), Math.max(0, ms)));
+    return () => { iptal = true; zamanlar.forEach(clearTimeout); };
+  }, [d?.durum, d?.faz, d?.faz_bitis, d?.tur, d?.karar?.veren, kopukDonukSn, id, yukle]);   // eslint-disable-line react-hooks/exhaustive-deps
 
   // ---------------- anlar (yalnız sunum): ses + titreşim + efekt ----------------
   // an: { id, tip: "sonuc" | "ac", … , varis, anahtarVaris, sars } — efekt sürerken eski değerler gösterilir,
@@ -1190,7 +1239,8 @@ function KasaMac({ id }) {
 
   // ---------------- maç ekranı ----------------
   const kilitli = Boolean(d.cevap?.ben_cevapladim);
-  const toplamSn = d.faz === "karar" ? Number(d.sureler?.karar ?? 8) : Number(d.sureler?.soru ?? 15);
+  // Karar halkası gerçek süreyle dolar: karar_sn + gösterim payı (sayaç pay boyunca da sayar — 11 Eki 2026)
+  const toplamSn = d.faz === "karar" ? Number(d.sureler?.karar ?? 8) + Number(d.sureler?.gosterim_payi_ms ?? 0) / 1000 : Number(d.sureler?.soru ?? 15);
   const sayacVar = d.faz === "cevap" || d.faz === "karar";
   const sayac = sayacVar
     ? <QtSayac kalan={d.faz === "cevap" ? cevapSayacSn : gosterSn} toplam={toplamSn} esik={d.faz === "karar" ? 3 : 5} boyut="k" durdu={kilitli || kopukDonukSn != null}
@@ -1263,6 +1313,7 @@ function KasaMac({ id }) {
     );
   } else if (d.faz === "karar") {
     sahne = <KasaKarar d={d} c={c} calisan={calisan} onKarar={kararVer} kalan={kopukDonukSn != null ? null : gosterSn}
+                       sureDoldu={kararSureDoldu}
                        carpanYazi={carpanYazisi(d.devam_carpan, dil)} />;
   } else if (d.faz === "cevap" || d.faz === "sonuc") {
     const sonucMu = d.faz === "sonuc";

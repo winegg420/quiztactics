@@ -174,6 +174,12 @@
 .ks-karar-baslik { margin: 0; display: flex; align-items: center; gap: 8px; font: var(--qt-a-siyah) 20px/1.2 var(--qt-f-baslik); color: var(--qt-metin); }
 .ks-karar-eylem { width: 100%; display: grid; gap: 10px; }
 .ks-karar-eylem .qt-dugme { min-height: 56px; }
+/* 11 Eki 2026: karar süresi doldu — net durum hapı (düğmeler pasif) */
+.ks-karar-sure-doldu {
+  margin: 0; justify-self: center; align-self: center; padding: 6px 14px; border-radius: 999px; text-align: center;
+  font-size: var(--qt-y-m); font-weight: 900; letter-spacing: .02em;
+  background: var(--qt-metin, #1d2a44); color: var(--qt-yuzey, #fff);
+}
 .ks-karar-not { margin: 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
 .ks-nokta { width: 10px; height: 10px; border-radius: 50%; background: var(--qt-mod-duello); animation: ks-nabiz 1.2s ease-in-out infinite; }
 @keyframes ks-nabiz { 50% { transform: scale(.55); opacity: .5; } }
@@ -207,6 +213,16 @@
 .ks-gecmis-metin small { color: var(--qt-metin-soluk); font-weight: 700; }
 .ks-gecmis--dogru > .qt-ikon:last-child { color: var(--qt-dogru-koyu, #138a4c); }
 .ks-gecmis--yanlis > .qt-ikon:last-child { color: var(--qt-mod-duello); }
+
+/* ---------- uzun soru, orta yükseklik (11 Eki 2026): 360×780 EN uzun soru + iki satırlık şıklarda joker çubuğunun alt
+   yazıları (+10 s / -5 s) ekranın 3–4 px altına taşıyordu. Yalnız uzun/çok uzun soruda kısa ekran ölçüleri ≤ 860 px'e kadar. */
+@media (max-height: 860px) {
+  .ks-mac:has(.ks-soru:is(.m1-soru--uzun, .m1-soru--cok-uzun)) { gap: 5px; }
+  .ks-mac .ks-soru:is(.m1-soru--uzun, .m1-soru--cok-uzun) { gap: 4px; }
+  .ks-mac .ks-soru:is(.m1-soru--uzun, .m1-soru--cok-uzun) .qt-soru-kart { min-height: 0; padding: 12px 14px; }
+  .ks-mac .ks-soru:is(.m1-soru--uzun, .m1-soru--cok-uzun) .qt-sikler { gap: 6px; }
+  .ks-mac .ks-soru:is(.m1-soru--uzun, .m1-soru--cok-uzun) .qt-sik { padding-block: 4px; }
+}
 
 /* ---------- kısa ekran (≈ 360×640, iPhone Safari 375×553): tek ekranda sığsın ---------- */
 @media (max-height: 760px) {
