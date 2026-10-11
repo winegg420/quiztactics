@@ -283,6 +283,10 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 - **Gösterilen sıra = gerçek sıra (661, Ida 26 Eyl):** `lig_grubum` sırayı grubun TÜM üyeleri arasında (haftalık kapanışla birebir: `puan_hafta`, `puan`, ad, id) hesaplar, görünürlüğü sonra süzer; gizli üyeler satır olarak görünmez ama numarada boşluk bırakır (1,2,…,11,13,16). Yükselme/düşme bölgesi ve çizgileri bu sıraya göre.
 - Misafir (anonim) hesap ligde ancak `lig_misafir_min_mac` (5) maçtan sonra
   görünür; oyuncu kendi satırını her zaman görür. Hesap silinmez.
+- **Araç hesabı lig dışı (1064, 11 Eki 2026):** otomasyon tarayıcısında (`navigator.webdriver`) açılan misafir hesap
+  sunucuda `profiles.arac_hesabi` + `lig_gizli` doğar → grup 0, sıralama/şampiyonluk dışı; `trg_gecilme_bildir` lig_gizli
+  hesapla "seni geçti" üretmez/almaz. Gerçek misafirler değişmedi. `araclar/arayuz-denetim.mjs` iş bitince hesabını siler
+  (`--sakla` / `--hesap-sil`).
 - **Toplam oyuncu sayısı hiçbir yerde gösterilmez.**
 - **Şehir Şampiyonu (641, arka plan; görünüm Görsel Paket 2'de):** kapanan haftayı şehrinde 1. bitiren sonraki hafta
   boyunca o şehrin şampiyonudur (TEK kaynak `lig_arsiv.sehir_sampiyonu`, aktif = `hafta_basi() − 7`; profilde alan yok).
@@ -474,6 +478,10 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   bronz 10 · gümüş 25 · altın 50 · elmas 100 (günlük tavana sayılmaz). Geriye dönük verilenler
   coin'siz (`geriye_donuk`). Vitrin `profiles.vitrin_rozetleri` (en çok 3). Level 25/50/75/100
   rozeti level çerçevesini de verir. Sözleşme `docs/SOZLESME_ROZET_CERCEVE.md`.
+  **Koleksiyon rozetleri (1065, Ida 11 Eki 2026):** grup `koleksiyon` (sıra 10; gizli 11), Koleksiyon Puanı 25/50/100/200 →
+  Koleksiyoncu I/II/III + Büyük Koleksiyoncu (EN Collector I/II/III, Grand Collector), bronz→elmas, coin 10/25/50/100, elmas 0,
+  unvan/çerçeve/süs yok — toplam 106 rozet. Ölçüt `rozet_olcut('koleksiyon_puani')`; tetik `profiles.koleksiyon_puani`
+  artınca (`trg_profiles_koleksiyon_rozet`). Madalyon amblemi `koleksiyon` (üç taş; ikon `diamonds-four`).
 - **Kozmetik katmanları (481, Ida):** **çerçeve** = kazanılan prestij, **asla satılmaz** (lig, level,
   turnuva şampiyonu, etkinlik — Yılbaşı, Ramazan Bayramı); dükkânda görünmez, Profil › Koleksiyon'da
   (kilitliler "nasıl kazanılır"la). **Arka Plan** (kod adı: `aura`; oyuncuya görünen ad — ekranda "aura" kelimesi geçmez, Ida 24 Eyl. Açıklama: "Arka Plan — avatarının arkasındaki hareketli sahne") = satılık tarz, avatarın arkasındaki tema katmanı; eski 12
