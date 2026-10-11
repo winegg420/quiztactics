@@ -172,7 +172,18 @@ export default function KurulumSihirbazi({ onTamam }) {
     }
   };
 
-  const hataNotu = hata ? <QtToast ton="yanlis" metin={hata} className="g-sihirbaz-hata" /> : null;
+  // Önizleme kartı: 1. adımda yazılan ad, sonra kayıtlı ad. Avatar: 2. adımda seçilen; 3. adımda onaylanan
+  // (Avatarsız devam → harf). undefined = henüz yok → "?" yuvası.
+  const onizlemeAd = (adim === 1 ? takmaAd : profile?.takma_ad ?? takmaAd).trim();
+  const onizlemeAvatar = adim === 2
+    ? (secilenAvatar ?? undefined)
+    : adim === 3 ? (profile?.gorunen_avatar ?? profile?.avatar_url ?? null) : undefined;
+  // 2. adım: önce seçilebilen (ücretsiz/açık) avatarlar, sonra "Oynadıkça açılır" altında kilitliler (1039 davranışı aynı)
+  const tumAvatarlar = [...hazirAvatarlar, ...katalogAvatarlari];
+  const acikAvatarlar = tumAvatarlar.filter((a) => !avatarKilitliMi(avatarSahiplik, a.url));
+  const kilitliAvatarlar = tumAvatarlar.filter((a) => avatarKilitliMi(avatarSahiplik, a.url));
+
+  const hataNotu = hata ?<QtToast ton="yanlis" metin={hata} className="g-sihirbaz-hata" /> : null;
 
   // Tasarım Adım 2 (Yön A): eski paylaşılan Modal (bd-modal-katman — araç testleri
   // `.bd-modal-katman input/select` ve `img[src*='/avatars/']` arar) içinde tasarım
@@ -180,6 +191,23 @@ export default function KurulumSihirbazi({ onTamam }) {
   return (
     <Modal etiket={ceviri("Kurulum")}>
       <div className="qt-modal g-sihirbaz">
+        {/* Canlı oyuncu kartı önizlemesi (Profil kimlik kartının küçük hali): yazdıkça / seçtikçe güncellenir */}
+        <div className="g-sihirbaz-kart" role="group" aria-label={ceviri("Oyuncu kartın")}>
+          <span className="g-sihirbaz-kart-avatar">
+            {onizlemeAvatar !== undefined
+              ? <Avatar profile={{ gorunen_ad: onizlemeAd || "?", avatar_url: onizlemeAvatar }} boyut={56} />
+              : <span className="g-sihirbaz-kart-bos" aria-hidden="true">?</span>}
+          </span>
+          <span className="g-sihirbaz-kart-metin">
+            <b className={onizlemeAd ? undefined : "g-sihirbaz-kart-yer"}>{onizlemeAd || ceviri("Takma adın")}</b>
+            <span className="g-sihirbaz-kart-konum">
+              {sehir
+                ? <><Bayrak kod={ulke} /> <span>{sehir}</span></>
+                : <span className="g-sihirbaz-kart-yer">{ceviri("Şehrin")}</span>}
+            </span>
+          </span>
+        </div>
+
         <div className="g-sihirbaz-adimlar">
           <div className="g-sihirbaz-cizgi" aria-hidden="true">
             {[1, 2, 3].map((a) => (
@@ -233,7 +261,10 @@ export default function KurulumSihirbazi({ onTamam }) {
             </p>
 
             <div className="g-avatar-izgara" role="group" aria-label={ceviri("Avatarını seç")}>
-              {nadirligeGoreBolumle([...hazirAvatarlar, ...katalogAvatarlari], (a) => a.url, nadirlikHaritasi).map((b) => (
+              {[acikAvatarlar, kilitliAvatarlar].map((liste, li) => liste.length > 0 && (
+                <Fragment key={li}>
+                  {li === 1 && <div className="qt-av-bolum g-avatar-kilit-baslik" role="heading" aria-level={3}>{ceviri("Oynadıkça açılır")}</div>}
+              {nadirligeGoreBolumle(liste, (a) => a.url, nadirlikHaritasi).map((b) => (
                 <Fragment key={b.nadirlik ?? "tumu"}>
                   {b.nadirlik && <AvatarBolumBasligi nadirlik={b.nadirlik} sayi={b.ogeler.length} />}
                   {b.ogeler.map((a) => {
@@ -258,6 +289,8 @@ export default function KurulumSihirbazi({ onTamam }) {
                       </button>
                     );
                   })}
+                </Fragment>
+              ))}
                 </Fragment>
               ))}
             </div>
@@ -345,12 +378,6 @@ export default function KurulumSihirbazi({ onTamam }) {
           </div>
         )}
 
-        {profile && (
-          <div className="g-sihirbaz-onizleme">
-            <Avatar profile={profile} boyut={36} />
-            <span className="qt-kucuk">{profile.gorunen_ad}</span>
-          </div>
-        )}
       </div>
     </Modal>
   );

@@ -4,6 +4,7 @@ import { QtMarka, QtCip, QtKart, QtDugme, QtToast, QtBosDurum, QtIkon } from "..
 import "../../oyun/tasarim/ekranlar/g-ortak.css";
 import "../../oyun/tasarim/ekranlar/g-giris.css";
 import AnaEkranaEkle from "../../oyun/components/AnaEkranaEkle.jsx";
+import { ModFiguru } from "../../oyun/components/ModFiguru.jsx";
 import { girisHedefiniKaydet } from "../lib/girisHedefi.js";
 import { useDil } from "../../oyun/lib/dilKanca.js";
 import { DILLER, girisDiliniKaydet } from "../../oyun/lib/dil.js";
@@ -39,6 +40,13 @@ function girisHatasi(e, saglayiciAd, ceviri) {
   }
   return m || ceviri("Giriş yapılamadı. Tekrar dene.");
 }
+
+// Giriş vitrinindeki üç mod; vaatler ana sayfa mod şeritleriyle aynı metin
+const GIRIS_MODLARI = [
+  { tur: "klasik", ad: "Klasik", vaat: "Hızlı sorular, en çok bilen kazanır" },
+  { tur: "duello", ad: "Düello", vaat: "Kontrolü al, 3/3 yap" },
+  { tur: "kasa", ad: "Ortak Hazine", vaat: "Doğru anda aç" },
+];
 
 const SAGLAYICI_AD = {
   google: "Google",
@@ -378,6 +386,20 @@ export default function Login() {
                 )}
               </p>
             </QtKart>
+
+            {/* Giriş · Tanıtım · Kurulum turu (11 Eki 2026): kartın altındaki boşlukta oyunun ne olduğu —
+                ana sayfa mod şeridi dili (mod rengi + açık ışın + ModFiguru). Tıklanmaz, yalnız vitrin. */}
+            <section className="g-giris-modlar" aria-labelledby="g-giris-modlar-baslik">
+              <h2 id="g-giris-modlar-baslik" className="g-giris-modlar-baslik">{ceviri("Seni neler bekliyor")}</h2>
+              <ul className="g-giris-mod-liste">
+                {GIRIS_MODLARI.map((m) => (
+                  <li key={m.tur} className={`g-giris-mod g-giris-mod--${m.tur} qt-isin-sahne`}>
+                    <span className="g-giris-mod-metin"><b>{ceviri(m.ad)}</b><small>{ceviri(m.vaat)}</small></span>
+                    <ModFiguru tur={m.tur} className="g-giris-mod-figur" />
+                  </li>
+                ))}
+              </ul>
+            </section>
 
             {/* Yasal metinler giriş duvarının ÖNÜNDE erişilebilir olmalı
                 (Google Play ve reklam ağları şartı). */}
