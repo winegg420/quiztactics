@@ -127,3 +127,13 @@
 @media (prefers-reduced-motion: reduce) {
   .qt-sahne-mac[data-kat] { transition: none; }
 }
+
+/* Gök sahne PANELİ (11 Eki 2026, kalan ekranlar turu): Hatalarım tur sonu panelinin çerçevesi — kalın lacivert
+   kontur + alt dudak, yuvarlak köşe. `.qt-sahne-mac.qt-sahne-gok` ile birlikte kullanılır (zemin oradan gelir).
+   iOS: transform/fixed yok. */
+.qt-gok-panel {
+  position: relative;
+  border-radius: var(--qt-r-xl);
+  box-shadow: inset 0 0 0 3px var(--qt-metin), 0 var(--qt-dudak-b, 4px) 0 var(--qt-metin);
+  overflow: hidden;
+}

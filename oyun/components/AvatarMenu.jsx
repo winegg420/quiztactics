@@ -62,7 +62,7 @@ export default function AvatarMenu({ profile }) {
     setCikisOnay(true);
   };
 
-  // Menü öğesi: ikon + yazı (+ sağda durum). Hepsi ≥ 44 px, qt- düzeninde.
+  // Menü öğesi: renkli ikon kutusu (mavi = sen, altın = ödül, nötr = ayar) + yazı (+ sağda durum). Hepsi ≥ 44 px, qt- düzeninde.
   return (
     <div className="a-avatar-menu-kap" ref={kapRef}>
       {/* Avatar düğmesi kalktı (profil kartıyla tekrar ediyordu): aynı menüyü dişli açar. 44×44 dokunma hedefi. */}
@@ -72,30 +72,30 @@ export default function AvatarMenu({ profile }) {
       {acik && (
         <div className="a-avatar-menu" role="menu" ref={menuRef} aria-label={tt("Profilim ve ayarlar")}>
           <button type="button" role="menuitem" className="a-avatar-menu-oge" onClick={() => git(y("/profil"))}>
-            <QtIkon ad="kisi" boyut={20} /> <span>{tt("Profilim")}</span>
+            <span className="a-avatar-menu-ik a-avatar-menu-ik--mavi" aria-hidden="true"><QtIkon ad="kisi" boyut={20} /></span> <span>{tt("Profilim")}</span>
           </button>
           <button type="button" role="menuitem" className="a-avatar-menu-oge" onClick={() => git(y("/profil?sekme=ayarlar"))}>
-            <QtIkon ad="ayar" boyut={20} /> <span>{tt("Ayarlar")}</span>
+            <span className="a-avatar-menu-ik a-avatar-menu-ik--notr" aria-hidden="true"><QtIkon ad="ayar" boyut={20} /></span> <span>{tt("Ayarlar")}</span>
           </button>
           {/* Görevler: ana sayfa şeridi kısa ekranda (<700 px) gizlidir; buradan her ekranda erişilir */}
           <button type="button" role="menuitem" className="a-avatar-menu-oge" onClick={() => git(y("/gorevler"))}>
-            <QtIkon ad="gorevListesi" boyut={20} /> <span>{tt("Görevler")}</span>
+            <span className="a-avatar-menu-ik a-avatar-menu-ik--altin" aria-hidden="true"><QtIkon ad="gorevListesi" boyut={20} /></span> <span>{tt("Görevler")}</span>
           </button>
           {sezonOzet?.gorunur && (
             <button type="button" role="menuitem" className="a-avatar-menu-oge" onClick={() => git(y("/sezon-yolu"))}>
-              <QtIkon ad="kupa" boyut={20} /> <span>{tt("Sezon Yolu")}</span>
+              <span className="a-avatar-menu-ik a-avatar-menu-ik--altin" aria-hidden="true"><QtIkon ad="kupa" boyut={20} /></span> <span>{tt("Sezon Yolu")}</span>
             </button>
           )}
           <button type="button" role="menuitemcheckbox" aria-checked={muzik} className="a-avatar-menu-oge" onClick={muzikDegistir}>
-            <QtIkon ad="muzik" boyut={20} /> <span>{sesMetni("Müzik")}</span>
+            <span className="a-avatar-menu-ik a-avatar-menu-ik--notr" aria-hidden="true"><QtIkon ad="muzik" boyut={20} /></span> <span>{sesMetni("Müzik")}</span>
             <span className={sinif("a-avatar-menu-durum", muzik && "a-avatar-menu-durum--acik")}>{muzik ? sesMetni("Açık") : sesMetni("Kapalı")}</span>
           </button>
           <button type="button" role="menuitemcheckbox" aria-checked={ses} className="a-avatar-menu-oge" onClick={sesDegistir}>
-            <QtIkon ad={ses ? "sesAcik" : "sesKapali"} boyut={20} /> <span>{sesMetni("Efektler")}</span>
+            <span className="a-avatar-menu-ik a-avatar-menu-ik--notr" aria-hidden="true"><QtIkon ad={ses ? "sesAcik" : "sesKapali"} boyut={20} /></span> <span>{sesMetni("Efektler")}</span>
             <span className={sinif("a-avatar-menu-durum", ses && "a-avatar-menu-durum--acik")}>{ses ? sesMetni("Açık") : sesMetni("Kapalı")}</span>
           </button>
           <div className="a-avatar-menu-dil" role="group" aria-label={tt("Dil")}>
-            <QtIkon ad="dunya" boyut={20} />
+            <span className="a-avatar-menu-ik a-avatar-menu-ik--notr" aria-hidden="true"><QtIkon ad="dunya" boyut={20} /></span>
             {DILLER.map((d) => (
               <button key={d} type="button" role="menuitemradio" aria-checked={dil === d}
                       className={sinif("a-avatar-menu-dil-dugme", dil === d && "a-avatar-menu-dil-dugme--secili")}
@@ -105,7 +105,7 @@ export default function AvatarMenu({ profile }) {
             ))}
           </div>
           <button type="button" role="menuitem" className="a-avatar-menu-oge a-avatar-menu-oge--cikis" onClick={cikis}>
-            <QtIkon ad="cikis" boyut={20} /> <span>{tt("Çıkış Yap")}</span>
+            <span className="a-avatar-menu-ik a-avatar-menu-ik--kirmizi" aria-hidden="true"><QtIkon ad="cikis" boyut={20} /></span> <span>{tt("Çıkış Yap")}</span>
           </button>
         </div>
       )}

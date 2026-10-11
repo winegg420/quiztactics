@@ -3,9 +3,7 @@ import { hataMesaji } from "../lib/hata.js";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { sureMetni } from "../lib/konum.js";
-import { y } from "../lib/yol.js";
 import { MEYDAN_ACIK } from "../lib/ozellikBayraklari.js";
-import DavetKodu from "./DavetKodu.jsx";
 import EngellediklerimBolumu from "./EngellediklerimBolumu.jsx";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import { tt } from "../lib/dil.js";
@@ -38,7 +36,6 @@ export default function ProfilAyarlari() {
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
   const nadirlikHaritasi = useNadirlikHaritasi();   // 770: bayrak açıkken nadirliğe göre bölümler
   const avatarSahiplik = useAvatarSahiplik();   // 820: Epik / Efsanevi avatar kilitli görünür, seçilemez
-  const [kopyalandi, setKopyalandi] = useState(false);
   const [calisiyor, setCalisiyor] = useState(false);
 
   // Meydanda ikram alma tercihi (varsayılan AÇIK = rahatsiz_etme false).
@@ -111,10 +108,6 @@ export default function ProfilAyarlari() {
     }
   };
 
-  const davetLinki = profile.davet_kodu
-    ? window.location.origin + y(`/davet/${profile.davet_kodu}`)
-    : null;
-
   return (
     <>
       {/* ---------- Meydanda rahatsız etme ----------
@@ -136,7 +129,7 @@ export default function ProfilAyarlari() {
 
       {/* ---------- Takma ad ---------- */}
       <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-takma-ad">
-        <h2 id="qt-pf-takma-ad" className="qt-baslik-3">{tt("Takma adın")}</h2>
+        <h2 id="qt-pf-takma-ad" className="qt-baslik-3 qt-pf-bas"><span className="qt-pf-bas-ik" aria-hidden="true"><QtIkon ad="kalem" boyut={18} /></span>{tt("Takma adın")}</h2>
 
         {adDuzenle ? (
           <>
@@ -191,7 +184,7 @@ export default function ProfilAyarlari() {
 
       {/* ---------- Avatar ---------- */}
       <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-avatar-baslik">
-        <h2 id="qt-pf-avatar-baslik" className="qt-baslik-3">{tt("Avatarın")}</h2>
+        <h2 id="qt-pf-avatar-baslik" className="qt-baslik-3 qt-pf-bas"><span className="qt-pf-bas-ik qt-pf-bas-ik--mavi" aria-hidden="true"><QtIkon ad="kisi" boyut={18} /></span>{tt("Avatarın")}</h2>
         {avatarDuzenle ? (
           <>
             <div className="qt-pf-avatar-izgara">
@@ -261,30 +254,7 @@ export default function ProfilAyarlari() {
         )}
       </QtKart>
 
-      {/* ---------- Davet kodu ---------- */}
-      <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-davet-kodu">
-        <h2 id="qt-pf-davet-kodu" className="qt-baslik-3">{tt("Davet kodun")}</h2>
-        {/* Kodun kendisi düğme: dokununca YALNIZ kod panoya gider. */}
-        <DavetKodu kod={profile.davet_kodu} />
-        <QtDugme
-          tur="ikincil"
-          ikon={kopyalandi ? "onay" : "kopyala"}
-          tamGenislik
-          devreDisi={!davetLinki}
-          onClick={async () => {
-            try {
-              await navigator.clipboard.writeText(davetLinki);
-              setKopyalandi(true);
-              setTimeout(() => setKopyalandi(false), 2500);
-            } catch (e) {
-              console.warn("[Bildim] davet linki kopyalanamadı:", e?.message ?? e);
-            }
-          }}
-        >
-          {kopyalandi ? tt("Kopyalandı") : tt("Davet linkini kopyala")}
-        </QtDugme>
-      </QtKart>
-
+      {/* Davet kodu kartı kalktı (11 Eki 2026): aynı kod + paylaşım Profil › Davet sekmesinde (DavetKarti); iki yerde tekrar ediyordu. */}
       {/* ---------- 620: Engellediklerim ---------- */}
       <EngellediklerimBolumu />
     </>

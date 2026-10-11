@@ -38,3 +38,25 @@
 }
 .qt-dv-liste { border-top-color: var(--oyk-kontur); }
 .qt-dv--odul .qt-dv-odul { background: var(--oyk-altin); }
+
+/* Kalan ekranlar turu (11 Eki 2026): üst bölüm altın ışınlı ödül şeridi (Görevler sandık sahnesinin dili);
+   kart zemini Profil panelinde de altın kalır. Boş listede açıklayıcı satır. Ad düğmesi ≥ 44 px. */
+.qt-pf .qt-kart.qt-dv.qt-dv--odul, .qt-kart.qt-dv.qt-dv--odul { background: var(--oyk-altin-acik); }   /* Profil panelindeki beyaz kart kuralını (.qt-pf .qt-kart.qt-kart) geçer */
+.qt-dv--odul .qt-dv-ust {
+  padding: var(--qt-b-3);
+  border-radius: var(--qt-r-l);
+  background:
+    radial-gradient(circle at 40px 50%, rgb(255 255 255 / 0.9) 0, rgb(255 255 255 / 0) 60px),
+    repeating-conic-gradient(from 0deg at 40px 50%, #ffe08a 0deg 10deg, #fff3c4 10deg 20deg);
+  box-shadow: inset 0 0 0 3px var(--oyk-kontur);
+}
+.qt-dv--odul .qt-dv-odul { box-shadow: inset 0 0 0 2px var(--oyk-kontur), 0 2px 0 var(--oyk-kontur); }
+.qt-dv--odul .qt-dv-ikon { box-shadow: inset 0 0 0 3px var(--oyk-kontur), 0 3px 0 var(--oyk-kontur); }
+.qt-dv-liste .ls-ad-dugme { min-width: 44px; }
+.qt-dv-bos { display: flex; align-items: center; gap: var(--qt-b-3); margin: 0; padding-top: var(--qt-b-2); border-top: 1px solid var(--oyk-kontur); }
+.qt-dv-bos-ik {
+  display: inline-grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); box-shadow: inset 0 0 0 3px var(--oyk-kontur), 0 3px 0 var(--oyk-kontur);
+}
+.qt-dv-bos-metin { display: grid; gap: 2px; min-width: 0; }
+.qt-dv-bos-metin b { font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); }

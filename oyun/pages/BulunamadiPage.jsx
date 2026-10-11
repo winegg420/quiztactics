@@ -2,13 +2,14 @@
 // 404 (Paket 41 I) — bilinmeyen adres artık sessizce ana sayfaya atılmıyor.
 // `kapaliMod` verilirse dondurulmuş bir modun eski bağlantısıdır: kısa not + kendiliğinden yönlendirme.
 // Tasarım Adım 2 (Yön A): QtBosDurum + QtDugme; davranış aynı.
+// Kalan ekranlar turu (11 Eki 2026): beyaz form kartı yerine gök sahne paneli (Hatalarım tur sonu dili) + tek "Ana sayfa" düğmesi.
 // ============================================================
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 import { bulunamadiIsaretle } from "../lib/bulunamadiSayfa.js";
-import { QtBosDurum, QtDugme, QtKart } from "../tasarim/index.js";
+import { QtBosDurum, QtDugme } from "../tasarim/index.js";
 import "../tasarim/ekranlar/g-sayfalar.css";
 
 // Kendiliğinden yönlendirme süresi (kapalı mod notu).
@@ -34,12 +35,12 @@ export default function BulunamadiPage({ kapaliMod = false, kapaliOzellik = fals
 
   return (
     <div className="g-bulunamadi" role="status">
-      <QtKart dolgu="b" className="g-bulunamadi-kart">
+      <section className="g-bulunamadi-kart qt-sahne-mac qt-sahne-gok qt-gok-panel">
         <QtBosDurum
           ikon={kapaliMod ? "kilit" : "haritaPini"}
           gorsel={kapaliMod || kapaliOzellik ? undefined : "bulunamadi"}
           gorselTarz="sahne"
-          ton={kapaliMod ? "vurgu" : "mor"}
+          ton={kapaliMod ? "vurgu" : "mavi"}
           baslik={<span role="heading" aria-level={1}>{baslik}</span>}
           metin={
             kapaliMod
@@ -48,7 +49,7 @@ export default function BulunamadiPage({ kapaliMod = false, kapaliOzellik = fals
           }
           eylem={
             <QtDugme ikon="ev" onClick={() => navigate(y(), { replace: true })}>
-              {tt("Ana sayfaya dön")}
+              {tt("Ana sayfa")}
             </QtDugme>
           }
         />
@@ -57,7 +58,7 @@ export default function BulunamadiPage({ kapaliMod = false, kapaliOzellik = fals
             <span className="g-bulunamadi-sure-dolgu" style={{ animationDuration: `${YONLENDIRME_MS}ms` }} />
           </span>
         )}
-      </QtKart>
+      </section>
     </div>
   );
 }

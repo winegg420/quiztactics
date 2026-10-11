@@ -361,7 +361,7 @@ export default function ProfilePage() {
 
           {/* ---------- Oyun ayarları: ses, dil, bildirim, tema ---------- */}
           <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-oyun-ayar">
-            <h2 id="qt-pf-oyun-ayar" className="qt-baslik-3">{tt("Oyun ayarları")}</h2>
+            <h2 id="qt-pf-oyun-ayar" className="qt-baslik-3 qt-pf-bas"><span className="qt-pf-bas-ik" aria-hidden="true"><QtIkon ad="ayar" boyut={18} /></span>{tt("Oyun ayarları")}</h2>
             {/* Maç sesleri: son 5 saniye tik'i, doğru/yanlış vuruşu, bitiş tonu (varsayılan açık) */}
             {/* Ajan H: müzik ayrı anahtar (bildim_muzik); efektler eski bildim_ses anahtarında */}
             <QtAnahtar
@@ -442,7 +442,7 @@ export default function ProfilePage() {
             <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-konum">
               <div className="qt-pf-ayar-satir">
                 <div className="qt-pf-ayar-metin">
-                  <h2 id="qt-pf-konum" className="qt-pf-ayar-ad">{tt("Yarıştığın şehir")}</h2>
+                  <h2 id="qt-pf-konum" className="qt-pf-ayar-ad qt-pf-bas"><span className="qt-pf-bas-ik qt-pf-bas-ik--mavi" aria-hidden="true"><QtIkon ad="haritaPini" boyut={18} /></span>{tt("Yarıştığın şehir")}</h2>
                   <span className="qt-kucuk qt-soluk">
                     {profile.ulke
                       ? <><Bayrak kod={profile.ulke} /> {profile.sehir ?? "—"}</>

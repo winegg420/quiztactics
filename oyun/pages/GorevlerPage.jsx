@@ -302,6 +302,16 @@ export default function GorevlerPage() {
             </section>
 
             <YildizYolu toplam={toplam} yanan={yanan} sandikYanik={sandikYanik} sandikAcik={sandikAcik} metin={yolYazisi} />
+            {/* Kalan ekranlar turu (11 Eki 2026): haftalık sandığın içindekiler açılmadan görünsün (sunucu verisi: sandik.sp / sandik.joker) */}
+            {!gunluk && sandik && !sandikAlindi && (Number(sandik.sp) > 0 || Number(sandik.joker?.adet) > 0) && (
+              <p className="gk-sandik-icerik">
+                <span className="gk-sandik-icerik-ad">{tt("Sandıkta")}</span>
+                {Number(sandik.sp) > 0 && <b className="gk-sandik-cip">{tt("+{n} SP", { n: sayiMetni(Number(sandik.sp)) })}</b>}
+                {Number(sandik.joker?.adet) > 0 && (
+                  <b className="gk-sandik-cip">{`${SKILL_TANIMLARI[sandik.joker.tur]?.ad ?? tt("Joker")} ×${sandik.joker.adet}`}</b>
+                )}
+              </p>
+            )}
 
             <ul className="gk-kartlar">
               {liste.map((g, i) => (
