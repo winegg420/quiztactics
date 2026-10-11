@@ -1466,11 +1466,58 @@
       {
         "klasor": "codex-05",
         "hedef": 200,
-        "net": 0,
-        "durum": "kapı 1–5 ve kota tamamlama",
+        "net": 200,
+        "durum": "Claude incelemesi bekliyor",
         "migration_uygulandi": false,
         "canli_yasak": true,
-        "ara_kayit": ".tmp/codex/codex-05/durum.json"
+        "ara_kayit": ".tmp/codex/codex-05/durum.json",
+        "taslak": 1149,
+        "kota": {
+          "sanat": {
+            "z2": 18,
+            "z3": 8
+          },
+          "muzik": {
+            "z2": 13,
+            "z3": 6
+          },
+          "teknoloji": {
+            "z2": 20,
+            "z3": 8
+          },
+          "spor": {
+            "z2": 16,
+            "z3": 7
+          },
+          "tarih": {
+            "z2": 21,
+            "z3": 9
+          },
+          "sinema": {
+            "z2": 15,
+            "z3": 6
+          },
+          "genel_kultur": {
+            "z2": 23,
+            "z3": 10
+          },
+          "edebiyat": {
+            "z2": 14,
+            "z3": 6
+          }
+        },
+        "zorluk": {
+          "2": 140,
+          "3": 60
+        },
+        "yerel": 1,
+        "en": 199,
+        "kapilar": "1–5 yerel 200/200",
+        "ek_havuz": [
+          "codex-04"
+        ],
+        "migration": "codex-05/bekleyen.sql",
+        "jev_usd": 0.03597132
       },
       {
         "klasor": "codex-06",
