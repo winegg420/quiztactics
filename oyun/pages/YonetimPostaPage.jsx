@@ -209,8 +209,8 @@ export default function YonetimPostaPage() {
       <h1 className="qt-baslik-1">{tt("Posta gönder")}</h1>
 
       <QtKart className="yp-bolum">
-        <h2 className="qt-baslik-3">{tt("Tür")}</h2>
-        <div className="yp-secenekler" role="group" aria-label={tt("Tür")}>
+        <h2 className="qt-baslik-3">{tt("Tür|posta")}</h2>
+        <div className="yp-secenekler" role="group" aria-label={tt("Tür|posta")}>
           <button type="button" className="yp-secenek" aria-pressed={f.tur === "odullu"} onClick={() => turSec("odullu")}>{tt("Ödüllü")}</button>
           <button type="button" className="yp-secenek" aria-pressed={f.tur === "duyuru"} onClick={() => turSec("duyuru")}>{tt("Duyuru")}</button>
         </div>

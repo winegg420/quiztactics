@@ -11774,3 +11774,11 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - Ölçüm: `araclar/grup-lobi-davet-ekran.mjs` (oturum dahil TAM taklit; Supabase'e hiç istek yok) → `tasarim/grup-lobi-davet/`. 390×844 TR + 360×780 EN: yatay taşma 0, "sen" satırı listede, "Beklenen:" yok, satır ortaları avatar=ad=rozet, rozet sağ kenarları eşit, davet kartı üç durumda 354 px.
 - Gözlem: taklitte kendi satırım hazır listesinde görünüyordu (siraliSkor kabul edenleri içerir); canlıda eksik görünmesi kendi kaydın `davet_durumu`/`terk_at` alanından olabilir — veri gelmeden kesin değil.
 - Kapsam dışı bırakılan benzerler: 1v1 HazirKapisi'nde "Beklenen: …" satırı duruyor (Klasik/Düello kapsam dışı); `DavetBandi.jsx` "Kabul Et" ikincil (beyaz) — kabul=yeşil kuralına uymuyor, dokunulmadı.
+
+## 2026-10-11 — Yönetim posta "Tür" çevirisi + Hatalarım kısa soru yerleşimi
+**Araç:** Claude Code
+**Neden:** /yonetim/posta "Tür" başlığı EN'de "Species" çıkıyordu; Hatalarım'da kısa soruda kart küçük kalıp ekran yarım doluyordu.
+
+- `oyun/lib/ceviri/posta.js`: `"Tür|posta": "Type"`; `YonetimPostaPage.jsx` iki `tt("Tür")` → `tt("Tür|posta")` (TR'de `dil.js` soneki atar → "Tür"). Genel `"Tür": "Species"` (karakter vitrini) aynen.
+- Diğer kısa anahtarlar tarandı (Kime, Herkes, Oyuncu, Lig, Mesaj, Ödüller, Joker, Coin, Elmas, Bitti, Aktif, Bitir, Düzenle, Gönder, Vazgeç): anlamca yanlış çıkan yok.
+- `m1-calisma.css` sonu: kısa soruda (uzun/çok-uzun sınıfı yoksa) kart `min-height: clamp(150px, 30dvh, 260px)`. Ölçüm (`araclar/calisma-ekran.mjs`, taklit): kısa kart 390×844 150→253 px, 360×780 150→234 px; uzun soru 192.8 / 181.5 px değişmedi; kayma 0, yatay taşma 0, alt boşluk 14.
