@@ -11665,3 +11665,13 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 
 - Kök sebep: `.d4-sonuc { justify-content: space-evenly }` grubu parçalara ayırıyordu. `justify-content: center; gap: 15px` (≤ 700 px yükseklikte 14 px) — başlık, hap, kartlar ve SON BASKI tek grup olarak panelin ortasında; esneyen boşluk yok. SON BASKI akışta kartların altında (360×640'ta binme yok). Yalnız CSS (`duello4.css`), mantık değişmedi.
 - Test: `araclar/duello-v4-ekran.mjs` 390×844 + 360×640, TR + EN (+ azaltma) 680/680 geçti; ekran görüntüleri gözle doğrulandı. Build temiz. Not: eski oturum dosyaları süresi dolmuştu — tek misafir oturumu `arayuz-denetim.mjs --sadece-oturum` ile yenilendi.
+
+## 2026-10-11 — 7 sayfa oyun ekranına çevrildi (Ida onaylı önce/sonra)
+**Araç:** Claude Code (Opus 5.5 + alt ajanlar)
+**Neden:** Ida — Modlar, Görevler, Turnuva lobisi, Dükkân, Profil, Meydan Oku ve ana sayfa "web sayfası" gibi duruyordu; onaylı çizimlere göre oyun ekranı dili.
+
+- Ana sayfa Düello alt yazısı "Kontrolü al, 3/3 yap" (ModSecimPenceresi + Meydan zaten v4 metnindeydi; eski metin başka yerde yok). Çeviri dosyaları `ceviri/ekran-*.js` (6 sayfa).
+- Modlar: 3 ana mod (mod rengi + ışın + ModFiguru — `components/ModFiguru.jsx` ana sayfa ile ortak), "Diğer modlar" 3 küçük kart. Görevler: öbür sekmenin sandık özeti + yenilenme hapı, kartlar ~250 px. Turnuva lobisi sarı sahne, 3 ödül (ayarlar `coin_turnuva_1..3`, `elmas_turnuva_n`), Lobiye katıl yeşil. Dükkân Joker: kural satırı yok, paket vitrini üstte, 2 sütun joker ızgarası, Efekt şimşek — 390×844 2800 → 1936 px (−%31). Profil: lig sahnesi geri (5 lig taklitle ölçüldü), kimlik 203 px, Ödüllerim ilk ekranda. Meydan: kart seçimi (mavi halka + tik) + altta sticky turuncu tek eylem (TR ek uyumu 'a/'e/'ya/'ye), Hazine ikonu her yerde sandık.
+- Madde 8: turnuva izleyici + Grup Maçı aktifken oyun modu hep açık (çift başlık yok). Düello/Hazine zaten doğruydu.
+- Madde 9: Klasik "Rakibin süreni kısalttı!" bandı 360×640 / 390×664 TR+EN taşmıyor (tam taklit maç, ağa istek yok; `.m1-skill` altında 66 px boşluk) — dokunulmadı.
+- Test: build temiz; 7 sayfa × 3 boyut × TR/EN yatay taşma 0; arayuz-denetim TEMİZ (araç port farkı yüzünden bir misafir hesap açtı — `hesabimi_sil` ile silindi). Görüntüler `tasarim/ekran-oyun/` (commit edilmedi).
