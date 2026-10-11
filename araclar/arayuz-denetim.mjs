@@ -25,6 +25,10 @@
 // Oturum: ilk çalıştırmada "Misafir olarak dene" ile bir misafir hesabı açar
 // ve oturumu `.arayuz-denetim-oturum.json` dosyasına yazar (git'e girmez).
 // Sonraki çalıştırmalar o oturumu kullanır — her seferinde yeni hesap açılmaz.
+// Hesap otomasyon tarayıcısında açıldığı için sunucuda lig dışı doğar (1064: navigator.webdriver →
+// arac_hesabi + lig_gizli; lige, sıralamaya, "seni geçti" bildirimine girmez).
+// İş bitince hesap SİLİNİR (hesabimi_sil) ve oturum dosyası kaldırılır. Oturumu başka araçlar
+// (denetim-9eki/10eki-ekran) kullanacaksa --sakla; onlar bitince `--hesap-sil` yalnız hesabı siler.
 // ============================================================
 import { chromium } from "playwright-core";
 import fs from "node:fs";
@@ -40,6 +44,8 @@ const ADRES = ARG.adres || "http://localhost:5173";
 const GORSEL = Boolean(ARG.gorsel);
 const OTURUM = path.resolve(typeof ARG.oturum === "string" ? ARG.oturum : ".arayuz-denetim-oturum.json"); // --oturum=dosya: ikinci hesap (ör. İngilizce)
 const SADECE_OTURUM = Boolean(ARG["sadece-oturum"]); // yalnız hesabı aç/kaydet, ölçme
+const SAKLA = Boolean(ARG.sakla) || SADECE_OTURUM;      // hesabı silme (oturumu başka araç kullanacak)
+const HESAP_SIL = Boolean(ARG["hesap-sil"]);            // yalnız kayıtlı oturumun hesabını sil
 const GORSEL_DIZIN = path.resolve("arayuz-denetim-gorseller");
 
 const GENISLIKLER = [
@@ -200,7 +206,42 @@ async function misafirGiris(sayfa) {
   return true;
 }
 
+/** .env'den anon anahtar (hesabimi_sil çağrısı için). */
+function anonAnahtar() {
+  for (const d of [".env.local", ".env"]) {
+    try {
+      const m = fs.readFileSync(d, "utf8").match(/^VITE_SUPABASE_ANON_KEY=(.+)$/m);
+      if (m) return m[1].trim();
+    } catch { /* dosya yok */ }
+  }
+  return null;
+}
+
+/** Kayıtlı oturumun hesabını sunucuda siler (hesabimi_sil) ve oturum dosyasını kaldırır. */
+async function hesabiSil() {
+  if (!fs.existsSync(OTURUM)) { console.log("· Silinecek oturum yok."); return; }
+  try {
+    const durum = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
+    const kayit = (durum.origins || []).flatMap((o) => o.localStorage || []).find((x) => /^sb-.+-auth-token$/.test(x.name));
+    const apikey = anonAnahtar();
+    if (!kayit || !apikey) { console.log("! Hesap silinemedi: oturum belirteci ya da anon anahtar yok."); return; }
+    const ref = kayit.name.replace(/^sb-/, "").replace(/-auth-token$/, "");
+    const t = JSON.parse(kayit.value);
+    const r = await fetch(`https://${ref}.supabase.co/rest/v1/rpc/hesabimi_sil`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${t.access_token}`, apikey },
+      body: "{}",
+    });
+    if (!r.ok) { console.log("! Hesap silinemedi:", r.status, (await r.text()).slice(0, 120)); return; }
+    fs.rmSync(OTURUM, { force: true });
+    console.log("· Araç hesabı silindi, oturum dosyası kaldırıldı.");
+  } catch (e) {
+    console.log("! Hesap silinemedi:", String(e?.message || e).slice(0, 120));
+  }
+}
+
 (async () => {
+  if (HESAP_SIL) { await hesabiSil(); return; }
   const tarayici = await chromium.launch({ channel: "chrome", headless: true });
   const baglam = await tarayici.newContext(
     fs.existsSync(OTURUM) ? { storageState: OTURUM } : {}
@@ -279,6 +320,7 @@ async function misafirGiris(sayfa) {
   }
 
   await tarayici.close();
+  if (!SAKLA) await hesabiSil();
 
   console.log("\n===== ARAYÜZ DENETİMİ =====");
   if (!bulgular.length) {
