@@ -1,0 +1,3218 @@
+{
+  "parti": "codex-07",
+  "net": 200,
+  "canli_yasak": true,
+  "yerel": true,
+  "ek_havuz": [
+    "codex-04",
+    "codex-05",
+    "codex-06"
+  ],
+  "ek_havuz_hash": "c360ebb93e2f542770269787570cedb266c52dbedcddcb585b1cf3ef59d87b3b",
+  "snapshot_kaynak": "codex-06",
+  "snapshot_tarih": "2026-10-10T14:50:48.092Z",
+  "sinir": "Canlı ölçülmedi; mevcut snapshot ve repo SQL eşikleri kullanıldı.",
+  "kontrol_tarih": "2026-10-11T19:06:54.198Z",
+  "kayitlar": [
+    {
+      "id": "C07-01",
+      "taslak_id": "C07-N0104",
+      "hash": "f68cfeb22231d3afdda43c468d326cd3f96c67698f589d372f41f46ac134622e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.58,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-02",
+      "taslak_id": "C07-N0105",
+      "hash": "14873ef747fadcc47accc489a191ccc47249c5340ef55acb00e6fffe1b34e2a6",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.57,
+      "yanlis_sik_en_buyuk_p": 0.02,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-03",
+      "taslak_id": "C07-N0107",
+      "hash": "879380703ff0813e164bdf76e41683f38f8b25a48c977e9f6052c50c9e949e0a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.06,
+      "yanlis_sik_en_buyuk_p": 0.24,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-04",
+      "taslak_id": "C07-N0114",
+      "hash": "ed501d70510aedf709ce88487da08b2a42f721612c79c715d26287fa364a8511",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.23,
+      "yanlis_sik_en_buyuk_p": 0.09,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-05",
+      "taslak_id": "C07-N0244",
+      "hash": "93753d126bab7c845ac772ff4c171cbaeaabb684b250837d7ba98cbf33589df9",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.29,
+      "yanlis_sik_en_buyuk_p": 0.07,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-06",
+      "taslak_id": "C07-N0245",
+      "hash": "d390f7f1a4fc5288d24b7ac5685b8ea7f5666598c2a719c0e0acd07d943232cf",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.06,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-07",
+      "taslak_id": "C07-N0248",
+      "hash": "b5b8adf7c506363cd4f70dac0638ccbc71564b9fac0cce955c7ec0e8a77223fb",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.22,
+      "yanlis_sik_en_buyuk_p": 0.09,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-08",
+      "taslak_id": "C07-N0251",
+      "hash": "e6b5c47eb8e97057213c91518b810853ccddc039744ca20eb8b19187df9cea05",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.65,
+      "yanlis_sik_en_buyuk_p": 0.09,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-09",
+      "taslak_id": "C07-N0256",
+      "hash": "887de23e37e056295bc3d2b543ccbb00cb30ada0cd72c2ec8a5920dd25e96a65",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.12,
+      "yanlis_sik_en_buyuk_p": 0.17,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-10",
+      "taslak_id": "C07-N0258",
+      "hash": "0a246fd3d07bbf0584cc8aad55b2b6b7bb288bec88dc0b66c239e81eacdc6e3f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.37,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-11",
+      "taslak_id": "C07-N0264",
+      "hash": "ab5c2fb0abbfa71c8d86b59e9221b82cd68311a832d53d137abe86799b095401",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.19,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-12",
+      "taslak_id": "C07-N0400",
+      "hash": "582d24400abfe54b0d448798998748458d7ab1bc18c712573df08b1e771ced2f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.11,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-13",
+      "taslak_id": "C07-N0424",
+      "hash": "33cdd289679ab130b50f4f75869963c81d7be60657d369a5e18e87e18f93d91b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.15,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-14",
+      "taslak_id": "C07-N0454",
+      "hash": "4a39a10f1b2fab516f84a5e03a6b704b27e72297e4933acbcfa1325d4e9c06d0",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.1,
+      "yanlis_sik_en_buyuk_p": 0.09,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-15",
+      "taslak_id": "C07-N0456",
+      "hash": "58984f60e39f31ebadb10a4e265f1feebf8ad2642fc3dac3e2e9f4fa5a9df00d",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.16,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-16",
+      "taslak_id": "C07-N0458",
+      "hash": "23cdbf1f6ea4101e429b733dc4138cfd80534b6d642b080124e0aadf4cd3e3a8",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.17,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-17",
+      "taslak_id": "C07-R016",
+      "hash": "9b9e9d4c7c7a347511593d7b0ae2a83b0ed986f3f449c676a1e59a10560fa421",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.73,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-18",
+      "taslak_id": "C07-R042",
+      "hash": "1695f103ff55d70df4c4cff29661fe411846011a13012f8507159890ca44715a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.68,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-19",
+      "taslak_id": "C07-N0117",
+      "hash": "2d16f2472f1c102c3beb15770bf59d73579965c821ec6b82cf19fb746658d53a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.6,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-20",
+      "taslak_id": "C07-N0260",
+      "hash": "c2ad5eee0d01a2e91f4ff53d925eaf3d79c4556fa1d1c1278a67c77e046a318b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.08,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-21",
+      "taslak_id": "C07-N0262",
+      "hash": "5b9bb38a486cec8f00be70b817c062b18147cb9422b30c8d38a79a76905e8546",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.1,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-22",
+      "taslak_id": "C07-N0421",
+      "hash": "38ad4d8cf007a2a9e159d35f6f15acc4f9ef02a9061167560f558188c5bceee5",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.58,
+      "yanlis_sik_en_buyuk_p": 0.09,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-23",
+      "taslak_id": "C07-N0460",
+      "hash": "effde25e4223fa7a455ed089aa1cfb1e81483d2b36716dc7f4adbc916d9c538e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.11,
+      "yanlis_sik_en_buyuk_p": 0.12,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-24",
+      "taslak_id": "C07-N0461",
+      "hash": "fd5c0c5233f8a9c7d154ef301fe9d7bdc658aed321d8fe04f5b8364b201bcd2f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.4,
+      "yanlis_sik_en_buyuk_p": 0.11,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-25",
+      "taslak_id": "C07-R021",
+      "hash": "3cf3157607df51b93629c280c65ccf2e34ae4228d66a32cd99c1f6385af2ffdf",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.49,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-26",
+      "taslak_id": "C07-N0122",
+      "hash": "8f71811bfa5f81b70b6af187896587be61ca2a99e1b17695580c2b53c1a97296",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.14,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-27",
+      "taslak_id": "C07-N0123",
+      "hash": "bd47e02aa32bbe9c2f496d2634c6cd6f8810c2395405fff81bccce6f96f4a75b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.32,
+      "yanlis_sik_en_buyuk_p": 0.11,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-28",
+      "taslak_id": "C07-N0124",
+      "hash": "5160caf716e4369d6573e6d47d8ff5868aad29f0e8b2acc15a4af6e604d2e07f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.37,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-29",
+      "taslak_id": "C07-N0126",
+      "hash": "eb5339cf082153003b69114bdd4095d43a2856415f29da0b96f4d92a0f6d9014",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.09,
+      "yanlis_sik_en_buyuk_p": 0.09,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-30",
+      "taslak_id": "C07-N0127",
+      "hash": "2a7020926a7d4f8438e44feee948fac37b17567992f58126172ea7f9e91420bf",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.28,
+      "yanlis_sik_en_buyuk_p": 0.1,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-31",
+      "taslak_id": "C07-N0131",
+      "hash": "4a62cc90b63364c2f8d7c3c8d3c3f1c7234524acd81e97e69f800f40f789eefd",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.29,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-32",
+      "taslak_id": "C07-N0134",
+      "hash": "596020811f34211b66245d7936f8f1fa92bada8db3e2f6cb8481968a20d924e6",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.13,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-33",
+      "taslak_id": "C07-N0135",
+      "hash": "14fa53f4f0a421a6e6615b76868baf744163c73d4ef6e31937cacc5cde832549",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.13,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-34",
+      "taslak_id": "C07-N0138",
+      "hash": "6047927b996169bfb93319f348224a5ce2f005cf57dd4406d59ebe325bcb44f4",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.56,
+      "yanlis_sik_en_buyuk_p": 0.11,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-35",
+      "taslak_id": "C07-N0358",
+      "hash": "0736fb059b751cab662136741b6b7b5684ee629ddcd5feed1f9ed3e3c6726252",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.49,
+      "yanlis_sik_en_buyuk_p": 0.07,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-36",
+      "taslak_id": "C07-N0359",
+      "hash": "3d2853cc78af0a502260304d268672c044b00f7e40ef6cab4ff50936015d1da0",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.15,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-37",
+      "taslak_id": "C07-N0362",
+      "hash": "d9808c723fb29452fa504bcbd99aa5c07d9297e43b315fea9cccc5a16fad6fd0",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.29,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-38",
+      "taslak_id": "C07-N0363",
+      "hash": "785aa75b0008dc5f5835a0bb9179731a5b73d3aca9fa38d84e5358145c9bd6dd",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.22,
+      "yanlis_sik_en_buyuk_p": 0.12,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-39",
+      "taslak_id": "C07-R022",
+      "hash": "b9e06e1011454d07ec3f0d1b270299de4e35ce4de117c36d057f8edb51465d23",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.6,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-40",
+      "taslak_id": "C07-R038",
+      "hash": "85e7f6effb598b2e9b7eb3aa32d1eff65035592b1cbe2b4b0d9bd1aa3150a5d1",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.27,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-41",
+      "taslak_id": "C07-N0140",
+      "hash": "7c7b683fca93cb07a4226d9ded31064a3d641972d61340c63149681749601c75",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.29,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-42",
+      "taslak_id": "C07-N0142",
+      "hash": "bad925ca86b12e94bc112d02697f8ff448db3350d97cbf5ee083ae625253d6a0",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.7,
+      "yanlis_sik_en_buyuk_p": 0.11,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-43",
+      "taslak_id": "C07-N0144",
+      "hash": "e9e71de07083b22918c14116e28509b55a0e4f4fb6817e6baa51321263d71b25",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.32,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-44",
+      "taslak_id": "C07-N0145",
+      "hash": "087d929f21616c3c03864c20d41430e3618c32a9c6d285f1a27338f7bc90093c",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.26,
+      "yanlis_sik_en_buyuk_p": 0.07,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-45",
+      "taslak_id": "C07-N0367",
+      "hash": "c0e0cdcc3b84dbf8440ef05b75df5f025707b8fd4d7d9d42d098b5b583bfbe2d",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.1,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-46",
+      "taslak_id": "C07-N0368",
+      "hash": "a2b3fa48aaa21c7525996665d5813ac99dbb2b24974877607ba51192b4e58a64",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.52,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-47",
+      "taslak_id": "C07-N0049",
+      "hash": "5ae05c3052129476bc5b71f163117fc0bcb608231676a639d24b58663674b287",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.02,
+      "yanlis_sik_en_buyuk_p": 0.1,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-48",
+      "taslak_id": "C07-N0051",
+      "hash": "ac840e836d141270d197c5b3d9c17796aadfd871b1c90dd6188182a7e3433af8",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.13,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-49",
+      "taslak_id": "C07-N0055",
+      "hash": "c90d35dfc7bb2caca6c14ce1de01d2426aad4c589212b0ac0bedbb438c92ab34",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.29,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-50",
+      "taslak_id": "C07-N0060",
+      "hash": "2da45c1cb1d4fd9bf9915eac5a0718638fb31b9772bfc4502b4b4f2738b94b78",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.22,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-51",
+      "taslak_id": "C07-N0064",
+      "hash": "3f764e3eb389960827f55ba30634a07b6fa16a0906e7007c7e65d1dfa45312ab",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.51,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-52",
+      "taslak_id": "C07-N0068",
+      "hash": "7fd988141db7c5ecd141f46f790842b9dacb3952ee32748b31bf85e4057e84ef",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.25,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-53",
+      "taslak_id": "C07-N0073",
+      "hash": "694c37f2c9cd207427497528d8046f3964f2c8f30790b9f28468e59650d2d3e8",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.4,
+      "yanlis_sik_en_buyuk_p": 0.07,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-54",
+      "taslak_id": "C07-N0292",
+      "hash": "e87c39bcfdcfec8f1fea38ee82487cbe1c52209d894d14e859d869f7a5602df8",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.28,
+      "yanlis_sik_en_buyuk_p": 0.25,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-55",
+      "taslak_id": "C07-N0293",
+      "hash": "cbd7bfe228e782d0f739159df93d80a4a168c5285449b803bcb1a07b4c8cf807",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.07,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-56",
+      "taslak_id": "C07-N0408",
+      "hash": "4e083c75f568704190d804dd557a2bbbd2591287da4aef50a788ba676f2d9575",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.23,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-57",
+      "taslak_id": "C07-N0410",
+      "hash": "57d5f634cdc136ba3ad7dd0c33aa843a5a715c06ab849798033365a483cc849c",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.02,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-58",
+      "taslak_id": "C07-N0427",
+      "hash": "2f8e3bf97ed9005f4a4fd24ec65559b0e3b48911a18bfc6d4c1b437f8296042f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.07,
+      "yanlis_sik_en_buyuk_p": 0.1,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-59",
+      "taslak_id": "C07-N0467",
+      "hash": "fac2a996b811c8e0808ff52268d08ae3d73d2da9f2fab8de656d39a57186aca5",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.07,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-60",
+      "taslak_id": "C07-N0469",
+      "hash": "923944afef6890464d45813200b782e1472944a6c03e0e9a51eda37134ed56d5",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.2,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-61",
+      "taslak_id": "C07-N0470",
+      "hash": "70bedc5e7f264db8e040d2894a25a8f918aae48dbba78d6f0b4210a6695a70ed",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.13,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-62",
+      "taslak_id": "C07-N0505",
+      "hash": "178d12c3177650b22d70992d36752496973147720b7b37e9a1c733a458ac57f7",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.13,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-63",
+      "taslak_id": "C07-N0506",
+      "hash": "56deedf22223a8a66db5805aa284d3f5ad5b5c4db59eaab09743983a132acdfd",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.18,
+      "yanlis_sik_en_buyuk_p": 0.12,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-64",
+      "taslak_id": "C07-R003",
+      "hash": "a07e22f6cb4b35333def929d67c8117aae6d6789fdf5aa0b22b95b559c292f62",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.5,
+      "yanlis_sik_en_buyuk_p": 0.09,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-65",
+      "taslak_id": "C07-R047",
+      "hash": "2307593ff899927f04ef45d14ae5cf47eeb9170c6640c270b6868b01c503d53b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.32,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-66",
+      "taslak_id": "C07-N0050",
+      "hash": "5a2889e35c2bf7bc7b8737c6236f6c169d40089d655b8a0272c095d3a9e25859",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.3,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-67",
+      "taslak_id": "C07-N0054",
+      "hash": "0abca133de9f61400bf744ad3ba603bf60164126b057cbc6935b23bd23456773",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.12,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-68",
+      "taslak_id": "C07-N0072",
+      "hash": "dbcd8f7158f66d850785ccfadccd5e4d830ade6417a56616d2b7a65907925bde",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.03,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-69",
+      "taslak_id": "C07-N0491",
+      "hash": "ecddd17289f9f189057e28e7b2930989bf8ed0421f5364858af7a7694781b96a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.21,
+      "yanlis_sik_en_buyuk_p": 0.09,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-70",
+      "taslak_id": "C07-N0493",
+      "hash": "f18f19dcd8801fb9bdb010f74bbbf974211acd6ac661c1497d05fff47c488cda",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.1,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-71",
+      "taslak_id": "C07-N0494",
+      "hash": "501fbe90283d877966d67692ef0fae500c6ab8a4f94824725557af048dd3b0ba",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.43,
+      "yanlis_sik_en_buyuk_p": 0.21,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-72",
+      "taslak_id": "C07-N0495",
+      "hash": "d52fad18b6619803b4ab7258b312abc4e83bc99101605bd50b4abe30865423e2",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.41000000000000003,
+      "yanlis_sik_en_buyuk_p": 0.14,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-73",
+      "taslak_id": "C07-R035",
+      "hash": "6ce9c9d005dc5dd24bed71c2ee4216545a2fe79487bb0056a2e58780e9e7b752",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.37,
+      "yanlis_sik_en_buyuk_p": 0.12,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-74",
+      "taslak_id": "C07-N0146",
+      "hash": "aa67d04be420b04051e63769fd86140ece539c284ad0ae281e4a3b4d59a5f481",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.43,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-75",
+      "taslak_id": "C07-N0151",
+      "hash": "b486b64ae3af08613da6be162c3d71687595ac6db99edcff56b639a2b0d3b613",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.36,
+      "yanlis_sik_en_buyuk_p": 0.14,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-76",
+      "taslak_id": "C07-N0153",
+      "hash": "e48f8af518e86bd308cb52df2ec387e85322ee5bd22b0fd4beb6e812b482f054",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.32,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-77",
+      "taslak_id": "C07-N0156",
+      "hash": "3fd81c7f2bbe22e7b0fe6ea55328dd853b22b85b231c0f10c721432275f17fce",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.15,
+      "yanlis_sik_en_buyuk_p": 0.11,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-78",
+      "taslak_id": "C07-N0157",
+      "hash": "f9d4949f6c0223ac00842169db126b9c543ae225df034938c23024c41e3a87c1",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.15,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-79",
+      "taslak_id": "C07-N0164",
+      "hash": "ee2b57f30b0bc686699312a6e2a2af95ad517e0ad37bcc13def391758d632df9",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.06,
+      "yanlis_sik_en_buyuk_p": 0.17,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-80",
+      "taslak_id": "C07-N0166",
+      "hash": "4823be9024175bc632f52275638644114d650981b3e370953208c0106e6892dc",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.13,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-81",
+      "taslak_id": "C07-N0167",
+      "hash": "37d4662f2eb81ad750a2e25b64716b853b74c4681e16368978bd62d30bd1c3b4",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.32,
+      "yanlis_sik_en_buyuk_p": 0.13,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-82",
+      "taslak_id": "C07-N0315",
+      "hash": "15e457ec1964fcbe094e10cf92573ed0d2c18b940860115b44a0b6bb83a4768b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.14,
+      "yanlis_sik_en_buyuk_p": 0.1,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-83",
+      "taslak_id": "C07-N0317",
+      "hash": "03f1eb9c297bebb9f66b18b4aafa5ad8353b9f48272cec1589a6d7c587ea0fd2",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.38,
+      "yanlis_sik_en_buyuk_p": 0.02,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-84",
+      "taslak_id": "C07-N0320",
+      "hash": "68bec0da299bb229ed28f3b0559c8c3d0ec8288aa486e6441a47d662b9a0eb9c",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.26,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-85",
+      "taslak_id": "C07-N0323",
+      "hash": "47e61da4d8f0cb3fd5131b2dd3f3fcac678e072b685b81c67dc15fa8e72332d1",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.02,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-86",
+      "taslak_id": "C07-N0325",
+      "hash": "dc5c89c752c72716a6349135e22391046f85edfdae9cea2e9e6c0c756734b269",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.13,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-87",
+      "taslak_id": "C07-N0415",
+      "hash": "2e5418cdc3c9f2f5f1ac55148ddf0cec8648723d1f4221dfb84baa8f511614a9",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.12,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-88",
+      "taslak_id": "C07-N0416",
+      "hash": "7232fb6497ade371163baee506c173cda71d51b07877b86c605cc49035a032a0",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.09,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-89",
+      "taslak_id": "C07-N0433",
+      "hash": "17ee7c75b37bb85e80df354ca92d4522a22ac065a2d3c1cc50ef332465fe2a1d",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.4,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-90",
+      "taslak_id": "C07-R040",
+      "hash": "3ee22c7fa7b8f7c7b5b0ca962e3b1a116386dc797f0a13e96dd248f3ebeca4cf",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.35,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-91",
+      "taslak_id": "C07-N0168",
+      "hash": "57c9b1c512a922458cd373c2dc95a31c7004dfd5b3689040be9dfde7f332be10",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.65,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-92",
+      "taslak_id": "C07-N0312",
+      "hash": "0633327175d40ff0464e43b25800fd1597ce97fca2a49e73a7941ed08cf27bb5",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.16,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-93",
+      "taslak_id": "C07-N0331",
+      "hash": "37cd14fd0c5268dc91599d1cee19a0b1be2fe7f61af92b68aaee34dcd6893056",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.51,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-94",
+      "taslak_id": "C07-N0332",
+      "hash": "bf40dc456bcbb4cb232e7fcf07c6dfd47587a9f47effdcbd2b800d1dff8252f2",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.06,
+      "yanlis_sik_en_buyuk_p": 0.14,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-95",
+      "taslak_id": "C07-R029",
+      "hash": "804f11260c10f7a99d67d8111f47b52ad1cf02ff37b5f147cf2560eb0d44488b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.26,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-96",
+      "taslak_id": "C07-R030",
+      "hash": "2950d4a1e9fa5f30a892b5355ffb29bafbd1142bbdfaa898b0affacf04eccfb4",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.1,
+      "yanlis_sik_en_buyuk_p": 0.13,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-97",
+      "taslak_id": "C07-R031",
+      "hash": "8a0282aa296bde45dfaf247f9b22d85cf3b793b8cac178c516affa496cfb616e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.38,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-98",
+      "taslak_id": "C07-N0075",
+      "hash": "ca58d7e0a38ab85586d848216677f54ff1a4ec31d38c011a8c32ef1a2408a644",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.41,
+      "yanlis_sik_en_buyuk_p": 0.02,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-99",
+      "taslak_id": "C07-N0078",
+      "hash": "4b9bc203a4480873de720aa7c15df1773b4e698e89c4145c41d5bb8165b9cb47",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.58,
+      "yanlis_sik_en_buyuk_p": 0.14,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-100",
+      "taslak_id": "C07-N0082",
+      "hash": "c3cac47a43027e4e45bca0a73d02bdc3cb81b9b61b757a6b2688f7027cef3a2a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.08,
+      "yanlis_sik_en_buyuk_p": 0.3,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-101",
+      "taslak_id": "C07-N0084",
+      "hash": "dc5b19be92917e050c538f1c376b570c2d9138345e66d74137730f7257063b49",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.31,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-102",
+      "taslak_id": "C07-N0087",
+      "hash": "5dc750f06051c0edf6ead994cbd3f88560111307fe6b6c66ee16665e44c84054",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.08,
+      "yanlis_sik_en_buyuk_p": 0.23,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-103",
+      "taslak_id": "C07-N0089",
+      "hash": "9c29b377f9dc4a2e9ef618aad993cda99475bc3725a7d1c7f88b964258701220",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.58,
+      "yanlis_sik_en_buyuk_p": 0.02,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-104",
+      "taslak_id": "C07-N0266",
+      "hash": "41962da7d4edbbe8c276237aa8c5f5e4f7dc04fa1f943ae02766303662c03dbc",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.19,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-105",
+      "taslak_id": "C07-N0267",
+      "hash": "7feb05d58b358e806d00fb80287f44ca5188c46b2616fd094129a132fad64df7",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.27,
+      "yanlis_sik_en_buyuk_p": 0.02,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-106",
+      "taslak_id": "C07-N0269",
+      "hash": "569d98705faec986e281b133d8ce6dd3a79a28e7538c1cff7b45ecd61fc30d7e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.58,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-107",
+      "taslak_id": "C07-N0270",
+      "hash": "4e45a6108ca8ab71d937289c6079818f6c2b4576b075d390547124e6732a21c1",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.55,
+      "yanlis_sik_en_buyuk_p": 0.11,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-108",
+      "taslak_id": "C07-N0273",
+      "hash": "1d393fa19c700dc41313edfb82ea8d6257849b78d6ae8fa832da8285f5e78eb8",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.09,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-109",
+      "taslak_id": "C07-N0279",
+      "hash": "3abebca9f9698118b6365bd3de46c6e65739fb5d85c63f6b9a252d71f783b1ac",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.6,
+      "yanlis_sik_en_buyuk_p": 0.21,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-110",
+      "taslak_id": "C07-N0281",
+      "hash": "09f3ff12b7ee2c662c1b30e3d55f4b6d2a6cf0562624321d1c3717c8cbf90c74",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.5599999999999999,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-111",
+      "taslak_id": "C07-N0405",
+      "hash": "f0f18ad5810c0166778a6b9ebf0a8150ee58a60eb703635b3080f3f6e9744e63",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.32,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-112",
+      "taslak_id": "C07-N0476",
+      "hash": "b7a3771d2034476a59194eb8acc5d1d470bbed5d6ddc445ac7682d7535cb33ba",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.46,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-113",
+      "taslak_id": "C07-N0477",
+      "hash": "77da447235bca8b68cfbd0438750aae7cd80da9dd984f967ddc0423e0ee32bc2",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.22,
+      "yanlis_sik_en_buyuk_p": 0.19,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-114",
+      "taslak_id": "C07-N0479",
+      "hash": "d8a30cfaca52028ebbc0462148a3331101fb7b3988f32505e5cb9c731fb5047b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.19,
+      "yanlis_sik_en_buyuk_p": 0.07,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-115",
+      "taslak_id": "C07-N0497",
+      "hash": "d66bfcd30b6621ddd2915337fdc04000baee129ff56cd1220c89a9ed22b04194",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.45999999999999996,
+      "yanlis_sik_en_buyuk_p": 0.02,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-116",
+      "taslak_id": "C07-N0498",
+      "hash": "b4fab86f4b137498d40d024ddc770457ea07593d8a14b7db4a4b053f2eda86d5",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.15,
+      "yanlis_sik_en_buyuk_p": 0.09,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-117",
+      "taslak_id": "C07-N0500",
+      "hash": "69e3a24315e0019a56ffe83bfbb6bb2b7fb603a41cd58968671ed5e60843d774",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.34,
+      "yanlis_sik_en_buyuk_p": 0.09,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-118",
+      "taslak_id": "C07-N0501",
+      "hash": "93096372eec6b7f9ee6efad89e157a02a587e4e206a68289191da78e17b702ad",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.24,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-119",
+      "taslak_id": "C07-N0091",
+      "hash": "09e0e9e2c9205c06e91cea984e3a9d0168ebd07ad65fa3a9149fa2217117b6fb",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.42,
+      "yanlis_sik_en_buyuk_p": 0.07,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-120",
+      "taslak_id": "C07-N0093",
+      "hash": "b22715b37263f12cbf11c393d04ceec2192e300f8cba7a4a6198dd6cf049bc8a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.52,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-121",
+      "taslak_id": "C07-N0097",
+      "hash": "40c01ed7178ee555c25a9a81004f1822892c866b8ac474b03f413cc81602438d",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.56,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-122",
+      "taslak_id": "C07-N0283",
+      "hash": "4719eaba4b87db9db8ee1fc322f5e4c43d8e33417c608df10315fe989f2a78ec",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.02,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-123",
+      "taslak_id": "C07-N0284",
+      "hash": "47ca3080f5ad5b5e9323365a4de77d9ae024930e589159d241137fa39138af7a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.29,
+      "yanlis_sik_en_buyuk_p": 0.1,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-124",
+      "taslak_id": "C07-N0285",
+      "hash": "153da163389164f6eca98de5acaac076129c8f8ac6370c8d8a09403f04acd6a4",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.52,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-125",
+      "taslak_id": "C07-N0287",
+      "hash": "c582b39d4fb3bad6fe6c3faf833b0f75da9f324e4f05ca829f05d96d1079cfa0",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.05,
+      "yanlis_sik_en_buyuk_p": 0.07,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-126",
+      "taslak_id": "C07-N0288",
+      "hash": "a73c2ea725c8f8350fbf97df40e531a81fea6ead1cb8a159e41380a83d3d96d1",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.28,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-127",
+      "taslak_id": "C07-R037",
+      "hash": "3fe25c4a19508d4e5b9131a673890204be58bf38749a1416d90f52cee5155bb3",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.23,
+      "yanlis_sik_en_buyuk_p": 0.1,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-128",
+      "taslak_id": "C07-N0170",
+      "hash": "71bcba584edec31addabacea91d0f868f354fe83aecba4882b889cb121722025",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.55,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-129",
+      "taslak_id": "C07-N0172",
+      "hash": "23915e67adc5847bc0d879b85af1014d48972010bb9a3cf563a9e86678cf115b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.34,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-130",
+      "taslak_id": "C07-N0173",
+      "hash": "fbcec7a43cf79bad331c084a9dc8055eddecb97023d701c1d9dfd21dbe312f3f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.37,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-131",
+      "taslak_id": "C07-N0176",
+      "hash": "21e9070bcf070e53b00078041f140d021db39fafcabe2ea869f59401ee4370e3",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.32,
+      "yanlis_sik_en_buyuk_p": 0.02,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-132",
+      "taslak_id": "C07-N0177",
+      "hash": "622a781957beac275d940b6abf2b7684d227eb6e151436d6f8559b09a4eac85c",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.56,
+      "yanlis_sik_en_buyuk_p": 0.02,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-133",
+      "taslak_id": "C07-N0182",
+      "hash": "dc0efe637e0337ca8712070b2e5be3bc3637d79a7b47f9d0aadfcc63342be36e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.23,
+      "yanlis_sik_en_buyuk_p": 0.07,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-134",
+      "taslak_id": "C07-N0338",
+      "hash": "196ef2e9f5ba8d51a225d3aa76480f3a1f6b5939d01ac22933958031b06b023a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.13,
+      "yanlis_sik_en_buyuk_p": 0.16,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-135",
+      "taslak_id": "C07-N0340",
+      "hash": "fd06d581daddb2784b37b346df82334f85efffba3d613631a2d8b9c129112822",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.12,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-136",
+      "taslak_id": "C07-N0341",
+      "hash": "19d9450891f0da65a92d66653d2a4e75410c27262936e1ebca66304883548d03",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.62,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-137",
+      "taslak_id": "C07-N0342",
+      "hash": "07a05b38d2681a8fdce4a8680e8c509bc5a7fd278040234b0ec94aa0d0eaf4a9",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.31,
+      "yanlis_sik_en_buyuk_p": 0.12,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-138",
+      "taslak_id": "C07-N0345",
+      "hash": "1ca02c8bd2ed6c089679c82901e2a3331f6a30babfcfd1f43a07af869559d07e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.22,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-139",
+      "taslak_id": "C07-N0348",
+      "hash": "bf0248eee53d7a15d0346f1311ea2910a4081c1bcec3e49856cff1e7475d9893",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.14,
+      "yanlis_sik_en_buyuk_p": 0.11,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-140",
+      "taslak_id": "C07-N0486",
+      "hash": "d36f4f325d634443c5fa527c37ec38ff74abaace7177d6c90da40c26435cd862",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.4,
+      "yanlis_sik_en_buyuk_p": 0.1,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-141",
+      "taslak_id": "C07-N0487",
+      "hash": "95bf844d16815783952ba77859364037fff852efedc28014fe3499a5cf7563c0",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.15,
+      "yanlis_sik_en_buyuk_p": 0.1,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-142",
+      "taslak_id": "C07-N0488",
+      "hash": "5bbb1135b5ea28f42d0fb09bb075662d73cff2af77b3d36efd1877a789541ddb",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.3,
+      "yanlis_sik_en_buyuk_p": 0.07,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-143",
+      "taslak_id": "C07-N0186",
+      "hash": "18dd8e55fbc84c7ad3debd793a88052e8b7773912860cf2d536ebb78e8a62d1d",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.1,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-144",
+      "taslak_id": "C07-N0187",
+      "hash": "611b545581eb096ef0ecdb3fb505096feca470f2076be0575afa78888f7248b1",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.31,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-145",
+      "taslak_id": "C07-N0189",
+      "hash": "c8a2ada578eeaa12828aa494d52bd8ea87a32b43fceb85d2f4092be03918d464",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.37,
+      "yanlis_sik_en_buyuk_p": 0.11,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-146",
+      "taslak_id": "C07-N0350",
+      "hash": "aa4a215085856f48c36833ec3f8d47eced61f53b5f4aafc928b57845f0ec503a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.22,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-147",
+      "taslak_id": "C07-N0351",
+      "hash": "653ffbcc34287619535cdf8f30f7025afd77ffc01efdfe7ed832deaa06941153",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.3,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-148",
+      "taslak_id": "C07-N0354",
+      "hash": "411c4600a23be897a04c3d81ecbe44c54749fed9dd838402d910a77fede83ce7",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.38,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-149",
+      "taslak_id": "C07-R034",
+      "hash": "4564b1c0872d21d9ee88447af8974412e9811f7f4723e7013faef2ad6ceb4209",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.53,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-150",
+      "taslak_id": "C07-N0191",
+      "hash": "43b9b998b56dfdd9d1066188f3f497160456ca33ca862b9c77f2210c2174458a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.38,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-151",
+      "taslak_id": "C07-N0194",
+      "hash": "bdfc79fb1a08de0764c2ffb1c9fbcdc82d65d14ebe53a7ec77ee1f78dc9e815e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.2,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-152",
+      "taslak_id": "C07-N0197",
+      "hash": "ad14d4a7ae524a4547832cca5b8ea73964852a8f4188a933895364cb54ed86ed",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.12,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-153",
+      "taslak_id": "C07-N0198",
+      "hash": "99e45a9e1f0750a7edc4d5bbf37a979331df4e81d361620c6e8a3429d603e9f1",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.17,
+      "yanlis_sik_en_buyuk_p": 0.07,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-154",
+      "taslak_id": "C07-N0199",
+      "hash": "bb07dd7ac9592460c0a0b5c2f04b50ac8430878f922e9239cdf7a801ac4be118",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.25,
+      "yanlis_sik_en_buyuk_p": 0.11,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-155",
+      "taslak_id": "C07-N0200",
+      "hash": "f90f25f51dc94e8a6084edad4f2f759a0ef22c214da82bf1a9f57b117e543f05",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.17,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-156",
+      "taslak_id": "C07-N0202",
+      "hash": "bf09ddd1cd3e41034cbe8e8342b40addd35c189bb377f8cb6fe566a381fff4dd",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.1,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-157",
+      "taslak_id": "C07-N0208",
+      "hash": "b2e896302b321be8655b06825dd886cb667c83d726e0934ed9830070b2ac767c",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.12,
+      "yanlis_sik_en_buyuk_p": 0.19,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-158",
+      "taslak_id": "C07-N0209",
+      "hash": "277c34d94c9868c380eae2264766a6c7c2f86f52c9edc36f994d036e36623d0f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.36,
+      "yanlis_sik_en_buyuk_p": 0.11,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-159",
+      "taslak_id": "C07-N0210",
+      "hash": "3c534fa8e7d42084745fe77b54c8551018f3910873a4c0e20c951f74e14009a3",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.13,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-160",
+      "taslak_id": "C07-N0215",
+      "hash": "7fa5e5222980f09e3ef5f48780408ebe89958a7b3d5ba92b75151dc2cfd63001",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.51,
+      "yanlis_sik_en_buyuk_p": 0.23,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-161",
+      "taslak_id": "C07-N0380",
+      "hash": "6cae73f470203d25e8afe3e224d248fddd8f060ee8a8a8e2b757b2ee7bf2b7e4",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.25,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-162",
+      "taslak_id": "C07-N0382",
+      "hash": "e1883b1bb0ceaae9809db22ab3d3995764a436379a4df9dcbe86bf2c2f8f45d6",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.37,
+      "yanlis_sik_en_buyuk_p": 0.07,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-163",
+      "taslak_id": "C07-N0385",
+      "hash": "58f3ef78de78afb501c6973663f6e010a31cac77a9bdb5726668bfdf1f1e3b7f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.24,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-164",
+      "taslak_id": "C07-N0391",
+      "hash": "b27ce6a589414715756cac6804a518e0bb9cef231636700490e24a4304781945",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.21,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-165",
+      "taslak_id": "C07-N0447",
+      "hash": "902b3a3855172000701428db756f87a23deb2560c3c19dce0e2d066f12fbc85c",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.16,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-166",
+      "taslak_id": "C07-N0450",
+      "hash": "290edef88bcab47cf1bf59092e6cf1b4ef49d651ac6cf810e24237bc4b172818",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.17,
+      "yanlis_sik_en_buyuk_p": 0.09,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-167",
+      "taslak_id": "C07-N0502",
+      "hash": "5ff8b6c71ed3fd49411e329e54009243d803803028dcd01c12a9cb3d8e4ff05a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.08,
+      "yanlis_sik_en_buyuk_p": 0.11,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-168",
+      "taslak_id": "C07-N0503",
+      "hash": "1e863e2069b4d3b1a8124ddcbaa8a2ab203ee9c088ec3e8436769380af8263da",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.17,
+      "yanlis_sik_en_buyuk_p": 0.34,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-169",
+      "taslak_id": "C07-N0504",
+      "hash": "98855d592992ec063c7320eca56a26e765d5fdf5dd1d7770a6d8b935b491cfc2",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.04,
+      "yanlis_sik_en_buyuk_p": 0.11,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-170",
+      "taslak_id": "C07-N0193",
+      "hash": "a66e084379c15a5aab24840e83145e390c56649e49a98308279c19acf8d2e35a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.17,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-171",
+      "taslak_id": "C07-N0212",
+      "hash": "38c159d9d89269729b9c57cf268e57725b5ce4f5e61842c8e324450af16ababb",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.25,
+      "yanlis_sik_en_buyuk_p": 0.2,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-172",
+      "taslak_id": "C07-N0214",
+      "hash": "1d3391638ade1658e7fa53e487e01688a9d12c8afeae9f9fa01c64ee13df0152",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.61,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-173",
+      "taslak_id": "C07-N0217",
+      "hash": "ab5743a1aadf1ba8bd4908f2ceedab7a3643992e290f8ef3b6920d3b1167c1fa",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.17,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-174",
+      "taslak_id": "C07-N0394",
+      "hash": "e772f783671deeaf56079425eccb3967c06c639d955fb397db479baf82c67e54",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.13,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-175",
+      "taslak_id": "C07-N0395",
+      "hash": "96cd5618205ed0c9c5e5b66fac1d2c9634c9a98a213ef09c0f506b50cf2825ec",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.56,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-176",
+      "taslak_id": "C07-N0452",
+      "hash": "cc2efed79269a27fc34feb32b8696048f5c136839450836fdd19d2daace0d279",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.45,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-177",
+      "taslak_id": "C07-N0507",
+      "hash": "6dae3094f3d2cd50125623a4e8a686d48b590b211f818b641ace58057e9b0ae0",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.24,
+      "yanlis_sik_en_buyuk_p": 0.1,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-178",
+      "taslak_id": "C07-R025",
+      "hash": "8e635de067fd41f989561a6a88e5e3aef9dec5f28de3640976dd614445fb9175",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.16,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-179",
+      "taslak_id": "C07-N0220",
+      "hash": "ca0c1b3325832e392e1c568bfa1c690f927e5b4913fd0e19f67c91aea00325d2",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.18,
+      "yanlis_sik_en_buyuk_p": 0.08,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-180",
+      "taslak_id": "C07-N0221",
+      "hash": "a5027a4b3347c8c194499fb37fefd44c0bbc43c247ffdf07da1aa0b88e9abd32",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.72,
+      "yanlis_sik_en_buyuk_p": 0.07,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-181",
+      "taslak_id": "C07-N0224",
+      "hash": "6708bc2ce604e301edb803468d3b3ea9df99c2505964abd443b7267d21fb10d8",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.47,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-182",
+      "taslak_id": "C07-N0226",
+      "hash": "41b7af85cd1077e4cd9a95d00540bf321f7dbca7245395affd650a5d86a307d4",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.32,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-183",
+      "taslak_id": "C07-N0230",
+      "hash": "70ab52bcb0cc2480278cbcf9413a0b59e32add4d300d76ac1f07c58c6bede88f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.62,
+      "yanlis_sik_en_buyuk_p": 0.02,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-184",
+      "taslak_id": "C07-N0231",
+      "hash": "4d814b4e8eb702dcb3645f5bbeff7d6dcbcc7253ae2fe2ea7ddf4da7b3d90785",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.31,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-185",
+      "taslak_id": "C07-N0232",
+      "hash": "4e1c61a79ec69776b01e9df192731211870ef416b58f2bccb2f4ef935574c8a6",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.31,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-186",
+      "taslak_id": "C07-N0371",
+      "hash": "ddf2852f4082b88ae513cada4c157d3ee468e98bb3793b7eec11bf0e4d57e130",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.32,
+      "yanlis_sik_en_buyuk_p": 0.03,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-187",
+      "taslak_id": "C07-N0372",
+      "hash": "6f3676b610cf265ce7ee67164b3d203d321e2ea9507d95c4297dfeb5205d6573",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.5,
+      "yanlis_sik_en_buyuk_p": 0.1,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-188",
+      "taslak_id": "C07-N0375",
+      "hash": "0ddba91137a8398aa163edeb88b82566e5ecb6be9b81823d31500a6af49093d1",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.22,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-189",
+      "taslak_id": "C07-N0439",
+      "hash": "0b68fd7213b842cddb067e2dab34175ce4f711f424e4238a39e6a6535271d8d6",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.21,
+      "yanlis_sik_en_buyuk_p": 0.1,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-190",
+      "taslak_id": "C07-N0443",
+      "hash": "1b2989e38557460cf147ec7642550639550e66554f281c7402192f91f473e4d4",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.15,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-191",
+      "taslak_id": "C07-N0509",
+      "hash": "3849193bf8089e77104ec5caa73c01364e6de568ff8f9e3967a0712ec134fe2f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.36,
+      "yanlis_sik_en_buyuk_p": 0.07,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-192",
+      "taslak_id": "C07-N0510",
+      "hash": "4d6aa3b7ad0639fbf573b0601a36034a2719ffc8a94ad36eda0b1c354f6ef6c8",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.69,
+      "yanlis_sik_en_buyuk_p": 0.09,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-193",
+      "taslak_id": "C07-R043",
+      "hash": "2bb94a713356310033070050f4b5f18c2bb5c246b1fdd7f6de4c73cfd946cabe",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.72,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-194",
+      "taslak_id": "C07-N0238",
+      "hash": "832ced5a4aedd600da7da906fc61d90636687102ea30813d4a5ce6aa721d0b39",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.39,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-195",
+      "taslak_id": "C07-N0239",
+      "hash": "904de527015bfad24600db38a7978cf55e2c64e32a39b2334fad9f61e7c7c9d2",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.41,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-196",
+      "taslak_id": "C07-N0379",
+      "hash": "c3231c16e9aa0e1b496c60a56fffc74b3bbbaa0481ff2b32ae106d65fbbc6597",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.34,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-197",
+      "taslak_id": "C07-N0445",
+      "hash": "2d337e2c521220b10a39d247a8ff20295dc1fad4fc5b75a78ce90caae179b6a9",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.51,
+      "yanlis_sik_en_buyuk_p": 0.06,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-198",
+      "taslak_id": "C07-N0446",
+      "hash": "7217ac9f2f4ddb17c43ee7105ba6dc22d7dc64bcd624449f9949fbdc429495a4",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.04,
+      "yanlis_sik_en_buyuk_p": 0.05,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-199",
+      "taslak_id": "C07-R005",
+      "hash": "88b31ba4c5a304d0e2073a2546524f4b873e1780cf5759849afcbfa880cecf19",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.72,
+      "yanlis_sik_en_buyuk_p": 0.09,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    },
+    {
+      "id": "C07-200",
+      "taslak_id": "C07-R024",
+      "hash": "fca00a6ef06848fba1e18525d9793cfa3558c7a151f924994a5f59116343feaa",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ipucu_p": 0.59,
+      "yanlis_sik_en_buyuk_p": 0.04,
+      "kapi3_ortam": "yerel SQL",
+      "sonuc": "gecti"
+    }
+  ]
+}

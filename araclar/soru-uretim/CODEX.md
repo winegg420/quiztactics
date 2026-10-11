@@ -84,4 +84,4 @@ Kapı 6 yok: api-uret.mjs değiştirilmez ve içe aktarılmaz. Claude incelemesi
 - Aynı anda en çok dört iş, tarayıcı açma, yeni paket kurma. .env.local ve gizli anahtarlar yazdırılmaz/loglanmaz.
 - Kesintide durum dosyasını koru ve aşağıdaki Son durum satırını nerede kalındığıyla güncelle; tamamlanmayan kapılar geçmiş gösterilmez.
 
-Son durum: soru-havuzu; canlı DB yasak. codex-04 197 kayıt, 195 geçiş; 37/132 Ida kararıyla yeniden inceleme bekliyor. codex-05 ve codex-06 net 200, yerel kapı 1–5 geçti, bekleyen SQL üretildi, Claude bekliyor. codex-07 sırada. Ortak repodaki ilgisiz değişiklikler korunur; teslim değişiklikleri yalnız soru hattıdır.
+Son durum: soru-havuzu; biriktirme tamamlandı, canlı DB bağlantısı ve SQL uygulaması yapılmadı. codex-04 197 kayıt, 195 geçiş; 37/132 Ida kararıyla yeniden inceleme bekliyor. codex-05, codex-06 ve codex-07 net 200’er soru, Claude incelemesi bekliyor. SQL yalnız parti klasörlerinde bekleyen taslak; 04 SQL’i iki açık nedeniyle engelli. .tmp/codex durumları korunur.
