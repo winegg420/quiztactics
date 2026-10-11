@@ -1,0 +1,885 @@
+{
+ "uretim": "2026-10-11T14:25:32.314Z",
+ "adres": "http://localhost:5188",
+ "kesilenYazmalar": [],
+ "taklitsizRpc": [
+  "cihaz_bildir",
+  "bekleyen_sayim",
+  "kalp_at",
+  "dm_okunmamis_sayim",
+  "coin_bakiyem",
+  "sezon_ozetim",
+  "bekleyen_davetlerim",
+  "rozet_bildirimlerim",
+  "ses_secimleri_oyun",
+  "yanlis_bankam",
+  "get_categories",
+  "avatar_nadirlik_renkleri"
+ ],
+ "sonuclar": [
+  {
+   "boyut": "390x844",
+   "dil": "tr",
+   "anlar": {
+    "panel-bos": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": null,
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "zil-altin": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": "3",
+     "rozetAltin": true,
+     "panelSatir": [],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "panel-dolu": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": true,
+     "panelSatir": [
+      "Hoş geldin hediyesi!",
+      "Hafta sonu çifte XP etkinliği",
+      "Sezon başlangıç ödülü",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "detay-odullu": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": true,
+     "panelSatir": [
+      "Hoş geldin hediyesi!",
+      "Hafta sonu çifte XP etkinliği",
+      "Sezon başlangıç ödülü",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": "Hoş geldin hediyesi!",
+     "modal": {
+      "top": 138,
+      "bottom": 706,
+      "sigiyor": true
+     },
+     "alDugme": "AL",
+     "kalemler": [
+      "500 coin",
+      "20 elmas",
+      "2× 50:50",
+      "Ateş Büyücüsü"
+     ],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "detay-alindi": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": null,
+     "rozetAltin": false,
+     "panelSatir": [
+      "Hoş geldin hediyesi!",
+      "Hafta sonu çifte XP etkinliği",
+      "Sezon başlangıç ödülü",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": "Hoş geldin hediyesi!",
+     "modal": {
+      "top": 132,
+      "bottom": 712,
+      "sigiyor": true
+     },
+     "alDugme": null,
+     "kalemler": [
+      "500 coin",
+      "20 elmas",
+      "2× 50:50",
+      "Ateş Büyücüsü Zaten sende"
+     ],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "detay-duyuru": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": null,
+     "rozetAltin": false,
+     "panelSatir": [
+      "Hoş geldin hediyesi!",
+      "Hafta sonu çifte XP etkinliği",
+      "Sezon başlangıç ödülü",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": "Hafta sonu çifte XP etkinliği",
+     "modal": {
+      "top": 264,
+      "bottom": 580,
+      "sigiyor": true
+     },
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "gonder-sayfa": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "gonder-onizleme": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": "Hoş geldin hediyesi!",
+     "modal": {
+      "top": 110,
+      "bottom": 734,
+      "sigiyor": true
+     },
+     "alDugme": "AL",
+     "kalemler": [
+      "100 coin",
+      "1× 50:50",
+      "Ateş Büyücüsü"
+     ],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "gonder-herkes-onay": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": "Herkese gönderilsin mi?",
+     "modal": {
+      "top": 277,
+      "bottom": 567,
+      "sigiyor": true
+     },
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    }
+   },
+   "panelCagrilari": [
+    "posta_kutusu_oku"
+   ],
+   "kutlamaKonfeti": 18,
+   "alimSayisi": 1,
+   "tekrarKonfeti": 0,
+   "tekrarAlDugmesi": 0,
+   "konsolHata": []
+  },
+  {
+   "boyut": "390x844",
+   "dil": "en",
+   "anlar": {
+    "panel-bos": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": null,
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "zil-altin": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": "3",
+     "rozetAltin": true,
+     "panelSatir": [],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "panel-dolu": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": true,
+     "panelSatir": [
+      "Welcome gift!",
+      "Hafta sonu çifte XP etkinliği",
+      "Season start reward",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "detay-odullu": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": true,
+     "panelSatir": [
+      "Welcome gift!",
+      "Hafta sonu çifte XP etkinliği",
+      "Season start reward",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": "Welcome gift!",
+     "modal": {
+      "top": 147,
+      "bottom": 697,
+      "sigiyor": true
+     },
+     "alDugme": "CLAIM",
+     "kalemler": [
+      "500 coins",
+      "20 gems",
+      "2× 50:50",
+      "Fire Mage"
+     ],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "detay-alindi": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": null,
+     "rozetAltin": false,
+     "panelSatir": [
+      "Welcome gift!",
+      "Hafta sonu çifte XP etkinliği",
+      "Season start reward",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": "Welcome gift!",
+     "modal": {
+      "top": 140,
+      "bottom": 704,
+      "sigiyor": true
+     },
+     "alDugme": null,
+     "kalemler": [
+      "500 coins",
+      "20 gems",
+      "2× 50:50",
+      "Fire Mage Already yours"
+     ],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "detay-duyuru": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": null,
+     "rozetAltin": false,
+     "panelSatir": [
+      "Welcome gift!",
+      "Hafta sonu çifte XP etkinliği",
+      "Season start reward",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": "Hafta sonu çifte XP etkinliği",
+     "modal": {
+      "top": 264,
+      "bottom": 580,
+      "sigiyor": true
+     },
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "gonder-sayfa": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "gonder-onizleme": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": "Welcome gift!",
+     "modal": {
+      "top": 119,
+      "bottom": 725,
+      "sigiyor": true
+     },
+     "alDugme": "CLAIM",
+     "kalemler": [
+      "100 coins",
+      "1× 50:50",
+      "Fire Mage"
+     ],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "gonder-herkes-onay": {
+     "vh": 844,
+     "vw": 390,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": "Send to everyone?",
+     "modal": {
+      "top": 277,
+      "bottom": 567,
+      "sigiyor": true
+     },
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    }
+   },
+   "panelCagrilari": [
+    "posta_kutusu_oku"
+   ],
+   "kutlamaKonfeti": 18,
+   "alimSayisi": 1,
+   "tekrarKonfeti": 0,
+   "tekrarAlDugmesi": 0,
+   "konsolHata": []
+  },
+  {
+   "boyut": "360x780",
+   "dil": "tr",
+   "anlar": {
+    "panel-bos": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": null,
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "zil-altin": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": "3",
+     "rozetAltin": true,
+     "panelSatir": [],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "panel-dolu": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": true,
+     "panelSatir": [
+      "Hoş geldin hediyesi!",
+      "Hafta sonu çifte XP etkinliği",
+      "Sezon başlangıç ödülü",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "detay-odullu": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": true,
+     "panelSatir": [
+      "Hoş geldin hediyesi!",
+      "Hafta sonu çifte XP etkinliği",
+      "Sezon başlangıç ödülü",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": "Hoş geldin hediyesi!",
+     "modal": {
+      "top": 115,
+      "bottom": 665,
+      "sigiyor": true
+     },
+     "alDugme": "AL",
+     "kalemler": [
+      "500 coin",
+      "20 elmas",
+      "2× 50:50",
+      "Ateş Büyücüsü"
+     ],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "detay-alindi": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": null,
+     "rozetAltin": false,
+     "panelSatir": [
+      "Hoş geldin hediyesi!",
+      "Hafta sonu çifte XP etkinliği",
+      "Sezon başlangıç ödülü",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": "Hoş geldin hediyesi!",
+     "modal": {
+      "top": 108,
+      "bottom": 672,
+      "sigiyor": true
+     },
+     "alDugme": null,
+     "kalemler": [
+      "500 coin",
+      "20 elmas",
+      "2× 50:50",
+      "Ateş Büyücüsü Zaten sende"
+     ],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "detay-duyuru": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": null,
+     "rozetAltin": false,
+     "panelSatir": [
+      "Hoş geldin hediyesi!",
+      "Hafta sonu çifte XP etkinliği",
+      "Sezon başlangıç ödülü",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": "Hafta sonu çifte XP etkinliği",
+     "modal": {
+      "top": 225,
+      "bottom": 555,
+      "sigiyor": true
+     },
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "gonder-sayfa": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "gonder-onizleme": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": "Hoş geldin hediyesi!",
+     "modal": {
+      "top": 16,
+      "bottom": 764,
+      "sigiyor": true
+     },
+     "alDugme": "AL",
+     "kalemler": [
+      "100 coin",
+      "1× 50:50",
+      "Ateş Büyücüsü"
+     ],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "gonder-herkes-onay": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": "Herkese gönderilsin mi?",
+     "modal": {
+      "top": 245,
+      "bottom": 535,
+      "sigiyor": true
+     },
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    }
+   },
+   "panelCagrilari": [
+    "posta_kutusu_oku"
+   ],
+   "kutlamaKonfeti": 18,
+   "alimSayisi": 1,
+   "tekrarKonfeti": 0,
+   "tekrarAlDugmesi": 0,
+   "konsolHata": []
+  },
+  {
+   "boyut": "360x780",
+   "dil": "en",
+   "anlar": {
+    "panel-bos": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": null,
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "zil-altin": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": "3",
+     "rozetAltin": true,
+     "panelSatir": [],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "panel-dolu": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": true,
+     "panelSatir": [
+      "Welcome gift!",
+      "Hafta sonu çifte XP etkinliği",
+      "Season start reward",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "detay-odullu": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": true,
+     "panelSatir": [
+      "Welcome gift!",
+      "Hafta sonu çifte XP etkinliği",
+      "Season start reward",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": "Welcome gift!",
+     "modal": {
+      "top": 115,
+      "bottom": 665,
+      "sigiyor": true
+     },
+     "alDugme": "CLAIM",
+     "kalemler": [
+      "500 coins",
+      "20 gems",
+      "2× 50:50",
+      "Fire Mage"
+     ],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "detay-alindi": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": null,
+     "rozetAltin": false,
+     "panelSatir": [
+      "Welcome gift!",
+      "Hafta sonu çifte XP etkinliği",
+      "Season start reward",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": "Welcome gift!",
+     "modal": {
+      "top": 108,
+      "bottom": 672,
+      "sigiyor": true
+     },
+     "alDugme": null,
+     "kalemler": [
+      "500 coins",
+      "20 gems",
+      "2× 50:50",
+      "Fire Mage Already yours"
+     ],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "detay-duyuru": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": null,
+     "rozetAltin": false,
+     "panelSatir": [
+      "Welcome gift!",
+      "Hafta sonu çifte XP etkinliği",
+      "Season start reward",
+      "Ayşe sana arkadaşlık isteği gönderdi",
+      "Haftayı ligde 3. bitirdin!"
+     ],
+     "modalBaslik": "Hafta sonu çifte XP etkinliği",
+     "modal": {
+      "top": 225,
+      "bottom": 555,
+      "sigiyor": true
+     },
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "gonder-sayfa": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": null,
+     "modal": null,
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "gonder-onizleme": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": "Welcome gift!",
+     "modal": {
+      "top": 16,
+      "bottom": 764,
+      "sigiyor": true
+     },
+     "alDugme": "CLAIM",
+     "kalemler": [
+      "100 coins",
+      "1× 50:50",
+      "Fire Mage"
+     ],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    },
+    "gonder-herkes-onay": {
+     "vh": 780,
+     "vw": 360,
+     "yatayTasma": 0,
+     "rozet": "1",
+     "rozetAltin": false,
+     "panelSatir": [],
+     "modalBaslik": "Send to everyone?",
+     "modal": {
+      "top": 245,
+      "bottom": 535,
+      "sigiyor": true
+     },
+     "alDugme": null,
+     "kalemler": [],
+     "konfeti": 0,
+     "kesik": [],
+     "disari": [],
+     "kucukHedef": 0
+    }
+   },
+   "panelCagrilari": [
+    "posta_kutusu_oku"
+   ],
+   "kutlamaKonfeti": 18,
+   "alimSayisi": 1,
+   "tekrarKonfeti": 0,
+   "tekrarAlDugmesi": 0,
+   "konsolHata": []
+  }
+ ]
+}
