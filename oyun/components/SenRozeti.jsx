@@ -11,7 +11,13 @@ import "../tasarim/ekranlar/l-kart.css";
  *
  * Kullanım: {benMi && <SenRozeti />}
  */
-export default function SenRozeti({ metin }) {
+export function senAdiMi(ad) {
+  return typeof ad === "string" && ad.trim().toLocaleLowerCase("tr") === tt("Sen").toLocaleLowerCase("tr");
+}
+
+/** `ad` verilirse ve ad zaten "Sen" ise rozet çizilmez (aynı şey iki kez görünmesin). */
+export default function SenRozeti({ metin, ad }) {
+  if (senAdiMi(ad)) return null;
   return (
     <QtRozet ton="mor" boyut="k" className="ls-sen" title={tt("bu satır sensin")}>
       {metin ?? tt("sen")}

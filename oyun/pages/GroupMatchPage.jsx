@@ -480,7 +480,7 @@ export default function GroupMatchPage() {
               </AvatarDugmesi>
             </span>
           }
-          baslik={<><OyuncuAdiDugmesi userId={k.user_id} profil={k.profil}>{k.profil?.gorunen_ad}</OyuncuAdiDugmesi>{k.user_id === user.id && <SenRozeti />}</>}
+          baslik={<><OyuncuAdiDugmesi userId={k.user_id} profil={k.profil}>{k.profil?.gorunen_ad}</OyuncuAdiDugmesi>{k.user_id === user.id && <SenRozeti ad={k.profil?.gorunen_ad} />}</>}
           sag={sag(k)}
         />
       ))}
@@ -700,7 +700,7 @@ export default function GroupMatchPage() {
             <span className="m1-grup-sira" aria-hidden="true">{i + 1}</span>
             <AvatarCerceve profile={k.profil} boyut={30} userId={k.user_id} />
             {/* Ajan C: ada dokununca oyuncu kartı (düğme satırda adın yerini alır: esnek) */}
-            <OyuncuAdiDugmesi userId={k.user_id} profil={k.profil} className="m1-grup-ad" dugmeSinifi="ls-ad-dugme--esnek">{adKisalt(k.profil?.gorunen_ad)}{k.user_id === user.id && <SenRozeti />}</OyuncuAdiDugmesi>
+            <OyuncuAdiDugmesi userId={k.user_id} profil={k.profil} className="m1-grup-ad" dugmeSinifi="ls-ad-dugme--esnek">{adKisalt(k.profil?.gorunen_ad)}{k.user_id === user.id && <SenRozeti ad={k.profil?.gorunen_ad} />}</OyuncuAdiDugmesi>
             {balonlar[k.user_id] && (
               <span className={`m1-balon${k.user_id === user.id ? "" : " m1-balon--rakip"} m1-grup-balon`}>
                 {balonIcerik(balonlar[k.user_id])}
