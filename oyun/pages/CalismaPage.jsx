@@ -55,6 +55,9 @@ export default function CalismaPage() {
   // Paket 20 II.1: tur sonunda her soru için "Soruyu bildir" (soru ekranı otomatik geçtiği için listede)
   const [cevaplananlar, setCevaplananlar] = useState([]);
   const [kutlama, setKutlama] = useState(false);
+  // Tur sonu kutlaması (öğrenilen > 0): konfeti + ses tur başına BİR KEZ — yeniden çizim tekrar etmez
+  const [sonKutlama, setSonKutlama] = useState(false);
+  const sonKutlamaRef = useRef(null);
   const [yukleniyor, setYukleniyor] = useState(true);
   const [calisiyor, setCalisiyor] = useState(false);
   const [hata, setHata] = useState(null);
@@ -255,6 +258,16 @@ export default function CalismaPage() {
   }, [asama, soru, oturum?.oturum_id]);
   useEffect(() => { sesOnYukle("mac"); }, []);
 
+  useEffect(() => {
+    if (asama !== "sonuc" || !((Number(sonuc?.ogrenilen) || 0) > 0)) return;
+    const anahtar = oturum?.oturum_id ?? "tur";
+    if (sonKutlamaRef.current === anahtar) return;
+    sonKutlamaRef.current = anahtar;
+    sesKazandin();
+    setSonKutlama(true);
+    setTimeout(() => setSonKutlama(false), 1600);
+  }, [asama, sonuc, oturum?.oturum_id]);
+
   const hataBandi = hata ? (
     <div className="m1-bant m1-bant--hata" role="alert"><QtIkon ad="uyari" boyut={18} /><span>{hata}</span></div>
   ) : null;
@@ -393,26 +406,31 @@ export default function CalismaPage() {
       : [];
     const toplam = Number(soru?.toplam ?? oturum?.soru_sayisi ?? 0) || 0;
     const sirada = (soru?.soru_index ?? 0) + 1;
+    // Paket 20 V: dağılım sunucudan (calisma_baslat: bankadan / havuzdan). Paket 40 I: alan eksikse metin yazılmaz.
+    let turBilgi = "";
+    if (oturum && sayiMi(oturum.bankadan)) {
+      const b = Number(oturum.bankadan);
+      const h = sayiMi(oturum.havuzdan) ? Number(oturum.havuzdan) : 0;
+      if (b === 0) { if (sayiMi(oturum.soru_sayisi)) turBilgi = tt("Pratik turu · {n} yeni soru", { n: oturum.soru_sayisi }); }
+      else if (h > 0) turBilgi = tt("{b} bankadan · {h} yeni", { b, h });
+      else turBilgi = tt("{b} soru bankadan", { b });
+    }
 
     // Cevap sonrası kısa geri bildirim
     let geriBildirim = null;
-    if (secim === -1 && !sonucSoru) {
+    // Süre dolunca sunucu yanıtı gelse de "Süre doldu" kalır (bant metni değişip yeniden canlanmaz)
+    if (secim === -1) {
       geriBildirim = { ton: "yanlis", metin: tt("Süre doldu") };
     } else if (sonucSoru) {
       if (sonucSoru.ogrenildi) {
         geriBildirim = { ton: "dogru", metin: tt("Öğrenildi! Bankadan çıktı") };
       } else if (sonucSoru.dogru && sonucSoru.bankadan) {
-        geriBildirim = {
-          ton: "dogru",
-          metin: tt("{n}/2 doğru — bir kez daha bilirsen öğrenilmiş sayılacak", { n: sonucSoru.yeni_seri }),
-        };
+        geriBildirim = { ton: "dogru", metin: tt("Doğru! {n}/2", { n: sonucSoru.yeni_seri ?? 1 }) };
       } else if (sonucSoru.dogru) {
         geriBildirim = { ton: "dogru", metin: tt("Doğru") };
       } else if (sonucSoru.bankadan) {
-        geriBildirim = {
-          ton: "yanlis",
-          metin: tt("Bunu daha önce {0} kez yanlış bilmiştin", { 0: Math.max(1, (sonucSoru.onceki_yanlis ?? 1) - 1) }),
-        };
+        // onceki_yanlis bu cevapla birlikte sayılmış hâlidir
+        geriBildirim = { ton: "yanlis", metin: tt("Yanlış · {n}. kez", { n: Math.max(1, Number(sonucSoru.onceki_yanlis) || 1) }) };
       } else {
         geriBildirim = { ton: "yanlis", metin: tt("Yanlış — Hatalarım'a eklendi") };
       }
@@ -430,7 +448,7 @@ export default function CalismaPage() {
     };
 
     return (
-      <div className={`qt-sahne-mac qt-sahne-gok m1-mac${kalan > 0 && kalan <= 5 && secim === null ? " qt-h-gerilim" : ""}`}>
+      <div className={`qt-sahne-mac qt-sahne-gok m1-mac m1-mac--calisma${kalan > 0 && kalan <= 5 && secim === null ? " qt-h-gerilim" : ""}`}>
         {/* Paket 41 B/E: öteki modlarla aynı üst şerit; X turu bitirip sonucu gösterir. */}
         <MacUstSerit
           onCik={oturum?.oturum_id ? () => bitir(oturum.oturum_id) : undefined}
@@ -438,26 +456,12 @@ export default function CalismaPage() {
           rozet={tt("Çalışma · puan verilmez")}
         />
 
-        {/* Paket 20 V: dağılım sunucudan (calisma_baslat: bankadan / havuzdan) */}
-        {/* Paket 40 I: alan eksikse cümle hiç çizilmez ("Bu turdaki undefined sorunun…" görünüyordu) */}
-        {oturum && sayiMi(oturum.bankadan)
-          && (oturum.bankadan !== 0 || sayiMi(oturum.soru_sayisi))
-          && (oturum.bankadan === 0 || !(oturum.havuzdan > 0) || sayiMi(oturum.havuzdan)) && sirada === 1 && !sonucSoru && (
-          <div className="m1-bant m1-bant--bilgi" role="status">
-            <span>
-              {oturum.bankadan === 0
-                ? tt("Bankan temiz — pratik turu: {n} yeni soru.", { n: oturum.soru_sayisi })
-                : oturum.havuzdan > 0
-                  ? tt("Bankanda {b} soru var. Turu {h} yeni soruyla tamamladık.", { b: oturum.bankadan, h: oturum.havuzdan })
-                  : tt("Bu turdaki {b} sorunun hepsi bankandan.", { b: oturum.bankadan })}
-            </span>
-          </div>
-        )}
-
         {/* Paket 40 I: toplam bilinmiyorsa "1/0 · 0 soru kaldı" yazmasın */}
         {toplam > 0 && (
           <QtIlerleme deger={sirada} en={toplam} ton="coin" etiket={tt("{n}/{t} · {k} soru kaldı", { n: sirada, t: toplam, k: Math.max(0, toplam - sirada) })} />
         )}
+        {/* Tur dağılımı: turun başından sonuna aynı tek satır (boşken de yer tutar — ekran zıplamaz) */}
+        <p className="m1-cal-tur" role="status">{turBilgi}</p>
 
         {soru && (
           <div className={`m1-soru ${soruUzunlukSinifi(soru)}${sarsil ? " qt-h-salla" : ""}`}>
@@ -474,8 +478,8 @@ export default function CalismaPage() {
                 </span>
               }
               sira={soru.bankadan
-                ? tt("bankandan · {n} kez yanlış", { n: soru.onceki_yanlis })
-                : tt("yeni soru")}
+                ? (sayiMi(soru.onceki_yanlis) && Number(soru.onceki_yanlis) > 0 ? tt("{n}× yanlış", { n: soru.onceki_yanlis }) : tt("Bankadan"))
+                : tt("Yeni")}
               sevinc={Boolean(sonucSoru?.dogru)}
               sayac={<QtSayac kalan={kalan} toplam={SORU_SN} durdu={secim !== null} esik={3} />}
             />
@@ -499,7 +503,10 @@ export default function CalismaPage() {
               )}
             </BasiliTut>
 
-            <QtSonucBandi ton={geriBildirim?.ton} metin={geriBildirim?.metin} anahtar={`${soru.soru_index}-${geriBildirim?.ton ?? ""}`} />
+            {/* Sabit yükseklikli tek satır sonuç yuvası (Klasik ile aynı): soru açıkken boş ama yer tutar — 0 px kayma */}
+            <div className="m1-sonuc-yuva">
+              <QtSonucBandi ton={geriBildirim?.ton} metin={geriBildirim?.metin} anahtar={`${soru.soru_index}-${geriBildirim?.ton ?? ""}`} />
+            </div>
           </div>
         )}
         {hataBandi}
@@ -508,32 +515,54 @@ export default function CalismaPage() {
   }
 
   // ============ SONUÇ EKRANI ============
-  const ogrenilen = sonuc?.ogrenilen ?? 0;
+  // Tur sonu (11 Eki 2026): maç sonu sahnesiyle aynı dil — gök sahne, kitap ikonlu büyük "öğrenildi" sayısı,
+  // üç renkli kutu, banka ilerlemesi (yanlis_bankam; bitir() tazeler), turuncu "Tekrar çalış", sorular listesi altta.
+  const ogrenilen = Number(sonuc?.ogrenilen) || 0;
+  const bankaToplam = Number(banka?.toplam) || 0;
+  const bankaOgrenilen = Number(banka?.ogrenilen) || 0;
   return (
-    <div className="m1-cal">
-      <QtKart className="m1-cal-sonuc">
-        <QtRozet ton="mor" ikon="kitap">{tt("Çalışma · puan verilmez")}</QtRozet>
-        {oturum?.bankadan === 0 && <p className="m1-cal-not">{tt("Pratik turu — bankan temizdi.")}</p>}
-        <div className={`m1-cal-buyuk qt-sayi${ogrenilen > 0 ? "" : " m1-cal-buyuk--sifir"}`}>{ogrenilen}</div>
-        <p className="m1-cal-not">{ogrenilen > 0 ? tt("soru öğrenildi") : tt("Henüz yok — denemeye devam et")}</p>
+    <div className="m1-cal m1-cal-son">
+      <div className="m1-cal-son-sahne qt-sahne-mac qt-sahne-gok">
+        <section className={`m1-cal-son-ust${ogrenilen > 0 ? " m1-cal-son-ust--kutla" : ""}`} aria-live="polite">
+          <Konfeti aktif={sonKutlama} adet={22} tur="patlama" />
+          <QtRozet ton="bilgi" ikon="kitap" boyut="k">{tt("Çalışma · puan verilmez")}</QtRozet>
+          {ogrenilen > 0 ? (
+            <h1 className="m1-cal-son-baslik">
+              <span className="m1-cal-son-skor">
+                <span className="m1-cal-son-ikon" aria-hidden="true"><QtIkon ad="kitap" boyut={30} /></span>
+                <b className="m1-cal-son-sayi qt-sayi">{ogrenilen}</b>
+              </span>
+              <span className="m1-cal-son-alt">{ogrenilen === 1 ? tt("soru öğrenildi!") : tt("soru öğrenildi")}</span>
+            </h1>
+          ) : (
+            <h1 className="m1-cal-son-baslik m1-cal-son-baslik--bos">
+              <span className="m1-cal-son-ikon" aria-hidden="true"><QtIkon ad="kitap" boyut={30} /></span>
+              <span>{tt("Bu tur öğrenilen yok — bir dahakine!")}</span>
+            </h1>
+          )}
+          {oturum?.bankadan === 0 && <p className="m1-cal-son-not">{tt("Pratik turu — bankan temizdi.")}</p>}
+        </section>
 
-        <div className="m1-cal-sayilar m1-cal-sayilar--uc">
-          <div><b className="qt-sayi">{sonuc?.dogru ?? 0}</b><span>{tt("doğru")}</span></div>
-          <div><b className="qt-sayi">{sonuc?.yanlis ?? 0}</b><span>{tt("yanlış")}</span></div>
-          <div><b className="qt-sayi">{sonuc?.bankada_kalan ?? 0}</b><span>{tt("bankada")}</span></div>
+        <div className="m1-cal-son-kutular">
+          <div className="m1-cal-son-kutu m1-cal-son-kutu--dogru"><b className="qt-sayi">{sonuc?.dogru ?? 0}</b><span>{tt("doğru")}</span></div>
+          <div className="m1-cal-son-kutu m1-cal-son-kutu--yanlis"><b className="qt-sayi">{sonuc?.yanlis ?? 0}</b><span>{tt("yanlış")}</span></div>
+          <div className="m1-cal-son-kutu m1-cal-son-kutu--banka"><b className="qt-sayi">{sonuc?.bankada_kalan ?? 0}</b><span>{tt("bankada")}</span></div>
         </div>
 
-        <p className="m1-cal-not">
-          {tt("Bugüne kadar toplam {n} soru öğrendin. Doğru cevapların kategori ustalığına işlendi.", { n: sonuc?.toplam_ogrenilen ?? 0 })}
-        </p>
+        {bankaToplam > 0 && (
+          <div className="m1-cal-son-banka">
+            <QtIlerleme deger={bankaOgrenilen} en={bankaToplam} ton="dogru" etiket={tt("{o}/{t} öğrenildi", { o: bankaOgrenilen, t: bankaToplam })} />
+            <span className="qt-sayi">{tt("{o}/{t} öğrenildi", { o: bankaOgrenilen, t: bankaToplam })}</span>
+          </div>
+        )}
 
-        <div className="m1-dugmeler">
-          <QtDugme tamGenislik ikon="yenile" onClick={() => setAsama("secim")}>{tt("Tekrar çalış")}</QtDugme>
+        <div className="m1-cal-son-dugmeler">
+          <QtDugme tamGenislik boyut="b" ikon="yenile" onClick={() => setAsama("secim")}>{tt("Tekrar çalış")}</QtDugme>
           <QtDugme tur="ikincil" tamGenislik onClick={() => navigate(y())}>{tt("Ana sayfa")}</QtDugme>
         </div>
-      </QtKart>
-      <MacSorulari sorular={cevaplananlar} baslik={tt("Turun soruları ({n})", { n: cevaplananlar.length })} />
+      </div>
       {hataBandi}
+      <MacSorulari sorular={cevaplananlar} baslik={tt("Turun soruları ({n})", { n: cevaplananlar.length })} />
     </div>
   );
 }
