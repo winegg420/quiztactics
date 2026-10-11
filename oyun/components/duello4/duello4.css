@@ -132,7 +132,7 @@
    (bitiş 40), alt yazı kendi renginde kenarlı beyaz hap, her kartın üstünde oyuncunun gerçek avatarı (80 px, halka sen mavi /
    rakip kırmızı) + sağ altında Doğru/Yanlış/Yanıtsız rozeti. Kısa ekranda (≤ 700 px yükseklik) avatar 64, başlık 30;
    SON BASKI bandı kartların üstüne binmez — akışta, kartların altında durur. */
-.d4-sonuc { position: relative; border-radius: var(--qt-r-l); padding: 14px 10px; overflow: hidden; justify-content: space-evenly; gap: 12px; }
+.d4-sonuc { position: relative; border-radius: var(--qt-r-l); padding: 14px 10px; overflow: hidden; justify-content: center; gap: 15px; }
 .d4-sonuc--iyi { background: var(--hk-mavi-zemin); }
 .d4-sonuc--kotu { background: var(--hk-kirmizi-zemin); }
 .d4-sonuc--notr { background: #fff; }
@@ -173,7 +173,7 @@
 .d4-baski b { font-family: var(--qt-f-baslik); font-size: 30px; font-weight: 800; line-height: 1; letter-spacing: .03em; }
 .d4-baski span { font-size: 13px; font-weight: 800; }
 @media (max-height: 700px) {
-  .d4-sonuc { padding: 10px 8px; gap: 8px; }
+  .d4-sonuc { padding: 10px 8px; gap: 14px; }
   .d4-sonuc-baslik { font-size: 30px; }
   .d4-sonuc--bitis .d4-sonuc-baslik { font-size: 34px; }
   .d4-cevap-av { --d4-av: 64px; }
