@@ -27,32 +27,22 @@
 
 .g-tanitim-icerik { display: flex; flex-direction: column; align-items: center; gap: var(--qt-b-3); }
 .g-tanitim-gorsel {
-  --_z: var(--qt-ikinci-acik);
-  --_i: var(--qt-ikinci);
   position: relative;
   display: grid;
   place-items: center;
   width: 100%;
-  min-height: 152px;
   border-radius: var(--qt-r-l);
-  background: var(--_z);
 }
-.g-tanitim-gorsel--duello { --_z: var(--qt-mod-duello-acik); --_i: var(--qt-mod-duello); --_d: var(--qt-mod-duello-dudak); }
-.g-tanitim-gorsel--duello .g-tanitim-ikon { color: #fff; }
-.g-tanitim-gorsel--turnuva { --_z: var(--qt-mod-turnuva-acik); --_i: var(--qt-mod-turnuva); --_d: var(--qt-mod-turnuva-dudak); }
-.g-tanitim-gorsel--saf { --_z: var(--qt-mod-saf-acik); --_i: var(--qt-mod-saf); --_d: var(--qt-mod-saf-dudak); }
-.g-tanitim-ikon {
-  position: absolute;
-  top: var(--qt-b-3);
-  right: var(--qt-b-3);
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: var(--qt-r-hap);
-  background: var(--_i);
-  color: var(--qt-mod-yazi);
-  box-shadow: 0 var(--qt-dudak-s) 0 var(--_d, var(--qt-ikinci-dudak));
+/* 4 kart (11 Eki 2026): mod rengi zemin + açık ışın (.qt-isin-sahne) + büyük ModFiguru; lig kartı sarı + kupa */
+.g-tanitim-gorsel.qt-isin-sahne { --isin-m: 50% 50%; min-height: 168px; box-shadow: 0 var(--qt-dudak-s) 0 var(--_d); }
+.g-tanitim-gorsel--klasik { --isin-zemin: var(--qt-mod-klasik); --_d: var(--qt-mod-klasik-dudak); }
+.g-tanitim-gorsel--duello { --isin-zemin: var(--qt-mod-duello); --_d: var(--qt-mod-duello-dudak); }
+.g-tanitim-gorsel--kasa { --isin-zemin: var(--qt-mod-kasa); --_d: var(--qt-mod-kasa-dudak); }
+.g-tanitim-gorsel--lig { --isin-zemin: var(--qt-mod-turnuva); --_d: var(--qt-mod-turnuva-dudak); }
+.g-tanitim-gorsel .g-tanitim-figur { width: 120px; height: 120px; }
+@media (max-height: 700px) {
+  .g-tanitim-gorsel.qt-isin-sahne { min-height: 136px; }
+  .g-tanitim-gorsel .g-tanitim-figur { width: 96px; height: 96px; }
 }
 .g-tanitim .g-tanitim-baslik { font-size: var(--qt-y-2xl); }
 .g-tanitim .g-tanitim-metin { font-size: var(--qt-y-m); text-wrap: pretty; margin-inline: auto; }
@@ -115,20 +105,40 @@
 .g-sihirbaz-google { display: inline-flex; align-items: center; gap: var(--qt-b-2); }
 .g-sihirbaz-google img { width: 26px; height: 26px; border-radius: var(--qt-r-hap); }
 
-.g-sihirbaz-onizleme {
+/* Canlı oyuncu kartı önizlemesi (11 Eki 2026; eski alttaki "O Oyuncu" satırının yerine) — Profil kimlik kartının küçüğü.
+   Mavi = sen. */
+.g-sihirbaz-kart {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--qt-b-2);
-  padding-top: var(--qt-b-3);
-  border-top: 2px solid var(--qt-yuzey-3);
-  color: var(--qt-metin-soluk);
+  gap: var(--qt-b-3);
+  min-width: 0;
+  padding: var(--qt-b-2) var(--qt-b-3);
+  border: 2px solid var(--qt-ikinci);
+  border-radius: var(--qt-r-l);
+  background: var(--qt-ikinci-acik);
+  box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-ikinci-dudak);
 }
+.g-sihirbaz-kart-avatar { flex: none; display: grid; place-items: center; width: 56px; height: 56px; }
+.g-sihirbaz-kart-bos {
+  display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%;
+  border: 2px dashed var(--qt-cizgi-guclu); background: var(--qt-yuzey);
+  font: var(--qt-a-siyah) 26px/1 var(--qt-f-baslik); color: var(--qt-metin-soluk);
+}
+.g-sihirbaz-kart-metin { display: grid; gap: 2px; min-width: 0; }
+.g-sihirbaz-kart-metin b {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font: var(--qt-a-siyah) var(--qt-y-l)/1.15 var(--qt-f-baslik); color: var(--qt-metin);
+}
+.g-sihirbaz-kart-konum {
+  display: flex; align-items: center; gap: 6px; min-width: 0;
+  font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin);
+}
+.g-sihirbaz-kart-konum > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.g-sihirbaz-kart .g-sihirbaz-kart-yer { color: var(--qt-metin-soluk); font-weight: var(--qt-a-kalin); }
+.g-avatar-kilit-baslik { margin-top: var(--qt-b-3); color: var(--qt-metin); }
 
 @media (prefers-reduced-motion: reduce) {
   .g-tanitim-nokta, .g-sihirbaz-parca, .g-avatar-sec { transition: none; }
   .g-avatar-sec:active { transform: none; }
 }
 
-/* Tanıtım ikon diski (maskot yerine) — kartın mod rengi */
-.g-tanitim-disk, .qt-ikon-disk.g-tanitim-disk { --_boy: 104px; --_z: #fff; background: #fff; color: var(--_i); box-shadow: 0 var(--qt-dudak-s) 0 var(--_d, var(--qt-ikinci-dudak)); }

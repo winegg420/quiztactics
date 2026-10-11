@@ -134,6 +134,37 @@
   .g-giris-yasal a:hover { text-decoration-color: currentColor; }
 }
 
+/* "Seni neler bekliyor" — üç mod vitrini (ana sayfa mod şeridi dili; tıklanmaz).
+   Renk rolleri: turuncu Klasik · kırmızı Düello · altın Ortak Hazine. */
+.g-giris-modlar { display: grid; gap: var(--qt-b-2); margin-top: var(--qt-b-2); }
+.g-giris-modlar-baslik {
+  margin: 0;
+  font: var(--qt-a-siyah) var(--qt-y-m)/1.2 var(--qt-f-baslik);
+  color: var(--qt-zemin-metin);
+}
+.g-giris-mod-liste { display: grid; gap: var(--qt-b-2); margin: 0; padding: 0; list-style: none; }
+.g-giris-mod {
+  --isin-m: calc(100% - 40px) 50%;
+  --_y: var(--qt-mod-yazi);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--qt-b-2);
+  min-height: 64px;
+  padding: 6px 10px 6px 14px;
+  border-radius: 12px;
+  color: var(--_y);
+  box-shadow: 0 3px 0 var(--_d);
+}
+.g-giris-mod--klasik { --isin-zemin: var(--qt-mod-klasik); --_d: var(--qt-mod-klasik-dudak); }
+.g-giris-mod--duello { --isin-zemin: var(--qt-mod-duello); --_d: var(--qt-mod-duello-dudak); --_y: var(--qt-mod-duello-yazi); }
+.g-giris-mod--kasa { --isin-zemin: var(--qt-mod-kasa); --_d: var(--qt-mod-kasa-dudak); --_y: var(--qt-mod-kasa-yazi); }
+.g-giris-mod-metin { display: grid; gap: 2px; min-width: 0; }
+.g-giris-mod-metin b { font: var(--qt-a-siyah) 17px/1.1 var(--qt-f-baslik); }
+.g-giris-mod--duello .g-giris-mod-metin b { text-shadow: 0 2px 0 rgb(0 0 0 / 0.18); }
+.g-giris-mod-metin small { font-size: 13px; font-weight: var(--qt-a-kalin); line-height: 1.25; text-wrap: pretty; }
+.g-giris-mod .g-giris-mod-figur { width: 52px; height: 52px; }
+
 /* Masaüstü: iki sütun — solda vitrin, sağda kart. */
 @media (min-width: 850px) {
   .g-giris-izgara {

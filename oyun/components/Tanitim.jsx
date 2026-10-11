@@ -1,40 +1,23 @@
 import { useState } from "react";
 import Modal from "./Modal.jsx";
 import { tt } from "../lib/dil.js";
-import { QtDugme, QtIkon } from "../tasarim/index.js";
+import { QtDugme } from "../tasarim/index.js";
+import { AmblemSembolu, ModFiguru } from "./ModFiguru.jsx";
 import "../tasarim/ekranlar/g-kurulum.css";
 import "../tasarim/ekranlar/ikon-disk.css";
 
+// Giriş · Tanıtım · Kurulum turu (11 Eki 2026): 4 kısa kart — üç mod + lig/turnuva. Her kartta modun rengi,
+// büyük figür, başlık ve en çok 2 satır. Kurallar oyunun kendi tanıtımlarıyla aynı (Düello v4: tek bilen
+// kontrolü alır, 3/3; Ortak Hazine: tek bilen sahibi olur, AÇ/DEVAM; turnuva: son kalan kazanır).
 const KARTLAR = [
-  {
-    ikon: "kilic",
-    baslik: tt("Nasıl oynanır?"),
-    metin:
-      tt("20 soruluk kapışmalarda rakibinle aynı sorulara aynı anda cevap verirsin. Her doğru cevap 10 puan — ") +
-      tt("hızlı basmak fark etmez, bilmek yeter. Süre sınırlıdır; ") +
-      tt("rakibin geç kalırsa onu beklemen gerekebilir."),
-    ton: "duello",
-  },
-  {
-    ikon: "yildiz",
-    baslik: tt("On kategori"),
-    metin:
-      tt("Genel Kültür, Bilim, Tarih, Coğrafya, Edebiyat, Spor, Sanat, Sinema, ") +
-      tt("Müzik ve Teknoloji. 12.000'den fazla doğrulanmış soru seni bekliyor."),
-    ton: "turnuva",
-  },
-  {
-    ikon: "lig",
-    baslik: tt("Şehrini zirveye taşı"),
-    metin:
-      tt("Kazandığın puanlar seni şehir, ülke ve dünya liglerinde yükseltir. ") +
-      tt("Her pazartesi yeni hafta başlar. Günlük turnuvalarda son kalan kazanır!"),
-    ton: "saf",
-  },
+  { tur: "klasik", baslik: tt("Klasik"), metin: tt("Rakibinle aynı sorular, aynı anda. En çok bilen kazanır.") },
+  { tur: "duello", baslik: tt("Düello"), metin: tt("Tek bilen kontrolü alır. Kontrolü al, üst üste 3 doğru yap.") },
+  { tur: "kasa", baslik: tt("Ortak Hazine"), metin: tt("Tek bilen hazinenin sahibi olur. Doğru anda AÇ, puanı kap.") },
+  { tur: "lig", baslik: tt("Lig ve turnuva"), metin: tt("Şehir, ülke ve dünya liglerinde yüksel. Her gün turnuva: son kalan kazanır.") },
 ];
 
 /**
- * İlk girişte gösterilen 3 kartlık tanıtım.
+ * İlk girişte gösterilen 4 kartlık tanıtım.
  * Kurulum sihirbazından ÖNCE gelir: kullanıcı ne oynayacağını bilmeden
  * takma ad/avatar/şehir soruları karşısına çıkmasın.
  */
@@ -60,11 +43,11 @@ export default function Tanitim({ onBitti }) {
         </div>
 
         <div key={i} className="g-tanitim-icerik qt-h-gir">
-          <div className={`g-tanitim-gorsel g-tanitim-gorsel--${k.ton}`}>
-            {/* Baykuş maskot kaldırıldı (Ida, 24 Eyl 2026): kartın ikonu büyük diskte */}
-            <span className="qt-ikon-disk g-tanitim-disk" aria-hidden="true">
-              <QtIkon ad={k.ikon} boyut={52} />
-            </span>
+          <div className={`g-tanitim-gorsel g-tanitim-gorsel--${k.tur} qt-isin-sahne`}>
+            {/* Baykuş maskot yok (Ida, 24 Eyl 2026): ana sayfa / Modlar ile aynı mod figürü; lig kartında kupa */}
+            {k.tur === "lig"
+              ? <span className="as-figur g-tanitim-figur" aria-hidden="true"><AmblemSembolu ad="kupa" className="as-figur-ana" /></span>
+              : <ModFiguru tur={k.tur} className="g-tanitim-figur" />}
           </div>
           <h2 className="qt-baslik-1 g-tanitim-baslik">{k.baslik}</h2>
           <p className="qt-govde qt-soluk g-tanitim-metin">{k.metin}</p>
