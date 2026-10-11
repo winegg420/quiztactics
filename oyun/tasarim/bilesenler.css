@@ -998,6 +998,7 @@ html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))
   background: rgba(255, 255, 255, 0.72);
   color: var(--qt-mod-yazi);
 }
+.qt-mod-ikon-gorsel { width: 72%; height: 72%; object-fit: contain; }
 .qt-mod-metin { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .qt-mod-ad { font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: 23px; line-height: 1.05; }
 .qt-mod-alt { font-size: 13px; font-weight: var(--qt-a-siyah); line-height: 1.25; }

@@ -31,7 +31,10 @@ export function QtModKart({ mod = "klasik", ad, alt, ikon, rozet, secili, kilitl
       {...rest}
     >
       <span className="qt-mod-ikon">
-        <QtIkon ad={kilitli ? "kilit" : ikon ?? MOD_IKON[mod] ?? "oyna"} boyut={30} />
+        {/* Ortak Hazine'nin ikonu her yerde sandık görseli (11 Eki 2026; eskiden jenerik coin) */}
+        {!kilitli && !ikon && mod === "kasa"
+          ? <img className="qt-mod-ikon-gorsel" src="/dukkan/sandik.webp" alt="" width={34} height={34} decoding="async" />
+          : <QtIkon ad={kilitli ? "kilit" : ikon ?? MOD_IKON[mod] ?? "oyna"} boyut={30} />}
       </span>
       <span className="qt-mod-metin">
         <span className="qt-mod-ad">{ad}</span>

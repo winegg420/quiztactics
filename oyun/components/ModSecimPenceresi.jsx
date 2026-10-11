@@ -148,7 +148,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
     // 957: Kasa — ödül Klasik yoluyla aynı (kasa_bitir), jokerler Klasik envanterinden
     ...(kasaAcik ? [{
       mod: "kasa",
-      ikon: "coin",
+      ikon: undefined,   // QtModKart kasa için sandık görselini çizer
       ad: tt("Ortak Hazine"),
       aciklama: tt("Tek bilen hazineyi alır, doğru anda aç."),
       joker: tt("Klasik jokerlerin geçer"),

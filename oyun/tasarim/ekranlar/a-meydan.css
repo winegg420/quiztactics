@@ -82,6 +82,25 @@
 .a-meydan-kisi-ad { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; max-width: 100%; font-weight: var(--qt-a-siyah); line-height: 1.2; overflow-wrap: anywhere; }
 .a-meydan-kisi--arkadas { justify-content: space-between; }
 .a-meydan-kisi--arkadas .qt-dugme { width: 100%; padding-inline: var(--qt-b-2); }
+/* 11 Eki 2026 — arkadaş kartı = seçim. Seçili: 4 px mavi halka + sağ üstte mavi tik (seçili öğe = mavi rolü). */
+button.a-meydan-kisi--arkadas { position: relative; border: 0; font: inherit; cursor: pointer; justify-content: center;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: box-shadow var(--qt-s-kisa) ease; }
+button.a-meydan-kisi--arkadas:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+button.a-meydan-kisi--arkadas:disabled { cursor: default; opacity: 0.75; }
+.a-meydan .a-meydan-kime button.a-meydan-kisi.a-meydan-kisi--secili { box-shadow: 0 0 0 4px var(--qt-ikinci), 0 4px 0 var(--qt-mod-yazi); }
+.a-meydan-kisi-tik { position: absolute; top: 6px; right: 6px; display: grid; place-items: center; width: 24px; height: 24px;
+  border-radius: 50%; background: var(--qt-ikinci); color: #fff; }
+.a-meydan-kime { padding-top: 6px; }   /* seçili halka kırpılmasın */
+/* Tek eylem düğmesi: akışın sonunda, alt menünün hemen üstüne yapışır (sticky; fixed + transform yok — iOS) */
+.a-meydan-eylem { position: sticky; z-index: 5; bottom: calc(var(--qt-altmenu-yukseklik) + env(safe-area-inset-bottom, 0px) + var(--qt-b-2)); }
+@media (min-width: 850px) { .a-meydan-eylem { bottom: var(--qt-b-3); } }
+.a-meydan-eylem .qt-dugme { min-height: 60px; }
+.a-meydan-eylem-metin { display: flex; flex-direction: column; align-items: center; min-width: 0; line-height: 1.15; }
+.a-meydan-eylem-ad { max-width: 100%; min-width: 0; }
+.a-meydan-eylem-rakip { display: flex; max-width: 100%; min-width: 0; white-space: pre; }
+.a-meydan-eylem-isim { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.a-meydan-eylem-sabit { flex: none; }
+.a-meydan-eylem-ozet { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); opacity: 0.9; }
 .a-meydan-kisi--arkadas .a-meydan-puan { color: var(--qt-metin-soluk); font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
 .a-meydan a.a-meydan-kisi--ekle { color: var(--qt-metin); text-decoration: none; }
 .a-meydan-kisi--ekle { -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: transform var(--qt-s-basma) var(--qt-egri-cikis), box-shadow var(--qt-s-kisa) ease; }
