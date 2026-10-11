@@ -280,22 +280,26 @@ export default function CalismaPage() {
     return (
       <div className="m1-cal">
         {/* Ekran revizyonu A: turuncu kitap afişi — sağda bekleyen sayı, şeritte gerçek ilerleme (öğrenilen / toplam) */}
-        <QtAfis
-          ikon="kitap"
-          ton="vurgu"
-          baslik={tt("Hatalarım")}
-          sag={yukleniyor || bankaHata ? null : (banka?.bekleyen ?? 0) > 0 ? (
-            <span className="m1-cal-afis-sayi" aria-label={tt("{n} soru bankanda", { n: banka.bekleyen })}>
-              <b className="qt-sayi">{banka.bekleyen}</b><small>{tt("soru")}</small>
-            </span>
-          ) : <QtRozet ton="dogru" ikon="onay" boyut="k">{tt("Temiz")}</QtRozet>}
-        >
-          {yukleniyor || bankaHata || !((banka?.toplam ?? 0) > 0)
-            ? tt("Yanlış yaptığın soruları tekrar et, açığını kapat.")
-            : (banka?.bekleyen ?? 0) > 0
-              ? tt("{o}/{t} soruyu öğrendin — iki kez doğru bil, bankadan çıksın.", { o: banka.ogrenilen, t: banka.toplam })
-              : tt("Bankan temiz — {o} soruyu öğrendin.", { o: banka?.ogrenilen ?? 0 })}
-        </QtAfis>
+        <section className="m1-cal-hero" aria-label={tt("Hatalarım")}>
+          <span className="m1-cal-hero-ikon" aria-hidden="true"><QtIkon ad="kitap" boyut={30} /></span>
+          <div className="m1-cal-hero-govde">
+            <h1 className="m1-cal-hero-baslik">{tt("Hatalarım")}</h1>
+            <p className="m1-cal-hero-kural">{tt("İki kez doğru bil, bankadan çıksın")}</p>
+          </div>
+          {!yukleniyor && !bankaHata && (
+            (banka?.bekleyen ?? 0) > 0 ? (
+              <span className="m1-cal-hero-sayi" aria-label={tt("{n} soru bankanda", { n: banka.bekleyen })}>
+                <b className="qt-sayi">{banka.bekleyen}</b><small>{tt("soru")}</small>
+              </span>
+            ) : <QtRozet ton="dogru" ikon="onay" boyut="k">{tt("Temiz")}</QtRozet>
+          )}
+          {!yukleniyor && !bankaHata && (banka?.toplam ?? 0) > 0 && (
+            <div className="m1-cal-hero-ilerleme">
+              <QtIlerleme deger={banka.ogrenilen ?? 0} en={banka.toplam} ton="mor" etiket={tt("{o}/{t} öğrenildi", { o: banka.ogrenilen ?? 0, t: banka.toplam })} />
+              <span className="m1-cal-hero-ilerleme-yazi">{tt("{o}/{t} öğrenildi", { o: banka.ogrenilen ?? 0, t: banka.toplam })}</span>
+            </div>
+          )}
+        </section>
 
         {yukleniyor ? (
           <QtIskelet tur="kart" yukseklik={140} />
@@ -350,7 +354,7 @@ export default function CalismaPage() {
                 onClick={() => setSoruSayisi(bankaKadar)}
                 aria-label={tt("Bankan kadar: {n} soru", { n: bankaKadar })}
               >
-                {bankaKat < 5 ? tt("En kısa tur") : tt("Bankan kadar")} · {bankaKadar}
+                {bankaKat < 5 ? tt("En kısa tur") : tt("Hepsi (en çok 50)")}
               </QtCip>
             )}
             {SORU_SECENEKLERI.map((n) => (
@@ -367,9 +371,15 @@ export default function CalismaPage() {
         </section>
 
         {hataBandi}
-        <QtDugme tamGenislik boyut="b" ikon="kitap" yukleniyor={calisiyor} onClick={basla}>
-          {calisiyor ? tt("Hazırlanıyor…") : bankaKat === 0 ? tt("Pratik turuna başla") : tt("Çalışmaya başla")}
-        </QtDugme>
+        <div className="m1-cal-eylem">
+          <QtDugme tamGenislik boyut="b" ikon="kitap" yukleniyor={calisiyor} onClick={basla}>
+            <span className="m1-cal-eylem-metin">
+              <span>{calisiyor ? tt("Hazırlanıyor…") : bankaKat === 0 ? tt("Pratik turuna başla") : tt("Çalışmaya başla")}</span>
+              {/* Seçim özeti düğmenin İÇİNDE (Meydan tek eylem gibi) — sticky iken alttaki kartların üstüne binmez */}
+              <span className="m1-cal-eylem-ozet">{tt("{n} soru", { n: soruSayisi })} · {kategori === null ? tt("Tümü") : kategoriEtiket(kategori)}</span>
+            </span>
+          </QtDugme>
+        </div>
       </div>
     );
   }

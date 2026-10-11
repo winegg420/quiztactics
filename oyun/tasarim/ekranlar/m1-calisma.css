@@ -107,3 +107,20 @@
   .m1-cal-kat-kart { gap: 6px; padding: 8px 6px 8px 8px; }
   .m1-cal-kat-ad { font-size: 14px; }
 }
+
+/* ---------- Hatalarım hero kart + sticky eylem (Ida, 11 Eki 2026) ---------- */
+.m1-cal-hero { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--qt-b-2) var(--qt-b-3); padding: var(--qt-b-3); border: 2px solid #1d2152; border-radius: 18px; background: var(--qt-yuzey); box-shadow: 0 3px 0 #1d2152; color: var(--qt-metin); }
+.m1-cal-hero-ikon { display: grid; place-items: center; width: 52px; height: 52px; border: 2px solid #1d2152; border-radius: 14px; background: var(--qt-vurgu-acik); color: var(--qt-vurgu-dudak); }
+.m1-cal-hero-govde { min-width: 0; }
+.m1-cal-hero-baslik { margin: 0; font: var(--qt-a-siyah) var(--qt-y-l, 20px)/1.1 var(--qt-f-baslik); }
+.m1-cal-hero-kural { margin: 2px 0 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+.m1-cal-hero-sayi { display: inline-flex; align-items: baseline; gap: 4px; }
+.m1-cal-hero-sayi b { font: var(--qt-a-siyah) 40px/1 var(--qt-f-baslik); color: var(--qt-vurgu-dudak); }
+.m1-cal-hero-sayi small { font-weight: var(--qt-a-kalin); font-size: 13px; }
+.m1-cal-hero-ilerleme { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.m1-cal-hero-ilerleme-yazi { font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); }
+.m1-cal-eylem { position: sticky; z-index: 5; bottom: calc(var(--qt-altmenu-yukseklik) + env(safe-area-inset-bottom, 0px) + var(--qt-b-2)); display: flex; flex-direction: column; gap: 4px; }
+@media (min-width: 850px) { .m1-cal-eylem { bottom: var(--qt-b-3); } }
+.m1-cal-eylem .qt-dugme { min-height: 60px; }
+.m1-cal-eylem-metin { display: flex; flex-direction: column; align-items: center; min-width: 0; line-height: 1.15; }
+.m1-cal-eylem-ozet { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); opacity: 0.9; }
