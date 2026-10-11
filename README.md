@@ -15,6 +15,7 @@ Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık
 - 🏅 **Herkes çerçeveli** — Her oyuncunun avatarında en az ligin çerçevesi görünür (yeni oyuncu Bronz'dan başlar); kazanılmış başka çerçeve takılıysa o görünür.
 - ✨ **Cevap İmzası** — doğru cevapta doğru şıkta oynayan, yalnız oyuncunun kendisinin gördüğü kişisel efekt (Dükkân › Efekt; Nadir coinle, Epik/Efsanevi elmasla).
 - 📶 **Bağlantı koparsa 60 sn** — Klasik, Saf Bilgi, Düello ve Ortak Hazine'de bağlantın koparsa ya da uygulamadan çıkarsan maç 60 saniye bekler: süre/soru kaybetmezsin, dönünce kaldığın yerden sürer; rakibin kalan süreyi görür.
+- 👀 **Rakibin şıkkı ve ortalama cevap süren** — Klasik, Saf Bilgi ve Ortak Hazine'de soru kapanınca rakibin hangi şıkkı seçtiği küçük avatarıyla görünür; maç sonunda "Ort. cevap 6,2 sn · rakip 8,1 sn".
 - 👥 Arkadaşlar, meydan okuma, rövanş, grup maçı, saf bilgi, hatalarım, görevler, dükkân ve koleksiyon.
 - 🤖 **Claude API ile soru üretimi** — Sorular Edge Function ile üretilir ve veritabanına kaydedilir.
 - 🔐 Google / Facebook / X ile giriş, e-posta sihirli bağlantı ve misafir oyun.

@@ -67,7 +67,8 @@ const SIK_DURUM_EK = {
  *   solgun  — sonuç sonrası geri plana itilen şık
  * kiriliyor: 50:50 anı — şık ikiye kırılıp düşer; QT_KIRILMA_MS sonra durum="elendi" yap.
  */
-export function QtSik({ harf, metin, durum = "normal", kiriliyor = false, onClick, className, ...rest }) {
+// ek (1062): şıkkın üstüne bindirilen küçük işaret (ör. rakibin avatarı) — düzeni ETKİLEMEZ (mutlak konum).
+export function QtSik({ harf, metin, durum = "normal", kiriliyor = false, onClick, className, ek: ekIsaret = null, ...rest }) {
   const acik = durum === "normal" && !kiriliyor;
   const ek = SIK_DURUM_EK[durum];
   return (
@@ -104,6 +105,7 @@ export function QtSik({ harf, metin, durum = "normal", kiriliyor = false, onClic
           {tt("Elendi")}
         </span>
       )}
+      {ekIsaret}
     </div>
   );
 }

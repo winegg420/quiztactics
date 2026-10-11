@@ -26,6 +26,7 @@ import { KasaKadran, KasaSkor, KasaUst, KasaKarar, KasaSonucBandi, KasaAcKilit, 
          kasaSavunma, SavunmaRozeti, SAVUNMA_HAKKI, SAVUNMA_SORUSU, KasaJokerBilgi, KasaDevamOdul, KasaRakipJokerAn } from "../components/KasaParcalari.jsx";
 import JokerCubugu from "../components/JokerCubugu.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
+import OrtCevapSatiri from "../components/OrtCevapSatiri.jsx";
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import { TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
@@ -1164,7 +1165,12 @@ function KasaMac({ id }) {
           lig={sahne.lig}
           gorevler={sahne.gorevler}
           rozetler={sahne.rozetler}
-          modOzet={d.durum === "bitti" && Array.isArray(d.gecmis) && d.gecmis.length ? <KasaAcilanlar gecmis={d.gecmis} c={c} /> : null}
+          modOzet={d.durum === "bitti" && ((Array.isArray(d.gecmis) && d.gecmis.length) || d.ort_cevap) ? (
+            <>
+              {Array.isArray(d.gecmis) && d.gecmis.length > 0 && <KasaAcilanlar gecmis={d.gecmis} c={c} />}
+              <OrtCevapSatiri veri={d.ort_cevap} />
+            </>
+          ) : null}
           detay={d.durum === "bitti" ? (
             <>
               <OdulDokumu kaynak={`kasa:${d.id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />
@@ -1264,6 +1270,8 @@ function KasaMac({ id }) {
     const benimCevap = sonucMu
       ? (d.sonuc?.benim_cevabim == null ? null : Number(d.sonuc.benim_cevabim))
       : kilitli && d.cevap?.benim_cevabim != null ? Number(d.cevap.benim_cevabim) : secim;
+    // 1062: rakibin şıkkı — sunucu yalnız tur çözümlenince (faz 'sonuc') verir; cevapsızsa null → işaret yok
+    const rakipCevap = sonucMu && Number.isInteger(d.sonuc?.rakip_cevabi) ? d.sonuc.rakip_cevabi : null;
     const tiklanabilir = !sonucMu && !kilitli && kalanSn > 0 && secim === null && calisan !== "cevap" && !girisAktif && !soruOrtulu && !sav?.izliyorum;
     // 951: 50:50 kapalıları ve İkinci Şans'ın elenen ilk cevabı yalnız bende (sunucu yalnız bana döndürür)
     const kapali = Array.isArray(d.joker?.kapali) ? d.joker.kapali.map(Number) : [];
@@ -1344,6 +1352,12 @@ function KasaMac({ id }) {
               {secenekler.map((s, i) => (
                 <QtSik key={`${d.soru?.soru ?? ""}-${i}`} harf={HARFLER[i]} metin={s} durum={durum(i)}
                        kiriliyor={kirilan.includes(i)}
+                       ek={rakipCevap === i ? (
+                         <span className="qt-sik-ek" role="img" aria-label={c("Rakibin cevabı")}>
+                           {benimCevap === i && <CerceveliAvatar profile={ben} userId={ben?.id} boyut={24} />}
+                           <CerceveliAvatar profile={rakip} userId={rakip?.id} boyut={24} />
+                         </span>
+                       ) : null}
                        onClick={tiklanabilir && !kapali.includes(i) && i !== elenen ? () => cevapVer(i) : undefined}
                        {...bt.sikProps(i)} />
               ))}
