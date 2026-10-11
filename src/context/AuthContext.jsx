@@ -225,12 +225,23 @@ export function AuthProvider({ children }) {
     at();
     const id = setInterval(at, 60000);
     document.addEventListener("visibilitychange", at);
+    // Uzun açık kalan sekme/PWA'da avatar/kozmetik eski kalmasın (maç ekranı profili taze okur, kabuk
+    // önbelleği eski kalırsa ekranlar ayrışıyordu): sekmeye dönünce, son tazelemeden ≥60 sn geçtiyse bir kez.
+    let sonTazele = Date.now();
+    const gorununce = () => {
+      if (durdu || document.visibilityState !== "visible") return;
+      if (Date.now() - sonTazele < 60000) return;
+      sonTazele = Date.now();
+      refreshProfile(oturumKimlik);
+    };
+    document.addEventListener("visibilitychange", gorununce);
     return () => {
       durdu = true;
       clearInterval(id);
       document.removeEventListener("visibilitychange", at);
+      document.removeEventListener("visibilitychange", gorununce);
     };
-  }, [oturumKimlik]);
+  }, [oturumKimlik, refreshProfile]);
 
   const signOut = () => supabase?.auth.signOut();
 
