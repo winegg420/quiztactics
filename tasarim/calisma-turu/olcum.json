@@ -1,0 +1,5858 @@
+{
+ "uretim": "2026-10-11T13:33:00.525Z",
+ "adres": "http://localhost:5188",
+ "kesilenYazmalar": [],
+ "taklitsizRpc": [
+  "cihaz_bildir",
+  "bekleyen_sayim",
+  "kalp_at",
+  "dm_okunmamis_sayim",
+  "coin_bakiyem",
+  "sezon_ozetim",
+  "bekleyen_davetlerim",
+  "rozet_bildirimlerim",
+  "ses_secimleri_oyun"
+ ],
+ "tabloOkumalari": [
+  "oyun_ayarlari",
+  "bildirimler"
+ ],
+ "turlar": [
+  {
+   "tur": "banka",
+   "boyut": "390x844",
+   "dil": "tr",
+   "anlar": {
+    "acik-1": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Coğrafya 2× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "secili": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 527,
+       "bottom": 585,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 659,
+       "bottom": 717,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 725,
+       "bottom": 783,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "kilitli",
+      "secili",
+      "kilitli",
+      "kilitli"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Coğrafya 2× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-dogru12": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogru",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Coğrafya 2× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "Doğru! 1/2",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-2": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Bilim 1× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-ogrenildi": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogru",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Bilim 1× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "Öğrenildi! Bankadan çıktı",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-3": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Tarih 2× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-yanlis-banka": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "yanlis",
+      "dogrusu",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Tarih 2× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "Yanlış · 3. kez",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-uzun": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 221.6,
+      "bottom": 414.4,
+      "height": 192.8,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 15,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Genel Kültür Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-sure": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 221.6,
+      "bottom": 414.4,
+      "height": 192.8,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogrusu",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 15,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Genel Kültür Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "Süre doldu",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-5": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Sanat Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-yanlis-yeni": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogrusu",
+      "yanlis",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Sanat Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "Yanlış — Hatalarım'a eklendi",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-6": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Spor Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-dogru": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogru",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Spor Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "Doğru",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "tursonu": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": null,
+     "siklar": [],
+     "sikDurum": [],
+     "sikFont": null,
+     "harf": null,
+     "yuva": null,
+     "turSatir": null,
+     "turMetin": null,
+     "sira": null,
+     "altBosluk": null,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": null,
+     "kesik": [],
+     "binen": [],
+     "son": {
+      "baslik": "1 soru öğrenildi!",
+      "kutular": [
+       "3 DOĞRU",
+       "3 YANLIŞ",
+       "6 BANKADA"
+      ],
+      "banka": "2/7 öğrenildi",
+      "dugmeAlt": 435.46875,
+      "tabbarUst": 844,
+      "ilkEkranda": true,
+      "konfeti": 22
+     }
+    }
+   },
+   "sorular": [
+    {
+     "no": 1,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Doğru! 1/2",
+     "satir": 1,
+     "sira": "Coğrafya 2× yanlış",
+     "tur": "3 bankadan · 3 yeni"
+    },
+    {
+     "no": 2,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Öğrenildi! Bankadan çıktı",
+     "satir": 1,
+     "sira": "Bilim 1× yanlış",
+     "tur": "3 bankadan · 3 yeni"
+    },
+    {
+     "no": 3,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Yanlış · 3. kez",
+     "satir": 1,
+     "sira": "Tarih 2× yanlış",
+     "tur": "3 bankadan · 3 yeni"
+    },
+    {
+     "no": 4,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Süre doldu",
+     "satir": 1,
+     "sira": "Genel Kültür Yeni",
+     "tur": "3 bankadan · 3 yeni"
+    },
+    {
+     "no": 5,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Yanlış — Hatalarım'a eklendi",
+     "satir": 1,
+     "sira": "Sanat Yeni",
+     "tur": "3 bankadan · 3 yeni"
+    },
+    {
+     "no": 6,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Doğru",
+     "satir": 1,
+     "sira": "Spor Yeni",
+     "tur": "3 bankadan · 3 yeni"
+    }
+   ],
+   "not": [],
+   "konfetiTekrar": 0,
+   "sonOzet": {
+    "baslik": "1 soru öğrenildi!",
+    "kutular": [
+     "3 DOĞRU",
+     "3 YANLIŞ",
+     "6 BANKADA"
+    ],
+    "banka": "2/7 öğrenildi",
+    "dugmeAlt": 435.46875,
+    "tabbarUst": 844,
+    "ilkEkranda": true,
+    "konfeti": 22
+   },
+   "gecisKayma": {
+    "px": 0,
+    "nerede": ""
+   },
+   "konsolHata": []
+  },
+  {
+   "tur": "banka",
+   "boyut": "390x844",
+   "dil": "en",
+   "anlar": {
+    "acik-1": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Geography 2× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "secili": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 527,
+       "bottom": 585,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 659,
+       "bottom": 717,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 725,
+       "bottom": 783,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "kilitli",
+      "secili",
+      "kilitli",
+      "kilitli"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Geography 2× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-dogru12": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogru",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Geography 2× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "Correct! 1/2",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-2": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Science 1× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-ogrenildi": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogru",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Science 1× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "Learned! Out of your bank",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-3": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "History 2× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-yanlis-banka": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "yanlis",
+      "dogrusu",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "History 2× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "Wrong · 3 times",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-uzun": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 221.6,
+      "bottom": 414.4,
+      "height": 192.8,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 15,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "General Knowledge New",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-sure": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 221.6,
+      "bottom": 414.4,
+      "height": 192.8,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogrusu",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 15,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "General Knowledge New",
+     "altBosluk": 14,
+     "sonucMetin": "Time's up",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-5": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Art New",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-yanlis-yeni": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogrusu",
+      "yanlis",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Art New",
+     "altBosluk": 14,
+     "sonucMetin": "Wrong — added to My Mistakes",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-6": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Sports New",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-dogru": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogru",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Sports New",
+     "altBosluk": 14,
+     "sonucMetin": "Right",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "tursonu": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": null,
+     "siklar": [],
+     "sikDurum": [],
+     "sikFont": null,
+     "harf": null,
+     "yuva": null,
+     "turSatir": null,
+     "turMetin": null,
+     "sira": null,
+     "altBosluk": null,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": null,
+     "kesik": [],
+     "binen": [],
+     "son": {
+      "baslik": "1 question learned!",
+      "kutular": [
+       "3 CORRECT",
+       "3 WRONG",
+       "6 IN BANK"
+      ],
+      "banka": "2/7 learned",
+      "dugmeAlt": 435.46875,
+      "tabbarUst": 844,
+      "ilkEkranda": true,
+      "konfeti": 22
+     }
+    }
+   },
+   "sorular": [
+    {
+     "no": 1,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Correct! 1/2",
+     "satir": 1,
+     "sira": "Geography 2× wrong",
+     "tur": "3 from bank · 3 new"
+    },
+    {
+     "no": 2,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Learned! Out of your bank",
+     "satir": 1,
+     "sira": "Science 1× wrong",
+     "tur": "3 from bank · 3 new"
+    },
+    {
+     "no": 3,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Wrong · 3 times",
+     "satir": 1,
+     "sira": "History 2× wrong",
+     "tur": "3 from bank · 3 new"
+    },
+    {
+     "no": 4,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Time's up",
+     "satir": 1,
+     "sira": "General Knowledge New",
+     "tur": "3 from bank · 3 new"
+    },
+    {
+     "no": 5,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Wrong — added to My Mistakes",
+     "satir": 1,
+     "sira": "Art New",
+     "tur": "3 from bank · 3 new"
+    },
+    {
+     "no": 6,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Right",
+     "satir": 1,
+     "sira": "Sports New",
+     "tur": "3 from bank · 3 new"
+    }
+   ],
+   "not": [],
+   "konfetiTekrar": 0,
+   "sonOzet": {
+    "baslik": "1 question learned!",
+    "kutular": [
+     "3 CORRECT",
+     "3 WRONG",
+     "6 IN BANK"
+    ],
+    "banka": "2/7 learned",
+    "dugmeAlt": 435.46875,
+    "tabbarUst": 844,
+    "ilkEkranda": true,
+    "konfeti": 22
+   },
+   "gecisKayma": {
+    "px": 0,
+    "nerede": ""
+   },
+   "konsolHata": []
+  },
+  {
+   "tur": "banka",
+   "boyut": "360x780",
+   "dil": "tr",
+   "anlar": {
+    "acik-1": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Coğrafya 2× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "secili": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 463,
+       "bottom": 521,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 595,
+       "bottom": 653,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 661,
+       "bottom": 719,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "kilitli",
+      "secili",
+      "kilitli",
+      "kilitli"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Coğrafya 2× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-dogru12": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogru",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Coğrafya 2× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "Doğru! 1/2",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-2": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Bilim 1× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-ogrenildi": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogru",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Bilim 1× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "Öğrenildi! Bankadan çıktı",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-3": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Tarih 2× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-yanlis-banka": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "yanlis",
+      "dogrusu",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Tarih 2× yanlış",
+     "altBosluk": 14,
+     "sonucMetin": "Yanlış · 3. kez",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-uzun": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 195.3,
+      "bottom": 376.8,
+      "height": 181.5,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 15,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Genel Kültür Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-sure": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 195.3,
+      "bottom": 376.8,
+      "height": 181.5,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogrusu",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 15,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Genel Kültür Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "Süre doldu",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-5": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Sanat Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-yanlis-yeni": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogrusu",
+      "yanlis",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Sanat Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "Yanlış — Hatalarım'a eklendi",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-6": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Spor Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-dogru": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogru",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 bankadan · 3 yeni",
+     "sira": "Spor Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "Doğru",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "tursonu": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": null,
+     "siklar": [],
+     "sikDurum": [],
+     "sikFont": null,
+     "harf": null,
+     "yuva": null,
+     "turSatir": null,
+     "turMetin": null,
+     "sira": null,
+     "altBosluk": null,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": null,
+     "kesik": [],
+     "binen": [
+      "button.qt-dugme.qt-dugme--hayalet × a.qt-altmenu-oge",
+      "button.qt-dugme.qt-dugme--hayalet × a.qt-altmenu-oge",
+      "button.qt-dugme.qt-dugme--hayalet × a.qt-altmenu-oge"
+     ],
+     "son": {
+      "baslik": "1 soru öğrenildi!",
+      "kutular": [
+       "3 DOĞRU",
+       "3 YANLIŞ",
+       "6 BANKADA"
+      ],
+      "banka": "2/7 öğrenildi",
+      "dugmeAlt": 435.46875,
+      "tabbarUst": 780,
+      "ilkEkranda": true,
+      "konfeti": 22
+     }
+    }
+   },
+   "sorular": [
+    {
+     "no": 1,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Doğru! 1/2",
+     "satir": 1,
+     "sira": "Coğrafya 2× yanlış",
+     "tur": "3 bankadan · 3 yeni"
+    },
+    {
+     "no": 2,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Öğrenildi! Bankadan çıktı",
+     "satir": 1,
+     "sira": "Bilim 1× yanlış",
+     "tur": "3 bankadan · 3 yeni"
+    },
+    {
+     "no": 3,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Yanlış · 3. kez",
+     "satir": 1,
+     "sira": "Tarih 2× yanlış",
+     "tur": "3 bankadan · 3 yeni"
+    },
+    {
+     "no": 4,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Süre doldu",
+     "satir": 1,
+     "sira": "Genel Kültür Yeni",
+     "tur": "3 bankadan · 3 yeni"
+    },
+    {
+     "no": 5,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Yanlış — Hatalarım'a eklendi",
+     "satir": 1,
+     "sira": "Sanat Yeni",
+     "tur": "3 bankadan · 3 yeni"
+    },
+    {
+     "no": 6,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Doğru",
+     "satir": 1,
+     "sira": "Spor Yeni",
+     "tur": "3 bankadan · 3 yeni"
+    }
+   ],
+   "not": [],
+   "konfetiTekrar": 0,
+   "sonOzet": {
+    "baslik": "1 soru öğrenildi!",
+    "kutular": [
+     "3 DOĞRU",
+     "3 YANLIŞ",
+     "6 BANKADA"
+    ],
+    "banka": "2/7 öğrenildi",
+    "dugmeAlt": 435.46875,
+    "tabbarUst": 780,
+    "ilkEkranda": true,
+    "konfeti": 22
+   },
+   "gecisKayma": {
+    "px": 0,
+    "nerede": ""
+   },
+   "konsolHata": []
+  },
+  {
+   "tur": "banka",
+   "boyut": "360x780",
+   "dil": "en",
+   "anlar": {
+    "acik-1": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Geography 2× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "secili": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 463,
+       "bottom": 521,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 595,
+       "bottom": 653,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 661,
+       "bottom": 719,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "kilitli",
+      "secili",
+      "kilitli",
+      "kilitli"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Geography 2× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-dogru12": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogru",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Geography 2× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "Correct! 1/2",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-2": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Science 1× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-ogrenildi": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogru",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Science 1× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "Learned! Out of your bank",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-3": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "History 2× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-yanlis-banka": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "yanlis",
+      "dogrusu",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "History 2× wrong",
+     "altBosluk": 14,
+     "sonucMetin": "Wrong · 3 times",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-uzun": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 195.3,
+      "bottom": 376.8,
+      "height": 181.5,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 15,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "General Knowledge New",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-sure": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 195.3,
+      "bottom": 376.8,
+      "height": 181.5,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogrusu",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 15,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "General Knowledge New",
+     "altBosluk": 14,
+     "sonucMetin": "Time's up",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-5": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Art New",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-yanlis-yeni": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogrusu",
+      "yanlis",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Art New",
+     "altBosluk": 14,
+     "sonucMetin": "Wrong — added to My Mistakes",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "acik-6": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Sports New",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-dogru": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "solgun",
+      "dogru",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "3 from bank · 3 new",
+     "sira": "Sports New",
+     "altBosluk": 14,
+     "sonucMetin": "Right",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "tursonu": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": null,
+     "siklar": [],
+     "sikDurum": [],
+     "sikFont": null,
+     "harf": null,
+     "yuva": null,
+     "turSatir": null,
+     "turMetin": null,
+     "sira": null,
+     "altBosluk": null,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": null,
+     "kesik": [],
+     "binen": [
+      "button.qt-dugme.qt-dugme--hayalet × a.qt-altmenu-oge",
+      "button.qt-dugme.qt-dugme--hayalet × a.qt-altmenu-oge",
+      "button.qt-dugme.qt-dugme--hayalet × a.qt-altmenu-oge"
+     ],
+     "son": {
+      "baslik": "1 question learned!",
+      "kutular": [
+       "3 CORRECT",
+       "3 WRONG",
+       "6 IN BANK"
+      ],
+      "banka": "2/7 learned",
+      "dugmeAlt": 435.46875,
+      "tabbarUst": 780,
+      "ilkEkranda": true,
+      "konfeti": 22
+     }
+    }
+   },
+   "sorular": [
+    {
+     "no": 1,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Correct! 1/2",
+     "satir": 1,
+     "sira": "Geography 2× wrong",
+     "tur": "3 from bank · 3 new"
+    },
+    {
+     "no": 2,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Learned! Out of your bank",
+     "satir": 1,
+     "sira": "Science 1× wrong",
+     "tur": "3 from bank · 3 new"
+    },
+    {
+     "no": 3,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Wrong · 3 times",
+     "satir": 1,
+     "sira": "History 2× wrong",
+     "tur": "3 from bank · 3 new"
+    },
+    {
+     "no": 4,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Time's up",
+     "satir": 1,
+     "sira": "General Knowledge New",
+     "tur": "3 from bank · 3 new"
+    },
+    {
+     "no": 5,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Wrong — added to My Mistakes",
+     "satir": 1,
+     "sira": "Art New",
+     "tur": "3 from bank · 3 new"
+    },
+    {
+     "no": 6,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Right",
+     "satir": 1,
+     "sira": "Sports New",
+     "tur": "3 from bank · 3 new"
+    }
+   ],
+   "not": [],
+   "konfetiTekrar": 0,
+   "sonOzet": {
+    "baslik": "1 question learned!",
+    "kutular": [
+     "3 CORRECT",
+     "3 WRONG",
+     "6 IN BANK"
+    ],
+    "banka": "2/7 learned",
+    "dugmeAlt": 435.46875,
+    "tabbarUst": 780,
+    "ilkEkranda": true,
+    "konfeti": 22
+   },
+   "gecisKayma": {
+    "px": 0,
+    "nerede": ""
+   },
+   "konsolHata": []
+  },
+  {
+   "tur": "pratik",
+   "boyut": "390x844",
+   "dil": "tr",
+   "anlar": {
+    "acik-1": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "Pratik turu · 1 yeni soru",
+     "sira": "Coğrafya Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "secili": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 593,
+       "bottom": 651,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 659,
+       "bottom": 717,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 725,
+       "bottom": 783,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "secili",
+      "kilitli",
+      "kilitli",
+      "kilitli"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "Pratik turu · 1 yeni soru",
+     "sira": "Coğrafya Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-yanlis-yeni": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "yanlis",
+      "dogrusu",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "Pratik turu · 1 yeni soru",
+     "sira": "Coğrafya Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "Yanlış — Hatalarım'a eklendi",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "tursonu": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": null,
+     "siklar": [],
+     "sikDurum": [],
+     "sikFont": null,
+     "harf": null,
+     "yuva": null,
+     "turSatir": null,
+     "turMetin": null,
+     "sira": null,
+     "altBosluk": null,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": null,
+     "kesik": [],
+     "binen": [],
+     "son": {
+      "baslik": "Bu tur öğrenilen yok — bir dahakine!",
+      "kutular": [
+       "0 DOĞRU",
+       "1 YANLIŞ",
+       "1 BANKADA"
+      ],
+      "banka": "3/3 öğrenildi",
+      "dugmeAlt": 423.671875,
+      "tabbarUst": 844,
+      "ilkEkranda": true,
+      "konfeti": 0
+     }
+    }
+   },
+   "sorular": [
+    {
+     "no": 1,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Yanlış — Hatalarım'a eklendi",
+     "satir": 1,
+     "sira": "Coğrafya Yeni",
+     "tur": "Pratik turu · 1 yeni soru"
+    }
+   ],
+   "not": [],
+   "konfetiTekrar": 0,
+   "sonOzet": {
+    "baslik": "Bu tur öğrenilen yok — bir dahakine!",
+    "kutular": [
+     "0 DOĞRU",
+     "1 YANLIŞ",
+     "1 BANKADA"
+    ],
+    "banka": "3/3 öğrenildi",
+    "dugmeAlt": 423.671875,
+    "tabbarUst": 844,
+    "ilkEkranda": true,
+    "konfeti": 0
+   },
+   "konsolHata": []
+  },
+  {
+   "tur": "pratik",
+   "boyut": "390x844",
+   "dil": "en",
+   "anlar": {
+    "acik-1": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "Practice · 1 new",
+     "sira": "Geography New",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "secili": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 593,
+       "bottom": 651,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 659,
+       "bottom": 717,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 725,
+       "bottom": 783,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "secili",
+      "kilitli",
+      "kilitli",
+      "kilitli"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "Practice · 1 new",
+     "sira": "Geography New",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-yanlis-yeni": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 243,
+      "bottom": 393,
+      "height": 150,
+      "left": 12,
+      "right": 378
+     },
+     "siklar": [
+      {
+       "top": 522,
+       "bottom": 580,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 588,
+       "bottom": 646,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 654,
+       "bottom": 712,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      },
+      {
+       "top": 720,
+       "bottom": 778,
+       "height": 58,
+       "left": 12,
+       "right": 378
+      }
+     ],
+     "sikDurum": [
+      "yanlis",
+      "dogrusu",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 786,
+      "bottom": 830,
+      "height": 44,
+      "left": 12,
+      "right": 378
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 12,
+      "right": 378
+     },
+     "turMetin": "Practice · 1 new",
+     "sira": "Geography New",
+     "altBosluk": 14,
+     "sonucMetin": "Wrong — added to My Mistakes",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "tursonu": {
+     "vh": 844,
+     "vw": 390,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": null,
+     "siklar": [],
+     "sikDurum": [],
+     "sikFont": null,
+     "harf": null,
+     "yuva": null,
+     "turSatir": null,
+     "turMetin": null,
+     "sira": null,
+     "altBosluk": null,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": null,
+     "kesik": [],
+     "binen": [],
+     "son": {
+      "baslik": "Nothing learned this round — next time!",
+      "kutular": [
+       "0 CORRECT",
+       "1 WRONG",
+       "1 IN BANK"
+      ],
+      "banka": "3/3 learned",
+      "dugmeAlt": 423.671875,
+      "tabbarUst": 844,
+      "ilkEkranda": true,
+      "konfeti": 0
+     }
+    }
+   },
+   "sorular": [
+    {
+     "no": 1,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Wrong — added to My Mistakes",
+     "satir": 1,
+     "sira": "Geography New",
+     "tur": "Practice · 1 new"
+    }
+   ],
+   "not": [],
+   "konfetiTekrar": 0,
+   "sonOzet": {
+    "baslik": "Nothing learned this round — next time!",
+    "kutular": [
+     "0 CORRECT",
+     "1 WRONG",
+     "1 IN BANK"
+    ],
+    "banka": "3/3 learned",
+    "dugmeAlt": 423.671875,
+    "tabbarUst": 844,
+    "ilkEkranda": true,
+    "konfeti": 0
+   },
+   "konsolHata": []
+  },
+  {
+   "tur": "pratik",
+   "boyut": "360x780",
+   "dil": "tr",
+   "anlar": {
+    "acik-1": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "Pratik turu · 1 yeni soru",
+     "sira": "Coğrafya Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "secili": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 529,
+       "bottom": 587,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 595,
+       "bottom": 653,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 661,
+       "bottom": 719,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "secili",
+      "kilitli",
+      "kilitli",
+      "kilitli"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "Pratik turu · 1 yeni soru",
+     "sira": "Coğrafya Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-yanlis-yeni": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "yanlis",
+      "dogrusu",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "Pratik turu · 1 yeni soru",
+     "sira": "Coğrafya Yeni",
+     "altBosluk": 14,
+     "sonucMetin": "Yanlış — Hatalarım'a eklendi",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "tursonu": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": null,
+     "siklar": [],
+     "sikDurum": [],
+     "sikFont": null,
+     "harf": null,
+     "yuva": null,
+     "turSatir": null,
+     "turMetin": null,
+     "sira": null,
+     "altBosluk": null,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": null,
+     "kesik": [],
+     "binen": [
+      "button.qt-dugme.qt-dugme--hayalet × a.qt-altmenu-oge",
+      "button.qt-dugme.qt-dugme--hayalet × a.qt-altmenu-oge",
+      "button.qt-dugme.qt-dugme--hayalet × a.qt-altmenu-oge"
+     ],
+     "son": {
+      "baslik": "Bu tur öğrenilen yok — bir dahakine!",
+      "kutular": [
+       "0 DOĞRU",
+       "1 YANLIŞ",
+       "1 BANKADA"
+      ],
+      "banka": "3/3 öğrenildi",
+      "dugmeAlt": 423.671875,
+      "tabbarUst": 780,
+      "ilkEkranda": true,
+      "konfeti": 0
+     }
+    }
+   },
+   "sorular": [
+    {
+     "no": 1,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Yanlış — Hatalarım'a eklendi",
+     "satir": 1,
+     "sira": "Coğrafya Yeni",
+     "tur": "Pratik turu · 1 yeni soru"
+    }
+   ],
+   "not": [],
+   "konfetiTekrar": 0,
+   "sonOzet": {
+    "baslik": "Bu tur öğrenilen yok — bir dahakine!",
+    "kutular": [
+     "0 DOĞRU",
+     "1 YANLIŞ",
+     "1 BANKADA"
+    ],
+    "banka": "3/3 öğrenildi",
+    "dugmeAlt": 423.671875,
+    "tabbarUst": 780,
+    "ilkEkranda": true,
+    "konfeti": 0
+   },
+   "konsolHata": []
+  },
+  {
+   "tur": "pratik",
+   "boyut": "360x780",
+   "dil": "en",
+   "anlar": {
+    "acik-1": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "Practice · 1 new",
+     "sira": "Geography New",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "secili": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 529,
+       "bottom": 587,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 595,
+       "bottom": 653,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 661,
+       "bottom": 719,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "secili",
+      "kilitli",
+      "kilitli",
+      "kilitli"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "Practice · 1 new",
+     "sira": "Geography New",
+     "altBosluk": 14,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "sonuc-yanlis-yeni": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": {
+      "top": 211,
+      "bottom": 361,
+      "height": 150,
+      "left": 10,
+      "right": 350
+     },
+     "siklar": [
+      {
+       "top": 458,
+       "bottom": 516,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 524,
+       "bottom": 582,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 590,
+       "bottom": 648,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      },
+      {
+       "top": 656,
+       "bottom": 714,
+       "height": 58,
+       "left": 10,
+       "right": 350
+      }
+     ],
+     "sikDurum": [
+      "yanlis",
+      "dogrusu",
+      "solgun",
+      "solgun"
+     ],
+     "sikFont": 17,
+     "harf": 32,
+     "yuva": {
+      "top": 722,
+      "bottom": 766,
+      "height": 44,
+      "left": 10,
+      "right": 350
+     },
+     "turSatir": {
+      "top": 72,
+      "bottom": 90,
+      "height": 18,
+      "left": 10,
+      "right": 350
+     },
+     "turMetin": "Practice · 1 new",
+     "sira": "Geography New",
+     "altBosluk": 14,
+     "sonucMetin": "Wrong — added to My Mistakes",
+     "sonucSatir": 1,
+     "soruKayar": false,
+     "kesik": [],
+     "binen": [],
+     "son": null
+    },
+    "tursonu": {
+     "vh": 780,
+     "vw": 360,
+     "sabitler": [
+      "kart",
+      "siklar",
+      "yuva"
+     ],
+     "yatayTasma": 0,
+     "kart": null,
+     "siklar": [],
+     "sikDurum": [],
+     "sikFont": null,
+     "harf": null,
+     "yuva": null,
+     "turSatir": null,
+     "turMetin": null,
+     "sira": null,
+     "altBosluk": null,
+     "sonucMetin": "",
+     "sonucSatir": 0,
+     "soruKayar": null,
+     "kesik": [],
+     "binen": [
+      "button.qt-dugme.qt-dugme--hayalet × a.qt-altmenu-oge",
+      "button.qt-dugme.qt-dugme--hayalet × a.qt-altmenu-oge",
+      "button.qt-dugme.qt-dugme--hayalet × a.qt-altmenu-oge"
+     ],
+     "son": {
+      "baslik": "Nothing learned this round — next time!",
+      "kutular": [
+       "0 CORRECT",
+       "1 WRONG",
+       "1 IN BANK"
+      ],
+      "banka": "3/3 learned",
+      "dugmeAlt": 423.671875,
+      "tabbarUst": 780,
+      "ilkEkranda": true,
+      "konfeti": 0
+     }
+    }
+   },
+   "sorular": [
+    {
+     "no": 1,
+     "kayma": {
+      "px": 0,
+      "nerede": ""
+     },
+     "sonuc": "Wrong — added to My Mistakes",
+     "satir": 1,
+     "sira": "Geography New",
+     "tur": "Practice · 1 new"
+    }
+   ],
+   "not": [],
+   "konfetiTekrar": 0,
+   "sonOzet": {
+    "baslik": "Nothing learned this round — next time!",
+    "kutular": [
+     "0 CORRECT",
+     "1 WRONG",
+     "1 IN BANK"
+    ],
+    "banka": "3/3 learned",
+    "dugmeAlt": 423.671875,
+    "tabbarUst": 780,
+    "ilkEkranda": true,
+    "konfeti": 0
+   },
+   "konsolHata": []
+  }
+ ]
+}
