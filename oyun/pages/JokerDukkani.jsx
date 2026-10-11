@@ -182,7 +182,6 @@ export default function JokerDukkani() {
   const sekmeler = SEKMELER.filter((x) => !x.kozmetikTuru || kozmetik.katalog.some((k) => k.tur === x.kozmetikTuru));
   const sekme = sekmeler.some((x) => x.kod === istenenSekme) || (!kozmetik.hazir && SEKMELER.some((x) => x.kod === istenenSekme))
     ? istenenSekme : VARSAYILAN_SEKME;
-  const sekmeParasi = SEKMELER.find((x) => x.kod === sekme)?.para;
   const kozmetikSekmesi = sekme === "cerceve" || sekme === "avatar" || sekme === "efekt";
   const sekmeSec = (kod) => setArama({ sekme: kod }, { replace: true });
   // Maç içinden gelen ?mod= yönlendirmesi geriye uyum için son mod kaydını günceller; düz listeyi filtrelemez.
@@ -501,16 +500,15 @@ export default function JokerDukkani() {
         )}
       </div>
 
-      {/* TEK KURAL: jokerler coin'le, kozmetikler elmasla. Açık sekmenin para birimi vurgulu.
-          Joker sekmesinde çizilmez (11 Eki 2026, oyun ekranı turu): paket vitrini en üstte; kural bilgisi "Joker kuralları"nda. */}
-      {sekme !== "joker" && <ul className="qt-dk-kural" aria-label={tt("Dükkân kuralı")}>
-        <li className={sinif("qt-dk-kural-oge qt-dk-kural-oge--coin", sekmeParasi === "coin" && "qt-dk-kural-oge--acik")}>
-          <CoinIkon boyut={22} />
-          <span><b>{tt("Jokerler · Nadir avatar ve imzalar")}</b><small>{tt("coin ile alınır")}</small></span>
+      {/* PARA KURALI: tek satırlık iki hap — yalnız Avatar ve Efekt sekmelerinde (Joker'de paket vitrini, Elmas'ta paketler zaten para birimini söyler). */}
+      {(sekme === "avatar" || sekme === "efekt") && <ul className="qt-dk-kural" aria-label={tt("Dükkân kuralı")}>
+        <li className="qt-dk-kural-oge qt-dk-kural-oge--coin qt-dk-kural-oge--acik">
+          <CoinIkon boyut={16} />
+          <b>{tt("Coin: Joker · Nadir")}</b>
         </li>
-        <li className={sinif("qt-dk-kural-oge qt-dk-kural-oge--elmas", sekmeParasi === "elmas" && "qt-dk-kural-oge--acik")}>
-          <ElmasIkon boyut={22} />
-          <span><b>{tt("Öteki kozmetikler")}</b><small>{tt("elmas ile alınır")}</small></span>
+        <li className="qt-dk-kural-oge qt-dk-kural-oge--elmas qt-dk-kural-oge--acik">
+          <ElmasIkon boyut={16} />
+          <b>{tt("Elmas: Epik · Efsanevi")}</b>
         </li>
       </ul>}
 
@@ -533,11 +531,9 @@ export default function JokerDukkani() {
         {sekme === "avatar" && kozmetik.hazir && (
           <>
             <section className="qt-dk-bolum" aria-labelledby="qt-dk-avatarlar">
-              <div className="qt-dk-bolum-ust qt-dk-bolum-ust--elmas">
-                <h2 id="qt-dk-avatarlar" className="qt-baslik-2">{tt("Avatarlar")}</h2>
-                <p className="qt-kucuk">{tt("Nadir avatarlar coin'le, öteki kozmetikler elmasla.")}</p>
-              </div>
-              <DukkanAvatarlar avatarlar={kozmetik.avatarlar} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile} sirali={sirali}
+              {/* Oyun ekranı turu 2: para kuralı üstteki iki hapta; başlık yalnız ekran okuyucuya (ilk ekrana ızgaranın 2 satırı sığsın) */}
+              <h2 id="qt-dk-avatarlar" className="qt-gizli">{tt("Avatarlar")}</h2>
+              <DukkanAvatarlar yalnizUcretli avatarlar={kozmetik.avatarlar} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile} sirali={sirali}
                 elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
                 onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
             </section>

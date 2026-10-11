@@ -585,3 +585,22 @@ a.qt-dk-elmas-satir * { text-decoration: none; }
   grid-template-columns: minmax(0, 1fr); grid-auto-flow: row; gap: 6px;
 }
 .qt-dk-skill-liste--izgara .qt-dk-skill-al > .qt-dugme { width: 100%; min-width: 0; padding-inline: 6px; }
+
+/* ---------- Para kuralı: tek satırlık İKİ HAP (Avatar + Efekt sekmeleri; 11 Eki 2026) ----------
+   Coin hapı altın (coin jetonları), elmas hapı elmas rengi. Bilgi etiketi (li) — tıklanmaz. 360 px'te yazı kesilir, taşmaz. */
+.qt-dk .qt-dk-kural { display: flex; gap: var(--qt-b-2); grid-template-columns: none; }
+.qt-dk .qt-dk-kural-oge {
+  flex: 1 1 0; min-width: 0; justify-content: center; gap: var(--qt-b-1);
+  min-height: 30px; padding: 2px var(--qt-b-2); border: 2px solid transparent; border-radius: 999px; background: var(--qt-yuzey);
+}
+.qt-dk .qt-dk-kural-oge + .qt-dk-kural-oge { border-left-width: 2px; }
+.qt-dk .qt-dk-kural-oge--coin { background: var(--qt-coin-acik); border-color: var(--qt-coin-dudak); color: var(--qt-coin-yazi); }
+.qt-dk .qt-dk-kural-oge--elmas { background: var(--qt-ikinci-acik); border-color: var(--qt-ikinci); color: var(--qt-ikinci-koyu); }
+.qt-dk .qt-dk-kural-oge > svg { flex: none; width: 16px; height: 16px; }
+.qt-dk .qt-dk-kural-oge b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-xs); }
+@media (max-width: 380px) {
+  .qt-dk .qt-dk-kural { gap: 4px; }
+  .qt-dk .qt-dk-kural-oge { padding-inline: 6px; gap: 4px; }
+  .qt-dk .qt-dk-kural-oge > svg { width: 14px; height: 14px; }
+  .qt-dk .qt-dk-kural-oge b { font-size: 11px; letter-spacing: -0.01em; }
+}

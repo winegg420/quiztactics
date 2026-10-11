@@ -124,3 +124,8 @@
   }
   .qt-dk .ep-p > svg { animation: none !important; } /* Elmas ışıltıları: svg'nin kendi sınıfı yok */
 }
+/* Oyun ekranı turu 2: Avatar sekmesinde önizleme kartı telefonda daha alçak (ilk ekranda ızgaranın 2 satırı) */
+@media (max-width: 600px) {
+  .qt-dc-sahne--yatay .qt-dc-onizleme { padding: var(--qt-b-3) var(--qt-b-2) var(--qt-b-1); }
+  .qt-dc-sahne--yatay .qt-dc-onizleme > * { zoom: 0.8; }
+}

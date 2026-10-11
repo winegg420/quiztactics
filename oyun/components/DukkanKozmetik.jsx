@@ -542,7 +542,12 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
       sira: -100 + i, kullanabilir: true, kapali: false, sahibim: false })),
     ...[...(avatarlar ?? [])].sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0)),
   ].map(ucretli).filter((a) => !yalnizUcretli || (a.ucretli && a.para));   // 1039: Dükkân'da yalnız coin / elmasla satılanlar
-  const [secili, setSecili] = useState(() => liste.find((a) => profile?.avatar_url === a.url)?.anahtar ?? liste[0]?.anahtar ?? null);
+  // Bölüm sırası nadirlik sırasıdır (Nadir/coin → Epik/elmas → Efsanevi/elmas); her bölümde sahip olunanlar SONDA (kararlı sıralama)
+  const bolumler = siraliBolumler(nadirligeGoreBolumle(liste, (a) => a.url, nadirlikHaritasi)
+    .map((b) => ({ ...b, ogeler: [...b.ogeler].sort((x, y) => Number(Boolean(x.sahibim)) - Number(Boolean(y.sahibim))) })));
+  const [secili, setSecili] = useState(null);   // null → varsayılan: alınabilir İLK avatar, yoksa takılı avatar
+  const alinabilir = (a) => a.ucretli && !a.sahibim && !a.kapali && a.fiyat_elmas != null;
+  const varsayilan = bolumler.flatMap((b) => b.ogeler).find(alinabilir) ?? liste.find((a) => profile?.avatar_url === a.url) ?? liste[0] ?? null;
   const [islem, setIslem] = useState(null);
   const [onayAcik, setOnayAcik] = useState(false);   // D-301
   const [edinmeAcik, setEdinmeAcik] = useState(false);   // 1039: kilitli avatar kartı (coin alımı burada; elmas → D-301 onayı)
@@ -555,7 +560,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
     avatarSahiplikYukle().finally(() => { if (aktif) setSahiplikOkundu(true); });
     return () => { aktif = false; };
   }, []);
-  const c = liste.find((a) => a.anahtar === secili) ?? liste[0] ?? null;
+  const c = liste.find((a) => a.anahtar === secili) ?? varsayilan;
   if (!sahiplikOkundu) return <QtIskelet tur="kart" adet={2} />;
   if (!c) return <QtBosDurum boyut="k" ikon="dukkan" ton="mor" baslik={tt("Bu bölümde şu an satışta bir şey yok.")} />;
   const ad = (a) => (aktifDil() === "en" ? a.ad_en : a.ad_tr) ?? a.ad_tr;
@@ -566,6 +571,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
   const satinAl = async () => {
     if (islem) return;
     setIslem("al");
+    setSecili(c.anahtar);   // alımdan sonra kart başka avatara atlamasın
     try {
       await avatarSatinAl(c.anahtar);   // sahiplik durumunu da tazeler
       elmasTazele();
@@ -647,12 +653,6 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
         </div>
         <SatinAlmaAni aktif={ucan(c.anahtar)} />
       </QtKart>
-      {/* 1049: seçili avatarın Prestij'i; takılı avatar listede yoksa (ücretsiz avatar) onun Prestij'i de */}
-      <AvatarPrestijBolumu url={c.url} ad={ad(c)} sahibim={!c.ucretli || c.sahibim} onBilgi={onBilgi} onHata={onHata} kutla={kutla} />
-      {profile?.avatar_url && !liste.some((a) => a.url === profile.avatar_url) && (
-        <AvatarPrestijBolumu url={profile.avatar_url} ad={hazirAvatarlar.find((a) => a.url === profile.avatar_url)?.ad ?? tt("Avatarın")} baslik={tt("Takılı avatarın")} sahibim
-                             onBilgi={onBilgi} onHata={onHata} kutla={kutla} />
-      )}
       {onayAcik && (
         <ElmasliSatinAlOnayi
           bakiye={elmasBakiye}
@@ -702,7 +702,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
         </QtModal>
       )}
       <ul className="qt-dc-izgara">
-        {siraliBolumler(nadirligeGoreBolumle(liste, (a) => a.url, nadirlikHaritasi)).map((b) => (
+        {bolumler.map((b) => (
           <Fragment key={b.nadirlik ?? "tumu"}>
             {b.nadirlik && <AvatarBolumBasligi as="li" nadirlik={b.nadirlik} sayi={b.ogeler.length} />}
             {b.ogeler.map((a, j) => (
@@ -729,6 +729,12 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
           </Fragment>
         ))}
       </ul>
+      {/* 1049: seçili avatarın Prestij'i (ızgaranın ALTINDA); takılı avatar listede yoksa (ücretsiz avatar) onun Prestij'i de */}
+      <AvatarPrestijBolumu url={c.url} ad={ad(c)} sahibim={!c.ucretli || c.sahibim} onBilgi={onBilgi} onHata={onHata} kutla={kutla} />
+      {profile?.avatar_url && !liste.some((a) => a.url === profile.avatar_url) && (
+        <AvatarPrestijBolumu url={profile.avatar_url} ad={hazirAvatarlar.find((a) => a.url === profile.avatar_url)?.ad ?? tt("Avatarın")} baslik={tt("Takılı avatarın")} sahibim
+                             onBilgi={onBilgi} onHata={onHata} kutla={kutla} />
+      )}
     </div>
   );
 }
