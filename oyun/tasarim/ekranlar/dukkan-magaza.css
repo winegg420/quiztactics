@@ -392,15 +392,15 @@ a.qt-dk-elmas-satir * { text-decoration: none; }
 @media (prefers-reduced-motion: reduce) { .qt-dk-elmas-satir { transition: none; } .qt-dk-elmas-satir:active { transform: none; } }
 /* 8 Eki 2026: Elmas sekmesi oyun sahnesi — bölüm başlığı açık mavi ışınlı şerit + Pırlanta elması (ana sayfa mod kartı dili,
    hareketsiz). Satır ikonları tek renk (elmas mavisi); ad en çok 2 satır, ödül hapı sabit. */
+/* 11 Eki 2026 (kalan ekranlar turu): şerit gök sahne paneline döndü (.qt-sahne-gok + .qt-gok-panel); elmas beyaz kaidede. */
 .qt-dk-elmas-hero {
-  display: flex; align-items: center; gap: var(--qt-b-3); min-width: 0; padding: var(--qt-b-2) var(--qt-b-3);
-  border-radius: var(--qt-r-m); color: #1f2a5c;
-  background:
-    radial-gradient(circle at 40px 50%, #fff 0, rgb(255 255 255 / 0) 64px),
-    repeating-conic-gradient(from 0deg at 40px 50%, #d7e8fb 0deg 11deg, #f1f7ff 11deg 22deg);
-  box-shadow: inset 0 0 0 2px #fff, 0 3px 0 #8db3db;
+  display: flex; align-items: center; gap: var(--qt-b-3); min-width: 0; padding: var(--qt-b-3) var(--qt-b-4) var(--qt-b-3) var(--qt-b-3);
+  color: #1f2a5c;
 }
-.qt-dk-elmas-hero-gorsel { display: grid; place-items: center; flex: none; width: 56px; height: 56px; filter: drop-shadow(0 3px 0 rgb(31 42 92 / 0.18)); }
+.qt-dk-elmas-hero-gorsel {
+  display: grid; place-items: center; flex: none; width: 64px; height: 64px; border-radius: 50%;
+  background: var(--qt-yuzey); box-shadow: inset 0 0 0 3px var(--qt-metin), 0 3px 0 var(--qt-metin);
+}
 .qt-dk-elmas-hero-metin { display: grid; gap: 2px; min-width: 0; }
 .qt-dk-elmas-hero-metin .qt-baslik-2 { margin: 0; color: #1f2a5c; }
 .qt-dk-elmas-hero-metin .qt-kucuk { color: #3b4a7a; font-weight: var(--qt-a-kalin); }

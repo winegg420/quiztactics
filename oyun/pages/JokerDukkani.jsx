@@ -777,7 +777,7 @@ export default function JokerDukkani() {
             {/* Ödüllü video: jeton → reklam → sunucu ödülü (akış değişmez).
                 D-305: reklam yapılandırılmamışsa (ölü kart) hiç çizilmez; üstteki "Coin nasıl kazanılır?" kalır. */}
             {h5AdsYapilandirildi() && (
-            <QtKart ton="mor" className="qt-dk-video">
+            <QtKart className="qt-dk-video">
               <span className="qt-dk-video-ikon" aria-hidden="true"><QtIkon ad="oyna" boyut={28} /></span>
               <div className="qt-dk-video-metin">
                 <h2 className="qt-baslik-3">{tt("Video izle, coin kazan")}</h2>
@@ -835,7 +835,7 @@ export default function JokerDukkani() {
             {/* Günde 1 elmas reklamı (normal reklam coin verir — ayrı hak).
                 D-305: reklam yapılandırılmamışsa en üstteki ölü kart gizlenir. */}
             {h5AdsYapilandirildi() && (
-            <QtKart ton="mor" className="qt-dk-video">
+            <QtKart className="qt-dk-video">
               <span className="qt-dk-video-ikon" aria-hidden="true"><ElmasIkon boyut={28} /></span>
               <div className="qt-dk-video-metin">
                 <h2 className="qt-baslik-3">{tt("Video izle, elmas kazan")}</h2>
@@ -869,7 +869,7 @@ export default function JokerDukkani() {
             {/* Oyunla elmas — rakamlar oyun_ayarlari'ndan (okunamayan satır gösterilmez) */}
             <section className="qt-dk-bolum" aria-labelledby="qt-dk-elmas-kazan">
               {/* 8 Eki 2026: bölüm başlığı küçük elmas sahnesi (ışın deseni + Pırlanta elması); hareket yok */}
-              <div className="qt-dk-elmas-hero">
+              <div className="qt-dk-elmas-hero qt-sahne-mac qt-sahne-gok qt-gok-panel">
                 <span className="qt-dk-elmas-hero-gorsel" aria-hidden="true"><ElmasIkon boyut={48} /></span>
                 <span className="qt-dk-elmas-hero-metin">
                   <h2 id="qt-dk-elmas-kazan" className="qt-baslik-2">{tt("Oynayarak elmas kazan")}</h2>
@@ -887,7 +887,7 @@ export default function JokerDukkani() {
                   sayiMi(ayar?.elmas_turnuva_1) && [tt("Turnuva birinciliği"), ayar.elmas_turnuva_1, "kupa", "altin", "/turnuva"],
                   sayiMi(ayar?.elmas_level) && [tt("Her {n} levelde bir", { n: ayar.elmas_level_aralik }), ayar.elmas_level, "yildiz", "mavi", "/profil"],
                   sayiMi(ayar?.elmas_seri) && [tt("{n} günlük seri", { n: ayar.elmas_seri_gun }), ayar.elmas_seri, "ates", "altin", "/"],
-                  [tt("Zor (elmas kademeli) rozetler"), "5–20", "madalya", "altin", "/profil?sekme=rozet"],
+                  [tt("Zor rozetler"), "5–20", "madalya", "altin", "/profil?sekme=rozet"],
                 ].filter(Boolean).map(([ad, n, ikon, ton, yol]) => (
                   <li key={ad}>
                     <Link to={yol} className={`qt-dk-elmas-satir qt-dk-elmas-satir--${ton}`} aria-label={`${ad}, ${tt("{n} elmas", { n })}`}>

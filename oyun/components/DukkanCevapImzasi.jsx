@@ -121,7 +121,7 @@ export default function DukkanCevapImzasi({ katalog, sahipHesap = false, yenile,
                   <ImzaSimgesi anahtar={c.anahtar} boyut={48} />
                   <span className="ci-dk-bilgi">
                     <b>{kozmetikAdi(c)}</b>
-                    <small>{demoAcik ? tt("Önizlemeyi kapat") : tt("Dokun · önizle")}</small>
+                    <small>{demoAcik ? tt("Dokun · kapat") : tt("Dokun · önizle")}</small>
                   </span>
                   <span className="ci-dk-sag">
                     {c.takili ? <span className="ci-dk-durum">{tt("Takılı")}</span>
@@ -136,7 +136,7 @@ export default function DukkanCevapImzasi({ katalog, sahipHesap = false, yenile,
                 <div className="ci-dk-eylem">
                   {c.takili ? (
                     <QtDugme tur="ikincil" tamGenislik yukleniyor={islem === "tak:yok"} devreDisi={Boolean(islem)}
-                             onClick={() => { dokunus(); tak(null); }}>{tt("Takılı · Çıkar")}</QtDugme>
+                             onClick={() => { dokunus(); tak(null); }}>{tt("Çıkar")}</QtDugme>
                   ) : c.sahip || testModu ? (
                     <QtDugme tamGenislik ikon="onay" yukleniyor={islem === `tak:${c.anahtar}`} devreDisi={Boolean(islem)}
                              onClick={() => { dokunus(); tak(c.anahtar); }}>{testModu ? tt("Test için tak") : tt("Tak")}</QtDugme>

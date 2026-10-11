@@ -328,3 +328,13 @@
 .qt-pf-rutbe-vitrin { display: flex; align-items: center; justify-content: space-between; gap: var(--qt-b-2); min-width: 0; min-height: 35px; }
 .qt-pf-rutbe-vitrin > .qt-pf-sonraki-rutbe { flex: 1 1 auto; min-width: 0; margin: 0; }
 .qt-pf-rutbe-vitrin .qt-vitrin { flex: none; gap: 6px; margin-left: auto; }
+
+/* Kalan ekranlar turu (11 Eki 2026): Ayarlar bölüm başlıklarında kalın konturlu ikon kutusu (oyun dili).
+   Nötr = ayar · mavi = sen (avatar, şehir). */
+.qt-pf-bas { display: flex; align-items: center; gap: var(--qt-b-2); margin: 0; }
+.qt-pf-bas-ik {
+  display: inline-grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: 10px;
+  background: var(--qt-yuzey-2); color: var(--qt-metin);
+  box-shadow: inset 0 0 0 2px var(--qt-metin), 0 2px 0 var(--qt-metin);
+}
+.qt-pf-bas-ik--mavi { background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); }

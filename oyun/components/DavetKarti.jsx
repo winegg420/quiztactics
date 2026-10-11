@@ -181,6 +181,16 @@ export default function DavetKarti({ ekDugmeler, kodGirisiGizle = false, vurgulu
       {durum?.baglanabilir && !kodGirisiGizle && <DavetKoduGir onBaglandi={(s) => { setBagSonuc(davetBaglaMetni(s)); yukle(); }} />}
       {bagSonuc && <p className="qt-dv-sonuc" role="status">{bagSonuc}</p>}
 
+      {/* Boş liste (11 Eki 2026): ne olacağını söyleyen tek satır; eylem yukarıdaki "Bağlantıyı paylaş" */}
+      {durum && liste.length === 0 && (
+        <p className="qt-dv-bos">
+          <span className="qt-dv-bos-ik" aria-hidden="true"><QtIkon ad="kisiEkle" boyut={22} /></span>
+          <span className="qt-dv-bos-metin">
+            <b>{tt("Henüz davet ettiğin yok")}</b>
+            <span className="qt-kucuk qt-soluk">{tt("Bağlantıyla gelen arkadaşların burada Level ilerlemesiyle görünür.")}</span>
+          </span>
+        </p>
+      )}
       {liste.length > 0 && (
         <div className="qt-dv-liste">
           <h3 className="qt-baslik-3">{tt("Davet ettiklerin")}{ozet ? ` · ${ozet.toplam ?? liste.length}` : ""}</h3>

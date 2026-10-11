@@ -1,0 +1,600 @@
+{
+ "uretim": "2026-10-11T14:16:07.988Z",
+ "adres": "http://localhost:5187",
+ "asama": "once",
+ "kesilenYazmalar": [],
+ "taklitsizRpc": [
+  "sezon_ozetim",
+  "lig_grubum_ozet",
+  "cihaz_bildir",
+  "bekleyen_sayim",
+  "kalp_at",
+  "dm_okunmamis_sayim",
+  "coin_bakiyem",
+  "bekleyen_davetlerim",
+  "rozet_bildirimlerim",
+  "seri_durumum",
+  "gonderdigim_davetler",
+  "duello_aktif_benim",
+  "oyuncu_kartlari",
+  "ses_secimleri_oyun",
+  "avatar_katalogu_oyun",
+  "avatar_sahiplik_durumu",
+  "avatar_kilitli_urller",
+  "koleksiyon_dokum",
+  "oyuncu_kategori_profili",
+  "ustalik_seviyelerim",
+  "engellediklerim",
+  "avatar_nadirlik_renkleri"
+ ],
+ "tabloOkumalari": [
+  "oyun_ayarlari",
+  "tournaments",
+  "matches",
+  "bildirimler",
+  "duello_davetleri",
+  "kasa_davetleri",
+  "group_matches",
+  "joker_paketleri"
+ ],
+ "ekranlar": [
+  {
+   "ekran": "menu",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.a-avatar-menu-oge × a.as-ko",
+    "button.a-avatar-menu-oge × button.ls-ad-dugme.ls-ad-dugme--esnek",
+    "button.a-avatar-menu-oge × button.as-serit.as-serit--bekleme",
+    "button.a-avatar-menu-oge × button.as-mod-serit.as-mod-serit--klasik",
+    "button.a-avatar-menu-dil-dugme.a-avatar-menu-dil-dugme--secili × button.as-mod-serit.as-mod-serit--klasik",
+    "button.a-avatar-menu-dil-dugme.a-avatar-menu-dil-dugme--secili × button.as-mod-serit.as-mod-serit--duello",
+    "button.a-avatar-menu-dil-dugme × button.as-mod-serit.as-mod-serit--klasik",
+    "button.a-avatar-menu-dil-dugme × button.as-mod-serit.as-mod-serit--duello"
+   ],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "menu",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.a-avatar-menu-oge × a.as-ko",
+    "button.a-avatar-menu-oge × button.ls-ad-dugme.ls-ad-dugme--esnek",
+    "button.a-avatar-menu-oge × button.as-serit.as-serit--bekleme",
+    "button.a-avatar-menu-oge × button.as-mod-serit.as-mod-serit--klasik",
+    "button.a-avatar-menu-dil-dugme × button.as-mod-serit.as-mod-serit--klasik",
+    "button.a-avatar-menu-dil-dugme × button.as-mod-serit.as-mod-serit--duello",
+    "button.a-avatar-menu-dil-dugme.a-avatar-menu-dil-dugme--secili × button.as-mod-serit.as-mod-serit--klasik",
+    "button.a-avatar-menu-dil-dugme.a-avatar-menu-dil-dugme--secili × button.as-mod-serit.as-mod-serit--duello"
+   ],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "menu",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.a-avatar-menu-oge × a.as-ko",
+    "button.a-avatar-menu-oge × button.ls-ad-dugme.ls-ad-dugme--esnek",
+    "button.a-avatar-menu-oge × button.as-serit.as-serit--bekleme",
+    "button.a-avatar-menu-oge × button.as-mod-serit.as-mod-serit--klasik",
+    "button.a-avatar-menu-dil-dugme.a-avatar-menu-dil-dugme--secili × button.as-mod-serit.as-mod-serit--klasik",
+    "button.a-avatar-menu-dil-dugme.a-avatar-menu-dil-dugme--secili × button.as-mod-serit.as-mod-serit--duello",
+    "button.a-avatar-menu-dil-dugme × button.as-mod-serit.as-mod-serit--klasik",
+    "button.a-avatar-menu-dil-dugme × button.as-mod-serit.as-mod-serit--duello"
+   ],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "menu",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.a-avatar-menu-oge × a.as-ko",
+    "button.a-avatar-menu-oge × button.ls-ad-dugme.ls-ad-dugme--esnek",
+    "button.a-avatar-menu-oge × button.as-serit.as-serit--bekleme",
+    "button.a-avatar-menu-oge × button.as-mod-serit.as-mod-serit--klasik",
+    "button.a-avatar-menu-dil-dugme × button.as-mod-serit.as-mod-serit--klasik",
+    "button.a-avatar-menu-dil-dugme × button.as-mod-serit.as-mod-serit--duello",
+    "button.a-avatar-menu-dil-dugme.a-avatar-menu-dil-dugme--secili × button.as-mod-serit.as-mod-serit--klasik",
+    "button.a-avatar-menu-dil-dugme.a-avatar-menu-dil-dugme--secili × button.as-mod-serit.as-mod-serit--duello"
+   ],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "404",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "404",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "404",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "404",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "dukkan-elmas",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "dukkan-elmas",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "dukkan-elmas",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "dukkan-elmas",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "dukkan-efekt",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.ci-dk-ust × a.qt-altmenu-oge",
+    "button.ci-dk-ust × a.qt-altmenu-oge.qt-altmenu-oge--aktif",
+    "button.qt-dugme.qt-dugme--dogru × a.qt-altmenu-oge",
+    "button.qt-dugme.qt-dugme--dogru × a.qt-altmenu-oge.qt-altmenu-oge--aktif"
+   ],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "dukkan-efekt",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.ci-dk-ust × a.qt-altmenu-oge",
+    "button.ci-dk-ust × a.qt-altmenu-oge.qt-altmenu-oge--aktif",
+    "button.qt-dugme.qt-dugme--dogru × a.qt-altmenu-oge",
+    "button.qt-dugme.qt-dugme--dogru × a.qt-altmenu-oge.qt-altmenu-oge--aktif"
+   ],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "dukkan-efekt",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.ci-dk-ust × a.qt-altmenu-oge",
+    "button.ci-dk-ust × a.qt-altmenu-oge.qt-altmenu-oge--aktif"
+   ],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "dukkan-efekt",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.ci-dk-ust × a.qt-altmenu-oge",
+    "button.ci-dk-ust × a.qt-altmenu-oge.qt-altmenu-oge--aktif"
+   ],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "profil-ayarlar",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "profil-ayarlar",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.qt-dugme.qt-dugme--ikincil × a.qt-altmenu-oge",
+    "button.qt-dugme.qt-dugme--ikincil × a.qt-altmenu-oge.qt-altmenu-oge--aktif"
+   ],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "profil-ayarlar",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.qt-dugme.qt-dugme--ikincil × a.qt-altmenu-oge",
+    "button.qt-dugme.qt-dugme--ikincil × a.qt-altmenu-oge.qt-altmenu-oge--aktif"
+   ],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "profil-ayarlar",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "profil-davet",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [
+    "button.ls-ad-dugme 37×44",
+    "button.ls-ad-dugme 36×44"
+   ],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "profil-davet",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [
+    "button.ls-ad-dugme 37×44",
+    "button.ls-ad-dugme 36×44"
+   ],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "profil-davet",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.ls-ad-dugme × a.qt-altmenu-oge"
+   ],
+   "kucukHedef": [
+    "button.ls-ad-dugme 37×44",
+    "button.ls-ad-dugme 36×44"
+   ],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "profil-davet",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.ls-ad-dugme × a.qt-altmenu-oge"
+   ],
+   "kucukHedef": [
+    "button.ls-ad-dugme 37×44",
+    "button.ls-ad-dugme 36×44"
+   ],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "profil-davet-bos",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "profil-davet-bos",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "profil-davet-bos",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "profil-davet-bos",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "nav.qt-altmenu.qt-altmenu--sabit"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "gorevler-haftalik",
+   "boyut": "390x844",
+   "dil": "tr",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "div.qt-sahne-kok.gk-sahne"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "gorevler-haftalik",
+   "boyut": "390x844",
+   "dil": "en",
+   "vw": 390,
+   "vh": 844,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [],
+   "kucukHedef": [],
+   "sabit": [
+    "div.qt-sahne-kok.gk-sahne"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "gorevler-haftalik",
+   "boyut": "360x780",
+   "dil": "tr",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.gk-ozet × button.qt-dugme.qt-dugme--dogru"
+   ],
+   "kucukHedef": [],
+   "sabit": [
+    "div.qt-sahne-kok.gk-sahne"
+   ],
+   "konsolHata": []
+  },
+  {
+   "ekran": "gorevler-haftalik",
+   "boyut": "360x780",
+   "dil": "en",
+   "vw": 360,
+   "vh": 780,
+   "yatayTasma": 0,
+   "kesik": [],
+   "binen": [
+    "button.gk-ozet × button.qt-dugme.qt-dugme--dogru"
+   ],
+   "kucukHedef": [],
+   "sabit": [
+    "div.qt-sahne-kok.gk-sahne"
+   ],
+   "konsolHata": []
+  }
+ ]
+}

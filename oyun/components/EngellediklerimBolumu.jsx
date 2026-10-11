@@ -45,7 +45,7 @@ export default function EngellediklerimBolumu() {
 
   return (
     <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-engellenenler">
-      <h2 id="qt-pf-engellenenler" className="qt-baslik-3">{tt("Engellediklerim")}</h2>
+      <h2 id="qt-pf-engellenenler" className="qt-baslik-3 qt-pf-bas"><span className="qt-pf-bas-ik" aria-hidden="true"><QtIkon ad="ban" boyut={18} /></span>{tt("Engellediklerim")}</h2>
       {hata && <p className="sk-hata" role="alert"><QtIkon ad="uyari" boyut={16} /> <span>{hata}</span></p>}
       {liste === null ? (
         <p className="eg-bos" role="status">{tt("Yükleniyor…")}</p>

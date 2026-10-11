@@ -249,3 +249,12 @@
 /* 10 Eki 2026 — kısa ekran: alt eylem alanı akışta (kaydırılan bölgenin altında, üstüne binmez); son kartın AL düğmesi ve 3B dudağı
    alt şeridin kenarına yapışmasın diye listenin altına boşluk (ölçüm: 320×568…390×700 arası son kart ile alt şerit arası ≥ 8 px → ≥ 16 px). */
 .gk-sahne .gk-sayfa { padding-bottom: var(--qt-b-2, 8px); }
+
+/* Kalan ekranlar turu (11 Eki 2026): haftalık sandığın içeriği — yıldız yolunun altında altın ödül çipleri (altın = ödül). */
+.gk-sandik-icerik { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin: -4px 0 0; }
+.gk-sandik-icerik-ad { color: var(--qt-zemin-metin); font: var(--qt-a-siyah) 13px/1.2 var(--qt-f-baslik); }
+.gk-sandik-cip {
+  display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: var(--qt-r-hap);
+  background: var(--qt-coin); color: var(--qt-coin-yazi); font: var(--qt-a-siyah) 13px/1 var(--qt-f-baslik);
+  box-shadow: inset 0 0 0 2px var(--qt-metin), 0 2px 0 var(--qt-metin); white-space: nowrap;
+}
