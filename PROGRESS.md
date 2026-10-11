@@ -11675,3 +11675,16 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - Madde 8: turnuva izleyici + Grup Maçı aktifken oyun modu hep açık (çift başlık yok). Düello/Hazine zaten doğruydu.
 - Madde 9: Klasik "Rakibin süreni kısalttı!" bandı 360×640 / 390×664 TR+EN taşmıyor (tam taklit maç, ağa istek yok; `.m1-skill` altında 66 px boşluk) — dokunulmadı.
 - Test: build temiz; 7 sayfa × 3 boyut × TR/EN yatay taşma 0; arayuz-denetim TEMİZ (araç port farkı yüzünden bir misafir hesap açtı — `hesabimi_sil` ile silindi). Görüntüler `tasarim/ekran-oyun/` (commit edilmedi).
+
+## 2026-10-11 — Oyun ekranı turu 2: kalan 7 ekran
+**Araç:** Claude Code (Opus 5.5 yönetim + 6 Sonnet alt ajan)
+**Neden:** Ida — Dükkân Avatar, Arkadaşlar, Mesajlar, Sohbet, Meydan Grup, Profil Rozetler/Koleksiyon ve Hatalarım hâlâ "form" gibiydi.
+
+- Dükkân › Avatar: `yalnizUcretli` geçirildi (bedava/level/Sezon Yolu avatarları Koleksiyon'da), Nadir → Epik → Efsanevi, sahip olunan sonda, önizleme ilk alınabilir, Prestij ızgara altında, para kuralı iki hap (yalnız Avatar + Efekt), "Avatarlar" başlığı yalnız ekran okuyucuya. 390×844'te ızgaranın 2. satırı ilk ekranda (alt 749 / alt menü 774). Sekme ~3.230 px (önce ~5.000+).
+- Arkadaşlar: X kalktı → OyuncuKarti "Arkadaşlıktan çıkar" (silOnay aynı), sayı hapı yok, avatar 56, satır 68 px, 844'te 6 satır görünür.
+- Sohbet: `useArkadasaMacTeklifi` (FriendsPage + SohbetKutusu ortak, davranış aynı), mavi Oyna → ModSecimPenceresi (taklitle doğrulandı), ⋯ menü (Engelle / Şikâyet et). 360 px'te ad kesilmesin diye Oyna ikonu ≤ 400 px'te gizli.
+- Mesajlar: tarih düz soluk, okunmamış mavi rozet, "Arkadaşına yaz" şeridi.
+- Meydan › Grup: 4 sütun avatar ızgarası, parti yuvaları, kota dolunca pasif (taklitte 2 seçim → 2 dolu yuva, 5 pasif), panel açıkken sticky düğme yok.
+- Rozetler 2.758 px (önce ~7.200), Koleksiyon 2.305 px (önce ~8.000; avatar ızgarası telefonda 4 sütun). Ayrı "Arka Plan" iç sekmesi açılmadı (dondurulmuş kural).
+- Hatalarım: kahraman kart, "Hepsi (en çok 50)", sticky düğme (özet düğmenin içinde — dışarıda kartların üstüne biniyordu).
+- Test: `araclar/_taklit-kur.mjs` + geçici ölçüm betiği, 8 ekran × 390×844 / 360×780 × TR/EN: yatay taşma 0. arayuz-denetim TEMİZ (oturum portunda koşuldu, yeni hesap açılmadı). `avatar-satis-ekran` ve `dukkan-avatar-pencere-ekran` başarısız — değişiklikten ÖNCEKİ kodla da aynı biçimde başarısız (bayat beklentiler: Yaygın/Nadir bölümü yok, eski sekme listesi; `.qt-dc-sahne` iki öğe) — testler güncellenmedi. Build temiz. Görüntüler `tasarim/ekran-oyun2/` (commit edilmedi).
