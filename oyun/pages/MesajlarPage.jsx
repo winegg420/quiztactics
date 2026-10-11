@@ -6,6 +6,7 @@ import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import SohbetKutusu from "../components/SohbetKutusu.jsx";
 import IsimEfekti from "../components/IsimEfekti.jsx";
 import { y } from "../lib/yol.js";
+import { arkadaslariGetir } from "../lib/arkadasListesi.js";
 import { tt } from "../lib/dil.js";
 import { hataTuru, hataTuruMesaji } from "../lib/hata.js";
 import GeriDugmesi from "../components/GeriDugmesi.jsx";
@@ -38,6 +39,23 @@ export default function MesajlarPage() {
   const [liste, setListe] = useState([]);
   const [yukleniyor, setYukleniyor] = useState(true);
   const [hata, setHata] = useState(null);
+  const [arkadaslar, setArkadaslar] = useState([]);
+
+  useEffect(() => {
+    if (!user) return;
+    let iptal = false;
+    (async () => {
+      try {
+        const a = await arkadaslariGetir(user.id);
+        if (!iptal) setArkadaslar(a);
+      } catch (e) {
+        console.error("[Bildim] arkadaş listesi alınamadı:", e);
+      }
+    })();
+    return () => { iptal = true; };
+  }, [user]);
+
+  const sohbetsiz = arkadaslar.filter((a) => !liste.some((s) => s.kisi_id === a.id));
 
   const yukle = useCallback(async () => {
     try {
@@ -145,6 +163,26 @@ export default function MesajlarPage() {
             );
           })}
         </QtListe>
+      )}
+
+      {!yukleniyor && !hata && sohbetsiz.length > 0 && (
+        <section className="ms-yaz" aria-label={tt("Arkadaşına yaz")}>
+          <h2 className="ms-yaz-baslik">{tt("Arkadaşına yaz")}</h2>
+          <div className="ms-yaz-serit">
+            {sohbetsiz.map((a) => (
+              <button
+                key={a.id}
+                type="button"
+                className="ms-yaz-kisi"
+                onClick={() => navigate(y(`/mesajlar/${a.id}`))}
+                aria-label={tt("{0} ile sohbet", { 0: a.gorunen_ad })}
+              >
+                <AvatarCerceve profile={a} userId={a.id} boyut={56} />
+                <span className="ms-yaz-ad">{a.gorunen_ad}</span>
+              </button>
+            ))}
+          </div>
+        </section>
       )}
 
       {kisi && user && (
