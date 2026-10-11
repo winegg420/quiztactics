@@ -540,12 +540,17 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   (sunucuya/Realtime'a bir şey gitmez; takılı `profiles.takili_cevap_imzasi` authenticated'a açık değil, `oyuncu_kartlari`'nda yok; istemci
   `profilim()`'den okur — `lib/cevapImzasi.js › useTakiliImza`). Yeni ses / pay-to-win / hareketi azalt sürümü yok. 5 ürün (`kozmetikler.tur = 'cevap_imzasi'`):
   Neon Tik · Yıldız Patlaması (Nadir, **coin** `coin_cevap_imzasi_nadir` 750) · Bilgi Ampulü · Elektrik Akımı (Epik, elmas `elmas_cevap_imzasi_epik` 150) ·
-  Yanan Kart (Efsanevi, elmas `elmas_cevap_imzasi_efsanevi` 300) — fiyatlar TEST; para `icerik.para`. `kozmetik_satin_al` coin dalı (1039 deseni).
+  ~~Yanan Kart~~ (Efsanevi, elmas 300) **DONDURULDU (1067, 11 Eki 2026, Ida)**: `kozmetikler.aktif = false` + `satis_pasif = true` → satılmaz,
+  listelenmez, takılmaz; takılı olanlar null'a çekildi (0 kişi); sahiplik kaydı durur (tek sahip = sahip hesabı, gerçek alıcı 0); istemcide oynamaz
+  (`CevapImzasi.jsx › DONDURULAN`, `lib/cevapImzasi.js › DONDURULAN_IMZALAR`; kod durur). Satışta 4 imza. Fiyatlar TEST; para `icerik.para`. `kozmetik_satin_al` coin dalı (1039 deseni).
   **Satış kapısı `cevap_imzasi_satis_acik` = true** (canlı DB, 10 Eki 2026, Ida onayı) → Dükkân › Efekt herkese açık; false yapılırsa yalnız sahip hesap görür (test modu);
-  Görsel kaynak `docs/cevap-imzasi-referans.txt` (maket birebir; Yanan Kart ızgara adımı 2 → 3 px, ImageData ile çizim —
-  performans, görünüm aynı). Ortak bileşen `components/CevapImzasi.jsx`: QuestionCard (Klasik/Saf Bilgi/Grup/Turnuva/Hatalarım), KasaPage (Savunma dahil),
+  Görsel kaynak `docs/cevap-imzasi-referans.txt` (Neon Tik, Elektrik Akımı) · **v3 (11 Eki 2026, Ida onayı): Yıldız Patlaması (1150 ms) ve Bilgi Ampulü
+  (1400 ms) canvas, kaynak `docs/cevap-imzasi-v3-maket.html` birebir** (şıkkın etrafında taşma paylı canvas, pay ekran/kırpan ata ile sınırlı;
+  yıldız gövdesi/hale/pırıltı önbellekli küçük resim — görünüm aynı). **Neon Tik oynadığı şıkta normal tik (`.qt-sik-isaret`) `visibility: hidden`**
+  (yer korunur, rakip avatarı kaymaz); öteki imzalarda/imzasızda normal tik aynen. Ortak bileşen `components/CevapImzasi.jsx`: QuestionCard (Klasik/Saf Bilgi/Grup/Turnuva/Hatalarım), KasaPage (Savunma dahil),
   **Düello v4'te OYNAMAZ** (Ida, 10 Eki 2026: v4 sonuç penceresinde güzel durmuyor; Duello4Arena'dan kaldırıldı). Dükkân kartında demo (`DukkanCevapImzasi.jsx`), Koleksiyon grubu. Zafer Efekti satışa açılmaz.
-  Geri alma `docs/cevap-imzasi-1040-geri-al.sql`; testler `araclar/cevap-imzasi-sql-testi.mjs` (ROLLBACK) · `araclar/cevap-imzasi-ekran.mjs` (taklit).
+  Geri alma `docs/cevap-imzasi-1040-geri-al.sql`; testler `araclar/cevap-imzasi-sql-testi.mjs` (ROLLBACK) · `araclar/cevap-imzasi-ekran.mjs` (taklit, v3 öncesi) ·
+  `araclar/cevap-imzasi-v3-ekran.mjs` (taklit: v3 kareleri + maket, kırpma/kayma/taşma, Neon tik, Yanan Kart, 4× CPU) · rapor `RAPOR-cevap-imzasi-v3.md`.
 - **Kart arka planı (30 Eyl 2026, Ida onayı):** `premium_aura` (Arka Plan) artık avatarın ARKASINDA değil oyuncu KARTININ arkasında çizilir
   (`CerceveliAvatar` `premiumAura`'yı yok sayar; eski çizim `premium/sanatAuralar.jsx` durur). Yer: ana sayfa kompakt kart (hareketli), profil vitrin kartı
   (hareketli), maç başı VS kartları (`VsKarti`, herkes kendi arka planıyla; Düello dahil), lig sayfasında yalnız kendi satırım (sabit), dükkân/koleksiyon
@@ -904,6 +909,7 @@ bırakma, buraya ekle.
 | **Gardırop / karakter vitrini** | `oyun/vitrin/**`, `oyun/pages/GorunumPage.jsx` | yok (bayrak istemcide) | `oyun/lib/ozellikBayraklari.js` › `GARDIROP_ACIK = true` |
 | **Eski 3B gardırop / atölye / yerel meydan** | `oyun/avatar3d/**` | yok (HTML girişleri yönlendiriyor) | Üç HTML'deki `location.replace` satırını kaldır · `/gorunum` ve `/gorunum-3b` rotalarını geri bağla · Dükkân › Görünüm sekmesini geri koy |
 | **Eski düşük ayrıntılı profil avatarları** | `public/avatars/k01.svg`…`k31.svg`, `oyun/_test/avatar-uret.mjs` | `avatar_onayla` yalnız profesyonel `/avatars/pro/**` listesini kabul eder | Eski dosyalar geri açılmaz; karakter fikirlerinin 31'i de profesyonel sette yeniden çizildi |
+| **Cevap İmzası › Yanan Kart** (11 Eki 2026) | `oyun/components/CevapImzasi.jsx › tuvalYanan` (dondurma bloğu) | `kozmetikler.aktif = false` + `satis_pasif = true` (1067) → satın alma/takma reddedilir, katalogda yok | Yeni migration ile `aktif = true, satis_pasif = false` · `CevapImzasi.jsx › DONDURULAN` ve `lib/cevapImzasi.js › DONDURULAN_IMZALAR`'dan çıkar |
 
 **Meydan ve gardırop bayrağı** — tek anahtar `oyun/lib/ozellikBayraklari.js`.
 Bayrak kapalıyken gizlenenler: alt menüdeki Meydan sekmesi, üst çubuktaki

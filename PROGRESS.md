@@ -11839,3 +11839,14 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **4 Koleksiyon rozetleri (1065, canlı):** 4 rozet (25/50/100/200; Koleksiyoncu I/II/III, Büyük Koleksiyoncu; coin 10/25/50/100, elmas 0), grup `koleksiyon`, tetik `koleksiyon_puani` artışı. Geriye dönük coin'siz: 3 oyuncuya Koleksiyoncu I, 1'ine II, 1'ine III (coin 0). Madalyon amblemi `koleksiyon`. Yerel PGlite testi 15/15; taklit ekran `araclar/koleksiyon-rozet-ekran.mjs` TR/EN adlar görünür, taşma 0.
 - **5 Grup hazır ekranı (düzeldi):** `m1-mac.css` yalnız `.m1-hazir--grup`: öğe arası boşluk 390×844'te 94→12 px, 360×780 EN 51→12 px; lobi ve Klasik hazır ölçümleri aynı. Gözlem: Klasik hazır ekranında da benzer boşluk var (191/86 px) — kapsam dışı.
 - Build temiz. Codex dosyalarına dokunulmadı.
+
+## 2026-10-12 — Cevap İmzası v3 + Yanan Kart dondurma + Neon tik çakışması (migration 1067)
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** Ida onayı (11 Eki 2026) — Yıldız Patlaması ve Bilgi Ampulü onaylı v3 maketine geçsin; Yanan Kart dondurulsun ("alevi iptal et, dondur"); Neon Tik normal tikle çakışmasın.
+
+- **v3 (canvas):** `CevapImzasi.jsx › tuvalYildiz` (1150 ms) / `tuvalAmpul` (1400 ms), kaynak `docs/cevap-imzasi-v3-maket.html` birebir; şık çevresinde taşma paylı canvas, pay ekran + kırpan ata ile sınırlı (`kirpmaSiniri` — ilk ölçümde `.m1-soru` yatayda 4–6 px kesiyordu). EN_UZUN_MS 1400 (+400 güvenlik payı).
+- **Yanan Kart (1067, canlı):** gerçek alıcı 0 (tek sahip = sahip hesabı), takılı 0. `aktif=false, satis_pasif=true` + takılı null. Satın alma/takma reddedildi, katalogda yok, sahiplik durur. İstemci `DONDURULAN` / `DONDURULAN_IMZALAR`; kod dondurma bloğuyla duruyor. DONDURULMUŞLAR tablolarına eklendi.
+- **Neon tik:** `.qt-sik-yuva[data-ci-tik-gizli] .qt-sik-isaret { visibility: hidden }` (useLayoutEffect); rakip avatarı yerinde (ölçüldü).
+- **Performans (4× CPU):** Yıldız p95 33,4 → 17,7 ms, kaçan kare %6,3 → %4,8 (önbellekli gövde/hale/pırıltı; görünüm aynı); Ampul tabanla aynı, değiştirilmedi.
+- **Test:** `araclar/cevap-imzasi-v3-ekran.mjs` 81/81; kareler + maket yan yana `tasarim/cevap-imzasi-v3/`. Canlı duman (tek Klasik maç) GEÇTİ; test hesabı silindi. Rapor `RAPOR-cevap-imzasi-v3.md`.
+- Build temiz. Codex dosyalarına dokunulmadı; main'e geçici index ile.
