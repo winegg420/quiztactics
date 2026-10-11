@@ -124,3 +124,114 @@
 .m1-cal-eylem .qt-dugme { min-height: 60px; }
 .m1-cal-eylem-metin { display: flex; flex-direction: column; align-items: center; min-width: 0; line-height: 1.15; }
 .m1-cal-eylem-ozet { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); opacity: 0.9; }
+
+/* =====================================================================
+   ÇALIŞMA SORU EKRANI (11 Eki 2026) — yalnız .m1-mac--calisma; Klasik/Saf Bilgi/Grup/Turnuva etkilenmez.
+   Tur bilgisi ilerleme çubuğunun altında SABİT tek satır (bütün tur aynı yükseklik). Sonuç yuvası 44 px tek satır,
+   soru açıkken boş ama yer tutar. Çalışmada joker/tepki yok: şıklar + sonuç başparmak bölgesine (alta) iner,
+   soru kartı (içeriğe göre 150–210 px) aradaki boşlukta ortalanır. Cevaptan sonra hiçbir şey kaymaz.
+   ===================================================================== */
+.m1-cal-tur {
+  margin: 0;
+  height: 18px;
+  line-height: 18px;
+  font-size: var(--qt-y-xs);
+  font-weight: var(--qt-a-kalin);
+  color: var(--qt-zemin-soluk);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.m1-mac--calisma > .m1-ilerleme + .m1-cal-tur, .m1-mac--calisma > .qt-ilerleme + .m1-cal-tur { margin-top: calc(var(--qt-b-1) * -1); }
+/* Sonuç tek satır (Klasik'te 2 satıra izin var; Çalışma metinleri kısa) */
+.m1-mac--calisma .m1-sonuc-yuva { justify-content: center; }
+.m1-mac--calisma .m1-sonuc-yuva > .qt-sonuc-yuva { justify-items: center; }
+.m1-mac--calisma .m1-sonuc-yuva .qt-sonuc { display: block; justify-self: center; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }
+
+@media (max-width: 560px), (min-width: 561px) and (max-height: 960px) {
+  /* Kart üstte ve altta eşit boşlukla ortalanır; şıklar + sonuç yuvası en altta sabit */
+  body.bd-oyun-modu .m1-mac--calisma > .m1-soru > .qt-soru { margin-block: auto; }
+}
+@media (min-height: 701px) and (max-width: 560px), (min-height: 701px) and (min-width: 561px) and (max-height: 960px) {
+  body.bd-oyun-modu .m1-mac--calisma > .m1-soru .qt-soru-kart { min-height: 150px; max-height: 210px; }
+}
+
+/* =====================================================================
+   ÇALIŞMA TUR SONU (11 Eki 2026) — maç sonu sahnesinin dili: gök sahne paneli, büyük "öğrenildi" sayısı,
+   üç renkli kutu, banka ilerlemesi, turuncu ana eylem. Sorular listesi panelin altında.
+   Mor YOK (yalnız Epik nadirlik). iOS: panelde transform/fixed yok; hareket yalnız iç öğelerde.
+   ===================================================================== */
+.m1-cal-son { gap: var(--qt-b-3); }
+.m1-cal-son-sahne {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--qt-b-3);
+  padding: var(--qt-b-4) var(--qt-b-4) var(--qt-b-4);
+  border-radius: var(--qt-r-xl);
+  box-shadow: inset 0 0 0 3px var(--qt-metin), 0 var(--qt-dudak-b, 4px) 0 var(--qt-metin);
+  overflow: hidden;
+  text-align: center;
+}
+.m1-cal-son-ust { position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--qt-b-2); width: 100%; }
+.m1-cal-son-baslik { display: flex; flex-direction: column; align-items: center; gap: 2px; margin: 0; color: var(--qt-metin); }
+.m1-cal-son-skor { display: inline-flex; align-items: center; gap: var(--qt-b-2); }
+.m1-cal-son-ikon {
+  display: inline-grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: var(--qt-vurgu);
+  color: var(--qt-yuzey);
+  box-shadow: inset 0 0 0 3px var(--qt-metin), 0 4px 0 var(--qt-metin);
+}
+.m1-cal-son-sayi {
+  font-family: var(--qt-f-baslik);
+  font-weight: var(--qt-a-siyah);
+  font-size: 64px;
+  line-height: 1;
+  color: var(--qt-metin);
+  animation: qt-h-pop-gir var(--qt-s-uzun) var(--qt-egri-yay) both;
+}
+.m1-cal-son-alt { font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: var(--qt-y-l); }
+.m1-cal-son-baslik--bos { flex-direction: row; gap: var(--qt-b-3); font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: var(--qt-y-l); line-height: 1.2; text-align: left; }
+.m1-cal-son-baslik--bos .m1-cal-son-ikon { flex: none; background: var(--qt-yuzey); color: var(--qt-metin-soluk); }
+.m1-cal-son-not { margin: 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-zemin-soluk); }
+
+.m1-cal-son-kutular { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--qt-b-2); width: 100%; }
+.m1-cal-son-kutu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--qt-b-2) 4px;
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey);
+  box-shadow: inset 0 0 0 3px var(--_k), 0 4px 0 var(--_k);
+  min-width: 0;
+}
+.m1-cal-son-kutu b { font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: 34px; line-height: 1.05; color: var(--_y); }
+.m1-cal-son-kutu span { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
+.m1-cal-son-kutu--dogru { --_k: var(--qt-dogru); --_y: var(--qt-dogru-koyu); }
+.m1-cal-son-kutu--yanlis { --_k: var(--qt-yanlis); --_y: var(--qt-yanlis-koyu); }
+.m1-cal-son-kutu--banka { --_k: var(--qt-bilgi); --_y: var(--qt-bilgi-koyu); }
+
+.m1-cal-son-banka { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--qt-b-2); width: 100%; }
+.m1-cal-son-banka > span { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-metin); white-space: nowrap; }
+.m1-cal-son-dugmeler { display: flex; flex-direction: column; gap: var(--qt-b-2); width: 100%; }
+
+/* Kutlama (öğrenilen > 0): sayı ve kitap bir kez zıplar; konfeti Konfeti.jsx'ten */
+.m1-cal-son-ust--kutla .m1-cal-son-ikon { animation: qt-h-pop-gir var(--qt-s-uzun) var(--qt-egri-yay) 120ms both; }
+@media (prefers-reduced-motion: reduce) {
+  /* Yumuşak mod: zıplama yerine yavaş solma (tamamen kapanmaz) */
+  .m1-cal-son-sayi, .m1-cal-son-ust--kutla .m1-cal-son-ikon { animation: m1-cal-sol 700ms ease-out both; }
+}
+@keyframes m1-cal-sol { from { opacity: 0; } to { opacity: 1; } }
+/* Kategori çipi sayacın solundaki yarıma sığsın ("General Knowledge" 360 px'te kesiliyordu): dar ekranda ikon gizli, yazı küçük */
+@media (max-width: 420px) {
+  body.bd-oyun-modu .m1-mac--calisma > .m1-soru .qt-soru-kategori { padding: 4px 8px; font-size: 12px; }
+  body.bd-oyun-modu .m1-mac--calisma > .m1-soru .m1-cal-cip > :first-child { display: none; }
+}
