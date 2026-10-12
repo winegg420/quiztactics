@@ -32,11 +32,12 @@ const IKON_AMBLEM = {
   "heart-half": "kalp", "arrow-bend-up-left": "donus", brain: "ampul", lightning: "simsek", "user-plus": "kisiArti",
   "users-three": "kisiler", gift: "hediye", handshake: "kalpler", "arrows-clockwise": "rovans", "hourglass-high": "kumSaati",
   compass: "pusula", "chat-circle-dots": "balon", "calendar-check": "takvim", question: "soru",
+  "diamonds-four": "koleksiyon",
 };
 /** İkon yoksa grup → amblem. */
 const GRUP_AMBLEM = {
   level: "yildiz", klasik: "kupa", duello: "kiliclar", seri: "alev", turnuva: "tac", lig: "ligYildiz", ozel: "simsek",
-  sosyal: "kisiler", gizli: "soru",
+  sosyal: "kisiler", gizli: "soru", koleksiyon: "koleksiyon",
 };
 /** Anahtara özel amblem (aynı ikonu paylaşıp ayrışması gerekenler). */
 const ANAHTAR_AMBLEM = { lig_efsane_bir: "tacEfsane", lig_sehir_sampiyonu: "sehirTac" };

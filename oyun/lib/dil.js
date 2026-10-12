@@ -84,6 +84,11 @@ export function aktifDil() {
   return aktif;
 }
 
+/** Tarih/saat biçimi için yerel ayar: oyunun dili (tarayıcının dili DEĞİL — tr-TR tarayıcıda EN arayüz "24 Eyl" yazıyordu). */
+export function tarihDili() {
+  return aktifDil() === "en" ? "en-GB" : "tr-TR";
+}
+
 try {
   if (typeof document !== "undefined") {
     document.documentElement.lang = aktifDil();

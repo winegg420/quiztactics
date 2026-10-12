@@ -781,6 +781,25 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
 .m1-grup-lobi > .m1-mesaj-ikon { margin-top: auto; }
 .m1-grup-lobi > .m1-dugmeler { margin-top: auto; padding-top: var(--qt-b-3); }
 .m1-mac > .m1-hazir--grup > .qt-baslik-1 { margin-top: auto; }
+/* Hazır (grup), 11 Eki 2026: liste · sayaç · "n/m hazır" · bilgi kartı · düğmeler TEK blok — artan yer bloğun üstüne ve altına
+   eşit bölünür, aralarda büyük boşluk yok. Sığmazsa düğmeler alta yapışır (sticky; fixed değil — iOS). */
+body.bd-oyun-modu .m1-mac > .m1-hazir--grup > .m1-hazir-bilgi { margin-top: 0; }
+body.bd-oyun-modu .m1-mac > .m1-hazir--grup > .m1-dugmeler {
+  margin-bottom: auto;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+}
+/* Hazır (Klasik/Düello/Saf Bilgi/Ortak Hazine), 11 Eki 2026: grup ile aynı yöntem — bilgi kartının üstünde artan yer kalmaz, blok tek parça */
+body.bd-oyun-modu .m1-mac > .m1-hazir:not(.m1-hazir--grup) > .qt-baslik-1 { margin-top: auto; }
+body.bd-oyun-modu .m1-mac > .m1-hazir:not(.m1-hazir--grup) > .m1-dugmeler {
+  margin-top: 0;
+  margin-bottom: auto;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+}
+body.bd-oyun-modu .m1-mac > .m1-hazir:not(.m1-hazir--grup) > .m1-hazir-bilgi { margin-top: 0; }
 /* Lobi oyun modunda değil: üst çubuk + alt menü görünür → sahne görünür alana sığar, Geri dön alt menünün altına girmez */
 body:not(.bd-oyun-modu) .m1-mac:has(> .m1-grup-lobi) {
   min-height: calc(100dvh - var(--qt-ustcubuk-yuk, 64px) - var(--qt-altmenu-yukseklik, 72px) - env(safe-area-inset-bottom, 0px));

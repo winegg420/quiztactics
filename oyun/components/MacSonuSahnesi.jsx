@@ -77,7 +77,7 @@ function Taraf({ kisi, rol, yan, adim, atlandi, canToplam, sen }) {
       </div>
       <div className="m1-ss-isim">
         <span className="m1-ss-isim-metin">{botAdi(kisi?.profil?.gorunen_ad) ?? ""}</span>
-        {sen && <SenRozeti />}
+        {sen && <SenRozeti ad={kisi?.profil?.gorunen_ad} />}
       </div>
       {canToplam ? (
         <QtCan dolu={Math.max(0, kisi?.can ?? 0)} toplam={canToplam} etiket={botAdi(kisi?.profil?.gorunen_ad)} boyut={18} />

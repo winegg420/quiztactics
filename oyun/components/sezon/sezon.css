@@ -83,11 +83,11 @@
   box-shadow: 0 0 0 2px var(--qt-zemin);
 }
 .sz-rozet:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: -2px; border-radius: 50%; }
-/* Profil kartı içi küçük rozet (ana sayfa, .as-ko-alt satırında). Düzen yüksekliği 16 px; dokunma kutusu negatif kenar boşluğuyla 44 px'e açılır (ada ait dokunma alanıyla çakışmasın diye 9 px aşağı kaydırılmış: üstten -5, alttan -23, içerik padding-bottom ile geri çekilir),
+/* 11 Eki: üst -3.2 px / yükseklik 43.6 px — ad düğmesinin dokunma kutusuyla (alt 121) ve turnuva bandıyla (üst 164.8) 0 px bindirme. Profil kartı içi küçük rozet (ana sayfa, .as-ko-alt satırında). Düzen yüksekliği 16 px; dokunma kutusu negatif kenar boşluğuyla 44 px'e açılır (ada ait dokunma alanıyla çakışmasın diye 9 px aşağı kaydırılmış: üstten -5, alttan -23, içerik padding-bottom ile geri çekilir),
    böylece kart yüksekliği değişmez. Halka turuncu (--qt-vurgu), BP sahibinde altın. */
 .sz-mini {
   position: relative; flex: none; display: inline-grid; place-items: center;
-  min-width: 44px; height: 44px; margin: -5px -4px -23px 0; padding: 0 6px 18px 11px; grid-auto-flow: column; gap: 3px; border: 0; background: transparent;
+  min-width: 44px; height: 43.6px; margin: -3.2px -4px -24.4px 0; padding: 0 6px 21.2px 11px; grid-auto-flow: column; gap: 3px; border: 0; background: transparent;
   color: var(--qt-metin); cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
 .sz-mini-gorsel { position: relative; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--qt-yuzey); }

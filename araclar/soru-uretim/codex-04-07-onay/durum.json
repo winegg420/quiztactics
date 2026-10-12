@@ -1,0 +1,28 @@
+{
+  "durum": "canlida",
+  "migration_uygulandi": true,
+  "canli_yasak": false,
+  "tarih": "2026-10-12",
+  "karar": "Ida (12 Eki 2026): C06-174 (quiche Lorraine) çıkarıldı, kalan 777 canlıya",
+  "cikarilan": [
+    {
+      "id": "C06-174",
+      "taslak_id": "C06-N0275",
+      "kategori": "genel_kultur",
+      "neden": "06/174 şık dengesi kapı reddi; Ida kararıyla çıkarıldı"
+    }
+  ],
+  "girdi": "codex-04-07-onay/sorular-777.json",
+  "migration": "supabase/migrations/20260612001068_soru_parti_codex_04_07.sql",
+  "eklenen": 777,
+  "cakisan": 0,
+  "aktif_once": 13417,
+  "aktif_sonra": 14194,
+  "zorluk": {
+    "2": 555,
+    "3": 222
+  },
+  "yerel": 8,
+  "en": 769,
+  "ceviri_atlanan": 8
+}

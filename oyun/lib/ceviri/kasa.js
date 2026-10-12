@@ -232,4 +232,7 @@ export default {
   // 1055: takılma düzeltmesi
   "Cevabın sunucuya ulaşmadı. Süre bitmediyse şıkkı yeniden seç.": "Your answer didn't reach the server. If time is left, pick again.",
   "Maç yükleniyor…": "Loading match…",
+  // 11 Eki 2026: karar süresi doldu (sayaç 0 = sunucu bitişi; düğmeler pasif)
+  "Süre doldu · DEVAM": "Time's up · KEEP",
+  "Süre doldu · AÇ": "Time's up · OPEN",
 };

@@ -60,6 +60,7 @@ import { NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 import { adKisalt } from "../lib/adKisalt.js";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";
 import { gorunenAd } from "../lib/oyuncu.js";
+import { senAdiMi } from "./SenRozeti.jsx";
 
 export const MS_ZAMAN = { afis: 0, kupa: 150, avatar: 300, konfeti: 700, coin: 1000, xp: 1400, lig: 1800, gorev: 2000, son: 2600 };
 const LEVEL_EK_MS = 800;
@@ -145,7 +146,7 @@ function Taraf({ kisi, rol, yan, canToplam, sen, zafer }) {
         {/* 560: telefonda ad hapı dar (ad "D…"ya iniyordu) → amblem avatarın alt köşesinde rozet; genişte ad yanında */}
         <OyuncuLigAmblemi lig={kisi?.lig} userId={kisi?.profil?.id} boyut={22} className="msk-amblem-rozet" />
       </div>
-      <div className="msk-isim msk-a">
+      <div className={`msk-isim msk-a${Array.from(kisi?.profil?.gorunen_ad ?? "").length <= 8 ? " msk-isim--kisa" : ""}`}>
         <AdDugmesi userId={kisi?.profil?.id} profil={kisi?.profil}>
           <span className="msk-isim-metin">
             <IsimEfekti userId={kisi?.profil?.id} {...(kisi?.isimEfekti !== undefined ? { ef: kisi.isimEfekti } : {})} acik hareketli={rol === "kazanan"}>
@@ -155,7 +156,7 @@ function Taraf({ kisi, rol, yan, canToplam, sen, zafer }) {
         </AdDugmesi>
         {/* 560: lig amblemi isim yanında (lig elde yoksa oyuncu kartından — avatarla aynı önbellek) */}
         <OyuncuLigAmblemi lig={kisi?.lig} userId={kisi?.profil?.id} boyut={20} className="msk-amblem" />
-        {sen && <span className="msk-sen">{tt("Sen")}</span>}
+        {sen && !senAdiMi(kisi?.profil?.gorunen_ad) && <span className="msk-sen">{tt("Sen")}</span>}
       </div>
       {canToplam ? (
         <div className="msk-can msk-a">

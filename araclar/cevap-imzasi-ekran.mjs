@@ -1,4 +1,5 @@
 // Cevap İmzası (1040) ekran doğrulaması — TAKLİT VERİYLE (sunucuya yazmaz: satın al / tak / maç RPC'leri tarayıcıda taklit).
+// NOT (11 Eki 2026): Cevap İmzası v3 + Yanan Kart dondurma sonrası güncel ekran testi araclar/cevap-imzasi-v3-ekran.mjs (bu dosya v3 öncesi hâli sınar).
 // Her imza × 360/390 px × 4 bağlam (Dükkân demosu · Klasik · Ortak Hazine · Düello v4 — 10 Eki 2026dan beri imza OYNAMAZ, yokluğu sınanır) için 3 kare (başlangıç / orta / son).
 // Kare zamanı kesin: imza DOM'a girdiği anda sayfa içi saat dondurulur (CSS animasyonları duraklatılır, canvas imzalarda
 // requestAnimationFrame + performance.now denetlenir) ve istenen ana ilerletilir.

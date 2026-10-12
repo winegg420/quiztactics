@@ -148,7 +148,10 @@ export default function Login() {
     try {
       girisDiliniKaydet(dil);
       // D-203: yeni profil (handle_new_user) giriş ekranındaki dille doğar
-      const { error } = await supabase.auth.signInAnonymously({ options: { data: { dil } } });
+      // 1064: otomasyon tarayıcısının (Playwright denetim/ekran araçları) açtığı hesap sunucuda
+      // lig_gizli doğar — lige, sıralamaya, "seni geçti" bildirimine ve şampiyonluğa girmez.
+      const arac = typeof navigator !== "undefined" && navigator.webdriver === true;
+      const { error } = await supabase.auth.signInAnonymously({ options: { data: arac ? { dil, arac: true } : { dil } } });
       if (error) throw error;
     } catch (e) {
       setHataYeri("misafir");

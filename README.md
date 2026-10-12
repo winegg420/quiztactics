@@ -13,7 +13,7 @@ Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık
 - 🧑‍🎨 **Avatarlar** — Yaygın avatarlar ücretsiz; Nadir avatarlar level atladıkça, Sezon Yolu'nun ücretsiz kolunda ya da Dükkân'da coinle açılır; Epik ve Efsanevi elmasla (bazıları Battle Pass ödülü).
 - ✨ **Battle Pass parlaması** — Sezonun Battle Pass'ine sahipsen avatarının fotoğrafında ara ara beyaz yıldızlar çakar; her ekranda herkes görür. Sezon bitip yeni Battle Pass alınmazsa kalkar. Saf kozmetik, güç vermez.
 - 🏅 **Herkes çerçeveli** — Her oyuncunun avatarında en az ligin çerçevesi görünür (yeni oyuncu Bronz'dan başlar); kazanılmış başka çerçeve takılıysa o görünür.
-- ✨ **Cevap İmzası** — doğru cevapta doğru şıkta oynayan, yalnız oyuncunun kendisinin gördüğü kişisel efekt (Dükkân › Efekt; Nadir coinle, Epik/Efsanevi elmasla).
+- ✨ **Cevap İmzası** — doğru cevapta doğru şıkta oynayan, yalnız oyuncunun kendisinin gördüğü kişisel efekt (Dükkân › Efekt; Nadir coinle, Epik elmasla): Neon Tik, Yıldız Patlaması, Bilgi Ampulü, Elektrik Akımı. Yanan Kart dondurulmuştur (satılmaz, oynamaz).
 - 📶 **Bağlantı koparsa 60 sn** — Klasik, Saf Bilgi, Düello ve Ortak Hazine'de bağlantın koparsa ya da uygulamadan çıkarsan maç 60 saniye bekler: süre/soru kaybetmezsin, dönünce kaldığın yerden sürer; rakibin kalan süreyi görür.
 - 👀 **Rakibin şıkkı ve ortalama cevap süren** — Klasik, Saf Bilgi ve Ortak Hazine'de soru kapanınca rakibin hangi şıkkı seçtiği küçük avatarıyla görünür; maç sonunda "Ort. cevap 6,2 sn · rakip 8,1 sn".
 - 👥 Arkadaşlar, meydan okuma, rövanş, grup maçı, saf bilgi, hatalarım, görevler, dükkân ve koleksiyon.

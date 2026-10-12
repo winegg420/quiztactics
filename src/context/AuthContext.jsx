@@ -108,6 +108,9 @@ export function AuthProvider({ children }) {
         const profil = data.takma_ad_secildi === false && data.gorunen_ad === "Oyuncu" ? { ...data, gorunen_ad: tt("Oyuncu") } : data;
         setProfile(profil);
         profilSakla(userId, profil);
+        // 11 Eki 2026: oyun modülleri kendi önbelleklerini tazelesin (ör. oyuncu kartı: maç sonu level atlayınca
+        // arama/VS/maç şeridi eski "Lv" gösteriyordu). Kabuk oyun klasöründen import etmez → olay.
+        try { window.dispatchEvent(new CustomEvent("qt-profil", { detail: profil })); } catch { /* eski tarayıcı */ }
       }
       setProfilHata(false);
     } catch (e) { console.warn("[Auth] profilim başarısız:", e?.message ?? e);
@@ -225,12 +228,23 @@ export function AuthProvider({ children }) {
     at();
     const id = setInterval(at, 60000);
     document.addEventListener("visibilitychange", at);
+    // Uzun açık kalan sekme/PWA'da avatar/kozmetik eski kalmasın (maç ekranı profili taze okur, kabuk
+    // önbelleği eski kalırsa ekranlar ayrışıyordu): sekmeye dönünce, son tazelemeden ≥60 sn geçtiyse bir kez.
+    let sonTazele = Date.now();
+    const gorununce = () => {
+      if (durdu || document.visibilityState !== "visible") return;
+      if (Date.now() - sonTazele < 60000) return;
+      sonTazele = Date.now();
+      refreshProfile(oturumKimlik);
+    };
+    document.addEventListener("visibilitychange", gorununce);
     return () => {
       durdu = true;
       clearInterval(id);
       document.removeEventListener("visibilitychange", at);
+      document.removeEventListener("visibilitychange", gorununce);
     };
-  }, [oturumKimlik]);
+  }, [oturumKimlik, refreshProfile]);
 
   const signOut = () => supabase?.auth.signOut();
 

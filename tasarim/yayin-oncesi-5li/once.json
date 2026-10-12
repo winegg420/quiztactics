@@ -1,0 +1,261 @@
+{
+ "uretim": "2026-10-11T18:33:51.450Z",
+ "taklitsiz": [
+  "cihaz_bildir",
+  "GET oyun_ayarlari",
+  "bekleyen_sayim",
+  "kalp_at",
+  "dm_okunmamis_sayim",
+  "posta_kutusu",
+  "coin_bakiyem",
+  "bekleyen_davetlerim",
+  "rozet_bildirimlerim",
+  "ses_secimleri_oyun"
+ ],
+ "sonuc": [
+  {
+   "ekran": "gorevler",
+   "boyut": "360x640",
+   "dil": "tr",
+   "olcum": {
+    "vh": 640,
+    "toplu": {
+     "top": 588,
+     "bottom": 632
+    },
+    "kaydirici": "qt-sahne-govde",
+    "ilk": [
+     {
+      "top": 479,
+      "bottom": 523,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 479,
+      "bottom": 523,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 479,
+      "bottom": 523,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     }
+    ],
+    "sonda": [
+     {
+      "top": 379,
+      "bottom": 423,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 379,
+      "bottom": 423,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 379,
+      "bottom": 423,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     }
+    ],
+    "yatayTasma": 0
+   },
+   "konsol": []
+  },
+  {
+   "ekran": "gorevler",
+   "boyut": "360x780",
+   "dil": "tr",
+   "olcum": {
+    "vh": 780,
+    "toplu": {
+     "top": 724,
+     "bottom": 768
+    },
+    "kaydirici": "qt-sahne-govde",
+    "ilk": [
+     {
+      "top": 613,
+      "bottom": 657,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 613,
+      "bottom": 657,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 613,
+      "bottom": 657,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     }
+    ],
+    "sonda": [
+     {
+      "top": 501,
+      "bottom": 545,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 501,
+      "bottom": 545,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 501,
+      "bottom": 545,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     }
+    ],
+    "yatayTasma": 0
+   },
+   "konsol": []
+  },
+  {
+   "ekran": "gorevler",
+   "boyut": "390x844",
+   "dil": "tr",
+   "olcum": {
+    "vh": 844,
+    "toplu": {
+     "top": 788,
+     "bottom": 832
+    },
+    "kaydirici": "qt-sahne-govde",
+    "ilk": [
+     {
+      "top": 612,
+      "bottom": 656,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 612,
+      "bottom": 656,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 612,
+      "bottom": 656,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     }
+    ],
+    "sonda": [
+     {
+      "top": 564,
+      "bottom": 608,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 564,
+      "bottom": 608,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 564,
+      "bottom": 608,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     }
+    ],
+    "yatayTasma": 0
+   },
+   "konsol": []
+  },
+  {
+   "ekran": "gorevler",
+   "boyut": "360x780",
+   "dil": "en",
+   "olcum": {
+    "vh": 780,
+    "toplu": {
+     "top": 724,
+     "bottom": 768
+    },
+    "kaydirici": "qt-sahne-govde",
+    "ilk": [
+     {
+      "top": 613,
+      "bottom": 657,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 613,
+      "bottom": 657,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 613,
+      "bottom": 657,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     }
+    ],
+    "sonda": [
+     {
+      "top": 501,
+      "bottom": 545,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 501,
+      "bottom": 545,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     },
+     {
+      "top": 501,
+      "bottom": 545,
+      "kesisimPx2": 0,
+      "gorunur": true,
+      "tiklanir": true
+     }
+    ],
+    "yatayTasma": 0
+   },
+   "konsol": []
+  }
+ ]
+}

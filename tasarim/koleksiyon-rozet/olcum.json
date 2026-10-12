@@ -1,0 +1,26 @@
+[
+  {
+    "boyut": "390x844",
+    "dil": "tr",
+    "adlar_gorunur": [
+      "Koleksiyoncu I",
+      "Koleksiyoncu II",
+      "Koleksiyoncu III"
+    ],
+    "madalyon_svg": 20,
+    "yatay_tasma": 0,
+    "hata": []
+  },
+  {
+    "boyut": "360x780",
+    "dil": "en",
+    "adlar_gorunur": [
+      "Collector I",
+      "Collector II",
+      "Collector III"
+    ],
+    "madalyon_svg": 20,
+    "yatay_tasma": 0,
+    "hata": []
+  }
+]

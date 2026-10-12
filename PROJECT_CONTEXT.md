@@ -130,7 +130,7 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 
 ### Kasa (deneysel — 950 + 951 + 952 + 953 + 954 + 955 + 956 + 957 + 958 + 980 + 981 + 983 + 985 + 987 canlıda, 7 Eki 2026; sunum 990) — oyuncuya görünen adı "Ortak Hazine"
 - **Ad (Ida, 6 Eki 2026):** oyuncunun gördüğü ad **"Ortak Hazine"** (EN "Shared Treasure"); ortadaki puan **"hazine"** (EN "treasure"; kadranda HAZİNE / TREASURE, AÇ anında HAZİNE AÇILDI!). Sandık görseli aynı. Kod, dosya, bileşen, veritabanı ve bildirim tipi adları **kasa_*** olarak KALIR (bu bölümdeki "Kasa" = kod adı). Arayüzde "Kasa"/"Vault" geçmez: metinler `ceviri/kasa.js` (anahtar = yeni Türkçe metin). Sunucunun eski metinleri ("Kasa" geçen hata/bildirim) istemcide yeni adla yazılır: TR `dil.js › TR_DUZELTME + TR_KALIP`, EN `ceviri/kasa.js` + `ceviri/sunucu.js`. **Migration 980 (`ortak_hazine_metinleri`) canlıda (6 Eki 2026):** push başlıkları (`bildirim_yaz`) + davet bildirim/hata metinleri (`kasa_davet_et`, `kasa_davet_cevap`); yalnız metin, yetki/kural aynı (canlıda BEGIN…ROLLBACK ile denendi). Geri alma `docs/kasa-geri-alma-980.sql`.
-- **Senkron + tek sefer kuralı (980 istemci, 6 Eki 2026):** saat farkı istek/yanıt orta noktası + penceredeki en kısa gidiş-dönüş (`zaman.js › saatFarkiOrnekle`; Düello da). Giriş sahnesinin bitişi sahne başlayınca SABİTLENİR, bitince maçta bir daha açılmaz (tembel faz geçişinde gosterim_bas kayıyordu). Her ses/efekt olay anahtarına bağlı, maçta tek sefer (`KasaPage › birKez`: faz, tik, 3-2-1, giriş düşüşü, final). Gizli sekmede ses/titreşim yok (`ses.js › cal`, `geriBildirim.js › titret` — BÜTÜN modlar); sekme gizlenince süren anlar biter (`anlariBitir`). Sonuç uçuşu / AÇ / DEVAM ×2 / ÇİFTE / maç sonu sahnesi dokunarak geçilir. AÇ anı 1,28 sn, DEVAM anı 1,4 sn (soru gösterim payı 2,0 sn içinde — 983). Karar süresi: düğmeler sunucu bitişine 6,45–6,9 sn kala tıklanabilir (983 ölçümü; 1,5 sn payla 6,0–6,4) (5 sn yenmiyor; sunucu değişikliği gerekmedi). Sandığın sonsuz döngüleri (giriş kapak tıkırtısı, karar nabız/titreme) tek sefer; son 3 sn "gergin" kalır. **Ses = görsel anı (9 Eki 2026):** Düello v4 saldırı sorusu sesi "kim neyi aldı" panelinin kalktığı SUNUCU anına bağlı (`gosterim_bas − pay + duello4_acilis`; o an yeniden çizim zorlanır), faz cihaza geç gelse de kayma ≤ 10 ms; an 500 ms’den çok geride kaldıysa (yenileme/geç katılım) çalmaz, panel hiç görünmediyse kategori sesi de çalmaz. Hazine soru sesi tek kaynak (`KasaPage › soruSesi`: giriş kalkışı / faz gelişi / AÇ anı bitişi, anahtar `soru:<tur>`). Diğer modlarda ses, görselin çizildiği efekte bağlı (ölçüm `araclar/ses-zamanlama-olcum.mjs`, taklit). Ön yükleme: maç ekranları `sesOnYukle` çağırır (Hazine dahil); ses seçimleri sunucudan geç gelirse istenen gruplar seçilen dosyayla yeniden iner — yoksa ilk çalış 250 ms sınırında atlanıyordu. Test: `araclar/kasa-canli-testi.mjs --ag=150 --cpu=4 --dondur`.
+- **Senkron + tek sefer kuralı (980 istemci, 6 Eki 2026):** saat farkı istek/yanıt orta noktası + penceredeki en kısa gidiş-dönüş (`zaman.js › saatFarkiOrnekle`; Düello da). Giriş sahnesinin bitişi sahne başlayınca SABİTLENİR, bitince maçta bir daha açılmaz (tembel faz geçişinde gosterim_bas kayıyordu). Her ses/efekt olay anahtarına bağlı, maçta tek sefer (`KasaPage › birKez`: faz, tik, 3-2-1, giriş düşüşü, final). Gizli sekmede ses/titreşim yok (`ses.js › cal`, `geriBildirim.js › titret` — BÜTÜN modlar); sekme gizlenince süren anlar biter (`anlariBitir`). Sonuç uçuşu / AÇ / DEVAM ×2 / ÇİFTE / maç sonu sahnesi dokunarak geçilir. AÇ anı 1,28 sn, DEVAM anı 1,4 sn (soru gösterim payı 2,0 sn içinde — 983). **Karar süresi (1063, 11 Eki 2026):** sayaç gösterim payında DONMAZ — sunucu `faz_bitis`'e kalan gerçek süreyi sayar (karar_sn 5 + pay 2 = ~7 sn; halka da bu toplamla dolar; lobi kuralı "Karar süresi 7 sn"); 0 = sunucu bitişi (ölçüm +31…+51 ms). 0'da AÇ/DEVAM hemen pasif + "Süre doldu · DEVAM" (tavan ≥ hedef ve hazine doluysa "· AÇ"). Karar sahibinin istemcisi dokunmadıysa 0 + 150 ms'de `kasa_karar(p_id, p_ac := null)` = "süre doldu" bildirir → sunucu (yalnız sahip, yalnız now ≥ faz_bitis, donuk maçta değil) süre dolumunu hemen uygular; panel 0'dan ~0,15 sn sonra kapanır (önce ~4 sn: 3 sn geç varış payı + yoklama). Rakip istemcisi bildirmez (yolda olan dokunuş payla kabul). İmza/yetki aynı. Ölçüm `araclar/yayin-oncesi-tarama.mjs › m1`. Sandığın sonsuz döngüleri (giriş kapak tıkırtısı, karar nabız/titreme) tek sefer; son 3 sn "gergin" kalır. **Ses = görsel anı (9 Eki 2026):** Düello v4 saldırı sorusu sesi "kim neyi aldı" panelinin kalktığı SUNUCU anına bağlı (`gosterim_bas − pay + duello4_acilis`; o an yeniden çizim zorlanır), faz cihaza geç gelse de kayma ≤ 10 ms; an 500 ms’den çok geride kaldıysa (yenileme/geç katılım) çalmaz, panel hiç görünmediyse kategori sesi de çalmaz. Hazine soru sesi tek kaynak (`KasaPage › soruSesi`: giriş kalkışı / faz gelişi / AÇ anı bitişi, anahtar `soru:<tur>`). Diğer modlarda ses, görselin çizildiği efekte bağlı (ölçüm `araclar/ses-zamanlama-olcum.mjs`, taklit). Ön yükleme: maç ekranları `sesOnYukle` çağırır (Hazine dahil); ses seçimleri sunucudan geç gelirse istenen gruplar seçilen dosyayla yeniden iner — yoksa ilk çalış 250 ms sınırında atlanıyordu. Test: `araclar/kasa-canli-testi.mjs --ag=150 --cpu=4 --dondur`.
 
 - 2 kişi; kasa +2 / ikisi doğru +6; tek bilen sahip; sahip tur başında AÇ/DEVAM; **954: DEVAM (bilerek ya da süre dolumu) sahipliği bırakır** — kasa korunur, sahip null, sahipsizken karar fazı yok, yeni sahip yalnız tek başına bilen (ikisi bilir / ikisi yanlış → sahipsiz kalır); tur sınırında sahip yoksa kasa kimseye gitmez; **80 puan (958; 955: 60; 951: 50) / 36 tur / karar 5 sn (955; önce 8)** / eşitlikte Altın Soru (sayılar `oyun_ayarlari.kasa_*`, maç açılırken satıra sabitlenir). **Tavan + DEVAM çarpanı (955 mekanizma; 956 değerler — Ida, 5 Eki 2026, 955 canlı testi sonrası):** `kasa_tavan` **80** (981, Ida 6 Eki 2026; 956: 60; 955: 30) — kasa hiçbir zaman geçemez, soru artışından (+2/+6) SONRA ve DEVAM çarpanından SONRA min(kasa, tavan). `kasa_devam_carpan` **2** (955: 1.25 — kasa 10'da yalnız +3, hissedilmiyordu) — her DEVAM (bilerek ya da süre dolumu, bot dahil) kasa = ceil(kasa × 2), sonra tavan; seri/kademe yok (10 → 20 → 40/44 → 60). **Tavan 60 = hedef 60: yüksek kasa tek AÇ ile maçı bitirebilir** — 955'in "tavan = hedefin yarısı, en az 2 AÇ" tasarımı BİLEREK terk edildi (Ida kabul etti; hata değil). 956 yalnız iki ayar değeri; fonksiyon/şema değişmedi. Satıra sabit `kasa_maclari.kasa_tavan` (vars. 0 = yok) / `devam_carpan` (vars. 1 = yok) — süren 954 maçları eski kuralla biter; ayarlar canlıda SQL ile (tavan 0 / çarpan 1 = kapalı). Bot tavandaki kasayı her zaman açar. **988 (Ida, 9 Eki 2026): tavan ≥ hedef ve hazine tavandayken karar süresi dolarsa otomatik AÇ** (maç biter; `son_karar.oto`); bilerek DEVAM ve tavan < hedef maçları eski kural. Karar ekranında tavanda DEVAM düğmesi yok; düğmeler sonucu gösterir ("AÇ → +k / Skor s/h", "DEVAM → Hazine y" + kalkan). `son_karar` DEVAM'da `yeni`/`carpan`/`tavan`, `son_tur.tavan_kirpti`, `kasa_durum` `tavan`/`devam_carpan`. Simülasyon 956 (SQL, 150 maç, %60 isabet, eşik 10 vs 20): ort ~20,6 tur, %100 hedefle biter, ort AÇ ~21, tek AÇ ile biten ~%2 (Ida'nın beklediği ~%44'ten SAPAR — politika varsayımı farklı olabilir), AÇ'ların ~%0,6'sı tavanda. Geri alma `docs/kasa-geri-alma-956.sql` (955: `docs/kasa-geri-alma-955.sql`). **955 görsel:** kasa artık altın kenarlı HAZİNE SANDIĞI (SVG; kapak menteşesi, kilit plakası), 4 kademe kasa/tavan oranıyla (kapak aralanır, altın taşar, ışık güçlenir), tavanda DOLU parıltısı + göstergede `/<tavan>` (956: `/60`; kademeler 60'a yayılır: ~20 kapak aralık, ~44 altın taşar, 60 DOLU); giriş sahnesi TEK KATMAN (soru gizli, 3-2-1 sandığın üstünde, sunucu saatine bağlı — süre kaybı yok); DEVAM anı: sandık sarsılır, "×<çarpan>" (956: "×2") patlar, kasa eski → yeni sayarak yükselir; çarpan/tavan metinleri ayardan okunur, kural satırı tavan < hedef iken "tek AÇ maçı bitirmez", değilse "Kasa en çok {t} olur.". **AÇ alt sınırı YOK (958, Ida 5 Eki 2026): `kasa_acma_min` 0** — kasa kaç olursa olsun (2 iken de) tek başına bilen sahip bir sonraki soru gelmeden AÇ/DEVAM der; sahipsizken karar fazı yine yok; bot küçük kasada kendi eşiğine göre (altında DEVAM). 958 yalnız iki ayar değeri (fonksiyon/şema değişmedi; mantık 0'ı "hiç kilitleme" diye işler); acma_min + hedef maç satırına sabit → süren 957 maçları alt sınır 10 / hedef 60 ile biter ve o maçlarda kilitli AÇ rozeti hâlâ görünür. 981'den beri tavan 80 = hedef 80 → dolu hazine tek AÇ ile maçı bitirebilir (958–981 arası hedef 80 > tavan 60 iken en az 2 AÇ gerekiyordu). 981 yalnız ayar; satıra sabit → süren maçlar tavan 60 ile biter; geri alma `docs/kasa-geri-alma-981.sql`. Geri alma `docs/kasa-geri-alma-958.sql` (10 / 60). Simülasyon 958 (SQL, 150 maç, karar kuralı bot eşikleri 8/14/20±2): %70 isabet ort ~25,6 tur, %96 hedefle biter, karar ekranı ~10,6/maç, DEVAM ~5,2/maç, iki AÇ ile biten ~%9; %90 isabet ort ~28 tur, %85 hedefle biter, iki AÇ ile biten ~%47. Ida'nın beklediği "tek AÇ ile biten ~%27 / ~%47", "DEVAM ~2-3", "karar ~7" bu politikayla tutmuyor (tek AÇ hedef 80 > tavan 60 yüzünden imkânsız) — Ida'ya soru açık. Bot eşikleri 8/14/20. **Joker (951):** 50:50, Ek Süre, Zaman Baskısı, İkinci Şans — Klasik envanteri ve Klasik sınırları (6 / 2 / 1) — **985 (Ida, 7 Eki 2026; canlıda):** Hazine'ye özel sınırlar `kasa_joker_hak_*` İkinci Şans 1 · 50:50 2 · Ek Süre 2 · Zaman Baskısı 3, `kasa_joker_toplam_hak` 4, `kasa_joker_soru_basi_hak` 1 (DEVAM ücretsiz 50:50 sayılmaz; çubukta tür başı `kalan/sınır` sayacı; geri alma `docs/kasa-geri-alma-985.sql`, test `araclar/kasa-joker-sinir-sql-testi.mjs`), `kasa_joker` + `kasa_joker_durumu`, çubuk Klasik `JokerCubugu` (macTur "kasa"); Soru Değiştir/Sigorta/2X yok, Altın Soru jokersiz; kişisel bitiş `kasa_oyuncu_bitis` (faz bitişi + joker farkı); rakip yalnız joker adını görür. Geri alma `docs/kasa-geri-alma-951.sql`. **952/1038:** başlangıç fazı 3 + 2 + `kasa_giris_sahne_ms` = **9 sn** (`kasa_giris_sahne_ms` **4000**, canlı DB — 1038, Ida 10 Eki 2026; geri alma `docs/kasa-giris-4000-geri-al.sql`). İstemci süreyi AYNI ayardan okur (`KasaPage › useAyar`, okunamazsa 4000; tek kaynak, uyuşmazlık kalktı) = ~1 sn sandık düşüşü + 3 sn tam 3-2-1, ilk sorunun gösterim başlangıcında biter — 3-2-1 tam görünür, geri alma `docs/kasa-geri-alma-952.sql`. **987 DEVAM ödülü = SAVUNMA HAKKI (Ida, 7 Eki 2026; canlıda — 954'ün ücretsiz 50:50'sinin YERİNE):** bilerek DEVAM (bot dahil; süre dolumu değil) → oyuncu başı en fazla 1 hak, süresiz; iki oyuncuya görünür (avatarda altın kalkan). Tetik: hak sahibi normal soruyu yanlış + rakip tek başına doğru → rakip AÇ/DEVAM'a geçmez, sonuç bandından sonra **Savunma Sorusu** (tur sayısını yemez; normal soru kasaya +2'sini ekler; hazine o sırada sahipsiz): yalnız hak sahibi cevaplar, rakip izler, 15 sn, farklı kategori + orta zorluk (yoksa gevşer), kasaya bir şey eklemez; normal jokerler (985 sınırları; soru başı sınırı ayrı soru, `soru_index = -tur`) kullanılır, Zaman Baskısı hariç. Doğru → rakibin kararı iptal, hazine sahipsiz; yanlış / süre / bağlantı kopması → rakip sahip olur ve karar verir. Hak Savunma Sorusu açılınca tüketilir; hazine AÇILINCA bütün haklar silinir. Açılmaz: son tur, Altın Soru (hak kalır). **988 (Ida, 8 Eki 2026; canlıda): hazine hedefe/tavana (80) ulaştığında da açılır** — başarılıysa hazine 80'de sahipsiz kalır, maç sürer; başarısızsa rakip karar verir. Geri alma `docs/kasa-geri-alma-988.sql`, test `araclar/kasa-savunma-80-sql-testi.mjs`. Bot savunanda `bot_soru_isabet` ile, jokersiz (Hazine botları normal joker kullanmaz). Kural satıra sabit `kasa_maclari.savunma_acik` (ayar `kasa_savunma_acik` 1; açıkken `devam_elli` false); durum `savunma_hak uuid[]` + `savunma jsonb` (bekliyor/soru/basarili/basarisiz + neden), geçmiş `kasa_hamleler.savunma`; `kasa_durum` → `savunma_acik/savunma_hak/savunma`, `kasa_joker_durumu` → `savunma/yasak_turler`. Ad "Savunma Hakkı" / EN "Defense Right" — arayüzde tek yer `KasaParcalari › SAVUNMA_HAKKI` + `ceviri/kasa.js` (Düello Kalkan jokeriyle karışmasın). Simülasyon: tetik 1,4–3,1/maç, başarılı savunma %54–72, maç +2–5 soru, DEVAM dengesi korunur. Geri alma `docs/kasa-geri-alma-987.sql`; testler `araclar/kasa-savunma-sql-testi.mjs` (ROLLBACK, 49) + `araclar/kasa-savunma-ekran.mjs` (taklit, 170). **954 DEVAM ödülü (953'ün yerine; 987 ile YENİ maçlarda kapalı, süren 954 maçları eski kuralla biter):** bilerek DEVAM diyen (süre dolumu değil) kasa AÇILANA kadar her soruda 1 ücretsiz 50:50 alır (garanti; şans/garanti sayacı/Ek Süre yok); AÇ iki oyuncunun hakkını bitirir; envanter/coin/Klasik sınırları dışı (`kasa_joker` `p_bedava`), kullanılmazsa soru kapanınca kaybolur ve sonraki soruda yeniden verilir; Altın Soru jokersiz. Durum `kasa_maclari.joker._hak` (uid listesi), dağıtım `kasa_devam_hak_ver` (kasa_soru_ac sonunda); yalnız sahibi görür (`bedava_joker`), rakip kullanılınca adını; bot o soruda hemen kullanır. Kural satıra sabit: `devam_birakir` / `devam_elli` (ayar `kasa_devam_birakir` · `kasa_devam_joker_acik`); yeni maçta `devam_sans`/`devam_garanti` 0 — `kasa_devam_joker_sans/_garanti` artık okunmuyor (satırlar duruyor); süren 953 maçları eski kuralla biter. Arayüz: "DEVAM · ÜCRETSİZ 50:50", sahipsiz kasada mini kadranda SAHİPSİZ rozeti + karar satırı gizli. Geri alma `docs/kasa-geri-alma-954.sql` (953: `docs/kasa-geri-alma-953.sql`). Canlı uçtan uca test `araclar/kasa-canli-testi.mjs` (gerçek-gerçek / bot, sayaç–sunucu, ses–faz). Ödül Klasik yoluyla aynı (× `kasa_odul_acik` × `kasa_odul_carpani`), Sezon Puanı kaynağı `mac` / referans `kasa:<id>`. `kasa_tik` cron 30 sn (aktif maç yoksa hemen çıkar). Kapatma `kasa_modu_acik` = 0 (istemci ayar satırı yoksa kapalı sayar). Uygulama `docs/kasa-canliya-uygulama.md`, geri alma `docs/kasa-geri-alma-950.sql`, test `araclar/kasa-sql-testi.mjs` (ROLLBACK) + `araclar/kasa-ekran.mjs` (taklit) + `araclar/kasa-efekt-ekran.mjs` (anlar, taklit). Görsel/anlar: `components/KasaEfekt.jsx` + `styles/kasa-efekt.css` (SVG kasa, +2/+6 altın uçuşu, 🔑 sahiplik, AÇ anı, karar gerilimi, maç sonu altın yağmuru; 951: 3-2-1 sonrası 3 sn giriş sahnesi (sunucu saatine bağlı, sayaç sahne bitince başlar), AÇ ile biten maçta 4,3 sn yavaş açılış / kaybedende kapanış, ÇİFTE bandı, kasa ≥20 ışık ≥40 alev; yalnız sunum).
 - **Sunum paketi (990, Ida 6 Eki 2026 — yalnız istemci; kural/ayar değişmedi):** AÇ / DEVAM anı geç veride bile en az **1,0 sn** görünür (980'deki %40'a sıkışma ve AÇ'ın atlanması kalktı); an (ve rakip karar kartı) bitene kadar yeni sorunun SAYACI GİZLİ (yer tutucu), AÇ'ta şıklar örtülü — an bitince sayaç sunucunun gerçek kalanını gösterir. **Rakibin kararı** önce 0,3 sn kapalı kart ("Rakip karar verdi"), sonra vuruş: AÇ'ta AÇ anının kendi yazısı, DEVAM'da "RAKİP DEVAM ETTİ · Hazine ×2" kartı (0,65 sn); olay anahtarlı tek sefer, dokunarak geçilir, hareket azaltmada yalnız saydamlık. **Soru sırasında hazine skor şeridinin ORTASINDA** ortak nesne: SEN çubuğu | sandık + değer | RAKİP çubuğu (çubuklar hazineye doğru dolar, sahibin tarafına ok); karar/başlangıçta ortada HEDEF; şerit yüksekliği eskisiyle aynı (≈42–48 px). Başlıkta ad sütunu sabit en büyük genişlik (112 px, ≤400 px ekranda 92) + üç nokta. **Lobi:** 3 maddelik özet + "Rakip ara" ilk ekranda + açılır "Tüm kurallar". Sunucu `kasa_gosterim_payi_ms` **2000** (983, Ida 6 Eki 2026; önce 1500) — rakip kararında kapalı kart + 1 sn tabanlı an ≈ 1,3 sn, tipik Realtime gecikmesinde soru süresinden yemez. Pay maça SABİTLENMEZ, her fazda canlı okunur (983 aktif maç varken uygulanmaz). Test `araclar/sunum-990-ekran.mjs` (taklit).
@@ -283,6 +283,10 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 - **Gösterilen sıra = gerçek sıra (661, Ida 26 Eyl):** `lig_grubum` sırayı grubun TÜM üyeleri arasında (haftalık kapanışla birebir: `puan_hafta`, `puan`, ad, id) hesaplar, görünürlüğü sonra süzer; gizli üyeler satır olarak görünmez ama numarada boşluk bırakır (1,2,…,11,13,16). Yükselme/düşme bölgesi ve çizgileri bu sıraya göre.
 - Misafir (anonim) hesap ligde ancak `lig_misafir_min_mac` (5) maçtan sonra
   görünür; oyuncu kendi satırını her zaman görür. Hesap silinmez.
+- **Araç hesabı lig dışı (1064, 11 Eki 2026):** otomasyon tarayıcısında (`navigator.webdriver`) açılan misafir hesap
+  sunucuda `profiles.arac_hesabi` + `lig_gizli` doğar → grup 0, sıralama/şampiyonluk dışı; `trg_gecilme_bildir` lig_gizli
+  hesapla "seni geçti" üretmez/almaz. Gerçek misafirler değişmedi. `araclar/arayuz-denetim.mjs` iş bitince hesabını siler
+  (`--sakla` / `--hesap-sil`).
 - **Toplam oyuncu sayısı hiçbir yerde gösterilmez.**
 - **Şehir Şampiyonu (641, arka plan; görünüm Görsel Paket 2'de):** kapanan haftayı şehrinde 1. bitiren sonraki hafta
   boyunca o şehrin şampiyonudur (TEK kaynak `lig_arsiv.sehir_sampiyonu`, aktif = `hafta_basi() − 7`; profilde alan yok).
@@ -474,6 +478,10 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   bronz 10 · gümüş 25 · altın 50 · elmas 100 (günlük tavana sayılmaz). Geriye dönük verilenler
   coin'siz (`geriye_donuk`). Vitrin `profiles.vitrin_rozetleri` (en çok 3). Level 25/50/75/100
   rozeti level çerçevesini de verir. Sözleşme `docs/SOZLESME_ROZET_CERCEVE.md`.
+  **Koleksiyon rozetleri (1065, Ida 11 Eki 2026):** grup `koleksiyon` (sıra 10; gizli 11), Koleksiyon Puanı 25/50/100/200 →
+  Koleksiyoncu I/II/III + Büyük Koleksiyoncu (EN Collector I/II/III, Grand Collector), bronz→elmas, coin 10/25/50/100, elmas 0,
+  unvan/çerçeve/süs yok — toplam 106 rozet. Ölçüt `rozet_olcut('koleksiyon_puani')`; tetik `profiles.koleksiyon_puani`
+  artınca (`trg_profiles_koleksiyon_rozet`). Madalyon amblemi `koleksiyon` (üç taş; ikon `diamonds-four`).
 - **Kozmetik katmanları (481, Ida):** **çerçeve** = kazanılan prestij, **asla satılmaz** (lig, level,
   turnuva şampiyonu, etkinlik — Yılbaşı, Ramazan Bayramı); dükkânda görünmez, Profil › Koleksiyon'da
   (kilitliler "nasıl kazanılır"la). **Arka Plan** (kod adı: `aura`; oyuncuya görünen ad — ekranda "aura" kelimesi geçmez, Ida 24 Eyl. Açıklama: "Arka Plan — avatarının arkasındaki hareketli sahne") = satılık tarz, avatarın arkasındaki tema katmanı; eski 12
@@ -532,12 +540,17 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   (sunucuya/Realtime'a bir şey gitmez; takılı `profiles.takili_cevap_imzasi` authenticated'a açık değil, `oyuncu_kartlari`'nda yok; istemci
   `profilim()`'den okur — `lib/cevapImzasi.js › useTakiliImza`). Yeni ses / pay-to-win / hareketi azalt sürümü yok. 5 ürün (`kozmetikler.tur = 'cevap_imzasi'`):
   Neon Tik · Yıldız Patlaması (Nadir, **coin** `coin_cevap_imzasi_nadir` 750) · Bilgi Ampulü · Elektrik Akımı (Epik, elmas `elmas_cevap_imzasi_epik` 150) ·
-  Yanan Kart (Efsanevi, elmas `elmas_cevap_imzasi_efsanevi` 300) — fiyatlar TEST; para `icerik.para`. `kozmetik_satin_al` coin dalı (1039 deseni).
+  ~~Yanan Kart~~ (Efsanevi, elmas 300) **DONDURULDU (1067, 11 Eki 2026, Ida)**: `kozmetikler.aktif = false` + `satis_pasif = true` → satılmaz,
+  listelenmez, takılmaz; takılı olanlar null'a çekildi (0 kişi); sahiplik kaydı durur (tek sahip = sahip hesabı, gerçek alıcı 0); istemcide oynamaz
+  (`CevapImzasi.jsx › DONDURULAN`, `lib/cevapImzasi.js › DONDURULAN_IMZALAR`; kod durur). Satışta 4 imza. Fiyatlar TEST; para `icerik.para`. `kozmetik_satin_al` coin dalı (1039 deseni).
   **Satış kapısı `cevap_imzasi_satis_acik` = true** (canlı DB, 10 Eki 2026, Ida onayı) → Dükkân › Efekt herkese açık; false yapılırsa yalnız sahip hesap görür (test modu);
-  Görsel kaynak `docs/cevap-imzasi-referans.txt` (maket birebir; Yanan Kart ızgara adımı 2 → 3 px, ImageData ile çizim —
-  performans, görünüm aynı). Ortak bileşen `components/CevapImzasi.jsx`: QuestionCard (Klasik/Saf Bilgi/Grup/Turnuva/Hatalarım), KasaPage (Savunma dahil),
+  Görsel kaynak `docs/cevap-imzasi-referans.txt` (Neon Tik, Elektrik Akımı) · **v3 (11 Eki 2026, Ida onayı): Yıldız Patlaması (1150 ms) ve Bilgi Ampulü
+  (1400 ms) canvas, kaynak `docs/cevap-imzasi-v3-maket.html` birebir** (şıkkın etrafında taşma paylı canvas, pay ekran/kırpan ata ile sınırlı;
+  yıldız gövdesi/hale/pırıltı önbellekli küçük resim — görünüm aynı). **Neon Tik oynadığı şıkta normal tik (`.qt-sik-isaret`) `visibility: hidden`**
+  (yer korunur, rakip avatarı kaymaz); öteki imzalarda/imzasızda normal tik aynen. Ortak bileşen `components/CevapImzasi.jsx`: QuestionCard (Klasik/Saf Bilgi/Grup/Turnuva/Hatalarım), KasaPage (Savunma dahil),
   **Düello v4'te OYNAMAZ** (Ida, 10 Eki 2026: v4 sonuç penceresinde güzel durmuyor; Duello4Arena'dan kaldırıldı). Dükkân kartında demo (`DukkanCevapImzasi.jsx`), Koleksiyon grubu. Zafer Efekti satışa açılmaz.
-  Geri alma `docs/cevap-imzasi-1040-geri-al.sql`; testler `araclar/cevap-imzasi-sql-testi.mjs` (ROLLBACK) · `araclar/cevap-imzasi-ekran.mjs` (taklit).
+  Geri alma `docs/cevap-imzasi-1040-geri-al.sql`; testler `araclar/cevap-imzasi-sql-testi.mjs` (ROLLBACK) · `araclar/cevap-imzasi-ekran.mjs` (taklit, v3 öncesi) ·
+  `araclar/cevap-imzasi-v3-ekran.mjs` (taklit: v3 kareleri + maket, kırpma/kayma/taşma, Neon tik, Yanan Kart, 4× CPU) · rapor `RAPOR-cevap-imzasi-v3.md`.
 - **Kart arka planı (30 Eyl 2026, Ida onayı):** `premium_aura` (Arka Plan) artık avatarın ARKASINDA değil oyuncu KARTININ arkasında çizilir
   (`CerceveliAvatar` `premiumAura`'yı yok sayar; eski çizim `premium/sanatAuralar.jsx` durur). Yer: ana sayfa kompakt kart (hareketli), profil vitrin kartı
   (hareketli), maç başı VS kartları (`VsKarti`, herkes kendi arka planıyla; Düello dahil), lig sayfasında yalnız kendi satırım (sabit), dükkân/koleksiyon
@@ -688,7 +701,7 @@ Ida "kendin doldur" dedi; hepsi test değeridir, yayından önce yeniden bakıla
   tamamlandı (defter `test` / `test_bakiye_baslangic`). Yayın günü: ayarı 150'ye çek, test elmaslarına karar ver.
 - **Yeni profil dili (610, D-203):** profil giriş ekranındaki dille doğar (misafir/e-posta kayıt verisi `dil`;
   Google yönlendirmesinde cihazdaki `bildim_giris_dili` yeni hesaba bir kez yazılır). Mevcut profilin kayıtlı
-  dili ezilmez. Soru dili `profiles.dil` → `soru_dilinde` (aktif soruların ~12.700'ünün EN çevirisi var).
+  dili ezilmez. Soru dili `profiles.dil` → `soru_dilinde` (aktif soru havuzu 14.194, 13.899'unun EN çevirisi var — 12 Eki 2026, 1068 sonrası ölçüm).
 - **Sigorta 30 · 2X 40 coin; 10'lu paket 255 / 340** (%15 indirim; migration 307,
   `joker_paketleri.skill_sigorta_10` / `skill_cifte_puan_10`). Yalnız Klasik; Düello'ya
   gelmez.
@@ -720,7 +733,7 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   transform/opacity animasyonu. `prefers-reduced-motion` = **yumuşak hareket** (Ida, 24 Eyl): kozmetik
   (çerçeve, aura, altın isim, elmas paketi, maç sonu) durmaz, 0,4 hızda oynar (`oyun/tasarim/yumusakHareket.js`,
   WebGL ×0,4 ≤30 fps); yalnız ani çakma/flaş, sarsıntı, konfeti/patlama kapanır. Oyunun geri kalanında eski sade kural.
-- Maç ekranı koyu sahne (`.qt-sahne-mac`); `body.bd-oyun-modu` alt menüyü gizler.
+- Maç ekranı koyu sahne (`.qt-sahne-mac`); `body.bd-oyun-modu` alt menüyü gizler. Sınıf SAYAÇLI (`lib/oyunModu.js`); maç bitince `useMacSonuGecisi` sınıfı kutlama sahnesi (`html.msk-acik`) açılana dek tutar — "Maç bitti!" ara ekranı / Hazine final sahnesi / özet beklemesinde üst çubuk + alt menü dönmez, Sezon Yolu bildirimi kutlamadan sonra gelir (Klasik, Saf Bilgi, Düello, Hazine, Grup; Turnuva değil — bitmiş turnuva sayfa açılışında da "bitti"; emniyet 20 sn). Rota değişince (PUSH/REPLACE) sayfa en üstten açılır (`Layout`); geri tuşu dokunulmaz. Tarih/saat biçimi oyunun dilinden (`dil.js › tarihDili`: en-GB / tr-TR), tarayıcı dilinden değil. Ana sayfa "En son oynadığın" maç ekranı açılınca da yazılır (`lib/sonMod.js`; Klasik/Düello/Hazine). Profil tazelenince (`refreshProfile`, Hazine dahil her mod maç sonunda) `qt-profil` olayı → oturumluk oyuncu kartı önbelleğinde KENDİ kartımın level/ligi eskiyse düşer (`cerceve.js`) — arama/VS/maç şeridi level atlamasından sonra güncel "Lv".
 - Arayüz metni TR+EN: anahtar Türkçe metin; EN karşılıkları `oyun/lib/dil.js` +
   şerit ekleri `oyun/lib/ceviri/*.js` (dil.js'e katılır).
 - Seçenekler sayfası `/tasarim-yonleri` (A/B/C) duruyor; silinmesine Ida karar verecek.
@@ -896,6 +909,7 @@ bırakma, buraya ekle.
 | **Gardırop / karakter vitrini** | `oyun/vitrin/**`, `oyun/pages/GorunumPage.jsx` | yok (bayrak istemcide) | `oyun/lib/ozellikBayraklari.js` › `GARDIROP_ACIK = true` |
 | **Eski 3B gardırop / atölye / yerel meydan** | `oyun/avatar3d/**` | yok (HTML girişleri yönlendiriyor) | Üç HTML'deki `location.replace` satırını kaldır · `/gorunum` ve `/gorunum-3b` rotalarını geri bağla · Dükkân › Görünüm sekmesini geri koy |
 | **Eski düşük ayrıntılı profil avatarları** | `public/avatars/k01.svg`…`k31.svg`, `oyun/_test/avatar-uret.mjs` | `avatar_onayla` yalnız profesyonel `/avatars/pro/**` listesini kabul eder | Eski dosyalar geri açılmaz; karakter fikirlerinin 31'i de profesyonel sette yeniden çizildi |
+| **Cevap İmzası › Yanan Kart** (11 Eki 2026) | `oyun/components/CevapImzasi.jsx › tuvalYanan` (dondurma bloğu) | `kozmetikler.aktif = false` + `satis_pasif = true` (1067) → satın alma/takma reddedilir, katalogda yok | Yeni migration ile `aktif = true, satis_pasif = false` · `CevapImzasi.jsx › DONDURULAN` ve `lib/cevapImzasi.js › DONDURULAN_IMZALAR`'dan çıkar |
 
 **Meydan ve gardırop bayrağı** — tek anahtar `oyun/lib/ozellikBayraklari.js`.
 Bayrak kapalıyken gizlenenler: alt menüdeki Meydan sekmesi, üst çubuktaki
@@ -994,3 +1008,302 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.com]`.
 - **Ana sayfa: mod kartları (Ida onaylı taslak, 7 Eki 2026):** Klasik tam genişlik büyük kart (120 px; ekran ≤700 px yükseklikte 96; başlık 26 px, 64 px ikon dairesi, "Hızlı sorular, en çok bilen kazanır", sağda ok); altında Düello ("Kategorini savun") + Ortak Hazine ("Doğru anda aç") yan yana yarım genişlik 64 px kart (ikon + başlık + tek kısa satır). Parlama/nabız/rozet yok. "OYNA/DÜELLO" düğmeleri ve Kasa kısayolu kalktı. Telefonda sıra: oyuncu → turnuva → mod kartları → lig → Sezon + Görevler → kısayollar (Meydan, Grup, Saf Bilgi, Hatalarım). Ortak Hazine kartı yalnız `kasa_modu_acik ≥ 1` iken (kapalıysa Düello tam genişlik). Tıklama davranışı eskisiyle aynı (Klasik → mod seçim penceresi, Düello → `/duello`, Ortak Hazine → `/kasa`). Altta "En son oynadığın: {mod}" (`localStorage` `qt:v1:ana-son-mod`, `veri.jsx › sonModuYaz/sonModuOku`; sırayı değiştirmez). "Ortak Hazine" adı 6 Eki 2026'dan beri modun her yerinde (bkz. Kasa bölümü). Kodlar: `AnaSayfaA.jsx`, `anasayfa.css` (dosya sonu), ikon `sandik` (`tasarim/Ikon.jsx`), ölçüm `araclar/ana-sayfa-serit-olcum.mjs`.
 - **Ekran revizyonu (Ida seçimi, 10 Eki 2026, canlıda):** **Hatalarım** (`CalismaPage`) = turuncu kitap afişi (`QtAfis`, sağda bekleyen sayı, şeritte "{öğrenilen}/{toplam} soruyu öğrendin") + 2 sütunlu kategori kartları (bütün kategoriler; bankada sorusu olan önde, sayı rozeti yalnız > 0) + soru sayısı + turuncu düğme; "bu hafta öğrenilen" YOK (sunucuda alan yok). **Hatalarım turu (11 Eki 2026):** soru ekranında tur dağılımı ilerleme altında sabit tek satır, etiket "2× yanlış"/"Yeni", sonuç 44 px tek satır yuva, şıklar altta; tur sonu gök sahne paneli (öğrenilen sayısı, yeşil/kırmızı/mavi kutular, yeşil banka çubuğu, turuncu "Tekrar çalış", kutlama tek sefer). Araç `araclar/calisma-ekran.mjs`. **Profil** (`ProfilePage`, yalnız kendi profilin) = kompakt kimlik satırı (`.qt-pf-kisa`: çerçeveli avatar + isim efekti, unvan, lig + Lv + BP, misafir; zemin takılı kart arka planı yoksa **ligin sahnesi** — 11 Eki 2026 geri geldi: `.qt-pf-kisa--lig[data-lig]`, `--qt-lig-<lig>-sahne` / `-sahne-isik`, ışın merkezi avatarın arkasında) + level/XP şeridi (XP tek satır "47/130 XP → Lv 28", altında TEK satır: solda "Sonraki rütbe: … · Lv N", sağda vitrin rozetleri 35 px; "Vitrin" başlığı ve kesik çizgi yok; kimlik kartı 390×844'te 203 px, Ödüllerim ilk ekranda) → sekmeler ilk ekranda (beşi ikon + kısa yazı, eşit genişlik); İstatistik sekmesinin başında **Ödüllerim** (üç sayı kartı tek kalıp, boşken "0") + **Sıradaki ödül** kartı (`LevelOdulleri vurgu`: avatar > rütbe > joker) + Koleksiyon özeti. **Tutarlılık standardı (10 Eki 2026):** Profil'deki bütün kartlar beyaz + 3 px lacivert kontur + 4 px dudak + 18 px köşe (`.qt-pf .qt-kart`), bütün bölüm başlıkları sade lacivert qt-baslik-3 (Profil'de altın plaka yok). Kategori başarın tek bölüm (ustalık birleşti, tur 2): "N maçtan istatistik · M doğru" + satır ikon · ad · rütbe rozeti · kategori renginde çubuk · yüzde + "N doğru · X için K kaldı" (oyuncu kartı eski görünüm). Seri ve jokerler: en uzun seri + kullanılan joker (Ödüllerim kalıbı) + adlı 2 sütun joker listesi; güncel seri / izlenen video yok. Sıradaki ödül: aynı level'daki ek "+ joker" kartta, Yolda yalnız başka level'lar. `/profil?sekme=ayarlar|davet` doğrudan gelince level şeridi yok (kısa kimlik). Başkasının kartı (`OyuncuVitrinKarti`) aynen. **Boş durumlar** (`QtBosDurum gorsel`): sahne (A) Hatalarım · Mesajlar · Bildirim paneli · 404; rozet (B) Arkadaşlar · Lig "tek başınasın"; öteki kullanımlar ikonlu eski hâl. `/ekran-revizyon-onizleme` duruyor ("Şu anki" sütunu artık eski hâl; kaldırma Ida kararı). Görüntüler `tasarim/ekran-revizyon/asama2/`, araç `araclar/ekran-revizyon-asama2.mjs`.
 - **Posta kutusu (1060, 11 Eki 2026, Ida onaylı):** bildirim zili paneli = posta kutusu. Türler: **Bilgi** (eski `bildirimler`, aynen), **Ödüllü** (gönderen "Quiz Tactics"; detay penceresi + yeşil AL; alınana kadar en üstte; alınınca "Alındı" + tek seferlik kutlama), **Duyuru** (herkese ya da lige; ödüllü/ödülsüz). Hepsinin bitiş tarihi var; geçince/Bitir'de listeden kalkar, alınmamış ödül geçersiz. Ödül türleri coin · elmas · joker · avatar (sahipse "Zaten sende", karşılık yok); defter türü `posta_odul` (günlük coin tavanından muaf). Zil rozeti = okunmamış posta + alınmamış ödül (ödül bekliyorsa altın). Metin TR/EN ayrı, EN boşsa TR. Herkese/lige posta TEK satır (`posta`); oyuncu satırı (`posta_durum`) yalnız okuyunca/alınca. Ödül tek sefer: PK (posta, oyuncu) + FOR UPDATE. Bot göremez. Tablolara istemci yetkisi yok; her şey security definer RPC. Gönderim `/yonetim/posta` (menüde yok; SahipKapisi + sunucuda `sahip_mi()`). Bilerek YOK: oyuncunun cevap yazması, e-posta/telefon bildirimi; Mesajlar sayfası yalnız arkadaş sohbeti. Testler `araclar/posta-sql-testi.mjs` (ROLLBACK) + `araclar/posta-ekran.mjs` (taklit).
+
+
+## Birleştirmede korunan önceki kayıtlar
+
+### Kasa (deneysel — 950 + 951 + 952 + 953 + 954 + 955 + 956 + 957 + 958 + 980 + 981 + 983 + 985 + 987 canlıda, 7 Eki 2026; sunum 990) — oyuncuya görünen adı "Ortak Hazine"
+- **Ad (Ida, 6 Eki 2026):** oyuncunun gördüğü ad **"Ortak Hazine"** (EN "Shared Treasure"); ortadaki puan **"hazine"** (EN "treasure"; kadranda HAZİNE / TREASURE, AÇ anında HAZİNE AÇILDI!). Sandık görseli aynı. Kod, dosya, bileşen, veritabanı ve bildirim tipi adları **kasa_*** olarak KALIR (bu bölümdeki "Kasa" = kod adı). Arayüzde "Kasa"/"Vault" geçmez: metinler `ceviri/kasa.js` (anahtar = yeni Türkçe metin). Sunucunun eski metinleri ("Kasa" geçen hata/bildirim) istemcide yeni adla yazılır: TR `dil.js › TR_DUZELTME + TR_KALIP`, EN `ceviri/kasa.js` + `ceviri/sunucu.js`. **Migration 980 (`ortak_hazine_metinleri`) canlıda (6 Eki 2026):** push başlıkları (`bildirim_yaz`) + davet bildirim/hata metinleri (`kasa_davet_et`, `kasa_davet_cevap`); yalnız metin, yetki/kural aynı (canlıda BEGIN…ROLLBACK ile denendi). Geri alma `docs/kasa-geri-alma-980.sql`.
+- **Senkron + tek sefer kuralı (980 istemci, 6 Eki 2026):** saat farkı istek/yanıt orta noktası + penceredeki en kısa gidiş-dönüş (`zaman.js › saatFarkiOrnekle`; Düello da). Giriş sahnesinin bitişi sahne başlayınca SABİTLENİR, bitince maçta bir daha açılmaz (tembel faz geçişinde gosterim_bas kayıyordu). Her ses/efekt olay anahtarına bağlı, maçta tek sefer (`KasaPage › birKez`: faz, tik, 3-2-1, giriş düşüşü, final). Gizli sekmede ses/titreşim yok (`ses.js › cal`, `geriBildirim.js › titret` — BÜTÜN modlar); sekme gizlenince süren anlar biter (`anlariBitir`). Sonuç uçuşu / AÇ / DEVAM ×2 / ÇİFTE / maç sonu sahnesi dokunarak geçilir. AÇ anı 1,28 sn, DEVAM anı 1,4 sn (soru gösterim payı 2,0 sn içinde — 983). Karar süresi: düğmeler sunucu bitişine 6,45–6,9 sn kala tıklanabilir (983 ölçümü; 1,5 sn payla 6,0–6,4) (5 sn yenmiyor; sunucu değişikliği gerekmedi). Sandığın sonsuz döngüleri (giriş kapak tıkırtısı, karar nabız/titreme) tek sefer; son 3 sn "gergin" kalır. **Ses = görsel anı (9 Eki 2026):** Düello v4 saldırı sorusu sesi "kim neyi aldı" panelinin kalktığı SUNUCU anına bağlı (`gosterim_bas − pay + duello4_acilis`; o an yeniden çizim zorlanır), faz cihaza geç gelse de kayma ≤ 10 ms; an 500 ms’den çok geride kaldıysa (yenileme/geç katılım) çalmaz, panel hiç görünmediyse kategori sesi de çalmaz. Hazine soru sesi tek kaynak (`KasaPage › soruSesi`: giriş kalkışı / faz gelişi / AÇ anı bitişi, anahtar `soru:<tur>`). Diğer modlarda ses, görselin çizildiği efekte bağlı (ölçüm `araclar/ses-zamanlama-olcum.mjs`, taklit). Ön yükleme: maç ekranları `sesOnYukle` çağırır (Hazine dahil); ses seçimleri sunucudan geç gelirse istenen gruplar seçilen dosyayla yeniden iner — yoksa ilk çalış 250 ms sınırında atlanıyordu. Test: `araclar/kasa-canli-testi.mjs --ag=150 --cpu=4 --dondur`.
+
+- Lig = birikimli emek. **Günlük lig tavanı yok.**
+- **Coin (test değerleri):** Klasik galibiyet 30 · berabere 12 · mağlubiyet 0
+  (`coin_mac_*`); Düello galibiyet 45 · mağlubiyet 0 (`coin_duello_galibiyet`) —
+  Düello daha uzun sürdüğü için daha çok verir. Lig puanı ayrı: Klasik 25/10/0.
+- **XP ve level (test değerleri):** Klasik 30/15/10, Düello 45/15 (galibiyet/
+  mağlubiyet), turnuva katılım 20 + ilk 3'e 50. Serbest ve Saf Bilgi'de XP tam.
+  Kaybeden ancak oynadıysa XP alır; kazanansız Düello'da iki tarafa 15 XP.
+  Grup maçı XP vermez. Level ligden ayrı,
+  kalıcı, sınırsız; herkes Level 1'den başladı (23 Eyl 2026). Gereken XP =
+  round(`level_xp_taban` + `level_xp_katsayi` × level^`level_xp_us`) = 60 + 0,5 ×
+  L^1,5. Level ödülü 20 coin; her 5 levelde 1 rastgele aktif skill hakkı; Lv 3/10/15/25/35/50'de Nadir avatar (1039); rütbe
+  atlamada 100 coin (bu coinler günlük tavana sayılmaz). Botların level'i
+  seviye puanından tohumlu türetilir, XP almaz.
+- **Rütbe level'e bağlı:** Çaylak L1 · Bilge L10 · Üstat L25 · Kahin L50 ·
+  **Dâhi** L100 (eski "Efsane" rütbesi; Efsane Lig ile karışmasın). Eski puan
+  eşikleri kullanım dışı. Lig (Bronz → Efsane) ayrı rekabet göstergesi.
+- Saf Bilgi/skillsiz Klasik, standart ödülün **%50**'sini
+  verir. Serbest ayrı kavramdır; iki indirim üst üste çarpılıp %25 olmaz.
+- Turnuva lig: 1. 150 · 2. 80 · 3. 40 · 4-10. 20 · diğer katılan 10.
+  Coin: 150/75/40 + katılana 10.
+- Günlük seri bonusu `least(gün×3, 15)`.
+- **Arkadaş daveti (335):** kalıcı kod + `/davet/KOD`. Davet edilen +100 coin ve otomatik arkadaş;
+  davet eden 300 coin, davet edilen **Level 5'e** ulaşınca. Aynı cihaz/IP ödülsüz (`gecersiz`), ayda
+  en çok 10 ödüllü davet (fazlası `sinir_asildi`). Lig puanı vermez. Eski `arkadas_davet_kodu_ile_ekle`
+  aynı iç mantığa bağlı (eski anında 200+200 kalktı).
+- İndirimler çarpılmaz: çift koruması / serbest / açık bot → en düşüğü uygulanır.
+- Çift koruması (1-5 tam, 6-10 %50, 11+ yok) lig puanına da uygulanır.
+- Günlük tavan 400 · başlangıç **10.000 (test; `baslangic_coin`)** · reklam 25
+  (günde 5). `coin_baslangic` (500) satırı DB'de durur ama okunmaz.
+- Eşya: sıradan 300–600, özel 1.200–2.500.
+- **İki para birimi (480, Ida — pay to win yok):** **coin** yalnız oynayarak kazanılır, parayla
+  satılmaz (coin paketleri pasif); jokerler coin'le. **Elmas** (`profiles.elmas`, defter
+  `elmas_hareketleri`; yazma yalnız sunucu `elmas_ekle`/`elmas_harca`) gerçek parayla + oyunla;
+  yalnız kozmetik alır. Elmas paketleri Avuç / Kese / Sandık / Hazine / Define = 100 / 220 / 500 /
+  1.100 / 2.400 taban + %0/10/15/20/30 bonus; satın alma kapalı (`elmas_satin_alma_acik = 0`,
+  "Yakında"); Play ürünleri `elmas_100…elmas_2400` sonra — `docs/YAYIN_ONCESI.md`. Oyunla elmas
+  (test): haftalık lig 1./2./3. 10/6/3 · turnuva birincisi 10 · her 10 level 20 · 7 günlük seri 5 ·
+  elmas kademeli rozet 5–20 · günde 1 elmas reklamı 2. Tahmin: düzenli bedava oyuncu ayda ~100–180.
+- **Maç sonu sahnesi tek ekran:** açıkken sayfa kaydırılmaz, alt menü gizli (`html.msk-acik`); eylem çubuğu sahnenin son
+  satırı; içerik yüksekliğe göre sıkışır; Detay ve ek içerik (sohbet, tepki, ses, hesap önerisi) açılır panelde. Lottie ve
+  konfeti maç biterken önceden iner, geç gelse de baştan oynar.
+- **Oyuncu adına dokununca profil kartı** (`OyuncuAdiDugmesi`), avatarla aynı; lig tablosu/arkadaş satırı zaten kartı açar.
+  Takılı isim efekti de buradan uygulanır. **Altın isim** (`isim_altin`) = "Işık Şeritli Altın" (Ida, 24 Eyl;
+  `IsimEfekti.jsx › AltinIsim` + `ekranlar/altin-isim.css`): parlak sarı harf + lacivert kontur + arkada ince yarı saydam
+  altın ışık (plaka değil); hareketli yerlerde ışık akar, liste/şeritte durağan. Önizleme aynı bileşeni çizer.
+- **Rakip arama ekranı "Güneş Halkası"** (Ida, 24 Eyl; `AramaSahnesi.jsx` → tembel `AramaGunesHalkasi.jsx`): gök mavisi,
+  ortada dönen halka + yörüngede avatarlar, süre, mod/Dereceli rozeti, "Biliyor muydun?" (TR/EN), VS `ARAMA_GECIS_MS`
+  (2 sn) içinde. Klasik, Saf Bilgi, Düello ve Grup araması; ada dokununca oyuncu kartı.
+- **Maç şeridinde ülke bayrağı (26 Eyl 2026):** oyuncu adının altındaki "Lv · lig" satırının başında (`SeviyeEtiketi` › `Bayrak`);
+  kaynak `profiles.ulke` (gizli botlar dahil aynı alan, `lib/oyuncuSeviye.js` toplu sorgu + önbellek); ülke yoksa bayrak çizilmez.
+  Klasik ve Düello'da iki oyuncu, Turnuva/Grup'ta kendi şeridin.
+- **Maç ekranları gök mavisi** (`.qt-sahne-gok`; koyu mor sahne yok): Hazır mısın?, Düello, Çalışma, bekleme, terk hâlleri.
+  Soru açıkken sayfa 100dvh sütun, kaydırmasız; joker + tepki hep görünür. **Klasik ailesi maç ekranı (11 Eki 2026, QuestionCard + m1-mac.css; ≥ 701 px yükseklik):** soru kartı içeriğe göre 150–210 px (yer daralırsa 120'ye iner), şık 58 px / harf 32 px / yazı 17 px; bant + "adil miydi?" ✓/✕ tek SABİT 44 px sonuç yuvasında (soru sırasında boş ama yer kaplar); bekleme yazısı akış dışında hap — cevaptan sonra kart/şıklar 0 px kayar; soru metni kaydırma çubuğu gizli, taşarsa alt solma (`data-tasar`); tepki düğmeleri joker çubuğunun altında tek satır; Turnuva "Hayatta kalanlar" tek satır yatay kayar. Ölçüm `araclar/klasik-mac-ekran.mjs` (taklit). Çok kısa alan (≤ 600 px yükseklik, ≈ iPhone Safari 375×553; Klasik/Grup/Turnuva `m1-mac.css`, Düello `DuelloPage.a.css`): kart 84 px'e iner, Sesli sohbet + tepki tek satır, joker hak yazısı gizli, Düello kategori fazı sıkışır — dört şık, joker çubuğu ve ≥ 3 kategori satırı ilk ekranda (ölçüm: gerçek 2–3 hesapla, `elementFromPoint`). Tek ekran düzeni masaüstünde de KISA pencerede (yükseklik ≤ 960 px, genişlikten bağımsız) çalışır — maç sayfası dikey taşmaz (1024×768 ölçüldü; Klasik/Grup/Turnuva `m1-mac.css`, Düello `DuelloPage.a.css`). Baykuş maskot oyundan tamamen çıktı (giriş: avatar üçlüsü, diğerleri ikon diski); Düello VS ~1,5 sn.
+- **Hata kurtarma:** `HataSiniri` Layout'ta rota içeriğini sarar (alt menü kalır), `tembelYukle` (1 yeniden deneme),
+  vite:preloadError'da bir kez yenile, "Bağlantı yok" şeridi. Dükkân alımları onay penceresiyle (`JokerSatinAlModal`);
+  misafir çıkışında uyarı (`CikisOnayi`); ağ hatası metni tek yerden (`hataMesaji`) ve hata TÜRÜNE göre ayrışır (`hata.js › hataTuru`: çevrimdışı / zaman aşımı / sunucu / sunucuya ulaşılamıyor; "İnternetini kontrol et" her hatada yazılmaz).
+  **Soğuk açılış (7 Eki 2026):** ilk çizim cihazdaki supabase oturumu + son profil kaydıyla (`AuthContext`, `qt_profil_onbellek`;
+  yenileme/profilim arka planda, başarısız yenilemede giriş ekranı); ana CSS `<head>`de `preload` (çizimi engellemez — başlatıcı
+  yüklerken bekler); Meydan + Klasik maç tembel, ama stilleri `BildimApp.jsx`'te eski sırasıyla ana pakette (tembel parçaya
+  geçen CSS global stillerin arkasına düşer, görünüm değişir). Ölçüm: `araclar/yukleme-suresi-olcum.mjs [--profil-onbellek]`.
+  **Meydan okuma kabulü:** davet eden başka maçın içinde değilse `meydan_kabul`/`duello_kabul` bildirimiyle doğrudan maça geçer (`BildirimToast`); kaçırılırsa Arkadaşlar satırında "Maç başladı · Maça gir".
+- **Ana sayfa "devam eden maçın var" kartı (28 Eyl 2026, `useDevamEdenMaclar` + `DevamEdenMaclarKarti`):**
+  ana sayfa açılır açılmaz (Oyna'ya basmadan), bütün modlarda (Klasik/Saf Bilgi, Düello, Grup, Turnuva)
+  aktif maçı olan oyuncuya "Oyna" sütununun en üstünde kart(lar) gösterir; "Devam et" ilgili maç
+  sayfasına götürür. Ayrı bir mekanizmadır, yalnız "Oyna"ya basınca soran `YarimMac.jsx`
+  pop-up'ının (Klasik) yerini almaz.
+- **Çevrimiçi durumu (590, Ida onaylı güvenlik kuralı) YALNIZ arkadaş listesinde:** Realtime Presence, her oyuncunun
+  özel kanalı `cevrimici-<uid>`; yalnız sahibi yazar, yalnız kabul edilmiş arkadaş okur; DB'ye yazım yok. Yeşil
+  "Çevrimiçi" / turuncu "Maçta", çevrimiçiler üstte, çevrimdışında gösterge yok. Arka planda kanaldan çıkılır.
+  Lig, oyuncu kartı, lobi gibi başka yerde gösterilmez.
+- **Turnuva ve Grup çıkış onayı:** çıkış düğmesi ve geri tuşu onay penceresi açar ("Oyunda kal" / "Çık"; Klasik/Düello ile aynı pencere).
+- **Terk kuralı (460, Ida):** maçın yarısında çıkan asla ödül almaz — 0 coin / XP / elmas, seri,
+  görev ve rozet ilerlemesi sayılmaz; kalan tam galibiyet alır. Bütün modlarda sunucuda: Klasik /
+  Saf Bilgi / Antrenman `mac_iptal` (başlamış maç) + kopukluk (kopma anından 60 sn — 1059; bot maçı da 60 sn nabızsız),
+  Düello `duellolar.terk_eden`, Grup `grup_mac_terk`, Turnuva `turnuva_terk` ("Çık ve elen");
+  10 dk duran maç ödülsüz iptal.
+- **Görsel revizyon oyunda (Ida seçimleri 25 Eyl 2026, tasarim/SECIMLER_GORSEL_REVIZYON.md; stil rehberi `/stil-rehberi`):**
+  lig çerçeveleri Set A "Defne ve Taç" (Altın = onaylı WebGL Altın Lig), level Set A "Altıgen Madalya", Turnuva Şampiyonu
+  "Kupa Tepesi" (`tasarim/kazanilan/`, tembel; ≤ 48 px siluetleri kutudan taşmaz), lig amblemi "Fasetli Yıldız"
+  (`premium/ligAmblemi.jsx`; ana pakette çizim kodu yok: `public/lig-amblem/*.svg` <img>, hareketli hâl tembel parça; üretici `araclar/lig-amblem/uret.mjs`), rozetler "Madalyon" (`tasarim/rozet/`: amblem × seviye + eşik rakamı), premium hizalama
+  (`premium/hizalama.js`), tek oyuncu kartı "Vitrin kartı" (`OyuncuVitrinKarti`: profil başı + oyuncu kartı penceresi;
+  küçük hâli lig satırı, VS, maç şeridi ≥ 420 px). Coin/elmas, logo, joker, nadirlik (Nadir yeşil · Epik mor) bulutta.
+  Adaylar `/gorsel-revizyon` sayfasında durur; çizim kaynağı oradaki `cizim/` dosyaları (tek kaynak).
+- **Unvan (643):** isim altında Kurdele. 12 unvan: 8'i rozete bağlı (türetilir), 4'ü lig olayı (haftalık kapanış). Aktif Dünya >
+  Ülke > Şehir Şampiyonluğu (647) takılı unvanın önüne geçer. Seçim Profil › Koleksiyon › Unvanlar. Sezon unvanları Battle Pass sezon sistemi gelene kadar gizli (bağlı değil). "Bin Galibiyet" (644): Antrenman hariç Klasik + Düello + Grup + Turnuva toplam galibiyet ≥ 1.000 (`unvan_galibiyet_esik`); `unvanlarim()` ve haftalık kapanış kontrol eder. Bronz Lig çerçevesi (`lig_bronz`) katalogda; bütün insan oyuncular kazanır (takılı çerçeve değişmez).
+  **Çerçevesiz oyuncu YOK (1049, Ida 10 Eki 2026):** `oyuncu_kartlari` takılı aktif çerçeve yoksa `lig_<lig>` (lig yoksa `lig_bronz`) + o çerçevenin
+  nadirliğini döndürür — gizli botlar dahil herkes; takılı başka çerçeve (level/turnuva/premium/eski lig) aynen kalır. Yalnız görünüm: sahiplik,
+  `takili_cerceve`, Koleksiyon Puanı değişmez. `lig_grubum_ozet` kartı okur; `davet_durumum.cerceve` aynı kurala bağlı.
+- **Rozetler (331–333, 641):** 102 rozet (`rozet_tanimlari`: level, Klasik/Düello galibiyet, seri, 10
+  kategori × 4 ustalık, turnuva, lig, özel an, sosyal, 5 gizli), kazanma sunucuda olay anında; coin
+  bronz 10 · gümüş 25 · altın 50 · elmas 100 (günlük tavana sayılmaz). Geriye dönük verilenler
+  coin'siz (`geriye_donuk`). Vitrin `profiles.vitrin_rozetleri` (en çok 3). Level 25/50/75/100
+  rozeti level çerçevesini de verir. Sözleşme `docs/SOZLESME_ROZET_CERCEVE.md`.
+- **Kozmetik katmanları (481, Ida):** **çerçeve** = kazanılan prestij, **asla satılmaz** (lig, level,
+  turnuva şampiyonu, etkinlik — Yılbaşı, Ramazan Bayramı); dükkânda görünmez, Profil › Koleksiyon'da
+  (kilitliler "nasıl kazanılır"la). **Arka Plan** (kod adı: `aura`; oyuncuya görünen ad — ekranda "aura" kelimesi geçmez, Ida 24 Eyl. Açıklama: "Arka Plan — avatarının arkasındaki hareketli sahne") = satılık tarz, avatarın arkasındaki tema katmanı; eski 12
+  dükkân çerçevesi auraya dönüştü (satırlar pasif durur), elmasla satılır: Sıradan 75 · Nadir 150 ·
+  Epik 300 · Efsanevi 600 (`aura_satin_al`, FOR UPDATE; coin yolu yok). Coin'le alınmış dükkân
+  çerçeveleri aynı temanın aurası olarak taşındı (1 hesap). Katman sırası aura → avatar → çerçeve,
+  hepsi `CerceveliAvatar` içinde (veri `oyuncu_kartlari` / `lig_grubum_ozet`). Sahiplik
+  `oyuncu_cerceveleri`, takılı `profiles.takili_cerceve`. Görünüm `oyun/tasarim/cerceveler/`;
+  önizleme `/kozmetik-onizleme`.
+  **552 (Ida, 24 Eyl): bütün dükkân auraları ve etkinlik çerçeveleri/auraları (Yılbaşı, Ramazan)
+  PASİF** (`aktif = false`) — dükkânda, koleksiyonda, oyunda ve botlarda görünmez; satır/sahiplik/takılı
+  kayıt silinmez, yeniden açmak için `aktif = true` yeter. Aktif çerçeveler: lig, level, turnuva şampiyonu.
+- **Elmas kozmetikleri (520/540–542/550, Ida):** aktif = Ida'nın önizleme seçimi — `kozmetikler.onay`
+  / dükkân `auralar.onay` = `'girsin'` (`/kozmetik-onizleme`), çerçeve tarzı `/cerceve-onizleme` seçimi.
+  İşaretsiz/`girmesin` her kalem PASİF: dükkânda, koleksiyonda, oyunda (`oyuncu_kartlari`) ve botlarda
+  görünmez, alınamaz/takılamaz; kayıt silinmez; kural dinamik (seçim değişince migration gerekmez).
+  `kozmetik_satis_acik = true` yalnız aktifleri satar; aura satışı bayraktan bağımsız, yalnız `girsin`
+  auralar. Türler: VS kartı (6 tema, 150), isim efekti (6, 100; kontrast ≥ 4,5), zafer efekti (5, 200;
+  rakip küçük görür), tepki paketi (2 × 4, 100). **Sahip test modu** yalnız aktif kalemlerde (satın
+  almadan takar). Gizli botlar yalnız aktif kalemlerden, bot kimliğinden sabit takar.
+  **Yeni avatarlar (katalog 39, oyunda 31 — Ida kararı, 649):** `avatar_katalogu` 27 (13 günlük + 14 kostümlü) + 12 yeni; KAPALI 8: Veteriner, Öğrenci, Sakallı, Kedili Genç, Fitness Kraliçesi, Demir Pazı, Kaslı Şampiyon, Android (`onay = girmesin`, `aktif = false`); çizim `AvatarProIllustrations2.jsx`,
+  `public/avatars/pro2/`; açık olanlar herkese ÜCRETSİZ: profil, kurulum ve Koleksiyon'da seçilir (Dükkân › Avatar 11 Eki 2026'dan beri yalnız coin/elmasla alınanları gösterir)
+  (`avatar_katalogu.aktif` yeter; `/avatar-onizleme` onayı bu karar için bakılmaz).
+  (550 dalda `bulut/kozmetik-aktivasyon` — canlıya uygulanınca geçerli; bkz. `docs/KOZMETIK_AKTIVASYON.md`.)
+- **Premium kozmetik (560, dal `bulut/premium-aktivasyon` — uygulanınca geçerli):** `kozmetikler` türleri
+  `premium_cerceve` (Sonbahar, Galaksi, Sakura; 500 elmas) ve `premium_aura` (yaprak, kar, köz, gece, kuzey, su altı;
+  300 elmas; avatarın İÇ zemini) — ayar `elmas_premium_cerceve/aura`, `kozmetik_satis_acik` kuralı, sahip test modu,
+  gizli bot takmaz, `kozmetik_ver` (etkinlik ödülü). Çizim `oyun/tasarim/premium/` (tembel), `CerceveliAvatar` karttaki
+  `premium_cerceve/premium_aura`'yı çizer (2. tur: pc_alev2/simsek2/kraliyet2 570, pc_ejderha2 580); hareket yalnız profil/lobi/VS/maç sonu, ≤48 px durağan. Lig amblemi
+  (`ligAmblemi.jsx`) oyuncu adının yanında her yerde. Eski dükkân auraları pasif.
+- **Battle Pass parlaması (1061 canlıda, Ida 11 Eki 2026; Avatar Prestij tümüyle kaldırıldı — coinle avatar geliştirme yok):** aktif sezonun
+  Battle Pass sahibinin avatarı, takılı avatar hangisi olursa olsun parlar; sezon biter ve yeni BP alınmazsa kalkar. Efekt avatar fotoğrafının İÇİNDE ara ara
+  çakan 4 köşeli beyaz yıldızlar (`src/styles.css › .av-parla`; halka/çerçeve değişmez; hareketi azaltta kapalı); HER YERDE, herkes görür (Düello dahil).
+  Yalnız ekrandaki avatarda katman açık (`src/lib/parlaGozcu.js`, tek IntersectionObserver). Kaynak `oyuncu_kartlari.bp_parlama` (= `sezon_bp`, aynı
+  `sezon_bp_gorunur`; gizli botta false; ek sorgu yok) ve `lig_grubum_ozet` satırları; CerceveliAvatar → Avatar `parla`. BP tanıtımında satır
+  "Avatarın sezon boyunca parlar". Test `araclar/bp-parlama-sql-testi.mjs` (ROLLBACK; `--canli` salt okuma) · `araclar/bp-parlama-ekran.mjs` (taklit).
+- **Avatar edinme = ilerleme (1039 canlıda, Ida 9 Eki 2026; 820–822'nin üstüne):** her avatarın TEK edinme yolu var, tek kaynak
+  `avatar_nitelikleri.edinme` (+ `edinme_level`, `edinme_sezon_seviye`): Yaygın 21 `ucretsiz` · Nadir 6 `level` (Lv 3 Kedili Kız · 10 Viking ·
+  15 Dedektif · 25 Şövalye · 35 Büyücü · 50 Kral; `xp_ver` level döngüsünde iç `level_avatar_ver` verir) · Nadir 2 `sezon` (Sezon Yolu
+  ÜCRETSİZ kol 10 Kovboy · 24 Korkuluk) · Nadir 9 `coin` (Dükkân, `coin_avatar_nadir` **750**, TEST) · Epik 20 / Efsanevi 10 `elmas`
+  (**150 / 300**, `elmas_avatar_<nadirlik>`, TEST). **Epik/Efsanevi level'dan ve ücretsiz koldan ASLA verilmez** (kısıt `avatar_nitelikleri_edinme_veri_check`).
+  Zaten sahip olunan level avatarı → `level_avatar_sahipse_coin` 200, Sezon Yolu avatar ödülü (iki kol) → `bp_avatar_sahipse_coin` 200 coin (tavan dışı).
+  Sahiplik isteyen avatarı seçmek SAHİPLİK ister (`avatar_onayla`; **sahip hesaba ayrıcalık yok**; botlar muaf). Sahiplik `oyuncu_avatarlari`
+  (kaynak dukkan | etkinlik | hediye | level), satın alma `avatar_satin_al` (coin ve elmas dalı; FOR UPDATE, `coin_harca`/`elmas_harca`, çift alım reddi,
+  kapı `kozmetik_satis_acik`), istemci durumu `avatar_sahiplik_durumu()` (+ edinme, edinme_level, edinme_sezon_seviye, bp_ucretli_seviye).
+  Kilitli avatara dokununca bütün ızgaralarda AYNI kısa kart (`components/AvatarEdinme.jsx`: "Lv 25'te açılır · sen Lv 12" / "Sezon Yolu · Ücretsiz kol ·
+  Seviye 10" / "750 coin · Al" / "150 elmas · Al" + "ya da Sezon Yolu · Seviye 19"); köşede edinme işareti (Lv · bayrak · coin · elmas). Profil level
+  alanında sıradaki 3 level ödülü (`LevelOdulleri`), maç sonu level atlamada avatar (`level_kazancim.avatarlar`). Koleksiyon Puanı avatarı
+  `avatar_nitelikleri` nadirliğiyle sayar. Geri alma `docs/avatar-edinme-1039-geri-al.sql`; test `araclar/avatar-edinme-1039-sql-testi.mjs` (ROLLBACK) ·
+  ekran `araclar/avatar-edinme-ekran.mjs` (taklit). Geçişte takılı avatarı kilitlenen insan hesaba `hediye`, eşiği geçmiş level'a `level` sahipliği.
+  Arka plan: `kozmetikler.dukkan_nadirlik` (Yıldızlı Gece nadir · Sonbahar, Su Altı, Yağan Kar epik; Yaygın yok) → fiyat
+  `elmas_arka_plan_<nadirlik>` **Nadir 100 · Epik 200 · Efsanevi 300**; `kozmetikler.nadirlik` (Koleksiyon Puanı, hepsi efsanevi) AYRI ve değişmedi.
+  Arka plan takılı değilse **lig arka planı**: `arka-plan/kayit.jsx` › `lig_<lig>` satırı — **çizimleri henüz yok**, o yüzden kart düz kalır.
+  Arka plan satışı testi: `node araclar/avatar-arkaplan-satis-sql-testi.mjs` (ROLLBACK) · ekran `node araclar/avatar-satis-ekran.mjs` (RPC taklitli).
+- **Cevap İmzası (1040 canlıda, Ida 10 Eki 2026):** doğru cevapta doğru şıkkın üstünde ~0,8–1,3 sn oynayan kişisel efekt; YALNIZ sahibi görür
+  (sunucuya/Realtime'a bir şey gitmez; takılı `profiles.takili_cevap_imzasi` authenticated'a açık değil, `oyuncu_kartlari`'nda yok; istemci
+  `profilim()`'den okur — `lib/cevapImzasi.js › useTakiliImza`). Yeni ses / pay-to-win / hareketi azalt sürümü yok. 5 ürün (`kozmetikler.tur = 'cevap_imzasi'`):
+  Neon Tik · Yıldız Patlaması (Nadir, **coin** `coin_cevap_imzasi_nadir` 750) · Bilgi Ampulü · Elektrik Akımı (Epik, elmas `elmas_cevap_imzasi_epik` 150) ·
+  Yanan Kart (Efsanevi, elmas `elmas_cevap_imzasi_efsanevi` 300) — fiyatlar TEST; para `icerik.para`. `kozmetik_satin_al` coin dalı (1039 deseni).
+  **Satış kapısı `cevap_imzasi_satis_acik` = true** (canlı DB, 10 Eki 2026, Ida onayı) → Dükkân › Efekt herkese açık; false yapılırsa yalnız sahip hesap görür (test modu);
+  Görsel kaynak `docs/cevap-imzasi-referans.txt` (maket birebir; Yanan Kart ızgara adımı 2 → 3 px, ImageData ile çizim —
+  performans, görünüm aynı). Ortak bileşen `components/CevapImzasi.jsx`: QuestionCard (Klasik/Saf Bilgi/Grup/Turnuva/Hatalarım), KasaPage (Savunma dahil),
+  **Düello v4'te OYNAMAZ** (Ida, 10 Eki 2026: v4 sonuç penceresinde güzel durmuyor; Duello4Arena'dan kaldırıldı). Dükkân kartında demo (`DukkanCevapImzasi.jsx`), Koleksiyon grubu. Zafer Efekti satışa açılmaz.
+  Geri alma `docs/cevap-imzasi-1040-geri-al.sql`; testler `araclar/cevap-imzasi-sql-testi.mjs` (ROLLBACK) · `araclar/cevap-imzasi-ekran.mjs` (taklit).
+- **Kart arka planı (30 Eyl 2026, Ida onayı):** `premium_aura` (Arka Plan) artık avatarın ARKASINDA değil oyuncu KARTININ arkasında çizilir
+  (`CerceveliAvatar` `premiumAura`'yı yok sayar; eski çizim `premium/sanatAuralar.jsx` durur). Yer: ana sayfa kompakt kart (hareketli), profil vitrin kartı
+  (hareketli), maç başı VS kartları (`VsKarti`, herkes kendi arka planıyla; Düello dahil), lig sayfasında yalnız kendi satırım (sabit), dükkân/koleksiyon
+  önizlemesi (örnek kart). Kod `oyun/tasarim/arka-plan/`: `kayit.jsx` › `KAYIT` (sanat anahtarı → bileşen; YENİ ARKA PLAN = TEK SATIR + kalemi `aktif=true`),
+  `KartArkaPlan.jsx` (Su Altı, Yağan Kar, Sonbahar) + `YildizliGeceArkaPlan.jsx`. Kaydı olmayan arka plan → düz kart. **Dört arka plan oyunda açık** (Yıldızlı Gece: migration 710, 30 Eyl 2026).
+  **Yükselen Köz ve Kuzey Işıkları girmez** (Ida, 30 Eyl 2026): dosyalar durur, `KAYIT`'ta yorumda, dükkânda kapalı (migration 690, `aktif=false`).
+  **YENİ mod (`tamGorunur`) oyunda HERKES için varsayılan** (Ida onayı, 30 Eyl 2026; `tamGorunur={false}` eski modu verir, önizlemedeki Yeni/Eski anahtarı bunu kullanır):
+  parçacıklar yazının/avatarın/çerçevenin ARKASINDA, okunabilirlik alanı ve maske yok, yazıya ince koyu gölge (`arka-plan-tam.css`); kar/yaprak yalnız aşağı iner, baloncuklar karışık, Gece 45 yıldız.
+  **Performans/dükkân (1 Eki 2026):** maliyet animasyon sayısıyla doğrusal → en küçük baloncuk/kar noktasında sallanma yok; ADAPTİF KALİTE (`KartArkaPlan › kaliteOlc`: kare süresi >22,5 ms ise parçacıkların %67'si, ≥30 ms ise %33'ü, `.abp[data-kalite]`, oturum boyu). Dükkân/Koleksiyon örnek kartları `grup="dukkan"`: en çok 2 kart TAM oynar (büyük önizleme önce), kalanı hafif; hareketi azalt/pil düşükte de yumuşak oynar (genel 3 kart sınırı orada kartları donduruyordu).
+  Kalıcı durgunlukta (hareketi azalt, pil düşük, 3 hareketli kart sınırı aşıldı, hareketsiz kart, lig satırı; sekme gizliyken değil) → ayrı çizilmiş özel sabit kompozisyon (`sabit-tasarim.jsx`: `kart` ~100 px yatay · `serit` lig satırı · `dikey` profil/maç başı ortalı kartlar).
+- **Maç içi tepki (542/551):** oyuncu tepkisi DB'ye yazılmaz; Realtime yayını yalnız o maçın iki
+  oyuncusuna açık ÖZEL kanalda (`tepki-mac-<id>` / `tepki-duello-<id>`, `realtime.messages` RLS ile
+  oyuncu1/oyuncu2; oyun kanalı ayrı ve değişmedi). 3 sn'de 1, maçta 10 (gönderen + alıcı); bedava
+  👏😎😅🤔. Açık modlar `tepki_acik_modlar` (Ida onaylayana dek yalnız `antrenman`; Klasik/Düello'ya
+  açılınca DB'ye yazan eski 6 emoji kaldırılacak). Bot tepkisi sunucudan %12 (`tepki_bot_olasilik`),
+  yalnız anlamlı anda: doğru serisi (`tepki_bot_seri` 3), maç sonu, rakip hatası. "Rakip tepkilerini
+  gizle" cihazda. Tepkinin açık olduğu modda eski DB'ye yazan emojiler gizli.
+- **Tasarım seçimleri (530/550):** `sahip_tasarim_secimleri` (konu → seçim, yalnız sahip yazar); ilk konu
+  `cerceve_tarzi` (cizgi / mucevher / isik) — seçim oyunda `cerceve_tarzi_aktif()` ile okunur: bugün
+  yalnız Altın Lig çerçevesi seçilen tarzda (aura takılıysa bugünkü); bütün çerçeveler ayrı pakette
+  yeniden çizilecek. Maç sonu: çerçevede taç varsa sahnenin taç emojisi gizli.
+- **Etkinlik eşyaları satılmaz** (Taç, Pelerin, Uzay Kıyafeti) — yalnız
+  turnuva ödülüdür. Dükkânda kilitli görünür.
+- **Dükkân sade (2 Eki 2026, Ida; migration 920 canlıda):** sekmeler — **Elmas · Joker · Avatar · Efekt** (Çerçeve sekmesi `ozellikBayraklari.js › DUKKAN_PREMIUM_CERCEVE_ACIK` ile kapalı;
+  Efekt yalnız katalogda Cevap İmzası varken görünür — 1040); açılış sekmesi Joker.
+  Tek kural ekranda yazar (kural şeridi): **jokerler, Nadir avatar ve imzalar coin'le, öteki kozmetikler elmasla** (1039/1040). Çerçeve = premium hareketli çerçeveler; Avatar ve İsim =
+  bütün avatarlar (coin'li Nadir + elmaslı Epik/Efsanevi satılır, level/Sezon Yolu avatarları edinme işaretiyle kilitli görünür; 1039) + Altın isim. Satılan kozmetik türleri tek kaynak `kozmetik.js › DUKKAN_TURLERI`. **Satılmayanlar:** VS kartı,
+  zafer efekti, tepki paketi (`kozmetikler.satis_pasif = true`; satır/sahiplik/takılı kayıt durur, sahibi Koleksiyon'da görür; geri açmak
+  `satis_pasif = false`), Kıyafet (gardırop dondurulmuş) ve Arka Plan (dondurulmuş) sekmeleri. **Tepki paketleri Battle Pass ödülüdür** (Sezon 1:
+  Eğlence seviye 3, Rekabet seviye 12 — ikisi de ücretli kolda; ücretsiz kola taşıma kararı açık). **Coin sekmesi yok** (ürün satmıyordu);
+  "Coin nasıl kazanılır?" notu ve ödüllü video Joker sekmesinin altında.
+- **Rakamları koda gömme.** Yayından sonra SQL ile değiştirilebilmeli.
+
+- **Başlangıç coin'i 10.000 kalır** (test). **Yayın günü işi:** `baslangic_coin`'i
+  gerçek değere düşür ve test sırasında dağıtılan coin'e (şişkin bakiyeler) karar ver.
+- **Başlangıç elması tek ayar (610):** `baslangic_elmas` = 10.000 (TEST; **yayında 150**) — yeni hesap ilk
+  girişte alır (`handle_new_user`; bot hesabı almaz). Test için mevcut insan hesapların bakiyesi 10.000'e
+  tamamlandı (defter `test` / `test_bakiye_baslangic`). Yayın günü: ayarı 150'ye çek, test elmaslarına karar ver.
+- **Yeni profil dili (610, D-203):** profil giriş ekranındaki dille doğar (misafir/e-posta kayıt verisi `dil`;
+  Google yönlendirmesinde cihazdaki `bildim_giris_dili` yeni hesaba bir kez yazılır). Mevcut profilin kayıtlı
+  dili ezilmez. Soru dili `profiles.dil` → `soru_dilinde` (aktif soruların ~12.700'ünün EN çevirisi var).
+- **Sigorta 30 · 2X 40 coin; 10'lu paket 255 / 340** (%15 indirim; migration 307,
+  `joker_paketleri.skill_sigorta_10` / `skill_cifte_puan_10`). Yalnız Klasik; Düello'ya
+  gelmez.
+- **Level hızı değişmez:** günde 10 maçla Level 100 ≈ 3,4 ay; katsayılara dokunulmaz.
+- **Maç içi "hak yoksa al ve kullan" kalır.**
+- **Paket 2 kuralları kabul:** oynamayan kaybedene XP yok · kazanansız Düello'da iki
+  tarafa 15 XP · level coini günlük tavanın dışında.
+- **Android paket adı `com.quiztactics.app`** (yayından sonra değiştirilemez):
+  `public/.well-known/assetlinks.json`; Play Console uygulaması ve `PLAY_PACKAGE_NAME`
+  secret'ı bu adla açılır. İmza parmak izi hâlâ yer tutucu.
+
+- **Tek kaynak: `oyun/tasarim/`** — token'lar (`--qt-*`, `tokenlar.css`), bileşenler (`Qt*`:
+  düğme, kart, mod kartı, şık, sayaç, can, skill, üst çubuk, alt menü, modal, toast…),
+  ikon seti (`Ikon.jsx`), hareket (`hareket.css/js`). Kılavuz `oyun/tasarim/OKU.md`,
+  canlı örnek `/tasarim-sistemi` (menüsüz; giriş + yalnız sahip — `SahipKapisi`). Ekran stilleri
+  `oyun/tasarim/ekranlar/<şerit>-*.css` ve `oyun/pages/*.a.css`; yalnız `qt-`/kendi önekli
+  sınıflar. Eski `tema.css`/`yeni.css`/`styles.css`'te yalnız hâlâ kullanılan kurallar kaldı.
+- Kontrast ≥ 4,5 (büyük ≥ 3), dokunma ≥ 44 px, etkileşim geri bildirimi ≤ 300 ms, yalnız
+  transform/opacity animasyonu. `prefers-reduced-motion` = **yumuşak hareket** (Ida, 24 Eyl): kozmetik
+  (çerçeve, aura, altın isim, elmas paketi, maç sonu) durmaz, 0,4 hızda oynar (`oyun/tasarim/yumusakHareket.js`,
+  WebGL ×0,4 ≤30 fps); yalnız ani çakma/flaş, sarsıntı, konfeti/patlama kapanır. Oyunun geri kalanında eski sade kural.
+- Maç ekranı koyu sahne (`.qt-sahne-mac`); `body.bd-oyun-modu` alt menüyü gizler.
+- Arayüz metni TR+EN: anahtar Türkçe metin; EN karşılıkları `oyun/lib/dil.js` +
+  şerit ekleri `oyun/lib/ceviri/*.js` (dil.js'e katılır).
+- Seçenekler sayfası `/tasarim-yonleri` (A/B/C) duruyor; silinmesine Ida karar verecek.
+- **Geliştirici/tasarım sayfaları girişsiz DEĞİL (26 Eyl 2026):** `/insan-prototip`, `/preview/*`, `/tasarim-yonleri`, `/tasarim-sistemi`,
+  `/kozmetik-onizleme`, `/mac-sonu-onizleme` giriş ister ve `SahipKapisi` (`sahip_mi()`) ile yalnız sahibe açılır (oturumsuz → giriş
+  ekranı, misafir/normal oyuncu → "Bu sayfa yalnız sahibe açık"). `bagimsizModul` yalnız Gizlilik + Koşullar. Bu adresler
+  robots.txt'te Disallow (kaynak `vite.config.js › ROBOTS_YASAK` + `public/robots.txt`). Yerel geliştirmede (.env yok) kapı atlanır.
+- **Önizleme sayfaları (menüde yok):** `/kozmetik-onizleme` (çerçeve + rozet), `/mac-sonu-onizleme`
+  (maç sonu sahnesinin 6 hâli; aynı sahne `MacSonuKutlama` 24 Eyl'den beri BÜTÜN modlarda canlı —
+  veri tek çağrı `mac_sonu_ozet`, sesler yalnız `ses.js › sesMacSonu`, terkte ödülsüz "Maçtan
+  ayrıldın" / "Rakip ayrıldı — galibiyet"; Turnuva/Grup'ta kendi derecen; `lottie-web` +
+  `canvas-confetti` maç sonunda tembel yüklenir — "yeni paket yok" kuralının Ida onaylı istisnası),
+  `/ses-secim` (kalıcı ses aracı, yalnız sahip), `/avatar-onizleme` (39 avatarın onayı verildi — 649; "Seçimlerimi kopyala" üç bölümü de kapsar),
+  `/ikon-onizleme` (4 uygulama ikonu adayı, yalnız sahip; hazır dosyalar
+  `public/ikon-aday/<ad>/` — oyunun ikonu onaya kadar değişmez),
+  `/cerceve-onizleme` (çerçeve tarzı A/B/C), `/kozmetik-onizleme` (kozmetik "satışa girsin" seçimi
+  yalnız sahipte), `/premium-onizleme` (8 hareketli premium çerçeve, 6 iç arka plan, altın isim plakası, lig
+  amblemi — yalnız önizleme, oyunda yok; Girsin/Girmesin tarayıcıda, "Seçimlerimi kopyala" ile iletilir)
+  — seçim sayfaları yalnız sahip yazar.
+- **Skill rozeti (`SkillRozeti`)** her yerde aynı: dükkân, loadout, maç çubuğu, maç içi satın alma,
+  maç sonu, envanter, level ödülü. Kabarık parlak rozet, renk token'ı `--qt-skill-<tur>`, sembol
+  Phosphor (MIT). Coin paketi görseli `CoinPaketGorseli` (Noto Emoji 3D, Apache 2.0). **Dış
+  kaynaklı her varlık `docs/VARLIK_LISANSLARI.md`'ye yazılır; ticari izni olmayan kullanılmaz.**
+- **Tam ekran oyun sahnesi `QtSahne` (1 Eki 2026, `oyun/tasarim/sahne/`; kılavuz OKU.md §12):** Sezon Yolu ve Görevler "web sayfası" değil sahnedir —
+  `useOyunModu` ile uygulama üst çubuğu + alt menü gizlenir, kök `position: fixed` 100dvh (sayfa gövdesi kaymaz), üst şerit [geri · başlık · coin hapı],
+  `ust` sabit alan, `alt` sabit eylem alanı (boşsa yok), tek kaydırılan bölge; giriş sağdan ~240 ms (içteki sarmalayıcıda; hareketi azaltta anında). Sahne kuralı:
+  tek odak, tek vurgu rengi (turuncu) + en çok 3 ton, kırmızı yok (hata şeridi kehribar), en çok 1 nabız. Sahnede coin hapı hedefi `QT_SAHNE_COIN_HAPI`.
+- **Ana sayfa telefonda HİÇ kaydırılmaz:** `AnaSayfaA` `<html>`e `.as-kaydirmasiz` koyar, kabuk
+  100dvh esnek sütun + overflow hidden + overscroll-behavior none; sahne kalan alanı doldurur,
+  kısa ekranda avatar küçülür (container query). Diğer sayfalar kaydırılır. Durum bantları (bildirim
+  şeridi, devam eden maç, acil) açılınca `useSigdir` 0→8 kademe sıkıştırır (`data-s1…s8`; hiçbir öğe
+  gizlenmez, lig kartı kabı artık kırpmaz). Profil gelmeden sayfa çizilir; oyuncu + lig kartı iskelet.
+- **Ana sayfa "oyun sahnesi" (8 Eki 2026, Ida onaylı eskiz):** zemin #BFDBF7 · metin #1F2A5C · turuncu
+  #EE7F45 YALNIZ Klasik (tek ana eylem) · Düello kırmızı #B93C3A beyaz yazı · Ortak Hazine hardal #D8A53A ·
+  turnuva sarı #F6CF5A, halo yok, KATIL yeşil #3FA568 · krem isim plakası #FFF3C9. Mod kartları kama ışın +
+  büyük figür (`ModFiguru`: rozet amblemleri soru/kılıçlar + sandık/şimşek/parıltı webp). Bildirim izni ana
+  sayfada tek satır şerit (`BildirimIzniSor serit`). Alt menü ikonları kalın lacivert kontur + dolu iç.
+- **Ana sayfa = seçenek A (lobi, kaydırmasız)** — `oyun/pages/anasayfa/AnaSayfaA.jsx`, veri `veri.jsx`,
+  parçalar `parcalar.jsx`. Sıra: kompakt oyuncu kartı (çerçeveli avatar, level + XP, lig, seri) → canlı
+  lig kartı (`lig_grubum_ozet`: üstümdeki 2 · ben · altımdaki 2, yükselme/düşme çizgisi, fark) → turnuva
+  şeridi (sarı zemin + kupa, KATIL yeşil; komşularla 12–14 px) → OYNA/DÜELLO (en çok 92 px) → kısayollar
+  (Meydan Okumalar · Grup Maçı · Saf Bilgi · Hatalarım) → **Sezon Yolu şeridi** (`SezonSeridi`, 1 Eki 2026) → görev şeridi. Lig kartı "Sıra 15/25".
+  Şerit: "Sezon N · Seviye X/28 · ilerleme · sıradaki ödül · X gün kaldı"; BP sahibi değilse altın "Battle Pass" çipi, alınabilir ödül varsa altın nokta + sayı;
+  bütün şerit tek bağlantı (/sezon-yolu); yalnız `sezon_yolu_durumum().acik` iken (test sezonu değil) çizilir; veri sezon_ozetim + sezon_yolu_durumum (yeni RPC yok).
+  Telefonda öncelik OYNA/DÜELLO > turnuva > Sezon şeridi > lig > kısayol > Görevler: ekran yüksekliği <700 px şerit ve Görevler gizli, 700–899 px şerit görünür/Görevler gizli
+  (Görevler avatar menüsünde), ≥900 px ikisi de; lig kartı ≤940 px'te en yakın 3 satıra iner. Masaüstü üç sütun. Coin yalnız üst çubukta. Eski `pages/Home.jsx`
+  ve B/C/seçim dosyaları duruyor, rotasız. Meydan Okumalar `/meydan`, Grup Maçı `/meydan?bolum=grup`.
+- **Tasarım skill'leri (proje içi):** `.claude/skills/impeccable` (pbakaus/impeccable; ikili
+  dosyası git'e girmez; otomatik hook YOK — denetim elle, `impeccable.cmd detect`) ve
+  `emil-design-eng` + hareket skill'leri (emilkowalski/skills). Ürün bağlamı `PRODUCT.md`.
+- Resmi marka işareti Q Logo Lab **03 Forward Pulse** Q'sudur + `QUIZ TACTICS` yazısı
+  (`Logo.jsx`); yeni logo ayrı iş, bekliyor.
+- **Masaüstü (≥ 1024 px, Ida 25 Eyl 2026):** yeni yan menü/panel YOK (telefon oyunu). Ana Sayfa (`.as-sayfa`) kendi masaüstü panelini
+  taşır; diğer bütün sayfalar tek ortalı sütun, genişlik tek token `--qt-sutun` (640 px, `tokenlar.css`; kural `a-kabuk.css` › `.a-icerik > :not(.as-sayfa)`).
+  **Tek istisna Dükkân:** `--qt-sutun-dukkan` 740 px (8 sekme TR 671 / EN 730 px ister; sekme çubuğu ≥ 1024'te 13 px yazı + 8 px dolgu). Maç ekranları (`body.bd-oyun-modu`) kendi 560 px sahnesini korur. Sütunun iki yanı: noktalı zemin + hafif yüzey bandı (yalnız zemin token'ları).
+  Alt menü yalnız < 850 px; masaüstünde üst çubuk menüsü var, sabit alt menü yok.
+- Baloo 2 başlık / Nunito gövde — **yerel paketli** (`public/fonts/`). Google Fonts YOK.
+- Oyun, bilgi yarışması gibi görünmeli; sakin/nötr "uygulama" estetiğine kaydırma.
+- **Mod anlatımı kısa (Ida, 7 Eki 2026):** mod giriş/tanıtım ekranları ve maç içi açıklama satırları = bir kısa başlık + en çok 2-3 kısa satır (~8 kelime). Ayrıntı yazılmaz; TR ve EN aynı kısalıkta (yeni EN anahtarları `ceviri/kisa-metin.js`). Düello tanıtımı puan modunda **en çok 5 adım** (`DuelloTanitim › P_ADIMLAR`: seçim · saldır/puan · hedef · renkler+kilit · jokerler; ban adımı yalnız bayrak açıkken). Ortak Hazine karar ekranı (9 Eki 2026): başlık, "Skor x/y" alt yazısı, ayrı hak satırı ve "Süre dolarsa DEVAM sayılır." YOK; DEVAM alt yazısı tek satır ("Sahipsiz kalır · Savunma Hakkı" / "Savunma Hakkı sende" / "Hazine sahipsiz kalır"); hazine tavandayken yalnız "Süre dolarsa otomatik AÇ sayılır." kalır
+- **Yeni oyuncunun ilk üç ekranı (11 Eki 2026):** Giriş (`src/pages/Login.jsx`) kartın altında "Seni neler bekliyor" — Klasik / Düello / Ortak Hazine vitrini (mod rengi + ışın + `ModFiguru`, ana sayfa vaat metinleri, tıklanmaz); 390×844 ve 360×780'de giriş düğmeleri ilk ekranda. Tanıtım (`Tanitim.jsx`, yalnız ilk girişte, `bildim_tanitim`) **4 kısa kart**: Klasik · Düello · Ortak Hazine · Lig ve turnuva (kupa); başlık + en çok 2 satır, sabit soru sayısı yazılmaz; Atla + noktalar aynı. Kurulum (`KurulumSihirbazi.jsx`) üstte canlı oyuncu kartı önizlemesi (avatar/“?” + takma ad/“Takma adın” + bayrak·şehir/“Şehrin”); alttaki küçük ad satırı kalktı; avatar ızgarasında önce seçilebilenler, sonra "Oynadıkça açılır" altında kilitliler (1039 edinme kartı aynı). Metinler `ceviri/ekran-giris3.js`. Ölçüm: `araclar/giris-kurulum-ekran.mjs` (sahte oturum, canlıya istek yok).
+- **Mod özel maç sonu (7 Eki 2026):** `MacSonuKutlama › modOzet` yuvası skorun altında, sahnede (Detay açılmadan). Düello v4 (11 Eki 2026): "Düello özeti" (`Duello4Arena › D4Ozet`; Sen/Rakip: "Kontrol N tur" + "En uzun seri ●●○ x/3", altta "Kontrol K kez el değiştirdi · T. turda bitti" / "Son Düello'da bitti"; veri `duello_durum.gecmis`, terkte yok). Eski puan modu: "Ele geçirilen kategoriler" (`DuelloTahta › HkEleGecenler`; Sen/Rakip kategori çipleri + x/4). Ortak Hazine: "Açılan hazineler" (`KasaPage › KasaAcilanlar`; kim kaç açtı, toplam puan, en büyük hazine + kim açtı; hiç açılmadıysa en yüksek değer). Veri `duello_durum.puan` / `kasa_durum.gecmis` — ek istek yok. Renk: Düello kırmızı çerçeve + beyaz zemin, Hazine altın çerçeve + açık altın zemin.
+- **Ortak maç akışı açık sahne (8 Eki 2026):** 3-2-1 açık gök + ışın, rakam rengi 3 kırmızı · 2 sarı · 1 yeşil (`MacHazirlik › GeriSayim`); Hazır VS kartı açık ışınlı + lacivert kontur; maç sonu (bütün modlar + terk) koyu bant/skor kutusu YOK — kazandı sıcak sarı + turuncu afiş, kaybetti/terk açık gök + beyaz afiş, berabere nane; afiş/skor/isim/ödül kartı kalın lacivert kontur. Maç akışında iptal düğmesi her yerde **"Vazgeç" + `QtDugme ikincil`**. VS ve maç şeridinde kimlik sırası tek: bayrak · Lv · lig amblemi (Düello şeridi bayrağı hâlâ gizliyor — `duello-tahta.css`, karar bekliyor).
+- **Düello v4 tur sonucu (11 Eki 2026, yalnız sunum):** sonuç paneli doldurur ve dikeyde ortalı; başlık 36 px (bitiş 40), alt yazı kendi renginde kenarlı beyaz hap 17 px; her kartın üstünde oyuncunun gerçek avatarı (çerçevesiz 80 px daire, halka sen mavi / rakip kırmızı) + 38 px Doğru/Yanlış/Yanıtsız rozeti, yanlış/yanıtsız avatar soluk; SON BASKI bandı kartların altında akışta (binmez); ≤ 700 px yükseklikte avatar 64, başlık 30.
+- **Bölüm başlıkları sade lacivert (Ida, 10 Eki 2026):** oyunun her yerinde bölüm başlığı `qt-baslik-3` lacivert yazı; altın/krem `qt-plaka` başlık olarak kullanılmaz (yalnız `/ekran-revizyon-onizleme`de duruyor). Büyük "Ödülü al (n)" / "Ödülleri al (n)" düğmeleri yeşil (`QtDugme tur="dogru"`; Görevler, Sezon Yolu, Tasma/Ödül sayfası) — OYNA turuncu, "Battle Pass al" altın.
+- **Maç zemini hiçbir fazda koyu değil:** `.qt-sahne-mac` kullanan her maç kökü `qt-sahne-gok` da taşır (kategori yokken gök mavisi, varken pastel); tek başına `.qt-sahne-mac` = eski koyu mor (yalnız koyu vitrin önizlemeleri). Denetim `araclar/koyu-zemin-tarama.mjs`.
+- **Oyun ekranı turu 2 (11 Eki 2026):** **Mesajlar** listesi: tarih düz soluk küçük yazı (sağ üst), okunmamış mavi rozet; altta "Arkadaşına yaz" şeridi (sohbeti olmayan arkadaşlar, avatar 56; hepsiyle sohbet varsa yok; kaynak `lib/arkadasListesi.js` = FriendsPage sorgusu). **Sohbet:** üst şeritte mavi "Oyna" → ModSecimPenceresi (ortak `lib/arkadasMaci.js › useArkadasaMacTeklifi`, Arkadaşlar ile aynı; engelli/koşulsuz/arkadaş değilken yok); Engelle + Şikâyet et tek "⋯" menüde. **Arkadaşlar:** satırda X yok — "Arkadaşlıktan çıkar" oyuncu kartının altında (`OyuncuKarti onArkadastanCikar`), avatar 56, satır ≤ 72 px. **Koleksiyon:** Görünümün kartı + katlanır Koleksiyon Puanı özeti + iç sekmeler Avatar · Çerçeve · Unvan · Efekt (ayrı Arka Plan sekmesi YOK — dondurulmuş), aynı anda tek ızgara, telefonda avatar ızgarası 4 sütun (~2.300 px). **Rozetler:** aile kartında kazanılanlar + sıradaki 1 hedef, kalanı "Tümünü gör (N)", gizliler tek "? N gizli rozet" kutusu (~2.770 px). **Meydan › Grup:** avatarlı 4 sütun rakip ızgarası + parti yuvaları (Sen + boş "?"), panel açıkken sticky meydan oku düğmesi gizli. **Hatalarım:** kahraman kart (kitap, büyük sayı, mavi "X/N öğrenildi", "İki kez doğru bil, bankadan çıksın"), "Hepsi (en çok 50)", sticky turuncu "Çalışmaya başla" + özet düğmenin içinde. Ölçüm ortamı `araclar/_taklit-kur.mjs` (yazma istekleri tarayıcıda kesilir).
+- **Oyun ekranı turu (Ida onaylı önce/sonra, 11 Eki 2026):**
+  **Modlar** (`/modlar`): afiş + Serbest/Dereceli + Kategori altında üç ANA mod ana sayfa mod kartı dilinde — mod rengi + açık kama ışın (`.qt-isin-sahne`) + büyük figür (`components/ModFiguru.jsx`, ana sayfa ile ORTAK; `mod-figur.css`). Klasik tam genişlik ~150 px (başlık 30 px), altında Düello + Ortak Hazine yan yana; alt yazılar "Jokerlerini kullan ve rakibini geç." · "Kontrolü al, 3/3 yap." · "Tek bil, hazineyi al, doğru anda aç.". Altında "Diğer modlar" (sade lacivert): Saf Bilgi · Turnuva · Grup Maçı 3 eşit küçük kart (ikon dairesi, ad 17 px, alt yazı yok, rozet Jokersiz/Her gün/Kur). "Arkadaşların ve sen" aynı. Ana sayfa Düello alt yazısı "Kontrolü al, 3/3 yap".
+  **Turnuva lobisi:** beyaz form kartı yerine turnuva sahnesi (`.m1-tv-sahne`): sarı #F6CF5A + ışın, 3 px lacivert kontur + 5 px dudak, 22 px köşe, 70 px krem daire içinde kupa, "HH:MM Turnuvası", geri sayım, 3 ödül kutusu (değerler `ayarlar()` › `coin_turnuva_1..3` + `elmas_turnuva_n` — ana sayfa şeridiyle aynı kaynak), **"Lobiye katıl" YEŞİL** (`tur="dogru"`); kalan turnuvalar + "nasıl işler" kartın altında küçük. Turnuva izleyici ve Grup Maçı aktifken oyun modu hep açık (çift başlık yok).
+  **Meydan Oku:** rakip kartında ayrı "Meydan oku" düğmesi YOK; karta dokunmak seçer (4 px mavi halka + mavi tik; son seçilen `localStorage qt_meydan_son_rakip`). Tek eylem altta, alt menünün hemen üstünde yapışık (sticky, fixed DEĞİL) turuncu düğme "⚔ {ad}'{a/e/ya/ye} meydan oku" + özet "Mod · Kategori · Serbest/Dereceli"; seçim yoksa pasif "Rakip seç". Ortak Hazine ikonu her yerde sandık (`QtModKart mod="kasa"`, mod seçim penceresi, davet bandı, bildirim).
+  **Görevler:** kartların altında öbür sekmenin sandık özeti (krem kart, ilerleme; dokununca o sekme) + "Yeni … görevler X sa Y dk sonra" hapı; kartlar ≥ 700 px yükseklikte ~250 px. **Dükkân Joker:** kural satırı yok, Paketler en üstte yatay vitrin (%84 kart, scroll-snap), tekli jokerler 2 sütun ızgara (açıklama kartta gizli, onay penceresinde), Efekt sekmesi şimşek ikonu.

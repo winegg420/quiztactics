@@ -106,7 +106,7 @@ function LigSatiri({ s, vurgu = false, sirIdx = -1, kapsam, benimId, bolge, sira
                   <TacIkon boyut={11} /> {tt("BP")}
                 </span>
               )}
-              {benMi && <SenRozeti />}
+              {benMi && <SenRozeti ad={s.gorunen_ad} />}
             </span>
             {/* 25 Eyl: unvan (tek oyuncu kartının küçük hâli; oyuncu_kartlari, avatarla aynı toplu çağrı).
                 2 Eki (satır sadeleştirme): rütbe/konumla AYNI satırda (lg-detay) — unvanı olan/olmayan
@@ -610,7 +610,7 @@ export default function LeaderboardPage() {
                             </span>
                           )}
                         </span>
-                        {p.user_id === user.id && <SenRozeti />}
+                        {p.user_id === user.id && <SenRozeti ad={p.gorunen_ad} />}
                         <span className="lg-podyum-puan qt-sayi"><SayanSayi deger={p.puan} /></span>
                       </button>
                     </li>

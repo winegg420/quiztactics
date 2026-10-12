@@ -176,3 +176,9 @@ yayınlanacaksa kırar — önce dağıtım kanalı kararı. Tam CSP (Supabase, 
 - Ek: `araclar/lig-gorsel-ekran.mjs`, `araclar/denetim-10eki-ekran.mjs` yeni profil kimlik satırına uyarlandı.
 
 Doğrulama: `npm run build` temiz · `arayuz-denetim` TEMİZ · `lig-gorsel-ekran --hizli` 5/5 temiz · `denetim-10eki-ekran` TR+EN profil adı bulundu, konsol temiz.
+
+## C — durum (11 Eki 2026, migration 1066)
+- **1053/1054 ile yapıldı:** DM + şikâyet görünmez karakter temizliği (C.4) · `tercih_kategori` CHECK (C.4) · arkadaşlık/Düello/Kasa daveti günlük tavan + aynı kişiye bekleme (C.5) · `cihaz_bildir`, `claim_referral`, `arkadas_davet_kodu_ile_ekle`, `kalp_at`, `ikram_yanitla` hız sınırı (C.3/C.5) · `esya/karakter/avatar3d_satin_al` profil kilidi (C.3) · Edge Function sabit zamanlı secret, `send-push` boş liste 400, `satin_alma_dogrula` 10/dk (kod; dağıtım sahibinde, C.6) · `vercel.json` nosniff + Referrer-Policy (Ek).
+- **1066 ile yapıldı:** `meydan_turnuva_damgasi` (C.3) sunucu kapısı `meydan_damga_acik` = 0 — Meydan dondurulmuşken elle çağrı coin vermez · `avatar3d_portre_kaydet` (C.4) URL deseni bu projenin kimliğine sabit.
+- **Atlandı:** `reklam_odulu_al` / `elmas_reklam_odulu_al` AdMob SSV (oyunda reklam yok).
+- **Kalan (karar/yetki gerekir, bu işte dokunulmadı):** A.2 captcha, A.3 yan oyun tabloları/skorları, A.4 `facebook_kimligi_kaydet`, A.5–A.8 PUBLIC/anon EXECUTE + `coin_harca` (yetki değişikliği → sahibine sorulur) · C.6 Edge Function dağıtımı (sahibinin kararı) · Ek: X-Frame-Options/CSP (dağıtım kanalı kararı).

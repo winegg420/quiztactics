@@ -6,6 +6,7 @@ import {
   LOADOUT_MODLARI,
   SKILL_SLOT_VARSAYILAN,
   SKILL_TANIMLARI,
+  jokerBilgi,
   skillSetiKaydet,
   skillSetiOku,
   skillSetiTemizle,
@@ -158,7 +159,7 @@ export default function SkillSeti({ macTur = "1v1", acikBaslar = false, onHazir 
               {s
                 ? <>
                     <SkillRozeti tur={s.id} boyut={40} />
-                    <span>{s.ad}</span>
+                    <span>{jokerBilgi(s.id, macTur).ad}</span>
                     <small className={adet(s.id) > 0 ? "qt-dk-seti-adet" : "qt-dk-seti-adet qt-dk-seti-adet--yok"}>
                       {adet(s.id) > 0 ? `×${adet(s.id)}` : tt("Hakkın yok")}
                     </small>
@@ -186,7 +187,7 @@ export default function SkillSeti({ macTur = "1v1", acikBaslar = false, onHazir 
                       disabled={kaydediliyor || kilitli} aria-pressed={aktif} onClick={() => degistir(id)}>
                 <SkillRozeti tur={id} boyut={36} />
                 <span>
-                  <b>{s.ad}</b>
+                  <b>{jokerBilgi(id, macTur).ad}</b>
                   <small>{s.aciklama}</small>
                   {s.yalnizDuello && <small>{tt("Yalnız Düello'da")}</small>}
                   <small className={adet(id) > 0 ? "qt-dk-seti-adet" : "qt-dk-seti-adet qt-dk-seti-adet--yok"}>

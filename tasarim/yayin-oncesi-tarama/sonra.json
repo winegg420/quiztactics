@@ -1,0 +1,317 @@
+{
+ "m1": {
+  "390-tr": {
+   "panelAcilisi_ms_kararBasindan": 82,
+   "ilkSayi": "7",
+   "ilkDegisim_ms": 991,
+   "sifir_ms_fazBitiseGore": 23,
+   "pasif_ms_fazBitiseGore": 23,
+   "sureDolduNotu": "Süre doldu · DEVAM",
+   "panelKapanis_ms_sifirdan": 174,
+   "panelKapanis_ms_fazBitiseGore": 197,
+   "sureDolduRpc_ms_fazBitiseGore": 150
+  },
+  "360-en": {
+   "panelAcilisi_ms_kararBasindan": 526,
+   "ilkSayi": "7",
+   "ilkDegisim_ms": 491,
+   "sifir_ms_fazBitiseGore": 31,
+   "pasif_ms_fazBitiseGore": 31,
+   "sureDolduNotu": "Time's up · KEEP",
+   "panelKapanis_ms_sifirdan": 178,
+   "panelKapanis_ms_fazBitiseGore": 209,
+   "sureDolduRpc_ms_fazBitiseGore": 160
+  },
+  "ac-1de": {
+   "kabul": true,
+   "karar": true,
+   "kabul_ms_fazBitiseGore": -907
+  }
+ },
+ "m2": {
+  "390-tr": {
+   "yuklenirken": {
+    "not": "Yükleniyor…",
+    "dugme": "Yükleniyor…10 soru · Tümü",
+    "pasif": true
+   },
+   "sonra": {
+    "not": "Bu tur: 10 sorunun hepsi bankandan.",
+    "dugme": "Çalışmaya başla10 soru · Tümü",
+    "pasif": false
+   }
+  },
+  "360-en": {
+   "yuklenirken": {
+    "not": "Loading…",
+    "dugme": "Loading…10 questions · All",
+    "pasif": true
+   },
+   "sonra": {
+    "not": "This round: all 10 questions come from your bank.",
+    "dugme": "Start studying10 questions · All",
+    "pasif": false
+   }
+  }
+ },
+ "m6": {
+  "390-tr": [
+   {
+    "ad": "Sen",
+    "metinSag": 55.4,
+    "hapSol": 85,
+    "binme": -29.6,
+    "tasma": false
+   },
+   {
+    "ad": "Rakip",
+    "metinSag": 68.5,
+    "hapSol": 85,
+    "binme": -16.5,
+    "tasma": false
+   }
+  ],
+  "360-en": [
+   {
+    "ad": "You",
+    "metinSag": 54.7,
+    "hapSol": 105.8,
+    "binme": -51.1,
+    "tasma": false
+   },
+   {
+    "ad": "Opponent",
+    "metinSag": 97.8,
+    "hapSol": 105.8,
+    "binme": -8,
+    "tasma": false
+   }
+  ]
+ },
+ "m7": {
+  "390-tr": [
+   "24 Eyl",
+   "20 Eyl"
+  ],
+  "360-en": [
+   "24 Sept",
+   "20 Sept"
+  ]
+ },
+ "m10": {
+  "390-tr": "Sıradaki soru geliyor…",
+  "360-en": "Next question coming…"
+ },
+ "m12": {
+  "390-tr": {
+   "url": "/meydan?bolum=grup",
+   "grupPanelUstte": null
+  },
+  "360-en": {
+   "url": "/meydan?bolum=grup",
+   "grupPanelUstte": null
+  }
+ },
+ "m13": {
+  "klasik-sonrasi": "klasik"
+ },
+ "m3": {
+  "390-tr": {
+   "lvOnce": [
+    "Lv 29",
+    "Lv 12"
+   ],
+   "lvSonra": [
+    "Lv 30",
+    "Lv 12"
+   ]
+  },
+  "360-en": {
+   "lvOnce": [
+    "Lv 29",
+    "Lv 12"
+   ],
+   "lvSonra": [
+    "Lv 30",
+    "Lv 12"
+   ]
+  }
+ },
+ "m9": {
+  "klasik-390-tr": {
+   "ornek": 125,
+   "kabukGorunenOrnek": 0,
+   "kabukGorunenMs": 0,
+   "kutlamaAcildi": true
+  },
+  "hazine-390-tr": {
+   "ornek": 160,
+   "finalGoruldu": true,
+   "kabukGorunenOrnek": 0,
+   "kabukGorunenMs": 0,
+   "kutlamaAcildi": true
+  },
+  "klasik-360-en": {
+   "ornek": 125,
+   "kabukGorunenOrnek": 0,
+   "kabukGorunenMs": 0,
+   "kutlamaAcildi": true
+  },
+  "hazine-360-en": {
+   "ornek": 161,
+   "finalGoruldu": true,
+   "kabukGorunenOrnek": 0,
+   "kabukGorunenMs": 0,
+   "kutlamaAcildi": true
+  }
+ },
+ "m14": {
+  "502x794-en": {
+   "vh": 794,
+   "cubukAlt": 778,
+   "enAltYazi": 773,
+   "disari": [],
+   "yatay": 0
+  },
+  "502x794-en-uzun": {
+   "vh": 794,
+   "cubukAlt": 778,
+   "enAltYazi": 773,
+   "disari": [],
+   "yatay": 0
+  },
+  "390x844-tr-uzun": {
+   "vh": 844,
+   "cubukAlt": 828,
+   "enAltYazi": 823,
+   "disari": [],
+   "yatay": 0
+  },
+  "360x780-en-uzun": {
+   "vh": 780,
+   "cubukAlt": 764,
+   "enAltYazi": 759,
+   "disari": [],
+   "yatay": 0
+  },
+  "360x640-tr": {
+   "vh": 640,
+   "cubukAlt": 624,
+   "enAltYazi": 619,
+   "disari": [],
+   "yatay": 0
+  }
+ },
+ "m15": {
+  "lobi": {
+   "iskeletSure_ms": 442,
+   "toplam_ms": 1392,
+   "turnuvaIstekleri": [
+    {
+     "yol": "tournaments",
+     "t": 765
+    },
+    {
+     "yol": "tournaments",
+     "t": 765
+    },
+    {
+     "yol": "tournament_players",
+     "t": 1075
+    },
+    {
+     "yol": "tournaments",
+     "t": 1388
+    },
+    {
+     "yol": "tournaments",
+     "t": 1388
+    }
+   ]
+  },
+  "yok": {
+   "iskeletSure_ms": 552,
+   "toplam_ms": 1435,
+   "turnuvaIstekleri": [
+    {
+     "yol": "tournaments",
+     "t": 799
+    },
+    {
+     "yol": "tournaments",
+     "t": 799
+    },
+    {
+     "yol": "tournament_players",
+     "t": 1109
+    },
+    {
+     "yol": "tournaments",
+     "t": 1418
+    },
+    {
+     "yol": "tournaments",
+     "t": 1418
+    },
+    {
+     "yol": "tournaments",
+     "t": 1436
+    },
+    {
+     "yol": "tournaments",
+     "t": 1437
+    }
+   ]
+  }
+ },
+ "m11": {
+  "390-tr": {
+   "/arkadaslar": {
+    "once": 900,
+    "sonra": 0,
+    "yol": "/arkadaslar"
+   },
+   "/siralama": {
+    "once": 900,
+    "sonra": 0,
+    "yol": "/siralama"
+   },
+   "/meydan": {
+    "once": 900,
+    "sonra": 0,
+    "yol": "/meydan"
+   }
+  },
+  "360-en": {
+   "/arkadaslar": {
+    "once": 900,
+    "sonra": 0,
+    "yol": "/arkadaslar"
+   },
+   "/siralama": {
+    "once": 900,
+    "sonra": 0,
+    "yol": "/siralama"
+   },
+   "/meydan": {
+    "once": 900,
+    "sonra": 0,
+    "yol": "/meydan"
+   }
+  }
+ },
+ "m5": {
+  "390-tr": [
+   "Kontrolü al, üst üste 3 doğru yap, düelloyu kazan.",
+   "İkinize aynı soru gelir. Yalnız biriniz bilirse kontrol onda olur.",
+   "Kontrol sende: 4 karttan birini rakibe gönderir, birini kendine seçersin. Her biriniz kendi kategorinizin sorusunu cevaplarsınız.",
+   "Tur sınırına ya da art arda 5 nötr soruya gelinirse Son Düello başlar: aynı soru, joker yok, tek bilen kazanır."
+  ],
+  "360-en": [
+   "Take control, get 3 correct in a row, win the duel.",
+   "You both get the same question. If only one of you knows it, that player takes control.",
+   "With control, you send one of 4 cards to your opponent and pick another for yourself. Each of you answers your own category's question.",
+   "If the round limit or 5 neutral questions in a row is reached, the Last Duel starts: same question, no jokers, the sole correct answer wins."
+  ]
+ }
+}

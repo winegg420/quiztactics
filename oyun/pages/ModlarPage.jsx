@@ -157,7 +157,8 @@ export default function ModlarPage() {
             ad={tt("Grup Maçı")}
             rozet={tt("Kur")}
             aria-label={`${tt("Grup Maçı")} — ${tt("3–5 arkadaş · ödülsüz. Aynı sorularda eğlencesine yarış.")}`}
-            onClick={sec(() => navigate(y("/meydan")))}
+            // Yayın öncesi tarama (11 Eki 2026): grup kurulum paneli açık gelsin (1'e 1 Meydan Oku değil)
+            onClick={sec(() => navigate(y("/meydan?bolum=grup")))}
           />
         </div>
       </section>

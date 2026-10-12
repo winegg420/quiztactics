@@ -8,6 +8,7 @@ import SenRozeti from "../components/SenRozeti.jsx";
 import YanlisSatiri from "../components/YanlisSatiri.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
+import MacOzetSatiri from "../components/MacOzetSatiri.jsx";
 import SureDolduGecis from "../components/SureDolduGecis.jsx";
 import MacSonuKutlama from "../components/MacSonuKutlama.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
@@ -15,7 +16,7 @@ import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useGeriTusuOnayi } from "../lib/geriTusuOnayi.js";
-import { useOyunModu } from "../lib/oyunModu.js";
+import { useOyunModu, useMacSonuGecisi } from "../lib/oyunModu.js";
 import { soruCek } from "../lib/soruCek.js";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
@@ -413,6 +414,7 @@ export default function GroupMatchPage() {
 
   // Aktif maç her durumda (sorular arası, bekleme) maç şeridini çizer: oyun modu açık kalır, çift başlık olmaz (11 Eki 2026).
   useOyunModu(mac?.durum === "aktif");
+  useMacSonuGecisi(mac?.durum === "bitti");   // 11 Eki 2026: "Maç bitti!" perdesi kutlamaya dek oyun modunda
 
   // Ida (24 Eyl): maç sürerken geri tuşu da çıkış onayını açar (lobi/bekleme, bitmiş ya da terk edilmiş maç hariç).
   const grupKatilimim = (mac?.katilimcilar ?? []).find((k) => k.user_id === user?.id);
@@ -479,7 +481,7 @@ export default function GroupMatchPage() {
               </AvatarDugmesi>
             </span>
           }
-          baslik={<><OyuncuAdiDugmesi userId={k.user_id} profil={k.profil}>{k.profil?.gorunen_ad}</OyuncuAdiDugmesi>{k.user_id === user.id && <SenRozeti />}</>}
+          baslik={<><OyuncuAdiDugmesi userId={k.user_id} profil={k.profil}>{k.profil?.gorunen_ad}</OyuncuAdiDugmesi>{k.user_id === user.id && <SenRozeti ad={k.profil?.gorunen_ad} />}</>}
           sag={sag(k)}
         />
       ))}
@@ -628,6 +630,7 @@ export default function GroupMatchPage() {
         gorevler={sahneVeri.gorevler}
         rozetler={sahneVeri.rozetler}
         detayRozet={yanlisAdet}
+        modOzet={<MacOzetSatiri kaynak={`grup:${id}`} />}
         detay={
           <>
             {oyuncuListesi(siraliSkor, (k) => <b className="qt-sayi">{k.skor}</b>, true)}
@@ -698,7 +701,7 @@ export default function GroupMatchPage() {
             <span className="m1-grup-sira" aria-hidden="true">{i + 1}</span>
             <AvatarCerceve profile={k.profil} boyut={30} userId={k.user_id} />
             {/* Ajan C: ada dokununca oyuncu kartı (düğme satırda adın yerini alır: esnek) */}
-            <OyuncuAdiDugmesi userId={k.user_id} profil={k.profil} className="m1-grup-ad" dugmeSinifi="ls-ad-dugme--esnek">{adKisalt(k.profil?.gorunen_ad)}{k.user_id === user.id && <SenRozeti />}</OyuncuAdiDugmesi>
+            <OyuncuAdiDugmesi userId={k.user_id} profil={k.profil} className="m1-grup-ad" dugmeSinifi="ls-ad-dugme--esnek">{adKisalt(k.profil?.gorunen_ad)}{k.user_id === user.id && <SenRozeti ad={k.profil?.gorunen_ad} />}</OyuncuAdiDugmesi>
             {balonlar[k.user_id] && (
               <span className={`m1-balon${k.user_id === user.id ? "" : " m1-balon--rakip"} m1-grup-balon`}>
                 {balonIcerik(balonlar[k.user_id])}

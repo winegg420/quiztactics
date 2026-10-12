@@ -1,0 +1,239 @@
+{
+ "uretim": "2026-10-11T17:31:27.542Z",
+ "adres": "http://localhost:5191",
+ "canliIstek": 0,
+ "ayarlar": {
+  "KART_SN": 10,
+  "DUYURU_MS": 900,
+  "CEVAP_SN": 15,
+  "PAYI_MS": 1500,
+  "SECIM_PAY_MS": 3000,
+  "CRON_MS": 2000
+ },
+ "senaryolar": [
+  {
+   "senaryo": "a",
+   "secimSn": 1,
+   "sinyal": true,
+   "acilisFoto": true,
+   "olaylar": [
+    {
+     "an": 0,
+     "olay": "kart_ac"
+    },
+    {
+     "an": 1991,
+     "olay": "gonder",
+     "adimSn": 1.09
+    },
+    {
+     "an": 3949,
+     "olay": "sec",
+     "adimSn": 1.06
+    },
+    {
+     "an": 3949,
+     "olay": "soru_ac",
+     "faz_bitis": 1791739806926
+    }
+   ],
+   "sunucuSoruAc_ms": 3949,
+   "ilkCevapOkumasi_ms": 6,
+   "panelGorundu_ms": 22,
+   "soruDom_ms": 2019,
+   "soruGorundu_ms": 2183,
+   "sayac": 15,
+   "gercekKalan_ms": 14317,
+   "oyuncuyaKalan_ms": 14317,
+   "soruSuresindenYenen_ms": 683,
+   "sayacIzi": [
+    {
+     "ms": 0,
+     "s": "15"
+    },
+    {
+     "ms": 356,
+     "s": "14"
+    },
+    {
+     "ms": 1357,
+     "s": "13"
+    },
+    {
+     "ms": 2358,
+     "s": "12"
+    }
+   ],
+   "konsolHata": []
+  },
+  {
+   "senaryo": "b",
+   "secimSn": 8,
+   "sinyal": true,
+   "acilisFoto": true,
+   "olaylar": [
+    {
+     "an": 0,
+     "olay": "kart_ac"
+    },
+    {
+     "an": 8966,
+     "olay": "gonder",
+     "adimSn": 8.07
+    },
+    {
+     "an": 17932,
+     "olay": "sec",
+     "adimSn": 8.07
+    },
+    {
+     "an": 17932,
+     "olay": "soru_ac",
+     "faz_bitis": 1791739830878
+    }
+   ],
+   "sunucuSoruAc_ms": 17932,
+   "ilkCevapOkumasi_ms": 7,
+   "panelGorundu_ms": 21,
+   "soruDom_ms": 2022,
+   "soruGorundu_ms": 2139,
+   "sayac": 15,
+   "gercekKalan_ms": 14361,
+   "oyuncuyaKalan_ms": 14361,
+   "soruSuresindenYenen_ms": 639,
+   "sayacIzi": [
+    {
+     "ms": 0,
+     "s": "15"
+    },
+    {
+     "ms": 390,
+     "s": "14"
+    },
+    {
+     "ms": 1385,
+     "s": "13"
+    },
+    {
+     "ms": 2391,
+     "s": "12"
+    }
+   ],
+   "konsolHata": []
+  },
+  {
+   "senaryo": "c",
+   "secimSn": null,
+   "sinyal": true,
+   "acilisFoto": true,
+   "olaylar": [
+    {
+     "an": 0,
+     "olay": "kart_ac"
+    },
+    {
+     "an": 14006,
+     "olay": "gonder_oto",
+     "adimSn": 13.11,
+     "kaynak": "okuma"
+    },
+    {
+     "an": 28009,
+     "olay": "sec_oto",
+     "adimSn": 13.1
+    },
+    {
+     "an": 28009,
+     "olay": "soru_ac",
+     "faz_bitis": 1791739864949,
+     "kaynak": "okuma"
+    }
+   ],
+   "sunucuSoruAc_ms": 28009,
+   "ilkCevapOkumasi_ms": 0,
+   "panelGorundu_ms": 16,
+   "soruDom_ms": 2022,
+   "soruGorundu_ms": 2153,
+   "sayac": 15,
+   "gercekKalan_ms": 14347,
+   "oyuncuyaKalan_ms": 14347,
+   "soruSuresindenYenen_ms": 653,
+   "sayacIzi": [
+    {
+     "ms": 0,
+     "s": "15"
+    },
+    {
+     "ms": 384,
+     "s": "14"
+    },
+    {
+     "ms": 1368,
+     "s": "13"
+    },
+    {
+     "ms": 2372,
+     "s": "12"
+    }
+   ],
+   "konsolHata": []
+  },
+  {
+   "senaryo": "d",
+   "secimSn": null,
+   "sinyal": false,
+   "acilisFoto": true,
+   "olaylar": [
+    {
+     "an": 0,
+     "olay": "kart_ac"
+    },
+    {
+     "an": 13920,
+     "olay": "gonder_oto",
+     "adimSn": 13.02,
+     "kaynak": "okuma"
+    },
+    {
+     "an": 27916,
+     "olay": "sec_oto",
+     "adimSn": 13.1
+    },
+    {
+     "an": 27916,
+     "olay": "soru_ac",
+     "faz_bitis": 1791739898841,
+     "kaynak": "okuma"
+    }
+   ],
+   "sunucuSoruAc_ms": 27916,
+   "ilkCevapOkumasi_ms": 0,
+   "panelGorundu_ms": 12,
+   "soruDom_ms": 2012,
+   "soruGorundu_ms": 2129,
+   "sayac": 15,
+   "gercekKalan_ms": 14371,
+   "oyuncuyaKalan_ms": 14371,
+   "soruSuresindenYenen_ms": 629,
+   "sayacIzi": [
+    {
+     "ms": 0,
+     "s": "15"
+    },
+    {
+     "ms": 400,
+     "s": "14"
+    },
+    {
+     "ms": 1402,
+     "s": "13"
+    },
+    {
+     "ms": 2403,
+     "s": "12"
+    }
+   ],
+   "konsolHata": []
+  }
+ ]
+}

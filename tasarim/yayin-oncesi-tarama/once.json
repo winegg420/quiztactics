@@ -1,0 +1,316 @@
+{
+ "m2": {
+  "390-tr": {
+   "yuklenirken": {
+    "not": "Bankan temiz — bu bir pratik turu: 10 yeni soru.",
+    "dugme": "Pratik turuna başla10 soru · Tümü",
+    "pasif": false
+   },
+   "sonra": {
+    "not": "Bu tur: 10 sorunun hepsi bankandan.",
+    "dugme": "Çalışmaya başla10 soru · Tümü",
+    "pasif": false
+   }
+  },
+  "360-en": {
+   "yuklenirken": {
+    "not": "Your bank is clear — this is a practice round: 10 new questions.",
+    "dugme": "Start practice round10 questions · All",
+    "pasif": false
+   },
+   "sonra": {
+    "not": "This round: all 10 questions come from your bank.",
+    "dugme": "Start studying10 questions · All",
+    "pasif": false
+   }
+  }
+ },
+ "m7": {
+  "390-tr": [
+   "24 Eyl",
+   "20 Eyl"
+  ],
+  "360-en": [
+   "24 Eyl",
+   "20 Eyl"
+  ]
+ },
+ "m12": {
+  "390-tr": {
+   "url": "/meydan",
+   "grupPanelUstte": null
+  },
+  "360-en": {
+   "url": "/meydan",
+   "grupPanelUstte": null
+  }
+ },
+ "m13": {
+  "klasik-sonrasi": "kasa"
+ },
+ "m1": {
+  "390-tr": {
+   "panelAcilisi_ms_kararBasindan": 154,
+   "besteBekleme_ms": 2819,
+   "sifir_ms_fazBitiseGore": 53,
+   "pasif_ms_fazBitiseGore": null,
+   "sureDolduNotu": null,
+   "panelKapanis_ms_sifirdan": 3977,
+   "panelKapanis_ms_fazBitiseGore": 4030,
+   "sureDolduRpc_ms_fazBitiseGore": null
+  },
+  "360-en": {
+   "panelAcilisi_ms_kararBasindan": 454,
+   "besteBekleme_ms": 2529,
+   "sifir_ms_fazBitiseGore": 32,
+   "pasif_ms_fazBitiseGore": null,
+   "sureDolduNotu": null,
+   "panelKapanis_ms_sifirdan": 4005,
+   "panelKapanis_ms_fazBitiseGore": 4037,
+   "sureDolduRpc_ms_fazBitiseGore": null
+  },
+  "ac-1de": {
+   "kabul": true,
+   "karar": true,
+   "kabul_ms_fazBitiseGore": -908
+  }
+ },
+ "m6": {
+  "390-tr": [
+   {
+    "ad": "Sen",
+    "metinSag": 55.4,
+    "hapSol": 86,
+    "binme": -30.6,
+    "tasma": false
+   },
+   {
+    "ad": "Rakip",
+    "metinSag": 68.5,
+    "hapSol": 86,
+    "binme": -17.5,
+    "tasma": false
+   }
+  ],
+  "360-en": [
+   {
+    "ad": "You",
+    "metinSag": 54.7,
+    "hapSol": 86,
+    "binme": -31.3,
+    "tasma": false
+   },
+   {
+    "ad": "Opponent",
+    "metinSag": 97.8,
+    "hapSol": 86,
+    "binme": 11.8,
+    "tasma": true
+   }
+  ]
+ },
+ "m10": {
+  "390-tr": "Deniz cevaplayınca soru geçecek…",
+  "360-en": "The question moves on when Deniz answers…"
+ },
+ "m11": {
+  "390-tr": {
+   "/arkadaslar": {
+    "once": 900,
+    "sonra": 900,
+    "yol": "/arkadaslar"
+   },
+   "/siralama": {
+    "once": 900,
+    "sonra": 900,
+    "yol": "/siralama"
+   },
+   "/meydan": {
+    "once": 900,
+    "sonra": 493,
+    "yol": "/meydan"
+   }
+  },
+  "360-en": {
+   "/arkadaslar": {
+    "once": 900,
+    "sonra": 900,
+    "yol": "/arkadaslar"
+   },
+   "/siralama": {
+    "once": 900,
+    "sonra": 900,
+    "yol": "/siralama"
+   },
+   "/meydan": {
+    "once": 900,
+    "sonra": 556,
+    "yol": "/meydan"
+   }
+  }
+ },
+ "m3": {
+  "390-tr": {
+   "lvOnce": [
+    "Lv 29",
+    "Lv 12"
+   ],
+   "lvSonra": [
+    "Lv 29",
+    "Lv 12"
+   ]
+  },
+  "360-en": {
+   "lvOnce": [
+    "Lv 29",
+    "Lv 12"
+   ],
+   "lvSonra": [
+    "Lv 29",
+    "Lv 12"
+   ]
+  }
+ },
+ "m9": {
+  "klasik-390-tr": {
+   "ornek": 125,
+   "kabukGorunenOrnek": 14,
+   "kabukGorunenMs": 700,
+   "kutlamaAcildi": true
+  },
+  "hazine-390-tr": {
+   "ornek": 160,
+   "finalGoruldu": true,
+   "kabukGorunenOrnek": 75,
+   "kabukGorunenMs": 3750,
+   "kutlamaAcildi": true
+  },
+  "klasik-360-en": {
+   "ornek": 124,
+   "kabukGorunenOrnek": 14,
+   "kabukGorunenMs": 700,
+   "kutlamaAcildi": true
+  },
+  "hazine-360-en": {
+   "ornek": 162,
+   "finalGoruldu": true,
+   "kabukGorunenOrnek": 77,
+   "kabukGorunenMs": 3850,
+   "kutlamaAcildi": true
+  }
+ },
+ "m14": {
+  "502x794-en": {
+   "vh": 794,
+   "cubukAlt": 778,
+   "enAltYazi": 773,
+   "disari": [],
+   "yatay": 0
+  },
+  "502x794-en-uzun": {
+   "vh": 794,
+   "cubukAlt": 778,
+   "enAltYazi": 773,
+   "disari": [],
+   "yatay": 0
+  },
+  "390x844-tr-uzun": {
+   "vh": 844,
+   "cubukAlt": 828,
+   "enAltYazi": 823,
+   "disari": [],
+   "yatay": 0
+  },
+  "360x780-en-uzun": {
+   "vh": 780,
+   "cubukAlt": 788.4,
+   "enAltYazi": 783.390625,
+   "disari": [
+    {
+     "m": "+10 s",
+     "alt": 783.4
+    },
+    {
+     "m": "-5 s",
+     "alt": 783.4
+    }
+   ],
+   "yatay": 0
+  },
+  "360x640-tr": {
+   "vh": 640,
+   "cubukAlt": 624,
+   "enAltYazi": 619,
+   "disari": [],
+   "yatay": 0
+  }
+ },
+ "m15": {
+  "lobi": {
+   "iskeletSure_ms": 451,
+   "toplam_ms": 1394,
+   "turnuvaIstekleri": [
+    {
+     "yol": "tournaments",
+     "t": 762
+    },
+    {
+     "yol": "tournament_players",
+     "t": 1083
+    },
+    {
+     "yol": "tournaments",
+     "t": 1389
+    }
+   ]
+  },
+  "yok": {
+   "iskeletSure_ms": 846,
+   "toplam_ms": 1737,
+   "turnuvaIstekleri": [
+    {
+     "yol": "tournaments",
+     "t": 788
+    },
+    {
+     "yol": "tournaments",
+     "t": 1099
+    },
+    {
+     "yol": "tournament_players",
+     "t": 1408
+    },
+    {
+     "yol": "tournaments",
+     "t": 1719
+    },
+    {
+     "yol": "tournaments",
+     "t": 1739
+    },
+    {
+     "yol": "tournaments",
+     "t": 1739
+    }
+   ]
+  }
+ },
+ "m5": {
+  "390-tr": [
+   "Maç sırayla kategori seçimiyle başlar: en iyi bildiklerini seç.",
+   "Her seçim için 5 sn; süre dolarsa en iyi bildiğin kalan kategori seçilir.",
+   "Aynı soruyu aynı anda cevaplarsınız.",
+   "Yalnız rakibin kategorisine saldırabilirsin.",
+   "Bildiğin her soru +1 puan.",
+   "Sen bilir, rakip bilemezse kategori senin: +2."
+  ],
+  "360-en": [
+   "The match opens with a category draft: pick the ones you know best.",
+   "5 s per pick; if time runs out, your best remaining category is picked.",
+   "You both answer the same question at the same time.",
+   "You can only attack your opponent's categories.",
+   "Every right answer is +1 point.",
+   "If you're right and your opponent misses, the category is yours: +2."
+  ]
+ }
+}

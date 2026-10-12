@@ -243,7 +243,7 @@ export default function ProfilAyarlari() {
               <AvatarCerceve profile={profile} boyut={44} userId={profile.id} />
             </span>
             <span className="qt-kucuk qt-soluk qt-pf-ayar-metin">
-              {profile.avatar_onayli
+              {profile.avatar_onayli && profile.avatar_url
                 ? tt("Avatarın diğer oyunculara görünüyor.")
                 : tt("Avatar seçmedin; adının ilk harfi gösteriliyor.")}
             </span>

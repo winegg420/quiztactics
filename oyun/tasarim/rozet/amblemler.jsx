@@ -262,6 +262,21 @@ export const AMBLEMLER = {
       </g>
     ),
   },
+  // 1065: Koleksiyon Puanı rozetleri — üç faset kesim taş (koleksiyonun parçaları)
+  koleksiyon: {
+    zemin: SAHNE.mor,
+    Sembol: () => (
+      <g>
+        <path d="M-14 2L-10.5 -3H-3.5L0 2L-7 12Z" fill={TAS.safir} {...cz(1.6)} />
+        <path d="M-10.5 -3L-7 2L-3.5 -3M-14 2H0" fill="none" stroke={K} strokeWidth="1.1" strokeLinejoin="round" />
+        <path d="M14 2L10.5 -3H3.5L0 2L7 12Z" fill={TAS.zumrut} {...cz(1.6)} />
+        <path d="M10.5 -3L7 2L3.5 -3M14 2H0" fill="none" stroke={K} strokeWidth="1.1" strokeLinejoin="round" />
+        <path d="M-7 -6L-3.6 -12H3.6L7 -6L0 5Z" fill={TAS.yakut} {...cz(1.7)} />
+        <path d="M-3.6 -12L0 -6L3.6 -12M-7 -6H7" fill="none" stroke={K} strokeWidth="1.1" strokeLinejoin="round" />
+        <path d="M-4.6 -7.4L-2.6 -10.6" fill="none" stroke={B} strokeWidth="1.6" strokeLinecap="round" />
+      </g>
+    ),
+  },
   soru: {
     zemin: SAHNE.lacivert,
     Sembol: () => (

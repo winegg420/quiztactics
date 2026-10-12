@@ -1,0 +1,142 @@
+{
+ "390x844-tr": {
+  "binen": [],
+  "adDugme": {
+   "ust": 86.8,
+   "alt": 111.2,
+   "sol": 118,
+   "sag": 205.4
+  },
+  "sezon": {
+   "ust": 121,
+   "alt": 165,
+   "sol": 212,
+   "sag": 282.8
+  },
+  "adBtn": {
+   "ust": 77,
+   "alt": 121,
+   "sol": 118,
+   "sag": 205.4
+  },
+  "ko": {
+   "ust": 74,
+   "alt": 158.8,
+   "sol": 12,
+   "sag": 378
+  },
+  "halka": {
+   "ust": 121.4,
+   "alt": 143.4,
+   "sol": 223,
+   "sag": 245
+  },
+  "yatayTasma": 0,
+  "hatalar": []
+ },
+ "360x780-tr": {
+  "binen": [],
+  "adDugme": {
+   "ust": 86.8,
+   "alt": 111.2,
+   "sol": 115,
+   "sag": 202.4
+  },
+  "sezon": {
+   "ust": 121,
+   "alt": 165,
+   "sol": 209,
+   "sag": 279.8
+  },
+  "adBtn": {
+   "ust": 77,
+   "alt": 121,
+   "sol": 115,
+   "sag": 202.4
+  },
+  "ko": {
+   "ust": 74,
+   "alt": 158.8,
+   "sol": 9,
+   "sag": 351
+  },
+  "halka": {
+   "ust": 121.4,
+   "alt": 143.4,
+   "sol": 220,
+   "sag": 242
+  },
+  "yatayTasma": 0,
+  "hatalar": []
+ },
+ "390x844-en": {
+  "binen": [],
+  "adDugme": {
+   "ust": 86.8,
+   "alt": 111.2,
+   "sol": 118,
+   "sag": 205.4
+  },
+  "sezon": {
+   "ust": 121,
+   "alt": 165,
+   "sol": 212.4,
+   "sag": 289.2
+  },
+  "adBtn": {
+   "ust": 77,
+   "alt": 121,
+   "sol": 118,
+   "sag": 205.4
+  },
+  "ko": {
+   "ust": 74,
+   "alt": 158.8,
+   "sol": 12,
+   "sag": 378
+  },
+  "halka": {
+   "ust": 121.4,
+   "alt": 143.4,
+   "sol": 223.4,
+   "sag": 245.4
+  },
+  "yatayTasma": 0,
+  "hatalar": []
+ },
+ "360x780-en": {
+  "binen": [],
+  "adDugme": {
+   "ust": 86.8,
+   "alt": 111.2,
+   "sol": 115,
+   "sag": 202.4
+  },
+  "sezon": {
+   "ust": 121,
+   "alt": 165,
+   "sol": 209.4,
+   "sag": 286.2
+  },
+  "adBtn": {
+   "ust": 77,
+   "alt": 121,
+   "sol": 115,
+   "sag": 202.4
+  },
+  "ko": {
+   "ust": 74,
+   "alt": 158.8,
+   "sol": 9,
+   "sag": 351
+  },
+  "halka": {
+   "ust": 121.4,
+   "alt": 143.4,
+   "sol": 220.4,
+   "sag": 242.4
+  },
+  "yatayTasma": 0,
+  "hatalar": []
+ }
+}

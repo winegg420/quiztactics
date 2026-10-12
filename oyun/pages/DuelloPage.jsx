@@ -42,7 +42,8 @@ import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesDokunus, sesRaki
   sesOnYukle, sesKategoriGeriSayim, sesSoruGeldi, sesTurGecis, sesSkill,
   sesKategoriSecildi, sesRakipCevapladi, sesHataUyari, sesCoin } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
-import { useOyunModu } from "../lib/oyunModu.js";
+import { useOyunModu, useMacSonuGecisi } from "../lib/oyunModu.js";
+import { sonModuYaz } from "../lib/sonMod.js";
 import SkillSeti from "../components/SkillSeti.jsx";
 // Düello v4 (1013–1016): tek arena — yalnız surum 4 maçında çizilir; eski ekran ve kodu aynen durur.
 import Duello4Arena, { D4Gecmis, D4Ozet, d4AltYazi } from "../components/duello4/Duello4Arena.jsx";
@@ -252,16 +253,25 @@ const ARAMA_IPUCLARI = [
   "Tutan hamle kategoriyi 2 tur kilitler.",
   "{t} tur sonunda yuvalar eşitse Altın Soru.",
 ];
+// Düello v4 (1013–1018) açıkken YALNIZ bunlar (11 Eki 2026): eski "her seçim {s} sn / en iyi kalan seçilir" ve
+// "yalnız rakibin kategorisine saldırabilirsin" v4'te yok. Metinler v4 tanıtımıyla aynı (İngilizcesi ceviri/duello4.js).
+const V4_IPUCLARI = [
+  "Kontrolü al, üst üste 3 doğru yap, düelloyu kazan.",
+  "İkinize aynı soru gelir. Yalnız biriniz bilirse kontrol onda olur.",
+  "Kontrol sende: 4 karttan birini rakibe gönderir, birini kendine seçersin. Her biriniz kendi kategorinizin sorusunu cevaplarsınız.",
+  "Tur sınırına ya da art arda 5 nötr soruya gelinirse Son Düello başlar: aynı soru, joker yok, tek bilen kazanır.",
+];
 const IPUCU_SN = 3;
 // Paket 41 F: düello aramasının üst sınırı (Klasik'teki gibi sonsuz bekleme yok)
 const DUELLO_ARAMA_SINIR_SN = 60;
 
 function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari: tumIpuclari = ARAMA_IPUCLARI, bilgi = null }) {
   const { ceviri } = useDil();
-  const { secim: secimModu, puan: puanModu, esik, tur: turSayisi, hedef, yol } = useDuelloKurallari();   // 960: sayılar ve akış ayardan
+  const { secim: secimModu, puan: puanModu, esik, tur: turSayisi, hedef, yol, v4, hazir: kuralHazir } = useDuelloKurallari();   // 960: sayılar ve akış ayardan
   const secimSn = useAyar("duello_secim_sn", 5);
   const bosSaldiran = useAyar("duello_bos_ikisi_dogru_saldiran", 1) >= 1;
-  const ipuclari = tumIpuclari.filter((m) => (secimModu ? !BOS_IPUCLARI.includes(m) : !SECIM_IPUCLARI.includes(m))
+  // Ayarlar okunana dek v4 bilinmez — eski kural satırı bir an bile görünmesin (boş satır)
+  const ipuclari = !kuralHazir ? [""] : v4 ? V4_IPUCLARI : tumIpuclari.filter((m) => (secimModu ? !BOS_IPUCLARI.includes(m) : !SECIM_IPUCLARI.includes(m))
     && (bosSaldiran || m !== BOS_SALDIRAN_KURALI)
     // 970: puan modunda yuva satırları yok; eski modda puan satırları yok
     && (puanModu ? !HAKIMIYET_IPUCLARI.includes(m) && !BOS_IPUCLARI.includes(m) : !PUAN_IPUCLARI.includes(m)));
@@ -363,7 +373,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari: tumIpuclari = ARA
       bilgi={bilgi}
       hata={hata}
       // key değişince satır yeniden takılır → giriş animasyonu her ipucunda oynar
-      alt={<p key={ipucu} className="qt-h-gir" aria-live="polite">{ceviri(ipuclari[ipucu], { t: turSayisi, n: esik, s: secimSn, h: hedef, y: yol })}</p>}
+      alt={<p key={ipucu} className="qt-h-gir" aria-live="polite">{ipuclari[ipucu] && ceviri(ipuclari[ipucu], { t: turSayisi, n: esik, s: secimSn, h: hedef, y: yol })}</p>}
       onIptal={onIptal}
       onTekrar={yenidenDene}
     />
@@ -433,6 +443,8 @@ function DuelloMac({ id }) {
   const [dokumToplam, setDokumToplam] = useState(null);   // Paket 20 I.3: sunucu dökümünün toplamı
   // Paket 40 D: öteki modlar gibi maç sürerken sekme/üst çubuk gizlenir (jokerleri örtüyordu).
   useOyunModu(d?.durum === "aktif");
+  useMacSonuGecisi(d?.durum === "bitti");   // 11 Eki 2026: maç sonu arena/özet beklemesi kutlamaya dek oyun modunda
+  useEffect(() => { if (d?.id && d.durum === "aktif") sonModuYaz("duello"); }, [d?.id, d?.durum]);
 
   // 410 (Ajan I): düello ekranına geliş + bağlanmayan rakip. Kural SUNUCUDA (duello_giris):
   // aramayla kurulan düelloda rakip duello_baglanma_sn içinde gelmezse düello cezasız iptal

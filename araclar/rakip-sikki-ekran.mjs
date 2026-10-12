@@ -65,6 +65,16 @@ try {
       if (o.isaret) {
         const r = await s.locator(".qt-sik-ek").first().boundingBox();
         ok(`${etiket}: işaret ekran içinde`, r && r.x >= 0 && r.x + r.width <= g.w && r.y >= 0, JSON.stringify(r));
+        // 11 Eki: avatar şıkkın İÇİNDE, dikey ortada ve metnin sağ kenarıyla çakışmıyor
+        const ic = await s.evaluate(() => {
+          const e = document.querySelector(".qt-sik-ek"); const y = e.closest(".qt-sik-yuva"); const b = y.querySelector(".qt-sik"); const m = y.querySelector(".qt-sik-metin");
+          const E = e.getBoundingClientRect(), B = b.getBoundingClientRect();
+          const mr = document.createRange(); mr.selectNodeContents(m); const M = mr.getBoundingClientRect();
+          return { icinde: E.left >= B.left && E.right <= B.right && E.top >= B.top && E.bottom <= B.bottom, dikeyFark: Math.abs((E.top + E.bottom) / 2 - (B.top + B.bottom) / 2), cakisma: M.right > E.left + 0.5 };
+        });
+        ok(`${etiket}: avatar şıkkın içinde`, ic.icinde, JSON.stringify(ic));
+        ok(`${etiket}: dikey ortada`, ic.dikeyFark <= 2, JSON.stringify(ic));
+        ok(`${etiket}: metinle çakışmıyor`, !ic.cakisma, JSON.stringify(ic));
       }
       ok(`${etiket}: sayfa hatası yok`, konsol.length === 0, konsol.join(" | "));
       o.tasma = tasma;

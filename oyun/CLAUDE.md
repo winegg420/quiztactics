@@ -58,6 +58,7 @@ güncellenir. Her dondurulmuş dosyanın başında aynı biçimde bir blok vard�
 | Meydan (3B harita) | 20 Eyl 2026 | Arayüz Yenileme | `harita/**` | yok | `lib/ozellikBayraklari.js` › `MEYDAN_ACIK = true` |
 | Gardırop / karakter vitrini | 20 Eyl 2026 | Arayüz Yenileme | `vitrin/**`, `pages/GorunumPage.jsx` | yok | `lib/ozellikBayraklari.js` › `GARDIROP_ACIK = true` |
 | Eski düşük ayrıntılı profil avatarları | 20 Eyl 2026 | Profesyonel Avatar Seti | `../public/avatars/k01.svg`…`k31.svg`, `_test/avatar-uret.mjs` | `avatar_onayla` yalnız profesyonel listeyle sınırlı | eski dosyalar geri açılmaz; 31 karakter fikri profesyonel sette yeniden çizildi |
+| Cevap İmzası › Yanan Kart | 11 Eki 2026 | Cevap İmzası v3 | `components/CevapImzasi.jsx › tuvalYanan` | `kozmetikler.aktif = false` + `satis_pasif = true` (1067) | yeni migration ile kalemi aç · `CevapImzasi.jsx › DONDURULAN` ve `lib/cevapImzasi.js › DONDURULAN_IMZALAR`'dan çıkar |
 
 **Resmi profil avatarı çizim dili:** 31 karakterli
 `components/AvatarProIllustrations.jsx` tek görsel kaynaktır;

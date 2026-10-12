@@ -40,6 +40,7 @@ import "../../tasarim/ekranlar/a-kategori-secici.css";
 import "../../tasarim/ekranlar/skill-rozet.css";
 import { tembelYukle, bostaOnYukle } from "../../../src/lib/tembelYukle.js";
 import { gorunenAd } from "../../lib/oyuncu.js";
+import { sonModuYaz, sonModuOku } from "../../lib/sonMod.js";
 
 // Arama ekranı + mod penceresi dokununca açılır: ilk yük paketinde taşınmaz, açılıştan sonra boşta
 // önceden iner (8 Eki 2026, soğuk açılış).
@@ -502,15 +503,5 @@ export function useDevamEdenMaclar() {
   return liste;
 }
 
-/* ---------- Son oynanan mod (6 Eki 2026): ana sayfadaki üç mod şeridinin altındaki ipucu ---------- */
-const SON_MOD_ANAHTAR = "qt:v1:ana-son-mod";
-const SON_MOD_GECERLI = ["klasik", "duello", "kasa"];
-export function sonModuYaz(mod) {
-  try { if (SON_MOD_GECERLI.includes(mod)) localStorage.setItem(SON_MOD_ANAHTAR, mod); } catch { /* depolama kapalı: ipucu yalnız çizilmez */ }
-}
-export function sonModuOku() {
-  try {
-    const m = localStorage.getItem(SON_MOD_ANAHTAR);
-    return SON_MOD_GECERLI.includes(m) ? m : null;   // bozuk/eski değer: yok say
-  } catch { return null; }
-}
+/* ---------- Son oynanan mod (6 Eki 2026): tek kaynak lib/sonMod.js — maç sayfaları da yazar (11 Eki 2026) ---------- */
+export { sonModuYaz, sonModuOku };

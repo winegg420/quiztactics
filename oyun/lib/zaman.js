@@ -5,7 +5,7 @@
 // ESKİ sabah/akşam ayarları (turnuva_saat_sabah/aksam) yalnız eski satırların
 // anını çözmek için; saat listesi aşağıda (turnuva_saatleri).
 // Türkiye yıl boyu UTC+3 (aşağıdaki değerler UTC).
-import { aktifDil } from "./dil.js";
+import { aktifDil, tarihDili } from "./dil.js";
 
 const VARSAYILAN = { sabah: [10, 0], aksam: [18, 50] };   // UTC
 let saatler = VARSAYILAN;
@@ -82,7 +82,7 @@ function yerelSaatMetni(saat) {
     const dk = dakikaCoz(saat);
     if (dk === null) return null;
     const an = new Date(tsiGunBasi(Date.now()) + dk * 60000);
-    return new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(an);
+    return new Intl.DateTimeFormat(tarihDili(), { hour: "numeric", minute: "2-digit" }).format(an);
   } catch {
     return null;   // Intl yoksa TSİ gösterilir
   }

@@ -297,7 +297,7 @@ export default function HizliMacPage() {
             <div key={k.user_id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0" }}>
               <AvatarCerceve profile={k.profil} boyut={34} userId={k.user_id} />
               <span style={{ flex: 1, fontWeight: 600, textAlign: "left" }}>
-                {k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}
+                {k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti ad={k.profil?.gorunen_ad} />}
               </span>
               <span
                 className="rutbe-chip"
@@ -350,7 +350,7 @@ export default function HizliMacPage() {
               <div key={k.user_id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0" }}>
                 <AvatarCerceve profile={k.profil} boyut={34} userId={k.user_id} />
                 <span style={{ flex: 1, fontWeight: 600, textAlign: "left" }}>
-                  {k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}
+                  {k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti ad={k.profil?.gorunen_ad} />}
                 </span>
                 <span className="alt-yazi">{k.hazir ? "hazır" : "bekleniyor…"}</span>
               </div>
@@ -402,7 +402,7 @@ export default function HizliMacPage() {
               <span className={`sira-no ${i < 1 ? "ilk3" : ""}`}>{i + 1}</span>
               <AvatarCerceve profile={k.profil} boyut={34} userId={k.user_id} />
               <span style={{ flex: 1, fontWeight: 600, textAlign: "left" }}>
-                {k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}
+                {k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti ad={k.profil?.gorunen_ad} />}
               </span>
               <span style={{ fontWeight: 800 }}>{k.skor}</span>
             </div>
@@ -444,7 +444,7 @@ export default function HizliMacPage() {
             className={`grup-skor-satir ${k.user_id === user.id ? "sen" : ""}`}
           >
             <AvatarCerceve profile={k.profil} boyut={30} userId={k.user_id} />
-            <span className="isim">{k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}</span>
+            <span className="isim">{k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti ad={k.profil?.gorunen_ad} />}</span>
             <span className="skor">{k.skor}</span>
           </div>
         ))}

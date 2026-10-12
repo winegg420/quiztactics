@@ -1164,8 +1164,14 @@ html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))
 .qt-sik-yuva--elendi .qt-sik { visibility: hidden; }
 /* 1062: rakibin seçtiği şık — şıkkın sağ üst kenarına binen küçük avatar(lar). Mutlak konum: şık yüksekliği/yerleşimi
    0 px oynar; nötr beyaz + lacivert kontur, doğru/yanlış renklerine dokunmaz. */
-.qt-sik-ek { position: absolute; top: -9px; right: 10px; z-index: 2; display: flex; gap: 3px; pointer-events: none; }
-.qt-sik-ek > * { flex: none; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--qt-metin); }
+/* 11 Eki: avatar şıkkın İÇİNDE, sağdaki doğru/yanlış işaretinin (28 px) soluna, dikey ortada; metne sağdan boşluk ayrılır
+   (:has ile; uzun şıkta metin 2 satıra iner, şık yüksekliği korunur). Kontur şıkkın içinde kalsın diye 2 px halka. */
+.qt-sik-ek { position: absolute; top: 50%; right: 46px; translate: 0 -50%; z-index: 2; display: flex; gap: 3px; pointer-events: none; }
+.qt-sik-ek > * { flex: none; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.5px #fff, 0 0 0 3px var(--qt-metin); }
+.qt-sik-yuva:has(> .qt-sik-ek) .qt-sik-metin { padding-right: 34px; }
+.qt-sik-yuva:has(> .qt-sik-ek > :nth-child(2)) .qt-sik-metin { padding-right: 61px; }
+.qt-sikler--iki .qt-sik-ek { top: auto; bottom: 6px; right: 6px; translate: none; }
+.qt-sikler--iki .qt-sik-yuva:has(> .qt-sik-ek) .qt-sik-metin { padding-right: 0; }
 @media (prefers-reduced-motion: no-preference) {
   .qt-sik-ek { animation: qt-sik-ek-gir 220ms cubic-bezier(.2, .9, .3, 1.2) both; }
 }

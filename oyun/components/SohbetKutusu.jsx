@@ -11,7 +11,7 @@ import "../tasarim/ekranlar/l-sosyal.css";
 import EmojiSecici from "./EmojiSecici.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { dmTazele } from "../lib/mesajlar.js";
-import { tt, aktifDil } from "../lib/dil.js";
+import { tt, aktifDil, tarihDili } from "../lib/dil.js";
 import SikayetPenceresi, { EngelPenceresi, useIletisimDurumu } from "./SikayetPenceresi.jsx";
 import "../tasarim/ekranlar/sikayet.css";
 
@@ -34,7 +34,7 @@ const SINIR = 500;
 
 const saatMetni = (iso) => {
   try {
-    return new Date(iso).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    return new Date(iso).toLocaleTimeString(tarihDili(), { hour: "2-digit", minute: "2-digit" });
   } catch {
     return "";
   }

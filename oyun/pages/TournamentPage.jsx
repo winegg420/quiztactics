@@ -149,21 +149,25 @@ export default function TournamentPage() {
       // Günde birden çok turnuva (Paket 12, madde 7): önce açık turnuvalar; yoksa
       // son biten. "Son 3 satır" bitmiş turnuvalarla dolup lobiyi
       // gizleyebiliyordu; aynı gün iki lobide de en erken başlayan seçilir.
-      const sonuc = await supabase
-        .from("tournaments")
-        .select("*")
-        .in("durum", ["aktif", "lobi"])
-        .limit(20);
-      if (sonuc.error) throw sonuc.error;
-      data = sonuc.data ?? [];
-      if (!data.length) {
-        const biten = await supabase
+      // Yayın öncesi tarama (11 Eki 2026): iki sorgu PARALEL — açık turnuva yokken "son biten" ikinci gidiş-dönüşü
+      // beklemiyordu (iskelet 3 sıralı istek sürüyordu). Son biten tek satır; açık turnuva varsa kullanılmaz.
+      const [sonuc, biten] = await Promise.all([
+        supabase
+          .from("tournaments")
+          .select("*")
+          .in("durum", ["aktif", "lobi"])
+          .limit(20),
+        supabase
           .from("tournaments")
           .select("*")
           .in("durum", ["bitti", "iptal"])
           .order("tarih", { ascending: false })
           .order("bitis", { ascending: false, nullsFirst: false })
-          .limit(1);
+          .limit(1),
+      ]);
+      if (sonuc.error) throw sonuc.error;
+      data = sonuc.data ?? [];
+      if (!data.length) {
         if (biten.error) throw biten.error;
         data = biten.data;
       }

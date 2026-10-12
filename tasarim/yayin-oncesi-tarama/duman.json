@@ -1,0 +1,28 @@
+{
+ "adres": "http://localhost:5191",
+ "basla": "2026-10-11T18:00:14.919Z",
+ "ad": "testduman336",
+ "kullanici": "96dada0c-01ec-4c2c-a60e-836841f7205f",
+ "kasaId": "ee5caccb-1cff-4863-8248-7d8a5f9d0f06",
+ "karar": {
+  "ilkSayi": "6",
+  "ilkDegisim_ms": 1094,
+  "sureDolduNotu": "Süre doldu · DEVAM",
+  "pasif_ms_sifirdan": 0,
+  "panelKapanis_ms_sifirdan": 874
+ },
+ "sunucu": {
+  "hamle": {
+   "tur": "3",
+   "karar": "sure_doldu",
+   "karar_ms": "5406"
+  },
+  "maç": {
+   "son_karar": "{\"ac\": false, \"yeni\": 16, \"deger\": 8, \"tavan\": false, \"veren\": \"96dada0c-01ec-4c2c-a60e-836841f7205f\", \"carpan\": 2, \"birakti\": true, \"sure_doldu\": true}",
+   "karar_sn": "5",
+   "durum": "aktif"
+  }
+ },
+ "konsol": [],
+ "macSonDurum": "bitti"
+}

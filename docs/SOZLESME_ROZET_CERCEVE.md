@@ -299,6 +299,7 @@ nadirlik sütunu yalnız etiket/renk kodu içindir.
 | `lig` | `shield-star` | `lig_cikis_gumus` (bronz) · `lig_cikis_altin` (gümüş) · `lig_cikis_elmas` `lig_sehir_sampiyonu` (altın; şehir şampiyonu `crown`, coin 0, 641) · `lig_cikis_efsane` `lig_efsane_bir` (elmas) |
 | `ozel` | `lightning` | `ozel_kusursuz` (gümüş) · `ozel_son_can` (bronz) · `ozel_geri_donus` (altın) · `ozel_saf_10` (bronz) · `ozel_saf_50` (gümüş) · `ozel_seri_5` (gümüş) · `ozel_seri_10` (altın) |
 | `sosyal` | `users-three` | `sosyal_arkadas_1` (bronz) · `sosyal_arkadas_10` (gümüş) · `sosyal_davet_1` (bronz) · `sosyal_davet_5` (gümüş) · `sosyal_davet_20` (altın) · `sosyal_arkadas_mac_25` (gümüş) |
+| `koleksiyon` (1065) | `diamonds-four` → amblem `koleksiyon` | `koleksiyon_25` (bronz) · `koleksiyon_50` (gümüş) · `koleksiyon_100` (altın) · `koleksiyon_200` (elmas) — ölçüt `koleksiyon_puani`; Koleksiyoncu I/II/III, Büyük Koleksiyoncu; elmas 0, çerçeve/unvan yok |
 | `gizli` | `question` (kazanılana dek) | `gizli_1` … `gizli_5` — adları kazanılana kadar sunucudan gelmez |
 
 Her rozetin kendi `ikon` önerisi de var (ör. `ozel_kusursuz` → `target`, `sosyal_davet_*` → `gift`);

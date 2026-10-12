@@ -254,6 +254,10 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
   animation: msk-sol-gir var(--qt-s-orta) var(--qt-egri-cikis) calc(var(--t-avatar) + 200ms) backwards;
 }
 .msk-isim-metin { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* ≤ 8 karakterli ad hiçbir genişlikte kısalmaz: "Sen" çipi yer yetmezse alt satıra iner (ad "ida…" olmasın) */
+.msk-isim--kisa { flex-wrap: wrap; justify-content: center; row-gap: 0; }
+.msk-isim--kisa .msk-isim-dugme { flex: none; max-width: none; }
+.msk-isim--kisa .msk-isim-metin { overflow: visible; text-overflow: clip; }
 /* A.4: ada dokununca profil kartı — görünüm aynı; dokunma alanı görünmez katmanla ≥ 44 px */
 .msk-isim-dugme {
   position: relative;
