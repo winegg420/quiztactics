@@ -333,7 +333,7 @@
   opacity: 0; animation: ks-giris-isin 4000ms linear var(--ks-gec, 0ms) both;
 }
 @keyframes ks-giris-isin { 0% { opacity: 0; transform: scale(.35) rotate(0); } 12% { opacity: .55; } 50% { opacity: .45; } 100% { opacity: 1; transform: scale(1.1) rotate(120deg); } }
-.ks-giris-an--sayim .ks-giris-isik { filter: saturate(1.3); }
+/* 12 Eki: 3-2-1 başlarken büyük maskeli ışık katmanına filter eklenmesi kaldırıldı (katmanı yeniden boyatıp takılma yapıyordu) */
 .ks-giris-kasa { position: relative; z-index: 2; width: min(200px, 28dvh, 56vw); animation: ks-giris-in 900ms var(--qt-egri-cikis) var(--ks-gec, 0ms) both; }
 .ks-giris-kasa .ks-kasa { width: 100%; height: auto; }
 .ks-giris-zipla { display: block; }
@@ -367,7 +367,8 @@
   text-shadow: 0 4px 0 var(--qt-coin), 0 0 22px rgba(255, 255, 255, .9);
   animation: ks-giris-yazi 800ms var(--qt-egri-cikis) calc(var(--ks-gec, 0ms) + 400ms) both;
 }
-@keyframes ks-giris-yazi { 0% { opacity: 0; transform: scale(1.8); letter-spacing: .5em; } 60% { opacity: 1; transform: scale(.96); } 100% { opacity: 1; transform: none; } }
+/* 12 Eki: letter-spacing animasyonu kaldırıldı — her karede yeniden yerleşim (layout) yaptırıp telefonda kastırıyordu */
+@keyframes ks-giris-yazi { 0% { opacity: 0; transform: scale(1.8); } 60% { opacity: 1; transform: scale(.96); } 100% { opacity: 1; transform: none; } }
 /* sayaç yuvası: sabit yükseklik (sayı gelince düzen kaymaz), sandığın hemen üstünde */
 .ks-giris-sayac { position: relative; z-index: 3; display: grid; place-items: center; height: 76px; margin-bottom: -10px; }
 .ks-giris-sayi {
