@@ -1,0 +1,7627 @@
+[
+  {
+    "id": "C11-01",
+    "taslak_id": "C11-R001",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Käthe Kollwitz'in 'Yaslı Ebeveynler' heykel çifti hangi aile üyelerini betimler?",
+    "d": "Anne ve baba",
+    "y": [
+      "Abla ve kardeş",
+      "Dede ve torun",
+      "Dayı ve yeğen"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which family members are depicted in Käthe Kollwitz's paired sculptures 'The Grieving Parents'?",
+      "d": "Mother and father",
+      "y": [
+        "Sister and brother",
+        "Grandfather and grandson",
+        "Uncle and nephew"
+      ]
+    },
+    "olgu": "'Yaslı Ebeveynler' çifti anne ile babayı betimler.",
+    "kalip": "sanatci_eser",
+    "konular": [
+      "kollwitz"
+    ],
+    "alt_tur": "heykel",
+    "kaynak": "codex-09:C08-san-003",
+    "jev_p": 0.56,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-02",
+    "taslak_id": "C11-R004",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Joe Rosenthal'ın Iwo Jima fotoğrafında askerler hangi nesneyi yükseltir?",
+    "d": "Bayrak",
+    "y": [
+      "Gemi çapası",
+      "Kalkan",
+      "Savaş borusu"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What do the soldiers raise in Joe Rosenthal's Iwo Jima photograph?",
+      "d": "Flag",
+      "y": [
+        "A ship anchor",
+        "Shield",
+        "War trumpet"
+      ]
+    },
+    "olgu": "Rosenthal askerlerin ABD bayrağını yükseltmesini fotoğrafladı.",
+    "kalip": "fotograf_ozgun_savas",
+    "konular": [
+      "joe-rosenthal"
+    ],
+    "alt_tur": "fotograf",
+    "kaynak": "codex-09:C08-san-055",
+    "jev_p": 0.68,
+    "jev_tek_dogru_p": 0.12,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-03",
+    "taslak_id": "C11-san-001",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Matisse, ilerleyen yaşlarında 'makasla çizmek' diye nitelediği çalışmalarda hangi malzemeyi kesip düzenledi?",
+    "d": "Boyalı kâğıt",
+    "y": [
+      "Dokuma kumaş",
+      "İnce bakır",
+      "Deri parçaları"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What did Matisse cut and arrange in his late works that he described as drawing with scissors?",
+      "d": "Painted paper",
+      "y": [
+        "Woven fabric",
+        "Thin copper",
+        "Leather scraps"
+      ]
+    },
+    "olgu": "Matisse'in kesmeleri guajla boyanmış kâğıtlardan oluşur.",
+    "kalip": "sanat_teknik_deneyi",
+    "konular": [
+      "matisse-cutouts"
+    ],
+    "alt_tur": "teknik",
+    "jev_p": 0.04,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-04",
+    "taslak_id": "C11-san-006",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Dorothea Lange'in 'Göçmen Anne' fotoğrafında kadının yanındaki iki çocuk yüzlerini nereye çevirir?",
+    "d": "Annenin omuzlarına",
+    "y": [
+      "Fotoğraf makinesine",
+      "Birbirlerinin yüzüne",
+      "Yerdeki bebeğe"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Where do the two children beside the mother turn their faces in Dorothea Lange's Migrant Mother?",
+      "d": "Into her shoulders",
+      "y": [
+        "Toward the camera",
+        "Toward each other",
+        "Toward the baby below"
+      ]
+    },
+    "olgu": "İki çocuk kameradan dönerek yüzlerini annelerinin omuzlarına gizler.",
+    "kalip": "sanat_fotograf_fon",
+    "konular": [
+      "dorothea-lange-migrant"
+    ],
+    "alt_tur": "fotograf",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.14,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-05",
+    "taslak_id": "C11-san-008",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Avrupa'daki mavi-beyaz çömlekleriyle adını bir seramik türüne veren Hollanda şehri hangisidir?",
+    "d": "Delft",
+    "y": [
+      "Leiden",
+      "Haarlem",
+      "Utrecht"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which Dutch city gave its name to a type of blue-and-white earthenware?",
+      "d": "Delft",
+      "y": [
+        "Leiden",
+        "Haarlem",
+        "Utrecht"
+      ]
+    },
+    "olgu": "Delft şehri Delftware seramiklerinin ad kaynağıdır.",
+    "kalip": "sanat_seramik_sehir",
+    "konular": [
+      "blue-delft-origin"
+    ],
+    "alt_tur": "seramik",
+    "jev_p": 0.4,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-06",
+    "taslak_id": "C11-san-011",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Bayeux İşlemesi'nde savaşçılar arasında sopasıyla gösterilen Odo hangi dinî görevi taşır?",
+    "d": "Piskopos",
+    "y": [
+      "Başrahip",
+      "Kardinal",
+      "Diyakoz"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What religious office does Odo hold when depicted carrying a club among warriors in the Bayeux Tapestry?",
+      "d": "Bishop",
+      "y": [
+        "Abbot",
+        "Cardinal",
+        "Deacon"
+      ]
+    },
+    "olgu": "Odo Bayeux piskoposuydu.",
+    "kalip": "sanat_hali_mekan",
+    "konular": [
+      "bayeux-tapestry-bishop"
+    ],
+    "alt_tur": "tekstil",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.12,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-07",
+    "taslak_id": "C11-san-013",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Frank Lloyd Wright'ın New York Guggenheim Müzesi'nde sergi alanları merkezdeki boşluğu nasıl çevreler?",
+    "d": "Spiral rampa",
+    "y": [
+      "Düz koridor",
+      "Dört ayrı kule",
+      "İki paralel köprü"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How do the exhibition areas surround the central void in Frank Lloyd Wright's New York Guggenheim Museum?",
+      "d": "Spiral ramp",
+      "y": [
+        "Straight corridor",
+        "Four separate towers",
+        "Two parallel bridges"
+      ]
+    },
+    "olgu": "Guggenheim'da sergi rotası kesintisiz bir spiral rampadır.",
+    "kalip": "sanat_mimari_merdiven",
+    "konular": [
+      "guggenheim-ramp"
+    ],
+    "alt_tur": "mimari",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-08",
+    "taslak_id": "C11-san-015",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Cadillac Ranch enstalasyonunda burunları toprağa gömülmüş kaç otomobil yer alır?",
+    "d": "10",
+    "y": [
+      "8",
+      "12",
+      "14"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How many nose-down cars form the Cadillac Ranch installation?",
+      "d": "10",
+      "y": [
+        "8",
+        "12",
+        "14"
+      ]
+    },
+    "olgu": "Cadillac Ranch'te on Cadillac yer alır.",
+    "kalip": "sanat_otomobil_heykeli",
+    "konular": [
+      "cadillac-ranch-count"
+    ],
+    "alt_tur": "enstalasyon",
+    "jev_p": 0.6,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-09",
+    "taslak_id": "C11-san-018",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Leonardo'nun Son Akşam Yemeği'nde İsa'nın hemen önündeki masada hangisi görülebilir?",
+    "d": "Ekmek",
+    "y": [
+      "Mum",
+      "Kum saati",
+      "Çiçek vazosu"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which item is visible on the table directly in front of Jesus in Leonardo's Last Supper?",
+      "d": "Bread",
+      "y": [
+        "Candle",
+        "Hourglass",
+        "Flower vase"
+      ]
+    },
+    "olgu": "Masada İsa'nın önünde ekmek bulunur.",
+    "kalip": "sanat_fresk_yemek",
+    "konular": [
+      "last-supper-jesus-center"
+    ],
+    "alt_tur": "tablo_gorsel",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.15,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-10",
+    "taslak_id": "C11-san-022",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Piet Mondrian'ın 1942–43'te New York'ta yaptığı ve şehir planını çağrıştıran tablosu hangisidir?",
+    "d": "Broadway Boogie Woogie",
+    "y": [
+      "Victory Boogie Woogie",
+      "Composition with Red and Blue",
+      "New York City I"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which painting did Piet Mondrian create in New York in 1942–43 that evokes the city's street grid?",
+      "d": "Broadway Boogie Woogie",
+      "y": [
+        "Victory Boogie Woogie",
+        "Composition with Red and Blue",
+        "New York City I"
+      ]
+    },
+    "olgu": "Broadway Boogie Woogie 1942–43 tarihli Mondrian tablosudur.",
+    "kalip": "sanat_egik_tuval",
+    "konular": [
+      "mondrian-boogie-woogie"
+    ],
+    "alt_tur": "tablo",
+    "jev_p": 0.29,
+    "jev_tek_dogru_p": 0.18,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-11",
+    "taslak_id": "C11-san-026",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Yves Klein'in 1960'ta kayda geçirdiği IKB renk formülü hangi ana renge dayanır?",
+    "d": "Mavi",
+    "y": [
+      "Sarı",
+      "Kırmızı",
+      "Yeşil"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which main colour underlies Yves Klein's IKB formula registered in 1960?",
+      "d": "Blue",
+      "y": [
+        "Yellow",
+        "Red",
+        "Green"
+      ]
+    },
+    "olgu": "International Klein Blue yoğun bir ultramarin mavidir.",
+    "kalip": "sanat_boya_karakter",
+    "konular": [
+      "yves-klein-1960-blue"
+    ],
+    "alt_tur": "teknik",
+    "jev_p": 0.11,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-12",
+    "taslak_id": "C11-san-037",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Hockney'nin A Bigger Splash tablosunda ön kenardan havuza uzanan yapı hangisidir?",
+    "d": "Dalış tahtası",
+    "y": [
+      "Katlanır şezlong",
+      "Havuz merdiveni",
+      "Bahçe şemsiyesi"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What structure extends over the pool from the near edge in Hockney's A Bigger Splash?",
+      "d": "Diving board",
+      "y": [
+        "Folding deck chair",
+        "Pool ladder",
+        "Garden parasol"
+      ]
+    },
+    "olgu": "Resmin önünde havuza uzanan dalış tahtası vardır.",
+    "kalip": "sanat_resimde_havuz_esyasi",
+    "konular": [
+      "hockney-bigger-splash-board"
+    ],
+    "alt_tur": "tablo_gorsel",
+    "jev_p": 0.31,
+    "jev_tek_dogru_p": 0.16,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-13",
+    "taslak_id": "C11-san-039",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Warhol'un 1964 Brillo Kutuları eserindeki sandıklar karton yerine hangi malzemeden yapılmıştır?",
+    "d": "Kontrplak",
+    "y": [
+      "Alüminyum",
+      "Pleksiglas",
+      "Mukavva"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What material replaces cardboard in the boxes of Warhol's 1964 Brillo Boxes?",
+      "d": "Plywood",
+      "y": [
+        "Aluminium",
+        "Plexiglass",
+        "Chipboard"
+      ]
+    },
+    "olgu": "Warhol'un Brillo kutuları boyalı kontrplak yapılardır.",
+    "kalip": "sanat_urun_kutu_malzeme",
+    "konular": [
+      "warhol-brillo-plywood"
+    ],
+    "alt_tur": "heykel",
+    "jev_p": 0.32,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-14",
+    "taslak_id": "C11-san-040",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Cattelan'ın Comedian çalışmasındaki muz duvara hangi malzemeyle tutturulur?",
+    "d": "Gri bant",
+    "y": [
+      "Metal kanca",
+      "Beyaz ip",
+      "Cam yapıştırıcısı"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What fixes the banana to the wall in Cattelan's Comedian?",
+      "d": "Grey tape",
+      "y": [
+        "Metal hook",
+        "White string",
+        "Glass adhesive"
+      ]
+    },
+    "olgu": "Comedian'da muz gri duct tape ile duvara tutturulur.",
+    "kalip": "sanat_muzayede_nesne",
+    "konular": [
+      "cattelan-comedian-tape"
+    ],
+    "alt_tur": "enstalasyon",
+    "jev_p": 0.24,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-15",
+    "taslak_id": "C11-san-043",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Judy Chicago'nun The Dinner Party eserindeki büyük sofra planı hangi geometrik biçimdedir?",
+    "d": "Üçgen",
+    "y": [
+      "Dikdörtgen",
+      "Daire",
+      "Altıgen"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What geometric shape is the large table arrangement in Judy Chicago's The Dinner Party?",
+      "d": "Triangle",
+      "y": [
+        "Rectangle",
+        "Circle",
+        "Hexagon"
+      ]
+    },
+    "olgu": "The Dinner Party üçgen bir masa düzenidir.",
+    "kalip": "sanat_enstalasyonda_yemek",
+    "konular": [
+      "judy-chicago-dinner-triangle"
+    ],
+    "alt_tur": "enstalasyon",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-17",
+    "taslak_id": "C11-san-046",
+    "k": "sanat",
+    "yerel": false,
+    "s": "1939 Keep Calm and Carry On afişinin yazısının üstünde hangi simge bulunur?",
+    "d": "Taç",
+    "y": [
+      "Aslan",
+      "Kılıç",
+      "Kalkan"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which symbol appears above the words on the 1939 Keep Calm and Carry On poster?",
+      "d": "Crown",
+      "y": [
+        "Lion",
+        "Sword",
+        "Shield"
+      ]
+    },
+    "olgu": "Afişte yazının üstünde Tudor tacı bulunur.",
+    "kalip": "sanat_afis_tipografi",
+    "konular": [
+      "keep-calm-crown"
+    ],
+    "alt_tur": "grafik",
+    "jev_p": 0.36,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-18",
+    "taslak_id": "C11-R003",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Bramante'nin Roma'daki Tempietto yapısının yer planı hangi biçimdedir?",
+    "d": "Daire",
+    "y": [
+      "Dikdörtgen",
+      "Sekizgen",
+      "Haç biçimi"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is the floor-plan shape of Bramante's Tempietto in Rome?",
+      "d": "Circular",
+      "y": [
+        "Rectangular",
+        "Octagonal",
+        "Cruciform"
+      ]
+    },
+    "olgu": "Tempietto dairesel planlıdır.",
+    "kalip": "yapi_ozgun_bolum",
+    "konular": [
+      "bramante-tempietto"
+    ],
+    "alt_tur": "mimari",
+    "kaynak": "codex-09:C08-san-017",
+    "jev_p": 0.58,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-19",
+    "taslak_id": "C11-san-005",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Bauhaus'un geometrik hareket kurallarını yansıtan 1923 satranç takımını hangi tasarımcı hazırladı?",
+    "d": "Josef Hartwig",
+    "y": [
+      "Marcel Breuer",
+      "Wilhelm Wagenfeld",
+      "Herbert Bayer"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which designer created the Bauhaus's 1923 chess set with shapes reflecting the pieces' moves?",
+      "d": "Josef Hartwig",
+      "y": [
+        "Marcel Breuer",
+        "Wilhelm Wagenfeld",
+        "Herbert Bayer"
+      ]
+    },
+    "olgu": "Josef Hartwig 1923'te Bauhaus satranç takımını tasarladı.",
+    "kalip": "sanat_kolektif_tasarim",
+    "konular": [
+      "bauhaus-chess-hartwig"
+    ],
+    "alt_tur": "tasarim",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-20",
+    "taslak_id": "C11-san-007",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Ravenna'daki San Vitale mozaiğinde İmparatoriçe Theodora ellerinde hangi törensel nesneyi tutar?",
+    "d": "Kadeh",
+    "y": [
+      "Tütsülük",
+      "Asa",
+      "Kitap"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What ceremonial object does Empress Theodora hold in the mosaic at San Vitale in Ravenna?",
+      "d": "Chalice",
+      "y": [
+        "Censer",
+        "Sceptre",
+        "Book"
+      ]
+    },
+    "olgu": "Theodora mozaiğinde bir kadeh taşır.",
+    "kalip": "sanat_mozaik_sanatci",
+    "konular": [
+      "ravenna-theodora-cup"
+    ],
+    "alt_tur": "tablo_gorsel",
+    "jev_p": 0.18,
+    "jev_tek_dogru_p": 0.14,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-21",
+    "taslak_id": "C11-san-025",
+    "k": "sanat",
+    "yerel": false,
+    "s": "New York'taki Henry Clay Frick konağının 1914'te tamamlanan yapısını hangi mimarlık firması tasarladı?",
+    "d": "Carrère ve Hastings",
+    "y": [
+      "McKim Mead ve White",
+      "Delano ve Aldrich",
+      "Warren ve Wetmore"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which firm designed Henry Clay Frick's New York mansion completed in 1914?",
+      "d": "Carrere and Hastings",
+      "y": [
+        "McKim Mead and White",
+        "Delano and Aldrich",
+        "Warren and Wetmore"
+      ]
+    },
+    "olgu": "Frick konağını Carrère and Hastings tasarladı.",
+    "kalip": "sanat_gizli_oda",
+    "konular": [
+      "frick-home-architect"
+    ],
+    "alt_tur": "mimari",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-22",
+    "taslak_id": "C11-san-029",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Cellini'nin I. François için yaptığı altın masa eseri tuz ve başka hangi çeşni için bölme içerir?",
+    "d": "Biber",
+    "y": [
+      "Hardal",
+      "Sirke",
+      "Şeker"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Cellini's gold table piece made for Francis I has compartments for salt and what other seasoning?",
+      "d": "Pepper",
+      "y": [
+        "Mustard",
+        "Vinegar",
+        "Sugar"
+      ]
+    },
+    "olgu": "Cellini'nin Saliera'sı tuz ve biber kaplarını birleştirir.",
+    "kalip": "sanat_sanatci_sarayi",
+    "konular": [
+      "benvenuto-cellini-salt"
+    ],
+    "alt_tur": "heykel",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.15,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-23",
+    "taslak_id": "C11-san-030",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Alexander Calder'ın minyatür 'Sirk' figürlerinin yapımında kullandığı bükülebilir metal malzeme hangisidir?",
+    "d": "Tel",
+    "y": [
+      "Levha",
+      "Folyo",
+      "Çubuk"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What bendable metal material did Alexander Calder use to construct the miniature figures of his Circus?",
+      "d": "Wire",
+      "y": [
+        "Sheet metal",
+        "Foil",
+        "Rod"
+      ]
+    },
+    "olgu": "Calder'in Sirk figürleri tel ve çeşitli gündelik malzemelerden yapılmıştır.",
+    "kalip": "sanat_modern_heykel",
+    "konular": [
+      "calder-circus-material"
+    ],
+    "alt_tur": "heykel",
+    "jev_p": 0.27,
+    "jev_tek_dogru_p": 0.13,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-24",
+    "taslak_id": "C11-san-031",
+    "k": "sanat",
+    "yerel": true,
+    "s": "Abidin Dino'nun birbirine uzanan, sıkılan veya açılan biçimlerle sıkça çizdiği beden bölümü hangisidir?",
+    "d": "Eller",
+    "y": [
+      "Ayaklar",
+      "Kulaklar",
+      "Dizler"
+    ],
+    "zorluk": 3,
+    "en": null,
+    "en_neden": "Türkiye yerel kültürü; stil kararı.",
+    "olgu": "Abidin Dino el çizimleriyle tanınır.",
+    "kalip": "sanat_turk_motif",
+    "konular": [
+      "abidin-dino-hands"
+    ],
+    "alt_tur": "tablo",
+    "jev_p": 0.2,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-25",
+    "taslak_id": "C11-san-034",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Whistler, Ruskin'e karşı açtığı hakaret davasını kazandığında sembolik olarak ne kadar tazminat aldı?",
+    "d": "Bir farthing",
+    "y": [
+      "Bir penny",
+      "Bir shilling",
+      "Bir guinea"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What symbolic damages did Whistler receive when he won his libel case against Ruskin?",
+      "d": "One farthing",
+      "y": [
+        "One penny",
+        "One shilling",
+        "One guinea"
+      ]
+    },
+    "olgu": "1878 davasında Whistler'a bir farthing tazminat verildi.",
+    "kalip": "sanat_baskisi_sergi",
+    "konular": [
+      "whistler-nocturne-lawsuit-farthing"
+    ],
+    "alt_tur": "biyografi",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-26",
+    "taslak_id": "C11-muz-006",
+    "k": "muzik",
+    "yerel": false,
+    "s": "David Bowie'nin Ziggy Stardust karakteri, onu konu alan şarkıda hangi çalgıyı çalar?",
+    "d": "Gitar",
+    "y": [
+      "Klavye",
+      "Saksafon",
+      "Keman"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which instrument does David Bowie's Ziggy Stardust play in the song about him?",
+      "d": "Guitar",
+      "y": [
+        "Keyboard",
+        "Saxophone",
+        "Violin"
+      ]
+    },
+    "olgu": "Ziggy Stardust şarkısı karakteri gitar çalan biri olarak tanıtır.",
+    "kalip": "muzik_hayali_karakter",
+    "konular": [
+      "bowie-ziggy-instrument"
+    ],
+    "alt_tur": "karakter",
+    "jev_p": 0.31,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-27",
+    "taslak_id": "C11-muz-008",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Slash'ın sahne görünümüyle özdeşleşen siyah başlık hangisidir?",
+    "d": "Silindir şapka",
+    "y": [
+      "Melon şapka",
+      "Fötr şapka",
+      "Kovboy şapkası"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which black hat is associated with Slash's stage appearance?",
+      "d": "Top hat",
+      "y": [
+        "Bowler hat",
+        "Fedora hat",
+        "Cowboy hat"
+      ]
+    },
+    "olgu": "Slash siyah silindir şapka takar.",
+    "kalip": "muzik_sahne_sapka",
+    "konular": [
+      "slash-top-hat"
+    ],
+    "alt_tur": "sahne",
+    "jev_p": 0.34,
+    "jev_tek_dogru_p": 0.24,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-28",
+    "taslak_id": "C11-muz-012",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Sihirli Flüt'te Papageno'ya koruyucu güç sağlayan çalgı hangisidir?",
+    "d": "Çan takımı",
+    "y": [
+      "Telli lir",
+      "Bambu flüt",
+      "Tahta klarnet"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which instrument gives Papageno protective power in The Magic Flute?",
+      "d": "Magic bells",
+      "y": [
+        "Stringed lyre",
+        "Bamboo flute",
+        "Wooden clarinet"
+      ]
+    },
+    "olgu": "Papageno'ya sihirli çan takımı verilir.",
+    "kalip": "muzik_opera_oyuncak",
+    "konular": [
+      "magic-flute-papageno-bells"
+    ],
+    "alt_tur": "opera",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.19,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-29",
+    "taslak_id": "C11-muz-018",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Sinéad O'Connor'ın Nothing Compares 2 U klibinin yakın planında yüzünde hangi ayrıntı görülür?",
+    "d": "Gözyaşı",
+    "y": [
+      "Yüz boyası",
+      "Siyah maske",
+      "Güneş gözlüğü"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What detail appears on Sinead O'Connor's face in the close-up shots of Nothing Compares 2 U?",
+      "d": "A tear",
+      "y": [
+        "Face paint",
+        "A black mask",
+        "Sunglasses"
+      ]
+    },
+    "olgu": "Klipte O'Connor'ın gözlerinden yaş süzülür.",
+    "kalip": "muzik_klip_kostum",
+    "konular": [
+      "sinead-nothing-compares-tear"
+    ],
+    "alt_tur": "video",
+    "jev_p": 0.42,
+    "jev_tek_dogru_p": 0.19,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-30",
+    "taslak_id": "C11-muz-022",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Ian Anderson, Jethro Tull konserlerinde tek ayak üzerinde hangi üflemeli çalgıyı çalmasıyla tanınır?",
+    "d": "Flüt",
+    "y": [
+      "Obua",
+      "Klarnet",
+      "Saksafon"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which wind instrument is Ian Anderson known for playing on one leg at Jethro Tull concerts?",
+      "d": "Flute",
+      "y": [
+        "Oboe",
+        "Clarinet",
+        "Saxophone"
+      ]
+    },
+    "olgu": "Ian Anderson tek ayak üstünde flüt çalmasıyla tanınır.",
+    "kalip": "muzik_calgi_sayisi",
+    "konular": [
+      "jethro-tull-ian-anderson-flute"
+    ],
+    "alt_tur": "sahne",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-31",
+    "taslak_id": "C11-muz-024",
+    "k": "muzik",
+    "yerel": false,
+    "s": "The B-52's grubunun 1978 tarihli ilk single'ının adında hangi deniz canlısı bulunur?",
+    "d": "Istakoz",
+    "y": [
+      "Ahtapot",
+      "Denizatı",
+      "Yengeç"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which sea creature appears in the title of the B-52's 1978 debut single?",
+      "d": "Lobster",
+      "y": [
+        "Octopus",
+        "Seahorse",
+        "Crab"
+      ]
+    },
+    "olgu": "B-52's ilk single olarak Rock Lobster'ı yayımladı.",
+    "kalip": "muzik_tekrar_baslangic",
+    "konular": [
+      "b52-rock-lobster"
+    ],
+    "alt_tur": "pop",
+    "jev_p": 0.03,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-32",
+    "taslak_id": "C11-muz-026",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Radiohead, In Rainbows'un 2007 dijital çıkışında fiyatı belirleme hakkını kime bıraktı?",
+    "d": "Dinleyiciye",
+    "y": [
+      "Plak şirketine",
+      "Radyo istasyonuna",
+      "Konser organizatörüne"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who could choose the price of the digital release of Radiohead's In Rainbows in 2007?",
+      "d": "The listener",
+      "y": [
+        "The record label",
+        "The radio station",
+        "The concert promoter"
+      ]
+    },
+    "olgu": "In Rainbows dijital olarak istediğin fiyatı öde modeliyle sunuldu.",
+    "kalip": "muzik_yayin_platformu",
+    "konular": [
+      "radiohead-rainbows-price"
+    ],
+    "alt_tur": "yayin",
+    "jev_p": 0.44,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-33",
+    "taslak_id": "C11-muz-028",
+    "k": "muzik",
+    "yerel": true,
+    "s": "Teoman'ın 1996 tarihli ilk albümündeki hangi şarkı adını bir çiçekten alır?",
+    "d": "Papatya",
+    "y": [
+      "Gül Döktüm Yollarına",
+      "Zambaklar",
+      "Mor Salkım"
+    ],
+    "zorluk": 2,
+    "en": null,
+    "en_neden": "Türkiye yerel kültürü; stil kararı.",
+    "olgu": "Papatya Teoman'ın ilk albümünde yer alır.",
+    "kalip": "muzik_turk_album_dort",
+    "konular": [
+      "teoman-papatya"
+    ],
+    "alt_tur": "rock",
+    "jev_p": 0.24,
+    "jev_tek_dogru_p": 0.19,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-34",
+    "taslak_id": "C11-muz-032",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Bobby McFerrin'in Don't Worry Be Happy kaydındaki çalgı gibi duyulan tüm sesler nasıl üretildi?",
+    "d": "İnsan sesiyle",
+    "y": [
+      "Elektronik klavyeyle",
+      "Telli çalgılarla",
+      "Nefesli çalgılarla"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How were all the instrument-like sounds on Bobby McFerrin's Don't Worry Be Happy produced?",
+      "d": "Human voice",
+      "y": [
+        "Electronic keyboards",
+        "String instruments",
+        "Wind instruments"
+      ]
+    },
+    "olgu": "Kayıtta tüm sesler McFerrin'in sesiyle üretilmiştir.",
+    "kalip": "muzik_seyirci_islik",
+    "konular": [
+      "bobby-mcferrin-dont-worry"
+    ],
+    "alt_tur": "kayit",
+    "jev_p": 0.72,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-35",
+    "taslak_id": "C11-muz-033",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Natalie Imbruglia'nın Torn klibinin sonunda ekibin odanın neresini söktüğü görülür?",
+    "d": "Duvarlarını",
+    "y": [
+      "Döşemesini",
+      "Tavanını",
+      "Pencerelerini"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What does the crew dismantle from the room at the end of Natalie Imbruglia's Torn video?",
+      "d": "Walls",
+      "y": [
+        "Floorboards",
+        "Ceiling",
+        "Windows"
+      ]
+    },
+    "olgu": "Klip sonunda dekor duvarları sökülür.",
+    "kalip": "muzik_klip_komedi_guvenlik",
+    "konular": [
+      "natalie-imbruglia-torn"
+    ],
+    "alt_tur": "video",
+    "jev_p": 0.51,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-36",
+    "taslak_id": "C11-muz-035",
+    "k": "muzik",
+    "yerel": false,
+    "s": "John Lennon'ın Imagine tanıtım filminde çaldığı büyük piyano hangi renktedir?",
+    "d": "Beyaz",
+    "y": [
+      "Siyah",
+      "Kırmızı",
+      "Kahverengi"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What colour is the grand piano John Lennon plays in the Imagine promotional film?",
+      "d": "White",
+      "y": [
+        "Black",
+        "Red",
+        "Brown"
+      ]
+    },
+    "olgu": "Lennon Imagine filminde beyaz piyano çalar.",
+    "kalip": "muzik_konser_piyano",
+    "konular": [
+      "john-lennon-imagine-white"
+    ],
+    "alt_tur": "video",
+    "jev_p": 0.4,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-37",
+    "taslak_id": "C11-muz-036",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Brian May, Red Special gitarını gençliğinde kimin yardımıyla yaptı?",
+    "d": "Babasının",
+    "y": [
+      "Kardeşinin",
+      "Öğretmeninin",
+      "Menajerinin"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who helped Brian May build his Red Special guitar as a teenager?",
+      "d": "His father",
+      "y": [
+        "His brother",
+        "His teacher",
+        "His manager"
+      ]
+    },
+    "olgu": "Brian May Red Special'ı babası Harold ile yaptı.",
+    "kalip": "muzik_telli_kanun",
+    "konular": [
+      "brian-may-red-special-builder"
+    ],
+    "alt_tur": "biyografi",
+    "jev_p": 0.59,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-38",
+    "taslak_id": "C11-muz-037",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Deadmau5'ın sahne başlığı hangi hayvanın başını andırır?",
+    "d": "Fare",
+    "y": [
+      "Tavşan",
+      "Kedi",
+      "Ayı"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which animal's head does deadmau5's stage helmet resemble?",
+      "d": "Mouse",
+      "y": [
+        "Rabbit",
+        "Cat",
+        "Bear"
+      ]
+    },
+    "olgu": "Deadmau5 sahnede büyük fare başlığı kullanır.",
+    "kalip": "muzik_yeni_sahne_yuz",
+    "konular": [
+      "deadmaus-helmet"
+    ],
+    "alt_tur": "sahne",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-39",
+    "taslak_id": "C11-muz-038",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Meat Loaf'un Bat Out of Hell kapağında mezarlıktan çıkan kişi hangi araç üzerindedir?",
+    "d": "Motosiklet",
+    "y": [
+      "Bisiklet",
+      "Otomobil",
+      "At arabası"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "On what vehicle does the figure emerge from the cemetery on Meat Loaf's Bat Out of Hell cover?",
+      "d": "Motorcycle",
+      "y": [
+        "Bicycle",
+        "Motorcar",
+        "Horse carriage"
+      ]
+    },
+    "olgu": "Kapakta bir motosikletli mezarlıktan çıkar.",
+    "kalip": "muzik_album_dis_rol",
+    "konular": [
+      "meat-loaf-bat-out-hell-cover"
+    ],
+    "alt_tur": "album",
+    "jev_p": 0.05,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-40",
+    "taslak_id": "C11-R005",
+    "k": "muzik",
+    "yerel": false,
+    "s": "The Corrs grubunun dört üyesi arasındaki aile bağı nedir?",
+    "d": "Kardeşler",
+    "y": [
+      "Kuzenler",
+      "Ebeveyn ve çocuklar",
+      "Eşler"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How are the four members of The Corrs related?",
+      "d": "Siblings",
+      "y": [
+        "Cousins",
+        "Parents and children",
+        "Spouses"
+      ]
+    },
+    "olgu": "The Corrs üyeleri Andrea, Sharon, Caroline ve Jim kardeştir.",
+    "kalip": "grup_ozgun_cinsiyet",
+    "konular": [
+      "the-corrs"
+    ],
+    "alt_tur": "grup",
+    "kaynak": "codex-09:C08-muz-014",
+    "jev_p": 0.48,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-41",
+    "taslak_id": "C11-R006",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Don McLean'in 'American Pie'ında anılan 1959 uçak kazasında ölen müzisyenlerden biri kimdir?",
+    "d": "Buddy Holly",
+    "y": [
+      "Eddie Cochran",
+      "Gene Vincent",
+      "Bill Haley"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which musician died in the 1959 plane crash recalled in Don McLean's 'American Pie'?",
+      "d": "Buddy Holly",
+      "y": [
+        "Eddie Cochran",
+        "Gene Vincent",
+        "Bill Haley"
+      ]
+    },
+    "olgu": "Buddy Holly 1959 uçak kazasında öldü.",
+    "kalip": "sarki_ozgun_tarihsel_kisi",
+    "konular": [
+      "don-mclean-american"
+    ],
+    "alt_tur": "kayit",
+    "kaynak": "codex-09:C08-muz-047",
+    "jev_p": 0.72,
+    "jev_tek_dogru_p": 0.1,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-42",
+    "taslak_id": "C11-muz-002",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Devo üyelerinin 1980'de sahnede kullanmaya başladığı kırmızı 'energy dome' başlıklarının biçimi hangisidir?",
+    "d": "Basamaklı koni",
+    "y": [
+      "Düz silindir",
+      "Küre yarısı",
+      "Dörtgen prizma"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What shape are the red energy dome hats Devo began wearing in 1980?",
+      "d": "Stepped cone",
+      "y": [
+        "Plain cylinder",
+        "Hemisphere",
+        "Rectangular prism"
+      ]
+    },
+    "olgu": "Devo'nun energy dome başlıkları basamaklı koniler biçimindedir.",
+    "kalip": "muzik_kostum_sayisi",
+    "konular": [
+      "devo-energy-dome"
+    ],
+    "alt_tur": "sahne",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.18,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-43",
+    "taslak_id": "C11-muz-003",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Kraftwerk'in 'The Robots' parçası ilk olarak hangi 1978 albümünde yayımlandı?",
+    "d": "The Man-Machine",
+    "y": [
+      "Trans-Europe Express",
+      "Computer World",
+      "Electric Cafe"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "On which 1978 album did Kraftwerk first release The Robots?",
+      "d": "The Man-Machine",
+      "y": [
+        "Trans-Europe Express",
+        "Computer World",
+        "Electric Cafe"
+      ]
+    },
+    "olgu": "The Robots 1978 tarihli The Man-Machine albümündedir.",
+    "kalip": "muzik_turne_afis",
+    "konular": [
+      "kraftwerk-robots-year"
+    ],
+    "alt_tur": "elektronik",
+    "jev_p": 0.17,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-44",
+    "taslak_id": "C11-muz-005",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Phil Collins'in 'In the Air Tonight' şarkısındaki ünlü davul girişi hangi 1981 solo albümünde yer alır?",
+    "d": "Face Value",
+    "y": [
+      "Hello I Must Be Going",
+      "No Jacket Required",
+      "But Seriously"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which 1981 Phil Collins solo album includes In the Air Tonight with its famous drum entrance?",
+      "d": "Face Value",
+      "y": [
+        "Hello I Must Be Going",
+        "No Jacket Required",
+        "But Seriously"
+      ]
+    },
+    "olgu": "In the Air Tonight Face Value albümündedir.",
+    "kalip": "muzik_davul_kayit",
+    "konular": [
+      "phil-collins-air-tonight"
+    ],
+    "alt_tur": "kayit",
+    "jev_p": 0.1,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-45",
+    "taslak_id": "C11-muz-007",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Queen'in Bohemian Rhapsody kayıtlarına başladığı, Galler'deki çiftlik stüdyosunun adı hangisidir?",
+    "d": "Rockfield",
+    "y": [
+      "Abbey Road",
+      "Trident",
+      "Olympic"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is the name of the Welsh farm studio where Queen began recording Bohemian Rhapsody?",
+      "d": "Rockfield",
+      "y": [
+        "Abbey Road",
+        "Trident",
+        "Olympic"
+      ]
+    },
+    "olgu": "Bohemian Rhapsody kayıtları 1975'te Rockfield'da başladı.",
+    "kalip": "muzik_kiralanan_yer",
+    "konular": [
+      "queen-bohemian-studios"
+    ],
+    "alt_tur": "kayit",
+    "jev_p": 0.1,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-46",
+    "taslak_id": "C11-muz-021",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Stevie Wonder'ın 1974'te yılın albümü Grammy'sini kazandığı kayıt hangisidir?",
+    "d": "Innervisions",
+    "y": [
+      "Talking Book",
+      "Music of My Mind",
+      "Hotter than July"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which Stevie Wonder album won the album of the year Grammy in 1974?",
+      "d": "Innervisions",
+      "y": [
+        "Talking Book",
+        "Music of My Mind",
+        "Hotter than July"
+      ]
+    },
+    "olgu": "Innervisions 1974'te yılın albümü Grammy'sini aldı.",
+    "kalip": "muzik_odul_yas",
+    "konular": [
+      "stevie-wonder-innervisions"
+    ],
+    "alt_tur": "album",
+    "jev_p": 0.35,
+    "jev_tek_dogru_p": 0.11,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-47",
+    "taslak_id": "C11-muz-025",
+    "k": "muzik",
+    "yerel": false,
+    "s": "Bob Marley ve The Wailers'ın Catch a Fire albümünün ilk baskısında kapak hangi nesne biçimindeydi?",
+    "d": "Çakmak",
+    "y": [
+      "Radyo",
+      "Kaset",
+      "Kamera"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What object did the original sleeve of Bob Marley and the Wailers' Catch a Fire resemble?",
+      "d": "Lighter",
+      "y": [
+        "Radio",
+        "Cassette",
+        "Camera"
+      ]
+    },
+    "olgu": "Catch a Fire'ın özgün açılır kapağı Zippo çakmak şeklindeydi.",
+    "kalip": "muzik_arsiv_yayini",
+    "konular": [
+      "bob-marley-catch-fire-lighter"
+    ],
+    "alt_tur": "album",
+    "jev_p": 0.32,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-48",
+    "taslak_id": "C11-muz-029",
+    "k": "muzik",
+    "yerel": true,
+    "s": "Bülent Ortaçgil'in ilk albümü Benimle Oynar Mısın hangi yılda yayımlandı?",
+    "d": "1974",
+    "y": [
+      "1968",
+      "1982",
+      "1988"
+    ],
+    "zorluk": 3,
+    "en": null,
+    "en_neden": "Türkiye yerel kültürü; stil kararı.",
+    "olgu": "Benimle Oynar Mısın 1974'te yayımlandı.",
+    "kalip": "muzik_turk_konser_album",
+    "konular": [
+      "bulent-ortacgil-1974"
+    ],
+    "alt_tur": "sarki",
+    "jev_p": 0.34,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-50",
+    "taslak_id": "C11-R014",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Web sayfalarının eski sürümlerini saklayan Internet Archive hizmetinin adı nedir?",
+    "d": "Wayback Machine",
+    "y": [
+      "Google Scholar",
+      "Wolfram Alpha",
+      "Library Genesis"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What Internet Archive service preserves older versions of web pages?",
+      "d": "Wayback Machine",
+      "y": [
+        "Google Scholar",
+        "Wolfram Alpha",
+        "Library Genesis"
+      ]
+    },
+    "olgu": "Web arşivleme hizmeti Wayback Machine'dir.",
+    "kalip": "internet_ozgun_proje",
+    "konular": [
+      "archive-wayback"
+    ],
+    "alt_tur": "internet",
+    "kaynak": "codex-09:C08-tek-030",
+    "jev_p": 0.49,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-51",
+    "taslak_id": "C11-R037",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "MS-DOS'ta dosya ve klasörleri listeleyen temel komut hangisidir?",
+    "d": "DIR",
+    "y": [
+      "COPY",
+      "TYPE",
+      "REN"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which basic MS-DOS command lists files and directories?",
+      "d": "DIR",
+      "y": [
+        "COPY",
+        "TYPE",
+        "REN"
+      ]
+    },
+    "olgu": "DIR dosyaları listeler.",
+    "kalip": "teknoloji_ozgun_retro_menu",
+    "konular": [
+      "ms-dos-prompt"
+    ],
+    "alt_tur": "yazilim",
+    "kaynak": "codex-09:C09-tek-011",
+    "jev_p": 0.63,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-52",
+    "taslak_id": "C11-tek-003",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Apple'ın 1983 bilgisayarı Lisa, Steve Jobs'ın hangi aile üyesinin adını taşır?",
+    "d": "Kızının",
+    "y": [
+      "Annesinin",
+      "Kız kardeşinin",
+      "Büyükannesinin"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which relative of Steve Jobs shared the name of Apple's 1983 Lisa computer?",
+      "d": "His daughter",
+      "y": [
+        "His mother",
+        "His sister",
+        "His grandmother"
+      ]
+    },
+    "olgu": "Lisa bilgisayarı Jobs'ın kızı Lisa Brennan'ın adını taşıyordu.",
+    "kalip": "teknoloji_surus_dosyasi",
+    "konular": [
+      "apple-lisa-name"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-53",
+    "taslak_id": "C11-tek-021",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Edison'un erken dönem fonograflarında kalay folyodan sonra kullanılan yaygın silindir malzemesi hangisidir?",
+    "d": "Balmumu",
+    "y": [
+      "Kauçuk",
+      "Cam",
+      "Porselen"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "After tin foil, what material was widely used for cylinders in Edison's early phonographs?",
+      "d": "Wax",
+      "y": [
+        "Rubber",
+        "Glass",
+        "Porcelain"
+      ]
+    },
+    "olgu": "Erken ses kayıt silindirleri balmumundan üretildi.",
+    "kalip": "teknoloji_kayit_malzeme",
+    "konular": [
+      "wax-cylinder-edison"
+    ],
+    "alt_tur": "iletisim",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.13,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-54",
+    "taslak_id": "C11-tek-023",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "1994'te tanıtılan Zip sürücüsünü hangi şirket geliştirdi?",
+    "d": "Iomega",
+    "y": [
+      "SyQuest",
+      "Imation",
+      "Verbatim"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which company developed the Zip drive introduced in 1994?",
+      "d": "Iomega",
+      "y": [
+        "SyQuest",
+        "Imation",
+        "Verbatim"
+      ]
+    },
+    "olgu": "Zip sürücüsü Iomega tarafından geliştirildi.",
+    "kalip": "teknoloji_format_disk",
+    "konular": [
+      "zip-disk-iomega"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.72,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-55",
+    "taslak_id": "C11-tek-027",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "2003'te Lenovo adını alan bilgisayar şirketi daha önce hangi adı kullanıyordu?",
+    "d": "Legend",
+    "y": [
+      "Founder",
+      "Great Wall",
+      "Tongfang"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What name did the computer company use before adopting Lenovo in 2003?",
+      "d": "Legend",
+      "y": [
+        "Founder",
+        "Great Wall",
+        "Tongfang"
+      ]
+    },
+    "olgu": "Lenovo daha önce Legend adını kullanıyordu.",
+    "kalip": "teknoloji_oem_ad",
+    "konular": [
+      "lenovo-legend-renamed"
+    ],
+    "alt_tur": "sirket",
+    "jev_p": 0.25,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-56",
+    "taslak_id": "C11-tek-033",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Nokia'nın 1990'lardaki Connecting People reklamlarında birbirine uzanan hangi beden parçaları görünürdü?",
+    "d": "Eller",
+    "y": [
+      "Ayaklar",
+      "Yüzler",
+      "Kollar"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which body parts reached toward one another in Nokia's Connecting People advertising of the 1990s?",
+      "d": "Hands",
+      "y": [
+        "Feet",
+        "Faces",
+        "Arms"
+      ]
+    },
+    "olgu": "Nokia reklamlarının el sıkışma görüntüsünde birbirine uzanan eller vardı.",
+    "kalip": "teknoloji_marka_imza",
+    "konular": [
+      "nokia-connecting-people"
+    ],
+    "alt_tur": "sirket",
+    "jev_p": 0.37,
+    "jev_tek_dogru_p": 0.17,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-57",
+    "taslak_id": "C11-tek-035",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "1998 iMac G3'ün plastik kasası içindeki parçaların kısmen görülmesini hangi özellikle sağlıyordu?",
+    "d": "Yarı saydamlık",
+    "y": [
+      "Metal kafes",
+      "Açılır pencere",
+      "Çıkarılır panel"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What feature of the 1998 iMac G3 plastic case allowed partial views of its internal parts?",
+      "d": "Translucency",
+      "y": [
+        "Metal mesh",
+        "Opening window",
+        "Removable panel"
+      ]
+    },
+    "olgu": "İlk iMac G3 kasası yarı saydam plastikten yapıldı.",
+    "kalip": "teknoloji_eski_oyun_renk",
+    "konular": [
+      "apple-imac-translucent"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-58",
+    "taslak_id": "C11-tek-037",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Kodak'ın 1900'de çıkan ilk Brownie makinesinin ABD satış fiyatı kaç dolardı?",
+    "d": "1",
+    "y": [
+      "5",
+      "10",
+      "20"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How many dollars did the first Kodak Brownie cost in the US when released in 1900?",
+      "d": "1",
+      "y": [
+        "5",
+        "10",
+        "20"
+      ]
+    },
+    "olgu": "İlk Brownie bir dolara satıldı.",
+    "kalip": "teknoloji_foto_kart",
+    "konular": [
+      "kodak-brownie-price"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.28,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-59",
+    "taslak_id": "C11-tek-041",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Excel'in 1985'teki ilk sürümü hangi bilgisayar ailesi için yayımlandı?",
+    "d": "Apple Macintosh",
+    "y": [
+      "Commodore Amiga",
+      "Atari ST serisi",
+      "IBM PC uyumluları"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "For which computer family was the first version of Excel released in 1985?",
+      "d": "Apple Macintosh",
+      "y": [
+        "Commodore Amiga",
+        "Atari ST series",
+        "IBM PC compatibles"
+      ]
+    },
+    "olgu": "Excel ilk olarak 1985'te Macintosh için yayımlandı.",
+    "kalip": "teknoloji_ilk_yazilim_hardware",
+    "konular": [
+      "excel-first-macintosh"
+    ],
+    "alt_tur": "yazilim",
+    "jev_p": 0.27,
+    "jev_tek_dogru_p": 0.1,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-60",
+    "taslak_id": "C11-tek-043",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "2007 Wii Fit'in oyuncunun ağırlık merkezini ölçen paket aksesuarı hangisidir?",
+    "d": "Denge tahtası",
+    "y": [
+      "Hareket kumandası",
+      "Analog el kumandası",
+      "Egzersiz minderi"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which bundled accessory measured a player's centre of balance in 2007 Wii Fit?",
+      "d": "Balance board",
+      "y": [
+        "Motion controller",
+        "Analog hand controller",
+        "Exercise mat"
+      ]
+    },
+    "olgu": "Wii Fit Wii Balance Board ile satıldı.",
+    "kalip": "teknoloji_oyun_denge",
+    "konular": [
+      "wii-fit-balance-board"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-61",
+    "taslak_id": "C11-tek-044",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Commodore 64 açıldığında kullanıcının komut yazdığı temel programlama dili hangisidir?",
+    "d": "BASIC",
+    "y": [
+      "Pascal",
+      "FORTRAN",
+      "COBOL"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which programming language does a Commodore 64 present for typing commands when it starts up?",
+      "d": "BASIC",
+      "y": [
+        "Pascal",
+        "FORTRAN",
+        "COBOL"
+      ]
+    },
+    "olgu": "Commodore 64 BASIC yorumlayıcısıyla açılır.",
+    "kalip": "teknoloji_satisa_cikan_dil",
+    "konular": [
+      "commodore-64-startup-basic"
+    ],
+    "alt_tur": "yazilim",
+    "jev_p": 0.24,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-62",
+    "taslak_id": "C11-tek-045",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "İlk PlayStation'da oyun ilerlemesi konsolun iç diski yerine hangi çıkarılabilir aygıta kaydedilirdi?",
+    "d": "Bellek kartı",
+    "y": [
+      "Disket sürücüsü",
+      "USB bellek",
+      "Haricî sabit disk"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "On the original PlayStation, which removable device stored game progress instead of an internal drive?",
+      "d": "Memory card",
+      "y": [
+        "Floppy drive",
+        "USB stick",
+        "External hard drive"
+      ]
+    },
+    "olgu": "İlk PlayStation oyun kayıtlarını bellek kartına yazar.",
+    "kalip": "teknoloji_oyun_ilk_kayit",
+    "konular": [
+      "playstation-memory-card"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.05,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-63",
+    "taslak_id": "C11-tek-046",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "1996'da çıkan ICQ mesajlaşma uygulamasının özgün logosu hangi nesneyi gösterir?",
+    "d": "Çiçek",
+    "y": [
+      "Kelebek",
+      "Yıldız",
+      "Balon"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What does the original logo of the ICQ messaging application launched in 1996 depict?",
+      "d": "Flower",
+      "y": [
+        "Butterfly",
+        "Star",
+        "Balloon"
+      ]
+    },
+    "olgu": "ICQ logosu yeşil yapraklı bir çiçektir.",
+    "kalip": "teknoloji_internette_kisa_mesaj",
+    "konular": [
+      "icq-logo-flower"
+    ],
+    "alt_tur": "internet",
+    "jev_p": 0.35,
+    "jev_tek_dogru_p": 0.1,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-64",
+    "taslak_id": "C11-tek-048",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Windows XP'nin varsayılan Bliss duvar kâğıdında yeşil tepenin üstündeki gökyüzü hangi renktedir?",
+    "d": "Mavi",
+    "y": [
+      "Gri",
+      "Mor",
+      "Turuncu"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What colour is the sky above the green hill in Windows XP's default Bliss wallpaper?",
+      "d": "Blue",
+      "y": [
+        "Grey",
+        "Purple",
+        "Orange"
+      ]
+    },
+    "olgu": "Bliss yeşil tepe ve mavi gökyüzü fotoğrafıdır.",
+    "kalip": "teknoloji_tilkili_arayuz",
+    "konular": [
+      "windows-xp-default-bliss"
+    ],
+    "alt_tur": "yazilim",
+    "jev_p": 0.52,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-65",
+    "taslak_id": "C11-tek-050",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "1963'teki özgün Easy-Bake oyuncak fırını yiyecekleri hangi ısı kaynağıyla pişiriyordu?",
+    "d": "Ampul",
+    "y": [
+      "Mum",
+      "Gaz alevi",
+      "Buhar kazanı"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What heat source cooked food in the original 1963 Easy-Bake toy oven?",
+      "d": "Light bulb",
+      "y": [
+        "Candle",
+        "Gas flame",
+        "Steam boiler"
+      ]
+    },
+    "olgu": "Easy-Bake akkor ampul ısısını kullanıyordu.",
+    "kalip": "teknoloji_cihaz_firin",
+    "konular": [
+      "easy-bake-lightbulb"
+    ],
+    "alt_tur": "donanim",
+    "jev_p": 0.45999999999999996,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-66",
+    "taslak_id": "C11-R016",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Kodak'ın 1900'de çıkardığı ucuz kutu fotoğraf makinesinin model adı nedir?",
+    "d": "Brownie",
+    "y": [
+      "Instamatic",
+      "Retina",
+      "Duaflex"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What was Kodak's inexpensive box camera introduced in 1900 called?",
+      "d": "Brownie",
+      "y": [
+        "Instamatic",
+        "Retina",
+        "Duaflex"
+      ]
+    },
+    "olgu": "Kodak'ın 1900 modeli Brownie'dir.",
+    "kalip": "urun_ozgun_kimlik",
+    "konular": [
+      "kodak-brownie"
+    ],
+    "alt_tur": "donanim",
+    "kaynak": "codex-09:C08-tek-034",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-67",
+    "taslak_id": "C11-R018",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Bose QuietComfort ailesi hangi kişisel ses ürünüyle tanınır?",
+    "d": "Kulaklık",
+    "y": [
+      "Mikrofon",
+      "Plakçalar",
+      "Taşınabilir hoparlör"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which personal-audio product is associated with the Bose QuietComfort family?",
+      "d": "Headphones",
+      "y": [
+        "Microphone",
+        "Turntable",
+        "Portable speaker"
+      ]
+    },
+    "olgu": "QuietComfort bir Bose kulaklık ailesidir.",
+    "kalip": "urun_ozgun_uygulama",
+    "konular": [
+      "bose-noise"
+    ],
+    "alt_tur": "urun",
+    "kaynak": "codex-09:C08-tek-044",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-68",
+    "taslak_id": "C11-R019",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "TI-83 grafik hesap makinesinin üreticisi hangisidir?",
+    "d": "Texas Instruments",
+    "y": [
+      "Hewlett-Packard",
+      "Sharp Electronics",
+      "Casio Computer"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who manufactured the TI-83 graphing calculator?",
+      "d": "Texas Instruments",
+      "y": [
+        "Hewlett-Packard",
+        "Sharp Electronics",
+        "Casio Computer"
+      ]
+    },
+    "olgu": "TI-83 Texas Instruments ürünüdür.",
+    "kalip": "urun_ozgun_simule",
+    "konular": [
+      "ti-calculator"
+    ],
+    "alt_tur": "donanim",
+    "kaynak": "codex-09:C08-tek-068",
+    "jev_p": 0.25,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-70",
+    "taslak_id": "C11-R058",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "1993'te Hubble'a takılan ve yanlış aynanın etkisini kendi optiğiyle düzelten kamera hangisidir?",
+    "d": "WFPC2",
+    "y": [
+      "NICMOS",
+      "ACS",
+      "WFC3"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which camera fitted to Hubble in 1993 corrected the flawed mirror's effect with its own optics?",
+      "d": "WFPC2",
+      "y": [
+        "NICMOS",
+        "ACS",
+        "WFC3"
+      ]
+    },
+    "olgu": "WFPC2 Hubble'ın 1993 servis görevinde takıldı.",
+    "kalip": "teknoloji_uzay_kamera_adi",
+    "konular": [
+      "hubble-widefield"
+    ],
+    "alt_tur": "uzay",
+    "kaynak": "codex-09:C10-tek-033",
+    "jev_p": 0.18,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-71",
+    "taslak_id": "C11-R060",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Apple II'nin Disk II denetleyicisini büyük ölçüde tek başına tasarlayan kişi kimdir?",
+    "d": "Steve Wozniak",
+    "y": [
+      "Steve Jobs",
+      "Daniel Kottke",
+      "Mike Markkula"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who largely designed the Apple II Disk II controller alone?",
+      "d": "Steve Wozniak",
+      "y": [
+        "Steve Jobs",
+        "Daniel Kottke",
+        "Mike Markkula"
+      ]
+    },
+    "olgu": "Disk II denetleyicisini Steve Wozniak tasarladı.",
+    "kalip": "teknoloji_disket_marka_materyal",
+    "konular": [
+      "apple-disk-ii"
+    ],
+    "alt_tur": "donanim",
+    "kaynak": "codex-09:C10-tek-036",
+    "jev_p": 0.22,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-72",
+    "taslak_id": "C11-tek-020",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "NASA'nın Gemini uzay kapsülleri standart görevlerinde kaç astronot taşıyordu?",
+    "d": "2",
+    "y": [
+      "1",
+      "3",
+      "4"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "How many astronauts did NASA's Gemini capsules carry on their standard missions?",
+      "d": "2",
+      "y": [
+        "1",
+        "3",
+        "4"
+      ]
+    },
+    "olgu": "Gemini görevleri iki kişilik mürettebatla yürütüldü.",
+    "kalip": "teknoloji_uzay_kapsul",
+    "konular": [
+      "gemini-astronaut-count"
+    ],
+    "alt_tur": "uzay",
+    "jev_p": 0.18,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-73",
+    "taslak_id": "C11-spo-003",
+    "k": "spor",
+    "yerel": false,
+    "s": "Jesse Owens'ın 1936 Berlin yarışlarında kullandığı ayakkabıları üreten Alman girişimci kimdi?",
+    "d": "Adi Dassler",
+    "y": [
+      "Rudolf Dassler",
+      "Heinz Fütterer",
+      "Fritz Walter"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which German entrepreneur made the shoes Jesse Owens wore for his 1936 Berlin races?",
+      "d": "Adi Dassler",
+      "y": [
+        "Rudolf Dassler",
+        "Heinz Futterer",
+        "Fritz Walter"
+      ]
+    },
+    "olgu": "Owens 1936'da Adi Dassler'in ayakkabılarıyla yarıştı.",
+    "kalip": "spor_ayakkabi_tarihi",
+    "konular": [
+      "jesse-owens-dassler"
+    ],
+    "alt_tur": "atletizm",
+    "jev_p": 0.7,
+    "jev_tek_dogru_p": 0.13,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-74",
+    "taslak_id": "C11-spo-007",
+    "k": "spor",
+    "yerel": false,
+    "s": "Arsenal'in eski Highbury stadının tribün binaları 2006 sonrasında hangi kullanım için dönüştürüldü?",
+    "d": "Konut",
+    "y": [
+      "Hastane",
+      "Üniversite",
+      "Tren garı"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What were Arsenal's old Highbury stand buildings converted into after 2006?",
+      "d": "Housing",
+      "y": [
+        "Hospital",
+        "University",
+        "Railway station"
+      ]
+    },
+    "olgu": "Highbury konut yerleşimine dönüştürüldü.",
+    "kalip": "spor_saha_duzenlemesi",
+    "konular": [
+      "arsenal-highbury-flats"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.39,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-75",
+    "taslak_id": "C11-spo-017",
+    "k": "spor",
+    "yerel": false,
+    "s": "Kareem Abdul-Jabbar, 1971'de adını değiştirmeden önce hangi adla tanınıyordu?",
+    "d": "Lew Alcindor",
+    "y": [
+      "Oscar Robertson",
+      "Elvin Hayes",
+      "Walt Frazier"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What name did Kareem Abdul-Jabbar use before changing it in 1971?",
+      "d": "Lew Alcindor",
+      "y": [
+        "Oscar Robertson",
+        "Elvin Hayes",
+        "Walt Frazier"
+      ]
+    },
+    "olgu": "Kareem'in önceki adı Lew Alcindor'dı.",
+    "kalip": "spor_basket_ilk_isim",
+    "konular": [
+      "kareem-birth-name"
+    ],
+    "alt_tur": "basketbol",
+    "jev_p": 0.59,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-76",
+    "taslak_id": "C11-spo-027",
+    "k": "spor",
+    "yerel": true,
+    "s": "Naim Süleymanoğlu'nun Türkiye'de yaygın kullanılan lakabı hangisidir?",
+    "d": "Cep Herkülü",
+    "y": [
+      "Demir Bilek",
+      "Altın Kol",
+      "Boğazın Boğası"
+    ],
+    "zorluk": 2,
+    "en": null,
+    "en_neden": "Türkiye yerel kültürü; stil kararı.",
+    "olgu": "Naim Süleymanoğlu Cep Herkülü diye anılır.",
+    "kalip": "spor_turk_seri",
+    "konular": [
+      "naim-cep-herkulu"
+    ],
+    "alt_tur": "halter",
+    "jev_p": 0.47,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-77",
+    "taslak_id": "C11-spo-033",
+    "k": "spor",
+    "yerel": false,
+    "s": "Snowboardcu Shaun White'ın kızıl saçlarından gelen eski lakabı hangisidir?",
+    "d": "Uçan Domates",
+    "y": [
+      "Uçan Havuç",
+      "Kızıl Roket",
+      "Altın Kartal"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which former nickname came from snowboarder Shaun White's red hair?",
+      "d": "Flying Tomato",
+      "y": [
+        "Flying Carrot",
+        "Red Rocket",
+        "Golden Eagle"
+      ]
+    },
+    "olgu": "White Flying Tomato lakabıyla anılırdı.",
+    "kalip": "spor_saha_yeni_takmaad",
+    "konular": [
+      "shaun-white-flying-tomato"
+    ],
+    "alt_tur": "snowboard",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.19,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-78",
+    "taslak_id": "C11-spo-034",
+    "k": "spor",
+    "yerel": false,
+    "s": "Nadia Comăneci'nin Montreal 1976'daki ilk tam puanı, üç haneli elektronik tabloda nasıl gösterildi?",
+    "d": "1.00",
+    "y": [
+      "9.99",
+      "0.10",
+      "0.00"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How was Nadia Comaneci's first perfect score displayed on the three-digit board at Montreal 1976?",
+      "d": "1.00",
+      "y": [
+        "9.99",
+        "0.10",
+        "0.00"
+      ]
+    },
+    "olgu": "On puan gösteremeyen tabela Nadia'nın puanını 1.00 olarak verdi.",
+    "kalip": "spor_puan_tabela",
+    "konular": [
+      "nadia-perfect-ten-display"
+    ],
+    "alt_tur": "jimnastik",
+    "jev_p": 0.54,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-79",
+    "taslak_id": "C11-spo-036",
+    "k": "spor",
+    "yerel": false,
+    "s": "Liverpool'un 2005 İstanbul Şampiyonlar Ligi finalindeki kaptanı kimdi?",
+    "d": "Steven Gerrard",
+    "y": [
+      "Jamie Carragher",
+      "Xabi Alonso",
+      "Sami Hyypiä"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who captained Liverpool in the 2005 Champions League final in Istanbul?",
+      "d": "Steven Gerrard",
+      "y": [
+        "Jamie Carragher",
+        "Xabi Alonso",
+        "Sami Hyypia"
+      ]
+    },
+    "olgu": "Liverpool'un kaptanı Steven Gerrard'dı.",
+    "kalip": "spor_kaptan_gemi",
+    "konular": [
+      "liverpool-2005-gerrard"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.68,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-80",
+    "taslak_id": "C11-spo-038",
+    "k": "spor",
+    "yerel": false,
+    "s": "Abebe Bikila 1960 Roma Olimpiyat maratonunu ayakkabıları konusunda hangi tercihle kazandı?",
+    "d": "Çıplak ayakla",
+    "y": [
+      "Sandaletle",
+      "Futbol kramponuyla",
+      "Tek ayakkabıyla"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What footwear choice did Abebe Bikila make when winning the 1960 Rome Olympic marathon?",
+      "d": "Barefoot",
+      "y": [
+        "Sandals",
+        "Football boots",
+        "One shoe only"
+      ]
+    },
+    "olgu": "Bikila Roma maratonunu çıplak ayakla kazandı.",
+    "kalip": "spor_madalya_ayakkabi",
+    "konular": [
+      "kiplimo-abebe-bikila-barefoot"
+    ],
+    "alt_tur": "atletizm",
+    "jev_p": 0.54,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-81",
+    "taslak_id": "C11-spo-040",
+    "k": "spor",
+    "yerel": false,
+    "s": "Dortmund'un stadındaki büyük güney tribünü hangi lakapla bilinir?",
+    "d": "Sarı Duvar",
+    "y": [
+      "Kırmızı Duvar",
+      "Mavi Kale",
+      "Yeşil Cehennem"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "By what nickname is the huge south stand in Dortmund's stadium known?",
+      "d": "Yellow Wall",
+      "y": [
+        "Red Wall",
+        "Blue Fortress",
+        "Green Hell"
+      ]
+    },
+    "olgu": "Dortmund'un güney tribünü Sarı Duvar diye bilinir.",
+    "kalip": "spor_kulup_gelenek",
+    "konular": [
+      "borussia-yellow-wall"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.11,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-83",
+    "taslak_id": "C11-spo-042",
+    "k": "spor",
+    "yerel": false,
+    "s": "Li Na'nın 2011'de kazandığı ilk Grand Slam tekler şampiyonluğu hangisidir?",
+    "d": "Fransa Açık",
+    "y": [
+      "Avustralya Açık",
+      "ABD Açık",
+      "Wimbledon"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which was Li Na's first Grand Slam singles title, won in 2011?",
+      "d": "French Open",
+      "y": [
+        "Australian Open",
+        "US Open",
+        "Wimbledon"
+      ]
+    },
+    "olgu": "Li Na ilk Grand Slam'ini 2011 Fransa Açık'ta kazandı.",
+    "kalip": "spor_kadin_tenis_yuzey",
+    "konular": [
+      "li-na-2011-french"
+    ],
+    "alt_tur": "tenis",
+    "jev_p": 0.11,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-84",
+    "taslak_id": "C11-spo-043",
+    "k": "spor",
+    "yerel": false,
+    "s": "İtalya 2006 Dünya Kupası'nı kazandıktan sonra formasında kaç şampiyonluk yıldızı taşıdı?",
+    "d": "4",
+    "y": [
+      "3",
+      "5",
+      "6"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How many championship stars did Italy wear after winning the 2006 World Cup?",
+      "d": "4",
+      "y": [
+        "3",
+        "5",
+        "6"
+      ]
+    },
+    "olgu": "2006 İtalya'nın dördüncü Dünya Kupası şampiyonluğuydu.",
+    "kalip": "spor_forma_yildiz",
+    "konular": [
+      "italy-2006-stars"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.51,
+    "jev_tek_dogru_p": 0.12,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-85",
+    "taslak_id": "C11-spo-048",
+    "k": "spor",
+    "yerel": false,
+    "s": "Zidane'ın 2006 Dünya Kupası finalinde attığı penaltı ağlara girmeden önce nereye çarptı?",
+    "d": "Üst direğe",
+    "y": [
+      "Sol direğe",
+      "Sağ direğe",
+      "Kalecinin eline"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What did Zidane's penalty in the 2006 World Cup final hit before entering the goal?",
+      "d": "Crossbar",
+      "y": [
+        "Left post",
+        "Right post",
+        "Goalkeeper's hand"
+      ]
+    },
+    "olgu": "Zidane'ın Panenka vuruşu üst direğe çarpıp çizgiyi geçti.",
+    "kalip": "spor_penaltida_ust_direk",
+    "konular": [
+      "zidane-2006-final-penalty"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.27,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-86",
+    "taslak_id": "C11-spo-049",
+    "k": "spor",
+    "yerel": false,
+    "s": "Brandi Chastain 1999 Dünya Kupası finalinin son penaltısından sonra formasını çıkarınca hangi giysisi görünür oldu?",
+    "d": "Spor sütyeni",
+    "y": [
+      "Beyaz atlet",
+      "Siyah tişört",
+      "Termal içlik"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which garment was revealed when Brandi Chastain removed her jersey after the last penalty of the 1999 World Cup final?",
+      "d": "Sports bra",
+      "y": [
+        "White vest",
+        "Black T-shirt",
+        "Thermal undershirt"
+      ]
+    },
+    "olgu": "Chastain'in kutlamasında siyah spor sütyeni göründü.",
+    "kalip": "spor_kadin_final_kutlama",
+    "konular": [
+      "brandi-chastain-1999"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.28,
+    "jev_tek_dogru_p": 0.12,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-87",
+    "taslak_id": "C11-spo-052",
+    "k": "spor",
+    "yerel": false,
+    "s": "Masa tenisi Olimpiyat programına ilk kez hangi şehirde girdi?",
+    "d": "Seul",
+    "y": [
+      "Barselona",
+      "Atlanta",
+      "Sydney"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In which city did table tennis first enter the Olympic programme?",
+      "d": "Seoul",
+      "y": [
+        "Barcelona",
+        "Atlanta",
+        "Sydney"
+      ]
+    },
+    "olgu": "Masa tenisi 1988 Seul'de Olimpiyat programına girdi.",
+    "kalip": "spor_ilk_yaz_oyunu",
+    "konular": [
+      "table-tennis-seoul-1988"
+    ],
+    "alt_tur": "masa_tenisi",
+    "jev_p": 0.18,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-88",
+    "taslak_id": "C11-spo-054",
+    "k": "spor",
+    "yerel": false,
+    "s": "Cristiano Ronaldo 2016 Avrupa Şampiyonası finalinde Portekiz'in hangi forma numarasını taşıyordu?",
+    "d": "7",
+    "y": [
+      "9",
+      "10",
+      "11"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which Portugal shirt number did Cristiano Ronaldo wear in the 2016 European Championship final?",
+      "d": "7",
+      "y": [
+        "9",
+        "10",
+        "11"
+      ]
+    },
+    "olgu": "Ronaldo finalde 7 numaralı formayı giydi.",
+    "kalip": "spor_aksesuar_kirmizi",
+    "konular": [
+      "ronaldo-portugal-number-seven"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-89",
+    "taslak_id": "C11-spo-057",
+    "k": "spor",
+    "yerel": false,
+    "s": "Londra 2012 Olimpiyat ateşi, her ülkenin getirdiği hangi biçimdeki bakır parçaların birleşmesiyle oluştu?",
+    "d": "Yaprak",
+    "y": [
+      "Yıldız",
+      "Küre",
+      "Zincir"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What shape were the copper pieces brought by each country to form the London 2012 Olympic cauldron?",
+      "d": "Petal",
+      "y": [
+        "Star",
+        "Sphere",
+        "Chain"
+      ]
+    },
+    "olgu": "Londra kazanı delegasyonların getirdiği bakır yapraklardan oluştu.",
+    "kalip": "spor_olimpiyat_emanet",
+    "konular": [
+      "olympic-london-2012-cauldron-petals"
+    ],
+    "alt_tur": "olimpiyat",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-90",
+    "taslak_id": "C11-R061",
+    "k": "spor",
+    "yerel": false,
+    "s": "1983 Kriket Dünya Kupası'nı kazanan Hindistan takımının kaptanı kimdi?",
+    "d": "Kapil Dev",
+    "y": [
+      "Sunil Gavaskar",
+      "Mohinder Amarnath",
+      "Ravi Shastri"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who captained India to victory in the 1983 Cricket World Cup?",
+      "d": "Kapil Dev",
+      "y": [
+        "Sunil Gavaskar",
+        "Mohinder Amarnath",
+        "Ravi Shastri"
+      ]
+    },
+    "olgu": "1983 Hindistan takımının kaptanı Kapil Dev'di.",
+    "kalip": "spor_kaptan_kaldirma",
+    "konular": [
+      "india-worldcup-1983-kapil"
+    ],
+    "alt_tur": "kriket",
+    "kaynak": "codex-09:C10-spo-054",
+    "jev_p": 0.73,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-91",
+    "taslak_id": "C11-spo-002",
+    "k": "spor",
+    "yerel": false,
+    "s": "1986 Dünya Kupası'nda Maradona'nın elle attığı golü geçerli sayan Tunuslu hakem kimdi?",
+    "d": "Ali Bin Nasser",
+    "y": [
+      "Jamal Al-Sharif",
+      "Abdul Aziz Al-Salmi",
+      "Mohamed Guazzaz"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which Tunisian referee allowed Maradona's handball goal at the 1986 World Cup?",
+      "d": "Ali Bin Nasser",
+      "y": [
+        "Jamal Al-Sharif",
+        "Abdul Aziz Al-Salmi",
+        "Mohamed Guazzaz"
+      ]
+    },
+    "olgu": "Arjantin-İngiltere maçını Ali Bin Nasser yönetti.",
+    "kalip": "spor_saha_cizgisi",
+    "konular": [
+      "maradona-hand-1986-referee"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.25,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-92",
+    "taslak_id": "C11-spo-006",
+    "k": "spor",
+    "yerel": false,
+    "s": "1996 Avrupa Şampiyonası finalinde Almanya'yı şampiyon yapan altın golü kim attı?",
+    "d": "Oliver Bierhoff",
+    "y": [
+      "Jürgen Klinsmann",
+      "Matthias Sammer",
+      "Stefan Kuntz"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who scored the golden goal that won Germany the 1996 European Championship final?",
+      "d": "Oliver Bierhoff",
+      "y": [
+        "Jurgen Klinsmann",
+        "Matthias Sammer",
+        "Stefan Kuntz"
+      ]
+    },
+    "olgu": "Oliver Bierhoff finalin uzatmasında altın golü attı.",
+    "kalip": "spor_uzatma_ilk_gol",
+    "konular": [
+      "euro-1996-bierhoff"
+    ],
+    "alt_tur": "futbol",
+    "jev_p": 0.36,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-93",
+    "taslak_id": "C11-spo-020",
+    "k": "spor",
+    "yerel": false,
+    "s": "Jackie Robinson 1947'de modern MLB'deki renk bariyerini hangi takımın formasıyla aştı?",
+    "d": "Brooklyn Dodgers",
+    "y": [
+      "New York Giants",
+      "Boston Braves",
+      "Philadelphia Phillies"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "With which team did Jackie Robinson break modern MLB's colour barrier in 1947?",
+      "d": "Brooklyn Dodgers",
+      "y": [
+        "New York Giants",
+        "Boston Braves",
+        "Philadelphia Phillies"
+      ]
+    },
+    "olgu": "Robinson 1947'de Brooklyn Dodgers'ta oynadı.",
+    "kalip": "spor_savas_disinda",
+    "konular": [
+      "jackie-robinson-dodgers-1947"
+    ],
+    "alt_tur": "beyzbol",
+    "jev_p": 0.44,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-94",
+    "taslak_id": "C11-spo-022",
+    "k": "spor",
+    "yerel": false,
+    "s": "İngiltere ile Avustralya arasındaki Ashes geleneğinin küçük sembolik kupası hangi nesne biçimindedir?",
+    "d": "Kül vazosu",
+    "y": [
+      "Gümüş kase",
+      "Altın tabak",
+      "Cam sürahi"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What object is the small symbolic trophy of the Ashes tradition between England and Australia shaped like?",
+      "d": "Ash urn",
+      "y": [
+        "Silver bowl",
+        "Gold plate",
+        "Glass jug"
+      ]
+    },
+    "olgu": "Ashes sembolü küçük bir kül vazosudur.",
+    "kalip": "spor_kriket_teste_ilk",
+    "konular": [
+      "ashes-urn-contents"
+    ],
+    "alt_tur": "kriket",
+    "jev_p": 0.32,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-95",
+    "taslak_id": "C11-spo-026",
+    "k": "spor",
+    "yerel": false,
+    "s": "1903'te düzenlenen ilk Tour de France'ı kazanan bisikletçi kimdir?",
+    "d": "Maurice Garin",
+    "y": [
+      "Lucien Petit-Breton",
+      "Louis Trousselier",
+      "Henri Cornet"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who won the first Tour de France in 1903?",
+      "d": "Maurice Garin",
+      "y": [
+        "Lucien Petit-Breton",
+        "Louis Trousselier",
+        "Henri Cornet"
+      ]
+    },
+    "olgu": "İlk Tour'u Maurice Garin kazandı.",
+    "kalip": "spor_yarista_yoklama",
+    "konular": [
+      "tour-de-france-first-1903"
+    ],
+    "alt_tur": "bisiklet",
+    "jev_p": 0.72,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-96",
+    "taslak_id": "C11-spo-030",
+    "k": "spor",
+    "yerel": false,
+    "s": "Indianapolis 500'de oval pistin dönüşleri araç açısından hangi yöndedir?",
+    "d": "Sola",
+    "y": [
+      "Sağa",
+      "Dönüşümlü",
+      "Her tur değişir"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In which direction do cars turn around the oval at the Indianapolis 500?",
+      "d": "Left",
+      "y": [
+        "Right",
+        "Alternating",
+        "Changes each lap"
+      ]
+    },
+    "olgu": "Indianapolis ovalinde yarış saat yönünün tersine sol dönüşlerle yapılır.",
+    "kalip": "spor_pist_alisilmis_yon",
+    "konular": [
+      "indy500-counterclockwise"
+    ],
+    "alt_tur": "motor",
+    "jev_p": 0.1,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-97",
+    "taslak_id": "C11-R062",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Roggeveen'in 1722'de adayı görmesinin günü Rapa Nui'ye Avrupa dillerinde hangi bayram adını verdi?",
+    "d": "Paskalya",
+    "y": [
+      "Noel",
+      "Pentekost",
+      "Epifani"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "On which holiday did Roggeveen sight Rapa Nui in 1722, giving the island its European name?",
+      "d": "Easter",
+      "y": [
+        "Christmas",
+        "Pentecost",
+        "Epiphany"
+      ]
+    },
+    "olgu": "Roggeveen adayı Paskalya günü gördü.",
+    "kalip": "tarih_isim_tasinan_ada",
+    "konular": [
+      "easter-island-name"
+    ],
+    "alt_tur": "kesif",
+    "kaynak": "codex-09:C10-tar-022",
+    "jev_p": 0.68,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-98",
+    "taslak_id": "C11-R067",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Lafayette, Bastille'in anahtarını 1790'da hangi Amerikalı lidere hediye etti?",
+    "d": "George Washington",
+    "y": [
+      "Thomas Jefferson",
+      "John Adams",
+      "Benjamin Franklin"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "To which American leader did Lafayette give the Bastille key in 1790?",
+      "d": "George Washington",
+      "y": [
+        "Thomas Jefferson",
+        "John Adams",
+        "Benjamin Franklin"
+      ]
+    },
+    "olgu": "Lafayette anahtarı Washington'a gönderdi; Mount Vernon'da sergilendi.",
+    "kalip": "tarih_kalede_bayrak",
+    "konular": [
+      "bastille-key-washington"
+    ],
+    "alt_tur": "fransa",
+    "kaynak": "codex-09:C10-tar-042",
+    "jev_p": 0.69,
+    "jev_tek_dogru_p": 0.1,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-99",
+    "taslak_id": "C11-tar-004",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Aşoka'nın büyük pişmanlık duyarak şiddetten uzaklaşmasıyla anılan fetih hangi bölgeye yönelikti?",
+    "d": "Kalinga",
+    "y": [
+      "Gandhara",
+      "Magadha",
+      "Taxila"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which conquest is associated with Ashoka's remorse and turn away from violence?",
+      "d": "Kalinga",
+      "y": [
+        "Gandhara",
+        "Magadha",
+        "Taxila"
+      ]
+    },
+    "olgu": "Aşoka Kalinga savaşındaki kayıplardan sonra pişmanlığını yazıtlara geçirdi.",
+    "kalip": "tarih_din_degistirme",
+    "konular": [
+      "ashoka-kalinga-war"
+    ],
+    "alt_tur": "asya",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-100",
+    "taslak_id": "C11-tar-008",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Çin'de Shi Huangdi yani İlk İmparator unvanını alan hükümdarın hanedanı hangisidir?",
+    "d": "Qin",
+    "y": [
+      "Han",
+      "Tang",
+      "Ming"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which dynasty did the Chinese ruler who adopted the title Shi Huangdi, First Emperor, belong to?",
+      "d": "Qin",
+      "y": [
+        "Han",
+        "Tang",
+        "Ming"
+      ]
+    },
+    "olgu": "Qin Shi Huang Qin hanedanının hükümdarıydı.",
+    "kalip": "tarih_buyuk_duvar_iscisi",
+    "konular": [
+      "qin-shihuang-first-title"
+    ],
+    "alt_tur": "asya",
+    "jev_p": 0.31,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-101",
+    "taslak_id": "C11-tar-009",
+    "k": "tarih",
+    "yerel": false,
+    "s": "İspanyol fethi öncesinde İnka hükümdarlarının saraylarının bulunduğu başkent hangisiydi?",
+    "d": "Cusco",
+    "y": [
+      "Quito",
+      "Lima",
+      "Cajamarca"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which capital housed the Inca rulers' palaces before the Spanish conquest?",
+      "d": "Cusco",
+      "y": [
+        "Quito",
+        "Lima",
+        "Cajamarca"
+      ]
+    },
+    "olgu": "İnka başkenti Cusco idi.",
+    "kalip": "tarih_yerlesim_adi",
+    "konular": [
+      "cuzco-incan-capital"
+    ],
+    "alt_tur": "amerika",
+    "jev_p": 0.33,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-102",
+    "taslak_id": "C11-tar-012",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Charles Darwin'in yolculuk yaptığı HMS Beagle'ın 1831–36 seferindeki kaptanı kimdi?",
+    "d": "Robert FitzRoy",
+    "y": [
+      "James Cook",
+      "Matthew Flinders",
+      "George Vancouver"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who captained HMS Beagle during the 1831–36 voyage carrying Charles Darwin?",
+      "d": "Robert FitzRoy",
+      "y": [
+        "James Cook",
+        "Matthew Flinders",
+        "George Vancouver"
+      ]
+    },
+    "olgu": "Beagle'ın bu seferini Robert FitzRoy yönetti.",
+    "kalip": "tarih_gemi_degisim",
+    "konular": [
+      "darwin-beagle-captain"
+    ],
+    "alt_tur": "kesif",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-103",
+    "taslak_id": "C11-tar-030",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Waterloo'da müttefik ordusunu yöneten Wellington Dükü'nün soyadı hangisidir?",
+    "d": "Wellesley",
+    "y": [
+      "Marlborough",
+      "Beresford",
+      "Uxbridge"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What was the surname of the Duke of Wellington who commanded the allied army at Waterloo?",
+      "d": "Wellesley",
+      "y": [
+        "Marlborough",
+        "Beresford",
+        "Uxbridge"
+      ]
+    },
+    "olgu": "Wellington Dükü Arthur Wellesley'dir.",
+    "kalip": "tarih_askeri_duk",
+    "konular": [
+      "wellington-arthur"
+    ],
+    "alt_tur": "britanya",
+    "jev_p": 0.34,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-104",
+    "taslak_id": "C11-tar-034",
+    "k": "tarih",
+    "yerel": false,
+    "s": "1788'de Avustralya'ya ulaşan Birinci Filo'nun komutanı kimdi?",
+    "d": "Arthur Phillip",
+    "y": [
+      "James Cook",
+      "William Bligh",
+      "Matthew Flinders"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who commanded the First Fleet that reached Australia in 1788?",
+      "d": "Arthur Phillip",
+      "y": [
+        "James Cook",
+        "William Bligh",
+        "Matthew Flinders"
+      ]
+    },
+    "olgu": "Birinci Filo'yu Arthur Phillip komuta etti.",
+    "kalip": "tarih_avustralya_kurulus",
+    "konular": [
+      "first-fleet-botany-1788"
+    ],
+    "alt_tur": "kesif",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-105",
+    "taslak_id": "C11-tar-036",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Venedik'in kanatlı aslan simgesi hangi azizle ilişkilidir?",
+    "d": "Markos",
+    "y": [
+      "Matta",
+      "Luka",
+      "Yuhanna"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "With which saint is Venice's winged lion associated?",
+      "d": "Mark",
+      "y": [
+        "Matthew",
+        "Luke",
+        "John"
+      ]
+    },
+    "olgu": "Kanatlı aslan Aziz Markos'un simgesidir.",
+    "kalip": "tarih_kanatli_aslan",
+    "konular": [
+      "venice-saint-mark"
+    ],
+    "alt_tur": "avrupa",
+    "jev_p": 0.2,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-106",
+    "taslak_id": "C11-tar-037",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Anne Frank'ın saklandığı ek binanın girişini gizleyen hareketli eşya hangisiydi?",
+    "d": "Kitaplık",
+    "y": [
+      "Gardırop",
+      "Duvar aynası",
+      "Yemek dolabı"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What movable furnishing concealed the entrance to Anne Frank's hiding annex?",
+      "d": "Bookcase",
+      "y": [
+        "Wardrobe",
+        "Wall mirror",
+        "Sideboard"
+      ]
+    },
+    "olgu": "Gizli ek binanın kapısı hareketli bir kitaplıkla gizleniyordu.",
+    "kalip": "tarih_yapida_gizlenen",
+    "konular": [
+      "anne-frank-bookcase"
+    ],
+    "alt_tur": "avrupa",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-107",
+    "taslak_id": "C11-tar-041",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Titanic'in 1912'deki ilk yolculuğunda geminin kaptanı kimdi?",
+    "d": "Edward Smith",
+    "y": [
+      "Charles Lightoller",
+      "William Murdoch",
+      "Henry Wilde"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who captained Titanic on its maiden voyage in 1912?",
+      "d": "Edward Smith",
+      "y": [
+        "Charles Lightoller",
+        "William Murdoch",
+        "Henry Wilde"
+      ]
+    },
+    "olgu": "Titanic'in kaptanı Edward John Smith'ti.",
+    "kalip": "tarih_olum_gemi",
+    "konular": [
+      "titanic-captain-smith"
+    ],
+    "alt_tur": "avrupa",
+    "jev_p": 0.7,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-108",
+    "taslak_id": "C11-tar-044",
+    "k": "tarih",
+    "yerel": false,
+    "s": "ABD'de 1920'de alkol yasağını yürürlüğe sokan anayasa değişikliği hangi numarayı taşıyordu?",
+    "d": "18",
+    "y": [
+      "16",
+      "19",
+      "21"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which numbered US constitutional amendment brought Prohibition into force in 1920?",
+      "d": "18",
+      "y": [
+        "16",
+        "19",
+        "21"
+      ]
+    },
+    "olgu": "18. Değişiklik alkol yasağını getirdi.",
+    "kalip": "tarih_kanunda_yasak",
+    "konular": [
+      "prohibition-amendment-18"
+    ],
+    "alt_tur": "amerika",
+    "jev_p": 0.35,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-109",
+    "taslak_id": "C11-tar-047",
+    "k": "tarih",
+    "yerel": false,
+    "s": "III. Richard'ın kalıntıları 2012'de Leicester'da ne olarak kullanılan bir alanın altında bulundu?",
+    "d": "Otopark",
+    "y": [
+      "Tenis kortu",
+      "Otobüs garı",
+      "Pazar meydanı"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Under an area used as what were Richard III's remains found in Leicester in 2012?",
+      "d": "Car park",
+      "y": [
+        "Tennis court",
+        "Bus station",
+        "Market square"
+      ]
+    },
+    "olgu": "Kalıntılar bir otopark altında bulundu.",
+    "kalip": "tarih_kralda_yara",
+    "konular": [
+      "richard-iii-leicester-carpark"
+    ],
+    "alt_tur": "britanya",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-110",
+    "taslak_id": "C11-tar-048",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Berlin Duvarı'nın geçişlere açıldığı 1989 günü yılın hangi ayındaydı?",
+    "d": "Kasım",
+    "y": [
+      "Eylül",
+      "Ekim",
+      "Aralık"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In which month of 1989 were crossings through the Berlin Wall opened?",
+      "d": "November",
+      "y": [
+        "September",
+        "October",
+        "December"
+      ]
+    },
+    "olgu": "Geçişler 9 Kasım 1989'da açıldı.",
+    "kalip": "tarih_festival_mevsim",
+    "konular": [
+      "berlin-wall-fall-month"
+    ],
+    "alt_tur": "almanya",
+    "jev_p": 0.11,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-111",
+    "taslak_id": "C11-tar-049",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Boston Çay Partisi'ne katılanların bir bölümü hangi kimliğin kıyafetiyle kılık değiştirdi?",
+    "d": "Yerli Amerikalı",
+    "y": [
+      "İngiliz askeri",
+      "Liman işçisi",
+      "Fransız denizci"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What disguise did some participants use during the Boston Tea Party?",
+      "d": "Native American",
+      "y": [
+        "British soldier",
+        "Dock worker",
+        "French sailor"
+      ]
+    },
+    "olgu": "Katılımcıların bir bölümü Mohawk yerlilerini andıran kılık kullandı.",
+    "kalip": "tarih_somurge_sembol",
+    "konular": [
+      "boston-tea-party-disguise"
+    ],
+    "alt_tur": "amerika",
+    "jev_p": 0.4,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-112",
+    "taslak_id": "C11-tar-054",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Bizans'ın geç dönem hanedan sembollerinden kartal kaç başlı gösterilir?",
+    "d": "İki",
+    "y": [
+      "Bir",
+      "Üç",
+      "Dört"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How many heads does the eagle have in a late Byzantine dynastic symbol?",
+      "d": "Two",
+      "y": [
+        "One",
+        "Three",
+        "Four"
+      ]
+    },
+    "olgu": "Geç Bizans sembolleri arasında çift başlı kartal vardır.",
+    "kalip": "tarih_imparatorluk_sembol",
+    "konular": [
+      "byzantine-double-headed-eagle"
+    ],
+    "alt_tur": "avrupa",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.1,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-113",
+    "taslak_id": "C11-tar-055",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Luther'in 1517'de tartışmaya açtığı tezler geleneksel adlandırmada kaç tanedir?",
+    "d": "95",
+    "y": [
+      "75",
+      "85",
+      "105"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How many theses did Luther put forward for debate in 1517 in their conventional numbering?",
+      "d": "95",
+      "y": [
+        "75",
+        "85",
+        "105"
+      ]
+    },
+    "olgu": "Luther'in 95 Tezi 1517 tarihini taşır.",
+    "kalip": "tarih_belge_tapinak",
+    "konular": [
+      "luther-theses-95"
+    ],
+    "alt_tur": "almanya",
+    "jev_p": 0.45,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-114",
+    "taslak_id": "C11-tar-058",
+    "k": "tarih",
+    "yerel": false,
+    "s": "1086 Domesday arazi sayımını yaptıran İngiliz kralı kimdi?",
+    "d": "I. William",
+    "y": [
+      "I. Henry",
+      "II. Henry",
+      "I. Richard"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which English king ordered the Domesday land survey of 1086?",
+      "d": "William I",
+      "y": [
+        "Henry I",
+        "Henry II",
+        "Richard I"
+      ]
+    },
+    "olgu": "Domesday Book I. William'ın emriyle derlendi.",
+    "kalip": "tarih_matbaada_defter",
+    "konular": [
+      "domesday-william"
+    ],
+    "alt_tur": "britanya",
+    "jev_p": 0.44,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-115",
+    "taslak_id": "C11-tar-060",
+    "k": "tarih",
+    "yerel": false,
+    "s": "1868'de Tokyo olarak yeniden adlandırılan şehrin önceki adı hangisidir?",
+    "d": "Edo",
+    "y": [
+      "Kyoto",
+      "Osaka",
+      "Nara"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What was the former name of the city renamed Tokyo in 1868?",
+      "d": "Edo",
+      "y": [
+        "Kyoto",
+        "Osaka",
+        "Nara"
+      ]
+    },
+    "olgu": "Edo 1868'de Tokyo adını aldı.",
+    "kalip": "tarih_baslikta_yeni_ad",
+    "konular": [
+      "edo-tokyo-1868"
+    ],
+    "alt_tur": "asya",
+    "jev_p": 0.17,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-116",
+    "taslak_id": "C11-tar-062",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Kongo Özgür Devleti'ni 1885–1908 arasında kişisel yönetiminde tutan Avrupa kralı kimdir?",
+    "d": "II. Leopold",
+    "y": [
+      "II. Albert",
+      "I. Baudouin",
+      "I. Albert"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which European king personally controlled the Congo Free State from 1885 to 1908?",
+      "d": "Leopold II",
+      "y": [
+        "Albert II",
+        "Baudouin I",
+        "Albert I"
+      ]
+    },
+    "olgu": "Kongo Özgür Devleti II. Leopold'un kişisel denetimindeydi.",
+    "kalip": "tarih_somurge_krali",
+    "konular": [
+      "leopold-congo-free-state"
+    ],
+    "alt_tur": "afrika",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-117",
+    "taslak_id": "C11-tar-063",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Arjantin'deki Plaza de Mayo Anneleri başlarına hangi renk örtü takmalarıyla tanınır?",
+    "d": "Beyaz",
+    "y": [
+      "Siyah",
+      "Kırmızı",
+      "Mavi"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which colour headscarves identify Argentina's Mothers of the Plaza de Mayo?",
+      "d": "White",
+      "y": [
+        "Black",
+        "Red",
+        "Blue"
+      ]
+    },
+    "olgu": "Plaza de Mayo Anneleri beyaz başörtüsü takar.",
+    "kalip": "tarih_anneler_isaret",
+    "konular": [
+      "mothers-plaza-mayo-scarves"
+    ],
+    "alt_tur": "amerika",
+    "jev_p": 0.45,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-118",
+    "taslak_id": "C11-R021",
+    "k": "tarih",
+    "yerel": false,
+    "s": "II. Felipe'nin Madrid yakınında yaptırdığı saray-manastır kompleksinin adı nedir?",
+    "d": "El Escorial",
+    "y": [
+      "Alhambra",
+      "Alcázar",
+      "Buen Retiro"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What palace-monastery complex did Philip II build near Madrid?",
+      "d": "El Escorial",
+      "y": [
+        "Alhambra",
+        "Alcázar",
+        "Buen Retiro"
+      ]
+    },
+    "olgu": "II. Felipe El Escorial'i yaptırdı.",
+    "kalip": "tarihi_ozgun_saray",
+    "konular": [
+      "habsburg-escorial"
+    ],
+    "alt_tur": "yapi",
+    "kaynak": "codex-09:C08-tar-016",
+    "jev_p": 0.34,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-119",
+    "taslak_id": "C11-R048",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Galileo'nun 1632 tarihli Diyalog'unda tartışılan iki sistemin odakları hangileridir?",
+    "d": "Yer ve Güneş",
+    "y": [
+      "Ay ve Mars",
+      "Jüpiter ve Satürn",
+      "Venüs ve Merkür"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which two centers distinguish the systems discussed in Galileo's 1632 Dialogue?",
+      "d": "Earth and Sun",
+      "y": [
+        "Moon and Mars",
+        "Jupiter and Saturn",
+        "Venus and Mercury"
+      ]
+    },
+    "olgu": "Diyalog, yer merkezli ve Güneş merkezli dünya sistemlerini tartışır.",
+    "kalip": "tarih_kitap_yasak_bas",
+    "konular": [
+      "galileo-dialogue"
+    ],
+    "alt_tur": "avrupa",
+    "kaynak": "codex-09:C09-tar-036",
+    "jev_p": 0.37,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-120",
+    "taslak_id": "C11-R052",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Burgonya Dükü İyi Philippe'in 1430'da kurduğu şövalyelik tarikatının adındaki hayvansal nesne hangisidir?",
+    "d": "Post",
+    "y": [
+      "Boynuz",
+      "Tüy",
+      "Pençe"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What animal object appears in the name of the chivalric order founded by Philip the Good in 1430?",
+      "d": "Fleece",
+      "y": [
+        "Horn",
+        "Feather",
+        "Claw"
+      ]
+    },
+    "olgu": "Philippe Altın Post Tarikatı'nı kurdu.",
+    "kalip": "tarih_onur_zinciri",
+    "konular": [
+      "golden-fleece"
+    ],
+    "alt_tur": "avrupa",
+    "kaynak": "codex-09:C09-tar-078",
+    "jev_p": 0.37,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-121",
+    "taslak_id": "C11-tar-003",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Tokugawa Ieyasu'nun üstünlüğünü sağlayan Sekigahara Muharebesi hangi yılda yapıldı?",
+    "d": "1600",
+    "y": [
+      "1582",
+      "1615",
+      "1637"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In which year was the Battle of Sekigahara that secured Tokugawa Ieyasu's ascendancy fought?",
+      "d": "1600",
+      "y": [
+        "1582",
+        "1615",
+        "1637"
+      ]
+    },
+    "olgu": "Sekigahara Muharebesi 1600'de gerçekleşti.",
+    "kalip": "tarihi_olayin_yili",
+    "konular": [
+      "tokugawa-sekigahara-year"
+    ],
+    "alt_tur": "asya",
+    "jev_p": 0.32,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-122",
+    "taslak_id": "C11-tar-006",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Kraliçe Nzinga 17. yüzyılda Ndongo ile birlikte hangi Afrika krallığını yönetti?",
+    "d": "Matamba",
+    "y": [
+      "Kongo",
+      "Dahomey",
+      "Buganda"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which African kingdom did Queen Nzinga rule alongside Ndongo in the seventeenth century?",
+      "d": "Matamba",
+      "y": [
+        "Kongo",
+        "Dahomey",
+        "Buganda"
+      ]
+    },
+    "olgu": "Nzinga Ndongo ve Matamba kraliçesiydi.",
+    "kalip": "tarih_kadin_ziyaret",
+    "konular": [
+      "nzingha-matamba"
+    ],
+    "alt_tur": "afrika",
+    "jev_p": 0.03,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-123",
+    "taslak_id": "C11-tar-007",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Mansa Musa'nın Kahire'de büyük miktarda altın dağıttığı hac yolculuğu hangi yılda başladı?",
+    "d": "1324",
+    "y": [
+      "1304",
+      "1344",
+      "1364"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In which year did Mansa Musa begin the pilgrimage during which he distributed much gold in Cairo?",
+      "d": "1324",
+      "y": [
+        "1304",
+        "1344",
+        "1364"
+      ]
+    },
+    "olgu": "Mansa Musa'nın ünlü hac yolculuğu 1324'te başladı.",
+    "kalip": "tarihi_olayin_yili",
+    "konular": [
+      "mansa-musa-hajj-1324"
+    ],
+    "alt_tur": "afrika",
+    "jev_p": 0.27,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-124",
+    "taslak_id": "C11-tar-017",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Sacco ve Vanzetti'nin Massachusetts'te idam edildiği yıl hangisidir?",
+    "d": "1927",
+    "y": [
+      "1917",
+      "1937",
+      "1947"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In which year were Sacco and Vanzetti executed in Massachusetts?",
+      "d": "1927",
+      "y": [
+        "1917",
+        "1937",
+        "1947"
+      ]
+    },
+    "olgu": "Sacco ve Vanzetti 1927'de idam edildi.",
+    "kalip": "tarih_tutuklu_mektubu",
+    "konular": [
+      "sacco-vanzetti-execution-1927"
+    ],
+    "alt_tur": "amerika",
+    "jev_p": 0.2,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-125",
+    "taslak_id": "C11-tar-019",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Alfred Nobel ödüllerini oluşturan 1895 vasiyetini hangi şehirde imzaladı?",
+    "d": "Paris",
+    "y": [
+      "Stockholm",
+      "Oslo",
+      "Londra"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In which city did Alfred Nobel sign the 1895 will that created his prizes?",
+      "d": "Paris",
+      "y": [
+        "Stockholm",
+        "Oslo",
+        "London"
+      ]
+    },
+    "olgu": "Nobel vasiyetini Paris'te İsveç-Norveç Kulübü'nde imzaladı.",
+    "kalip": "tarih_olum_vasiyeti",
+    "konular": [
+      "alfred-nobel-will-paris"
+    ],
+    "alt_tur": "avrupa",
+    "jev_p": 0.27,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-126",
+    "taslak_id": "C11-tar-035",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Rosetta Taşı'nın Fransız askerleri tarafından bulunduğu yıl hangisidir?",
+    "d": "1799",
+    "y": [
+      "1789",
+      "1809",
+      "1819"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In which year did French soldiers discover the Rosetta Stone?",
+      "d": "1799",
+      "y": [
+        "1789",
+        "1809",
+        "1819"
+      ]
+    },
+    "olgu": "Rosetta Taşı 1799'da bulundu.",
+    "kalip": "tarih_kazida_sam",
+    "konular": [
+      "rosetta-stone-discovery-1799"
+    ],
+    "alt_tur": "misir",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-127",
+    "taslak_id": "C11-R026",
+    "k": "sinema",
+    "yerel": false,
+    "s": "The Artist'in öyküsü sesli sinemaya geçişten etkilenmiş hangi mesleğe odaklanır?",
+    "d": "Film oyunculuğu",
+    "y": [
+      "Orkestra şefliği",
+      "Radyo sunuculuğu",
+      "Tiyatro eleştirmenliği"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "The Artist follows a profession affected by the arrival of sound cinema. Which profession?",
+      "d": "Film acting",
+      "y": [
+        "Orchestra conducting",
+        "Radio presenting",
+        "Theatre criticism"
+      ]
+    },
+    "olgu": "The Artist sessiz film oyuncusu George Valentin'i izler.",
+    "kalip": "film_ozgun_imza_teknik",
+    "konular": [
+      "the-artist"
+    ],
+    "alt_tur": "canli_cekim",
+    "kaynak": "codex-09:C08-sin-024",
+    "jev_p": 0.58,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-128",
+    "taslak_id": "C11-R028",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Chocolat filminde Vianne köyde hangi yiyeceği satan dükkân açar?",
+    "d": "Çikolata",
+    "y": [
+      "Dondurma",
+      "Kurabiye",
+      "Peynir"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What food does Vianne sell in her shop in Chocolat?",
+      "d": "Chocolate",
+      "y": [
+        "Ice cream",
+        "Biscuits",
+        "Cheese"
+      ]
+    },
+    "olgu": "Vianne çikolata dükkânı açar.",
+    "kalip": "film_ozgun_uretici_isyeri",
+    "konular": [
+      "chocolat-film"
+    ],
+    "alt_tur": "canli_cekim",
+    "kaynak": "codex-09:C08-sin-065",
+    "jev_p": 0.36,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-129",
+    "taslak_id": "C11-sin-001",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Rocky'nin 1976 filmindeki sabah antrenmanı öncesinde bardaktan içtiği şey nedir?",
+    "d": "Çiğ yumurta",
+    "y": [
+      "Protein tozu",
+      "Domates suyu",
+      "Süt kreması"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What does Rocky drink from a glass before his morning training in the 1976 film?",
+      "d": "Raw eggs",
+      "y": [
+        "Protein powder",
+        "Tomato juice",
+        "Milk cream"
+      ]
+    },
+    "olgu": "Rocky çiğ yumurtaları bardağa kırıp içer.",
+    "kalip": "sinema_dovus_aksesuar",
+    "konular": [
+      "rocky-training-eggs"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.37,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-130",
+    "taslak_id": "C11-sin-006",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Bazıları Sıcak Sever'de Jerry'nin kadın kılığına girdiğinde kullandığı ad hangisidir?",
+    "d": "Daphne",
+    "y": [
+      "Josephine",
+      "Sugar",
+      "Dolores"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What name does Jerry use when disguised as a woman in Some Like It Hot?",
+      "d": "Daphne",
+      "y": [
+        "Josephine",
+        "Sugar",
+        "Dolores"
+      ]
+    },
+    "olgu": "Jack Lemmon'ın Jerry'si Daphne adını kullanır.",
+    "kalip": "sinema_komedi_sahne",
+    "konular": [
+      "some-like-it-hot-daphne"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.14,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-131",
+    "taslak_id": "C11-sin-008",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Yağmur Altında filmindeki ünlü yağmurlu dans sırasında Gene Kelly sokaktaki hangi nesneye tutunarak döner?",
+    "d": "Lamba direği",
+    "y": [
+      "Posta kutusu",
+      "Telefon kulübesi",
+      "Yangın musluğu"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What street object does Gene Kelly hold while swinging around in the famous rainy dance in Singin' in the Rain?",
+      "d": "Lamp post",
+      "y": [
+        "Post box",
+        "Phone booth",
+        "Fire hydrant"
+      ]
+    },
+    "olgu": "Kelly dans sırasında lamba direğine tutunur.",
+    "kalip": "sinema_gosteri_oyunu",
+    "konular": [
+      "singing-rain-lamp"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.1,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-132",
+    "taslak_id": "C11-sin-018",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Hugo'da başkahraman Paris tren istasyonunda hangi makinelerin bakımını gizlice yapar?",
+    "d": "Saatlerin",
+    "y": [
+      "Asansörlerin",
+      "Bilet makinelerinin",
+      "Lokomotiflerin"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which machines does the protagonist secretly maintain at the Paris station in Hugo?",
+      "d": "Clocks",
+      "y": [
+        "Lifts",
+        "Ticket machines",
+        "Locomotives"
+      ]
+    },
+    "olgu": "Hugo istasyonun saatlerini çalışır durumda tutar.",
+    "kalip": "sinema_saat_araci",
+    "konular": [
+      "hugo-station-clock"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.4,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-133",
+    "taslak_id": "C11-sin-020",
+    "k": "sinema",
+    "yerel": false,
+    "s": "WALL-E, bulduğu küçük bitkiyi EVE'e gösterirken hangi nesnenin içinde tutar?",
+    "d": "Bot",
+    "y": [
+      "Şapka",
+      "Çaydanlık",
+      "Kova"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What object contains the small plant WALL-E shows EVE?",
+      "d": "Boot",
+      "y": [
+        "Hat",
+        "Teapot",
+        "Bucket"
+      ]
+    },
+    "olgu": "WALL-E bitkiyi eski bir botta saklar.",
+    "kalip": "sinema_yolcu_ilk_esya",
+    "konular": [
+      "wall-e-boot"
+    ],
+    "alt_tur": "animasyon",
+    "jev_p": 0.29,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-134",
+    "taslak_id": "C11-sin-024",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Fargo'nun sonlarına doğru Marge'ın suçüstü yakaladığı Gaear hangi makineyi kullanmaktadır?",
+    "d": "Dal öğütücü",
+    "y": [
+      "Beton mikseri",
+      "Taş kırıcı",
+      "Maden öğütücü"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What machine is Gaear using when Marge catches him near the end of Fargo?",
+      "d": "Wood chipper",
+      "y": [
+        "Concrete mixer",
+        "Stone crusher",
+        "Ore grinder"
+      ]
+    },
+    "olgu": "Gaear kurbanın kalıntılarını dal öğütücüye atarken yakalanır.",
+    "kalip": "sinema_kislik_pencere",
+    "konular": [
+      "fargo-woodchipper"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-135",
+    "taslak_id": "C11-sin-028",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Vahşiler Firarda'da Ricky ile ormanda kaçan yetişkinin lakabı hangisidir?",
+    "d": "Hec",
+    "y": [
+      "Wade",
+      "Pete",
+      "Sam"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the nickname of the adult who goes on the run with Ricky in Hunt for the Wilderpeople?",
+      "d": "Hec",
+      "y": [
+        "Wade",
+        "Pete",
+        "Sam"
+      ]
+    },
+    "olgu": "Ricky ile kaçan yetişkin Hector yani Hec'tir.",
+    "kalip": "sinema_orman_hikayesi",
+    "konular": [
+      "hunt-wilderpeople-uncle"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.35,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-136",
+    "taslak_id": "C11-sin-031",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Esaretin Bedeli'nde Andy'nin kaçış tünelini gizleyen son poster hangi oyuncuya aittir?",
+    "d": "Raquel Welch",
+    "y": [
+      "Rita Hayworth",
+      "Marilyn Monroe",
+      "Audrey Hepburn"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which actress is on the last poster concealing Andy's escape tunnel in The Shawshank Redemption?",
+      "d": "Raquel Welch",
+      "y": [
+        "Rita Hayworth",
+        "Marilyn Monroe",
+        "Audrey Hepburn"
+      ]
+    },
+    "olgu": "Andy'nin son posteri One Million Years B.C. filminden Raquel Welch'tir.",
+    "kalip": "sinema_cezaevi_posteri",
+    "konular": [
+      "shawshank-last-poster"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.03,
+    "jev_tek_dogru_p": 0.21,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-137",
+    "taslak_id": "C11-sin-032",
+    "k": "sinema",
+    "yerel": false,
+    "s": "1991 Kırılma Noktası'ndaki banka soyguncularının maskeleri hangi kişileri temsil eder?",
+    "d": "ABD başkanları",
+    "y": [
+      "İngiliz kralları",
+      "Sinema yıldızları",
+      "Ünlü sporcular"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Whom do the bank robbers' masks represent in the 1991 film Point Break?",
+      "d": "US presidents",
+      "y": [
+        "British kings",
+        "Film stars",
+        "Famous athletes"
+      ]
+    },
+    "olgu": "Soyguncular eski ABD başkanlarının maskelerini takar.",
+    "kalip": "sinema_soygunda_maske",
+    "konular": [
+      "point-break-presidents"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.54,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-138",
+    "taslak_id": "C11-sin-036",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Geleceğe Dönüş'te saat kulesindeki yıldırımın durdurduğu saat kaçtır?",
+    "d": "22.04",
+    "y": [
+      "21.14",
+      "23.14",
+      "20.24"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What time is shown on the clock stopped by lightning in Back to the Future?",
+      "d": "10:04 p.m.",
+      "y": [
+        "9:14 p.m.",
+        "11:14 p.m.",
+        "8:24 p.m."
+      ]
+    },
+    "olgu": "Saat kulesi 12 Kasım 1955'te 22.04'te durmuştur.",
+    "kalip": "sinema_gezgin_saat",
+    "konular": [
+      "back-future-lightning-time"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.6,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-139",
+    "taslak_id": "C11-sin-037",
+    "k": "sinema",
+    "yerel": false,
+    "s": "1999 Office Space filminde çalışanların açık alanda sopalarla parçaladığı ofis cihazı hangisidir?",
+    "d": "Yazıcı",
+    "y": [
+      "Bilgisayar",
+      "Fotokopi makinesi",
+      "Faks makinesi"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which office device do the workers smash outdoors with bats in the 1999 film Office Space?",
+      "d": "Printer",
+      "y": [
+        "Computer",
+        "Photocopier",
+        "Fax machine"
+      ]
+    },
+    "olgu": "Office Space'in ünlü sahnesinde yazıcı parçalanır.",
+    "kalip": "sinema_isyerinde_mizah",
+    "konular": [
+      "office-space-printer"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.21,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-140",
+    "taslak_id": "C11-sin-038",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Siyah Giyen Adamlar'da tanıkların anılarını silen aygıt kullanılırken ajanlar gözlerini neyle korur?",
+    "d": "Güneş gözlüğü",
+    "y": [
+      "Kaynak maskesi",
+      "Şeffaf siperlik",
+      "Kontakt lens"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What do the agents wear to protect their eyes when using the memory-erasing device in Men in Black?",
+      "d": "Sunglasses",
+      "y": [
+        "Welding mask",
+        "Clear visor",
+        "Contact lenses"
+      ]
+    },
+    "olgu": "Ajanlar neuralyzer ışığından güneş gözlüğüyle korunur.",
+    "kalip": "sinema_uzayli_icli",
+    "konular": [
+      "men-black-neuralyzer"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.11,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-141",
+    "taslak_id": "C11-sin-039",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Parazit'in açılışında Kim ailesi evde hangi paketleri katlayarak para kazanır?",
+    "d": "Pizza kutuları",
+    "y": [
+      "Hediye kutuları",
+      "Kargo zarfları",
+      "Ayakkabı kutuları"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What packages do the Kim family fold at home to earn money at the opening of Parasite?",
+      "d": "Pizza boxes",
+      "y": [
+        "Gift boxes",
+        "Shipping envelopes",
+        "Shoe boxes"
+      ]
+    },
+    "olgu": "Kim ailesi pizza kutusu katlar.",
+    "kalip": "sinema_karton_katlama",
+    "konular": [
+      "parasite-pizza-boxes"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.5,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-142",
+    "taslak_id": "C11-sin-040",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Bisiklet Hırsızları'nda Antonio'nun yapıştırdığı sinema afişindeki Hollywood yıldızı kimdir?",
+    "d": "Rita Hayworth",
+    "y": [
+      "Ava Gardner",
+      "Greta Garbo",
+      "Ingrid Bergman"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which Hollywood star appears on the film poster Antonio pastes up in Bicycle Thieves?",
+      "d": "Rita Hayworth",
+      "y": [
+        "Ava Gardner",
+        "Greta Garbo",
+        "Ingrid Bergman"
+      ]
+    },
+    "olgu": "Antonio Gilda'nın Rita Hayworth afişini yapıştırır.",
+    "kalip": "sinema_duvarda_film_afisi",
+    "konular": [
+      "bicycle-thieves-hayworth"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-143",
+    "taslak_id": "C11-R025",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Wim Wenders'in Berlin Üzerindeki Gökyüzü filminde kendisini oynayan Amerikalı aktör kimdir?",
+    "d": "Peter Falk",
+    "y": [
+      "Dennis Hopper",
+      "Harry Dean Stanton",
+      "John Cassavetes"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which American actor plays himself in Wings of Desire?",
+      "d": "Peter Falk",
+      "y": [
+        "Dennis Hopper",
+        "Harry Dean Stanton",
+        "John Cassavetes"
+      ]
+    },
+    "olgu": "Peter Falk filmde kendisini oynar.",
+    "kalip": "film_ozgun_konuk",
+    "konular": [
+      "wings-desire"
+    ],
+    "alt_tur": "canli_cekim",
+    "kaynak": "codex-09:C08-sin-022",
+    "jev_p": 0.36,
+    "jev_tek_dogru_p": 0.13,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-144",
+    "taslak_id": "C11-sin-007",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Vertigo'da merdiven boşluğunun uzuyor gibi görünmesi için hangi iki kamera hareketi birlikte kullanılır?",
+    "d": "Dolly ve zoom",
+    "y": [
+      "Pan ve tilt",
+      "Orbit ve roll",
+      "Crane ve whip pan"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which two camera movements combine to make the stairwell seem to stretch in Vertigo?",
+      "d": "Dolly and zoom",
+      "y": [
+        "Pan and tilt",
+        "Orbit and roll",
+        "Crane and whip pan"
+      ]
+    },
+    "olgu": "Vertigo dolly hareketiyle ters yönde zoom'u birleştirir.",
+    "kalip": "sinema_dis_hareket",
+    "konular": [
+      "vertigo-stair-shot"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.35,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-145",
+    "taslak_id": "C11-sin-009",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Piyanist'te Szpilman'ın saklandığı yerde piyano çalmasını isteyen Alman subay kimdir?",
+    "d": "Wilm Hosenfeld",
+    "y": [
+      "Amon Göth",
+      "Oskar Schindler",
+      "Claus von Stauffenberg"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which German officer asks Szpilman to play piano at his hiding place in The Pianist?",
+      "d": "Wilm Hosenfeld",
+      "y": [
+        "Amon Goth",
+        "Oskar Schindler",
+        "Claus von Stauffenberg"
+      ]
+    },
+    "olgu": "Wilm Hosenfeld Szpilman'ı dinler ve ona yardım eder.",
+    "kalip": "sinema_mektup_duragi",
+    "konular": [
+      "pianist-wilm-hosenfeld"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.11,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-146",
+    "taslak_id": "C11-sin-015",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Makas Eller'de Edward'ı yaratan mucidi hangi oyuncu canlandırır?",
+    "d": "Vincent Price",
+    "y": [
+      "Christopher Lee",
+      "Peter Cushing",
+      "Boris Karloff"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who plays the inventor who created Edward in Edward Scissorhands?",
+      "d": "Vincent Price",
+      "y": [
+        "Christopher Lee",
+        "Peter Cushing",
+        "Boris Karloff"
+      ]
+    },
+    "olgu": "Edward'ın mucidini Vincent Price canlandırır.",
+    "kalip": "sinema_oyuncu_makyaji",
+    "konular": [
+      "edward-scissorhands-inventor"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.22,
+    "jev_tek_dogru_p": 0.13,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-147",
+    "taslak_id": "C11-sin-017",
+    "k": "sinema",
+    "yerel": false,
+    "s": "2009 yapımı Moon'da Sam Bell'in farklı kopyalarını hangi oyuncu canlandırır?",
+    "d": "Sam Rockwell",
+    "y": [
+      "Sharlto Copley",
+      "Paul Bettany",
+      "Mark Ruffalo"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who plays the different copies of Sam Bell in the 2009 film Moon?",
+      "d": "Sam Rockwell",
+      "y": [
+        "Sharlto Copley",
+        "Paul Bettany",
+        "Mark Ruffalo"
+      ]
+    },
+    "olgu": "Sam Bell'i Sam Rockwell canlandırır.",
+    "kalip": "sinema_planet_rol",
+    "konular": [
+      "moon-sam-rockwell"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-148",
+    "taslak_id": "C11-sin-019",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Pan'ın Labirenti'nde Ofelia Solgun Adam'ın salonunda yasak olmasına rağmen ne yer?",
+    "d": "Üzüm",
+    "y": [
+      "Elma",
+      "Armut",
+      "İncir"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What does Ofelia eat despite the prohibition in the Pale Man's hall in Pan's Labyrinth?",
+      "d": "Grapes",
+      "y": [
+        "Apples",
+        "Pears",
+        "Figs"
+      ]
+    },
+    "olgu": "Ofelia sofradan iki üzüm tanesi yer.",
+    "kalip": "sinema_oyku_rafi",
+    "konular": [
+      "pan-labyrinth-grapes"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.24,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-149",
+    "taslak_id": "C11-sin-025",
+    "k": "sinema",
+    "yerel": false,
+    "s": "Geliş'te Louise Banks uzaylılarla iletişim kurmaya çağrıldığında hangi alanda uzmandır?",
+    "d": "Dilbilim",
+    "y": [
+      "Antropoloji",
+      "Arkeoloji",
+      "Psikoloji"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In which field is Louise Banks an expert when called to communicate with aliens in Arrival?",
+      "d": "Linguistics",
+      "y": [
+        "Anthropology",
+        "Archaeology",
+        "Psychology"
+      ]
+    },
+    "olgu": "Louise Banks dilbilimcidir.",
+    "kalip": "sinema_kurtarma_meslegi",
+    "konular": [
+      "arrival-linguist"
+    ],
+    "alt_tur": "canli",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-150",
+    "taslak_id": "C11-gen-003",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Caesar salatası 1924'te hangi Meksika şehrindeki restoranla ilişkilendirilir?",
+    "d": "Tijuana",
+    "y": [
+      "Monterrey",
+      "Guadalajara",
+      "Cancún"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which Mexican city is associated with the restaurant where Caesar salad originated in 1924?",
+      "d": "Tijuana",
+      "y": [
+        "Monterrey",
+        "Guadalajara",
+        "Cancun"
+      ]
+    },
+    "olgu": "Caesar Cardini'nin restoranı Tijuana'daydı.",
+    "kalip": "kultur_sos_adlandirma",
+    "konular": [
+      "caesar-salad-anchovy-origin"
+    ],
+    "alt_tur": "yemek",
+    "ulke_odak": "meksika",
+    "jev_p": 0.09,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-151",
+    "taslak_id": "C11-gen-005",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Roş Aşana'da tatlı bir yıl dileğiyle elma dilimleri geleneksel olarak neye batırılır?",
+    "d": "Bal",
+    "y": [
+      "Pekmez",
+      "Reçel",
+      "Krema"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What are apple slices traditionally dipped into at Rosh Hashanah to wish for a sweet year?",
+      "d": "Honey",
+      "y": [
+        "Molasses",
+        "Jam",
+        "Cream"
+      ]
+    },
+    "olgu": "Roş Aşana'da elma bala batırılarak yenir.",
+    "kalip": "kultur_sofra_hediye",
+    "konular": [
+      "rosh-hashanah-apple-honey"
+    ],
+    "alt_tur": "gelenek",
+    "ulke_odak": "global",
+    "jev_p": 0.66,
+    "jev_tek_dogru_p": 0.16,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-152",
+    "taslak_id": "C11-gen-008",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Etiyopya kahve töreninde kahvenin yanında sıkça hangi patlamış tahıl ikram edilir?",
+    "d": "Mısır",
+    "y": [
+      "Pirinç",
+      "Buğday",
+      "Arpa"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which popped grain is often served with coffee at the Ethiopian coffee ceremony?",
+      "d": "Maize",
+      "y": [
+        "Rice",
+        "Wheat",
+        "Barley"
+      ]
+    },
+    "olgu": "Etiyopya kahve töreninde patlamış mısır sıkça ikram edilir.",
+    "kalip": "kultur_kahve_seremoni",
+    "konular": [
+      "ethiopian-coffee-popcorn"
+    ],
+    "alt_tur": "gelenek",
+    "ulke_odak": "etiyopya",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.13,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-153",
+    "taslak_id": "C11-gen-011",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Hindistan'ın lassi içeceğinin klasik süt ürünü temeli hangisidir?",
+    "d": "Yoğurt",
+    "y": [
+      "Krema",
+      "Lor",
+      "Tereyağı"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which dairy product is the classic base of Indian lassi?",
+      "d": "Yogurt",
+      "y": [
+        "Cream",
+        "Curd cheese",
+        "Butter"
+      ]
+    },
+    "olgu": "Lassi yoğurt temelli bir içecektir.",
+    "kalip": "geleneksel_tarif_ana_bileseni",
+    "konular": [
+      "lassi-yogurt"
+    ],
+    "alt_tur": "yemek",
+    "ulke_odak": "hindistan",
+    "jev_p": 0.44,
+    "jev_tek_dogru_p": 0.1,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-154",
+    "taslak_id": "C11-gen-015",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Ukrayna düğünlerinde süslü korovai geleneksel olarak hangi yiyecek türüdür?",
+    "d": "Ekmek",
+    "y": [
+      "Peynir",
+      "Pilav",
+      "Pasta kreması"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What kind of food is the decorated korovai traditionally served at Ukrainian weddings?",
+      "d": "Bread",
+      "y": [
+        "Cheese",
+        "Rice dish",
+        "Cake cream"
+      ]
+    },
+    "olgu": "Korovai törenlik bir düğün ekmeğidir.",
+    "kalip": "kultur_dugun_ekmek",
+    "konular": [
+      "ukrainian-korovai-round"
+    ],
+    "alt_tur": "gelenek",
+    "ulke_odak": "ukrayna",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-155",
+    "taslak_id": "C11-gen-021",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Brezilya feijoada'sının temel bakliyatı hangisidir?",
+    "d": "Siyah fasulye",
+    "y": [
+      "Yeşil mercimek",
+      "Sarı nohut",
+      "Kırmızı barbunya"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which legume is the main ingredient in Brazilian feijoada?",
+      "d": "Black beans",
+      "y": [
+        "Green lentils",
+        "Yellow chickpeas",
+        "Red kidney beans"
+      ]
+    },
+    "olgu": "Brezilya feijoada'sı siyah fasulyeyle hazırlanır.",
+    "kalip": "geleneksel_tarif_ana_bileseni",
+    "konular": [
+      "brazil-feijoada-beans"
+    ],
+    "alt_tur": "yemek",
+    "ulke_odak": "brezilya",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-156",
+    "taslak_id": "C11-gen-029",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Geleneksel 'maroken' kitap cildi için hangi hayvanın derisi kullanılır?",
+    "d": "Keçi",
+    "y": [
+      "Domuz",
+      "Koyun",
+      "Tavşan"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which animal's skin is traditionally used for morocco bookbinding leather?",
+      "d": "Goat",
+      "y": [
+        "Pig",
+        "Sheep",
+        "Rabbit"
+      ]
+    },
+    "olgu": "Maroken geleneksel olarak keçi derisinden yapılır.",
+    "kalip": "zanaatta_malzeme",
+    "konular": [
+      "leather-morocco-goat"
+    ],
+    "alt_tur": "zanaat",
+    "ulke_odak": "global",
+    "jev_p": 0.09,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-157",
+    "taslak_id": "C11-gen-037",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Klasik Irish coffee'de kahve ve krema yanında hangi içki kullanılır?",
+    "d": "İrlanda viskisi",
+    "y": [
+      "İskoç viskisi",
+      "Bourbon viskisi",
+      "Çavdar viskisi"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which spirit accompanies coffee and cream in classic Irish coffee?",
+      "d": "Irish whiskey",
+      "y": [
+        "Scotch whisky",
+        "Bourbon whiskey",
+        "Rye whiskey"
+      ]
+    },
+    "olgu": "Irish coffee İrlanda viskisiyle yapılır.",
+    "kalip": "geleneksel_tarif_ana_bileseni",
+    "konular": [
+      "irish-coffee-whiskey"
+    ],
+    "alt_tur": "yemek",
+    "ulke_odak": "irlanda",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-158",
+    "taslak_id": "C11-gen-044",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Klasik el bayraklarıyla semafor yapan kişi aynı anda kaç bayrak tutar?",
+    "d": "2",
+    "y": [
+      "1",
+      "3",
+      "4"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How many flags does a person hold at once when using traditional hand-flag semaphore?",
+      "d": "2",
+      "y": [
+        "1",
+        "3",
+        "4"
+      ]
+    },
+    "olgu": "Bayrak semaforu iki elde iki bayrakla yapılır.",
+    "kalip": "kultur_kaldirilmis_sembol",
+    "konular": [
+      "semaphore-flag-two"
+    ],
+    "alt_tur": "gunluk",
+    "ulke_odak": "global",
+    "jev_p": 0.3,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-159",
+    "taslak_id": "C11-gen-045",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Kombuça yapmak için şekerli temel içecek olarak hangisi fermante edilir?",
+    "d": "Çay",
+    "y": [
+      "Kahve",
+      "Kakao",
+      "Salep"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which sweetened base drink is fermented to make kombucha?",
+      "d": "Tea",
+      "y": [
+        "Coffee",
+        "Cocoa",
+        "Salep"
+      ]
+    },
+    "olgu": "Kombuça şekerli çayın fermantasyonuyla yapılır.",
+    "kalip": "kultur_kazanda_maya",
+    "konular": [
+      "kombucha-tea"
+    ],
+    "alt_tur": "yemek",
+    "ulke_odak": "global",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-160",
+    "taslak_id": "C11-gen-048",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Geleneksel Chianti fiasco şişelerinin alt gövdesi hangi örgüyle sarılır?",
+    "d": "Saman",
+    "y": [
+      "Pamuk",
+      "Yün",
+      "Metal tel"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What woven material covers the lower body of traditional Chianti fiasco bottles?",
+      "d": "Straw",
+      "y": [
+        "Cotton",
+        "Wool",
+        "Metal wire"
+      ]
+    },
+    "olgu": "Fiasco şişeleri saman örgüyle sarılır.",
+    "kalip": "zanaatta_malzeme",
+    "konular": [
+      "chianti-fiasco-straw"
+    ],
+    "alt_tur": "yemek",
+    "ulke_odak": "italya",
+    "jev_p": 0.04,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-161",
+    "taslak_id": "C11-gen-050",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Panama şapkası UNESCO'nun geleneksel dokuma kaydında hangi ülkenin zanaatı olarak yer alır?",
+    "d": "Ekvador",
+    "y": [
+      "Panama",
+      "Kolombiya",
+      "Peru"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which country's craft is recorded by UNESCO for traditional Panama-hat weaving?",
+      "d": "Ecuador",
+      "y": [
+        "Panama",
+        "Colombia",
+        "Peru"
+      ]
+    },
+    "olgu": "Toquilla hasır şapka dokumacılığı Ekvador geleneğidir.",
+    "kalip": "kultur_giyimde_sira",
+    "konular": [
+      "panama-hat-ecuador"
+    ],
+    "alt_tur": "zanaat",
+    "ulke_odak": "ekvador",
+    "jev_p": 0.18,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-162",
+    "taslak_id": "C11-gen-052",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Etiyopya'da geleneksel injera için kullanılan küçük taneli tahıl hangisidir?",
+    "d": "Teff",
+    "y": [
+      "Darı",
+      "Arpa",
+      "Çavdar"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which small-grained cereal is traditionally used for Ethiopian injera?",
+      "d": "Teff",
+      "y": [
+        "Millet",
+        "Barley",
+        "Rye"
+      ]
+    },
+    "olgu": "Geleneksel injera teff unuyla yapılır.",
+    "kalip": "kultur_ekmek_masasi",
+    "konular": [
+      "injera-teff"
+    ],
+    "alt_tur": "yemek",
+    "ulke_odak": "etiyopya",
+    "jev_p": 0.62,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-163",
+    "taslak_id": "C11-gen-055",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Chuseok'ta hazırlanan songpyeon pirinç kekleri hangi biçimde katlanır?",
+    "d": "Yarımay",
+    "y": [
+      "Tam daire",
+      "Yıldız",
+      "Üçgen"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Into what shape are songpyeon rice cakes folded for Chuseok?",
+      "d": "Half-moon",
+      "y": [
+        "Full circle",
+        "Star",
+        "Triangle"
+      ]
+    },
+    "olgu": "Songpyeon yarımay biçimli pirinç kekleridir.",
+    "kalip": "kultur_kore_hamur_sekli",
+    "konular": [
+      "songpyeon-halfmoon"
+    ],
+    "alt_tur": "yemek",
+    "ulke_odak": "kore",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-164",
+    "taslak_id": "C11-gen-061",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Guess Who oyununda elenen adayların resimleri fiziksel olarak nasıl işaretlenir?",
+    "d": "Kapatılarak",
+    "y": [
+      "Ters çevrilerek",
+      "Kırmızıya boyanarak",
+      "Karttan kesilerek"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "How are eliminated candidate portraits physically marked in Guess Who?",
+      "d": "Flipped down",
+      "y": [
+        "Turned backward",
+        "Painted red",
+        "Cut off the card"
+      ]
+    },
+    "olgu": "Guess Who'da elenen portrelerin menteşeli kapakları indirilir.",
+    "kalip": "kultur_oyunun_yuz_sekli",
+    "konular": [
+      "guess-who-flip-faces"
+    ],
+    "alt_tur": "oyun",
+    "ulke_odak": "global",
+    "jev_p": 0.2,
+    "jev_tek_dogru_p": 0.18,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-165",
+    "taslak_id": "C11-gen-062",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Çin Fener Festivali ay takviminde yılın hangi ayının 15. günündedir?",
+    "d": "Birinci",
+    "y": [
+      "İkinci",
+      "Üçüncü",
+      "Dördüncü"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "On the fifteenth day of which lunar month is China's Lantern Festival held?",
+      "d": "First",
+      "y": [
+        "Second",
+        "Third",
+        "Fourth"
+      ]
+    },
+    "olgu": "Fener Festivali ilk ayın on beşinci günüdür.",
+    "kalip": "kultur_boya_cinde",
+    "konular": [
+      "china-lantern-festival-month"
+    ],
+    "alt_tur": "gelenek",
+    "ulke_odak": "cin",
+    "jev_p": 0.5,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-166",
+    "taslak_id": "C11-R029",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Gem tipindeki klasik ataş hangi malzemenin bükülmesiyle yapılır?",
+    "d": "Metal tel",
+    "y": [
+      "Plastik şerit",
+      "Ahşap çubuk",
+      "Cam lif"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is bent to make a classic Gem-style paper clip?",
+      "d": "Metal wire",
+      "y": [
+        "Plastic strip",
+        "Wooden stick",
+        "Glass fibre"
+      ]
+    },
+    "olgu": "Gem ataş bükülmüş metal teldir.",
+    "kalip": "zanaatta_malzeme",
+    "konular": [
+      "paperclip-gem"
+    ],
+    "alt_tur": "icat",
+    "ulke_odak": "global",
+    "kaynak": "codex-09:C08-gen-021",
+    "jev_p": 0.55,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-167",
+    "taslak_id": "C11-R030",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Marmite'in karakteristik tuzlu sürülebilir içeriğinin temel kaynağı nedir?",
+    "d": "Maya özütü",
+    "y": [
+      "Fıstık ezmesi",
+      "Zeytin püresi",
+      "Peynir kreması"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the basic ingredient of Marmite's salty spread?",
+      "d": "Yeast extract",
+      "y": [
+        "Peanut butter",
+        "Olive puree",
+        "Cream cheese"
+      ]
+    },
+    "olgu": "Marmite maya özütünden yapılır.",
+    "kalip": "yemek_ozgun_kavanoz",
+    "konular": [
+      "marmite"
+    ],
+    "alt_tur": "mutfak",
+    "ulke_odak": "GB",
+    "kaynak": "codex-09:C08-gen-065",
+    "jev_p": 0.75,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-168",
+    "taslak_id": "C11-R031",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Etch A Sketch'in iki döner düğmesi hangi çizgi hareketlerini ayrı ayrı yönetir?",
+    "d": "Yatay ve dikey",
+    "y": [
+      "Daire ve spiral",
+      "İleri ve geri renk",
+      "Kalın ve ince uç"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which two drawing movements are controlled separately by the knobs of an Etch A Sketch?",
+      "d": "Horizontal and vertical",
+      "y": [
+        "Circle and spiral",
+        "Forward and reverse colour",
+        "Thick and thin point"
+      ]
+    },
+    "olgu": "İki düğme yatay ve dikey hareketi yönetir.",
+    "kalip": "gunluk_hayat_ozgun_oyun_dugme",
+    "konular": [
+      "etcha-sketch"
+    ],
+    "alt_tur": "nesne",
+    "ulke_odak": "US",
+    "kaynak": "codex-09:C08-gen-076",
+    "jev_p": 0.53,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-169",
+    "taslak_id": "C11-gen-002",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Klasik dört kişilik Mahjong'da her oyuncu oyuna genellikle kaç taşla başlar, dağıtıcı hariç?",
+    "d": "13",
+    "y": [
+      "12",
+      "14",
+      "16"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In classic four-player mahjong, how many tiles does each non-dealer usually start with?",
+      "d": "13",
+      "y": [
+        "12",
+        "14",
+        "16"
+      ]
+    },
+    "olgu": "Standart oyunda dağıtıcı dışındaki oyuncular on üç taşla başlar.",
+    "kalip": "kultur_oyun_oyuncu_say",
+    "konular": [
+      "mahjong-standard-four"
+    ],
+    "alt_tur": "oyun",
+    "ulke_odak": "cin",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.12,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-170",
+    "taslak_id": "C11-gen-012",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "1912'de içi dolgulu Belçika pralinesini geliştiren çikolatacı kimdir?",
+    "d": "Jean Neuhaus",
+    "y": [
+      "Pierre Marcolini",
+      "Joseph Draps",
+      "Léonidas Kestekides"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which chocolatier developed the filled Belgian praline in 1912?",
+      "d": "Jean Neuhaus",
+      "y": [
+        "Pierre Marcolini",
+        "Joseph Draps",
+        "Leonidas Kestekides"
+      ]
+    },
+    "olgu": "Jean Neuhaus 1912'de dolgulu pralineyi geliştirdi.",
+    "kalip": "kultur_cikolata_tarih",
+    "konular": [
+      "belgian-praline-neuhaus"
+    ],
+    "alt_tur": "yemek",
+    "ulke_odak": "belcika",
+    "jev_p": 0.59,
+    "jev_tek_dogru_p": 0.12,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-171",
+    "taslak_id": "C11-gen-013",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Fabergé'nin 1885 tarihli ilk imparatorluk Paskalya yumurtasının içindeki altın figür hangi hayvandır?",
+    "d": "Tavuk",
+    "y": [
+      "Kuğu",
+      "Tavus kuşu",
+      "Güvercin"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which animal is the gold figure inside Faberge's first imperial Easter egg of 1885?",
+      "d": "Hen",
+      "y": [
+        "Swan",
+        "Peacock",
+        "Dove"
+      ]
+    },
+    "olgu": "İlk imparatorluk yumurtası altın tavuk içerir.",
+    "kalip": "kultur_yumurta_zaman",
+    "konular": [
+      "faberge-first-hen"
+    ],
+    "alt_tur": "zanaat",
+    "ulke_odak": "rusya",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-172",
+    "taslak_id": "C11-gen-014",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Lizbon'daki Pastéis de Belém'in tarihsel tarifi hangi manastırla bağlantılıdır?",
+    "d": "Jerónimos",
+    "y": [
+      "Alcobaça",
+      "Batalha",
+      "São Vicente"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which monastery is linked to the historical recipe of Lisbon's Pasteis de Belem?",
+      "d": "Jeronimos",
+      "y": [
+        "Alcobaca",
+        "Batalha",
+        "Sao Vicente"
+      ]
+    },
+    "olgu": "Tarif Jerónimos Manastırı'ndan gelir.",
+    "kalip": "kultur_halka_tatli",
+    "konular": [
+      "portuguese-pastel-belem"
+    ],
+    "alt_tur": "yemek",
+    "ulke_odak": "portekiz",
+    "jev_p": 0.65,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-173",
+    "taslak_id": "C11-gen-024",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "İlk Swatch saat koleksiyonunun satışa sunulduğu yıl hangisidir?",
+    "d": "1983",
+    "y": [
+      "1973",
+      "1993",
+      "1963"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In which year did the first Swatch watch collection go on sale?",
+      "d": "1983",
+      "y": [
+        "1973",
+        "1993",
+        "1963"
+      ]
+    },
+    "olgu": "İlk Swatch koleksiyonu 1983'te çıktı.",
+    "kalip": "kultur_ilk_saat",
+    "konular": [
+      "swatch-first-1983"
+    ],
+    "alt_tur": "gunluk",
+    "ulke_odak": "isvicre",
+    "jev_p": 0.35,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-174",
+    "taslak_id": "C11-gen-026",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Klasik Go oyunu başladığında tahta üzerinde kaç taş bulunur?",
+    "d": "0",
+    "y": [
+      "2",
+      "4",
+      "8"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "How many stones are on the board at the start of a standard game of Go?",
+      "d": "0",
+      "y": [
+        "2",
+        "4",
+        "8"
+      ]
+    },
+    "olgu": "Go boş tahtayla başlar; handikaplı oyunlar istisnadır.",
+    "kalip": "kultur_birlikte_oyun",
+    "konular": [
+      "go-stones-start-empty"
+    ],
+    "alt_tur": "oyun",
+    "ulke_odak": "cin",
+    "jev_p": 0.27,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-175",
+    "taslak_id": "C11-gen-035",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Klasik Britanya Cluedo kurallarında ilk sırayı hangi şüpheli alır?",
+    "d": "Miss Scarlett",
+    "y": [
+      "Mrs Peacock",
+      "Mrs White",
+      "Professor Plum"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which suspect takes the first turn in classic British Cluedo rules?",
+      "d": "Miss Scarlett",
+      "y": [
+        "Mrs Peacock",
+        "Mrs White",
+        "Professor Plum"
+      ]
+    },
+    "olgu": "Klasik kurallarda Miss Scarlett başlar.",
+    "kalip": "kultur_oyun_dogrulama",
+    "konular": [
+      "cluedo-original-miss-scarlet"
+    ],
+    "alt_tur": "oyun",
+    "ulke_odak": "britanya",
+    "jev_p": 0.25,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-176",
+    "taslak_id": "C11-gen-060",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Crokinole'da taşın merkez deliğine girmesi doğrudan kaç puan kazandırır?",
+    "d": "20",
+    "y": [
+      "10",
+      "15",
+      "25"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "How many points does sinking a disc into the central hole directly earn in crokinole?",
+      "d": "20",
+      "y": [
+        "10",
+        "15",
+        "25"
+      ]
+    },
+    "olgu": "Crokinole'un merkez deliği yirmi puandır.",
+    "kalip": "kultur_oyunda_merkez",
+    "konular": [
+      "crokinole-central-hole"
+    ],
+    "alt_tur": "oyun",
+    "ulke_odak": "kanada",
+    "jev_p": 0.48,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-177",
+    "taslak_id": "C11-ede-002",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Renklerden Mor'da Celie'nin ilk mektupları kime hitap eder?",
+    "d": "Tanrı'ya",
+    "y": [
+      "Nettie'ye",
+      "Shug'a",
+      "Sofia'ya"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "To whom are Celie's early letters addressed in The Color Purple?",
+      "d": "God",
+      "y": [
+        "Nettie",
+        "Shug",
+        "Sofia"
+      ]
+    },
+    "olgu": "Celie romanın başında Tanrı'ya mektuplar yazar.",
+    "kalip": "edebiyat_mektup_ilk_hitap",
+    "konular": [
+      "color-purple-god"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.51,
+    "jev_tek_dogru_p": 0.11,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-178",
+    "taslak_id": "C11-ede-007",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Açlık Oyunları'nda Peeta Mellark'ın ailesi hangi işletmeyi çalıştırır?",
+    "d": "Fırın",
+    "y": [
+      "Kasap",
+      "Terzi",
+      "Manav"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What business does Peeta Mellark's family run in The Hunger Games?",
+      "d": "Bakery",
+      "y": [
+        "Butcher shop",
+        "Tailor shop",
+        "Greengrocer"
+      ]
+    },
+    "olgu": "Peeta'nın ailesi Bölge 12'de bir fırın işletir.",
+    "kalip": "edebiyat_aile_isligi",
+    "konular": [
+      "hunger-games-peeta-bakery"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.17,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-179",
+    "taslak_id": "C11-ede-013",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Poe'nun Kuzgun'unda kuş odanın kapısının üstündeki hangi figürün büstüne konar?",
+    "d": "Pallas",
+    "y": [
+      "Hermes",
+      "Apollon",
+      "Artemis"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "On whose bust above the chamber door does the bird perch in Poe's The Raven?",
+      "d": "Pallas",
+      "y": [
+        "Hermes",
+        "Apollo",
+        "Artemis"
+      ]
+    },
+    "olgu": "Kuzgun Pallas Athena'nın büstüne konar.",
+    "kalip": "edebiyat_siir_bust",
+    "konular": [
+      "poe-raven-pallas"
+    ],
+    "alt_tur": "siir",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-180",
+    "taslak_id": "C11-ede-017",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Michael Morpurgo'nun Savaş Atı romanında anlatıcı atın adı hangisidir?",
+    "d": "Joey",
+    "y": [
+      "Topthorn",
+      "Black Beauty",
+      "Flicka"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the name of the horse narrating Michael Morpurgo's War Horse?",
+      "d": "Joey",
+      "y": [
+        "Topthorn",
+        "Black Beauty",
+        "Flicka"
+      ]
+    },
+    "olgu": "Savaş Atı'nın anlatıcısı Joey'dir.",
+    "kalip": "edebiyat_romanda_hayvan_yol",
+    "konular": [
+      "war-horse-joey"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.17,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-181",
+    "taslak_id": "C11-ede-019",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Alice Harikalar Diyarında'da Cheshire Kedisi kaybolduğunda görünür kalan son ayrıntı hangisidir?",
+    "d": "Sırıtışı",
+    "y": [
+      "Kuyruğu",
+      "Bıyıkları",
+      "Kulakları"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What remains visible last when the Cheshire Cat vanishes in Alice's Adventures in Wonderland?",
+      "d": "Its grin",
+      "y": [
+        "Its tail",
+        "Its whiskers",
+        "Its ears"
+      ]
+    },
+    "olgu": "Cheshire Kedisi kaybolduktan sonra sırıtışı kalır.",
+    "kalip": "edebiyat_kedi_kaybolma",
+    "konular": [
+      "alice-cheshire-grin"
+    ],
+    "alt_tur": "cocuk",
+    "jev_p": 0.29,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-182",
+    "taslak_id": "C11-ede-021",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Roald Dahl'ın İyi Kalpli Koca Dev'i yakaladığı rüyaları hangi nesnelerde saklar?",
+    "d": "Cam kavanozlar",
+    "y": [
+      "Tahta kutular",
+      "Bez torbalar",
+      "Metal tenekeler"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "In what containers does Roald Dahl's BFG store the dreams he catches?",
+      "d": "Glass jars",
+      "y": [
+        "Wooden boxes",
+        "Cloth bags",
+        "Metal tins"
+      ]
+    },
+    "olgu": "Koca Dev rüyaları cam kavanozlarda saklar.",
+    "kalip": "edebiyat_mutfak_sihir",
+    "konular": [
+      "bfg-dream-jars"
+    ],
+    "alt_tur": "cocuk",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-183",
+    "taslak_id": "C11-ede-023",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Usta ile Margarita'da Behemoth hangi hayvan biçiminde görünür?",
+    "d": "Kedi",
+    "y": [
+      "Köpek",
+      "Kurt",
+      "Ayı"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What animal form does Behemoth take in The Master and Margarita?",
+      "d": "Cat",
+      "y": [
+        "Dog",
+        "Wolf",
+        "Bear"
+      ]
+    },
+    "olgu": "Behemoth büyük siyah bir kedi biçimindedir.",
+    "kalip": "romanda_hayvan_kimligi",
+    "konular": [
+      "master-margarita-cat"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-184",
+    "taslak_id": "C11-ede-029",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Saftirik Greg'in Günlüğü'nde Greg'in en yakın arkadaşı kimdir?",
+    "d": "Rowley",
+    "y": [
+      "Rodrick",
+      "Manny",
+      "Fregley"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who is Greg's best friend in Diary of a Wimpy Kid?",
+      "d": "Rowley",
+      "y": [
+        "Rodrick",
+        "Manny",
+        "Fregley"
+      ]
+    },
+    "olgu": "Greg'in en yakın arkadaşı Rowley Jefferson'dır.",
+    "kalip": "edebiyat_kitapta_dergi",
+    "konular": [
+      "diary-wimpy-kid-rowley"
+    ],
+    "alt_tur": "cocuk",
+    "jev_p": 0.42,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-185",
+    "taslak_id": "C11-ede-031",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Kralın Yeni Giysileri'nde hükümdarın çıplak olduğunu kalabalıkta ilk açıkça kim söyler?",
+    "d": "Bir çocuk",
+    "y": [
+      "Bir asker",
+      "Bir terzi",
+      "Bir soylu"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who first openly says the ruler is naked in the crowd in The Emperor's New Clothes?",
+      "d": "A child",
+      "y": [
+        "A soldier",
+        "A tailor",
+        "A nobleman"
+      ]
+    },
+    "olgu": "Gerçeği bir çocuk söyler.",
+    "kalip": "edebiyat_kitapta_terzi",
+    "konular": [
+      "emperors-new-clothes-child"
+    ],
+    "alt_tur": "masal",
+    "jev_p": 0.34,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-186",
+    "taslak_id": "C11-ede-033",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Watership Tepesi'nin yolculuk yapan ana karakterleri hangi hayvandır?",
+    "d": "Tavşan",
+    "y": [
+      "Tilki",
+      "Porsuk",
+      "Kirpi"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What animals are the travelling main characters of Watership Down?",
+      "d": "Rabbits",
+      "y": [
+        "Foxes",
+        "Badgers",
+        "Hedgehogs"
+      ]
+    },
+    "olgu": "Watership Down tavşanların yeni bir yuva arayışını anlatır.",
+    "kalip": "romanda_hayvan_kimligi",
+    "konular": [
+      "watership-down-rabbit"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-187",
+    "taslak_id": "C11-ede-036",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Beni Asla Bırakma'nın anlatıcısı Kathy, romanın açılışında hangi bakım işini yaptığını söyler?",
+    "d": "Bakıcı",
+    "y": [
+      "Hemşire",
+      "Doktor",
+      "Fizyoterapist"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What care role does narrator Kathy say she has at the opening of Never Let Me Go?",
+      "d": "Carer",
+      "y": [
+        "Nurse",
+        "Doctor",
+        "Physiotherapist"
+      ]
+    },
+    "olgu": "Kathy romanın başında bakıcı olarak çalışır.",
+    "kalip": "edebiyat_roman_sesi",
+    "konular": [
+      "never-let-me-go-kathy-carer"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.18,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-188",
+    "taslak_id": "C11-ede-038",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Gazap Üzümleri'nde Joad ailesi Kaliforniya'ya gitmek için hangi eyaleti terk eder?",
+    "d": "Oklahoma",
+    "y": [
+      "Arkansas",
+      "Kansas",
+      "Nebraska"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which state do the Joads leave for California in The Grapes of Wrath?",
+      "d": "Oklahoma",
+      "y": [
+        "Arkansas",
+        "Kansas",
+        "Nebraska"
+      ]
+    },
+    "olgu": "Joad ailesi Oklahoma'dan ayrılır.",
+    "kalip": "edebiyat_topragin_sesi",
+    "konular": [
+      "grapes-wrath-joad-oklahoma"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.3,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-189",
+    "taslak_id": "C11-R033",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Zola'nın Germinal romanındaki işçiler hangi sektördedir?",
+    "d": "Kömür madenciliği",
+    "y": [
+      "Demir dökümü",
+      "Tekstil dokuması",
+      "Liman taşımacılığı"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What industry do the workers in Zola's Germinal work in?",
+      "d": "Coal mining",
+      "y": [
+        "Iron casting",
+        "Textile weaving",
+        "Dock transport"
+      ]
+    },
+    "olgu": "Germinal kömür madencilerini anlatır.",
+    "kalip": "roman_ozgun_merkez",
+    "konular": [
+      "germinal"
+    ],
+    "alt_tur": "roman",
+    "kaynak": "codex-09:C08-ede-036",
+    "jev_p": 0.46,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-190",
+    "taslak_id": "C11-R034",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Watership Tepesi'nde tavşan grubunun lideri kimdir?",
+    "d": "Hazel",
+    "y": [
+      "Fiver",
+      "Bigwig",
+      "Blackberry"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who leads the rabbit group in Watership Down?",
+      "d": "Hazel",
+      "y": [
+        "Fiver",
+        "Bigwig",
+        "Blackberry"
+      ]
+    },
+    "olgu": "Grubun lideri Hazel'dır.",
+    "kalip": "roman_ozgun_baskahraman_rengi",
+    "konular": [
+      "watership-hazel"
+    ],
+    "alt_tur": "roman",
+    "kaynak": "codex-09:C08-ede-062",
+    "jev_p": 0.37,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-191",
+    "taslak_id": "C11-R035",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Algernon'a Çiçekler romanına adını veren Algernon hangi hayvandır?",
+    "d": "Fare",
+    "y": [
+      "Hamster",
+      "Tavşan",
+      "Kobay"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What animal is Algernon in Flowers for Algernon?",
+      "d": "Mouse",
+      "y": [
+        "Hamster",
+        "Rabbit",
+        "Guinea pig"
+      ]
+    },
+    "olgu": "Algernon bir laboratuvar faresidir.",
+    "kalip": "romanda_hayvan_kimligi",
+    "konular": [
+      "flowers-algernon"
+    ],
+    "alt_tur": "roman",
+    "kaynak": "codex-09:C08-ede-085",
+    "jev_p": 0.45,
+    "jev_tek_dogru_p": 0.1,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-192",
+    "taslak_id": "C11-R071",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Küçük Kadınlar'da Jo'nun kardeşleriyle kurduğu kulübün adı hangi Dickens karakterinden gelir?",
+    "d": "Bay Pickwick",
+    "y": [
+      "Bay Micawber",
+      "Bay Bumble",
+      "Bay Gradgrind"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which Dickens character gives his name to the club Jo forms with her sisters in Little Women?",
+      "d": "Mr Pickwick",
+      "y": [
+        "Mr Micawber",
+        "Mr Bumble",
+        "Mr Gradgrind"
+      ]
+    },
+    "olgu": "March kardeşlerin Pickwick Kulübü Dickens'ın Bay Pickwick'inden adını alır.",
+    "kalip": "roman_kalem_takmaadi",
+    "konular": [
+      "little-women-pickwick"
+    ],
+    "alt_tur": "roman",
+    "kaynak": "codex-09:C10-ede-012",
+    "jev_p": 0.72,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-193",
+    "taslak_id": "C11-ede-003",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "The Outsiders'da Ponyboy'a 'Stay gold' öğüdünü veren arkadaşı kimdir?",
+    "d": "Johnny",
+    "y": [
+      "Dallas",
+      "Two-Bit",
+      "Steve"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which friend tells Ponyboy to stay gold in The Outsiders?",
+      "d": "Johnny",
+      "y": [
+        "Dallas",
+        "Two-Bit",
+        "Steve"
+      ]
+    },
+    "olgu": "Johnny Cade Ponyboy'a Stay gold der.",
+    "kalip": "edebiyat_son_soz_alinti",
+    "konular": [
+      "outsiders-johnny-gold"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.2,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-194",
+    "taslak_id": "C11-ede-011",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Othello'nun Desdemona'ya verdiği mendilin üzerinde hangi meyve deseni vardır?",
+    "d": "Çilek",
+    "y": [
+      "Kiraz",
+      "Nar",
+      "Üzüm"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which fruit pattern appears on the handkerchief Othello gives Desdemona?",
+      "d": "Strawberries",
+      "y": [
+        "Cherries",
+        "Pomegranates",
+        "Grapes"
+      ]
+    },
+    "olgu": "Desdemona'nın mendili çilek desenlidir.",
+    "kalip": "edebiyat_oyun_meyve_motifi",
+    "konular": [
+      "othello-handkerchief-strawberries"
+    ],
+    "alt_tur": "tiyatro",
+    "jev_p": 0.09,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-195",
+    "taslak_id": "C11-ede-012",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "On İkinci Gece'de Viola erkek kılığına girdiğinde kendini hangi adla tanıtır?",
+    "d": "Cesario",
+    "y": [
+      "Sebastian",
+      "Orsino",
+      "Malvolio"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What name does Viola use when disguised as a man in Twelfth Night?",
+      "d": "Cesario",
+      "y": [
+        "Sebastian",
+        "Orsino",
+        "Malvolio"
+      ]
+    },
+    "olgu": "Viola erkek kılığında Cesario adını kullanır.",
+    "kalip": "edebiyat_oyun_kilik_isim",
+    "konular": [
+      "twelfth-night-cesario"
+    ],
+    "alt_tur": "tiyatro",
+    "jev_p": 0.25,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-196",
+    "taslak_id": "C11-ede-016",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Don Kişot şövalye ilan edilmek istediği ilk konaklama yerini ne sanır?",
+    "d": "Şato",
+    "y": [
+      "Manastır",
+      "Saray bahçesi",
+      "Kışla"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What does Don Quixote imagine his first lodging place to be when he asks to be knighted?",
+      "d": "Castle",
+      "y": [
+        "Monastery",
+        "Palace garden",
+        "Barracks"
+      ]
+    },
+    "olgu": "Don Kişot hanı şato sanır.",
+    "kalip": "edebiyat_romanda_yanilgi",
+    "konular": [
+      "don-quixote-inn-castle"
+    ],
+    "alt_tur": "roman",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.19,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-197",
+    "taslak_id": "C11-ede-020",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Matilda'daki müdür Trunchbull'un geçmişte yarıştığı atletizm dalı hangisidir?",
+    "d": "Çekiç atma",
+    "y": [
+      "Disk atma",
+      "Gülle atma",
+      "Cirit atma"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "In which athletics event did headmistress Trunchbull compete in the past in Matilda?",
+      "d": "Hammer throw",
+      "y": [
+        "Discus throw",
+        "Shot put",
+        "Javelin throw"
+      ]
+    },
+    "olgu": "Trunchbull eski bir çekiç atma sporcusudur.",
+    "kalip": "edebiyat_okul_ogretmeni",
+    "konular": [
+      "matilda-trunchbull-hammer"
+    ],
+    "alt_tur": "cocuk",
+    "jev_p": 0.24,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-198",
+    "taslak_id": "C11-ede-025",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "Doğu Ekspresinde Cinayet'te cinayetin işlendiği vagonun hattı hangi liman şehrine gider?",
+    "d": "Calais",
+    "y": [
+      "Marsilya",
+      "Le Havre",
+      "Cherbourg"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "To which port city is the carriage where the murder takes place bound in Murder on the Orient Express?",
+      "d": "Calais",
+      "y": [
+        "Marseille",
+        "Le Havre",
+        "Cherbourg"
+      ]
+    },
+    "olgu": "Cinayet Calais vagonunda işlenir.",
+    "kalip": "edebiyat_yolculuk_odasi",
+    "konular": [
+      "murder-orient-express-calais"
+    ],
+    "alt_tur": "polisiye",
+    "jev_p": 0.22,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  },
+  {
+    "id": "C11-199",
+    "taslak_id": "C11-ede-035",
+    "k": "edebiyat",
+    "yerel": true,
+    "s": "Cemal Süreya'nın doğum soyadı hangisidir?",
+    "d": "Seber",
+    "y": [
+      "Cansever",
+      "Dıranas",
+      "Berk"
+    ],
+    "zorluk": 3,
+    "en": null,
+    "en_neden": "Türkiye yerel kültürü; stil kararı.",
+    "olgu": "Cemal Süreya'nın asıl soyadı Seber'dir.",
+    "kalip": "edebiyat_turk_siir",
+    "konular": [
+      "cemal-sureya-soyad"
+    ],
+    "alt_tur": "siir",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.11,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "onay"
+  }
+]

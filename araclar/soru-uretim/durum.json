@@ -1693,6 +1693,56 @@
           199
         ],
         "onay_retler": []
+      },
+      {
+        "klasor": "codex-10",
+        "hedef": 200,
+        "net": 194,
+        "durum": "bitti_canlida",
+        "migration_uygulandi": true,
+        "migration": "supabase/migrations/20260612001081_soru_parti_codex_08_12.sql",
+        "canli_yasak": true,
+        "kapilar": "kapı 1–5 geçti; Claude hakem onayı"
+      },
+      {
+        "klasor": "codex-11",
+        "hedef": 200,
+        "net": 195,
+        "durum": "bitti_canlida",
+        "migration_uygulandi": true,
+        "migration": "supabase/migrations/20260612001081_soru_parti_codex_08_12.sql",
+        "canli_yasak": true,
+        "kapilar": "kapı 1–5 geçti; Claude hakem onayı; C11-49 ve C11-82 kapıda elendi (Jev p=0,76), red"
+      },
+      {
+        "klasor": "codex-12",
+        "hedef": 200,
+        "net": 196,
+        "durum": "bitti_canlida",
+        "migration_uygulandi": true,
+        "migration": "supabase/migrations/20260612001081_soru_parti_codex_08_12.sql",
+        "canli_yasak": true,
+        "kapilar": "kapı 1–5 geçti; Claude hakem onayı"
+      },
+      {
+        "klasor": "codex-08",
+        "hedef": 200,
+        "net": 196,
+        "durum": "bitti_canlida",
+        "migration_uygulandi": true,
+        "migration": "supabase/migrations/20260612001081_soru_parti_codex_08_12.sql",
+        "canli_yasak": true,
+        "kapilar": "kapı 1–5 geçti; Claude hakem onayı"
+      },
+      {
+        "klasor": "codex-09",
+        "hedef": 200,
+        "net": 197,
+        "durum": "bitti_canlida",
+        "migration_uygulandi": true,
+        "migration": "supabase/migrations/20260612001081_soru_parti_codex_08_12.sql",
+        "canli_yasak": true,
+        "kapilar": "kapı 1–5 geçti; Claude hakem onayı"
       }
     ],
     "canli_yasak": false,

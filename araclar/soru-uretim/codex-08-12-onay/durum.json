@@ -1,0 +1,11 @@
+{
+  "durum": "canlida",
+  "migration_uygulandi": true,
+  "tarih": "2026-10-12",
+  "karar": "Ida (12 Eki 2026): C11-49 ve C11-82 kapı eşiği nedeniyle çıkarıldı, kalan 978 canlıya",
+  "eklenen": 978,
+  "aktif_once": 14194,
+  "aktif_sonra": 15172,
+  "girdi": "codex-08-12-onay/sorular-978.json",
+  "migration": "supabase/migrations/20260612001081_soru_parti_codex_08_12.sql"
+}

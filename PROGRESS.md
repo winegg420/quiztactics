@@ -11961,3 +11961,13 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **3) Maçı bitiren AÇ iyimser:** kod değişmedi. Neden: sunucuda (`kasa_karar_uygula`) AÇ maçı yalnız `hedef` ile bitirir; `tur_siniri` bitişi AÇ'tan değil son turun sonuç fazından sonra `kasa_sonraki`'de (zamanlayıcı/ilerlet) olur. Canlıda son 3 günde 11 hedef, 1 tur_siniri; Ida'nın iki Hazine maçı da hedef. Hedef durumu `puan + kasa ≥ hedef` istemcide kesin biliniyor ve zaten iyimser (e1abbb5). Canlı ölçüm (test hesabı, bot, 390×844, 2 maç): son AÇ tıklaması → final sahnesi ilk kare **49 ms**. `araclar/kasa-canli-testi.mjs`'e `sonAcFinalMs` ölçümü eklendi.
 - Test hesabı (ArayuzDenetim140) silindi; araç hesabı 0. Canlı kilit için tek seferlik `IZIN_CANLI_TEST=1` iki maç için kullanıldı.
 - Not (kapsam dışı, düzeltilmedi): `kasa-canli-testi.mjs` bot senaryosu 954/955 DEVAM beklentilerinde ("ÜCRETSİZ 50:50", "×N", devam_odul), "Yeni Kasa maçı" düğmesinde ve bir karar sayacı sapmasında kırılıyor — test beklentileri güncel arayüzden eski; ürün hatası mı ayrı ölçülmeli.
+
+## 2026-10-12 — Codex 08–12 soruları canlıya (migration 1081)
+**Araç:** Claude Code (Sonnet 5.5)
+**Neden:** Claude hakem incelemesinden geçen Codex 08–12 partilerinin tek migration ile alınması (Ida onayı).
+
+- **Migration `20260612001081_soru_parti_codex_08_12.sql`:** 978 soru eklendi (TR 978, EN çeviri 941, çevrilmeyen 37). Prova geçti, uygulandı. Aktif soru 14.194 → 15.172 (+978).
+- **Giriş:** `araclar/soru-uretim/codex-08-12-onay/sorular-978.json` (her klasörde `inceleme-sonrasi.json`, yalnız `onay`).
+- **Red:** hakem 14 + kapı 2 = 16 soru canlıda yok (doğrulandı). Kapıda elenen: C11-49, C11-82 (Jev şık ipucu p=0,76 > 0,75; kayıtlı p=0,74 idi, havuz yenilemesinde kaydı). Ida kararı: eşik değişmez, şık yenileme yok → `claude_inceleme: "red"`.
+- **Düzeltilen 5 soru** (C08-66, C09-52, C11-02, C11-175, C12-142) yeni metniyle canlıda.
+- Havuz yenilemek için `.tmp/codex/codex-08…12/durum.json` `canli_yasak` bayrağı geçici false yapıldı, iş sonunda true'ya döndürüldü.
