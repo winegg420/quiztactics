@@ -71,6 +71,9 @@ const SURE_SINIRI_MS = 9 * 60 * 1000;
 const UUID = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
 const MAC_YOLU = new RegExp("/kasa/(" + UUID.source + ")");
 const SES_DOSYA = /\.(mp3|ogg|oga|wav|m4a|aac|opus|flac)(\?.*)?$/i;
+// 13 Eki: maç sonu düğmesi 6 Eki'den beri KasaPage › yeniMacEtiketi: c("Yeni maç") → TR "Yeni maç", EN "New match"
+// (eski "Yeni Kasa maçı" etiketi kalktı); eski adlar geriye uyum için durur.
+const YENI_MAC_DUGMESI = /^\s*(Yeni maç|New match)\s*$|Yeni Kasa maçı|Yeni Ortak Hazine maçı|New Kasa match|New Vault match|New Shared Treasure match/i;
 const bekle = (ms) => new Promise((r) => setTimeout(r, ms));
 const BAS = Date.now();
 const sn = () => ((Date.now() - BAS) / 1000).toFixed(1);
@@ -114,6 +117,7 @@ const SAYFA_HAZIRLIK = ({ kayitlar, koken, dil }) => {
           kazanan: d.kazanan, neden: d.sonuc_neden, joker: d.joker ?? null, rakipJoker: d.rakip_joker ?? null,
           devamOdul: d.devam_odul ?? null, bedava: d.bedava_joker ?? null, devamSans: d.devam_sans ?? null,
           devamElli: Boolean(d.devam_elli), devamBirakir: Boolean(d.devam_birakir),
+          savAcik: Boolean(d.savunma_acik), savHak: Array.isArray(d.savunma_hak) ? d.savunma_hak : [],
           hedef: d.hedef, tavan: Number(d.tavan ?? 0), carpan: Number(d.devam_carpan ?? 1), acma: (d.oyuncular ?? []).map((o) => [o.id, o.acma]), acmaMin: Number(d.acma_min ?? 0) });
       }).catch(() => {});
     }
@@ -303,12 +307,22 @@ async function devamOlc(o, tur) {
   const kayit = { ad: o.ad, tur, kazandi: kd?.devamOdul?.kazandi ?? null, joker: kd?.devamOdul?.joker ?? null, an: false, bar: false, kullanildi: null, s: sn(), t: Date.now(), tKlik: t0 };
   devamKayit.push(kayit);
   if (!kd) { kirildi(o.ad + " tur " + tur + ": DEVAM sonrası 6 sn soru durumu gelmedi"); return; }
-  if (!kd.devamOdul) { kirildi(o.ad + " tur " + tur + ": bilerek DEVAM ama sunucu ödül kaydı (devam_odul) yok"); return; }
-  const q = kd.devamOdul.kazandi ? ".ks-devam-an--kazandi" : ".ks-devam-an--yok";
-  kayit.an = await o.s.locator(q).first().waitFor({ state: "attached", timeout: 3000 }).then(() => true).catch(() => false);
-  if (!kayit.an) kirildi(o.ad + " tur " + tur + ": DEVAM ödülü anı (" + q + ") görünmedi");
-  if (kayit.an && SS && !o.devamGoruntu?.[q]) { (o.devamGoruntu ??= {})[q] = 1; await goruntu(o, "devam-" + (kd.devamOdul.kazandi ? "kazandi" : "yok") + "-" + o.ad); }
-  adim(o.ad + " DEVAM ödülü (tur " + tur + "): " + (kd.devamOdul.kazandi ? "KAZANDI " + kd.devamOdul.joker : "yok") + " · an " + (kayit.an ? "göründü" : "YOK") + " · " + (Date.now() - t0) + " ms");
+  // 987 (Ida, 6 Eki): DEVAM ödülü ücretsiz 50:50 DEĞİL, Savunma Hakkı — yeni maçlarda devam_elli = false ve sunucu
+  // devam_odul yazmaz (kasa_karar_uygula: v_hak = devam_elli and ...). Ödül kaydı/anı yalnız 954 kuralındaki (devam_elli) maçta
+  // ya da 953 şanslı ödülünde (devam_odul dolu) beklenir; 987 maçında hak savunma_hak dizisine yazılır (aşağıda).
+  const odulBeklenir = kd.devamElli || kd.devamSans > 0;
+  if (odulBeklenir && !kd.devamOdul) { kirildi(o.ad + " tur " + tur + ": bilerek DEVAM ama sunucu ödül kaydı (devam_odul) yok"); return; }
+  if (kd.devamOdul) {
+    const q = kd.devamOdul.kazandi ? ".ks-devam-an--kazandi" : ".ks-devam-an--yok";
+    kayit.an = await o.s.locator(q).first().waitFor({ state: "attached", timeout: 3000 }).then(() => true).catch(() => false);
+    if (!kayit.an) kirildi(o.ad + " tur " + tur + ": DEVAM ödülü anı (" + q + ") görünmedi");
+    if (kayit.an && SS && !o.devamGoruntu?.[q]) { (o.devamGoruntu ??= {})[q] = 1; await goruntu(o, "devam-" + (kd.devamOdul.kazandi ? "kazandi" : "yok") + "-" + o.ad); }
+    adim(o.ad + " DEVAM ödülü (tur " + tur + "): " + (kd.devamOdul.kazandi ? "KAZANDI " + kd.devamOdul.joker : "yok") + " · an " + (kayit.an ? "göründü" : "YOK") + " · " + (Date.now() - t0) + " ms");
+  } else if (kd.savAcik) {
+    // 987: bilerek DEVAM → Savunma Hakkı (sahip zaten tutmuyorsa eklenir; AÇ hakları siler)
+    if (!kd.savHak.includes(kd.ben)) kirildi(o.ad + " tur " + tur + ": bilerek DEVAM ama Savunma Hakkı verilmedi (savunma_hak " + JSON.stringify(kd.savHak) + ")");
+    else adim(o.ad + " DEVAM → Savunma Hakkı (tur " + tur + ") sunucuda");
+  }
   // 955/956: DEVAM çarpanı — kasa = min(ceil(eski × çarpan), tavan); ekranda çarpan anı ve "/<tavan>"
   if (kd.carpan > 1 && kd.sonKarar) {
     const eski = Number(kd.sonKarar.deger), bek = Math.min(Math.ceil(eski * kd.carpan), kd.tavan > 0 ? kd.tavan : Infinity);
@@ -326,14 +340,14 @@ async function devamOlc(o, tur) {
     adim(o.ad + " DEVAM ×" + kd.carpan + " (tur " + tur + "): " + eski + " → " + kd.kasa);
   }
   // 954: garanti 50:50 + sahiplik bırakma (ekranda SAHİPSİZ, karar satırı gizli)
-  if (kd.devamElli && (!kd.devamOdul.kazandi || kd.devamOdul.joker !== "elli")) kirildi(o.ad + " tur " + tur + ": 954 DEVAM garanti 50:50 vermedi " + JSON.stringify(kd.devamOdul));
+  if (kd.devamElli && (!kd.devamOdul?.kazandi || kd.devamOdul.joker !== "elli")) kirildi(o.ad + " tur " + tur + ": 954 DEVAM garanti 50:50 vermedi " + JSON.stringify(kd.devamOdul));
   if (kd.devamBirakir) {
     if (kd.sahip != null) kirildi(o.ad + " tur " + tur + ": DEVAM sonrası sahip null olmalı (" + kd.sahip + ")");
     const rozet = await o.s.locator(".ks-kadran-sahipsiz").first().waitFor({ state: "attached", timeout: 2500 }).then(() => true).catch(() => false);
     if (!rozet) kirildi(o.ad + " tur " + tur + ": DEVAM sonrası mini kadranda SAHİPSİZ rozeti yok");
     if (await o.s.locator(".ks-karar-satir").count()) kirildi(o.ad + " tur " + tur + ": sahipsizken karar satırı göründü");
   }
-  if (!kd.devamOdul.kazandi) {
+  if (!kd.devamOdul?.kazandi) {
     await bekle(400);
     if (await o.s.locator(".ks-joker-yuva .qt-skill[data-bedava]").count()) kirildi(o.ad + " tur " + tur + ": kazanmadığı halde ÜCRETSİZ joker görünüyor");
     return;
@@ -481,9 +495,16 @@ async function sur(o, rol) {
       }
       if (!ac) {
         const yazi = await dugme.innerText().catch(() => "");
-        if (!/ÜCRETSİZ 50:50|FREE 50:50/.test(yazi)) kirildi(o.ad + ": DEVAM düğmesinde ÜCRETSİZ 50:50 yazmıyor (" + yazi + ")");
-        // 955: tavanın altındaysa DEVAM düğmesinde çarpan yazılır
-        if (k.carpan > 1 && !(k.tavan > 0 && kasa >= k.tavan) && !yazi.includes("×" + String(k.carpan).replace(".", ",")) && !yazi.includes("×" + k.carpan)) kirildi(o.ad + ": DEVAM düğmesinde ×" + k.carpan + " yazmıyor (" + yazi + ")");
+        // 987 + 9 Eki karar ekranı (KasaParcalari › KasaKarar): düğme kararın SONUCUNU yazar — "DEVAM → Hazine {yeni}" (çarpan
+        // yeni rakamda görünür, "×2" yazılmaz) + tek satır alt yazı: "Sahipsiz kalır · Savunma Hakkı" / "Savunma Hakkı sende" /
+        // "Hazine sahipsiz kalır". Eski "ÜCRETSİZ 50:50" yalnız 954 kuralındaki (devam_elli) maçta beklenir.
+        if (k.devamElli && !/ÜCRETSİZ 50:50|FREE 50:50/.test(yazi)) kirildi(o.ad + ": DEVAM düğmesinde ÜCRETSİZ 50:50 yazmıyor (" + yazi + ")");
+        if (!k.devamElli && k.devamBirakir && !/Savunma Hakkı|Defense Right|sahipsiz kalır|unclaimed/i.test(yazi)) kirildi(o.ad + ": DEVAM düğmesi alt yazısı (Savunma Hakkı / sahipsiz) yok (" + yazi + ")");
+        // 955: tavanın altındaysa DEVAM düğmesi yeni hazine değerini yazar (min(ceil(kasa × çarpan), tavan))
+        if (!(k.tavan > 0 && kasa >= k.tavan)) {
+          const yeni = Math.min(k.carpan > 1 ? Math.ceil(kasa * k.carpan) : kasa, k.tavan > 0 ? k.tavan : Infinity);
+          if (!new RegExp("(Hazine|Treasure)\\s+" + yeni + "\\b", "i").test(yazi)) kirildi(o.ad + ": DEVAM düğmesinde yeni hazine (" + yeni + ") yazmıyor (" + yazi.replace(/\s+/g, " ") + ")");
+        }
       }
       const tikT = Date.now();
       if (await dokun(dugme, 3000)) { if (ac) o.acTik = tikT; adim(`${o.ad} ${ac ? "AÇ" : "DEVAM"} (tur ${tur}, kasa ${kasa})`); }
@@ -599,7 +620,10 @@ function analiz(o) {
     if (!x) continue;
     const bitis = f.faz === "cevap" && Number.isFinite(x.bb) ? x.bb : x.fb;
     const sunucuSimdi = f.t + fark;
-    const kalan = (bitis - Math.max(sunucuSimdi, Number.isFinite(x.gb) ? x.gb : 0)) / 1000;
+    // 11 Eki (1063): KARAR sayacı gösterim payında donmaz, faz_bitis'e kalan GERÇEK süreyi sayar (karar_sn + pay = 5 + 2 = 7);
+    // gösterim_bas tabanı yalnız CEVAP fazında (pay boyunca soru sahnesi sayacı gizler) geçerlidir.
+    const gbTaban = f.faz === "cevap" && Number.isFinite(x.gb) ? x.gb : 0;
+    const kalan = (bitis - Math.max(sunucuSimdi, gbTaban)) / 1000;
     const beklenen = Math.max(0, Math.ceil(kalan));
     const anah = `${x.tur}-${x.altin}-${f.faz}`;
     // sayacGoster kesir kaymasını (≤1 sn) yayar → 1 sn fark normal; ≥2 sn sapma hatadır. Cevap verildiyse sayaç durur.
@@ -796,11 +820,11 @@ try {
     if (!kutlama) { kirildi(`${o.ad}: maç sonu kutlaması 25 sn'de gelmedi`); await goruntu(o, `bitis-yok-${o.ad}`); continue; }
     await bekle(2500);
     await goruntu(o, `sonuc-${o.ad}`);
-    const ozet = await o.s.evaluate(() => ({
+    const ozet = await o.s.evaluate((yeniKaynak) => ({
       metin: (document.querySelector(".msk")?.innerText ?? "").replace(/\s+/g, " ").slice(0, 500),
       tasma: document.documentElement.scrollWidth - window.innerWidth,
-      yeni: Boolean([...document.querySelectorAll("button")].find((b) => /Yeni Kasa maçı|Yeni Ortak Hazine maçı|New Kasa match|New Vault match|New Shared Treasure match/i.test(b.textContent))),
-    }));
+      yeni: Boolean([...document.querySelectorAll("button")].find((b) => new RegExp(yeniKaynak, "i").test(b.textContent))),
+    }), YENI_MAC_DUGMESI.source);
     o.ozet = ozet;
     if (ozet.tasma > 1) kirildi(`${o.ad}: sonuç ekranında yatay taşma ${ozet.tasma}px`);
     if (!ozet.yeni) kirildi(`${o.ad}: "Yeni Kasa maçı" düğmesi yok`);
@@ -815,7 +839,7 @@ try {
   }
   // ---- "Yeni Kasa maçı" (A) ve "Ana sayfa" (B)
   await topla(A); if (B) await topla(B);
-  if (await dokun(A.s.locator("button").filter({ hasText: /Yeni Kasa maçı|Yeni Ortak Hazine maçı|New Kasa match|New Vault match|New Shared Treasure match/i }).first(), 4000)) {
+  if (await dokun(A.s.locator("button").filter({ hasText: YENI_MAC_DUGMESI }).first(), 4000)) {
     const ok = await A.s.locator(".ks-giris").first().waitFor({ timeout: 10000 }).then(() => true).catch(() => false);
     adim(`A "Yeni Kasa maçı" → ${ok ? "Kasa girişi" : "GİRİŞ GELMEDİ " + A.s.url()}`);
     if (!ok) kirildi("A: Yeni Kasa maçı Kasa girişine götürmedi");
