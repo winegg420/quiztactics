@@ -11950,3 +11950,14 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **12 (araştırma) +3 coin:** hata değil, günlük coin tavanı (400). `coin_ekle` rozet/davet/posta_odul'ü tavandan muaf tutuyor ama `coin_gunluk_kalan` (720) bunları toplamdan düşmüyor → 17:46–17:47'deki 3 rozet (175) tavanı doldurdu, kalan 3. Öneri (uygulanmadı): `coin_gunluk_kalan` hariç listesine 'rozet','davet','posta_odul'.
 - **13 (araştırma):** mod başına maç öncesi akış tablosu rapora yazıldı; karar Ida'nın.
 - Test: build temiz, `npm test` geçti, Düello v4 taklit ölçümü 408/408.
+
+## 2026-10-12 — Telefon denetimi 3 · ek (devam kaydı): coin tavanı 1080, Düello +42 araştırması, iyimser AÇ doğrulaması
+**Araç:** Claude Code (Sonnet 5.5)
+**Neden:** Telefon denetimi 3 kaydının (yukarıda) kalan maddeleri + canlı test sonucu.
+
+- **Canlı test (telefon denetimi 3, 12 Eki akşamı):** Klasik / Düello / Hazine bota karşı 390×844'te oynandı; bulgular M1–M11 olarak düzeltildi. a14033b0 commit'i bu testin son bulgusuydu: iyimser AÇ anında karar sayacı gizli, final sahnesi tam yükseklik; kasa canlı testine an görüntü izleyicisi eklendi.
+- **1) Günlük coin tavanı tutarsızlığı — migration 1080:** `coin_gunluk_kalan` hariç listesine 'rozet', 'davet', 'posta_odul' eklendi (canlı tanım 720 ile aynıydı; imza/GRANT aynı; geri alma `docs/coin-gunluk-kalan-1080-geri-al.sql`). Prova + canlı uygulandı. idagg bugünkü (TSİ) hareketler: rozet 175 · mac 85 · lig 65 · görev 50 · seri 25 · seviye 20. `coin_gunluk_kalan(idagg)`: **önce 0 → sonra 175** (400 − 225). PROJECT_CONTEXT günlük tavan satırı güncellendi.
+- **2) Düello +42 / +22 (yalnız araştırma, değişiklik yok):** İkisi de doğru. `coin_hareketleri`'nde aynı saniyede `mac +22` (galibiyet, serbest düello yarı çarpan) ve `seviye +20` (level 31 atlama ödülü) var. Ekran toplamı `odul_dokumu(...).toplam.coin` = tüm `odul_kalemleri` toplamı (22 + 20 = 42) → `oyun/lib/macSonuOzet.js:76`. Hata yok; "+42" maç + level ödülü toplamı.
+- **3) Maçı bitiren AÇ iyimser:** kod değişmedi. Neden: sunucuda (`kasa_karar_uygula`) AÇ maçı yalnız `hedef` ile bitirir; `tur_siniri` bitişi AÇ'tan değil son turun sonuç fazından sonra `kasa_sonraki`'de (zamanlayıcı/ilerlet) olur. Canlıda son 3 günde 11 hedef, 1 tur_siniri; Ida'nın iki Hazine maçı da hedef. Hedef durumu `puan + kasa ≥ hedef` istemcide kesin biliniyor ve zaten iyimser (e1abbb5). Canlı ölçüm (test hesabı, bot, 390×844, 2 maç): son AÇ tıklaması → final sahnesi ilk kare **49 ms**. `araclar/kasa-canli-testi.mjs`'e `sonAcFinalMs` ölçümü eklendi.
+- Test hesabı (ArayuzDenetim140) silindi; araç hesabı 0. Canlı kilit için tek seferlik `IZIN_CANLI_TEST=1` iki maç için kullanıldı.
+- Not (kapsam dışı, düzeltilmedi): `kasa-canli-testi.mjs` bot senaryosu 954/955 DEVAM beklentilerinde ("ÜCRETSİZ 50:50", "×N", devam_odul), "Yeni Kasa maçı" düğmesinde ve bir karar sayacı sapmasında kırılıyor — test beklentileri güncel arayüzden eski; ürün hatası mı ayrı ölçülmeli.

@@ -485,7 +485,8 @@ async function sur(o, rol) {
         // 955: tavanın altındaysa DEVAM düğmesinde çarpan yazılır
         if (k.carpan > 1 && !(k.tavan > 0 && kasa >= k.tavan) && !yazi.includes("×" + String(k.carpan).replace(".", ",")) && !yazi.includes("×" + k.carpan)) kirildi(o.ad + ": DEVAM düğmesinde ×" + k.carpan + " yazmıyor (" + yazi + ")");
       }
-      if (await dokun(dugme, 3000)) adim(`${o.ad} ${ac ? "AÇ" : "DEVAM"} (tur ${tur}, kasa ${kasa})`);
+      const tikT = Date.now();
+      if (await dokun(dugme, 3000)) { if (ac) o.acTik = tikT; adim(`${o.ad} ${ac ? "AÇ" : "DEVAM"} (tur ${tur}, kasa ${kasa})`); }
       else { const m = await o.s.locator(".ks-karar button").allInnerTexts().catch(() => []); kirildi(`${o.ad}: karar düğmesi bulunamadı (${m.join(" | ")})`); }
       if (!ac) await devamOlc(o, tur);
       continue;
@@ -860,6 +861,8 @@ try {
     if (sayacAnda.length) kirildi(`${o.ad}: AÇ anı / karar kartı sürerken sayaç göründü (${sayacAnda.length} kare, ilk +${((sayacAnda[0].t - BAS) / 1000).toFixed(1)}s)`);
     for (const x of r.donusPatlama) kirildi(`${o.ad}: sekme dönüşü ses: ${x.neden} → ${x.roller.join(",")}`);
     for (const k of konsol[o.ad]) if (k.tur === "pageerror" || (k.tur === "error" && !/Failed to fetch|Failed to load resource|net::ERR_INTERNET|ERR_NAME|status of 4/i.test(k.m))) kirildi(`${o.ad}: konsol ${k.tur}: ${k.m.slice(0, 140)}`);
+    // 12 Eki: maçı bitiren (son) AÇ tıklaması → final sahnesinin ilk göründüğü kare (iyimser başlangıç ölçüsü)
+    if (o.acTik) { const f = o.kayit.find((x) => x.t >= o.acTik && x.faz === "final"); rapor[o.ad].sonAcFinalMs = f ? f.t - o.acTik : null; }
     rapor[o.ad].kayitOrnek = o.kayit.slice(0, 400);
     rapor[o.ad].sesler = o.sesler.map((x) => ({ rol: x.rol, s: ((x.t - BAS) / 1000).toFixed(2) }));
   }

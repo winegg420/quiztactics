@@ -412,7 +412,7 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   aynı iç mantığa bağlı (eski anında 200+200 kalktı).
 - İndirimler çarpılmaz: çift koruması / serbest / açık bot → en düşüğü uygulanır.
 - Çift koruması (1-5 tam, 6-10 %50, 11+ yok) lig puanına da uygulanır.
-- Günlük tavan 400 · başlangıç **10.000 (test; `baslangic_coin`)** · reklam 25
+- Günlük tavan 400 (tavandan muaf, toplama da SAYILMAZ: satin_alma · baslangic · ikram_iade · ekonomi_esitleme · seviye · sezon_yolu · rozet · davet · posta_odul — 1080'den beri `coin_gunluk_kalan` `coin_ekle` ile aynı listeyi kullanır) · başlangıç **10.000 (test; `baslangic_coin`)** · reklam 25
   (günde 5). `coin_baslangic` (500) satırı DB'de durur ama okunmaz.
 - Eşya: sıradan 300–600, özel 1.200–2.500.
 - **İki para birimi (480, Ida — pay to win yok):** **coin** yalnız oynayarak kazanılır, parayla
