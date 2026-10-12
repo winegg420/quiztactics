@@ -5,7 +5,8 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { QtIkon, QtDugme, sinif } from "../../tasarim/index.js";
-import { hareketAzaltildi } from "../../tasarim/sahne/OdulPatlamasi.jsx";
+import { hareketAzaltildi, odulSesi } from "../../tasarim/sahne/OdulPatlamasi.jsx";
+import { sesDokunus } from "../../lib/ses.js";
 import { tt } from "../../lib/dil.js";
 import Sandik from "./Sandik.jsx";
 
@@ -23,6 +24,9 @@ export default function SandikAcilis({ faz, oduller, onTopla, onKapan }) {
   const [kapaniyor, setKapaniyor] = useState(false);
   const dugmeRef = useRef(null);
   const azalt = hareketAzaltildi();
+
+  // Sandık büyüyüp sallanırken (sunucu cevabı beklenir) tek dokunuş sesi; kapak açılış sesi (sesRozet) GorevlerPage'de odulHissi("buyuk") ile.
+  useEffect(() => { if (!azalt) odulSesi(sesDokunus); }, [azalt]);
 
   useEffect(() => {
     if (faz !== "ac") return undefined;

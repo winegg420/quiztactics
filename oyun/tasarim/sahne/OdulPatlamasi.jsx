@@ -15,11 +15,21 @@ import { CoinIkon, ElmasIkon } from "../../components/ParaIkonlari.jsx";
 import { konfetiYukle } from "../../components/MacSonuLottie.jsx";
 import { QT_SAHNE_COIN_HAPI } from "./QtSahne.jsx";
 import { ziplat } from "../hareket.js";
+import { sesCoin, sesXpDolma } from "../../lib/ses.js";
 
 const OLAY = "qt-odul-patlat";
 const PARCA = 7;
 let katmanSayisi = 0;
 let kuyruk = Promise.resolve();
+
+// Ödül sesleri ardışık çalar (üst üste binmez): her ses bir öncekinden en az 350 ms sonra. Ses kapalı / sekme gizli kuralı ses.js'te.
+const SES_ARA_MS = 350;
+let sesZinciri = Promise.resolve();
+export function odulSesi(cal) {
+  sesZinciri = sesZinciri
+    .then(() => { try { cal(); } catch { /* ses kritik değil */ } return new Promise((r) => setTimeout(r, SES_ARA_MS)); })
+    .catch(() => {});
+}
 
 export function hareketAzaltildi() {
   try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; }
@@ -44,10 +54,12 @@ export function kisaKonfeti(origin = { x: 0.5, y: 0.4 }, adet = 40) {
     .catch(() => { /* konfeti yüklenemedi: anı sürer */ });
 }
 
-/** Ödül anını kuyruğa ekler; bittiğinde çözülür. kisa: art arda alımlarda daha kısa uçuş. */
-export function odulPatlat({ kaynak = null, tur = "coin", kisa = false } = {}) {
+/** Ödül anını kuyruğa ekler; bittiğinde çözülür. kisa: art arda alımlarda daha kısa uçuş.
+ *  ses: uçuş başında ses (coin/elmas → sesCoin, sp → sesXpDolma); çağıran kendi sesini çalıyorsa false. */
+export function odulPatlat({ kaynak = null, tur = "coin", kisa = false, ses = true } = {}) {
   const is = kuyruk.then(() => new Promise((coz) => {
     titret(30);
+    if (ses) odulSesi(tur === "sp" ? sesXpDolma : sesCoin);
     if (!katmanSayisi || hareketAzaltildi()) { coz(); return; }
     let bitti = false;
     const son = () => { if (!bitti) { bitti = true; coz(); } };

@@ -209,7 +209,7 @@ export default function SezonYoluPage() {
     const para = (odul?.tur === "coin" || odul?.tur === "elmas") ? paraMiktari(odul) : 0;
     try { if (para > 0) sesCoin(); else sesRozet(); } catch { /* ses yok */ }
     const kaynak = document.querySelector(`[data-yuva="${yuvaAnahtar}"]`) ?? topluRef.current;
-    if (para > 0) return odulPatlat({ kaynak, tur: odul.tur, kisa });
+    if (para > 0) return odulPatlat({ kaynak, tur: odul.tur, kisa, ses: false });   // sesCoin yukarıda çalındı
     const r = kaynak?.getBoundingClientRect?.();
     if (r) kisaKonfeti({ x: (r.left + r.width / 2) / window.innerWidth, y: (r.top + r.height / 2) / window.innerHeight }, kisa ? 18 : 30);
     titret(30);

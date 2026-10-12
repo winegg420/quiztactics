@@ -12,7 +12,8 @@
 // ============================================================
 import { useEffect, useRef, useState } from "react";
 import { QtDugme, QtIkon, QtIskelet, QtSahne, dokunus, sinif } from "../tasarim/index.js";
-import { odulPatlat, kisaKonfeti, hareketAzaltildi } from "../tasarim/sahne/OdulPatlamasi.jsx";
+import { odulPatlat, odulSesi, kisaKonfeti, hareketAzaltildi } from "../tasarim/sahne/OdulPatlamasi.jsx";
+import { sesDokunus } from "../lib/ses.js";
 import { odulHissi } from "../tasarim/hareket.js";
 import DurumKutusu from "../components/DurumKutusu.jsx";
 import { tt } from "../lib/dil.js";
@@ -80,6 +81,9 @@ export default function GorevlerPage() {
       if (sezonAcik) sezonTazele();
       setAlinan((s) => new Set(s).add(anahtar));
       sandikSalla();
+      // Kart çevirme + sandık sallanma sesi (süs hareketi: hareketi azalt açıkken çalmaz). Coin/SP uçuş sesleri odulPatlat'ta;
+      // hepsi odulSesi zincirinde 350 ms arayla (toplu alımda üst üste binmez). Ses kapalı / sekme gizli kuralı ses.js'te.
+      if (!hareketAzaltildi()) odulSesi(sesDokunus);
       const parcalar = [];
       if (coin > 0) parcalar.push(tt("{n} coin", { n: sayiMetni(coin) }));
       if (sp != null && sp > 0) parcalar.push(tt("{n} SP", { n: sayiMetni(sp) }));

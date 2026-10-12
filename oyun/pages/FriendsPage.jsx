@@ -9,6 +9,7 @@ import { y } from "../lib/yol.js";
 import DavetKarti, { davetBaglaMetni } from "../components/DavetKarti.jsx";
 import { davetKoduBagla } from "../lib/davet.js";
 import { coinTazele } from "../lib/coin.js";
+import { sesCoin } from "../lib/ses.js";
 import { facebookArkadasOnerileri, facebookDavetAc } from "../lib/facebookArkadas.js";
 import { tt } from "../lib/dil.js";
 import ModSecimPenceresi from "../components/ModSecimPenceresi.jsx";
@@ -227,6 +228,7 @@ export default function FriendsPage() {
           setBilgi(davetBaglaMetni(b));
           setKod("");
           coinTazele();
+          try { sesCoin(); } catch { /* ses kritik değil */ }   // davet ödülü (coin) geldi
           yukle();
           return;
         }

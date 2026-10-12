@@ -13,6 +13,7 @@ import { davetKodum, davetDurumum, davetKoduBagla, davetBaglantisi } from "../li
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
 import { coinTazele } from "../lib/coin.js";
+import { sesCoin } from "../lib/ses.js";
 import { QtDugme, QtIkon, QtIlerleme, QtKart, QtListe, QtListeSatiri, QtRozet, dokunus, sayiBicim, sinif } from "../tasarim/index.js";
 import "../tasarim/ekranlar/davet-karti.css";
 import { CoinIkon } from "./ParaIkonlari.jsx";
@@ -63,6 +64,7 @@ export function DavetKoduGir({ onBaglandi }) {
       if (s?.durum === "baglandi" || s?.durum === "ayni_cihaz") {
         try { localStorage.removeItem("bildim_davet_kodu"); } catch { /* özel mod */ }
         coinTazele();
+        try { sesCoin(); } catch { /* ses kritik değil */ }   // davet ödülü (coin) geldi
         onBaglandi?.(s);
       }
     } catch (e) {

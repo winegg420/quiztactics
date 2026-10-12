@@ -1,6 +1,9 @@
 // Yıldız yolu: görev sayısı kadar yıldız düğümü + çizgi + sonda sandık düğümü. Yanan (alınmış) görev = yeşil yıldız ve dolu çizgi.
 // Çizgi dolumu scaleX (transform) ile; hareketi azalt'ta anında (CSS).
+import { useEffect, useRef } from "react";
 import { QtIkon, sinif } from "../../tasarim/index.js";
+import { odulSesi } from "../../tasarim/sahne/OdulPatlamasi.jsx";
+import { sesXpDolma } from "../../lib/ses.js";
 import { tt } from "../../lib/dil.js";
 
 function Yildiz() {
@@ -13,6 +16,12 @@ function Yildiz() {
 
 export default function YildizYolu({ toplam, yanan, sandikYanik, sandikAcik, metin, parlayan }) {
   const dugumler = Array.from({ length: toplam }, (_, i) => i);
+  // Yıldız yandıkça çizgi dolar → dolum sesi (yalnız artışta; ilk çizimde ve sekme değişiminde — panel yeniden kurulur — çalmaz)
+  const onceki = useRef(yanan);
+  useEffect(() => {
+    if (yanan > onceki.current) odulSesi(sesXpDolma);
+    onceki.current = yanan;
+  }, [yanan]);
   return (
     <div className="gk-yol" role="group" aria-label={metin}>
       <div className="gk-yol-sira" aria-hidden="true">

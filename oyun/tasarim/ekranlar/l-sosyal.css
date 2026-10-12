@@ -362,6 +362,8 @@
   flex-direction: column;
   gap: var(--qt-b-2);
 }
+/* Kaydırılan flex sütununda çocuklar küçülüp (overflow:hidden → min-height 0) kırpılmasın; sığmazsa kaydırılır */
+.ms-liste > * { flex-shrink: 0; }
 .ms-bilgi {
   margin: 0;
   padding: var(--qt-b-2) 0;
