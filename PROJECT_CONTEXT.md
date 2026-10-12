@@ -471,6 +471,7 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
 - **Unvan (643):** isim altında Kurdele. 12 unvan: 8'i rozete bağlı (türetilir), 4'ü lig olayı (haftalık kapanış). Aktif Dünya >
   Ülke > Şehir Şampiyonluğu (647) takılı unvanın önüne geçer. Seçim Profil › Koleksiyon › Unvanlar. Sezon unvanları Battle Pass sezon sistemi gelene kadar gizli (bağlı değil). "Bin Galibiyet" (644): Antrenman hariç Klasik + Düello + Grup + Turnuva toplam galibiyet ≥ 1.000 (`unvan_galibiyet_esik`); `unvanlarim()` ve haftalık kapanış kontrol eder. Bronz Lig çerçevesi (`lig_bronz`) katalogda; bütün insan oyuncular kazanır (takılı çerçeve değişmez).
   **Çerçevesiz oyuncu YOK (1049, Ida 10 Eki 2026):** `oyuncu_kartlari` takılı aktif çerçeve yoksa `lig_<lig>` (lig yoksa `lig_bronz`) + o çerçevenin
+  **Lig çerçevesi lige bağlı (1070, Ida 12 Eki 2026):** takılı çerçeve bir `lig_*` çerçevesiyse daima şu anki ligin çerçevesidir (`profiles` tetikleyicisi `trg_profiles_lig_cercevesi`; yükselince yükselir, düşünce düşer). `cerceve_tak`/`lig_cerceve_sec` başka ligin çerçevesini reddeder. Lig dışı (dükkân/rozet/etkinlik) çerçeveye dokunulmaz.
   nadirliğini döndürür — gizli botlar dahil herkes; takılı başka çerçeve (level/turnuva/premium/eski lig) aynen kalır. Yalnız görünüm: sahiplik,
   `takili_cerceve`, Koleksiyon Puanı değişmez. `lig_grubum_ozet` kartı okur; `davet_durumum.cerceve` aynı kurala bağlı.
 - **Rozetler (331–333, 641):** 102 rozet (`rozet_tanimlari`: level, Klasik/Düello galibiyet, seri, 10
