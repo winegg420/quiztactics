@@ -40,8 +40,11 @@ const codexHatti = process.argv.includes('--codex');
 const bekleyen = process.argv.includes('--bekleyen');
 // Codex'te migration klasörü ancak ayrı Claude onayı alındıktan sonra açılır.
 if (codexHatti && !bekleyen && !process.argv.includes('--onayli')) throw new Error('Codex: önce --bekleyen; ayrı Claude onayından sonra --onayli');
-if (bekleyen && (!codexHatti || !/^codex-\d{2}$/.test(klasorAd))) throw new Error('--bekleyen yalnız --codex --klasor codex-NN ile kullanılır');
-const GIRDI = new URL(`./${klasorAd}/sorular.json`, import.meta.url);
+const birlesik = process.argv.includes('--birlesik');
+if (birlesik && (!codexHatti || !bekleyen || !process.argv.includes('--yerel') || !/^codex-\d{2}-\d{2}-onay$/.test(klasorAd))) throw new Error('--birlesik yalnız yerel Codex onay klasöründe --bekleyen ile kullanılır');
+if (bekleyen && (!codexHatti || (!/^codex-\d{2}$/.test(klasorAd) && !birlesik))) throw new Error('--bekleyen yalnız Codex parti/onay klasöründe kullanılır');
+// --girdi sorular-777.json  klasördeki başka bir liste (onaylı listeden çıkarılan kayıt varsa; orijinal korunur)
+const GIRDI = new URL(`./${klasorAd}/${arg('--girdi') || 'sorular.json'}`, import.meta.url);
 const DOSYA = `2026061200${String(no).padStart(4, '0')}_${dosyaAd}.sql`;
 const HEDEF = bekleyen ? new URL(`./${klasorAd}/bekleyen.sql`, import.meta.url) : new URL(`../../supabase/migrations/${DOSYA}`, import.meta.url);
 
@@ -91,7 +94,7 @@ ${codexHatti ? `-- Kalite: Codex yazımı; codex-kapi.mjs kapı 1–5 (TR/EN bi�
 -- bu işlemde eklenen satırların şıkları karıştırılır — TR ve EN AYNI permütasyonla
 -- (dogru_cevap indeksi ortak olduğu için şart). \`created_at >= transaction_timestamp()\`
 -- koşulu ZORUNLUDUR; onsuz tüm havuz karışır ve oynanan maçlarda indeks kayar.
--- Üretici: node araclar/soru-uretim/uret-migration-parti.mjs --parti ${parti} --no ${no}${arg('--klasor') ? ` --klasor ${klasorAd}` : ''}${arg('--ad') ? ` --ad ${dosyaAd}` : ''}${cevirisiz ? ' --cevirisiz' : ''}${apiHatti ? ' --api' : ''}${codexHatti ? ' --codex' : ''}${bekleyen ? ' --bekleyen' : ''}${process.argv.includes('--yerel') ? ' --yerel' : ''}${codexHatti && !bekleyen ? ' --onayli' : ''}
+-- Üretici: node araclar/soru-uretim/uret-migration-parti.mjs --parti ${parti} --no ${no}${arg('--klasor') ? ` --klasor ${klasorAd}` : ''}${arg('--ad') ? ` --ad ${dosyaAd}` : ''}${arg('--girdi') ? ` --girdi ${arg('--girdi')}` : ''}${cevirisiz ? ' --cevirisiz' : ''}${apiHatti ? ' --api' : ''}${codexHatti ? ' --codex' : ''}${bekleyen ? ' --bekleyen' : ''}${birlesik ? ' --birlesik' : ''}${process.argv.includes('--yerel') ? ' --yerel' : ''}${codexHatti && !bekleyen ? ' --onayli' : ''}
 -- ============================================================
 
 insert into public.questions (soru, secenekler, dogru_cevap, kategori, kapsam, ulke, zorluk) values
@@ -153,6 +156,8 @@ async function main() {
     process.exit(1);
   }
   const codexDurum=new URL('../../.tmp/codex/'+klasorAd+'/durum.json',import.meta.url);
+  const biriktirme=JSON.parse(fs.readFileSync(new URL('./durum.json',import.meta.url),'utf8')).codex_seri;
+  if(codexHatti&&biriktirme?.canli_yasak&&(!process.argv.includes('--yerel')||!bekleyen))throw new Error('Biriktirme kipinde yalnız --yerel --bekleyen izinli');
   const seriDurum=codexHatti?JSON.parse(fs.readFileSync(new URL('./durum.json',import.meta.url),'utf8')).codex_seri?.partiler?.find(x=>x.klasor===klasorAd):null;
   if(codexHatti&&(seriDurum?.canli_yasak||(fs.existsSync(codexDurum)&&JSON.parse(fs.readFileSync(codexDurum,'utf8')).canli_yasak))&&!process.argv.includes('--yerel'))throw new Error('Parti canlı bağlantıya kapalı; --yerel zorunlu');
   if(process.argv.includes('--yerel')&&!bekleyen)throw new Error('Yerel kip yalnız bekleyen migration hazırlayabilir');

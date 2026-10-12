@@ -1,0 +1,3 @@
+-- Tek birleşik teslim: ../codex-04-07-onay/bekleyen.sql
+-- Son düzeltme: 194/195 geçti; 06/174 şık dengesi nedeniyle engelli.
+-- Ida talimatıyla şıklar uzatılmadı. SQL uygulanmadı.

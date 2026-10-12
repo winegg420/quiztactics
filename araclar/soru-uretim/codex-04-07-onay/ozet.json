@@ -1,0 +1,87 @@
+{
+  "tarih": "2026-10-11T21:08:29.793Z",
+  "canli_yasak": false,
+  "migration_uygulandi": true,
+  "dal": "soru-havuzu",
+  "durum": "Canlıda: 777 soru migration 1068 ile eklendi (C06-174 çıkarıldı).",
+  "partiler": [
+    {
+      "klasor": "codex-04",
+      "soru": 194,
+      "gecen": 194,
+      "ret": 0,
+      "hash": "d01546f02f54e595889d5c216c997eb096d5769850de9998dda6e1be05867a11"
+    },
+    {
+      "klasor": "codex-05",
+      "soru": 196,
+      "gecen": 196,
+      "ret": 0,
+      "hash": "e138bf2ae8ef1ffb054aa87605f672dd18a34f8485fedbcfd8b60c9c8da5e0c8"
+    },
+    {
+      "klasor": "codex-06",
+      "soru": 195,
+      "gecen": 194,
+      "ret": 1,
+      "hash": "bee5d16974bf805047e4d029b3aa9912fc5233234984039ab595a9822e0ba54d"
+    },
+    {
+      "klasor": "codex-07",
+      "soru": 193,
+      "gecen": 193,
+      "ret": 0,
+      "hash": "12a382f9aae0a588506f9603352081313382eb128ca6562c0194db7c5079f975"
+    }
+  ],
+  "retler": [
+    {
+      "parti": "codex-06",
+      "id": "C06-174",
+      "inceleme_no": 174,
+      "neden": "biçim/kural: TR kural: dogru_en_uzun,dogru_coklu_kelime",
+      "s": "Geleneksel quiche Lorraine'in ayırt edici et malzemesi hangisidir?",
+      "d": "Domuz pastırması",
+      "y": [
+        "Salam",
+        "Tavuk",
+        "Sucuk"
+      ]
+    }
+  ],
+  "sql": "bekleyen.sql",
+  "ek_onay_cikar": {
+    "codex-04": [
+      1
+    ],
+    "codex-06": [
+      103,
+      126
+    ],
+    "codex-07": [
+      177,
+      193
+    ]
+  },
+  "soru": 778,
+  "gecen": 777,
+  "sql_hazir": false,
+  "canliya_alim": {
+    "tarih": "2026-10-12",
+    "karar": "Ida (12 Eki 2026): C06-174 (quiche Lorraine) çıkarıldı, kalan 777 canlıya",
+    "cikarilan": [
+      {
+        "id": "C06-174",
+        "taslak_id": "C06-N0275",
+        "kategori": "genel_kultur",
+        "neden": "06/174 şık dengesi kapı reddi; Ida kararıyla çıkarıldı"
+      }
+    ],
+    "girdi": "codex-04-07-onay/sorular-777.json",
+    "migration": "supabase/migrations/20260612001068_soru_parti_codex_04_07.sql",
+    "eklenen": 777,
+    "cakisan": 0,
+    "aktif_once": 13417,
+    "aktif_sonra": 14194
+  }
+}

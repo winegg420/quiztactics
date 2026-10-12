@@ -57,3 +57,11 @@ test('codex04 karşılıklı cevap TR/EN ve genel kültür ülke sınırı',()=>
 test('yerel kip yeni parti için canlı ölçüme düşmez',async()=>{await assert.rejects(main(['node','test','--klasor','codex-99','--adet','200','--yerel','--olc']),/Yerel kipte/);});
 
 test('kalıcı parti kaydı canlı bağlantıyı engeller',async()=>{await assert.rejects(main(['node','test','--klasor','codex-04','--adet','200','--olc']),/canlı bağlantıya kapalı/);});
+
+import fs from 'node:fs';import os from 'node:os';import path from 'node:path';
+import {ekHavuzOku} from './codex-kapi.mjs';
+test('bekleyen partiler birebir, Jaccard ve aynı olgu kontrolüne katılır; eksik/bozuk havuz sessiz atlanmaz',()=>{
+ const kok=fs.mkdtempSync(path.join(os.tmpdir(),'codex-ek-'));const p=path.join(kok,'araclar/soru-uretim/codex-04');fs.mkdirSync(p,{recursive:true});
+ const yaz=x=>fs.writeFileSync(path.join(p,'sorular.json'),JSON.stringify(x));
+ try{yaz([soru]);const h=ekHavuzOku(kok,'codex-04,codex-04','codex-05');assert.equal(h.length,1);assert.match(yerelKapilar(soru,h,[]),/aynı olgu|birebir/);assert.match(yerelKapilar({...soru,s:'Filmin başrol karakterinin ismi hangisidir?'},h,[]),/aynı olgu/);assert.throws(()=>ekHavuzOku(kok,'codex-06','codex-05'));assert.throws(()=>ekHavuzOku(kok,'../x','codex-05'));assert.throws(()=>ekHavuzOku(kok,'codex-04','codex-04'));yaz([{}]);assert.throws(()=>ekHavuzOku(kok,'codex-04','codex-05'),/bozuk/);}finally{fs.rmSync(kok,{recursive:true});}
+});

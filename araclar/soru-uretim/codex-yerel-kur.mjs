@@ -2,6 +2,7 @@
 import fs from 'node:fs';import path from 'node:path';import {execFileSync} from 'node:child_process';import {fileURLToPath} from 'node:url';
 const r=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..'),bin='C:/Program Files/PostgreSQL/17/bin/',cluster=path.join(r,'.tmp/codex/yerel-postgres');
 const run=(exe,args,input)=>execFileSync(bin+exe+'.exe',args,{input,encoding:'utf8',windowsHide:true,maxBuffer:16e6,env:{...process.env,PGCLIENTENCODING:'UTF8'}});
+if(!process.argv.includes('--yerel'))throw Error('Yerel kurulumda --yerel zorunlu');
 if(process.argv.includes('--durdur')){run('pg_ctl',['-D',cluster,'-m','fast','-w','stop']);console.log('Yalnız yerel Codex kümesi durduruldu.');process.exit(0);}
 const klasor=process.argv[process.argv.indexOf('--klasor')+1];if(!/^codex-\d{2}$/.test(klasor??''))throw Error('--klasor codex-NN gerekli');
 const ara=path.join(r,'.tmp/codex',klasor),hp=path.join(ara,'havuz.json'),sp=path.join(ara,'durum.json');

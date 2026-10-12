@@ -1,0 +1,7 @@
+-- ENGELLİ: 778 kayıt korunuyor; kapı 1–5 geçişi 777/778.
+-- 06/174: ✔ Domuz pastırması; ✗ Salam / Tavuk / Sucuk.
+-- Kapı 1 TR kural: dogru_en_uzun,dogru_coklu_kelime.
+-- Ida talimatı: şıklar kendiliğinden uzatılmadı.
+-- CODEX.md: elenen varsa dur; eski SQL taslağı geçersizdir.
+-- Güncel kaynak: sorular.json. Ret çözülmeden yürütülebilir SQL üretilmez.
+-- Canlı bağlantı ve SQL uygulaması yapılmadı.

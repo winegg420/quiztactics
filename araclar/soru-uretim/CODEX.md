@@ -2,6 +2,14 @@
 
 Stilin tek kaynağı: docs/SORU_STIL_PROFILI.md. Bu dosya sonraki “CODEX.md'ye göre codex-NN” görevlerinin çalışma sözleşmesidir.
 
+## Geçerli teslim kipi — soru-havuzu biriktirme (Ida, 11 Eki 2026)
+- Bu bölüm aşağıdaki eski canlı/teslim adımlarının önündedir. Canlı DB bağlantısı tamamen yasak; havuz yenilenmez. Tüm hat komutları --yerel ile, durum.json canli_yasak:true ile çalışır.
+- Yalnız soru-havuzu dalı; yoksa origin/main temelinden açılır. main push yok. Her teslim push öncesi git pull --rebase origin soru-havuzu; ardından git push origin soru-havuzu. Uzak dal henüz yoksa ilk kez mevcut temel commit ile oluşturulur.
+- PROGRESS.md, oyun kodu ve supabase/migrations/ değişmez. Yalnız araclar/soru-uretim/ değişir. SQL yalnız parti/bekleyen.sql, --bekleyen --yerel ve taslak numara; hiçbir SQL uygulanmaz.
+- Claude incelemesi ardından çıkar/düzelt listesi, inceleme-sonrasi.json ve --yalniz-kapilar --yerel; canlı ölçüm/prova/uygulama atlanır. Onaylı liste canlıya alınmayı bekler.
+- Kapı 2 mevcut yerel snapshot yanında --ek-havuz codex-04,codex-05 gibi canlıya alınmamış bütün önceki partilerin sorular.json dosyalarını da denetler. Aynı olgu başka biçimle de tekrar edilmez. Ek havuz değişirse kapı 2 tekrar çalışır.
+- codex-05, codex-06, codex-07 net 200 sırayla hazırlanır; her parti commit/push ardından sıradakine devam edilir. Yalnız 07 sonunda veya limit tamamen bittiğinde durulur; yarım aşama durum.json ve Son durum satırında korunur.
+
 ## B) Üretim
 - Soruları Codex yazar. Claude API çağrısı, anahtar okuma veya ücretli Claude üretimi/hakemliği yapılmaz. Claude insan tarafından ayrı oturumda son hakem olarak kullanılır.
 - Normal net hedef 200; ilk deneme codex-01 net 50. Başlangıç taslağı yaklaşık hedefin 2,5 katıdır; kota açığı varsa ek taslak yazılır.
@@ -76,4 +84,4 @@ Kapı 6 yok: api-uret.mjs değiştirilmez ve içe aktarılmaz. Claude incelemesi
 - Aynı anda en çok dört iş, tarayıcı açma, yeni paket kurma. .env.local ve gizli anahtarlar yazdırılmaz/loglanmaz.
 - Kesintide durum dosyasını koru ve aşağıdaki Son durum satırını nerede kalındığıyla güncelle; tamamlanmayan kapılar geçmiş gösterilmez.
 
-Son durum: codex-03 migration 1051 ile canlıda (+191). codex-04 hazır: 802 taslaktan net 200 (140×z2, 60×z3; tarih 30). Kapı 1–5 geçti, kapı 3 yerel SQL; tekrar/kota önceki havuz kopyasından. Canlı bağlantı kapalı. bekleyen.sql yalnız parti klasöründe, uygulanmadı; Claude incelemesi ve Ida onayı bekliyor. Ara kayıt .tmp/codex/codex-04/durum.json; devamda --yerel zorunlu.
+Son durum: Son dört düzeltme uygulandı. 04=194/194, 05=196/196, 06=194/195, 07=193/193; toplam 777/778 kapı 1–5 geçti. 06/174 Domuz pastırması / Salam / Tavuk / Sucuk şıkları denge kapısında reddedildi; Ida talimatıyla uzatılmadı, kayıt silinmedi. Birleşik bekleyen.sql engelli olarak güncellendi; yürütülebilir SQL üretimi ret çözülene kadar bekler. Canlı bağlantı/uygulama yok; mevcut soru-havuzu dalı. .tmp/codex durumları korunur.

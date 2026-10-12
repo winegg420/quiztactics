@@ -1,0 +1,3155 @@
+{
+  "klasor": "codex-05",
+  "tarih": "2026-10-11T21:08:29.793Z",
+  "toplam": 196,
+  "gecen": 196,
+  "ret": 0,
+  "canli_yasak": true,
+  "ortam": "Yerel PostgreSQL 17; repo SQL 222/227/298; varsayılan eşikler 1.4/3/2; havuz önceki snapshot",
+  "ek_havuz": [
+    "codex-04",
+    "codex-06",
+    "codex-07"
+  ],
+  "snapshot_yenilendi": false,
+  "kapilar": "1–5; ilk başarısız kapı sonraki kapıları durdurur",
+  "retler": [],
+  "kayitlar": [
+    {
+      "id": "C05-01",
+      "inceleme_no": 1,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.15,
+      "tek_dogru_p": 0.07,
+      "icerik_hash": "d6cdff8b773a5de50e7856301ed02c04117e4673453deb6b318a9caf35241db4"
+    },
+    {
+      "id": "C05-02",
+      "inceleme_no": 2,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.18,
+      "tek_dogru_p": 0.08,
+      "icerik_hash": "8f9a55ded14449a9d28103cc80c56eed5a4c80f0092a5cee2c5b85ed16742e78"
+    },
+    {
+      "id": "C05-03",
+      "inceleme_no": 3,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.14,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "25e7b3c4b799d26e449adf69ec3b1c19ead5c9686d83919cd4acc39f92fdf21e"
+    },
+    {
+      "id": "C05-04",
+      "inceleme_no": 4,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.08,
+      "tek_dogru_p": 0.18,
+      "icerik_hash": "1cc0a8f2eb985b608dffc615d7deafb96c5ac166fca1eb7a4cb572bc1103674c"
+    },
+    {
+      "id": "C05-05",
+      "inceleme_no": 5,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.25,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "c92068c80dd03ea6a5edc2b451e41899f5eec1e08a304d4af2de0b4bfe113c1c"
+    },
+    {
+      "id": "C05-06",
+      "inceleme_no": 6,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.2,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "51507dedb2faab8ebea47d58364ad28320fcdfd7049eb47c66ac35615b0b34fc"
+    },
+    {
+      "id": "C05-07",
+      "inceleme_no": 7,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.18,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "f4c82041838591ff1dca019c3ab03a7f7bbe5294905c273999879849e06e47c5"
+    },
+    {
+      "id": "C05-08",
+      "inceleme_no": 8,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.14,
+      "tek_dogru_p": 0.11,
+      "icerik_hash": "279d6c4c39e2ed6b6f2fde892d5600e7bb5a0e04d50086a9120cd6f35efb8df5"
+    },
+    {
+      "id": "C05-09",
+      "inceleme_no": 9,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.24,
+      "tek_dogru_p": 0.11,
+      "icerik_hash": "47a3143c3d8f1de1389b1a507a2cf430506ae63ac7ba242ff3ab6941a13bf9fd"
+    },
+    {
+      "id": "C05-10",
+      "inceleme_no": 10,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.19,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "8bd0b6d1f47be27a6e9a76c2d07f5710689f7b97fb81ed9cd31a66f4c0ce0e7e"
+    },
+    {
+      "id": "C05-11",
+      "inceleme_no": 11,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.25,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "1405fded8885d354582c8b0ddcf3987de66bda797fc6fb59b61137d647e434d9"
+    },
+    {
+      "id": "C05-12",
+      "inceleme_no": 12,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.72,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "056ffefc9f591ac4c8554a52604f583aa7f73ad31b25de2bc2926d2131880f32"
+    },
+    {
+      "id": "C05-13",
+      "inceleme_no": 13,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.66,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "ee7796a699a81f5e9dd29745b5063e2f7464506451140c3249ce70e1fb457ad6"
+    },
+    {
+      "id": "C05-14",
+      "inceleme_no": 14,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.71,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "3a3dc90943a4ca253b8a71a6be1255e890b2f2912e68d18373df59c6a956ec55"
+    },
+    {
+      "id": "C05-15",
+      "inceleme_no": 15,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.15,
+      "tek_dogru_p": 0.13,
+      "icerik_hash": "7369f88095022e6eb3231414eb12b1b33567dfedfb2fc1af4c460821451d75f5"
+    },
+    {
+      "id": "C05-16",
+      "inceleme_no": 16,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.27,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "75e21d582a7fef233809d76290531eb202cdc9905901e0d74b63c8f511323f6d"
+    },
+    {
+      "id": "C05-17",
+      "inceleme_no": 17,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.17,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "bab61704dbf014d5f65f284aee6a913ab0bdfc13d030c5763ef24caddde07dd3"
+    },
+    {
+      "id": "C05-19",
+      "inceleme_no": 19,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.36,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "bfdb1bab127b9fb04258e7556ec1273af4d8571fc3263cfa2fbb5d79acfbe584"
+    },
+    {
+      "id": "C05-20",
+      "inceleme_no": 20,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.34,
+      "tek_dogru_p": 0.06,
+      "icerik_hash": "ee1258730a41cc319677c8438943cecb7a5e1f8cc91f602c8a3eb9936b0636b3"
+    },
+    {
+      "id": "C05-21",
+      "inceleme_no": 21,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.06,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "3e2fe9d24b52e92fd88e4f185146b5af51a7790ef044c4ac58ceb6b139e22510"
+    },
+    {
+      "id": "C05-22",
+      "inceleme_no": 22,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.52,
+      "tek_dogru_p": 0.08,
+      "icerik_hash": "67d804db167981d00ef3c184804d2f109fdadc1e119e0563f2aacc7e6dc8348a"
+    },
+    {
+      "id": "C05-23",
+      "inceleme_no": 23,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.26,
+      "tek_dogru_p": 0.13,
+      "icerik_hash": "ba50f388e6040bd390ef9b03c4e80e948ac7df51ef61831e751027205360d361"
+    },
+    {
+      "id": "C05-24",
+      "inceleme_no": 24,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.26,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "108d1528e87dd553e22377325c24dc74ef56696641ea9212be57eb7333499776"
+    },
+    {
+      "id": "C05-25",
+      "inceleme_no": 25,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.51,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "35103e05ea583d9ccfde7a622eac4af76ae2e4feadd53af1ee8fad7492bf1787"
+    },
+    {
+      "id": "C05-26",
+      "inceleme_no": 26,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.5,
+      "tek_dogru_p": 0.16,
+      "icerik_hash": "5ad80151431ad583d19391369fb1303412d8366037be5cdeeb1c4b230b71ec5d"
+    },
+    {
+      "id": "C05-27",
+      "inceleme_no": 27,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.25,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "b7f74d68a20b9624fc41be6c6ed5e56e66ae15be49a517911630fce763c9c41a"
+    },
+    {
+      "id": "C05-28",
+      "inceleme_no": 28,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.25,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "847a288d52096fb903050d17ac5d3fdf82e310969756514ae3db2e697858e632"
+    },
+    {
+      "id": "C05-29",
+      "inceleme_no": 29,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.08,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "2bf675c47327227fa510cfb42e28cee28c6f83b98d3093333d3d5e679809e285"
+    },
+    {
+      "id": "C05-30",
+      "inceleme_no": 30,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.1,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "09c6539482304461c9027f45db342090537b90be85319428930c090762429379"
+    },
+    {
+      "id": "C05-31",
+      "inceleme_no": 31,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.39,
+      "tek_dogru_p": 0.22,
+      "icerik_hash": "cc0c086377222f1c0a23079d7c5f9a3692031199759f5899493abd9dec1e4c8e"
+    },
+    {
+      "id": "C05-32",
+      "inceleme_no": 32,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.59,
+      "tek_dogru_p": 0.16,
+      "icerik_hash": "de901c6cde72309a0325dd45dd70dae4d7c574362824895653f7be0a5765a49a"
+    },
+    {
+      "id": "C05-33",
+      "inceleme_no": 33,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.25,
+      "tek_dogru_p": 0.09,
+      "icerik_hash": "80a80fc3c80bba470afb9bc52cc8e5595994c7655c89b424c5be53b4e0b16131"
+    },
+    {
+      "id": "C05-34",
+      "inceleme_no": 34,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.18,
+      "tek_dogru_p": 0.08,
+      "icerik_hash": "50b3f4d055d0824cf1f46f04fdca91bf6a220f917d465fbc7ddce72804b53c47"
+    },
+    {
+      "id": "C05-35",
+      "inceleme_no": 35,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.41000000000000003,
+      "tek_dogru_p": 0.11,
+      "icerik_hash": "1f92c1b65674c341553cfb53a22b4a24f2b77d2ad9630f8d5c3296628d4a092b"
+    },
+    {
+      "id": "C05-36",
+      "inceleme_no": 36,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.7,
+      "tek_dogru_p": 0.12,
+      "icerik_hash": "bfbc86ea4e88ee0d5f2c32b34e6b79fbb011310246c7ffc596c5826b15b951e3"
+    },
+    {
+      "id": "C05-37",
+      "inceleme_no": 37,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.71,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "a42de5d4ffec589afa2e7bf5ce3ca8a0069182fcef3ece0452fcee83b0699b1b"
+    },
+    {
+      "id": "C05-38",
+      "inceleme_no": 38,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.61,
+      "tek_dogru_p": 0.06,
+      "icerik_hash": "b0c096ec0ae5b03dbebd6a83f962259f8fbf1559beca3738416e5a926b23c7e3"
+    },
+    {
+      "id": "C05-39",
+      "inceleme_no": 39,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.66,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "4a62db2ce8b386c41d21c829ee8ccd1c33496fbd156b077f3f1c5d508e1d1d04"
+    },
+    {
+      "id": "C05-40",
+      "inceleme_no": 40,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.42,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "9612d992cd745da448000b86f901ef32d677a5366d406c19b014eaa9887ec3c6"
+    },
+    {
+      "id": "C05-41",
+      "inceleme_no": 41,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.1,
+      "tek_dogru_p": 0.07,
+      "icerik_hash": "438db28e4852b8f354d9d7b6690f1b9ca56c054ac84563005bb5dbfe108d3c43"
+    },
+    {
+      "id": "C05-42",
+      "inceleme_no": 42,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.25,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "c7600f400769ee54f5d2d14bf7941f7ef1fec4599bd6d94874a7c82408de4be2"
+    },
+    {
+      "id": "C05-43",
+      "inceleme_no": 43,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.59,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "76812872b78573bf1a5156c41055697f4be43d87a4a413b8c450abb442cac189"
+    },
+    {
+      "id": "C05-44",
+      "inceleme_no": 44,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.47,
+      "tek_dogru_p": 0.06,
+      "icerik_hash": "4e6a7c8a99873cfb299d0eafe44af0e8923a1750d584404ac6096dd662d9dfe8"
+    },
+    {
+      "id": "C05-45",
+      "inceleme_no": 45,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.5,
+      "tek_dogru_p": 0.06,
+      "icerik_hash": "08f2f8177fe8c9b624f449f9f7b8eb262d4e6aa5bed97219b15806183fd73d3e"
+    },
+    {
+      "id": "C05-47",
+      "inceleme_no": 47,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.26,
+      "tek_dogru_p": 0.14,
+      "icerik_hash": "a9d43f1828f6a519a02188cacded477e4d2c116f7e4344d18c6584d498b1c901"
+    },
+    {
+      "id": "C05-48",
+      "inceleme_no": 48,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.47,
+      "tek_dogru_p": 0.18,
+      "icerik_hash": "c4ea101b6ea177957f95b41ecabbdc87ac1fe654da9879d166bd869b39ff2237"
+    },
+    {
+      "id": "C05-49",
+      "inceleme_no": 49,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.4,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "9e0b6bbb3b6ec816cf793585b474b3cb5bb080b0148489e51494bbafe4838d75"
+    },
+    {
+      "id": "C05-50",
+      "inceleme_no": 50,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.29,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "a7c05281a8b70f248ef433d9974e942066a7106f5a6bfd89f696574f3fe4be37"
+    },
+    {
+      "id": "C05-51",
+      "inceleme_no": 51,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.35,
+      "tek_dogru_p": 0.07,
+      "icerik_hash": "4bf474bbf08864bb8314073a6546b9d534e57937c98febfec14c71c512589ee3"
+    },
+    {
+      "id": "C05-52",
+      "inceleme_no": 52,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.42,
+      "tek_dogru_p": 0.09,
+      "icerik_hash": "2dd4a5d53b0e355f4524b620557f920f96a2b1dea86bdf802747de86c4558735"
+    },
+    {
+      "id": "C05-53",
+      "inceleme_no": 53,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.13,
+      "tek_dogru_p": 0.08,
+      "icerik_hash": "a202f1c9f121d0133735ee15abd62a8d27ef3991ce0a403fb8b5637dfb2490ce"
+    },
+    {
+      "id": "C05-54",
+      "inceleme_no": 54,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.47,
+      "tek_dogru_p": 0.08,
+      "icerik_hash": "f057d0430c0a0337e0f4863212b847247a13430741cdddea25ebdc909ed6d848"
+    },
+    {
+      "id": "C05-55",
+      "inceleme_no": 55,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.28,
+      "tek_dogru_p": 0.09,
+      "icerik_hash": "e51a5ef0ef47c3e8040b0adeb79311232b3714042fae0578a82fd725a5eb12c4"
+    },
+    {
+      "id": "C05-56",
+      "inceleme_no": 56,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.48,
+      "tek_dogru_p": 0.14,
+      "icerik_hash": "869c1be8b63c3bba7fc7196f436cae43196111a5fd1e37e17e4119d399f3698a"
+    },
+    {
+      "id": "C05-57",
+      "inceleme_no": 57,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.54,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "b1024f950d0ef8612a8905760fb0df15f13be96d94dcbb83772151034088b679"
+    },
+    {
+      "id": "C05-58",
+      "inceleme_no": 58,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.11,
+      "tek_dogru_p": 0.07,
+      "icerik_hash": "3a22b7cec5d44a511120df80450a0e4db1eaa51dbc3438fed11b882c6fa124a3"
+    },
+    {
+      "id": "C05-59",
+      "inceleme_no": 59,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.14,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "ed8e65b936d13841ad94eed991c74403bbe272d6870e6221f47c77095766bac9"
+    },
+    {
+      "id": "C05-60",
+      "inceleme_no": 60,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.28,
+      "tek_dogru_p": 0.13,
+      "icerik_hash": "c1df2909bcd16622689eed7da18a76579a0d8ac3276883967a98b19ecf67c9dd"
+    },
+    {
+      "id": "C05-61",
+      "inceleme_no": 61,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.75,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "72ffb6039f749c8ce886aa0c3174f3858e0366608f0e963b226f11f69a8b9cc9"
+    },
+    {
+      "id": "C05-62",
+      "inceleme_no": 62,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.68,
+      "tek_dogru_p": 0.14,
+      "icerik_hash": "7f959412469807d9c090a4337a5f5a0c16c8e3195fa7251f67327052aa43e1c2"
+    },
+    {
+      "id": "C05-63",
+      "inceleme_no": 63,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.5599999999999999,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "88c64e9ea683ecba5daa2506c4e2882b7ffb99fe2eaf2f47ed571fcf6c34a7e4"
+    },
+    {
+      "id": "C05-64",
+      "inceleme_no": 64,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.22,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "c3a098d00c362a741c473cacde46d999207ca9b83c6f28ae55e7ca0c31ecad24"
+    },
+    {
+      "id": "C05-66",
+      "inceleme_no": 66,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.19,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "867a627c167f19d8647662d31843d8954a1f5c70efb1c28c1bd4f0538ab9e85b"
+    },
+    {
+      "id": "C05-67",
+      "inceleme_no": 67,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.39,
+      "tek_dogru_p": 0.08,
+      "icerik_hash": "0fdc750cd1efb8a9df220f50d1caf95007fb805a7a6751e0e5c3736b96092071"
+    },
+    {
+      "id": "C05-68",
+      "inceleme_no": 68,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.19,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "cf740ad04e3c9b511981e483e4d8bef1aaa36cee79598500baaea6c253da5c9f"
+    },
+    {
+      "id": "C05-69",
+      "inceleme_no": 69,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.11,
+      "tek_dogru_p": 0.11,
+      "icerik_hash": "e72966dad42b9450a10cedad627f8414f531d80f3ea3498a670d1d2148260632"
+    },
+    {
+      "id": "C05-70",
+      "inceleme_no": 70,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.17,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "cc3ae853ccf1376fc75648ddb53117b80877d3cf5dafd8f0827a35ea6637750d"
+    },
+    {
+      "id": "C05-71",
+      "inceleme_no": 71,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.09,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "55f52284c575a3a2d05087f59358eb6dfb5864d720baaa96653f41ad534ae320"
+    },
+    {
+      "id": "C05-72",
+      "inceleme_no": 72,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.7,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "cc9f88a29af2f7c9f506ec8af084f5f504165d9d90c7f402aaa6e2b158cb4e19"
+    },
+    {
+      "id": "C05-73",
+      "inceleme_no": 73,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.66,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "17033429b5bd8c55e5d82c2c1f35eb072488df66ad20d73ea40662e6d2549ee7"
+    },
+    {
+      "id": "C05-74",
+      "inceleme_no": 74,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.2,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "c6116e5c51e3cbb59784ecda90db17c45f8a081063301a7664e4d78b37fee6aa"
+    },
+    {
+      "id": "C05-75",
+      "inceleme_no": 75,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.16,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "31b288ec620210d1a41863112ef1a070d36a9c7c6ff71e3869940073493b0e88"
+    },
+    {
+      "id": "C05-76",
+      "inceleme_no": 76,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.32,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "3e28b09036f4642ec52be02008afd84deaf797f28bc4f96b4bc8d4e36d2045d9"
+    },
+    {
+      "id": "C05-77",
+      "inceleme_no": 77,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.15,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "bd5934fdf954fda1fde7bb689e324978b36e470e9c3cd8d7dddefd67866c6993"
+    },
+    {
+      "id": "C05-78",
+      "inceleme_no": 78,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.5,
+      "tek_dogru_p": 0.07,
+      "icerik_hash": "ccee2ce2ae1e952f7175469da9996d4d0ed79aa02964ffa0ca4abe9555cdfd28"
+    },
+    {
+      "id": "C05-79",
+      "inceleme_no": 79,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.05,
+      "tek_dogru_p": 0.06,
+      "icerik_hash": "bad316ec16085b292d0b962e37bda71631559d74278b04a2b40f45d0e797840e"
+    },
+    {
+      "id": "C05-80",
+      "inceleme_no": 80,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.2,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "1d743c2f825ce34745e9212d88a1b361c0a06881a7df97f4501243898299d99f"
+    },
+    {
+      "id": "C05-81",
+      "inceleme_no": 81,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.07,
+      "tek_dogru_p": 0.08,
+      "icerik_hash": "c2fc494d0a0161d0acfdd51bbe10eb3f0c75eeef6453a6732260b56132099c70"
+    },
+    {
+      "id": "C05-82",
+      "inceleme_no": 82,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.22,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "79679309f08823046c5142c4873784a9edac6f0d92a0f743670f9b18ee7a556f"
+    },
+    {
+      "id": "C05-83",
+      "inceleme_no": 83,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.61,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "34dac29b17bbd0b7e2d461c0f76a276ced1050ec4bbbb8a7798910a112983336"
+    },
+    {
+      "id": "C05-84",
+      "inceleme_no": 84,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.28,
+      "tek_dogru_p": 0.13,
+      "icerik_hash": "4ce0426130c8ddedffd94dd235d5fac008dc5e8e132d074813374f57e1f0d821"
+    },
+    {
+      "id": "C05-85",
+      "inceleme_no": 85,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.37,
+      "tek_dogru_p": 0.16,
+      "icerik_hash": "60251a21791090b55e2596f510b5bea4cdebf9a06b0e968ec46d00a1c0f323fe"
+    },
+    {
+      "id": "C05-86",
+      "inceleme_no": 86,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.05,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "6b80e5be60d525a41c4a45ac6b64bfe8bff72c3ef0eef0495fed0d1d8420d0fe"
+    },
+    {
+      "id": "C05-87",
+      "inceleme_no": 87,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.67,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "dfbbf958c18afd984c1359297ac9894a681637d7633359c12b14563f1e6e20fc"
+    },
+    {
+      "id": "C05-88",
+      "inceleme_no": 88,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.21,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "26926ba72db95af35259109c3197b1299648677e6d71584eb74a28f19dabf68f"
+    },
+    {
+      "id": "C05-89",
+      "inceleme_no": 89,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.34,
+      "tek_dogru_p": 0.12,
+      "icerik_hash": "387eeb0673caf28ec534873dafaace44106eb0f86ddb637495c393c589df6a39"
+    },
+    {
+      "id": "C05-90",
+      "inceleme_no": 90,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.4,
+      "tek_dogru_p": 0.21,
+      "icerik_hash": "df0b11b75a99a7cdbfde35ab2652b9221d7418762f643c6e7ca4aa410b0ef53b"
+    },
+    {
+      "id": "C05-91",
+      "inceleme_no": 91,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.26,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "ee88f99617af8bba6c92d728382645495609f77f655139a195043b5c1dad2db7"
+    },
+    {
+      "id": "C05-92",
+      "inceleme_no": 92,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.16,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "2dbc4de04f858548cf1aaa6099081c63bd078ab7ae1f05811f413f774d2b6255"
+    },
+    {
+      "id": "C05-93",
+      "inceleme_no": 93,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.21,
+      "tek_dogru_p": 0.15,
+      "icerik_hash": "3f52951c7381ef14c2328c3d61c7b5c28fa11963bd6cd36d8b4ab42448834acf"
+    },
+    {
+      "id": "C05-94",
+      "inceleme_no": 94,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.25,
+      "tek_dogru_p": 0.16,
+      "icerik_hash": "863be4ad9ce12d64bc1a1c7fd5ab4103b8662d589f3ed0f46124338830e83ce5"
+    },
+    {
+      "id": "C05-95",
+      "inceleme_no": 95,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.21,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "bcda3b9e6f137bf20071490e7cf58ce37e8d0404732202bdebaf964b91176163"
+    },
+    {
+      "id": "C05-96",
+      "inceleme_no": 96,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.66,
+      "tek_dogru_p": 0.07,
+      "icerik_hash": "d90c2c7f754328bfb2ff56773ada616b5db1efc29abb051454d6d0c12e2b850b"
+    },
+    {
+      "id": "C05-97",
+      "inceleme_no": 97,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.07,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "f785fa6e4c787436e84b8cf14aeb650771647bed10e3b458a7cca9b4a0008cdd"
+    },
+    {
+      "id": "C05-98",
+      "inceleme_no": 98,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.06,
+      "tek_dogru_p": 0.06,
+      "icerik_hash": "d380f3e6318ff0971977f28e21cd8bd1042952465aac0d941ed5ae0bced87802"
+    },
+    {
+      "id": "C05-99",
+      "inceleme_no": 99,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.39,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "99464bdac5a324e54f283b202ef9df24c46b690576b30d87c858edde3446de56"
+    },
+    {
+      "id": "C05-100",
+      "inceleme_no": 100,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.08,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "733999aa27e888f358972204e7b771f456d340257bcaa3072a740c4c28596989"
+    },
+    {
+      "id": "C05-101",
+      "inceleme_no": 101,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.11,
+      "tek_dogru_p": 0.24,
+      "icerik_hash": "fb51af4ad412fde9a0030c2cd0ec919a4cc4ef1e9ee74d9a3f8f0e5064f86fd1"
+    },
+    {
+      "id": "C05-102",
+      "inceleme_no": 102,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.37,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "79e0e22f01c919c9472862e9615941859bd480e553c709ad644cf60391edec6b"
+    },
+    {
+      "id": "C05-103",
+      "inceleme_no": 103,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.54,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "89032d1538737b18aebf23ede2ec408f8960856bbea9520fa0e00be032ba538e"
+    },
+    {
+      "id": "C05-104",
+      "inceleme_no": 104,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.33,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "03e95a0760c959d60cc790caef524e52c83ec7d831ef5313814f3b7daa84ca67"
+    },
+    {
+      "id": "C05-105",
+      "inceleme_no": 105,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.45,
+      "tek_dogru_p": 0.12,
+      "icerik_hash": "ca6b99907c7bba72dd8e09f63437a38281fa9b7239e30a976115b128c834d8ff"
+    },
+    {
+      "id": "C05-106",
+      "inceleme_no": 106,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.28,
+      "tek_dogru_p": 0.06,
+      "icerik_hash": "dc4782bc1c273778689ffbf999c01ece70e9bd4153d5faad0e74753e06f8cbb7"
+    },
+    {
+      "id": "C05-107",
+      "inceleme_no": 107,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.07,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "8e4fc8ebb097d05506ffb871dd94b44cbab72a02e8b69afad2fe94deb64fc6c1"
+    },
+    {
+      "id": "C05-108",
+      "inceleme_no": 108,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.5,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "f7fcb63c0be11a7989b3de1281083ac74cd51bd882649f6be7172f6512ffce79"
+    },
+    {
+      "id": "C05-109",
+      "inceleme_no": 109,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.45,
+      "tek_dogru_p": 0.09,
+      "icerik_hash": "24be2c5ad95e944c83591f9b772b46635013c4b249c4dacdd52926d111cd6a66"
+    },
+    {
+      "id": "C05-110",
+      "inceleme_no": 110,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.36,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "e2e468cd07359778f703bab001f1b3356d1344c509b3e9ed80dde6e614648b4c"
+    },
+    {
+      "id": "C05-111",
+      "inceleme_no": 111,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.19,
+      "tek_dogru_p": 0.38,
+      "icerik_hash": "36a3410173e4de868f8c6c850551cd6de2d0f69cacc3547d6c30cf98b1fa1665"
+    },
+    {
+      "id": "C05-112",
+      "inceleme_no": 112,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.58,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "913f5e14f169114994dd5e09362098c40421a0762c1e0661449ab6085f094118"
+    },
+    {
+      "id": "C05-113",
+      "inceleme_no": 113,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.55,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "cb3595964155a16f7af847e46e28c6728ac1e9cc46a2e4b49de00f6e5c9f9801"
+    },
+    {
+      "id": "C05-114",
+      "inceleme_no": 114,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.16,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "c40692b37836fde756448308a0ddf1e49655fb480e465bf46e4562b69eeaa301"
+    },
+    {
+      "id": "C05-115",
+      "inceleme_no": 115,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.06,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "b3532dd69ded94ce69111bd81ff669be6d40c358a7c987ebe3f2d28d740b6954"
+    },
+    {
+      "id": "C05-116",
+      "inceleme_no": 116,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.09,
+      "tek_dogru_p": 0.11,
+      "icerik_hash": "98715992c0e52ec2d6d713f1defd57b56edc3fd177bd6188442e8bd108697780"
+    },
+    {
+      "id": "C05-117",
+      "inceleme_no": 117,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.28,
+      "tek_dogru_p": 0.08,
+      "icerik_hash": "f505c5da7a3baf201da228867d51c108aa348a268a56e266eb58073198271261"
+    },
+    {
+      "id": "C05-118",
+      "inceleme_no": 118,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.66,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "3d4b299c0aed4177860771b837b13576937e0b287169c9466224b242862f0a81"
+    },
+    {
+      "id": "C05-119",
+      "inceleme_no": 119,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.43,
+      "tek_dogru_p": 0.14,
+      "icerik_hash": "e67887d0783ea1686d460396d2de85aad61415d87a350f3dda8b242fe5482c2e"
+    },
+    {
+      "id": "C05-120",
+      "inceleme_no": 120,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.18,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "172bd5b0140937d2c7e51ff47c402b935d6bed1229ccf4fd653417e1a83c9a04"
+    },
+    {
+      "id": "C05-121",
+      "inceleme_no": 121,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.53,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "202781bb12889cf6c96c81e4fca63faaca4d67a3a5c9d136dfed2346ee460e5f"
+    },
+    {
+      "id": "C05-122",
+      "inceleme_no": 122,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.57,
+      "tek_dogru_p": 0.21,
+      "icerik_hash": "e1b3214b5edc9d58ca57e2027cb5f9c98caa220aef8a3207cdf93b013596adda"
+    },
+    {
+      "id": "C05-123",
+      "inceleme_no": 123,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.69,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "ebdf1b12e99b012c20b5bcb8ff8f8fc930821feb3f6cf579b3e1f40c4a366e34"
+    },
+    {
+      "id": "C05-124",
+      "inceleme_no": 124,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.55,
+      "tek_dogru_p": 0.12,
+      "icerik_hash": "84f93c5945971c709b31a7e01394e39bc264956cbe7675816f5ce5fa556e3bbc"
+    },
+    {
+      "id": "C05-125",
+      "inceleme_no": 125,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.68,
+      "tek_dogru_p": 0.06,
+      "icerik_hash": "295fe3f0d53440b2e5d2aeebca21b745b2448bfffc4f93d2315fab0140f8e983"
+    },
+    {
+      "id": "C05-126",
+      "inceleme_no": 126,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.55,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "9c656bc31b21ee52ae9b5948e171499688a539f69a8d64c8d0c7dd922182670e"
+    },
+    {
+      "id": "C05-127",
+      "inceleme_no": 127,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.14,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "91efac85283163832694d89bb961ae5d3cca61057d3f3f37f99f0eedbb212b97"
+    },
+    {
+      "id": "C05-128",
+      "inceleme_no": 128,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.06,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "59b2720a207d9bb9a347ce7aaa53df1e5368187a552b5f587c392ca089d5653f"
+    },
+    {
+      "id": "C05-129",
+      "inceleme_no": 129,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.32,
+      "tek_dogru_p": 0.18,
+      "icerik_hash": "b1dd5554392f16b935bc2533d938e0bf08c7415a72fbf3a845da840f9eba190b"
+    },
+    {
+      "id": "C05-130",
+      "inceleme_no": 130,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.07,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "accc5806a65888413bc45ef4ea0ba9ba47c8c8231dab48c9c09b90adb4578cc8"
+    },
+    {
+      "id": "C05-131",
+      "inceleme_no": 131,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.08,
+      "tek_dogru_p": 0.06,
+      "icerik_hash": "c4a1b3fd498043d536d1526812c0589541a2e5ccf634160ad598fc7610c5b426"
+    },
+    {
+      "id": "C05-132",
+      "inceleme_no": 132,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.65,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "1864bf4147dc352986fe6a8f028b21ac2c1d44d5d6dfdc199228d45e87441149"
+    },
+    {
+      "id": "C05-133",
+      "inceleme_no": 133,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.28,
+      "tek_dogru_p": 0.1,
+      "icerik_hash": "d642e900ac017ca2e94c1faa5dfba531afd14fd62f506c70036eb09ad7d0c8ff"
+    },
+    {
+      "id": "C05-134",
+      "inceleme_no": 134,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.34,
+      "tek_dogru_p": 0.07,
+      "icerik_hash": "4bf0b7fa8149e21e8f76563e7cbdc522d52b2062a8ac0f2b8171e7702d305926"
+    },
+    {
+      "id": "C05-135",
+      "inceleme_no": 135,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.16,
+      "tek_dogru_p": 0.14,
+      "icerik_hash": "7b2d2f6f0d8244538ffdd68ea70915959c5a61a5e46d3cdd07e2011fad6650cc"
+    },
+    {
+      "id": "C05-136",
+      "inceleme_no": 136,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.17,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "c2a2401029c56134500b4287114b41345267e80700b191a13202904d493d041e"
+    },
+    {
+      "id": "C05-137",
+      "inceleme_no": 137,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.29,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "85b0c287e3f2a725496d2d8c67168f1e63e3e9469a4fa8c4a3c4be35ce5d1363"
+    },
+    {
+      "id": "C05-138",
+      "inceleme_no": 138,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.03,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "8a47d7d4898b292674e7db1b9b1f08a10bccbc8aa4e9dc9adfd496f9aa48a508"
+    },
+    {
+      "id": "C05-139",
+      "inceleme_no": 139,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.35,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "e0ebd8653847bc40c8ed40cf9e343c9ce5b08152b6066b18cc8f05d38a76734b"
+    },
+    {
+      "id": "C05-140",
+      "inceleme_no": 140,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.09,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "3984a3b65a300ba5ad9a7873ce297172196c92249db0c3aa05fa5285c3ec1a9d"
+    },
+    {
+      "id": "C05-141",
+      "inceleme_no": 141,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.53,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "5ec60eac367271f7e1efa26c0c5b79792c3d25d699a230b514837c8349db310d"
+    },
+    {
+      "id": "C05-142",
+      "inceleme_no": 142,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.39,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "e8242a07cf8159e6cdb5ecb31fd24c1a5ca20f82aaa8989b4c16b4c940a38672"
+    },
+    {
+      "id": "C05-143",
+      "inceleme_no": 143,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.45,
+      "tek_dogru_p": 0.06,
+      "icerik_hash": "c4a9981e10a5f85b734d4496eab6018cec2ecc762bbffe5f13366048c148fe8d"
+    },
+    {
+      "id": "C05-144",
+      "inceleme_no": 144,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.14,
+      "tek_dogru_p": 0.12,
+      "icerik_hash": "6c781f6b7d971262673fd59243444eabaf8eb8394da3d8572da9e8e567bc2cf2"
+    },
+    {
+      "id": "C05-145",
+      "inceleme_no": 145,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.26,
+      "tek_dogru_p": 0.06,
+      "icerik_hash": "5a4e57398b95723ce965ca4b5ae7d6bd918cec09ad174b1b1a50f35d74ba0ccb"
+    },
+    {
+      "id": "C05-146",
+      "inceleme_no": 146,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.31,
+      "tek_dogru_p": 0.07,
+      "icerik_hash": "1e6e6ef10c219c35a7ffe15584cf077d31effe6c6b7c08faf465563736d80917"
+    },
+    {
+      "id": "C05-147",
+      "inceleme_no": 147,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.51,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "978dceac85316104d86737f297c64f4b4d270e9f451f5f4563ca8c04345d17c9"
+    },
+    {
+      "id": "C05-148",
+      "inceleme_no": 148,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.42,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "05de3ae64c5448468deaf8dd4554e4b4f2c6f7e5d2c0e1b9cd43abc38aafd0be"
+    },
+    {
+      "id": "C05-149",
+      "inceleme_no": 149,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.08,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "4360b803a3d4fbbcebcbd7f6a100dff7486a0d3f41f0ad0df1c0cba2ccb3f834"
+    },
+    {
+      "id": "C05-150",
+      "inceleme_no": 150,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.24,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "fe18f4b69f8eda66201487e85d235684d208c8f4e4eebd1cf998fca420d4b2a8"
+    },
+    {
+      "id": "C05-151",
+      "inceleme_no": 151,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.3,
+      "tek_dogru_p": 0.16,
+      "icerik_hash": "3e37315dc97103afa30443ec5174554c1d5e5cfb6008f846500ef5d77a172f0b"
+    },
+    {
+      "id": "C05-152",
+      "inceleme_no": 152,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.11,
+      "tek_dogru_p": 0.14,
+      "icerik_hash": "82988c25d14d6d310eef79ba4713245ee06a2cc12a3c76a51a3f1cf056ebf1bc"
+    },
+    {
+      "id": "C05-153",
+      "inceleme_no": 153,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.21,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "547821726acb7d1670aa7d91283b115f3514f7c1ffb500039ae05bb246cdf682"
+    },
+    {
+      "id": "C05-154",
+      "inceleme_no": 154,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.45,
+      "tek_dogru_p": 0.13,
+      "icerik_hash": "bef10c3c14da7dee96d954a0945cf7a7dd6b2b477d57a754b25a3565b9b11b28"
+    },
+    {
+      "id": "C05-155",
+      "inceleme_no": 155,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.29,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "55d1406e76776d741769b5624bf683ac45d73b47f980b676ee5d360db90e033b"
+    },
+    {
+      "id": "C05-156",
+      "inceleme_no": 156,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.29,
+      "tek_dogru_p": 0.14,
+      "icerik_hash": "62946913ebc530978c3a7234ef985e27ddd4c3bfd4b3f8516e3306b889c3bee3"
+    },
+    {
+      "id": "C05-157",
+      "inceleme_no": 157,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.16,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "bad9b24f56439fb0ffd9dd53cbaf86922e2d561fcf3c8b0e86b4919ceebc2f5f"
+    },
+    {
+      "id": "C05-158",
+      "inceleme_no": 158,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.38,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "d6c993369ab9d1cac237acf7f77718a76bdd9a7a8c8eedc26dd7305b5e96dabe"
+    },
+    {
+      "id": "C05-159",
+      "inceleme_no": 159,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.29,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "a7b5435166003bc055959c00648d33d9240465b5789395f9113459000ec14416"
+    },
+    {
+      "id": "C05-160",
+      "inceleme_no": 160,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.5,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "7fee2e1c795cefb98da42bc167f4cc74412fa552b2a4bf413dbb56ea22bde06c"
+    },
+    {
+      "id": "C05-161",
+      "inceleme_no": 161,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.08,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "4bd0caf89369e106c6009415b0224e404826eb8fb6e4357604d1b94dad1445b7"
+    },
+    {
+      "id": "C05-162",
+      "inceleme_no": 162,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.09,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "32ab6d2fe53302e803c75e6e0cf592ead546a8f7886f8698e14656478ebce5ee"
+    },
+    {
+      "id": "C05-163",
+      "inceleme_no": 163,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.71,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "159414fb1c259501e29965c9de4222a7bf617f76fc007e6d14e3111b83bb2434"
+    },
+    {
+      "id": "C05-164",
+      "inceleme_no": 164,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.14,
+      "tek_dogru_p": 0.06,
+      "icerik_hash": "5e6ae63b675c83bc0a19f42d098a9759a419264f5a46d59834a46b4bed2ece53"
+    },
+    {
+      "id": "C05-165",
+      "inceleme_no": 165,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.37,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "66dbab51a1b73d373474af5d6beb3a6b5b93e9f804c22fe3bab09aaecb3a35bc"
+    },
+    {
+      "id": "C05-166",
+      "inceleme_no": 166,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.1,
+      "tek_dogru_p": 0.08,
+      "icerik_hash": "6593b7eda9f97d825f1bb3835c0a7a3829af0468bd00f745e8e737e5bdbf499a"
+    },
+    {
+      "id": "C05-167",
+      "inceleme_no": 167,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.66,
+      "tek_dogru_p": 0.15,
+      "icerik_hash": "dbed6e3f640835b5d603a734be538f268d5499073c018aac4438cc1d2cbea4f2"
+    },
+    {
+      "id": "C05-168",
+      "inceleme_no": 168,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.42,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "6cb9b14c8c99d7fa7e4f25ccada5f7064eab9d804d998c3fcbe82d9aac761026"
+    },
+    {
+      "id": "C05-169",
+      "inceleme_no": 169,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.6,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "1e640c326be1d48343a6deee6a214dd955ce230b6316b8cf5ab57893f98a69b4"
+    },
+    {
+      "id": "C05-170",
+      "inceleme_no": 170,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.71,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "f8970b42134fabda5f748eda8f7d6cd4b252edc99e4fecd6ae42c1e259613777"
+    },
+    {
+      "id": "C05-171",
+      "inceleme_no": 171,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.47,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "98e49172a15f81d0e28976eb6af8178bb7aefbf53e2123a99993200ad8acb1d1"
+    },
+    {
+      "id": "C05-172",
+      "inceleme_no": 172,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.18,
+      "tek_dogru_p": 0.09,
+      "icerik_hash": "e196528daee7504a7bb3220aa34af81093a5d17f0eabbe4d65b9b65b0ad12fca"
+    },
+    {
+      "id": "C05-173",
+      "inceleme_no": 173,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.27,
+      "tek_dogru_p": 0.07,
+      "icerik_hash": "cc0cb065d9d839720346b69336e618feced8e4d4527b50d095081e63cde5dde2"
+    },
+    {
+      "id": "C05-174",
+      "inceleme_no": 174,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.22,
+      "tek_dogru_p": 0.29,
+      "icerik_hash": "9dce682168dd4d2c2dfc7f9d097fb2dfc8fa5a3993a98af0b12eb1b6ad7ddefe"
+    },
+    {
+      "id": "C05-175",
+      "inceleme_no": 175,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.04,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "5d8a6813fe3a14da8a51d98cee0aace9e79e6e0b5975ef90f2e5fba595062160"
+    },
+    {
+      "id": "C05-176",
+      "inceleme_no": 176,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.24,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "af9e5afc6f158ea4a8ee9b0a224002d96bb7cfa14fa2ec26a543257ab66e3305"
+    },
+    {
+      "id": "C05-177",
+      "inceleme_no": 177,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.48,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "65927cfe90797191f2a641ce5b4870cfc40c4b0bd182a40b1e082dc1113df030"
+    },
+    {
+      "id": "C05-178",
+      "inceleme_no": 178,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.54,
+      "tek_dogru_p": 0.11,
+      "icerik_hash": "810bca9a1b97f94852b401fa3275d0731117792b8ed9da01ed5846c83e838abc"
+    },
+    {
+      "id": "C05-179",
+      "inceleme_no": 179,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.4,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "d475e052407c41ec94a8fa0f49aedc67937146dcf19c03c46442161b4eb86c28"
+    },
+    {
+      "id": "C05-180",
+      "inceleme_no": 180,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.71,
+      "tek_dogru_p": 0.16,
+      "icerik_hash": "ec3543a1ec38a5a2af3e1fc7aeba43e18af970cf5e0ec02f2d3862273a658167"
+    },
+    {
+      "id": "C05-181",
+      "inceleme_no": 181,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.18,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "2dc6a813b8a02dbd098af5939190e234b55d6b581a432c4e830baa94014a2d13"
+    },
+    {
+      "id": "C05-182",
+      "inceleme_no": 182,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.29,
+      "tek_dogru_p": 0.02,
+      "icerik_hash": "3803e5cd5927597c4e2b74ef1a5eda5ecbe87089dfb1c6a0eb8a6093e948c7fd"
+    },
+    {
+      "id": "C05-183",
+      "inceleme_no": 183,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.08,
+      "tek_dogru_p": 0.19,
+      "icerik_hash": "93fe989af66dcd949cf2073954816de2775406a80fa643a80999eca0ad6288ee"
+    },
+    {
+      "id": "C05-184",
+      "inceleme_no": 184,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.12,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "8a6ea65ea68494bfae07623ccd6b0794b3bc4be2aa9eb425b7e8b057f17a2aab"
+    },
+    {
+      "id": "C05-185",
+      "inceleme_no": 185,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.11,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "6926993c23e1319a6687752561fa308f6850a9e318d27a69e2e4c5d637a80a7c"
+    },
+    {
+      "id": "C05-186",
+      "inceleme_no": 186,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.35,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "1894df7fcce82eead7e925ac231d39873651af75e0426b0bc64b02f8b6a458ed"
+    },
+    {
+      "id": "C05-187",
+      "inceleme_no": 187,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.15,
+      "tek_dogru_p": 0.07,
+      "icerik_hash": "b68f7f4ca92e2c3bf4c663f68464c8e55e5e3fbe85289b1df049fdbdaccf3db7"
+    },
+    {
+      "id": "C05-188",
+      "inceleme_no": 188,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.23,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "1d1d3741833009e6396745e574a035c08a2bb3da364a31a127672c50f035fa85"
+    },
+    {
+      "id": "C05-189",
+      "inceleme_no": 189,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.31,
+      "tek_dogru_p": 0.07,
+      "icerik_hash": "43bc63227581f533fb4d9818ffe0070c93cf842b04f5db52267b72bccef3d9c4"
+    },
+    {
+      "id": "C05-190",
+      "inceleme_no": 190,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.5,
+      "tek_dogru_p": 0.05,
+      "icerik_hash": "24210b047b2c6dfb912691e939c585921cae5a93bdda8a28a885af45e5a5f653"
+    },
+    {
+      "id": "C05-191",
+      "inceleme_no": 191,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.27,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "202277c326d487d64fa0ab2855f1fc9ba00e22bd1a7fc559eaf4e2c158ad647b"
+    },
+    {
+      "id": "C05-192",
+      "inceleme_no": 192,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.27,
+      "tek_dogru_p": 0.09,
+      "icerik_hash": "88b1927aa4d8ce87bd7705c6ba0a502002c3596aa8543d2b3c35952189dd838b"
+    },
+    {
+      "id": "C05-193",
+      "inceleme_no": 193,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.36,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "e85e10d8bc034467e63ad1d08aa428a4b8ab6fb4b8b8f8a11796c009aad009d9"
+    },
+    {
+      "id": "C05-194",
+      "inceleme_no": 194,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.2,
+      "tek_dogru_p": 0.1,
+      "icerik_hash": "87941689727190c07e54b458927ea8491e31a4e4eaaede4406f3c2b37ca35cd9"
+    },
+    {
+      "id": "C05-195",
+      "inceleme_no": 195,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.13,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "f94f06bcb1cef0a4097f4ef0c07a90db2e02686703a2fad7d78de3ac5d315261"
+    },
+    {
+      "id": "C05-196",
+      "inceleme_no": 196,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.11,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "1b2ae5a952ba7968ea92f733e71014e411c5ad7ca97aca206d4fd96867b6c004"
+    },
+    {
+      "id": "C05-198",
+      "inceleme_no": 198,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.3,
+      "tek_dogru_p": 0.03,
+      "icerik_hash": "18e9b6f4090fd8380c8b67bbdbe70179a7d17174d3488e0f7203b435a21d3e2c"
+    },
+    {
+      "id": "C05-199",
+      "inceleme_no": 199,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.55,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "193f87826415c9f07d476ead90ae66e63e4c676fc1d7972bea7bcf5539d9b177"
+    },
+    {
+      "id": "C05-200",
+      "inceleme_no": 200,
+      "sonuc": "gecti",
+      "neden": null,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.34,
+      "tek_dogru_p": 0.04,
+      "icerik_hash": "c1db9fc382abe201c61ad25689336d21101639a8bc46f830ffedb873042cd33e"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "klasor": "codex-04",
-  "tarih": "2026-10-10T14:50:48.092Z",
+  "tarih": "2026-10-11T21:08:29.793Z",
   "uretici": "Codex",
   "hakem": "Claude ayrı inceleme — bekliyor",
   "hedef": 200,
@@ -38,10 +38,10 @@
   "tarih_alt_pay": 0.15,
   "taslak": 802,
   "gecen": 244,
-  "secilen": 200,
+  "secilen": 194,
   "kategori": {
     "sanat": {
-      "z2": 19,
+      "z2": 18,
       "z3": 8
     },
     "muzik": {
@@ -50,10 +50,10 @@
     },
     "teknoloji": {
       "z2": 21,
-      "z3": 8
+      "z3": 7
     },
     "spor": {
-      "z2": 16,
+      "z2": 14,
       "z3": 7
     },
     "tarih": {
@@ -61,25 +61,25 @@
       "z3": 9
     },
     "sinema": {
-      "z2": 14,
+      "z2": 13,
       "z3": 6
     },
     "genel_kultur": {
-      "z2": 25,
-      "z3": 11
+      "z2": 26,
+      "z3": 10
     },
     "edebiyat": {
-      "z2": 13,
+      "z2": 12,
       "z3": 6
     }
   },
   "zorluk": {
-    "2": 140,
-    "3": 60
+    "2": 136,
+    "3": 58
   },
   "yerel": 0,
-  "global": 200,
-  "en": 200,
+  "global": 194,
+  "en": 194,
   "elenen_sebep": {
     "benzer": 273,
     "biçim/kural": 67,
@@ -100,7 +100,8 @@
     "is_akisi_jev_jeton": 546531,
     "is_akisi_jev": 0.022954302,
     "toplam_jev": 0.035296044,
-    "maliyet_not": "Kapılar ve kaydedilmiş ön denetim/iş akışı çağrıları; Claude API $0."
+    "maliyet_not": "Kapılar ve kaydedilmiş ön denetim/iş akışı çağrıları; Claude API $0.",
+    "onay_kapilar_jev": 0.006786402
   },
   "cesitlilik": {
     "ulke_odak": {
@@ -988,7 +989,7 @@
       "genel_kultur:marka_maskot_cizgi": 14
     }
   },
-  "migration": "bekleyen.sql — hazır; Ida onayı bekliyor; uygulanmadı",
+  "migration": "../codex-04-07-onay/bekleyen.sql (06/174 nedeniyle engelli)",
   "migration_uygulandi": false,
   "migration_no_taslak": 1059,
   "migration_no_aciklama": "Numara ayrılmaz; onay sonrası son numara+1 yeniden ölçülür",
@@ -1033,5 +1034,49 @@
     "claude_api": false
   },
   "testler": "12 kapı/çeşitlilik testi geçti; build ve postbuild geçti; içerik hashleri, 1600 yerel TR/EN şık dizilimi ve SQL eşliği doğrulandı",
-  "uretici_not": "Önceki partide kullanılmamış Codex taslakları ve yeni yazılmış taslaklar; havuza anlamca tekrarlar ayıklandı."
+  "uretici_not": "Önceki partide kullanılmamış Codex taslakları ve yeni yazılmış taslaklar; havuza anlamca tekrarlar ayıklandı.",
+  "claude_onay": "İlk inceleme onaylı; son kapıda 37 ve 132 için yeniden inceleme istendi. Ida bu iki kaydı inceleme bekliyor bırakmayı seçti.",
+  "canli_yasak": true,
+  "onay_cikar": [
+    73,
+    98,
+    184
+  ],
+  "onay_duzeltmeler": [
+    21,
+    37,
+    56,
+    132,
+    178,
+    186
+  ],
+  "kapilar": "194/194; 0 ret",
+  "onay_sonrasi": {
+    "cikar": [
+      1,
+      72,
+      88,
+      132
+    ],
+    "geri_kon": [
+      98
+    ],
+    "duzelt": [
+      37,
+      140,
+      193,
+      175,
+      124,
+      169
+    ],
+    "inceleme_numaralari_korundu": true,
+    "retler": [],
+    "eski_uretim_ozeti": "Ölçüm/kota/çeşitlilik/elenme alanları ilk üretime aittir; onay sonrası sayı yukarıdadır.",
+    "ek_onay": "Ida: beş kapı reddi çıkarılsın, 778 ile birleşik SQL hazırlansın.",
+    "son_duzeltme": {
+      "tarih": "2026-10-11T21:08:29.793Z",
+      "numara": 193,
+      "not": "Yazım/ek düzeltmesi."
+    }
+  }
 }

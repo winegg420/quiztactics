@@ -1424,14 +1424,14 @@
       {
         "klasor": "codex-04",
         "hedef": 200,
-        "net": 200,
-        "durum": "Claude incelemesi bekliyor; Ida onayı yok",
-        "migration_uygulandi": false,
-        "migration": "codex-04/bekleyen.sql",
+        "net": 194,
+        "durum": "bitti_canlida",
+        "migration_uygulandi": true,
+        "migration": "supabase/migrations/20260612001068_soru_parti_codex_04_07.sql",
         "taslak": 802,
         "zorluk": {
-          "2": 140,
-          "3": 60
+          "2": 136,
+          "3": 58
         },
         "kota": {
           "sanat": 27,
@@ -1444,11 +1444,271 @@
           "tarih": 30
         },
         "yerel": 0,
-        "en": 200,
-        "kapilar": "1–5; kapı 3 yerel SQL, havuz önceki kopya",
-        "canli_yasak": true,
-        "jev_usd": 0.035296044
+        "en": 194,
+        "kapilar": "194/194",
+        "canli_yasak": false,
+        "jev_usd": 0.035296044,
+        "onay_cikar": [
+          1,
+          72,
+          73,
+          88,
+          132,
+          184
+        ],
+        "onay_duzeltmeler": [
+          37,
+          140,
+          193,
+          175,
+          124,
+          169
+        ],
+        "jev_onay_usd": 0.006786402,
+        "onay_geri_kon": [
+          98
+        ],
+        "onay_retler": []
+      },
+      {
+        "klasor": "codex-05",
+        "hedef": 200,
+        "net": 196,
+        "durum": "bitti_canlida",
+        "migration_uygulandi": true,
+        "canli_yasak": false,
+        "ara_kayit": ".tmp/codex/codex-05/durum.json",
+        "taslak": 1149,
+        "kota": {
+          "sanat": {
+            "z2": 18,
+            "z3": 8
+          },
+          "muzik": {
+            "z2": 13,
+            "z3": 6
+          },
+          "teknoloji": {
+            "z2": 20,
+            "z3": 8
+          },
+          "spor": {
+            "z2": 16,
+            "z3": 7
+          },
+          "tarih": {
+            "z2": 21,
+            "z3": 9
+          },
+          "sinema": {
+            "z2": 15,
+            "z3": 6
+          },
+          "genel_kultur": {
+            "z2": 23,
+            "z3": 10
+          },
+          "edebiyat": {
+            "z2": 14,
+            "z3": 6
+          }
+        },
+        "zorluk": {
+          "2": 140,
+          "3": 56
+        },
+        "yerel": 1,
+        "en": 195,
+        "kapilar": "196/196",
+        "ek_havuz": [
+          "codex-04"
+        ],
+        "migration": "supabase/migrations/20260612001068_soru_parti_codex_04_07.sql",
+        "jev_usd": 0.03597132,
+        "onay_cikar": [
+          18,
+          46,
+          65,
+          197
+        ],
+        "onay_geri_kon": [],
+        "onay_duzeltmeler": [
+          194,
+          26,
+          167,
+          120,
+          122,
+          111,
+          101,
+          74,
+          66,
+          152,
+          39,
+          40,
+          126,
+          178
+        ],
+        "onay_retler": []
+      },
+      {
+        "klasor": "codex-06",
+        "hedef": 200,
+        "net": 195,
+        "durum": "bitti_canlida",
+        "migration_uygulandi": true,
+        "canli_yasak": false,
+        "ara_kayit": ".tmp/codex/codex-06/durum.json",
+        "taslak": 536,
+        "kota": {
+          "sanat": 26,
+          "muzik": 20,
+          "teknoloji": 27,
+          "spor": 23,
+          "sinema": 22,
+          "genel_kultur": 31,
+          "edebiyat": 21,
+          "tarih": 30
+        },
+        "zorluk": {
+          "2": 143,
+          "3": 52
+        },
+        "yerel": 2,
+        "en": 193,
+        "kapilar": "194/195",
+        "ek_havuz": [
+          "codex-04",
+          "codex-05"
+        ],
+        "migration": "supabase/migrations/20260612001068_soru_parti_codex_04_07.sql",
+        "jev_usd": 0.034162632,
+        "onay_cikar": [
+          83,
+          85,
+          103,
+          126,
+          194
+        ],
+        "onay_geri_kon": [],
+        "onay_duzeltmeler": [
+          30,
+          34,
+          48,
+          55,
+          80,
+          88,
+          103,
+          126,
+          139,
+          15,
+          35,
+          107,
+          109,
+          121,
+          138,
+          142,
+          148,
+          168,
+          174,
+          184,
+          25,
+          123,
+          143,
+          171,
+          172,
+          197
+        ],
+        "onay_retler": [
+          {
+            "id": "C06-174",
+            "inceleme_no": 174,
+            "neden": "biçim/kural: TR kural: dogru_en_uzun,dogru_coklu_kelime",
+            "s": "Geleneksel quiche Lorraine'in ayırt edici et malzemesi hangisidir?",
+            "d": "Domuz pastırması",
+            "y": [
+              "Salam",
+              "Tavuk",
+              "Sucuk"
+            ]
+          }
+        ]
+      },
+      {
+        "klasor": "codex-07",
+        "hedef": 200,
+        "net": 193,
+        "durum": "bitti_canlida",
+        "migration_uygulandi": true,
+        "canli_yasak": false,
+        "ara_kayit": ".tmp/codex/codex-07/durum.json",
+        "taslak": 510,
+        "kota": {
+          "sanat": 25,
+          "muzik": 21,
+          "teknoloji": 27,
+          "spor": 24,
+          "sinema": 22,
+          "genel_kultur": 29,
+          "edebiyat": 22,
+          "tarih": 30
+        },
+        "zorluk": {
+          "2": 136,
+          "3": 57
+        },
+        "yerel": 5,
+        "en": 188,
+        "kapilar": "193/193",
+        "ek_havuz": [
+          "codex-04",
+          "codex-05",
+          "codex-06"
+        ],
+        "migration": "supabase/migrations/20260612001068_soru_parti_codex_04_07.sql",
+        "jev_usd": 0.038221764,
+        "onay_cikar": [
+          17,
+          37,
+          128,
+          132,
+          177,
+          178,
+          193
+        ],
+        "onay_geri_kon": [],
+        "onay_duzeltmeler": [
+          14,
+          177,
+          44,
+          129,
+          98,
+          9,
+          10,
+          3,
+          24,
+          46,
+          63,
+          19,
+          193,
+          199
+        ],
+        "onay_retler": []
       }
-    ]
+    ],
+    "canli_yasak": false,
+    "dal": "main",
+    "kip": "canlıda — Ida onayı 12 Eki 2026",
+    "son_asama": "codex-04..07: 777 soru canlıda (1068); C06-174 çıkarıldı.",
+    "birlesik_bekleyen": {
+      "dosya": "codex-04-07-onay/sorular-777.json",
+      "soru": 778,
+      "gecen": 777,
+      "sql_hazir": true,
+      "canli_yasak": false,
+      "migration_uygulandi": true,
+      "migration": "supabase/migrations/20260612001068_soru_parti_codex_04_07.sql",
+      "aktif_once": 13417,
+      "aktif_sonra": 14194
+    }
   }
 }

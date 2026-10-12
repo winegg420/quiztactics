@@ -11850,3 +11850,14 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **Performans (4× CPU):** Yıldız p95 33,4 → 17,7 ms, kaçan kare %6,3 → %4,8 (önbellekli gövde/hale/pırıltı; görünüm aynı); Ampul tabanla aynı, değiştirilmedi.
 - **Test:** `araclar/cevap-imzasi-v3-ekran.mjs` 81/81; kareler + maket yan yana `tasarim/cevap-imzasi-v3/`. Canlı duman (tek Klasik maç) GEÇTİ; test hesabı silindi. Rapor `RAPOR-cevap-imzasi-v3.md`.
 - Build temiz. Codex dosyalarına dokunulmadı; main'e geçici index ile.
+
+## 2026-10-12 — Codex 04–07: 777 soru canlıda (migration 1068)
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** Ida onayı (12 Eki 2026) — codex-04..07 onaylı listesi canlıya; C06-174 ("quiche Lorraine", şık dengesi kapı reddi) çıkarılsın, başka değişiklik yok.
+
+- `soru-havuzu` dalından yalnız `araclar/soru-uretim/` main'e alındı (codex-04..07, codex-04-07-onay, araç dosyaları). Oyun koduna dokunulmadı. O daldaki commitsiz çalışma `git stash` ile saklandı ("soru-havuzu dalı: commitsiz durum").
+- `codex-04-07-onay/sorular-777.json` (orijinal 778'lik dosya duruyor); iz `ozet.json › canliya_alim` + yeni `codex-04-07-onay/durum.json`. `uret-migration-parti.mjs`'e `--girdi` seçeneği (klasördeki başka liste).
+- **1068 `soru_parti_codex_04_07`:** 777 insert, havuzla birebir çakışma 0 (atlanan 0). Kategori: genel_kultur 126 · tarih 118 · teknoloji 108 · sanat 100 · spor 89 · sinema 83 · edebiyat 79 · muzik 74. Zorluk 2: 555, 3: 222. Yerel 8. EN çeviri 769, `ceviri_atlanan` 8. Biçim 1046/1048/1051 ile aynı (yalnız veri satırları farklı; `sik_ipucu` alanı önceki migration'larda da yok).
+- Prova temiz → uygulandı. Aktif soru 13.417 → 14.194 (+777); EN çevirili aktif 13.899. Kategori × zorluk canlıda migration'la birebir.
+- **Duman testi BAŞARISIZ (soru dışı sebep):** taze misafir hesapta kurulum penceresi 2/3'te ("Avatarını seç") kalıyor — "Avatarsız devam et" `avatar_onayla` 204 dönüyor ama pencere ilerlemiyor, Klasik şeridine dokunulamıyor. Oyun koduna dokunmama sınırı nedeniyle incelenmedi; ayrı iş. Test hesabı silindi.
+- `durum.json › codex_seri` canli_yasak=false, 04–07 `bitti_canlida`.

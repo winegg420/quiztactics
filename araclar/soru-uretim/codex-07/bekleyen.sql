@@ -1,0 +1,3 @@
+-- Bu partinin ayrı SQL taslağı kaldırıldı.
+-- Tek birleşik bekleyen SQL: ../codex-04-07-onay/bekleyen.sql
+-- Kapı 1–5 geçti; canlıya bağlantı/uygulama yapılmadı.

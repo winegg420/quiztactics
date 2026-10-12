@@ -1,0 +1,329 @@
+{
+  "tarih": "2026-10-11T20:17:06.025Z",
+  "cikar": [
+    18,
+    46,
+    65,
+    197
+  ],
+  "geri_kon": [],
+  "degisiklikler": [
+    {
+      "id": "C05-26",
+      "alanlar": {
+        "d": {
+          "once": "National Museum",
+          "sonra": "Oslo Ulusal Müzesi"
+        },
+        "y": {
+          "once": [
+            "Alte Pinakothek",
+            "National Gallery",
+            "Borghese Gallery"
+          ],
+          "sonra": [
+            "Alte Pinakothek Müzesi",
+            "Tate Britain",
+            "Borghese Galerisi"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "Which museum holds Munch's 1893 tempera version of 'The Scream'?",
+            "d": "National Museum",
+            "y": [
+              "Alte Pinakothek",
+              "National Gallery",
+              "Borghese Gallery"
+            ]
+          },
+          "sonra": {
+            "s": "Which museum holds Munch's 1893 tempera version of 'The Scream'?",
+            "d": "National Museum, Oslo",
+            "y": [
+              "Alte Pinakothek, Munich",
+              "Tate Britain",
+              "Borghese Gallery, Rome"
+            ]
+          }
+        },
+        "olgu": {
+          "once": "Çığlık'ın 1893 tarihli tempera versiyonu, National Museum koleksiyonundadır.",
+          "sonra": "Çığlık'ın 1893 tarihli tempera versiyonu Oslo Ulusal Müzesi koleksiyonundadır."
+        }
+      }
+    },
+    {
+      "id": "C05-39",
+      "alanlar": {
+        "k": {
+          "once": "muzik",
+          "sonra": "sinema"
+        }
+      }
+    },
+    {
+      "id": "C05-40",
+      "alanlar": {
+        "zorluk": {
+          "once": 3,
+          "sonra": 2
+        }
+      }
+    },
+    {
+      "id": "C05-66",
+      "alanlar": {
+        "s": {
+          "once": "1985'te kaydedilen ilk .com alan adının şirketi hangisiydi?",
+          "sonra": "1985'te ilk .com alan adını kaydeden şirket hangisidir?"
+        }
+      }
+    },
+    {
+      "id": "C05-74",
+      "alanlar": {
+        "d": {
+          "once": "Yunan kahraman",
+          "sonra": "Yunan kahramanı"
+        }
+      }
+    },
+    {
+      "id": "C05-101",
+      "alanlar": {
+        "s": {
+          "once": "Napolyon'un iki yana takarak kendine özgü kullandığı şapka türü hangisidir?",
+          "sonra": "Napolyon'un yan takarak kullandığı şapka türü hangisidir?"
+        }
+      }
+    },
+    {
+      "id": "C05-111",
+      "alanlar": {
+        "s": {
+          "once": "I. Elizabeth tahta çıktığında üvey kardeşi olan bir önceki hükümdar kimdi?",
+          "sonra": "I. Elizabeth tahta çıktığında baba bir kız kardeşi olan bir önceki hükümdar kimdi?"
+        },
+        "en": {
+          "once": {
+            "s": "Which half-sibling preceded Elizabeth I on the throne?",
+            "d": "Mary I",
+            "y": [
+              "Edward VI",
+              "Henry VIII",
+              "James I"
+            ]
+          },
+          "sonra": {
+            "s": "Which half-sister, sharing the same father, preceded Elizabeth I on the throne?",
+            "d": "Mary I",
+            "y": [
+              "Edward VI",
+              "Henry VIII",
+              "James I"
+            ]
+          }
+        },
+        "olgu": {
+          "once": "I. Elizabeth üvey kardeşi I. Mary'nin ardından tahta çıktı.",
+          "sonra": "I. Elizabeth baba bir kız kardeşi I. Mary'nin ardından tahta çıktı."
+        }
+      }
+    },
+    {
+      "id": "C05-120",
+      "alanlar": {
+        "s": {
+          "once": "Sutton Hoo gemi mezarındaki ünlü miğfer hangi metalden yapılmıştır?",
+          "sonra": "Sutton Hoo gemi mezarındaki ünlü miğferin ana gövdesi hangi metaldendir?"
+        },
+        "en": {
+          "once": {
+            "s": "What metal forms the famous helmet from the Sutton Hoo ship burial?",
+            "d": "Iron",
+            "y": [
+              "Bronze",
+              "Copper",
+              "Silver"
+            ]
+          },
+          "sonra": {
+            "s": "What metal forms the main body of the famous helmet from the Sutton Hoo ship burial?",
+            "d": "Iron",
+            "y": [
+              "Bronze",
+              "Copper",
+              "Silver"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C05-122",
+      "alanlar": {
+        "d": {
+          "once": "Charles Martel",
+          "sonra": "Şarl Martel"
+        },
+        "y": {
+          "once": [
+            "Charles the Bald",
+            "Pepin the Short",
+            "Louis the Pious"
+          ],
+          "sonra": [
+            "Kel Charles",
+            "Kısa Pepin",
+            "Dindar Louis"
+          ]
+        },
+        "olgu": {
+          "once": "Frank ordusunu Charles Martel yönetti.",
+          "sonra": "Frank ordusunu Şarl Martel (Charles Martel) yönetti."
+        }
+      }
+    },
+    {
+      "id": "C05-126",
+      "alanlar": {
+        "zorluk": {
+          "once": 3,
+          "sonra": 2
+        }
+      }
+    },
+    {
+      "id": "C05-152",
+      "alanlar": {
+        "en": {
+          "once": {
+            "s": "What traditionally forms the walls of a Christmas gingerbread house?",
+            "d": "Biscuits",
+            "y": [
+              "Chocolate",
+              "Sugar paste",
+              "Marzipan"
+            ]
+          },
+          "sonra": {
+            "s": "What traditionally forms the walls of an edible house made at Christmas?",
+            "d": "Gingerbread",
+            "y": [
+              "Chocolate",
+              "Sugar paste",
+              "Marzipan"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C05-167",
+      "alanlar": {
+        "y": {
+          "once": [
+            "Badem ezmesi",
+            "Zencefilli kurabiye",
+            "Şekerli çörek"
+          ],
+          "sonra": [
+            "Meyve şekerlemesi",
+            "Zencefilli kurabiye",
+            "Şekerli çörek"
+          ]
+        },
+        "en": {
+          "once": {
+            "s": "What sweet shaped like the recipient's initial is given for Sinterklaas in the Netherlands?",
+            "d": "Chocolate",
+            "y": [
+              "Marzipan",
+              "Gingerbread",
+              "Sweet bun"
+            ]
+          },
+          "sonra": {
+            "s": "What sweet shaped like the recipient's initial is given for Sinterklaas in the Netherlands?",
+            "d": "Chocolate",
+            "y": [
+              "Candied fruit",
+              "Gingerbread",
+              "Sweet bun"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "C05-178",
+      "alanlar": {
+        "zorluk": {
+          "once": 3,
+          "sonra": 2
+        }
+      }
+    },
+    {
+      "id": "C05-194",
+      "alanlar": {
+        "s": {
+          "once": "Harry Potter'da Çapulcular Haritası'nı yapanların 'Aylak' takma adlı üyesi kimdir?",
+          "sonra": "Harry Potter'da Çapulcular Haritası'nı yapanların 'Patiayak' takma adlı üyesi kimdir?"
+        },
+        "olgu": {
+          "once": "Sirius Black, Çapulcular arasında Aylak (Padfoot) takma adını kullanır.",
+          "sonra": "Sirius Black, Çapulcular arasında Patiayak (Padfoot) takma adını kullanır."
+        }
+      }
+    }
+  ],
+  "son_duzeltme": {
+    "tarih": "2026-10-11T21:08:29.793Z",
+    "numara": 74,
+    "not": "Yazım/ek düzeltmesi.",
+    "kayit": {
+      "id": "C05-74",
+      "taslak_id": "C05-N0960",
+      "k": "spor",
+      "yerel": false,
+      "s": "Ajax kulübü adını hangi tür tarihî/mitolojik kişiden alır?",
+      "d": "Yunan kahramanı",
+      "y": [
+        "Roma imparatoru",
+        "Viking komutanı",
+        "Mısır firavunu"
+      ],
+      "zorluk": 2,
+      "en": {
+        "s": "What kind of historical or mythological figure gives Ajax its name?",
+        "d": "Greek hero",
+        "y": [
+          "Roman emperor",
+          "Viking commander",
+          "Egyptian pharaoh"
+        ]
+      },
+      "olgu": "Ajax adını Yunan mitolojisindeki Aias'tan alır.",
+      "kalip": "spor_ozgun_takim_lakabi",
+      "konular": [
+        "ajax"
+      ],
+      "alt_tur": "takim",
+      "claude_inceleme": "onaylı; canlıya alınmadı",
+      "z": 2,
+      "inceleme_no": 74,
+      "kapi_sonuc": "gecti",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "jev_p": 0.2,
+      "jev_tek_dogru_p": 0.02
+    }
+  }
+}
