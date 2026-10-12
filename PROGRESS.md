@@ -11988,3 +11988,13 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **İstemci:** `lib/sezonYolu.js › SAHIP_COIN_AYARLARI / sahipCoinSec`; Yol.jsx kutuda "Sahipsin · +N coin", OdulSayfasi.jsx "Bu ödül sende var. Alınca yerine {n} coin alırsın." (yeni çeviri anahtarı avatar-satis.js).
 - **Canlı doğrulama** (araç hesabı, tek işlem, ROLLBACK): sahip olunan çerçeve (pc_ejderha2) +100, ikinci basış null/+0; tepki paketi +50 / +0; unvan +50 / +0; coin_hareketleri `sezon_yolu 100 sezon:46:28:ucretli:sahip`. arka_plan ödülü tanımlı değil (yol sınanmadı, kod aynı kalıp).
 - Karar: tek ayar anahtarı `bp_diger_sahipse_coin` tepki paketi + unvan + arka plan için (Ida'nın tarifi).
+
+## 2026-10-12 — Posta kutusu kart kırpması + Görevler sesleri
+**Araç:** Claude Code (Sonnet 5.5)
+**Neden:** Ida'nın 3 küçük iş paketi (3. iş).
+
+- **Posta kırpması (posta.css):** `.bz-govde > .qt-satir-kap.bz-kart` flex sütununda küçülüp `overflow:hidden` ile kırpılıyordu → `flex: 0 0 auto`. Ölçüm (390×844, 10 posta, taklit): önce kart 48/38 px (içerik 101/81) kırpılı, sonra 101/81 px, gövde 977 px kaydırılır, kırpılan 0. Aynı kalıp için tarama: kaydırılan/sabit yükseklikli flex sütunları → yalnız `.ms-liste` (Mesajlar) çocukları küçülebiliyordu → `.ms-liste > * { flex-shrink: 0 }`. Arkadaşlar, Hatalarım, Bitenler ve Posta detayı sayfa kaydırmalı / `qt-modal` çocukları overflow:hidden değil → bulgu yok.
+- **Sesler (mevcut ses.js fonksiyonları):** `OdulPatlamasi.jsx › odulSesi` (350 ms aralıklı zincir; ses kapalı + sekme gizli kuralı `ses.js › cal` içinde) · `odulPatlat` uçuş başında coin/elmas → sesCoin, sp → sesXpDolma (`ses:false` ile kapatılır; Sezon Yolu kendi sesini çalıyor) · GorevlerPage kart çevirme + sandık sallanma → sesDokunus (hareketi azalt açıkken çalmaz) · SandikAcilis sallanma → sesDokunus (kapak açılışı sesRozet zaten `odulHissi("buyuk")`'ta) · YildizYolu yıldız yanınca → sesXpDolma (ilk çizim/sekme değişiminde yok) · Davet kodu bağlama (DavetKarti, FriendsPage) coin gelince sesCoin.
+- Kontrol: Sezon Yolu "Al" (sesCoin/sesRozet) ve rozet bildirimi (RozetBildirimi › sesRozet) zaten sesli; Koleksiyon'da ödül alma düğmesi yok (rozet global bildirimden). Seviye atlama: `gorev_al` XP/level döndürmüyor, atlama sesi global LevelKazanci'da (sesLevel) → Görevler'e eklenmedi.
+- Hata (ara): Yol.jsx'te çok satırlı değiştirmelerden biri uygulanmamıştı (`sahipCoinAv is not defined`, sezon-yolu sayfası konsol hatası); arayüz denetimi yakaladı, düzeltildi.
+- Test: build temiz, arayuz-denetim TEMİZ (konsol 0), araç hesabı silindi.

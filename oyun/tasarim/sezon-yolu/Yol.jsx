@@ -143,8 +143,8 @@ function Kutu({ odul, durum, bpVar, yeniAlindi, mesgul, onSec, onAl, sahipCoin =
   const kolAdi = odul.kol === "ucretli" ? tt("Battle Pass kolu") : tt("Ücretsiz kol");
   const durumYazi = odul.alindi ? tt("alındı") : al ? tt("alınabilir") : tt("kilitli");
   const miktar = miktarYazi(odul);
-  // 1039: avatar ödülüne zaten sahipse avatar yerine coin (sunucu bp_avatar_sahipse_coin)
-  const sahipCoinli = odul.tur === "avatar" && odul.sahip && !odul.alindi && sahipCoin > 0;
+  // 1039/1082: ödüle zaten sahipse ödül yerine coin (sunucu bp_sahip_coin; sahipCoin tür başına çözülmüş gelir, yoksa 0)
+  const sahipCoinli = odul.sahip && !odul.alindi && sahipCoin > 0;
   return (
     <button type="button" className={`sy-kutu sy-kutu--${s}${yeniAlindi ? " sy-kutu--doldu" : ""}${tas ? " sy-kutu--tas" : ""}${sirada ? " sy-kutu--sirada" : ""}${bpKilit ? " sy-kutu--bp-kilit" : ""}`}
       data-nadirlik={odul.nadirlik ?? "siradan"} data-tur={odul.placeholder ? "yakinda" : odul.tur} data-yuva={anahtar(odul)} disabled={al && mesgul}
@@ -192,7 +192,9 @@ function TasmaKutu({ kol, durum, bpVar, onTasma }) {
 export default function DikeyYol({ durum, toplam, bpVar, harita, yeniAlinan, yeniAcilan, mesgul, onSec, onAl, onTasma, parla = null, finalUnvan = null }) {
   const duraklar = Array.from({ length: toplam }, (_, i) => i + 1);
   const seviye = Number(durum.seviye ?? 0);
-  const sahipCoin = useAyar("bp_avatar_sahipse_coin", 200);   // 1039
+  const sahipCoinAv = useAyar(...SAHIP_COIN_AYARLARI.avatar);   // 1039
+  const sahipCoinCer = useAyar(...SAHIP_COIN_AYARLARI.cerceve);   // 1082
+  const sahipCoinDiger = useAyar(...SAHIP_COIN_AYARLARI.diger);   // 1082
   const siradaki = (() => { for (let n = seviye + 1; n <= toplam; n += 1) if (tasMi(n, toplam)) return n; return null; })();
   const kutu = (n, kol) => {
     const o = harita.get(`${n}:${kol}`);
