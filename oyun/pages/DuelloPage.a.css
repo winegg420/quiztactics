@@ -584,6 +584,18 @@
   justify-self: stretch; position: sticky; z-index: 3;
   bottom: calc(var(--qt-altmenu-yukseklik) + env(safe-area-inset-bottom, 0px) + var(--qt-b-2));
 }
+/* 12 Eki 2026 (telefon denetimi 3, M9): "Rakip ara" Maç Jokerlerin kartlarının üstüne biniyordu. Meydan Oku / Hatalarım
+   ile aynı çözüm: düğme alt menüye oturan opak şeritte (tam genişlik zemin: box-shadow + clip-path — transform yok, iOS);
+   şerit akışta yer kapladığı için son kart kaydırınca düğmenin üstünde tam açılır. */
+.m2-giris:not(.ks-giris) > .m2-giris-eylem > .m2-giris-serit {
+  justify-self: stretch; position: sticky; z-index: 3;
+  bottom: calc(var(--qt-altmenu-yukseklik) + env(safe-area-inset-bottom, 0px) - 16px);
+  padding-block: var(--qt-b-2) calc(var(--qt-b-2) + 16px);
+  background: var(--qt-zemin);
+  box-shadow: 0 0 0 100vmax var(--qt-zemin);
+  clip-path: inset(0 -100vmax);
+}
+@media (min-width: 850px) { .m2-giris:not(.ks-giris) > .m2-giris-eylem > .m2-giris-serit { bottom: 0; padding-block: var(--qt-b-3); } }
 .m2-giris:not(.ks-giris) > .m2-giris-eylem > .m2-giris-not { margin-top: calc(var(--qt-b-2) - var(--qt-b-4)); }
 /* "Hakkın yok": alarm kırmızısı yerine sade soluk not (joker hâlâ maçta coin'le alınabilir) */
 .m2-giris:not(.ks-giris) .qt-dk-seti-yuva .qt-dk-seti-adet--yok { color: var(--qt-metin-soluk); font-weight: var(--qt-a-normal); }

@@ -78,7 +78,7 @@ function Kart({ k, ben, rakip, c, rakipAd, durum, sira, onClick, devreDisi }) {
     <button type="button" className={sinif("d4-kart", `d4-kart--${durum}`)} style={{ "--kat": KATEGORI_RENK[k] ?? "#7C93B5", "--sira": sira }}
             aria-pressed={durum === "rakibe" || durum === "sana"} disabled={devreDisi} onClick={onClick}>
       <span className="d4-kart-ust">
-        <KategoriIkon anahtar={k} boyut={34} plaka />
+        <KategoriIkon anahtar={k} boyut={34} plaka className="d4-kart-ikon" />
         <b className="d4-kart-ad">{c(kategoriAdi(k))}</b>
       </span>
       <span className="d4-oranlar">
@@ -482,7 +482,10 @@ export default function Duello4Arena({
           </span>
         </span>
         <span className="d4-cevap-kim">{ad}</span>
-        {x.kategori && <KategoriIkon anahtar={x.kategori} boyut={22} plaka />}
+        {/* 12 Eki · M8: simgenin yanında o turun kategori adı (simge tek başına anlaşılmıyordu) */}
+        {x.kategori && (
+          <span className="d4-cevap-kat"><KategoriIkon anahtar={x.kategori} boyut={22} plaka /><small>{c(kategoriAdi(x.kategori))}</small></span>
+        )}
         <b>{x.dogru ? c("Doğru") : x.yanitsiz ? c("Yanıtsız") : c("Yanlış")}</b>
       </div>
     );

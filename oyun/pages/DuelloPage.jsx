@@ -199,10 +199,13 @@ function DuelloGiris() {
         {hazir && !kilitli && !yerlesti && <QtIskelet tur="dugme" />}
         {hazir && !kilitli && yerlesti && (
           <>
-            <QtDugme tamGenislik boyut="b" ikon="duello"
-                     onClick={() => { sesKilidiAc(); sesDokunus(); if (duelloTanitimGoruldu()) setArama(true); else setTanitim("arama"); }}>
-              {ceviri("Rakip ara")}
-            </QtDugme>
+            {/* 12 Eki · M9: düğme opak alt şeritte (Meydan Oku / Hatalarım ile aynı) — kartların üstünde yüzmez */}
+            <div className="m2-giris-serit">
+              <QtDugme tamGenislik boyut="b" ikon="duello"
+                       onClick={() => { sesKilidiAc(); sesDokunus(); if (duelloTanitimGoruldu()) setArama(true); else setTanitim("arama"); }}>
+                {ceviri("Rakip ara")}
+              </QtDugme>
+            </div>
             {/* Serbest/Dereceli açıklaması DereceliAnahtari'nın hemen altında; burada tekrar edilmez (9 Eki 2026) */}
           </>
         )}
