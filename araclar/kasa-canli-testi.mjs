@@ -31,7 +31,7 @@
 // Kullanım:
 //   node araclar/kasa-canli-testi.mjs [--senaryo=gercek] [--a=ArayuzDenetim648] [--b=ArayuzDenetim327]
 //        [--adres=https://quiztactics.com] [--boyut=390x844] [--dil=tr] [--azalt] [--joker]
-//        [--yenile=4] [--geri=6] [--kopma=5] [--terk=7] [--etiket=x] [--ss]
+//        [--gecik=2500] [--yenile=4] [--geri=6] [--kopma=5] [--terk=7] [--etiket=x] [--ss]
 // Çıktı: .tmp/kasa-canli-<etiket>.json (+ --ss ile .tmp/kasa-canli-<etiket>-*.jpg)
 // Canlıya yazmaz (yalnız oyuncu RPC'leri; veritabanından yalnız doğru şık OKUNUR).
 // ============================================================
@@ -203,6 +203,17 @@ async function baglamAc(ad, hesap) {
   const b = await tarayici.newContext({ ...devices["Pixel 7"], viewport: { width: GEN, height: YUK }, deviceScaleFactor: 2,
     locale: DIL === "en" ? "en-US" : "tr-TR", timezoneId: "Europe/Istanbul", reducedMotion: AZALT ? "reduce" : "no-preference" });
   await b.addInitScript(SAYFA_HAZIRLIK, { kayitlar: hesap.kayitlar, koken: KOKEN, dil: DIL });
+  // 13 Eki: --gecik=MS → AÇ'ın kasa_karar yanıtı bu kadar geciktirilir (yavaş ağ taklidi; iyimser AÇ sonrası soru sesi ölçümü)
+  if (ARG.gecik) {
+    const gecikMs = Number(ARG.gecik);
+    await b.route("**/rest/v1/rpc/kasa_karar*", async (r) => {
+      try {
+        // yalnız AÇ yanıtı gecikir (DEVAM gecikmesi karar süresi ölçümünü bozar)
+        if (/"p_ac"s*:s*true/.test(r.request().postData() ?? "")) await new Promise((y) => setTimeout(y, gecikMs));
+        await r.continue();
+      } catch { /* sayfa kapandı */ }
+    });
+  }
   const s = await b.newPage();
   s.on("console", (m) => {
     if (!["error", "warning"].includes(m.type())) return;
