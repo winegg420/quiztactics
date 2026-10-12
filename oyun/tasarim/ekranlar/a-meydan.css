@@ -430,3 +430,17 @@ button.a-meydan-kisi--arkadas:disabled { cursor: default; opacity: 0.75; }
 /* 12 Eki 2026: alttaki sabit eylem düğmesi mod kartlarını örtmesin — seçilen kart düğmenin üstüne kaydırılır (scrollIntoView nearest) */
 .a-meydan-modlar .qt-mod { scroll-margin-bottom: calc(var(--qt-altmenu-yukseklik) + env(safe-area-inset-bottom, 0px) + 84px); }
 @media (min-width: 850px) { .a-meydan-modlar .qt-mod { scroll-margin-bottom: 84px; } }
+
+/* 12 Eki 2026 (telefon denetimi 2, madde 4): sabit düğme kartların ÜSTÜNDE yüzmesin. Düğme, alt menüye oturan opak
+   bir alt şeritte durur (tam genişlik zemin: box-shadow + clip-path — düzen ve transform yok, iOS kuralı); şeridin
+   altı alt menünün arkasına 16 px uzanır, arada kart görünen boşluk kalmaz. Sayfa sonu boşluğu: düğme yüksekliği +
+   güvenli alan (akıştaki sticky yuva + şerit iç payı) → son kart kaydırınca tam açılır. */
+.a-meydan-eylem {
+  bottom: calc(var(--qt-altmenu-yukseklik) + env(safe-area-inset-bottom, 0px) - 16px);
+  padding-block: var(--qt-b-2) calc(var(--qt-b-2) + 16px);
+  margin-bottom: calc(-1 * var(--qt-b-6));
+  background: var(--qt-zemin);
+  box-shadow: 0 0 0 100vmax var(--qt-zemin);
+  clip-path: inset(0 -100vmax);
+}
+@media (min-width: 850px) { .a-meydan-eylem { bottom: 0; padding-block: var(--qt-b-3); } }

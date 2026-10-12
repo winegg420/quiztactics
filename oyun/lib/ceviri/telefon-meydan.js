@@ -6,7 +6,7 @@ export default {
   "Jokersiz, yalnız bilgiyle yarış.": "No jokers, just knowledge.",
   "{n} joker türünden {s}'ünü seç": "Pick {s} of {n} joker types",
   // Ana sayfa mod kartında 2 satıra sığsın diye kısaltıldı (eski: kisa-metin.js; bu dosya sonra yüklenir, onu ezer)
-  "Tek bilen hazineyi alır, doğru anda aç.": "Answer alone, take it, open in time.",
+  "Tek bilen hazineyi alır, doğru anda aç.": "Answer alone, grab the treasure.",
   // Düello lobisi kural maddeleri
   "İkinize aynı soru gelir; tek bilen kontrolü alır.": "You both get the same question; answer it alone to take control.",
   "Kontrol sende: bir kartı rakibe gönder, birini kendine seç.": "In control: send one card to your opponent, pick one for yourself.",

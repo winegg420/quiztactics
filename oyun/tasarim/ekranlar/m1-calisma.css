@@ -282,3 +282,13 @@
 .m1-cal-yol-tas--sirada .m1-cal-yol-rozet { background: var(--qt-vurgu-acik); opacity: 1; box-shadow: 0 3px 0 #1d2152; }
 .m1-cal-yol-tas b { font-size: 15px; }
 .m1-cal-yol-yazi { margin: 0; font-weight: var(--qt-a-kalin); text-align: center; }
+
+/* 12 Eki 2026 (telefon denetimi 2, madde 4): Meydan Oku ile aynı — sabit düğme alt menüye oturan opak şeritte. */
+.m1-cal-eylem {
+  bottom: calc(var(--qt-altmenu-yukseklik) + env(safe-area-inset-bottom, 0px) - 16px);
+  padding-block: var(--qt-b-2) calc(var(--qt-b-2) + 16px);
+  background: var(--qt-zemin);
+  box-shadow: 0 0 0 100vmax var(--qt-zemin);
+  clip-path: inset(0 -100vmax);
+}
+@media (min-width: 850px) { .m1-cal-eylem { bottom: 0; padding-block: var(--qt-b-3); } }

@@ -286,9 +286,17 @@ export default function YonetimPostaPage() {
                 </select>
               )}
               {k.tur === "avatar" ? (
-                <select className="yp-girdi" aria-label={tt("Avatar")} value={k.anahtar} onChange={(e) => kalemGuncelle(i, "anahtar", e.target.value)}>
-                  {avatarlar.map((a) => <option key={a.anahtar} value={a.anahtar}>{aktifDil() === "en" ? a.ad_en : a.ad_tr}</option>)}
-                </select>
+                // 12 Eki 2026: avatar adı arayüzde yazılmaz — seçim resme dokunarak, seçili olan halka + tikle belirgin.
+                <div className="yp-avatar-izgara" role="radiogroup" aria-label={tt("Avatar")}>
+                  {avatarlar.map((a, j) => (
+                    <button key={a.anahtar} type="button" role="radio" aria-checked={k.anahtar === a.anahtar}
+                            aria-label={tt("Avatar {0}", { 0: j + 1 })}
+                            className={"yp-avatar-sec" + (k.anahtar === a.anahtar ? " yp-avatar-sec--secili" : "")}
+                            onClick={() => kalemGuncelle(i, "anahtar", a.anahtar)}>
+                      <img src={a.url} alt="" width={48} height={48} loading="lazy" decoding="async" />
+                    </button>
+                  ))}
+                </div>
               ) : (
                 <input className="yp-girdi" type="number" inputMode="numeric" min={1}
                        aria-label={tt("{0} miktarı", { 0: odulAdi({ ...k, miktar: 1 }) })}

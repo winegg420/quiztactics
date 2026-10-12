@@ -149,3 +149,14 @@ textarea.yp-girdi { min-height: 96px; resize: vertical; line-height: 1.4; }
 }
 .bz-govde > .qt-satir-kap:not(.qt-satir-kap--vurgulu).bz-kart .bz-metin { font-weight: var(--qt-a-kalin); }
 .bz-govde > .bz-bos, .bz-govde > .qt-bos { background: var(--qt-yuzey); border-radius: 14px; }
+
+/* 12 Eki 2026 (telefon denetimi 2, madde 6): avatar ödülü resimden seçilir, ad yazılmaz. Seçili: 3 px mavi halka + tik. */
+.yp-avatar-izgara { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); gap: 6px; max-height: 236px; overflow-y: auto;
+  padding: 4px; border-radius: 12px; border: 2px solid var(--qt-cizgi); background: var(--qt-yuzey); }
+.yp-avatar-sec { position: relative; display: grid; place-items: center; min-width: 44px; min-height: 52px; padding: 2px; border: 0;
+  border-radius: 12px; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.yp-avatar-sec img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.yp-avatar-sec:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 1px; }
+.yp-avatar-sec--secili { box-shadow: inset 0 0 0 3px var(--qt-ikinci); background: var(--qt-ikinci-acik, rgba(42, 115, 204, 0.12)); }
+.yp-avatar-sec--secili::after { content: "✓"; position: absolute; top: 2px; right: 2px; display: grid; place-items: center; width: 18px; height: 18px;
+  border-radius: 50%; background: var(--qt-ikinci); color: #fff; font-size: 11px; font-weight: 900; line-height: 1; }

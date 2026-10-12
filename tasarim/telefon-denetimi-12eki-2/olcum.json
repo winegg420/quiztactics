@@ -1,0 +1,180 @@
+{
+  "hatalar": [
+    "390-tr: yanıt 400 xzybcpkxsotwdsey.supabase.co/rest/v1/rpc/posta_gonderilenler",
+    "390-tr: Failed to load resource: the server responded with a status of 400 ()",
+    "390-tr: yanıt 400 xzybcpkxsotwdsey.supabase.co/rest/v1/rpc/posta_gonderilenler",
+    "390-tr: Failed to load resource: the server responded with a status of 400 ()",
+    "390-tr: yanıt 400 xzybcpkxsotwdsey.supabase.co/rest/v1/rpc/posta_gonderilenler",
+    "390-tr: Failed to load resource: the server responded with a status of 400 ()",
+    "390-tr: yanıt 400 xzybcpkxsotwdsey.supabase.co/rest/v1/rpc/posta_gonderilenler",
+    "390-tr: Failed to load resource: the server responded with a status of 400 ()",
+    "360-en: yanıt 400 xzybcpkxsotwdsey.supabase.co/rest/v1/rpc/posta_gonderilenler",
+    "360-en: Failed to load resource: the server responded with a status of 400 ()",
+    "360-en: yanıt 400 xzybcpkxsotwdsey.supabase.co/rest/v1/rpc/posta_gonderilenler",
+    "360-en: Failed to load resource: the server responded with a status of 400 ()",
+    "360-en: yanıt 400 xzybcpkxsotwdsey.supabase.co/rest/v1/rpc/posta_gonderilenler",
+    "360-en: Failed to load resource: the server responded with a status of 400 ()",
+    "360-en: yanıt 400 xzybcpkxsotwdsey.supabase.co/rest/v1/rpc/posta_gonderilenler",
+    "360-en: Failed to load resource: the server responded with a status of 400 ()"
+  ],
+  "390-tr": {
+    "meydanIlk": {
+      "dugmeUst": 704,
+      "seritUst": 696,
+      "seritZemin": "rgb(185, 220, 255)",
+      "dugmeyleKesisen": [
+        "Saf Bilgi",
+        "Ortak Hazine"
+      ],
+      "dugmeArkasindaGorunen": [],
+      "seritArkasinda": [
+        "Saf Bilgi",
+        "Ortak Hazine"
+      ]
+    },
+    "meydanAlt": {
+      "dugmeUst": 666,
+      "seritUst": 658,
+      "seritZemin": "rgb(185, 220, 255)",
+      "dugmeyleKesisen": [],
+      "dugmeArkasindaGorunen": [],
+      "seritArkasinda": []
+    },
+    "tasmaMeydan": 0,
+    "kasaMeydan": [
+      {
+        "yukseklik": 30,
+        "tasma": 0,
+        "yatay": 0,
+        "kirpma": "none"
+      }
+    ],
+    "kasaAna": [],
+    "tasmaAna": 0,
+    "kasaModlar": [
+      {
+        "yukseklik": 33,
+        "tasma": 0,
+        "yatay": 0,
+        "kirpma": "none"
+      }
+    ],
+    "kasaPencere": "metin yok",
+    "koleksiyonTr": [
+      "Bronz Lig",
+      "Çaylak"
+    ],
+    "profilTr": [
+      "Bronz Lig",
+      "Çaylak"
+    ],
+    "rozetTr": [
+      "Bronz Lig",
+      "Gümüş Lig",
+      "Koleksiyoncu",
+      "Çaylak"
+    ],
+    "oyuncuKartiTr": [
+      "Bronz Lig",
+      "Çaylak"
+    ],
+    "ligTr": [
+      "Bronz Lig"
+    ],
+    "calismaIlk": {
+      "dugmeUst": 704,
+      "seritUst": 696,
+      "seritZemin": "rgb(185, 220, 255)",
+      "dugmeyleKesisen": [
+        "Kategori"
+      ],
+      "dugmeArkasindaGorunen": [],
+      "seritArkasinda": [
+        "Kategori"
+      ]
+    },
+    "posta": {
+      "izgara": true,
+      "resim": 37,
+      "secili": 1,
+      "select": 0
+    },
+    "postaAvatarAdi": [],
+    "postaKatalogAdSayisi": 73,
+    "postaSecimSonra": 2,
+    "tasmaPosta": 0
+  },
+  "baslik_tr": "tr",
+  "360-en": {
+    "meydanIlk": {
+      "dugmeUst": 640,
+      "seritUst": 632,
+      "seritZemin": "rgb(185, 220, 255)",
+      "dugmeyleKesisen": [
+        "Pure Knowledge",
+        "Shared Treasure"
+      ],
+      "dugmeArkasindaGorunen": [],
+      "seritArkasinda": [
+        "Pure Knowledge",
+        "Shared Treasure"
+      ]
+    },
+    "meydanAlt": {
+      "dugmeUst": 602,
+      "seritUst": 594,
+      "seritZemin": "rgb(185, 220, 255)",
+      "dugmeyleKesisen": [],
+      "dugmeArkasindaGorunen": [],
+      "seritArkasinda": []
+    },
+    "tasmaMeydan": 0,
+    "kasaMeydan": [
+      {
+        "yukseklik": 30,
+        "tasma": 0,
+        "yatay": 0,
+        "kirpma": "none"
+      }
+    ],
+    "kasaAna": [],
+    "tasmaAna": 0,
+    "kasaModlar": [
+      {
+        "yukseklik": 33,
+        "tasma": 0,
+        "yatay": 0,
+        "kirpma": "none"
+      }
+    ],
+    "kasaPencere": "metin yok",
+    "koleksiyonTr": [],
+    "profilTr": [],
+    "rozetTr": [],
+    "oyuncuKartiTr": [],
+    "ligTr": [],
+    "calismaIlk": {
+      "dugmeUst": 640,
+      "seritUst": 632,
+      "seritZemin": "rgb(185, 220, 255)",
+      "dugmeyleKesisen": [
+        "Number of questions"
+      ],
+      "dugmeArkasindaGorunen": [],
+      "seritArkasinda": [
+        "Number of questions"
+      ]
+    },
+    "posta": {
+      "izgara": true,
+      "resim": 37,
+      "secili": 1,
+      "select": 0
+    },
+    "postaAvatarAdi": [],
+    "postaKatalogAdSayisi": 73,
+    "postaSecimSonra": 2,
+    "tasmaPosta": 0
+  },
+  "baslik_en": "en"
+}
