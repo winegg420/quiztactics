@@ -1,0 +1,12 @@
+{
+  "klasor": "codex-09",
+  "hedef": 200,
+  "net": 199,
+  "asama": "Claude incelemesi bekliyor",
+  "canli_yasak": true,
+  "migration_uygulandi": false,
+  "kapilar": "1–5 geçti",
+  "jev_usd": 0.050224314,
+  "yerel_havuz": "yerel biriktirme havuzu; 1068 ve codex-08 dahil",
+  "bekleyen_sql": true
+}

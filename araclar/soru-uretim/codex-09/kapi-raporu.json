@@ -1,0 +1,2796 @@
+{
+  "klasor": "codex-09",
+  "tarih": "2026-10-12T17:07:20.122Z",
+  "yerel": true,
+  "canli_yasak": true,
+  "toplam": 199,
+  "gecen": 199,
+  "kayitlar": [
+    {
+      "id": "C09-01",
+      "taslak_id": "C09-san-005",
+      "hash": "934eaca92ee58c1b6945848bbcf0a1e19ca2274fc2a10922721a86c5135a0261",
+      "jev_p": 0.32,
+      "tek_dogru_p": 0.11,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-02",
+      "taslak_id": "C09-san-007",
+      "hash": "cd15ff7df26c42e66f28eab51f351bdeb1e79e2f060671ada4fd3bbc7844d6d9",
+      "jev_p": 0.13,
+      "tek_dogru_p": 0.27,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-03",
+      "taslak_id": "C09-san-008",
+      "hash": "3e7cac6ae121c8f90f8e23b7ba4b81e5b63b9592c3029eb71d5de3a057f8f642",
+      "jev_p": 0.07,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-04",
+      "taslak_id": "C09-san-009",
+      "hash": "a5cbd80cb410f3cfd1b7c41566055be843b42dc09b3a3f98336317ef2502eabe",
+      "jev_p": 0.28,
+      "tek_dogru_p": 0.12,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-05",
+      "taslak_id": "C09-san-013",
+      "hash": "13b6ab59ce0657258598ac2a66ec89e3f29e7383406ee0c847ec4f9bf8f6ec2e",
+      "jev_p": 0.07,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-06",
+      "taslak_id": "C09-san-017",
+      "hash": "7a1b19612d342a3b861ad4a96b2c1bfe50074fa3f241b6bfa43f061647281a88",
+      "jev_p": 0.18,
+      "tek_dogru_p": 0.13,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-07",
+      "taslak_id": "C09-san-021",
+      "hash": "797c1d4f80aa9b2175ea9e974dcbc029e5b541e6bc2df0168bdea95943e4ddc7",
+      "jev_p": 0.18,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-08",
+      "taslak_id": "C09-san-023",
+      "hash": "52755454dc16794f8b05f061f8ddaba8fe21a861d55dedd93d9adee47c8590c0",
+      "jev_p": 0.26,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-09",
+      "taslak_id": "C09-san-026",
+      "hash": "c441e9322c3067fbf0a95c50a29721640f67eec973a426e5b095a72c2a9b2a22",
+      "jev_p": 0.44,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-10",
+      "taslak_id": "C09-san-027",
+      "hash": "91e1d9c53b651363578784e8b9142d7eb3c5f07feaa1ba3c00be7616e9ba8b28",
+      "jev_p": 0.39,
+      "tek_dogru_p": 0.17,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-11",
+      "taslak_id": "C09-san-028",
+      "hash": "1c0788264e93a24c680adead87486919687ee6fbf2dfaa14acc30d72aebdb3a2",
+      "jev_p": 0.19,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-12",
+      "taslak_id": "C09-san-030",
+      "hash": "61a61873679ecfecb1794deef19850cb1e8ebc3324888d3099b87e5e0c24bf01",
+      "jev_p": 0.13,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-13",
+      "taslak_id": "C09-san-033",
+      "hash": "7aabf755a9f80a9daea734e652ed87de779d00dab73b6003149baae031809d1f",
+      "jev_p": 0.33,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-14",
+      "taslak_id": "C09-san-038",
+      "hash": "25a0dc01ad9575289a18c4d1af473d9127dab3b63ae335b55d03ed5c1c876e7c",
+      "jev_p": 0.28,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-15",
+      "taslak_id": "C09-san-045",
+      "hash": "004cc488ed18940e36124173e5cadc57c1de698118bf97df66ea93223558f34b",
+      "jev_p": 0.5,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-16",
+      "taslak_id": "C09-san-050",
+      "hash": "28af4a0b023d9e59f519bd822b2b37878945b47ee55ef4d1c7c78ceafcb09993",
+      "jev_p": 0.23,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-17",
+      "taslak_id": "C09-san-051",
+      "hash": "38c83c2c9b170ea5276b54e661209c7e5553388d03de2d5db9d25cec5c1023d1",
+      "jev_p": 0.17,
+      "tek_dogru_p": 0.1,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-18",
+      "taslak_id": "C09-san-052",
+      "hash": "aedca59d0fb183876a2dbf35af65e76a44f341d546c474f2e366af9ef9e48e5b",
+      "jev_p": 0.11,
+      "tek_dogru_p": 0.11,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-19",
+      "taslak_id": "C09-san-014",
+      "hash": "7994de2b47b493f7c94c3e2d74b8924b84ed488fb9162279558825b69d9021ea",
+      "jev_p": 0.19,
+      "tek_dogru_p": 0.09,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-20",
+      "taslak_id": "C09-san-031",
+      "hash": "eb394070d3e7b3582b7e4ca3184a326a4e01899184aab4d18f0df1614026ea1a",
+      "jev_p": 0.3,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-21",
+      "taslak_id": "C09-san-034",
+      "hash": "647c3f42b9f71bca0dc0d5a828a8ba0771fc745358c48aa064eaeb487deb99d1",
+      "jev_p": 0.18,
+      "tek_dogru_p": 0.09,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-22",
+      "taslak_id": "C09-san-037",
+      "hash": "c2cf15f36353d8ffa1379e6ecbe340ae6053a13d78d92211e24cb5eb5abf1a1f",
+      "jev_p": 0.3,
+      "tek_dogru_p": 0.09,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-23",
+      "taslak_id": "C09-san-053",
+      "hash": "d464ba0dbbd1519bf02ada19b722603c04bb5949b9d192ccc09ce90260e752b7",
+      "jev_p": 0.27,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-24",
+      "taslak_id": "C09-san-056",
+      "hash": "75b40148dd940b2cbfaa07a8c691ed3a42197cc97277ff8315cae6bc441ab4f5",
+      "jev_p": 0.12,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-25",
+      "taslak_id": "C09-san-060",
+      "hash": "bea5c1918710522dd39128107b318d13523d9c0a760d71948752aeb7cdf04085",
+      "jev_p": 0.36,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-26",
+      "taslak_id": "C09-muz-005",
+      "hash": "26fe9b638dd0ad340cc93f73c549a790803e5211dd15883922b9c08f5f8f7849",
+      "jev_p": 0.13,
+      "tek_dogru_p": 0.1,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-27",
+      "taslak_id": "C09-muz-007",
+      "hash": "a8aeedbf7fe9b7a137d0d58979071d9d10bb15a16096e3acaf9c1c179ee32ed3",
+      "jev_p": 0.57,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-28",
+      "taslak_id": "C09-muz-008",
+      "hash": "52d7b5f5770078f74e1bb3256bdb8eb43f7e2f4c73df283e5b72608be9041b40",
+      "jev_p": 0.09,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-29",
+      "taslak_id": "C09-muz-011",
+      "hash": "7ea196cceb61e41fae040e50f83d1da29fcdd851f7738c8d2f00dcd49f5eb8ae",
+      "jev_p": 0.2,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-30",
+      "taslak_id": "C09-muz-012",
+      "hash": "f8b829935e2a2687ad4d68ad9a8b51bf1ad4d15dddc0b9a616334c294141e55b",
+      "jev_p": 0.18,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-31",
+      "taslak_id": "C09-muz-017",
+      "hash": "74423a7828ee99870bbeff13bd6f9c06cc8eb4bd9442e9540335508ea205c2de",
+      "jev_p": 0.2,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-32",
+      "taslak_id": "C09-muz-019",
+      "hash": "841176f8815134706be064dcb27243c073cbfc5747c1a167db590a8fb52ab757",
+      "jev_p": 0.6,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-33",
+      "taslak_id": "C09-muz-020",
+      "hash": "2bff5abcc6cc0ef2df5ef1a492cea473e22928850778ebf8767d3a9ee8240da3",
+      "jev_p": 0.27,
+      "tek_dogru_p": 0.13,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-34",
+      "taslak_id": "C09-muz-025",
+      "hash": "1d3387b7fe2e55d657f8192a6c3e4edbc81bf3f17e3e4d56aee73eb809c7d316",
+      "jev_p": 0.39,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-35",
+      "taslak_id": "C09-muz-044",
+      "hash": "97424131fea5ccdaa8a3360e0969a533ddbca03f17d4947d575eb556b0540cfe",
+      "jev_p": 0.17,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-36",
+      "taslak_id": "C09-muz-046",
+      "hash": "490929926e666f8769b1350eebed2b2e2fae528513325c79cfc54ba7acd7b379",
+      "jev_p": 0.25,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-37",
+      "taslak_id": "C09-muz-050",
+      "hash": "70c444c3a3a23c5c65bb93f757445cf29ca8a1edd17179d6d4cefe5baebad095",
+      "jev_p": 0.07,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-38",
+      "taslak_id": "C09-muz-052",
+      "hash": "ae6b2614ec4537d3f099c8a4888d59364a34d614a0f1d6e55c1371a043045242",
+      "jev_p": 0.44,
+      "tek_dogru_p": 0.22,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-39",
+      "taslak_id": "C09-muz-058",
+      "hash": "753b80952131d7ebd6f82b7323d3ffe341b0ead24f18a4debe003ffeb3d26772",
+      "jev_p": 0.28,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-40",
+      "taslak_id": "C09-R010",
+      "hash": "39046948c9d9ac3eed291ef8f0c6cadb492cf5c7345abde6aacbfaee716c9c00",
+      "jev_p": 0.32,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-41",
+      "taslak_id": "C09-muz-027",
+      "hash": "ae1316834d39584582dd5a3597fd28f61a93029f5f44639a8c9ac413ee9c97bf",
+      "jev_p": 0.04,
+      "tek_dogru_p": 0.16,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-42",
+      "taslak_id": "C09-muz-029",
+      "hash": "5037654d32e6b09ddb9f89c2992ea619a5650c9ab5e0ba5458cb61c7d5a9e211",
+      "jev_p": 0.45,
+      "tek_dogru_p": 0.09,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-43",
+      "taslak_id": "C09-muz-031",
+      "hash": "48fa5cbcee7d0b0e31b5f98c504e6f18c52347cce3ed13d5340012ce573eda86",
+      "jev_p": 0.27,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-44",
+      "taslak_id": "C09-muz-036",
+      "hash": "43b2193b72b312c3b051d84433d72a32c797481504efcfb4dd5baf60f737c98f",
+      "jev_p": 0.12,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-45",
+      "taslak_id": "C09-muz-039",
+      "hash": "f6ee4dc28d0ebf61933e4ed9f87a82abe28285e617185c91a369d42f2b338904",
+      "jev_p": 0.32,
+      "tek_dogru_p": 0.1,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-46",
+      "taslak_id": "C09-muz-054",
+      "hash": "7d1b96f32cef6f6462871ab2810364694ecdff474371ef01853a96053f8dedda",
+      "jev_p": 0.09,
+      "tek_dogru_p": 0.13,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-47",
+      "taslak_id": "C09-R007",
+      "hash": "4e38e053cbefbc7eeebe3193337f765c5c6f9e3d89885c5078d91ba9f67c832e",
+      "jev_p": 0.52,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-48",
+      "taslak_id": "C09-tek-005",
+      "hash": "d8972c221cbd5c0f5bfaf4f75f16c04688b6a7773c034a4dbad0b926a4e89cd0",
+      "jev_p": 0.48,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-49",
+      "taslak_id": "C09-tek-012",
+      "hash": "1b5a2d032ca1347208329c845c48df055306dfc30b809cd7147b879c8d33b00d",
+      "jev_p": 0.5,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-50",
+      "taslak_id": "C09-tek-021",
+      "hash": "2b985931822a1d9436eb83bd5e041c0005f5cc8021266f7e23cf21573a6fdf26",
+      "jev_p": 0.12,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-51",
+      "taslak_id": "C09-tek-022",
+      "hash": "02f3483680a34ac2c065d78df5505d283ab6948e66f073f3ffae0a7bca208f3c",
+      "jev_p": 0.4,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-52",
+      "taslak_id": "C09-tek-027",
+      "hash": "6a988e9ea95a4c46c11e8861b899eb81e95554bac69c8ae72882761f20f5cb2a",
+      "jev_p": 0.12,
+      "tek_dogru_p": 0.09,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-53",
+      "taslak_id": "C09-tek-042",
+      "hash": "901891171f943406fa24fb0442da8e49c58b7d7278d5116b78a9cd106994fc9d",
+      "jev_p": 0.12,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-54",
+      "taslak_id": "C09-tek-046",
+      "hash": "bd8fe21eb6f07b6e15b374749f11f11cb96642bde45a6da3eddfd89fb8a07ca3",
+      "jev_p": 0.32,
+      "tek_dogru_p": 0.02,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-55",
+      "taslak_id": "C09-tek-051",
+      "hash": "a41cbb1a718940d5d69cc868927fc111d02780200002c572f044c991aad5dc3a",
+      "jev_p": 0.11,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-56",
+      "taslak_id": "C09-tek-052",
+      "hash": "620392f197e4f2bb86d8756ef79df629d6be1b40b80ca34d3385cc26f17bdf93",
+      "jev_p": 0.07,
+      "tek_dogru_p": 0.09,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-57",
+      "taslak_id": "C09-tek-061",
+      "hash": "9ecb498156456af3823c83e0d96dd680c9fc964f9cfaac020036158b896a452d",
+      "jev_p": 0.27,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-58",
+      "taslak_id": "C09-tek-062",
+      "hash": "c41d5e7d2188a70530c12065b7f141c95ea406954d386bd11daf7f1e8d69de6a",
+      "jev_p": 0.15,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-59",
+      "taslak_id": "C09-tek-064",
+      "hash": "165a5a04437f9796831fdb4bafc9381db9da1530b993030afaffbb6df5e0fceb",
+      "jev_p": 0.19,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-60",
+      "taslak_id": "C09-tek-065",
+      "hash": "bc247280bc1c5424ef0f4afd07dca676a76e0ee8093afb32e4bdc00b577526b9",
+      "jev_p": 0.09,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-61",
+      "taslak_id": "C09-tek-066",
+      "hash": "49d781e9b0265460348194775740d21d52a7c6947edb46a47f147cd95c8fab16",
+      "jev_p": 0.44,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-62",
+      "taslak_id": "C09-tek-068",
+      "hash": "d0cad8cc051c18900c1f8ef3ef7f40a1a2ece2b9dcf730d1c6112c243ce8c232",
+      "jev_p": 0.64,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-63",
+      "taslak_id": "C09-tek-070",
+      "hash": "eb65c9b1b3992a1955055a61d158d69e4115402c89c591ed417e208b8cdfa1e3",
+      "jev_p": 0.25,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-64",
+      "taslak_id": "C09-tek-071",
+      "hash": "e5a30756f0ddfca291b094a7c9bd3f8652af8677d118a71c69fa94d12984dbf9",
+      "jev_p": 0.46,
+      "tek_dogru_p": 0.1,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-65",
+      "taslak_id": "C09-tek-072",
+      "hash": "a8addd010fb5d382d3bc27c383f695a1a2f4f733e8c7a60d63c0aa2250a3a932",
+      "jev_p": 0.2,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-66",
+      "taslak_id": "C09-R027",
+      "hash": "36290fe7a19d19e394b81ff1127abc1481d7d1e6ffac3bca66f04ea6847ad5e3",
+      "jev_p": 0.12,
+      "tek_dogru_p": 0.09,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-67",
+      "taslak_id": "C09-R028",
+      "hash": "1faf5873ba22f5456f970d313ee7605edde12b6a03592c01a573b2638486bd11",
+      "jev_p": 0.15,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-68",
+      "taslak_id": "C09-tek-026",
+      "hash": "29096969f72626d6b44b067496a8241eb4e78621abbea892133dc7e2ee7b1d25",
+      "jev_p": 0.09,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-69",
+      "taslak_id": "C09-tek-029",
+      "hash": "c35fc3c1e5cc0770b9f80350b3ec6eea9263c9c9349c2f5608c35fef3a7ff283",
+      "jev_p": 0.11,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-70",
+      "taslak_id": "C09-tek-034",
+      "hash": "970f15cb4e6b6463e4b29f647f51daff8b2fd045eb6ceeadd736996341bc21be",
+      "jev_p": 0.09,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-71",
+      "taslak_id": "C09-tek-035",
+      "hash": "3860427669e578d32b36d7345a236cd5d0cfd1e2f230dd822c364c0a2f3eb85c",
+      "jev_p": 0.12,
+      "tek_dogru_p": 0.16,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-72",
+      "taslak_id": "C09-tek-039",
+      "hash": "75f87aa305a616498c73a36403002063113fd96f84bf3b587c2507015e6774a1",
+      "jev_p": 0.11,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-73",
+      "taslak_id": "C09-tek-060",
+      "hash": "0ea7b3e7defd133e7186a67f63c26ba5dbac816ba19b8b1d9d2f76af0e83e0e9",
+      "jev_p": 0.15,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-74",
+      "taslak_id": "C09-spo-006",
+      "hash": "f8826266594f396e5580f5a11cc29a16cc4b6c2e9b142492338994226cf5693d",
+      "jev_p": 0.39,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-75",
+      "taslak_id": "C09-spo-010",
+      "hash": "edee69ea052b476308149f9576f3254ca82b0dd1ae1c7e8656b1e0b24f7e8ad9",
+      "jev_p": 0.15,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-76",
+      "taslak_id": "C09-spo-012",
+      "hash": "dd032ed63fb7b315b50518456c8244487a2f5a028183c6ce79a5d3af95b89762",
+      "jev_p": 0.53,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-77",
+      "taslak_id": "C09-spo-014",
+      "hash": "769a9d0312c1cb4cbb0d5ae580574b115a529aaa327a88293be0ed75542c2862",
+      "jev_p": 0.27,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-78",
+      "taslak_id": "C09-spo-015",
+      "hash": "0217ca3aefbdf285e9a0f55a4943e07c7138252c2c9a15cecc170fbb8d65e4a1",
+      "jev_p": 0.68,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-79",
+      "taslak_id": "C09-spo-017",
+      "hash": "beea870180b05065a801959c7cd1d4e79027be1364beaeb2928ed63b010ddec9",
+      "jev_p": 0.3,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-80",
+      "taslak_id": "C09-spo-018",
+      "hash": "234ce9f25a235abcfd246fee62f6d3d1d2c1aa3f710b2a557e78c0f5de0ba2de",
+      "jev_p": 0.29,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-81",
+      "taslak_id": "C09-spo-020",
+      "hash": "d9bb9fd9c4ca77a460e642854879a26b4b71b5b6a73a00b65154575217a293b0",
+      "jev_p": 0.41,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-82",
+      "taslak_id": "C09-spo-033",
+      "hash": "0a1d6826b6e5a0d80c220266de17682dc80566d9eccf3e58237ff2355fb54126",
+      "jev_p": 0.5,
+      "tek_dogru_p": 0.11,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-83",
+      "taslak_id": "C09-spo-035",
+      "hash": "50828870e96f8216a75c9826bac203becf52d6f003794666d783ac8ab8a51d69",
+      "jev_p": 0.12,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-84",
+      "taslak_id": "C09-spo-037",
+      "hash": "25a603c8a29f3bf9b9869d8e415689103bb9d56e130efa9130bd2a70bed4b06a",
+      "jev_p": 0.36,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-85",
+      "taslak_id": "C09-spo-038",
+      "hash": "4cf1af1269978104aec701c9c8eff0b98acf5bebef0e548deabcb28ad212fbe7",
+      "jev_p": 0.5,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-86",
+      "taslak_id": "C09-spo-039",
+      "hash": "a6613df5b1102b6a6d604d1ae38aed7c213e7180bebbc918234218276ab208e4",
+      "jev_p": 0.29,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-87",
+      "taslak_id": "C09-spo-043",
+      "hash": "c8b24ff93f3891e0dd5d4b808f5e454eb95b49e7a692aef4201aafdecbe05670",
+      "jev_p": 0.14,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-88",
+      "taslak_id": "C09-spo-045",
+      "hash": "bf616d85464f588fe36e68811abc26a076618d87abb1456684b35951dd5f7024",
+      "jev_p": 0.54,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-89",
+      "taslak_id": "C09-spo-046",
+      "hash": "c658cb3ea415ea693d837d155989c79f5c7abf9921e4f08aef2b278bdcaf9c79",
+      "jev_p": 0.11,
+      "tek_dogru_p": 0.12,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-90",
+      "taslak_id": "C09-spo-049",
+      "hash": "2a4276d3c79fc79c2ba9e05ce42b5bf1834496407eb24e569a937ad9dc023793",
+      "jev_p": 0.1,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-91",
+      "taslak_id": "C09-R031",
+      "hash": "6012913a481d4215126829a5fe65d0d3b84360447c20b34183d8883341dcd80b",
+      "jev_p": 0.62,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-92",
+      "taslak_id": "C09-R032",
+      "hash": "da4d534afa4ca2e27e88fb4eb2fc4cde905fcc96ac0a2f974609d09104bef57b",
+      "jev_p": 0.59,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-93",
+      "taslak_id": "C09-spo-008",
+      "hash": "5bfe4a3c51cdaff7dcad37dcfef300fe9db9df5d1cdd86c894d4ed58d41c5447",
+      "jev_p": 0.11,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-94",
+      "taslak_id": "C09-spo-025",
+      "hash": "d650fbb46e448ec8424eb194e61c8c170e3ceacd589165fbfe67800d5076449a",
+      "jev_p": 0.69,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-95",
+      "taslak_id": "C09-spo-027",
+      "hash": "71a5fe0b6f5afacdaea7e3e19a78218522e17332c1e5b4a32a73dd459b9f353c",
+      "jev_p": 0.13,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-96",
+      "taslak_id": "C09-spo-042",
+      "hash": "0b4be14f3b0b23d912f0d9ffb2b6152db07ebd300b9b8f18fe1b0262a3d1cd8a",
+      "jev_p": 0.38,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-97",
+      "taslak_id": "C09-spo-050",
+      "hash": "b8e6b7d6d32c3ecb9e5046b36713c2e72b0811d896ba98580f3aa9fd524b1313",
+      "jev_p": 0.46,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-98",
+      "taslak_id": "C09-tar-001",
+      "hash": "5bb90185763c24e78774b883443ea929365b4f30bc301615e5031a0d98cdf8db",
+      "jev_p": 0.16,
+      "tek_dogru_p": 0.02,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-99",
+      "taslak_id": "C09-tar-005",
+      "hash": "87485acf0863c66926f8ee304db1d4b8cd9de15f3defb710b35979075aba4ceb",
+      "jev_p": 0.37,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-100",
+      "taslak_id": "C09-tar-007",
+      "hash": "f5c3f99b18c7b77762593a8e600199519871416d5339ddd3363c3779d763e37c",
+      "jev_p": 0.27,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-101",
+      "taslak_id": "C09-tar-010",
+      "hash": "7e89dbcf4120265dfaf07818e42fbfac6a1dfe0117ff9d749dec97d8afd0bd29",
+      "jev_p": 0.36,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-102",
+      "taslak_id": "C09-tar-014",
+      "hash": "3a131b355640ba10edab5d9b094002a8f5ea58485b9561cb634d377dfec016a2",
+      "jev_p": 0.52,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-103",
+      "taslak_id": "C09-tar-018",
+      "hash": "7c1d4b75dae0f7404c8b37a1665254fb65c46edbb64dd592747399562d1130a7",
+      "jev_p": 0.22,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-104",
+      "taslak_id": "C09-tar-020",
+      "hash": "643bbf1f1a77dfec748707efbe54dc03549f54ae74c81b115db98bc3c65d3e62",
+      "jev_p": 0.35,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-105",
+      "taslak_id": "C09-tar-021",
+      "hash": "139e0e52c40e5695e8d40e36efe8ea8349102ab5e79052ecc8b1bb8a598d721e",
+      "jev_p": 0.17,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-106",
+      "taslak_id": "C09-tar-044",
+      "hash": "9cfdf065a6ded04365ba6041abf3c02c9c8d98694027833c95faf0be923dd813",
+      "jev_p": 0.05,
+      "tek_dogru_p": 0.02,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-107",
+      "taslak_id": "C09-tar-050",
+      "hash": "4b01bfbaa7330011082d8aa62b3b4c365098457b2c327c5d24f183749a825028",
+      "jev_p": 0.32,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-108",
+      "taslak_id": "C09-tar-051",
+      "hash": "3926e2a295ddf778e92634d5f694ad7d546a9267bf64f24c3ba4f8d9c1a43285",
+      "jev_p": 0.14,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-109",
+      "taslak_id": "C09-tar-061",
+      "hash": "38310c0ccda8dfc9b6a741ce30021f73b3db7250d9446b45f0db392e49b3a8d5",
+      "jev_p": 0.53,
+      "tek_dogru_p": 0.11,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-110",
+      "taslak_id": "C09-tar-063",
+      "hash": "073ebe59731cd14ae1f08bf1f3b8482c22bbbf814285be73c0610049db7e92d4",
+      "jev_p": 0.44,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-111",
+      "taslak_id": "C09-tar-064",
+      "hash": "54394fbbf15ec31d6de2d8dfcbdbf889afdc37b2f904cf7037274567c79fa6e0",
+      "jev_p": 0.6,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-112",
+      "taslak_id": "C09-tar-065",
+      "hash": "032f02d95b45bc44477da96ed42d39ac96ab6291be13805b450bdd91e24395e9",
+      "jev_p": 0.57,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-113",
+      "taslak_id": "C09-tar-066",
+      "hash": "7c5f522c446169fbf28bd4367e17db09deff015a573c5956c8909551654fc310",
+      "jev_p": 0.1,
+      "tek_dogru_p": 0.09,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-114",
+      "taslak_id": "C09-tar-068",
+      "hash": "9132cce9745f8695714a09cfebee4a9142078043d370f9fb665bc01739bf5a73",
+      "jev_p": 0.5,
+      "tek_dogru_p": 0.11,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-115",
+      "taslak_id": "C09-tar-072",
+      "hash": "93bc3400bd0065cb1ccb05fde96847b462773185bf2dfd59efa6a770a09e0887",
+      "jev_p": 0.44,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-116",
+      "taslak_id": "C09-tar-075",
+      "hash": "666928ded5fc2b2a3c56e62153620ec8e700a0a746091d6c40d4c1905bc07c41",
+      "jev_p": 0.57,
+      "tek_dogru_p": 0.02,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-117",
+      "taslak_id": "C09-tar-077",
+      "hash": "8afaf1642cfd722796f218640627c49ea5ae45fd2649387e9d72add63db9a641",
+      "jev_p": 0.17,
+      "tek_dogru_p": 0.11,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-118",
+      "taslak_id": "C09-tar-080",
+      "hash": "19ecf5f9dbddebc2ac67decf4125d873fc1774f48721e2d710e1d37ebed6aa39",
+      "jev_p": 0.34,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-119",
+      "taslak_id": "C09-tar-019",
+      "hash": "e3cc88606769a2d789c159753dda93dfdfbef54cd61b503f3413a1782e7deed8",
+      "jev_p": 0.3,
+      "tek_dogru_p": 0.21,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-120",
+      "taslak_id": "C09-tar-022",
+      "hash": "9d80a03f66f191604530cb7e3ce03242dbd69c193c3bb6f90e1ebbf537b01150",
+      "jev_p": 0.16,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-121",
+      "taslak_id": "C09-tar-027",
+      "hash": "c8b222e8a473cb19ab325c6492648471f57ec500cc37be117fb61d8914882265",
+      "jev_p": 0.3,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-122",
+      "taslak_id": "C09-tar-029",
+      "hash": "42ddd927584c1d5119b96e7f8c9d22b995a5ccbb7093aa7eb80be7fd11ee06a4",
+      "jev_p": 0.21,
+      "tek_dogru_p": 0.02,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-123",
+      "taslak_id": "C09-tar-031",
+      "hash": "78298c627746005c692a65ca79a90bde13f3321c02ef673c454faf6524cce417",
+      "jev_p": 0.1,
+      "tek_dogru_p": 0.1,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-124",
+      "taslak_id": "C09-tar-032",
+      "hash": "de332368d37ef06d26792ccea19cd17171f8bb5f58db5608d7f265b5d04e38e6",
+      "jev_p": 0.25,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-125",
+      "taslak_id": "C09-tar-043",
+      "hash": "8c15a25c2d17947ed3d991dca7c1d3dc00f99d18d6f4b627189c5719bed2de97",
+      "jev_p": 0.05,
+      "tek_dogru_p": 0.17,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-126",
+      "taslak_id": "C09-tar-049",
+      "hash": "8395f0be6c561be9924f8d60955573f842de9f7acc145cda760465b78480f447",
+      "jev_p": 0.04,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-127",
+      "taslak_id": "C09-tar-059",
+      "hash": "2ecbe068220fb67d26797e556ae5090b99a606aacdaed9af53459a6698cd1a82",
+      "jev_p": 0.22,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-128",
+      "taslak_id": "C09-R045",
+      "hash": "1725b42bfffb896cb5a25116df105b4971b60d7251c8a01a2d6bad35805bacce",
+      "jev_p": 0.35,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-129",
+      "taslak_id": "C09-R047",
+      "hash": "74d1fb5542261e12d36a8d5b2dc13bc20ab01ad3b9d789127336966a9723e7dc",
+      "jev_p": 0.38,
+      "tek_dogru_p": 0.1,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-130",
+      "taslak_id": "C09-sin-001",
+      "hash": "53fab4e728eba64790bca0db4ff144a326b2b5664c602692d0ce1a5c3211c7e0",
+      "jev_p": 0.29,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-131",
+      "taslak_id": "C09-sin-002",
+      "hash": "b1d38c28d10f56481169a1706b46a46894b632144800910605e290a2014ee8c4",
+      "jev_p": 0.4,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-132",
+      "taslak_id": "C09-sin-007",
+      "hash": "782b02f46954598303d420163a55c1352653e5d64c9d7e97087e65840cd653e7",
+      "jev_p": 0.28,
+      "tek_dogru_p": 0.1,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-133",
+      "taslak_id": "C09-sin-031",
+      "hash": "15a49a56228a5b994927c376eb064815448cc67c83d5518ecbaef72cd31b17d5",
+      "jev_p": 0.2,
+      "tek_dogru_p": 0.09,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-134",
+      "taslak_id": "C09-sin-042",
+      "hash": "6f582b88a0e3920779a2af61895b437b80d2b263f6c66979cefbcbcefdb55dbc",
+      "jev_p": 0.08,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-135",
+      "taslak_id": "C09-sin-044",
+      "hash": "70bd0c96f9b3ddf87b3949b899045820b317b83e5428b0cc5227d6810cc0eb6f",
+      "jev_p": 0.27,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-136",
+      "taslak_id": "C09-sin-046",
+      "hash": "248ae45b7e8960e9db0f4ef67ae5f8fd1a47814a806583ee722a6c4f1bb6ca72",
+      "jev_p": 0.08,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-137",
+      "taslak_id": "C09-sin-047",
+      "hash": "2039b6b5170d2942ee9af9b89e59506e419c6b86c5b6e4a83ed50627cc3dd3f8",
+      "jev_p": 0.59,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-138",
+      "taslak_id": "C09-sin-048",
+      "hash": "bbf5860db8d4de55f23285482ca804733f7f41a3190579b3b5e4a66448697839",
+      "jev_p": 0.64,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-139",
+      "taslak_id": "C09-sin-050",
+      "hash": "08658cc71e5297435e2224112f6ebcb2f7171bc66481190dafbefac0ff3566dd",
+      "jev_p": 0.44,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-140",
+      "taslak_id": "C09-sin-052",
+      "hash": "4b0da03df032519c9a4dd06996963745607bf61466e27ad36e77718e7d8992f2",
+      "jev_p": 0.42,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-141",
+      "taslak_id": "C09-sin-055",
+      "hash": "70ba9f01a44e910a7c40900fb494d98f12a721813fad9c5e010f3a0bb614e52e",
+      "jev_p": 0.47,
+      "tek_dogru_p": 0.09,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-142",
+      "taslak_id": "C09-sin-057",
+      "hash": "33ce0c2d8d360fc123a418e3008514936a474d0ff00c2017c05e8f892c2c47f8",
+      "jev_p": 0.7,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-143",
+      "taslak_id": "C09-sin-060",
+      "hash": "6d5c00fb47f9732d88077d951f0747f72d352bc2bdc5947ec512fe5200fed25d",
+      "jev_p": 0.16,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-144",
+      "taslak_id": "C09-R043",
+      "hash": "ed24e237af71bb2c7635fa3fe19ca74c37dfff0274ec76bab15b24710fc68b94",
+      "jev_p": 0.29,
+      "tek_dogru_p": 0.09,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-145",
+      "taslak_id": "C09-R044",
+      "hash": "358e7d8009dbe0f88c0ddb5489419f32d240897975ef093749659ba6645c46b1",
+      "jev_p": 0.24,
+      "tek_dogru_p": 0.09,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-146",
+      "taslak_id": "C09-R046",
+      "hash": "1b0c41e5cb9ad97a713365db16ae3a83e96ad12f727ca73c671cb637ea60cef6",
+      "jev_p": 0.29,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-147",
+      "taslak_id": "C09-sin-021",
+      "hash": "ce77630dd0a85766c9612f9609680c0d8d8a27063e6c15b12956fed6e4fe78c6",
+      "jev_p": 0.14,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-148",
+      "taslak_id": "C09-sin-022",
+      "hash": "60a33710b463dd29fcb994e23f032e1d47e4650b539e6abf2bd519f82897647b",
+      "jev_p": 0.11,
+      "tek_dogru_p": 0.12,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-149",
+      "taslak_id": "C09-sin-026",
+      "hash": "e4b925dce1dfaf2c84543f08dc81ca9884bf50dde2acfbbc7630dc64a35de535",
+      "jev_p": 0.16,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-150",
+      "taslak_id": "C09-sin-035",
+      "hash": "a44606d0616307701db1dabe5a58c939d0853e5a78d9052726cf2947630e8395",
+      "jev_p": 0.21,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-151",
+      "taslak_id": "C09-gen-002",
+      "hash": "a2d90aad48270d8919c716e06a0fadefb22d86171216ddf61adf619df233849b",
+      "jev_p": 0.15,
+      "tek_dogru_p": 0.19,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-152",
+      "taslak_id": "C09-gen-006",
+      "hash": "f59ca9e07cd36826aaa42630d7f42f55dd9e7dae33f0d770b547e13b4e96177c",
+      "jev_p": 0.55,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-153",
+      "taslak_id": "C09-gen-007",
+      "hash": "cb2aa3ea55bbc3b2292aa63cf6eed953a2a25fac6426c630591656c39bb4711a",
+      "jev_p": 0.45,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-154",
+      "taslak_id": "C09-gen-012",
+      "hash": "ef7a6ee9066e4d59927933e6f7dbe8943df7c84b206c578f5bb174f66237ef8c",
+      "jev_p": 0.51,
+      "tek_dogru_p": 0.1,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-155",
+      "taslak_id": "C09-gen-014",
+      "hash": "d2b59bb8c33370cbd03f787c5288e1ee83b7e6b36d41cd1fc48d5ca22cdf7008",
+      "jev_p": 0.22,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-156",
+      "taslak_id": "C09-gen-019",
+      "hash": "ef91ab3d34e3f7de0632ad03581ecef350eeb8cd4a887af898ebd5c436faf9d7",
+      "jev_p": 0.24,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-157",
+      "taslak_id": "C09-gen-043",
+      "hash": "e3dd2e20a06cad6ad369e3ada13ffc79581ed957508ec09c6f5d1e2007cc601f",
+      "jev_p": 0.28,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-158",
+      "taslak_id": "C09-gen-049",
+      "hash": "0c0db2ec75109777b2e9aa89fb6e0acb3b30fc13f7d348f292be52eb29fda176",
+      "jev_p": 0.17,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-159",
+      "taslak_id": "C09-gen-052",
+      "hash": "6391870185b3ed8d48cbff1167104620de277963c8cf19e8baf7a43a7235e0a4",
+      "jev_p": 0.33,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-160",
+      "taslak_id": "C09-gen-057",
+      "hash": "d10a63e4388505a5ce03da43475e1910a8d0c5a34150a73e9887f574d2ed7e6d",
+      "jev_p": 0.19,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-161",
+      "taslak_id": "C09-R051",
+      "hash": "3525db5ef861349805b6bb0de0dd646453c0f2862587c1905fb45f93e44fa454",
+      "jev_p": 0.49,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-162",
+      "taslak_id": "C09-R052",
+      "hash": "e8488ea7b3bc4ed314a4345d1ec100d571c36f59c4ae10a14c6424cbe058b813",
+      "jev_p": 0.6,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-163",
+      "taslak_id": "C09-R054",
+      "hash": "597d0e016cef4d08197a13577088adfdffd9f55c764b8e658bd72e84b730c79b",
+      "jev_p": 0.56,
+      "tek_dogru_p": 0.15,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-164",
+      "taslak_id": "C09-R056",
+      "hash": "2b5fcf9532cca35d3456fd9e6969a8f68e1e65e44c6f808142df6829c2055baf",
+      "jev_p": 0.7,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-165",
+      "taslak_id": "C09-R057",
+      "hash": "fb0eda5423018ccd5350f97acd03f0a76229013d90b51e119bf58492e61719ee",
+      "jev_p": 0.67,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-166",
+      "taslak_id": "C09-R058",
+      "hash": "37e9f575900cfdf6d19e95a878a996e48b37a7507bc7c4f4a1a9b09f41f68431",
+      "jev_p": 0.14,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-167",
+      "taslak_id": "C09-R060",
+      "hash": "de60fb67ebd768992a2facae7cf0ec396d1696aa4eef64f68c72935c526640c5",
+      "jev_p": 0.58,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-168",
+      "taslak_id": "C09-R061",
+      "hash": "e991f1e151f2b5bc268e6b274b76f54fce3975bb3f54cf1e3ba243aacccde955",
+      "jev_p": 0.43,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-169",
+      "taslak_id": "C09-gen-016",
+      "hash": "62ad0b5a9de91073fde627895cfa1dada526b6848ff84536aea988d91a592ee6",
+      "jev_p": 0.12,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-170",
+      "taslak_id": "C09-gen-028",
+      "hash": "9164c77a53a8651f9b67215db7607f9b9a1d46ad2f24dc794279f9d5ee61c489",
+      "jev_p": 0.08,
+      "tek_dogru_p": 0.2,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-171",
+      "taslak_id": "C09-gen-035",
+      "hash": "c395bc5bb4bea808f4ce4562940a2b30afe3d804fbf9058b9ffbc0d0381412df",
+      "jev_p": 0.21,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-172",
+      "taslak_id": "C09-gen-036",
+      "hash": "7838f47a85e2e570f4bfe6fee361dbc7d6e07aa3caba1a18693b3d794c230142",
+      "jev_p": 0.2,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-173",
+      "taslak_id": "C09-gen-037",
+      "hash": "734921e8058ee3587cae4ee283bb7d8d71e14116db8b3068d537a770e3635eb0",
+      "jev_p": 0.17,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-174",
+      "taslak_id": "C09-gen-038",
+      "hash": "c7312871e18826106e51679859a39b616daef8b3b496a43d565653ba54e10fd8",
+      "jev_p": 0.23,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-175",
+      "taslak_id": "C09-gen-041",
+      "hash": "30428e5a2299d1197743210ae74b78e41f94247a29948b42410760ee305dd26a",
+      "jev_p": 0.35000000000000003,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-176",
+      "taslak_id": "C09-gen-047",
+      "hash": "d9641c018205f337d9a049a1bb01032689b44a9c4ae978b9d5964da77f9ed0ac",
+      "jev_p": 0.33,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-177",
+      "taslak_id": "C09-ede-004",
+      "hash": "cf82e3aa2d40102c26f586844eb222c4534125e56f0880c158ba51bc1ba5c3d6",
+      "jev_p": 0.3,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-178",
+      "taslak_id": "C09-ede-005",
+      "hash": "e73e11546420e487affec7ec353d6ffe6b8df870bbbc999d3cbf02784f537f14",
+      "jev_p": 0.24,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-179",
+      "taslak_id": "C09-ede-007",
+      "hash": "fa47708d5d160424f0e0fa125225c9c5748ffedb3575d3b2cc5b154a4f20a01a",
+      "jev_p": 0.28,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-180",
+      "taslak_id": "C09-ede-016",
+      "hash": "7047b30e929f8451758f427d0b9db59a215f4201d7489997d0e9b9160b8b8e48",
+      "jev_p": 0.36,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-181",
+      "taslak_id": "C09-ede-042",
+      "hash": "1097d6717dd2b98bfbb49320301c776a5a6506cd9121b3920aa1a1600dfcc4b9",
+      "jev_p": 0.32,
+      "tek_dogru_p": 0.2,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-182",
+      "taslak_id": "C09-ede-043",
+      "hash": "f1f8f8684b4f40136c1682b8682fcf48b975289b04c8da7d0e0510a15bb4fce6",
+      "jev_p": 0.09,
+      "tek_dogru_p": 0.04,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-183",
+      "taslak_id": "C09-ede-049",
+      "hash": "56c6e88b4294fb36dd6523d4b1d94e8e80bfd4d14a349f6f2b0daec14774e02d",
+      "jev_p": 0.02,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-184",
+      "taslak_id": "C09-ede-053",
+      "hash": "b22343808f54e73eb01cb32c3dc55cebbbf464c274298bbe557fcdaa89bd323c",
+      "jev_p": 0.23,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-185",
+      "taslak_id": "C09-ede-054",
+      "hash": "deeac0d2544142ac783fa33ac32a15ae6cfdf26d40a23f0a24e4600e606d55c7",
+      "jev_p": 0.15,
+      "tek_dogru_p": 0.02,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-186",
+      "taslak_id": "C09-ede-055",
+      "hash": "0fbdd8aa8ac827394250f94f24a05279cc09c53c21cf269fad78ca7a9c5063be",
+      "jev_p": 0.1,
+      "tek_dogru_p": 0.05,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-187",
+      "taslak_id": "C09-ede-057",
+      "hash": "5dcc4b52a1b6e19448cea3c8ab5bba827c5158ea94c7bbd6a7415f5e6b30a953",
+      "jev_p": 0.13,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-188",
+      "taslak_id": "C09-ede-059",
+      "hash": "01fd39095819879b835ad1d128569ca40c1122316f2e68602ea233255b9385d3",
+      "jev_p": 0.17,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-189",
+      "taslak_id": "C09-R066",
+      "hash": "936ca5f4f4acd529e3e34c1f3eda64bcaf8edb74c485878f3593b6130f7a36fb",
+      "jev_p": 0.34,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-190",
+      "taslak_id": "C09-R067",
+      "hash": "03226ac4874096d2db1edea09d3d31589ea02ae8a8b6e83c61479c896e7aca98",
+      "jev_p": 0.39,
+      "tek_dogru_p": 0.1,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-191",
+      "taslak_id": "C09-R069",
+      "hash": "9d2c22c56bd44ba3a97ebf38410c7bd112b8ea63fd3bdf23e82a77ea3f35c90f",
+      "jev_p": 0.39,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-192",
+      "taslak_id": "C09-R072",
+      "hash": "eccc01af302a6d39ebae0671bbfe906e5f0c94fce964f165d32c65e4c1be3b5b",
+      "jev_p": 0.37,
+      "tek_dogru_p": 0.03,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-193",
+      "taslak_id": "C09-ede-021",
+      "hash": "160640c93176076e96523cf04c0c971214a7defe69bfbf2a316ac6b109d14e89",
+      "jev_p": 0.12,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-194",
+      "taslak_id": "C09-ede-022",
+      "hash": "c80f252df7b43f270e63a0d2d303c43c2b37d5e2d041bea98041800f5bc46bbc",
+      "jev_p": 0.06,
+      "tek_dogru_p": 0.22,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-195",
+      "taslak_id": "C09-ede-029",
+      "hash": "fbf7380feaf58da012ef91167181252c1d104ab531cac4e96e1c2d249b55200b",
+      "jev_p": 0.16,
+      "tek_dogru_p": 0.07,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-196",
+      "taslak_id": "C09-ede-034",
+      "hash": "2aa117cfcfd6c6a3e6d6cb43d48573c1901eb66b7bedd4a9895091f3838cc019",
+      "jev_p": 0.09,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-197",
+      "taslak_id": "C09-ede-035",
+      "hash": "c70b326bebfbeb6c4a7bf3baefeab4417c51ca651ef525d59dc7e3c6d7295052",
+      "jev_p": 0.08,
+      "tek_dogru_p": 0.16,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-198",
+      "taslak_id": "C09-ede-039",
+      "hash": "88ebeae0c11fb46db1bd54d1184e5e8870c02de95cc046e01514cec3a6011692",
+      "jev_p": 0.12,
+      "tek_dogru_p": 0.08,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "C09-199",
+      "taslak_id": "C09-ede-040",
+      "hash": "827c313da30b286a4af57e31ea974f1e855eeee0d177ffb1e79cba1be588b91b",
+      "jev_p": 0.21,
+      "tek_dogru_p": 0.06,
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  ]
+}
