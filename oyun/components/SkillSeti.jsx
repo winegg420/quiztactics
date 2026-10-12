@@ -70,7 +70,7 @@ export default function SkillSeti({ macTur = "1v1", acikBaslar = false, onHazir 
         const n = Number(d.yuva) > 0 ? Number(d.yuva) : SKILL_SLOT_VARSAYILAN;
         const uzak = Array.isArray(sonuc.data) ? sonuc.data : [];
         if (!aktif) return;
-        setBilgi(Object.fromEntries((d.skiller ?? []).map((s) => [s.tur, { adet: Number(s.adet) || 0, acik: s.acik !== false }])));
+        setBilgi(Object.fromEntries((d.skiller ?? []).map((s) => [s.tur, { adet: Number(s.adet) || 0, acik: s.acik !== false, fiyat: Number(s.fiyat) || 0 }])));
         if (!d.loadout_acik) {
           skillSetiKaydet(uzak, uzak.length || n, macTur);
           setKapali(true);
@@ -139,6 +139,8 @@ export default function SkillSeti({ macTur = "1v1", acikBaslar = false, onHazir 
 
   if (!loadoutModu || kapali !== false) return null;
   const adet = (id) => bilgi[id]?.adet ?? 0;
+  // 12 Eki · M10: stok yoksa maçtaki durumla aynı dil — "Stokta yok · 30 coin" (maçta aynı joker o fiyatla satışta)
+  const stokYok = (id) => (bilgi[id]?.fiyat > 0 ? tt("Stokta yok · {0} coin", { 0: bilgi[id].fiyat }) : tt("Stokta yok"));
 
   return (
     <QtKart as="section" dolgu="k" className="qt-dk-seti" aria-label={tt("Maç Skillerin")}>
@@ -161,7 +163,7 @@ export default function SkillSeti({ macTur = "1v1", acikBaslar = false, onHazir 
                     <SkillRozeti tur={s.id} boyut={40} />
                     <span>{jokerBilgi(s.id, macTur).ad}</span>
                     <small className={adet(s.id) > 0 ? "qt-dk-seti-adet" : "qt-dk-seti-adet qt-dk-seti-adet--yok"}>
-                      {adet(s.id) > 0 ? `×${adet(s.id)}` : tt("Hakkın yok")}
+                      {adet(s.id) > 0 ? `×${adet(s.id)}` : stokYok(s.id)}
                     </small>
                   </>
                 : <><QtIkon ad="arti" boyut={20} /><span className="qt-gizli">{tt("Boş yuva")}</span></>}
@@ -191,7 +193,7 @@ export default function SkillSeti({ macTur = "1v1", acikBaslar = false, onHazir 
                   <small>{s.aciklama}</small>
                   {s.yalnizDuello && <small>{tt("Yalnız Düello'da")}</small>}
                   <small className={adet(id) > 0 ? "qt-dk-seti-adet" : "qt-dk-seti-adet qt-dk-seti-adet--yok"}>
-                    {kilitli ? tt("Kilitli") : adet(id) > 0 ? tt("{0} hak", { 0: adet(id) }) : tt("Hakkın yok — Dükkân")}
+                    {kilitli ? tt("Kilitli") : adet(id) > 0 ? tt("{0} hak", { 0: adet(id) }) : stokYok(id)}
                   </small>
                 </span>
                 {aktif && <QtIkon ad="onay" boyut={20} />}

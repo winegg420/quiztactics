@@ -11931,3 +11931,22 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **6 /yonetim/posta:** avatar `select` → resim ızgarası (radiogroup, aria "Avatar N"), seçili 3 px mavi halka + tik. Sayfada 73 katalog adından 0'ı görünür. Arayüzde başka avatar adı: yalnız sahip kapılı `/preview/avatar-lab` ve tasarım önizleme sayfaları (ürün dışı).
 - **Test:** `araclar/telefon-12eki-2-engel-testi.mjs` 8/8 (iki yön red, davet kodu yolu red, engelsiz istek gider); `-bildirim-testi.mjs` gerçek bildirim emojisiz + 52 şablon çıktısı emoji 0; `-dil-testi.mjs` TR hesap: başlıksız "Bronz Lig", en başlıkla "Bronze League"; `-ekran.mjs` 390×844 TR + 360×780 EN: EN Koleksiyon/Profil/Rozetler/Lig/oyuncu kartında TR ad 0, yatay taşma 0, konsol hatası 0 (yalnız taklit sahiplikteki `posta_gonderilenler` 400'ü). Kareler `tasarim/telefon-denetimi-12eki-2/`. Klasik tek maç duman (yerel istemci + canlı DB) GEÇTİ. Test hesapları silindi (araç hesabı 0). Not: ekran betiğinin ilk sürümü ana sayfa Klasik kartına dokunup canlı rakip araması başlattı; bağlam hemen kapandı, hesap silindi, adım betikten çıkarıldı.
 - Build temiz.
+
+## 2026-10-12 — Telefon denetimi 3: Klasik/Düello/Ortak Hazine maç kusurları (11 madde + 2 araştırma)
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** Ida'nın 12 Eki akşamı 390 px'te idagg ile bota karşı oynadığı maçlarda bulduğu sunum/zamanlama/yerleşim kusurları. Kural, süre, ödül değişmedi; migration yok.
+
+- **M1 maç sonu adları:** ortak `MacSonuKutlama` beyaz ad hapında altın isim (sarı dolgu + ince kontur) okunmuyordu → hapta ad koyu lacivert düz yazı, altın ışık şeridi arkada kalır (`mac-sonu-kutlama.css`). Klasik, Saf Bilgi, Düello, Hazine, Grup, Turnuva aynı bileşen.
+- **M2 tur bandı:** "Tur N/36" bandı `.ks-sahne` (soru kartı) yerine maç kabının başlık alanında (`m2-gecis--ust`) — soru ilk andan okunur. Düello v4'te tur bandı yok; "kim neyi aldı" açılışı (2000 ms) canlı `duello_gosterim_payi_ms` = 2000 içinde, sayaç o sürede gizli → aleyhe işlemiyor (değiştirilmedi).
+- **M3 iyimser AÇ:** `kararVer` AÇ'ta sunucuyu beklemeden AÇ anını başlatır; puan + hazine ≥ hedef ise final sahnesini (`finalOynat`, tek kaynak) başlatır. Hata → geri alınır (an/zamanlayıcı/`final` olay anahtarı) ve hata gösterilir. AÇ anı sürerken `.ks-sahne` anahtarı sabit; an karar → cevap geçişinde kesilmez, yeni sorunun şıkları an bitmeden görünmez. Tur sınırında maçı bitiren AÇ tahmin edilmez (eski yol).
+- **M4 final sahnesi:** `.ks-bitti--final` ekran yüksekliğini doldurur, `.ks-final` içinde ortada.
+- **M5 Savunma anı:** "Savunma Hakkı" tetik anı sonuç + altın varışından (~1000 ms) ve Cevap İmzası'ndan (≤ 1400 ms) sonra başlar; sonuç fazı (3 sn) bitince yeni sorunun gösterim payı (2000 ms) içinde ≤ ~750 ms taşar, payı aşmaz. "Savunma Sorusu" bandı başlıkta → "Rakip hazinesini savunuyor" bandıyla çakışmaz.
+- **M6 Hazine joker:** düğmede "kalan/sınır" sayacı kalktı (etikette duruyor); tek sayı = stok ya da coin fiyatı; maç sınırına gelen joker kilit ikonu.
+- **M7 Düello kartları:** ≥ 760 px yükseklikte simge 64 px, ad altında, oranlar altta (space-evenly).
+- **M8:** tur sonucu kartında kategori simgesinin yanında küçük kategori adı (TR/EN mevcut sözlük).
+- **M9 Düello lobisi:** "Rakip ara" Meydan Oku/Hatalarım gibi opak alt şeritte (`m2-giris-serit`).
+- **M10:** Hazır mısın / lobi joker yuvası "Hakkın yok" → "Stokta yok · N coin" (fiyat `skill_dukkani`'ndan; EN "Out of stock · N coins").
+- **M11:** Klasik maç sonu paylaşım düğmeleri tek satır, üç eşit sütun.
+- **12 (araştırma) +3 coin:** hata değil, günlük coin tavanı (400). `coin_ekle` rozet/davet/posta_odul'ü tavandan muaf tutuyor ama `coin_gunluk_kalan` (720) bunları toplamdan düşmüyor → 17:46–17:47'deki 3 rozet (175) tavanı doldurdu, kalan 3. Öneri (uygulanmadı): `coin_gunluk_kalan` hariç listesine 'rozet','davet','posta_odul'.
+- **13 (araştırma):** mod başına maç öncesi akış tablosu rapora yazıldı; karar Ida'nın.
+- Test: build temiz, `npm test` geçti, Düello v4 taklit ölçümü 408/408.

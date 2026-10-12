@@ -1010,7 +1010,7 @@ export default function MatchPage() {
                 const mesaj = tt("Quiz Tactics'te {0} Sen de gel, kapışalım: {1}/?davet={2}", { 0: sonucYazi, 1: window.location.origin, 2: user.id });
                 const enc = encodeURIComponent(mesaj);
                 return (
-                  <div className="m1-ss-satir" role="group" aria-label={tt("Paylaş")}>
+                  <div className="m1-ss-satir m1-paylas" role="group" aria-label={tt("Paylaş")}>
                     <QtDugme as="a" tur="ikincil" boyut="k" ikon="paylas" href={`https://wa.me/?text=${enc}`} target="_blank" rel="noreferrer">
                       WhatsApp
                     </QtDugme>

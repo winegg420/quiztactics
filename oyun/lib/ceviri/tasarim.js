@@ -182,6 +182,8 @@ export default {
   "Bu setle oyna": "Play with this set",
   "Hakkın yok": "None left",
   "Hakkın yok — Dükkân": "None left — Shop",
+  "Stokta yok · {0} coin": "Out of stock · {0} coins",
+  "Stokta yok": "Out of stock",
   "{0} hak": "{0} left",
   "Hakkın olmayan skill'i maçta coin'le alıp kullanabilirsin.": "You can buy a missing joker with coins during the match.",
   "YENİ": "NEW",

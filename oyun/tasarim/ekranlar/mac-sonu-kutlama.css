@@ -936,6 +936,12 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
 
 /* İsim hapı ve skor kutusu: beyaz + kalın lacivert kontur (koyu skor kutusu kalktı) */
 .msk-isim { border: 2.5px solid var(--msk-lac); color: var(--msk-lac); box-shadow: 0 3px 0 var(--msk-lac); }
+/* 12 Eki telefon denetimi 3 · M1: beyaz hapta altın isim (sarı dolgu + ince kontur) 390 px'te okunmuyordu.
+   Hapın içinde ad koyu lacivert düz yazı (beyaz zeminde ~15:1); altın ışık şeridi arkada kozmetik işaret olarak kalır.
+   Klasik, Saf Bilgi, Düello, Hazine, Grup, Turnuva maç sonu bu bileşeni ortak kullanır. */
+.msk-isim .qt-ia-kontur { display: none; }
+.msk-isim .qt-ia-dolgu { background: none; color: var(--msk-lac); -webkit-text-fill-color: var(--msk-lac); animation: none; }
+.msk-isim .qt-isim-ef:not(.qt-ia) { color: var(--msk-lac); -webkit-text-fill-color: var(--msk-lac); background: none; }
 .msk-skor {
   border: 3px solid var(--msk-lac);
   background: #fff;
