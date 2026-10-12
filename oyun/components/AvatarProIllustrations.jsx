@@ -250,8 +250,8 @@ function Palyaco() {
 
 function Kral() {
   return <svg viewBox="0 0 320 320" role="img" aria-label="Kendinden emin kral avatarı">
-    <Sahne renk="#26365a" vurgu="#5c7fa8" /><path d="m76 92 12-62 42 34 30-51 31 51 41-34 12 62Z" fill="#f2b23c" {...CIZGI} /><circle cx="160" cy="45" r="10" fill="#e8543f" /><circle cx="99" cy="62" r="8" fill="#4fb3c9" /><circle cx="220" cy="62" r="8" fill="#4fb3c9" />
-    <path d="M52 300q9-70 108-80 99 10 108 80" fill="#d9536a" {...CIZGI} /><path d="M83 146q0-86 77-94 77 8 77 94-2 84-77 93-75-9-77-93Z" fill="#e6c79a" {...CIZGI} /><path d="M106 145q18-13 37 2M178 147q18-15 38-1" fill="none" {...CIZGI} /><circle cx="128" cy="161" r="8" fill="#0b1220" /><circle cx="198" cy="161" r="8" fill="#0b1220" /><path d="M108 192q52 82 104 0-4 87-52 104-48-17-52-104Z" fill="#fff8ec" {...CIZGI} /><path d="M130 204q30 21 61-3" fill="none" {...CIZGI} /><path d="M104 266h112" stroke="#f2b23c" strokeWidth="11" strokeLinecap="round" />
+    <Sahne renk="#26365a" vurgu="#5c7fa8" /><path d="M52 300q9-70 108-80 99 10 108 80" fill="#d9536a" {...CIZGI} /><path d="M83 146q0-86 77-94 77 8 77 94-2 84-77 93-75-9-77-93Z" fill="#e6c79a" {...CIZGI} /><path d="m76 92 12-62 42 34 30-51 31 51 41-34 12 62Z" fill="#f2b23c" {...CIZGI} /><circle cx="160" cy="45" r="10" fill="#e8543f" /><circle cx="99" cy="62" r="8" fill="#4fb3c9" /><circle cx="220" cy="62" r="8" fill="#4fb3c9" />
+    <path d="M106 145q18-13 37 2M178 147q18-15 38-1" fill="none" {...CIZGI} /><circle cx="128" cy="161" r="8" fill="#0b1220" /><circle cx="198" cy="161" r="8" fill="#0b1220" /><path d="M108 192q52 82 104 0-4 87-52 104-48-17-52-104Z" fill="#fff8ec" {...CIZGI} /><path d="M130 204q30 21 61-3" fill="none" {...CIZGI} /><path d="M104 266h112" stroke="#f2b23c" strokeWidth="11" strokeLinecap="round" />
   </svg>;
 }
 
