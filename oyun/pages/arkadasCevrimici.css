@@ -107,3 +107,25 @@
 .ar-liste .ar-ac { gap: var(--qt-b-2); }
 .ar-liste .ar-satir { gap: 2px; padding-right: 4px; }
 .ar-liste .ar-bilgi .ls-ad { white-space: normal; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: clip; }
+
+/* Telefon denetimi (12 Eki 2026): takma adla arama (en üstte) + "Kodla ekle" yanında; maçtaki arkadaşın Oyna'sı pasif */
+.ar-ara { gap: var(--qt-b-2); }
+.ar-ara-satir { display: flex; gap: var(--qt-b-2); align-items: stretch; min-width: 0; }
+.ar-ara-kutu {
+  flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 8px;
+  min-height: 48px; padding: 0 var(--qt-b-3);
+  border: 2px solid var(--qt-cizgi); border-radius: var(--qt-r-m); background: var(--qt-yuzey, #fff); color: var(--qt-metin-soluk);
+}
+.ar-ara-kutu:focus-within { outline: 3px solid var(--qt-odak); outline-offset: 1px; border-color: var(--qt-ikinci); }
+.ar-ara-giris {
+  flex: 1 1 auto; min-width: 0; height: 44px; border: 0; background: transparent; color: var(--qt-metin);
+  font: inherit; font-size: 16px; /* ≥ 16 px: iOS odakta yakınlaştırmaz */ font-weight: var(--qt-a-kalin); outline: none;
+}
+.ar-ara-giris::placeholder { color: var(--qt-metin-soluk); }
+.ar-kod-ac { flex: none; min-height: 48px; }
+.ar-ara-not { margin: 0; }
+.ar-kod-panel { display: flex; flex-direction: column; }
+.ar-oyna--macta { opacity: 0.75; }
+/* Genel input stilleri (zemin/kontur/gölge) kutunun içindeki alana binmesin */
+.ar-sayfa .ar-ara-kutu input.ar-ara-giris, .ar-sayfa .ar-ara-kutu input.ar-ara-giris:focus-visible { outline: none; -webkit-appearance: none; appearance: none; min-height: 0; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.ar-ara-kutu .ar-ara-giris::-webkit-search-decoration { -webkit-appearance: none; }

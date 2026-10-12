@@ -58,7 +58,8 @@ async function onYuklenenProfil(userId) {
     const bekle = o?.profil;
     if (!bekle || o.kimlik !== userId) return null;
     o.profil = null;
-    const veri = await bekle;
+    // Ön yükleme yenilemesi ağda askıda kalırsa (12 Eki 2026) profil sonsuza dek beklenmez → normal rpc yolu.
+    const veri = await Promise.race([bekle, new Promise((coz) => setTimeout(() => coz(null), 9000))]);
     return veri && !Array.isArray(veri) && veri.id === userId ? veri : null;
   } catch {
     return null;

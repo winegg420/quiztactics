@@ -10,7 +10,7 @@ import { kategoriAdi } from "../../lib/kategoriler.js";
 export const GOREV_IKON = {
   mac_oyna: "oyna",
   mac_kazan: "kupa",
-  dogru_soru: "onay",
+  dogru_soru: "soru",   // tik (onay) yalnız tamamlanan görevin arka yüzünde — bitmemiş kartta tik yanıltıyordu (12 Eki)
   duello_mac: "duello",
   duello_galibiyet: "duello",
   kategori_dogru: "hedef",
@@ -64,7 +64,7 @@ export function gorevAdi(g, dil) {
   return ad;
 }
 
-export default function GorevKarti({ g, gunluk, dil, sezonAcik, alindi, islemde, mesgul, onAl, nabiz, anahtar, sira }) {
+export default function GorevKarti({ g, gunluk, dil, sezonAcik, alindi, islemde, mesgul, onAl, nabiz, anahtar, sira, vurgu }) {
   const ad = gorevAdi(g, dil);
   const tamAd = dil === "en" ? (g.ad_en || g.ad_tr) : g.ad_tr;
   const hedef = Math.max(1, Number(g.hedef) || 1);
@@ -76,7 +76,7 @@ export default function GorevKarti({ g, gunluk, dil, sezonAcik, alindi, islemde,
   const sayi = tt("{a} / {b}", { a: alindi ? hedef : ilerleme, b: hedef });
   return (
     <li
-      className={sinif("gk-kart", `gk-ton--${gorevTonu(g.sayac)}`, hazir && "gk-kart--hazir", alindi && "gk-kart--cevrik", hazir && nabiz && "qt-h-nabiz")}
+      className={sinif("gk-kart", `gk-ton--${gorevTonu(g.sayac)}`, hazir && "gk-kart--hazir", alindi && "gk-kart--cevrik", hazir && nabiz && "qt-h-nabiz", vurgu && "gk-vurgu")}
       data-gk-anahtar={anahtar}
       style={{ "--gk-sira": sira }}
     >

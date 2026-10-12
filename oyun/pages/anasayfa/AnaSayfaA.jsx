@@ -8,7 +8,7 @@ import { QtIkon } from "../../tasarim/index.js";
 import BildirimIzniSor from "../../components/BildirimIzniSor.jsx";
 import { BILDIRIM_SONRA_ANAHTAR } from "../../components/MacSonuSahnesi.jsx";
 import { tt } from "../../lib/dil.js";
-import { useAyar } from "../../lib/ayarlar.js";
+import { useAyar, useAyarlarHazir } from "../../lib/ayarlar.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import DurumKutusu, { useZamanAsimi } from "../../components/DurumKutusu.jsx";
 import SezonSeridi from "../../components/sezon/SezonSeridi.jsx";
@@ -19,6 +19,7 @@ import {
   TurnuvaSeridi, TurnuvaSeansListesi, DevamEdenMaclarKarti, ModFiguru,
 } from "./parcalar.jsx";
 import "./anasayfa.css";
+import { modAciklama } from "../../lib/modAciklamalari.js";   // 12 Eki 2026: mod kartı alt satırı tek kaynaktan
 
 /**
  * Kaydırmasız sığdırma (8 Eki 2026): telefonda (≤767 px, .as-kaydirmasiz) içerik kabı aşarsa
@@ -65,6 +66,7 @@ function useSigdir(ref, etkin) {
 export default function AnaSayfaA() {
   // KASA (deneysel, 950): kapalıyken ya da ayar satırı yokken (migration uygulanmamış) kısayol çizilmez
   const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
+  const ayarHazir = useAyarlarHazir();   // 12 Eki: ayar bilinmezken Ortak Hazine şeridinin yeri iskelet (sonradan belirip kaydırmaz)
   const v = useAnaSayfaVerisi({ gorevYukle: false });   // görevleri GorevSeridi kendi okur (gorevlerim)
   const b = useOyunBaslat();
   const devamEden = useDevamEdenMaclar();
@@ -109,10 +111,10 @@ export default function AnaSayfaA() {
   // Kasa artık "Ortak Hazine" şeridi (6 Eki 2026): kısayol satırında tekrar etmez
   const modlar = modListesi(v, b).filter((m) => m.anahtar !== "kasa");
   const seritler = [
-    { anahtar: "klasik", ikon: "hizli", ad: tt("Klasik"), vaat: tt("Hızlı sorular, en çok bilen kazanır"), git: b.oyna },
-    { anahtar: "duello", ikon: "duello", ad: tt("Düello"), vaat: tt("Kontrolü al, 3/3 yap"),
+    { anahtar: "klasik", ikon: "hizli", ad: tt("Klasik"), vaat: modAciklama("klasik"), git: b.oyna },
+    { anahtar: "duello", ikon: "duello", ad: tt("Düello"), vaat: modAciklama("duello"),
       git: () => { sonModuYaz("duello"); b.git("/duello"); } },
-    ...(kasaAcik ? [{ anahtar: "kasa", ikon: "sandik", ad: tt("Ortak Hazine"), vaat: tt("Doğru anda aç"),
+    ...(kasaAcik ? [{ anahtar: "kasa", ikon: "sandik", ad: tt("Ortak Hazine"), vaat: modAciklama("kasa"),
       git: () => { sonModuYaz("kasa"); b.git("/kasa"); } }] : []),
   ];
   const sonMod = seritler.find((m) => m.anahtar === sonModuOku());
@@ -133,8 +135,10 @@ export default function AnaSayfaA() {
 
       <section className="as-a2-kol as-a2-kol--sol" aria-label={tt("Oyuncu")}>
         {bildirimSor && <div className="as-a2-bildirim"><BildirimIzniSor serit /></div>}
-        <div className="as-a2-kart">{profilHazir ? <KompaktOyuncu v={v} /> : <span className="as-iskelet as-iskelet--ko" />}</div>
-        <div className="as-a2-lig">{profilHazir ? <LigKarti v={v} /> : <span className="as-iskelet as-iskelet--lig" />}</div>
+        {/* 12 Eki 2026: oyuncu kartı profil + lig puanı + kendi çerçevem bilinince; lig kartı lig özeti bilinince (son bilinen kopya
+            varsa anında). Bilinmezken AYNI YERDE iskelet — çerçevesiz avatar, puansız kart, yanlış "lige katıl" kartı çizilmez. */}
+        <div className="as-a2-kart">{profilHazir && v.ligHazir && v.kartHazir ? <KompaktOyuncu v={v} /> : <span className="as-iskelet as-iskelet--ko" aria-hidden="true" />}</div>
+        <div className="as-a2-lig">{profilHazir && v.ligHazir ? <LigKarti v={v} /> : <span className="as-iskelet as-iskelet--lig" aria-hidden="true" />}</div>
       </section>
 
       <section className="as-a2-kol as-a2-kol--sag" aria-label={tt("Etkinlikler")}>
@@ -142,7 +146,7 @@ export default function AnaSayfaA() {
         <div className="as-a2-masaustu"><TurnuvaSeansListesi /></div>
         {/* Sezon Yolu + Görevler: tek satırda iki yarım kart (1 Eki 2026). Sezon kartı yalnız sezon_yolu_acik açıkken çizilir; kapalı/yüklenmiyorsa kap boş kalır, Görevler tam genişlik olur. Hiçbir yükseklikte gizlenmez. */}
         <div className="as-a2-seritlar">
-          <div className="as-a2-sezon"><SezonSeridi /></div>
+          <div className="as-a2-sezon"><SezonSeridi iskelet /></div>
           <div className="as-a2-gorev"><GorevSeridi /></div>
         </div>
         {olaylar.length > 0 && (
@@ -169,9 +173,11 @@ export default function AnaSayfaA() {
                     aria-label={`${m.ad}. ${m.vaat}`} aria-haspopup={m.anahtar === "klasik" ? "dialog" : undefined} onClick={m.git}>
               <span className="as-mod-serit-metin"><b>{m.ad}</b><small>{m.vaat}</small></span>
               <ModFiguru tur={m.anahtar} />
+              {/* 12 Eki: "En son oynadığın" kartın içinde küçük çip (eskiden şeritlerin altında süssüz satırdı) */}
+              {sonMod?.anahtar === m.anahtar && <span className="as-mod-son-cip">{tt("Son oynadığın")}</span>}
             </button>
           ))}
-          {sonMod && <p className="as-mod-son">{tt("En son oynadığın: {mod}", { mod: sonMod.ad })}</p>}
+          {!ayarHazir && <span className="as-mod-serit as-mod-serit--iskelet as-iskelet" aria-hidden="true" />}
         </div>
 
         <nav className="as-a-kisayol" aria-label={tt("Diğer modlar")}>

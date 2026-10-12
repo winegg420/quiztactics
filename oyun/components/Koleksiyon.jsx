@@ -34,6 +34,7 @@ import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg } from "./AvatarNadi
 import { AvatarEdinmeKarti } from "./AvatarEdinme.jsx";
 import { cerceveKatalogu, cerceveTak, auraKatalogu, auraTak, oyuncuKarti, oyuncuKartiUnut } from "../lib/cerceve.js";
 import { LIG_ADLARI } from "../lib/lig.js";
+import { cerceveAdi, ligDisiCerceve } from "../lib/koleksiyon.js";
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
@@ -247,12 +248,14 @@ export default function Koleksiyon() {
           </li>
           {cerceveler.map((c) => {
             const tanim = cerceveTanimiBul(c.anahtar, c);
-            const ad = c.ad ?? tt(tanim?.ad ?? "");
+            const ad = cerceveAdi(c.anahtar, c.ad ?? tt(tanim?.ad ?? ""));
+            // 1070: lig çerçevesi ligine göre otomatik takılır — şu anki lig dışındakiler pasif
+            const ligDisi = ligDisiCerceve(c.anahtar, profile?.lig);
             return (
               <li key={c.anahtar}>
-                <button type="button" className={"qt-cs-oge" + (c.sahip ? "" : " qt-cs-oge--kilitli")}
-                        aria-pressed={c.sahip ? c.takili : undefined} disabled={Boolean(mesgul) || !c.sahip}
-                        aria-label={c.sahip ? undefined : tt("{ad} — kilitli: {kosul}", { ad, kosul: kosulMetni(c.kosul) })}
+                <button type="button" className={"qt-cs-oge" + (c.sahip && !ligDisi ? "" : " qt-cs-oge--kilitli")}
+                        aria-pressed={c.sahip && !ligDisi ? c.takili : undefined} disabled={Boolean(mesgul) || !c.sahip || ligDisi}
+                        aria-label={!c.sahip ? tt("{ad} — kilitli: {kosul}", { ad, kosul: kosulMetni(c.kosul) }) : ligDisi ? `${ad} — ${tt("Lig çerçevesi ligine göre otomatik takılır")}` : undefined}
                         onClick={() => cerceveSec(c.anahtar)}>
                   {kazanilanMi(c.anahtar) ? (
                     // lig / level / turnuva: yeni çizim (tembel; listede durağan)
@@ -264,7 +267,9 @@ export default function Koleksiyon() {
                   )}
                   <span className="qt-cs-ad">{ad}</span>
                   <span className="qt-cs-kaynak">{tt(KAYNAK_ADI[c.kaynak] ?? "Etkinlik")}</span>
-                  {c.sahip
+                  {c.sahip && ligDisi
+                    ? <span className="qt-cs-kosul"><QtIkon ad="kilit" boyut={12} /> {tt("Lig çerçevesi ligine göre otomatik takılır")}</span>
+                    : c.sahip
                     ? <span className="qt-cs-durum">{cerceveDurum(c.takili, `c:${c.anahtar}`)}</span>
                     : <span className="qt-cs-kosul"><QtIkon ad="kilit" boyut={12} /> {kosulMetni(c.kosul)}</span>}
                 </button>
@@ -340,7 +345,9 @@ export default function Koleksiyon() {
                 </li>
               )}
               {liste.map((x) => {
-                const kullanir = x.sahip || kozmetik.sahipHesap;
+                // Koleksiyon yalnız GERÇEK sahipliği gösterir (Dükkân ile aynı). Sahip hesabın test için takma
+                // yolu Dükkân'da ("Test için tak") kalır; eskiden burada sahipHesap → sahip olunmayan kalem "Tak".
+                const kullanir = Boolean(x.sahip);
                 return (
                   <li key={x.anahtar}>
                     {premiumMi(x) ? (
@@ -421,13 +428,12 @@ export default function Koleksiyon() {
                   <li key={a.url}>
                     <button type="button" className={"qt-cs-oge qt-ks-avatar" + (kilitli ? " qt-av-kilitli" : "")} aria-pressed={secili} disabled={Boolean(mesgul)}
                             aria-disabled={kilitli || undefined}
-                            aria-label={kilitli ? tt("{ad} — kilitli", { ad: a.ad }) : tt("{0} avatarını seç", { 0: a.ad })}
+                            aria-label={kilitli ? tt("Avatar — kilitli") : tt("Avatarı seç")}
                             onClick={() => { if (kilitli) setEdinmeAvatar(a); else avatarSec(a.url); }}>
                       <span className="qt-av-kilit-kutu">
                         <NadirlikImg src={a.url} alt="" loading="lazy" decoding="async" width="56" height="56" />
                         {kilitli && <AvatarKilitRozeti s={avatarSahiplik.get(a.url)} />}
                       </span>
-                      <span className="qt-cs-ad">{a.ad}</span>
                     </button>
                   </li>
                 );

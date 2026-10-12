@@ -27,6 +27,7 @@ import { useArkadasCevrimici } from "../lib/cevrimici.js";
 import "./arkadasCevrimici.css";
 import { gorunenAd } from "../lib/oyuncu.js";
 import { useArkadasaMacTeklifi } from "../lib/arkadasMaci.js";
+import { useArkadasArama, ARAMA_EN_AZ } from "../lib/arkadasArama.js";
 
 const DOSTLUK_SECIMI = `id, requester, addressee, durum,
   req:profiles!friendships_requester_fkey(id, gorunen_ad, gorunen_avatar, gorunum, puan),
@@ -55,6 +56,11 @@ export default function FriendsPage() {
   const [aktifMaclar, setAktifMaclar] = useState(() => new Map());
   const [geriCekilen, setGeriCekilen] = useState(null);
   const [yeniArkadas, setYeniArkadas] = useState(null);   // az önce kabul edilen isteğin satırı: kısa vurgu
+  // Telefon denetimi (12 Eki 2026): takma adla arama (1075) + davet kodu formu aramanın yanında
+  const [aramaMetni, setAramaMetni] = useState("");
+  const [kodAcik, setKodAcik] = useState(false);
+  const [aramaEkleniyor, setAramaEkleniyor] = useState(null);
+  const arama = useArkadasArama(aramaMetni);
 
   const bekleyenleriYukle = useCallback(async () => {
     try {
@@ -182,7 +188,27 @@ export default function FriendsPage() {
     }
   };
 
-  // Arkadaş eklemenin tek yolu davet kodu / davet linki.
+  /** Arama sonucundan arkadaşlık isteği (karşı taraf zaten istek gönderdiyse sunucu doğrudan arkadaş yapar). */
+  const aramadanEkle = async (s) => {
+    setHata(null);
+    setBilgi(null);
+    setAramaEkleniyor(s.id);
+    try {
+      const { error } = await supabase.rpc("send_friend_request", { p_target: s.id });
+      if (error) throw error;
+      const arkadasOldu = s.durum === "gelen";
+      arama.guncelle(s.id, arkadasOldu ? "arkadas" : "giden");
+      const ad = gorunenAd(s.gorunen_ad);
+      setBilgi(arkadasOldu ? tt("{0} artık arkadaşın!", { 0: ad }) : tt("{0} kişisine arkadaşlık isteği gönderildi", { 0: ad }));
+      yukle();
+    } catch (e) {
+      setHata(hataMesaji(e, tt("İstek gönderilemedi.")));
+    } finally {
+      setAramaEkleniyor(null);
+    }
+  };
+
+  // Arkadaş eklemenin yolları: takma adla arama, davet kodu / davet linki.
   const kodlaEkle = async (girilen) => {
     setHata(null);
     setBilgi(null);
@@ -356,6 +382,122 @@ export default function FriendsPage() {
         </p>
       )}
 
+      {/* ---------- ARAMA (en üstte) + "Davet koduyla ekle" yanında (12 Eki 2026) ---------- */}
+      <section className="ls-bolum ar-ara" aria-label={tt("Arkadaş bul")}>
+        <div className="ar-ara-satir">
+          <label className="qt-gizli" htmlFor="ar-ara-giris">{tt("Takma adla oyuncu ara")}</label>
+          <span className="ar-ara-kutu">
+            <QtIkon ad="arama" boyut={18} />
+            <input
+              id="ar-ara-giris"
+              type="search"
+              className="ar-ara-giris"
+              placeholder={tt("Takma adla ara")}
+              maxLength={30}
+              autoComplete="off"
+              spellCheck={false}
+              enterKeyHint="search"
+              value={aramaMetni}
+              onChange={(e) => setAramaMetni(e.target.value)}
+            />
+          </span>
+          <QtDugme
+            tur={kodAcik ? "birincil" : "ikincil"}
+            boyut="k"
+            ikon="kisiEkle"
+            className="ar-kod-ac"
+            aria-expanded={kodAcik}
+            aria-controls="ar-kod-panel"
+            onClick={() => setKodAcik((a) => !a)}
+          >
+            {tt("Kodla ekle")}
+          </QtDugme>
+        </div>
+        {kodAcik && (
+          <div id="ar-kod-panel" className="ar-kod-panel">
+            <p className="qt-kucuk qt-soluk ar-kod-not">{tt("Arkadaşının davet kodunu gir: arkadaş olursunuz; yeni hesapsan davet ödülünü de alırsın.")}</p>
+            <QtKart>
+              <form
+                className="ar-kod-satir"
+                onSubmit={(e) => { e.preventDefault(); kodlaEkle(); }}
+              >
+                <label className="qt-gizli" htmlFor="ar-kod-giris">{tt("Arkadaşının davet kodu")}</label>
+                <input
+                  id="ar-kod-giris"
+                  type="text"
+                  className="ar-kod-giris"
+                  placeholder={tt("8 haneli kod")}
+                  maxLength={8}
+                  autoComplete="off"
+                  autoCapitalize="characters"
+                  spellCheck={false}
+                  value={kod}
+                  onChange={(e) => setKod(e.target.value.toUpperCase())}
+                />
+                <QtDugme
+                  type="submit"
+                  tur="birincil"
+                  ikon="kisiEkle"
+                  yukleniyor={calisiyor}
+                  devreDisi={kod.trim().length !== 8}
+                >
+                  {tt("Ekle")}
+                </QtDugme>
+              </form>
+            </QtKart>
+          </div>
+        )}
+        {arama.durum === "kisa" && (
+          <p className="qt-kucuk qt-soluk ar-ara-not" role="status">{tt("En az {n} harf yaz.", { n: ARAMA_EN_AZ })}</p>
+        )}
+        {arama.durum === "araniyor" && (
+          <div className="qt-liste ls-iskelet" role="status" aria-busy="true">
+            <span className="qt-gizli">{tt("Aranıyor…")}</span>
+            <QtIskelet tur="satir" adet={2} />
+          </div>
+        )}
+        {arama.durum === "hata" && (
+          <p className="ls-uyari ls-uyari-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> <span>{arama.hata}</span></p>
+        )}
+        {arama.durum === "hazir" && arama.sonuclar.length === 0 && (
+          <p className="qt-kucuk qt-soluk ar-ara-not" role="status">{tt("Bu adla oyuncu bulunamadı.")}</p>
+        )}
+        {arama.durum === "hazir" && arama.sonuclar.length > 0 && (
+          <QtListe etiket={tt("Arama sonuçları")} className="ar-ara-liste">
+            {arama.sonuclar.map((s) => (
+              <QtListeSatiri
+                key={s.id}
+                bas={<AvatarCerceve profile={s} userId={s.id} boyut={44} />}
+                baslik={
+                  <span className="qt-ad-amblem">
+                    <OyuncuAdiDugmesi userId={s.id} profil={s} className="ls-ad">{s.gorunen_ad}</OyuncuAdiDugmesi>
+                    <OyuncuLigAmblemi userId={s.id} lig={s.lig} boyut={20} />
+                  </span>
+                }
+                alt={tt("Lv {n}", { n: s.level ?? 1 })}
+                sag={
+                  s.durum === "arkadas" ? <QtRozet ton="dogru" boyut="k" ikon="onay">{tt("Arkadaşın")}</QtRozet>
+                  : s.durum === "giden" ? <QtRozet ton="uyari" boyut="k" ikon="saat">{tt("Bekliyor|davet")}</QtRozet>
+                  : (
+                    <QtDugme
+                      tur="birincil"
+                      boyut="k"
+                      ikon={s.durum === "gelen" ? "onay" : "kisiEkle"}
+                      yukleniyor={aramaEkleniyor === s.id}
+                      devreDisi={Boolean(aramaEkleniyor)}
+                      onClick={() => { dokunus(); aramadanEkle(s); }}
+                      aria-label={tt("{ad} kişisini ekle", { ad: gorunenAd(s.gorunen_ad) })}
+                    >
+                      {s.durum === "gelen" ? tt("Kabul") : tt("Ekle")}
+                    </QtDugme>
+                  )
+                }
+              />
+            ))}
+          </QtListe>
+        )}
+      </section>
+
       {/* Paket 35 C: satıra dokununca profil kartı; kart yalnız verilen eylemleri çizer */}
       {kartHedef && (
         <OyuncuKarti
@@ -363,7 +505,7 @@ export default function FriendsPage() {
           onIzleme={kartHedef}
           onKapat={() => setKartHedef(null)}
           onOyna={kartHedef.id === user.id ? undefined : () => { setKartHedef(null); setModHedef(kartHedef); }}
-          oynaPasifNeden={bekleyenMeydan.has(kartHedef.id) ? BEKLEYEN_NEDEN : null}
+          oynaPasifNeden={bekleyenMeydan.has(kartHedef.id) ? BEKLEYEN_NEDEN : cevrimici.get(kartHedef.id) === "mac" ? tt("Arkadaşın şu an maçta.") : null}
           onMeydanOku={kartHedef.id === user.id ? undefined : async (id) => {
             const m = await meydanOku(id);
             if (m) throw new Error(m);
@@ -521,15 +663,15 @@ export default function FriendsPage() {
                     <QtDugme
                       tur="ikincil"
                       boyut="k"
-                      ikon="oyna"
-                      className={durum === "cevrimici" && !bekleyen ? "ar-oyna ar-oyna--cevrimici" : "ar-oyna"}
+                      ikon={durum === "mac" ? "saat" : "oyna"}
+                      className={durum === "cevrimici" && !bekleyen ? "ar-oyna ar-oyna--cevrimici" : durum === "mac" ? "ar-oyna ar-oyna--macta" : "ar-oyna"}
                       onClick={() => { dokunus(); setModHedef(p); }}
-                      devreDisi={Boolean(bekleyen)}
-                      title={bekleyen ? BEKLEYEN_NEDEN : undefined}
-                      aria-label={tt("{ad} ile oyna", { ad: p?.gorunen_ad ?? tt("Arkadaşın") })}
-                      aria-haspopup="dialog"
+                      devreDisi={Boolean(bekleyen) || durum === "mac"}
+                      title={bekleyen ? BEKLEYEN_NEDEN : durum === "mac" ? tt("Arkadaşın şu an maçta.") : undefined}
+                      aria-label={durum === "mac" ? tt("{ad} şu an maçta", { ad: p?.gorunen_ad ?? tt("Arkadaşın") }) : tt("{ad} ile oyna", { ad: p?.gorunen_ad ?? tt("Arkadaşın") })}
+                      aria-haspopup={durum === "mac" ? undefined : "dialog"}
                     >
-                      {tt("Oyna")}
+                      {durum === "mac" ? tt("Maçta") : tt("Oyna")}
                     </QtDugme>
                     </span>
                   </div>
@@ -631,42 +773,6 @@ export default function FriendsPage() {
         </section>
       )}
 
-      <details className="ls-bolum ar-katla">
-        <summary className="ar-katla-ust">
-          <h2 id="ar-kodla" className="qt-baslik-3 ls-bolum-baslik">{tt("Davet koduyla ekle")}</h2>
-          <QtIkon ad="asagi" boyut={18} />
-        </summary>
-        <p className="qt-kucuk qt-soluk ar-kod-not">{tt("Arkadaşının davet kodunu gir: arkadaş olursunuz; yeni hesapsan davet ödülünü de alırsın.")}</p>
-        <QtKart>
-          <form
-            className="ar-kod-satir"
-            onSubmit={(e) => { e.preventDefault(); kodlaEkle(); }}
-          >
-            <label className="qt-gizli" htmlFor="ar-kod-giris">{tt("Arkadaşının davet kodu")}</label>
-            <input
-              id="ar-kod-giris"
-              type="text"
-              className="ar-kod-giris"
-              placeholder={tt("8 haneli kod")}
-              maxLength={8}
-              autoComplete="off"
-              autoCapitalize="characters"
-              spellCheck={false}
-              value={kod}
-              onChange={(e) => setKod(e.target.value.toUpperCase())}
-            />
-            <QtDugme
-              type="submit"
-              tur="birincil"
-              ikon="kisiEkle"
-              yukleniyor={calisiyor}
-              devreDisi={kod.trim().length !== 8}
-            >
-              {tt("Ekle")}
-            </QtDugme>
-          </form>
-        </QtKart>
-      </details>
     </div>
   );
 }

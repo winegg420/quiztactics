@@ -60,7 +60,9 @@ import { secimModel, secimIpucuGoster, SecimHalka, SecimPipler, SecimKonsol, Sec
 // Tasarım A görünümü (m2- önekli). Eski duello-v2.css artık yüklenmez (dosya Faz 4'e kadar durur).
 import "./DuelloPage.a.css";
 import "../styles/duello-tahta.css";
-import { QtBosDurum, QtDugme, QtIkon, QtModal, QtSayac, QT_KIRILMA_MS, sinif } from "../tasarim/index.js";
+import { QtBosDurum, QtDugme, QtIkon, QtIskelet, QtModal, QtSayac, QT_KIRILMA_MS, sinif } from "../tasarim/index.js";
+import LobiKurallari from "../components/LobiKurallari.jsx";
+import { modAciklama, modKurallari } from "../lib/modAciklamalari.js";   // 12 Eki 2026: mod açıklaması + lobi maddeleri tek kaynak
 import { rpcDene } from "../lib/rpcDene.js";
 import { sure, sureOlcek } from "../lib/sureler.js";
 import { aramaAraligiSn } from "../lib/gorunurluk.js";
@@ -149,7 +151,7 @@ function DuelloGiris() {
         <div className="m2-giris-yazi">
           <h1 className="qt-baslik-1">{ceviri("Düello")}</h1>
           <p aria-busy={!kuralHazir || undefined}>{!kuralHazir ? " " : (v4 ? [
-            ceviri("Kontrolü al, üst üste 3 doğru yap, düelloyu kazan."),
+            modAciklama("duello"),
           ] : puanModu ? [
             // 7 Eki 2026: kısa anlatım (ayrıntı "Kurallar nasıl işliyor?" tanıtımında)
             // 8 Eki 2026: kart iki satır — yalnız tek kural cümlesi (+1/+2 ayrıntısı "Kurallar nasıl işliyor?" tanıtımında)
@@ -166,6 +168,8 @@ function DuelloGiris() {
           ]).join(" ")}</p>
         </div>
       </header>
+      {/* 12 Eki 2026: kurallar Ortak Hazine lobisindeki gibi 3 kısa numaralı madde (ortak LobiKurallari) */}
+      {kuralHazir && v4 && <LobiKurallari mod="duello" maddeler={modKurallari("duello")} />}
       {kilitli ? (
         <section className="m2-kilit qt-h-gir" role="status" aria-label={ceviri("Düello kilitli")}>
           <span className="m2-kilit-ikon" aria-hidden="true"><QtIkon ad="kilit" boyut={28} /></span>
@@ -178,13 +182,21 @@ function DuelloGiris() {
           </div>
           <QtDugme tamGenislik ikon="oyna" onClick={() => navigate(y())}>{ceviri("Klasik maç oyna")}</QtDugme>
         </section>
-      ) : !hazir ? null : (
+      ) : !hazir || !kuralHazir ? (
+        // 12 Eki 2026: kilit durumu / kurallar gelene kadar yalnız kırmızı başlık kalmasın — iskelet
+        <div className="m2-giris-iskelet" aria-busy="true" aria-label={ceviri("Yükleniyor…")}>
+          {!kuralHazir && <QtIskelet tur="satir" adet={3} />}
+          <QtIskelet tur="dugme" />
+          <QtIskelet tur="kart" yukseklik={150} />
+        </div>
+      ) : (
         <>
           <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
           <SkillSeti macTur="duello" onHazir={() => setSetHazir(true)} />
         </>
       )}
       <div className="m2-giris-eylem">
+        {hazir && !kilitli && !yerlesti && <QtIskelet tur="dugme" />}
         {hazir && !kilitli && yerlesti && (
           <>
             <QtDugme tamGenislik boyut="b" ikon="duello"

@@ -9,7 +9,6 @@
 // Dondurulmuş modlar (Hızlı Mod, "Hızlı Olan Kazanır") burada YOKTUR.
 // ============================================================
 import { useAyar } from "../lib/ayarlar.js";
-import { useDuelloKurallari } from "../lib/duelloKurallari.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RakipAra from "../components/RakipAra.jsx";
@@ -17,17 +16,15 @@ import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import KategoriSecici from "../components/KategoriSecici.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useKategoriTercih } from "../lib/kategoriTercih.js";
-import { KLASIK_JOKERLER, DUELLO_JOKERLER, DUELLO_V4_JOKERLER } from "../lib/jokerler.js";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
 import ModFiguru from "../components/ModFiguru.jsx";
+import { modAciklama, modJoker } from "../lib/modAciklamalari.js";   // 12 Eki 2026: mod açıklamaları tek kaynak
 import { QtModKart, QtListe, QtListeSatiri, SayfaBasligi, dokunus, siraStili, useSiraliGiris } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-modlar.css";
 
-// Gerçek joker sayıları — prototipteki "6 JOKER / 5 JOKER" yazıları uydurmaydı.
-const DUELLO_JOKER = DUELLO_JOKERLER.length;
-const KLASIK_JOKER = KLASIK_JOKERLER.length;
+// Gerçek joker sayıları ve mod açıklamaları lib/modAciklamalari.js'te (tek kaynak, 12 Eki 2026).
 
 /** Ana mod kartı: QtModKart'ın sınıf/renk dili + ışın sahnesi + büyük figür (ana sayfa mod şeridiyle aynı). */
 function AnaModKart({ mod, ad, alt, rozet, onClick, className, style }) {
@@ -45,10 +42,8 @@ function AnaModKart({ mod, ad, alt, rozet, onClick, className, style }) {
 }
 
 export default function ModlarPage() {
-  const { tur: turSayisi, v4 } = useDuelloKurallari();   // Düello tur sayısı metne gömülmez (960: seçim modunda 20, kapalıysa eski 16)
   // KASA (deneysel, 950): ayar satırı yoksa (migration uygulanmamış) ya da 0 ise kart kilitli + kapalı notu
   const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
-  const kasaHedef = useAyar("kasa_hedef_puan", 80);
   const navigate = useNavigate();
   const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
   // 860: Klasik / Saf Bilgi maç kategorisi (null = Karışık) — ana sayfa OYNA penceresiyle AYNI tercih.
@@ -92,8 +87,8 @@ export default function ModlarPage() {
           className={sirali}
           style={siraStili(0)}
           ad={tt("Klasik Maç")}
-          alt={tt("Jokerlerini kullan ve rakibini geç.")}
-          rozet={tt("{n} joker türü", { n: KLASIK_JOKER })}
+          alt={modAciklama("klasik")}
+          rozet={modJoker("klasik")}
           onClick={sec(() => macAra(false))}
         />
         <AnaModKart
@@ -101,8 +96,8 @@ export default function ModlarPage() {
           className={sirali}
           style={siraStili(1)}
           ad={ceviri("Düello")}
-          alt={v4 ? tt("Kontrolü al, 3/3 yap.") : tt("Skillerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.")}
-          rozet={tt("{n} joker türü · {t} tur", { n: v4 ? DUELLO_V4_JOKERLER.length : DUELLO_JOKER, t: turSayisi })}
+          alt={modAciklama("duello")}
+          rozet={modJoker("duello")}
           onClick={sec(() => navigate(y("/duello")))}
         />
         {/* KASA (deneysel, 950): kapalıyken mevcut kilitli kart kalıbı (kilitMetni) */}
@@ -112,8 +107,8 @@ export default function ModlarPage() {
             className={sirali}
             style={siraStili(2)}
             ad={tt("Ortak Hazine")}
-            alt={tt("Tek bil, hazineyi al, doğru anda aç.")}
-            rozet={tt("{n} puan", { n: kasaHedef })}
+            alt={modAciklama("kasa")}
+            rozet={modJoker("kasa")}
             onClick={sec(() => navigate(y("/kasa")))}
           />
         ) : (
@@ -137,7 +132,7 @@ export default function ModlarPage() {
             style={siraStili(3)}
             ad={ceviri("Saf Bilgi")}
             rozet={tt("Jokersiz")}
-            aria-label={`${ceviri("Saf Bilgi")} — ${tt("Kategori seç, yalnız bilgiyle yarış.")}`}
+            aria-label={`${ceviri("Saf Bilgi")} — ${modAciklama("saf")}`}
             onClick={sec(() => macAra(true))}
           />
           <QtModKart

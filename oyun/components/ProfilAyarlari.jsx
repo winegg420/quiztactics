@@ -199,10 +199,9 @@ export default function ProfilAyarlari() {
                         type="button"
                         key={a.url}
                         className={"qt-pf-avatar-sec" + (secili ? " qt-pf-avatar-sec--secili" : "") + (kilitli ? " qt-av-kilitli" : "")}
-                        aria-label={kilitli ? tt("{ad} — kilitli", { ad: a.ad }) : tt("{0} avatarını seç", { 0: a.ad })}
+                        aria-label={kilitli ? tt("Avatar — kilitli") : tt("Avatarı seç")}
                         aria-pressed={secili}
                         aria-disabled={kilitli || undefined}
-                        title={a.ad}
                         disabled={calisiyor}
                         onClick={() => (kilitli ? setEdinmeAvatar(a) : avatarKaydet(a.url))}
                       >

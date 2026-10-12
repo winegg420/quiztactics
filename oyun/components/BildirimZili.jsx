@@ -12,7 +12,7 @@ import { useDmOkunmamis, dmTazele } from "../lib/mesajlar.js";
 import { bildirimDinle } from "../lib/bildirimKanali.js";
 import PostaDetay from "./PostaDetay.jsx";
 import {
-  POSTA_GONDEREN, postaBaslik, odulBekliyor, postaRozetSayisi, postaKutusuOku, postaKutusuOkundu,
+  POSTA_GONDEREN, postaBaslik, odulBekliyor, postaRozetSayisi, postaKutusuOku, postaKutusuOkundu, emojisiz,
 } from "../lib/posta.js";
 import "../tasarim/ekranlar/posta.css";
 
@@ -72,6 +72,12 @@ const ONCELIK = {
   sira_sende: 3,
   gecildin: 3,
 };
+// 12 Eki 2026: davetler sunucuda 24 saatte geçersizleşir (kasa_davetleri vb.). Eskimiş davet bildirimi
+// ("3 gün önce Ortak Hazine daveti") listeden ve okunmamış sayısından düşer; satır silinmez, yalnız gösterilmez.
+const DAVET_TIPLERI = new Set(["mac_daveti", "rovans", "grup_daveti", "hizli_daveti", "duello_daveti", "kasa_daveti"]);
+const DAVET_OMRU_MS = 24 * 3600 * 1000;
+const guncelMi = (b) => !DAVET_TIPLERI.has(b?.tip) || Date.now() - new Date(b.created_at).getTime() < DAVET_OMRU_MS;
+
 const oncelikNo = (tip) => (tip in ONCELIK ? ONCELIK[tip] : 2);
 
 const oncelikSirala = (liste) =>
@@ -214,7 +220,8 @@ export default function BildirimZili() {
     if (!user) return;
     try {
       // 1060: tek çağrı — bildirimler + postalar (posta_kutusu)
-      const { bildirimler: data, postalar: postaListe } = await postaKutusuOku();
+      const { bildirimler: ham, postalar: postaListe } = await postaKutusuOku();
+      const data = ham.filter(guncelMi);
       setListe(okunmuslariSinirla(grupla(oncelikSirala(data))));
       setOkunmamis(data.filter((b) => !b.okundu).length);
       setPostalar(postaListe);
@@ -259,9 +266,15 @@ export default function BildirimZili() {
     };
   }, [acik, konumOlc]);
 
+  // 12 Eki 2026: panel açılınca her şey okundu sayılır; açılış anında okunmamış olanlar bu açılış boyunca VURGULU
+  // kalır (yoksa okunmamış vurgusu hiç görünmüyordu). Panel kapanınca sıfırlanır.
+  const [yeniler, setYeniler] = useState(() => new Set());
   const ac = async () => {
     const yeniDurum = !acik;
     if (yeniDurum) konumOlc();
+    setYeniler(yeniDurum
+      ? new Set([...liste.filter((b) => !b.okundu).map((b) => b.id), ...postalar.filter((p) => !p.okundu).map((p) => `posta-${p.id}`)])
+      : new Set());
     setAcik(yeniDurum);
     if (yeniDurum && (okunmamis > 0 || postaOkunmamis)) {
       try {
@@ -363,6 +376,7 @@ export default function BildirimZili() {
             <QtListeSatiri
               ikon="mesaj"
               ikonTon="mor"
+              kapSinif="bz-kart bz-kart--mor"
               vurgulu
               baslik={tt("{0} okunmamış mesaj", { 0: dmOkunmamis })}
               onClick={() => { setAcik(false); navigate(y("/mesajlar")); }}
@@ -393,10 +407,10 @@ export default function BildirimZili() {
               return (
                 <QtListeSatiri
                   key={`posta-${p.id}`}
-                  kapSinif="bz-posta-satir"
+                  kapSinif={`bz-posta-satir bz-kart bz-kart--${odullu ? "coin" : "vurgu"}`}
                   ikon={odullu ? "hediye" : "bildirim"}
                   ikonTon={odullu ? "coin" : "vurgu"}
-                  vurgulu={!p.okundu || bekliyor}
+                  vurgulu={!p.okundu || bekliyor || yeniler.has(`posta-${p.id}`)}
                   baslik={<span className="bz-metin">{postaBaslik(p)}</span>}
                   alt={`${POSTA_GONDEREN} · ${zamanMetni(p.olusturuldu)}`}
                   sag={bekliyor ? <span className="bz-posta-cip bz-posta-cip--odul">{tt("Ödül")}</span>
@@ -408,10 +422,11 @@ export default function BildirimZili() {
             {liste.map((b) => (
               <QtListeSatiri
                 key={b.id}
+                kapSinif={`bz-kart bz-kart--${TIP_TON[b.tip] ?? "mor"}`}
                 ikon={TIP_IKON[b.tip] ?? "zil"}
                 ikonTon={TIP_TON[b.tip] ?? "mor"}
-                vurgulu={!b.okundu}
-                baslik={<span className="bz-metin">{bildirimMetni(b.metin)}</span>}
+                vurgulu={!b.okundu || yeniler.has(b.id)}
+                baslik={<span className="bz-metin">{emojisiz(bildirimMetni(b.metin))}</span>}
                 alt={zamanMetni(b.created_at)}
                 onClick={() => {
                   setAcik(false);

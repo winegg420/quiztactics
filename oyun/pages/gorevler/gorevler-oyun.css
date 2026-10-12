@@ -258,3 +258,10 @@
   background: var(--qt-coin); color: var(--qt-coin-yazi); font: var(--qt-a-siyah) 13px/1 var(--qt-f-baslik);
   box-shadow: inset 0 0 0 2px var(--qt-metin), 0 2px 0 var(--qt-metin); white-space: nowrap;
 }
+
+/* Telefon denetimi (12 Eki 2026): "Ödülü al" öbür sekmedeki hazır ödüle yönlendirince kart/sandık kısa süre vurgulanır
+   (outline + parlama; transform yok). Son satır ("Yeni görevler … sonra") alt eylem alanının dibine yapışmasın diye ek boşluk. */
+.gk-kart.gk-vurgu .gk-on, .gk-sandik-dugme.gk-vurgu { outline: 4px solid var(--qt-coin); outline-offset: 3px; border-radius: var(--qt-r-k, 14px); animation: gk-vurgu-yan 0.8s ease-in-out 3; }
+@keyframes gk-vurgu-yan { 50% { outline-color: #fff; } }
+.gk-sahne .gk-yenilenme { margin-bottom: var(--qt-b-3, 16px); }
+@media (prefers-reduced-motion: reduce) { .gk-kart.gk-vurgu .gk-on, .gk-sandik-dugme.gk-vurgu { animation: none; } }

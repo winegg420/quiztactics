@@ -19,7 +19,6 @@ import { KartArkaPlanKatmani, kartArkaPlanSinifi, useKartArkaPlani } from "../ta
 import { gorunenAd } from "../lib/oyuncu.js";
 import KoleksiyonDokumu from "../components/KoleksiyonDokumu.jsx";
 import VitrinRozetleri from "../components/VitrinRozetleri.jsx";
-import DavetKarti from "../components/DavetKarti.jsx";
 import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
 import LevelCubugu from "../components/LevelCubugu.jsx";
 import LevelOdulleri from "../components/LevelOdulleri.jsx";
@@ -65,7 +64,8 @@ import {
 import "../tasarim/ekranlar/dukkan-profil.css";
 
 
-const SEKME_KODLARI = ["istatistik", "ayarlar", "rozet", "koleksiyon", "davet"];
+// 12 Eki 2026: Davet sekmesi kalktı — davet bölümü yalnız Arkadaşlar sayfasında (eski ?sekme=davet oraya yönlenir)
+const SEKME_KODLARI = ["istatistik", "ayarlar", "rozet", "koleksiyon"];
 
 export default function ProfilePage() {
   const { user, profile, refreshProfile, signOut, profilHata } = useAuth();
@@ -98,6 +98,7 @@ export default function ProfilePage() {
   };
   useEffect(() => {
     const s = new URLSearchParams(konum.search).get("sekme");
+    if (s === "davet") { git(y("/arkadaslar"), { replace: true }); return undefined; }
     if (!konum.state?.sekmeTik) setKisaKimlik(s === "ayarlar" || s === "davet");
     if (!s || !SEKME_KODLARI.includes(s)) return;
     setSekme(s);
@@ -236,7 +237,6 @@ export default function ProfilePage() {
     { kod: "ayarlar", ad: tt("Ayarlar"), ikon: "ayar" },
     { kod: "rozet", ad: tt("Rozetler"), ikon: "madalya" },
     { kod: "koleksiyon", ad: tt("Koleksiyon"), ikon: "palet" },
-    { kod: "davet", ad: tt("Davet"), ikon: "kisiEkle" },
   ];
 
   return (
@@ -309,7 +309,7 @@ export default function ProfilePage() {
           <div className="qt-pf-sayi qt-pf-sayi--altin">
             <span className="qt-pf-sayi-ikon" aria-hidden="true"><QtIkon ad="kupa" boyut={20} /></span>
             <b className="qt-sayi"><SayanSayi deger={Number(profile.sampiyonluk) || 0} /></b>
-            <span>{profile.sampiyonluk > 0 ? tt("Şampiyonluk") : tt("Kupa · turnuva kazan")}</span>
+            <span>{tt("Turnuva zaferi")}</span>
           </div>
         </li>
         <li className={sirali} style={siraStili(4)}>
@@ -458,7 +458,9 @@ export default function ProfilePage() {
                     </span>
                   )}
                 </div>
-                <QtDugme tur="ikincil" boyut="k" onClick={() => setKonumDuzenle(true)}>
+                {/* Kural (PROJECT_CONTEXT › Lig › Konum): kilitliyken düğme pasif, neden solda yazar */}
+                <QtDugme tur="ikincil" boyut="k" onClick={() => setKonumDuzenle(true)}
+                         devreDisi={Boolean(profile.ulke) && (konumHaftaKilitli(profile) || konumKilidiKalan(profile.konum_degisti_at) > 0)}>
                   {profile.ulke ? tt("Değiştir") : tt("Seç")}
                 </QtDugme>
               </div>
@@ -498,10 +500,6 @@ export default function ProfilePage() {
         {/* 481: çerçeveler (kazanılan + kilitli), auralar, avatarlar tek yerde */}
         {sekme === "koleksiyon" && user?.id && <Koleksiyon />}
 
-        {sekme === "davet" && (
-          /* Rozet + çerçeve paketi: yeni davet sistemi (300 / +100, Level 5, durum listesi) */
-          <DavetKarti />
-        )}
       </div>
 
       <QtModal

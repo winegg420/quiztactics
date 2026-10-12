@@ -506,7 +506,8 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
   const c = liste.find((a) => a.anahtar === secili) ?? varsayilan;
   if (!sahiplikOkundu) return <QtIskelet tur="kart" adet={2} />;
   if (!c) return <QtBosDurum boyut="k" ikon="dukkan" ton="mor" baslik={tt("Bu bölümde şu an satışta bir şey yok.")} />;
-  const ad = (a) => (aktifDil() === "en" ? a.ad_en : a.ad_tr) ?? a.ad_tr;
+  // Avatar adları arayüzde gösterilmez (Ida, 12 Eki 2026) — kartta resim, nadirlik ve fiyat/kilit kalır
+  const ad = () => tt("Avatar");
   const takili = profile?.avatar_url === c.url;
   const nadirlik = (a) => nadirlikHaritasi.get(a.url) ?? sahiplik.get(a.url)?.nadirlik ?? null;
   const nadirlikAdi = (a) => NADIRLIK_AD[nadirlik(a)]?.[aktifDil() === "en" ? "en" : "tr"] ?? null;
@@ -649,14 +650,13 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
             {b.nadirlik && <AvatarBolumBasligi as="li" nadirlik={b.nadirlik} sayi={b.ogeler.length} />}
             {b.ogeler.map((a, j) => (
               <li key={a.anahtar} className={b.bas + j < 8 ? sirali : undefined} style={siraStili(b.bas + j)}>
-                <button type="button" className={"qt-dc-oge" + (a.ucretli && !a.sahibim ? " qt-av-kilitli" : "")} aria-pressed={a.anahtar === c.anahtar} aria-haspopup="dialog" onClick={() => { dokunus(); listedenSec(a); }}>
+                <button type="button" className={"qt-dc-oge" + (a.ucretli && !a.sahibim ? " qt-av-kilitli" : "")} aria-pressed={a.anahtar === c.anahtar} aria-haspopup="dialog" aria-label={tt("Avatar")} onClick={() => { dokunus(); listedenSec(a); }}>
                   {etiketNadirligi(nadirlik(a)) && <NadirlikEtiketi nadirlik={etiketNadirligi(nadirlik(a))} />}
                   <span className="qt-av-kilit-kutu">
                     <CerceveliAvatar profile={{ ...(profile ?? {}), gorunen_avatar: a.url, avatar_url: a.url }} userId={user?.id} boyut={64}
                                      parla={false} />
                     {a.ucretli && !a.sahibim && <AvatarKilitRozeti s={sahiplik.get(a.url)} />}
                   </span>
-                  <span className="qt-dc-ad">{ad(a)}</span>
                   <span className="qt-dc-durum">
                     {profile?.avatar_url === a.url ? tt("Takılı") : a.ucretli ? (a.sahibim ? <span className="qt-dc-sahip"><QtIkon ad="onay" boyut={12} /> {tt("Sahip olunan")}</span> : a.fiyat_elmas != null && !a.kapali ? (a.para === "coin" ? <CoinFiyat fiyat={a.fiyat_elmas} /> : <ElmasFiyat fiyat={a.fiyat_elmas} />)
                       : sahiplik.get(a.url)?.edinme === "level" ? <><QtIkon ad="kilit" boyut={12} /> {tt("Lv {n}", { n: sahiplik.get(a.url).edinme_level })}</>

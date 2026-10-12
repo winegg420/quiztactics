@@ -176,3 +176,6 @@
 
 /* Kartın altında küçük: kalan turnuvalar + "nasıl işler?" */
 .m1-tv-sahne-alt { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 10px; margin-top: calc(-1 * var(--qt-b-2)); text-align: center; }
+
+/* Telefon denetimi (12 Eki 2026): lobi satırında sıra numarası yok; ad altında lig amblemi + level. */
+.m1-tv-lobi-etiket { display: inline-flex; align-items: center; gap: 6px; min-width: 0; font-size: 12px; font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk, inherit); white-space: nowrap; }

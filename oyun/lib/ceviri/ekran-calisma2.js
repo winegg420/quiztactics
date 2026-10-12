@@ -15,4 +15,9 @@ export default {
   "Yanlış — Hatalarım'a eklendi": "Wrong — added to My Mistakes",
   "soru öğrenildi!": "question learned!",
   "Bu tur öğrenilen yok — bir dahakine!": "Nothing learned this round — next time!",
+  // Telefon denetimi (12 Eki 2026): seçim ekranının alt yarısı — dağılım + öğrenme yolu
+  "Bankandaki sorular": "Questions in your bank",
+  "Öğrenme yolu": "Learning path",
+  "Sonraki hedef: {h} soru · {k} kaldı": "Next goal: {h} · {k} to go",
+  "Bütün hedefleri geçtin!": "You passed every goal!",
 };

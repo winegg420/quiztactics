@@ -178,6 +178,8 @@ export function SeviyeUst({ durum, finalOdul = null, dil = "tr", onFinal, sirada
       </div>
       {/* Seviye: turuncu daire + altın çubuk (dolarken parıltı) + "x / y SP" */}
       <div className="sy-seviye2">
+        {/* Küçük üst (kaydırınca): sezon adı aynı satırda; normalde gizli (afişte zaten yazıyor) */}
+        <b className="sy-seviye2-sezon" aria-hidden="true">{tt("Sezon {n}", { n: durum.sezon?.no ?? "" })}</b>
         <span className="sy-seviye2-daire" aria-label={son ? tt("Sezon yolu tamam") : tt("Seviye {n}", { n: durum.seviye })}>{durum.seviye}</span>
         <AltinCubuk deger={deger} en={en} etiket={son ? tt("Taşma ödülüne ilerleme") : tt("Sonraki seviyeye ilerleme")} />
         <span className="qt-sayi sy-seviye2-sayi">

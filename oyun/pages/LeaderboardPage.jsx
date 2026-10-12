@@ -14,12 +14,12 @@ import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
 import { LigAmblemi } from "../tasarim/premium/ligAmblemi.jsx";
-import { KartUnvani } from "../components/OyuncuVitrinKarti.jsx";
 import IsimEfekti, { useKartAlani } from "../components/IsimEfekti.jsx";
 import { TacIkon } from "../tasarim/sezon-yolu/simgeler.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
-import { ayarlar } from "../lib/ayarlar.js";
+import { ayarlar, ayarlarSenkron } from "../lib/ayarlar.js";
+import { sonBilinenOku, sonBilinenYaz } from "../lib/sonBilinen.js";
 import {
   QtIkon, QtIkonDugme, QtDugme, QtSekmeler, QtCip, QtRozet, QtIlerleme,
   QtBosDurum, QtIskelet, QtModal, SayfaBasligi, siraStili, useSiraliGiris, dokunus,
@@ -49,6 +49,14 @@ const KAPSAMLAR = [
   // 646: Koleksiyon Puanı sıralaması (tüm zamanlar; yalnız statü)
   { id: "koleksiyon", ad: tt("Koleksiyoncular"), ikon: "yildiz" },
 ];
+
+// Telefon denetimi (12 Eki 2026): 6 sekme 390 px'e sığmıyordu (son ikisi ekran dışı). İki seviye:
+// üstte "Ligim | Sıralamalar", Sıralamalar altında kapsam yongaları (kısa adlar; 360 px EN'de tek satır).
+const UST_SEKMELER = [
+  { kod: "lig", ad: tt("Ligim"), ikon: "lig" },
+  { kod: "siralama", ad: tt("Sıralamalar"), ikon: "grafik" },
+];
+const YONGA_ADI = { koleksiyon: tt("Koleksiyoncu") };
 
 const DONEMLER = [
   { id: "hafta", ad: tt("Bu hafta") },
@@ -111,13 +119,15 @@ function LigSatiri({ s, vurgu = false, sirIdx = -1, kapsam, benimId, bolge, sira
             {/* 25 Eyl: unvan (tek oyuncu kartının küçük hâli; oyuncu_kartlari, avatarla aynı toplu çağrı).
                 2 Eki (satır sadeleştirme): rütbe/konumla AYNI satırda (lg-detay) — unvanı olan/olmayan
                 satır aynı yükseklikte kalsın; sığmazsa ellipsis (UnvanYazisi title ile tam metni verir). */}
-            <span className="lg-detay">
-              <RankBadge level={s.level} userId={s.user_id} boyut={15} />
-              <span className="lg-unvan"><KartUnvani userId={s.user_id} /></span>
-              {s.ulke && (
+            {/* Telefon denetimi (12 Eki 2026): satırda EN FAZLA BİR etiket, kesilmeden ("Ser…", "An…" yoktu olmalı).
+                Dünya/Ülke: konum (bayrak + şehir) ayırt edicidir; diğerlerinde rütbe. Unvan oyuncu kartında. */}
+            <span className="lg-detay lg-detay--tek">
+              {s.ulke && (kapsam === "global" || kapsam === "ulke") ? (
                 <span className="lg-konum">
                   <Bayrak kod={s.ulke} /> <span className="lg-konum-sehir">{s.sehir ?? ""}</span>
                 </span>
+              ) : (
+                <RankBadge level={s.level} userId={s.user_id} boyut={15} />
               )}
             </span>
           </span>
@@ -135,11 +145,16 @@ export default function LeaderboardPage() {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
   const [kapsam, setKapsam] = useState("lig");
+  // Sıralamalar sekmesinde en son seçilen kapsam (Ligim'e gidip dönünce aynı yonga açılır)
+  const [sonSiralama, setSonSiralama] = useState("global");
+  const ustSekme = kapsam === "lig" ? "lig" : "siralama";
+  const kapsamSec = (k) => { setKapsam(k); if (k !== "lig") setSonSiralama(k); };
   // Kendi lig grubumun üst bilgisi (lig adı, grup boyu, sınırlar, sezon sonu)
-  const [grupBilgi, setGrupBilgi] = useState(null);
+  // 12 Eki 2026 (soğuk açılış): son bilinen lig grubu → pankart ilk karede doğru lig/sırayla (sonra "Lig" başlığından pankarta sıçramaz)
+  const [grupBilgi, setGrupBilgi] = useState(() => sonBilinenOku("lig_grubum")?.[0] ?? null);
   // D-211: lig kuralları penceresi; ödül miktarları oyun_ayarlari'ndan (koda gömülmez)
   const [kuralAcik, setKuralAcik] = useState(false);
-  const [ligAyar, setLigAyar] = useState(null);
+  const [ligAyar, setLigAyar] = useState(() => ayarlarSenkron());   // 12 Eki: ödül çipleri sonradan belirip pankartı uzatmaz
   useEffect(() => {
     // Ödül çipleri pankartta durduğu için ayar Ligim sekmesinde de okunur (önbellekli).
     if ((!kuralAcik && kapsam !== "lig") || ligAyar) return undefined;
@@ -148,7 +163,7 @@ export default function LeaderboardPage() {
     return () => { aktif = false; };
   }, [kuralAcik, kapsam, ligAyar]);
   const [donem, setDonem] = useState("hafta");
-  const [liste, setListe] = useState([]);
+  const [liste, setListe] = useState(() => sonBilinenOku("lig_grubum") ?? []);
   const [sehirSirasi, setSehirSirasi] = useState(null);
   const [yukleniyor, setYukleniyor] = useState(true);
   const [hata, setHata] = useState(null);
@@ -241,6 +256,7 @@ export default function LeaderboardPage() {
           if (aktif) {
             setListe(satirlar);
             setGrupBilgi(satirlar[0] ?? null);
+            sonBilinenYaz("lig_grubum", satirlar);
           }
         } else if (kapsam === "koleksiyon") {
           const { data, error } = await supabase.rpc("koleksiyon_siralama");
@@ -478,7 +494,27 @@ export default function LeaderboardPage() {
           )}
         </section>
       ) : (
-        <SayfaBasligi className={`lg-baslik ${siraliOge(0).className}`.trim()} style={siraliOge(0).style} ikon="lig" baslik={tt("Lig")} />
+        kapsam === "lig" ? (yukleniyor ? (
+          /* 12 Eki: grup bilinmezken pankartın yerinde iskelet (önce düz "Lig" başlığı, sonra pankart kayması yok) */
+          <div className="lg-pankart lg-pankart--iskelet" aria-hidden="true" />
+        ) : (
+          <SayfaBasligi className={`lg-baslik ${siraliOge(0).className}`.trim()} style={siraliOge(0).style} ikon="lig" baslik={tt("Lig")} />
+        )
+        ) : (
+          /* Telefon denetimi (12 Eki 2026): Şehir/Ülke/Dünya/Arkadaş/Koleksiyoncu başlığı da Ligim gibi oyun sahnesi (sade "Lig" çubuğu yerine) */
+          <section className={`lg-pankart lg-pankart-sirala${siraliOge(0).className ? " " + siraliOge(0).className : ""}`} style={siraliOge(0).style} aria-labelledby="lg-pankart-baslik">
+            <div className="lg-pankart-ust">
+              <span className="lg-arma lg-arma--amblem lg-arma--ikon" aria-hidden="true">
+                <i className="lg-arma-isik" />
+                <QtIkon ad={KAPSAMLAR.find((k) => k.id === kapsam)?.ikon ?? "lig"} boyut={34} />
+              </span>
+              <div className="lg-pankart-metin">
+                <h1 id="lg-pankart-baslik" className="qt-baslik-2">{KAPSAMLAR.find((k) => k.id === kapsam)?.ad}</h1>
+                <p className="lg-sure lg-sure--alt">{kapsam === "koleksiyon" ? tt("Tüm zamanlar") : tt("Sıralama")}</p>
+              </div>
+            </div>
+          </section>
+        )
       )}
 
       {hata && (
@@ -490,10 +526,19 @@ export default function LeaderboardPage() {
       <QtSekmeler
         className="lg-sekmeler"
         etiket={tt("Sıralama türü")}
-        sekmeler={KAPSAMLAR.map((k) => ({ kod: k.id, ad: k.ad, ikon: k.ikon }))}
-        aktif={kapsam}
-        onSec={setKapsam}
+        sekmeler={UST_SEKMELER}
+        aktif={ustSekme}
+        onSec={(k) => kapsamSec(k === "lig" ? "lig" : sonSiralama)}
       />
+      {ustSekme === "siralama" && (
+        <div className="lg-yongalar" role="group" aria-label={tt("Sıralama türü")}>
+          {KAPSAMLAR.filter((k) => k.id !== "lig").map((k) => (
+            <QtCip key={k.id} secili={kapsam === k.id} onClick={() => { dokunus(); kapsamSec(k.id); }}>
+              {YONGA_ADI[k.id] ?? k.ad}
+            </QtCip>
+          ))}
+        </div>
+      )}
 
       {/* Dönem seçimi yalnız gurur tablolarında anlamlı: kademeli lig zaten haftalık. */}
       {kapsam !== "lig" && kapsam !== "koleksiyon" && (
@@ -530,7 +575,7 @@ export default function LeaderboardPage() {
         </p>
       )}
 
-      <div id={`qt-panel-${kapsam}`} role="tabpanel" aria-label={kapsamAdi} className="lg-panel">
+      <div id={`qt-panel-${ustSekme}`} role="tabpanel" aria-label={kapsamAdi} className="lg-panel">
         {(kapsam === "sehir" || kapsam === "ulke") && !konumVar ? (
           <div className="qt-kart qt-kart--yuzey qt-kart--dolgu-o">
             <QtBosDurum
@@ -576,7 +621,7 @@ export default function LeaderboardPage() {
               eylem={
                 <div className="lg-eylemler">
                   <QtDugme ikon="kisiEkle" onClick={() => navigate(y("/arkadaslar"))}>{tt("Arkadaş davet et")}</QtDugme>
-                  <QtDugme tur="ikincil" ikon="dunya" onClick={() => setKapsam("global")}>{tt("Dünya ligine bak")}</QtDugme>
+                  <QtDugme tur="ikincil" ikon="dunya" onClick={() => kapsamSec("global")}>{tt("Dünya ligine bak")}</QtDugme>
                 </div>
               }
             />
@@ -596,11 +641,14 @@ export default function LeaderboardPage() {
                         onClick={() => kartiAc(p)}
                       >
                         <span className="lg-madalya qt-sayi" aria-hidden="true">{basamak}</span>
-                        <AvatarCerceve
-                          profile={{ gorunen_ad: p.gorunen_ad, gorunen_avatar: p.gorunen_avatar, gorunum: p.gorunum }}
-                          boyut={basamak === 1 ? 64 : 52}
-                          userId={p.user_id}
-                        />
+                        {/* Telefon denetimi (12 Eki): çerçeve çizimi avatar kutusunun dışına taşar; kap o taşma kadar yer ayırır (ad/madalya üstüne binmez) */}
+                        <span className="lg-podyum-av">
+                          <AvatarCerceve
+                            profile={{ gorunen_ad: p.gorunen_ad, gorunen_avatar: p.gorunen_avatar, gorunum: p.gorunum }}
+                            boyut={basamak === 1 ? 64 : 52}
+                            userId={p.user_id}
+                          />
+                        </span>
                         <span className="lg-podyum-ad">
                           <span className="lg-ad-metin"><IsimEfekti userId={p.user_id}>{p.gorunen_ad}</IsimEfekti></span>
                           <OyuncuLigAmblemi lig={p.lig} userId={p.user_id} boyut={20} />

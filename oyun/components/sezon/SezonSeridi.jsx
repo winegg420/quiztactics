@@ -14,6 +14,7 @@ import { QtIkon } from "../../tasarim/index.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import { aktifDil, tt } from "../../lib/dil.js";
 import { y } from "../../lib/yol.js";
+import { sonBilinenOku, sonBilinenYaz } from "../../lib/sonBilinen.js";
 import "./sezon.css";
 
 // Ejderha çerçevesi (pc_ejderha2) ağır sanattır: tembel yüklenir; inerken/hatada taç görseli yedeği (ana paket büyümez).
@@ -24,26 +25,35 @@ let onbellek = null;   // { anahtar, durum, an } — sayfalar arası dönüşte 
 /** Sezon durumu (sezon no, kalan gün, ödüller). Hata → null (şerit çizilmez). */
 function useSeridiDurumu(ozet) {
   const anahtar = ozet?.gorunur ? `${ozet.sezon ?? "-"}:${ozet.seviye ?? 0}:${ozet.bp ? 1 : 0}` : null;
-  const [durum, setDurum] = useState(() => (anahtar && onbellek?.anahtar === anahtar ? onbellek.durum : null));
+  // 12 Eki 2026: bellekte yoksa son bilinen durum (aynı anahtar) — soğuk açılışta kart anında, sunucu yine okunur
+  const [durum, setDurum] = useState(() => {
+    if (!anahtar) return null;
+    if (onbellek?.anahtar === anahtar) return onbellek.durum;
+    const k = sonBilinenOku("sezon_durum");
+    return k?.anahtar === anahtar ? k.durum : null;
+  });
+  const [okundu, setOkundu] = useState(false);   // bu anahtar için sunucu yanıtı (ya da hata) geldi mi
   useEffect(() => {
     if (!anahtar) { setDurum(null); return undefined; }
-    if (onbellek?.anahtar === anahtar && Date.now() - onbellek.an < ONBELLEK_MS) { setDurum(onbellek.durum); return undefined; }
+    if (onbellek?.anahtar === anahtar && Date.now() - onbellek.an < ONBELLEK_MS) { setDurum(onbellek.durum); setOkundu(true); return undefined; }
     let iptal = false;
     (async () => {
       try {
         const d = await sezonDurumu();
         if (iptal) return;
-        if (!d || typeof d !== "object" || d.gorunur === false) { setDurum(null); return; }
+        setOkundu(true);
+        if (!d || typeof d !== "object" || d.gorunur === false) { setDurum(null); sonBilinenYaz("sezon_durum", { anahtar, durum: null }); return; }
         onbellek = { anahtar, durum: d, an: Date.now() };
+        sonBilinenYaz("sezon_durum", { anahtar, durum: d });
         setDurum(d);
       } catch (e) {
         console.error("[Bildim] Sezon şeridi verisi alınamadı:", e?.message ?? e);
-        if (!iptal) setDurum(null);
+        if (!iptal) { setDurum(null); setOkundu(true); }
       }
     })();
     return () => { iptal = true; };
   }, [anahtar]);
-  return durum;
+  return { durum, okundu };
 }
 
 /** Taç görseli (dekoratif); yüklenemezse eski yıldız ikonu yedeği. */
@@ -71,10 +81,17 @@ function EjderhaGorsel({ profil }) {
   );
 }
 
-export default function SezonSeridi() {
-  const { ozet } = useSezonOzeti();
+/**
+ * `iskelet` (12 Eki 2026, ana sayfa): veri henüz BİLİNMİYORKEN (özet okunmadı ya da görünür özetin durumu gelmedi,
+ * son bilinen kopya da yok) kartın yerinde iskelet durur — kart sonradan belirip Görevler'i daraltmaz.
+ */
+export default function SezonSeridi({ iskelet = false }) {
+  const { ozet, yuklendi } = useSezonOzeti();
   const { profile } = useAuth();
-  const durum = useSeridiDurumu(ozet);
+  const { durum, okundu } = useSeridiDurumu(ozet);
+  if (iskelet && (!yuklendi || (ozet?.gorunur && !durum && !okundu))) {
+    return <span className="as-iskelet as-iskelet--yarim" aria-hidden="true" />;
+  }
   try {
     if (!ozet?.gorunur || !durum || durum.acik !== true || durum.test) return null;
     const no = durum.sezon?.no;

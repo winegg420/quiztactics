@@ -34,7 +34,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import Avatar from "../../src/components/Avatar.jsx";
 import CerceveGorseli, { icBoyut } from "../tasarim/cerceveler/CerceveGorseli.jsx";
 import { cerceveTanimiBul } from "../tasarim/cerceveler/tanimlar.js";
-import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
+import { oyuncuKarti, oyuncuKartiDinle, oyuncuKartiOnbellek } from "../lib/cerceve.js";
 import { tt } from "../lib/dil.js";
 import { premiumSanat } from "../lib/kozmetik.js";
 import { kazanilanMi } from "../tasarim/kazanilan/anahtarlar.js";
@@ -42,6 +42,11 @@ import AltinHalka from "./sezon/AltinHalka.jsx";
 import { ESKI_GORUNUM, CANLI_LIG_VARYANT } from "../tasarim/lig-sahnesi/canliGorunum.js";
 
 const PremiumAvatarCizim = lazy(() => import("./PremiumAvatarCizim.jsx"));
+
+// Okunan kart → bileşenin kullandığı alanlar (null kart → null)
+const kartAlanlari = (k) => (k ? { cerceve: k.cerceve ?? null, nadirlik: k.cerceve_nadirlik, aura: k.aura ?? null,
+  premium_cerceve: k.premium_cerceve ?? null, premium_aura: k.premium_aura ?? null,
+  sezon_bp: k.sezon_bp === true, bp_parlama: k.bp_parlama === true } : null);
 
 const alanVar = (o, ad) => o != null && Object.prototype.hasOwnProperty.call(o, ad);
 
@@ -59,7 +64,12 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
   // 1061: parlama elde değilse de kart okunur (aynı toplu + önbellekli çağrı; çoğu yerde zaten önbellekte)
   const parlaVerildi = parlaProp !== undefined || alanVar(kart, "bp_parlama");
   const verildi = cerceveVerildi && auraVerildi && premiumVerildi && parlaVerildi;
-  const [okunan, setOkunan] = useState(null);   // { cerceve, nadirlik, aura, premium_cerceve, premium_aura }
+  // 12 Eki 2026: ilk çizimde önbellekteki (ya da kendi kartımın son bilinen) kart → soğuk açılışta "önce çerçevesiz" kare yok
+  const [okunan, setOkunan] = useState(() => {
+    if (verildi || !kimlik) return null;
+    const k = oyuncuKartiOnbellek(kimlik);
+    return k === undefined ? null : kartAlanlari(k);
+  });   // { cerceve, nadirlik, aura, premium_cerceve, premium_aura }
   const [tazele, setTazele] = useState(0);
 
   useEffect(() => {
@@ -71,9 +81,7 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
     if (verildi || !kimlik) { setOkunan(null); return undefined; }
     let aktif = true;
     oyuncuKarti(kimlik)
-      .then((k) => { if (aktif) setOkunan(k ? { cerceve: k.cerceve ?? null, nadirlik: k.cerceve_nadirlik, aura: k.aura ?? null,
-                                                premium_cerceve: k.premium_cerceve ?? null, premium_aura: k.premium_aura ?? null,
-                                                sezon_bp: k.sezon_bp === true, bp_parlama: k.bp_parlama === true } : null); })
+      .then((k) => { if (aktif) setOkunan(kartAlanlari(k)); })
       .catch((e) => { console.error("[Bildim] çerçeve okunamadı:", e?.message ?? e); if (aktif) setOkunan(null); });
     return () => { aktif = false; };
   }, [verildi, kimlik, tazele]);

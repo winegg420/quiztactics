@@ -11,7 +11,8 @@ import CevapEfekti from "../components/CevapEfekti.jsx";
 import { GB_MS, titret } from "../lib/geriBildirim.js";
 import { hataMesaji } from "../lib/hata.js";
 import { supabase } from "../../src/lib/supabase.js";
-import { kategoriEtiket, kategorileriSirala } from "../lib/kategoriler.js";
+import { KATEGORI_BILGI, kategoriEtiket, kategorileriSirala } from "../lib/kategoriler.js";
+import GeriDugmesi from "../components/GeriDugmesi.jsx";
 import { y } from "../lib/yol.js";
 import { useGorunurlukTazele } from "../lib/gorunurluk.js";
 import { tikBasligiEkle } from "../lib/zaman.js";
@@ -25,6 +26,12 @@ import { BasiliTut } from "../lib/useBasiliTut.js";
 const SORU_SN = 20;
 const HARFLER = ["A", "B", "C", "D"];
 const SORU_SECENEKLERI = [10, 20, 30];
+// get_categories okunamazsa (12 Eki 2026 ölçümü: DB yük altındayken 500) kartlar bu sabit listeden çizilir —
+// eskiden hata sessizce yutuluyor, ekranda yalnız "Tümü" kalıyordu.
+const YEDEK_KATEGORILER = Object.keys(KATEGORI_BILGI).filter((k) => k !== "genel" && k !== "karisik").map((kategori) => ({ kategori }));
+// Öğrenme yolu kilometre taşları (yalnız görsel ilerleme; ödül vaat etmez)
+const OGRENME_TASLARI = [5, 10, 25, 50, 100, 250, 500, 1000];
+const katRengi = (k) => `var(--qt-kat-${String(k).replace(/_/g, "-")}-2, var(--qt-kat-diger-2))`;
 
 /**
  * Hatalarım — puansız, tek kişilik çalışma modu.
@@ -98,7 +105,18 @@ export default function CalismaPage() {
 
   useEffect(() => {
     bankaYukle();
-    rpcDene("get_categories").then(({ data }) => setKategoriler(data ?? []));
+    let iptal = false;
+    (async () => {
+      // Bir kez yeniden dene; yine olmazsa sabit liste (kartlar boş kalmasın)
+      let { data, error } = await rpcDene("get_categories");
+      if (error) {
+        await new Promise((r) => setTimeout(r, 1200));
+        if (iptal) return;
+        ({ data, error } = await rpcDene("get_categories"));
+      }
+      if (!iptal) setKategoriler(!error && Array.isArray(data) && data.length > 0 ? data : YEDEK_KATEGORILER);
+    })();
+    return () => { iptal = true; };
   }, [bankaYukle]);
 
   // ---------- Soru getir ----------
@@ -285,14 +303,28 @@ export default function CalismaPage() {
     const bankaSecenegi = bankaKat > 0 && !SORU_SECENEKLERI.includes(bankaKadar);
     // Ekran revizyonu A (Ida, 10 Eki 2026): kategori kartları — her kartta bankada bekleyen soru; bankada sorusu olanlar önde.
     const katAdet = new Map((banka?.kategoriler ?? []).map((k) => [k.kategori, Number(k.kategori_adet) || 0]));
+    // Bankada sorusu olup listede (get_categories) olmayan kategori de kart alır — bankadaki soru gizli kalmasın
+    const katListe = [...kategoriler];
+    for (const k of banka?.kategoriler ?? []) if (!katListe.some((x) => x.kategori === k.kategori)) katListe.push({ kategori: k.kategori });
     const katKartlari = [
       { kategori: null, adet: banka?.bekleyen ?? 0 },
-      ...kategorileriSirala(kategoriler)
+      ...kategorileriSirala(katListe)
         .map((k, i) => ({ kategori: k.kategori, adet: katAdet.get(k.kategori) ?? 0, i }))
         .sort((a, b) => b.adet - a.adet || a.i - b.i),
     ];
+    // Bankanın kategori dağılımı (yalnız sorusu olanlar, çoktan aza) ve öğrenme yolu
+    const dagilim = katKartlari.filter((k) => k.kategori && k.adet > 0);
+    const dagilimEn = Math.max(1, ...dagilim.map((k) => k.adet));
+    const ogrenilenSay = Number(banka?.ogrenilen) || 0;
+    const sonrakiTas = OGRENME_TASLARI.find((t) => t > ogrenilenSay) ?? null;
+    const oncekiTas = [...OGRENME_TASLARI].reverse().find((t) => t <= ogrenilenSay) ?? 0;
+    // Yolda 5 taş: geçilen son taşlar + sıradaki ve sonrası
+    const siraIdx = sonrakiTas ? OGRENME_TASLARI.indexOf(sonrakiTas) : OGRENME_TASLARI.length - 1;
+    const basIdx = Math.max(0, Math.min(siraIdx - 2, OGRENME_TASLARI.length - 5));
+    const gorunenTaslar = OGRENME_TASLARI.slice(basIdx, basIdx + 5);
     return (
       <div className="m1-cal">
+        <div className="m1-cal-geri"><GeriDugmesi /></div>
         {/* Ekran revizyonu A: turuncu kitap afişi — sağda bekleyen sayı, şeritte gerçek ilerleme (öğrenilen / toplam) */}
         <section className="m1-cal-hero" aria-label={tt("Hatalarım")}>
           <span className="m1-cal-hero-ikon" aria-hidden="true"><QtIkon ad="kitap" boyut={30} /></span>
@@ -384,6 +416,62 @@ export default function CalismaPage() {
                 : tt("Bu tur: {b} sorunun hepsi bankandan.", { b: tahminBanka })}
           </p>
         </section>
+
+        {!yukleniyor && !bankaHata && dagilim.length > 0 && (
+          <section className="m1-cal-bolum" aria-labelledby="m1-cal-dagilim">
+            <h2 id="m1-cal-dagilim" className="qt-baslik-3">{tt("Bankandaki sorular")}</h2>
+            <div className="m1-cal-dagilim">
+              {/* Tek şerit: her kategori kendi renginde, payı kadar */}
+              <div className="m1-cal-dagilim-serit" aria-hidden="true">
+                {dagilim.map((k) => <span key={k.kategori} style={{ flexGrow: k.adet, "--m1-kat": katRengi(k.kategori) }} />)}
+              </div>
+              <ul className="m1-cal-dagilim-liste">
+                {dagilim.map((k) => (
+                  <li key={k.kategori}>
+                    <button
+                      type="button"
+                      className="m1-cal-dagilim-satir"
+                      aria-pressed={kategori === k.kategori}
+                      aria-label={`${kategoriEtiket(k.kategori)} · ${tt("{n} soru bankanda", { n: k.adet })}`}
+                      onClick={() => setKategori(k.kategori)}
+                      style={{ "--m1-kat": katRengi(k.kategori) }}
+                    >
+                      <KategoriIkon anahtar={k.kategori} boyut={22} />
+                      <span className="m1-cal-dagilim-ad">{kategoriEtiket(k.kategori)}</span>
+                      <span className="m1-cal-dagilim-cubuk" aria-hidden="true"><i style={{ width: `${Math.max(6, Math.round((k.adet / dagilimEn) * 100))}%` }} /></span>
+                      <b className="qt-sayi">{k.adet}</b>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {!yukleniyor && !bankaHata && (banka?.toplam ?? 0) > 0 && (
+          <section className="m1-cal-bolum" aria-labelledby="m1-cal-yol">
+            <h2 id="m1-cal-yol" className="qt-baslik-3">{tt("Öğrenme yolu")}</h2>
+            <div className="m1-cal-yol">
+              <ol className="m1-cal-yol-taslar">
+                {gorunenTaslar.map((t) => (
+                  <li key={t} className={`m1-cal-yol-tas${t <= ogrenilenSay ? " m1-cal-yol-tas--tamam" : t === sonrakiTas ? " m1-cal-yol-tas--sirada" : ""}`}>
+                    <span className="m1-cal-yol-rozet" aria-hidden="true"><QtIkon ad={t <= ogrenilenSay ? "onay" : "kitap"} boyut={18} /></span>
+                    <b className="qt-sayi">{t}</b>
+                  </li>
+                ))}
+              </ol>
+              {sonrakiTas ? (
+                <>
+                  <QtIlerleme deger={ogrenilenSay - oncekiTas} en={sonrakiTas - oncekiTas} ton="dogru"
+                    etiket={tt("Sonraki hedef: {h} soru · {k} kaldı", { h: sonrakiTas, k: sonrakiTas - ogrenilenSay })} />
+                  <p className="m1-cal-yol-yazi">{tt("Sonraki hedef: {h} soru · {k} kaldı", { h: sonrakiTas, k: sonrakiTas - ogrenilenSay })}</p>
+                </>
+              ) : (
+                <p className="m1-cal-yol-yazi">{tt("Bütün hedefleri geçtin!")}</p>
+              )}
+            </div>
+          </section>
+        )}
 
         {hataBandi}
         <div className="m1-cal-eylem">

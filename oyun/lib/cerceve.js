@@ -15,6 +15,7 @@
 // ============================================================
 import { supabase } from "../../src/lib/supabase.js";
 import { ligCerceveUnut } from "./ligCerceve.js";
+import { benKimlik, sonBilinenOku, sonBilinenYaz } from "./sonBilinen.js";
 
 /** Nadirlikler, düşükten yükseğe (renk kodu arayüzde her yerde aynı). */
 export const CERCEVE_NADIRLIKLERI = ["siradan", "nadir", "epik", "efsanevi"];
@@ -87,7 +88,10 @@ async function kuyrugaBak() {
   for (const [id, cozucler] of istekler) {
     const k = sonuc.get(id) ?? null;
     // Uçuş sırasında oyuncuKartiUnut çağrıldıysa (liste ayrıldı) eski yanıt önbelleğe yazılmaz.
-    if (buUcus === ucusta && ucusta.get(id) === cozucler) onbellek.set(id, k);
+    if (buUcus === ucusta && ucusta.get(id) === cozucler) {
+      onbellek.set(id, k);
+      if (id === benKimlik()) sonBilinenYaz("kartim", k);   // 12 Eki: soğuk açılışta kendi çerçevem anında
+    }
     if (buUcus.get(id) === cozucler) buUcus.delete(id);
     for (const coz of cozucler) coz(k);
   }
@@ -105,6 +109,17 @@ export function oyuncuKarti(userId) {
     kuyruk.set(userId, liste);
     if (!zamanlayici) zamanlayici = setTimeout(kuyrugaBak, 30);
   });
+}
+
+/**
+ * Senkron okuma (12 Eki 2026): bellekteki kart; yoksa ve kendi kartımsa son bilinen kopyası; yoksa undefined.
+ * Yalnız İLK ÇİZİM içindir (CerceveliAvatar başlangıcı) — oyuncuKarti() yine sunucudan okur.
+ */
+export function oyuncuKartiOnbellek(userId) {
+  if (!userId) return undefined;
+  if (onbellek.has(userId)) return onbellek.get(userId);
+  if (userId === benKimlik()) return sonBilinenOku("kartim");
+  return undefined;
 }
 
 /** Birden çok kart; sıra korunur. Dönüş: (kart | null)[] */

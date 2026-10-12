@@ -45,3 +45,9 @@ export async function rozetBildirimlerim() {
   const data = await rpc("rozet_bildirimlerim");
   return data ?? [];
 }
+
+/** 1073: bitmiş turnuvalardaki en iyi sıram (hiç yoksa null) — "İlk 10" / "Kürsü" rozetinin anlamlı ilerlemesi. */
+export async function turnuvaEnIyiSiram() {
+  const data = await rpc("turnuva_en_iyi_siram");
+  return data == null ? null : Number(data);
+}

@@ -639,11 +639,10 @@ function MacSonuKutlama({
               </div>
             )}
             {xpv.atladi && xpv.avatarlar.map((av) => {
-              const avAd = (aktifDil() === "en" ? av.ad_en : av.ad_tr) ?? av.ad_tr ?? "";
               return (
                 <div key={av.anahtar} className="msk-levelup-avatar" role="status">
                   <NadirlikImg src={av.url} alt="" width="44" height="44" decoding="async" />
-                  <span>{av.sahipti ? tt("{ad} zaten sende · +{n} coin", { ad: avAd, n: av.coin }) : tt("Yeni avatar: {ad}", { ad: avAd })}</span>
+                  <span>{av.sahipti ? tt("Bu avatar zaten sende · +{n} coin", { n: av.coin }) : tt("Yeni avatar!")}</span>
                 </div>
               );
             })}

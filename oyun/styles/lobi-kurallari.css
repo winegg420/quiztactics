@@ -1,0 +1,17 @@
+/* Lobi kural özeti (components/LobiKurallari.jsx) — Ortak Hazine lobisinin 3 maddelik düzeni (kasa.css › .ks-ozet)
+   ortak hâle getirildi. Numara rozeti mod renginde: Hazine altın, Düello kırmızı + beyaz yazı. */
+.lobi-kurallar { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.lobi-kurallar li {
+  display: grid; grid-template-columns: 26px minmax(0, 1fr); align-items: center; gap: 10px;
+  padding: 8px 12px; border-radius: var(--qt-r-l); background: var(--qt-yuzey); color: var(--qt-metin);
+  box-shadow: 0 3px 0 var(--qt-cizgi); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.3;
+}
+.lobi-kurallar b {
+  display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--qt-coin); color: var(--qt-coin-yazi); font: var(--qt-a-siyah) 14px/1 var(--qt-f-baslik);
+}
+.lobi-kurallar--duello b { background: var(--qt-mod-duello); color: #fff; }
+@media (max-height: 700px) { .lobi-kurallar li { padding-block: 6px; } }
+
+/* Düello lobisi yüklenirken iskelet (başlığın altı boş kalmasın) */
+.m2-giris-iskelet { display: grid; gap: 6px; }

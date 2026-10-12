@@ -11,7 +11,7 @@ import "../tasarim/ekranlar/g-yasal.css";
 // Bu bir TASLAKTIR; yayına almadan önce hizmet sağlayıcı kimliği (şahıs mı
 // şirket mi, unvan, adres) ve uygulanacak hukuk maddesi doldurulmalıdır.
 const GUNCELLEME = tt("10 Ekim 2026");
-const ILETISIM = "quiztacticsapp@gmail.com";
+const ILETISIM = "info@quiztactics.com";
 
 export default function KosullarPage() {
   return (

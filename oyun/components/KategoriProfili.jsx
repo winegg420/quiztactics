@@ -15,7 +15,7 @@ import KategoriIkon, { KATEGORI_RENK } from "./KategoriIkon.jsx";
 import { kategoriAdi, kategorileriSirala } from "../lib/kategoriler.js";
 import { unvanAdi } from "../lib/unvanlar.js";
 import { useDil } from "../lib/dilKanca.js";
-import { QtIlerleme, QtIskelet, QtRozet, sayiBicim } from "../tasarim/index.js";
+import { QtDugme, QtIlerleme, QtIskelet, QtRozet, sayiBicim } from "../tasarim/index.js";
 import { ttSunucu } from "../lib/dil.js";
 import { SEVIYE_KOD } from "./UstalikIzgarasi.jsx";
 import "../tasarim/ekranlar/dukkan-bilesen.css";
@@ -26,6 +26,7 @@ export default function KategoriProfili({ userId, profil: disaridan = null, kucu
   // (60 px + kenar boşlukları ≈ 90 px) sonsuza dek yer tutuyordu; artık blok hiç çizilmez.
   const [profil, setProfil] = useState(disaridan ?? undefined);
   const [hata, setHata] = useState(false);
+  const [tumu, setTumu] = useState(false);   // profil: ilk 4 kategori, gerisi "Tümünü gör" ile
 
   useEffect(() => {
     if (disaridan) { setProfil(disaridan); return; }
@@ -81,6 +82,10 @@ export default function KategoriProfili({ userId, profil: disaridan = null, kucu
       if (gorulen.has(k.kategori) || k.kategori === "genel" || k.kategori === "karisik") continue;
       if (k.yuzde !== null && k.yuzde !== undefined) birlesik.push({ kategori: k.kategori, dogru_sayisi: 0, yuzde: k.yuzde });
     }
+    // En iyi kategoriler önde: doğru oranı (yoksa -1), eşitlikte doğru sayısı
+    birlesik.sort((a, b) => (Number(b.yuzde ?? -1) - Number(a.yuzde ?? -1)) || ((Number(b.dogru_sayisi) || 0) - (Number(a.dogru_sayisi) || 0)));
+    const ILK = 4;
+    const gosterilen = tumu ? birlesik : birlesik.slice(0, ILK);
     const toplamDogru = ustalik.reduce((t, u) => t + (Number(u.dogru_sayisi) || 0), 0);
     return (
       <div className="qt-dk-kprofil qt-dk-kprofil--birlesik">
@@ -95,7 +100,7 @@ export default function KategoriProfili({ userId, profil: disaridan = null, kucu
           <p className="qt-kucuk qt-soluk">{ceviri("Henüz kategori istatistiği yok")}</p>
         ) : (
           <ul className="qt-dk-kprofil-liste">
-            {birlesik.map((k) => {
+            {gosterilen.map((k) => {
               const ad = ceviri(kategoriAdi(k.kategori));
               const yok = k.yuzde === null || k.yuzde === undefined;
               const sifir = !yok && Number(k.yuzde) === 0;
@@ -125,6 +130,11 @@ export default function KategoriProfili({ userId, profil: disaridan = null, kucu
               );
             })}
           </ul>
+        )}
+        {birlesik.length > ILK && (
+          <QtDugme tur="ikincil" boyut="k" aria-expanded={tumu} onClick={() => setTumu((t) => !t)}>
+            {tumu ? ceviri("Daha az göster") : ceviri("Tümünü gör ({n})", { n: birlesik.length })}
+          </QtDugme>
         )}
       </div>
     );

@@ -7,9 +7,14 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
+import { sonBilinenOku, sonBilinenYaz } from "./sonBilinen.js";
 
 let onbellek = null;
 let istek = null;
+let ayarlarOkundu = false;
+// 12 Eki 2026: son okunan tablo (tarayıcıda) — yalnız ilk çizimde (useAyar başlangıcı); sunucu yine okunur.
+const kalici = sonBilinenOku("ayarlar", { genel: true }) ?? null;
+const hazirDinleyici = new Set();
 
 /** Tüm ayarları { anahtar: sayı/değer } olarak döndürür. Hata olursa {} . */
 export async function ayarlar() {
@@ -22,12 +27,15 @@ export async function ayarlar() {
       const o = {};
       for (const s of data ?? []) o[s.anahtar] = s.deger;
       onbellek = o;
+      sonBilinenYaz("ayarlar", o, { genel: true });
       return o;
     } catch (e) {
       console.error("[Bildim] oyun ayarlari okunamadi:", e);
       return {}; // varsayılanlarla devam edilir
     } finally {
       istek = null;
+      ayarlarOkundu = true;
+      for (const f of hazirDinleyici) { try { f(); } catch { /* dinleyici */ } }
     }
   })();
   return istek;
@@ -46,7 +54,7 @@ export async function ayar(anahtar, varsayilan) {
  */
 export function useAyar(anahtar, varsayilan) {
   const [deger, setDeger] = useState(() => {
-    const v = Number(onbellek?.[anahtar]);
+    const v = Number((onbellek ?? kalici)?.[anahtar]);
     return Number.isFinite(v) ? v : varsayilan;
   });
   useEffect(() => {
@@ -55,4 +63,25 @@ export function useAyar(anahtar, varsayilan) {
     return () => { aktif = false; };
   }, [anahtar, varsayilan]);
   return deger;
+}
+
+/**
+ * Ayar değerleri BİLİNİYOR mu (12 Eki 2026): tablo okundu ya da son bilinen kopya var. Değere göre kart çizen
+ * sayfa (ana sayfa › Ortak Hazine şeridi) bilinmezken varsayılanla yanlış düzen çizmek yerine iskelet gösterir.
+ */
+export function useAyarlarHazir() {
+  const [hazir, setHazir] = useState(() => Boolean(onbellek || kalici || ayarlarOkundu));
+  useEffect(() => {
+    if (hazir) return undefined;
+    const f = () => setHazir(true);
+    hazirDinleyici.add(f);
+    if (ayarlarOkundu || onbellek) f(); else ayarlar();
+    return () => { hazirDinleyici.delete(f); };
+  }, [hazir]);
+  return hazir;
+}
+
+/** Senkron: bellekteki ya da son bilinen ayar tablosu (yoksa null). Yalnız ilk çizim içindir (12 Eki 2026). */
+export function ayarlarSenkron() {
+  return onbellek ?? kalici ?? null;
 }

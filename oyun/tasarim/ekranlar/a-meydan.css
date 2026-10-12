@@ -415,3 +415,18 @@ button.a-meydan-kisi--arkadas:disabled { cursor: default; opacity: 0.75; }
 .a-meydan-izgara-kart--secili { box-shadow: 0 0 0 4px var(--qt-ikinci), 0 4px 0 var(--qt-mod-yazi); }
 .a-meydan-izgara-ad { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1.2; }
 .a-meydan-izgara-bot { position: absolute; top: 4px; left: 4px; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--qt-ikinci-acik); color: var(--qt-ikinci-koyu); }
+
+/* Bitenler satırı (1072, 12 Eki 2026): mod etiketi · sonuç ölçütü · tarih */
+.a-meydan-gecmis { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; min-width: 0; }
+.a-meydan-gecmis-mod {
+  display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah);
+  line-height: 1.4; background: var(--qt-mod-klasik); color: var(--qt-mod-yazi); white-space: nowrap;
+}
+.a-meydan-gecmis-mod--duello { background: var(--qt-mod-duello); color: var(--qt-mod-duello-yazi); }
+.a-meydan-gecmis-mod--saf { background: var(--qt-mod-saf); }
+.a-meydan-gecmis-mod--kasa { background: var(--qt-mod-kasa); color: var(--qt-mod-kasa-yazi); }
+.a-meydan-gecmis-metin { min-width: 0; }
+
+/* 12 Eki 2026: alttaki sabit eylem düğmesi mod kartlarını örtmesin — seçilen kart düğmenin üstüne kaydırılır (scrollIntoView nearest) */
+.a-meydan-modlar .qt-mod { scroll-margin-bottom: calc(var(--qt-altmenu-yukseklik) + env(safe-area-inset-bottom, 0px) + 84px); }
+@media (min-width: 850px) { .a-meydan-modlar .qt-mod { scroll-margin-bottom: 84px; } }

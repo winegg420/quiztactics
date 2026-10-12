@@ -135,10 +135,11 @@ export function SezonMiniRozet() {
                   strokeDasharray={`${(CEVRE * oran).toFixed(2)} ${CEVRE.toFixed(2)}`} />
         </svg>
         <span className="sz-mini-sayi">{seviye}</span>
+        {/* 12 Eki: ödül noktası halkanın sağ üst köşesinde ("Sezon" yazısının üstüne binmez) */}
+        {odulVar && <span className="sz-mini-nokta" aria-hidden="true" />}
       </span>
       {/* Halkanın NE olduğu: Sezon Yolu seviyesi (içi seviye no, halka sonraki seviyeye ilerleme) → görünür etiket */}
       <span className="sz-mini-etiket" aria-hidden="true">{tt("Sezon")}</span>
-      {odulVar && <span className="sz-mini-nokta" aria-hidden="true" />}
     </button>
   );
 }

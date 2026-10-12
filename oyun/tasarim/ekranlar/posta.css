@@ -124,3 +124,28 @@ textarea.yp-girdi { min-height: 96px; resize: vertical; line-height: 1.4; }
 }
 /* Önizlemede AL oyuncunun göreceği gibi yeşil (basılmaz) */
 .qt-dugme.pd-onizleme-al:disabled { opacity: 1; filter: none; cursor: default; --_z: var(--qt-dogru); --_y: var(--qt-dogru-yazi); --_d: var(--qt-dogru-dudak); }
+
+/* ---------- 12 Eki 2026: posta kutusu satırları oyun kartı dilinde ----------
+   Düz web listesi yerine ayrık kartlar: soldaki ikon kutusu türün rengiyle aynı ince şerit + alt dudak gölgesi.
+   Okunmamış: türün açık renginde zemin, kalın başlık ve sağ üstte turuncu nokta (renk tek başına anlam taşımaz; nokta + kalınlık var). */
+.bz-govde { padding: var(--qt-b-2); display: flex; flex-direction: column; gap: 6px; background: var(--qt-yuzey-2, var(--qt-zemin)); }
+.bz-govde > .qt-satir-kap.bz-kart {
+  --bz-t: var(--qt-ikinci); --bz-ta: var(--qt-ikinci-acik);
+  position: relative; border-radius: 14px; overflow: hidden; background: var(--qt-yuzey);
+  box-shadow: inset 4px 0 0 var(--bz-t), 0 2px 0 var(--qt-yuzey-3, rgb(31 42 92 / 0.12));
+}
+.bz-govde > .qt-satir-kap.bz-kart + .qt-satir-kap.bz-kart { box-shadow: inset 4px 0 0 var(--bz-t), 0 2px 0 var(--qt-yuzey-3, rgb(31 42 92 / 0.12)); }
+.bz-govde > .qt-satir-kap.bz-kart--vurgu { --bz-t: var(--qt-vurgu); --bz-ta: var(--qt-vurgu-acik); }
+.bz-govde > .qt-satir-kap.bz-kart--dogru { --bz-t: var(--qt-dogru); --bz-ta: var(--qt-dogru-acik); }
+.bz-govde > .qt-satir-kap.bz-kart--yanlis { --bz-t: var(--qt-yanlis); --bz-ta: var(--qt-yanlis-acik); }
+.bz-govde > .qt-satir-kap.bz-kart--coin { --bz-t: var(--qt-coin); --bz-ta: var(--qt-coin-acik); }
+.bz-govde > .qt-satir-kap.bz-kart--bilgi { --bz-t: var(--qt-bilgi); --bz-ta: var(--qt-bilgi-acik); }
+.bz-govde > .qt-satir-kap.bz-kart--mor { --bz-t: var(--qt-ikinci); --bz-ta: var(--qt-ikinci-acik); }
+.bz-govde > .qt-satir-kap.bz-kart .qt-satir { padding-left: calc(var(--qt-b-3) + 4px); min-height: 56px; }
+.bz-govde > .qt-satir-kap--vurgulu.bz-kart { background: color-mix(in srgb, var(--bz-ta) 70%, var(--qt-yuzey)); }
+.bz-govde > .qt-satir-kap--vurgulu.bz-kart::after {
+  content: ""; position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--qt-vurgu); box-shadow: 0 0 0 2px var(--qt-yuzey); pointer-events: none;
+}
+.bz-govde > .qt-satir-kap:not(.qt-satir-kap--vurgulu).bz-kart .bz-metin { font-weight: var(--qt-a-kalin); }
+.bz-govde > .bz-bos, .bz-govde > .qt-bos { background: var(--qt-yuzey); border-radius: 14px; }

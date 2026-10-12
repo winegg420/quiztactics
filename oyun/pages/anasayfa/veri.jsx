@@ -41,6 +41,8 @@ import "../../tasarim/ekranlar/skill-rozet.css";
 import { tembelYukle, bostaOnYukle } from "../../../src/lib/tembelYukle.js";
 import { gorunenAd } from "../../lib/oyuncu.js";
 import { sonModuYaz, sonModuOku } from "../../lib/sonMod.js";
+import { sonBilinenOku, sonBilinenYaz } from "../../lib/sonBilinen.js";
+import { oyuncuKarti, oyuncuKartiOnbellek } from "../../lib/cerceve.js";
 
 // Arama ekranı + mod penceresi dokununca açılır: ilk yük paketinde taşınmaz, açılıştan sonra boşta
 // önceden iner (8 Eki 2026, soğuk açılış).
@@ -77,8 +79,14 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
   const { user, profile, refreshProfile } = useAuth();
   const uid = user?.id;
   const [gorevler, setGorevler] = useState([]);
-  const [lig, setLig] = useState(null);
-  const [ligOzet, setLigOzet] = useState(null);
+  // 12 Eki 2026 (soğuk açılış): lig özeti son bilinen kopyayla başlar; ligHazir = özet BİLİNİYOR (okundu / hata / kopya var).
+  // Bilinmezken lig kartı ve oyuncu kartı iskelet kalır — Altın Ligdeki oyuncuya "lige katıl" kartı bir an bile çizilmez.
+  const [ilkLig] = useState(() => (uid && uid === user?.id ? sonBilinenOku("lig_ozet") : undefined));
+  const [ligOzet, setLigOzet] = useState(ilkLig ?? null);
+  const [lig, setLig] = useState(ilkLig ? { lig: ilkLig.lig, sira: ilkLig.sira ?? null, yukselen: ilkLig.yukselen } : null);
+  const [ligHazir, setLigHazir] = useState(ilkLig !== undefined);
+  // Kendi oyuncu kartım (çerçeve): bellekte/son bilinende varsa hazır; yoksa okunana kadar oyuncu kartı iskelet (çerçevesiz kare yok)
+  const [kartHazir, setKartHazir] = useState(() => Boolean(uid) && oyuncuKartiOnbellek(uid) !== undefined);
   const [banka, setBanka] = useState(0);
   const [kabuller, setKabuller] = useState([]);
   const [siraSende, setSiraSende] = useState([]);
@@ -107,10 +115,12 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
         if (aktif) {
           setLigOzet(o);
           setLig(o ? { lig: o.lig, sira: o.sira ?? null, yukselen: o.yukselen } : null);
+          sonBilinenYaz("lig_ozet", o ?? null);
         }
       } catch (e) {
         console.warn("[Ana sayfa] lig_grubum_ozet:", e?.message ?? e);
       }
+      if (aktif) setLigHazir(true);   // hata da "bilinen" sayılır: iskelet takılı kalmaz (son bilinen varsa o durur)
       try {
         const { data, error } = await supabase.rpc("yanlis_bankam");
         if (error) throw error;
@@ -122,6 +132,13 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
     return () => { aktif = false; };
   }, [uid]);
 
+  useEffect(() => {
+    if (!uid || kartHazir) return undefined;
+    let aktif = true;
+    oyuncuKarti(uid).catch(() => null).finally(() => { if (aktif) setKartHazir(true); });
+    return () => { aktif = false; };
+  }, [uid, kartHazir]);
+
   // Kurulumda avatar/takma ad sonradan seçilir; lig kartındaki "Sen" satırı sunucudan eski hâliyle gelmişti.
   const kimlikRef = useRef(null);
   const kimlik = profile ? `${profile.gorunen_avatar ?? ""}|${profile.gorunen_ad ?? ""}` : null;
@@ -132,7 +149,7 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
     if (onceki === null || onceki === kimlik) return undefined;
     let aktif = true;
     ligGrubumOzet().then((o) => {
-      if (aktif && o) setLigOzet(o);
+      if (aktif && o) { setLigOzet(o); sonBilinenYaz("lig_ozet", o); }
     }).catch((e) => console.warn("[Ana sayfa] lig_grubum_ozet yenileme:", e?.message ?? e));
     return () => { aktif = false; };
   }, [uid, kimlik]);
@@ -270,7 +287,7 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
 
   const bekleyenOdul = gorevler.filter((g) => g.ilerleme >= g.hedef && !g.alindi).length;
 
-  return { user, profile, oyuncu, gorevler, bekleyenOdul, odulAl, lig, ligOzet, banka, kabuller, siraSende,
+  return { user, profile, oyuncu, gorevler, bekleyenOdul, odulAl, lig, ligOzet, ligHazir, kartHazir, banka, kabuller, siraSende,
            davetlerim, davetSayisi, turnuva, turnuvaYukle, turnuvaAyar, lobiyeKatil, mesaj, setMesaj };
 }
 

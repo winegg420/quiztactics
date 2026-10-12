@@ -11,9 +11,19 @@ export const POSTA_GONDEREN = "Quiz Tactics";
 
 const enMi = () => aktifDil() === "en";
 
-/** Oyuncunun dilindeki başlık/metin (EN boşsa TR). */
-export const postaBaslik = (p) => (enMi() && p?.baslik_en ? p.baslik_en : p?.baslik_tr ?? "");
-export const postaMetin = (p) => (enMi() && p?.metin_en ? p.metin_en : p?.metin_tr ?? "");
+/**
+ * Emoji temizliği (12 Eki 2026): posta kutusunda satırın solundaki ikon türü zaten anlatır; sunucu metnindeki
+ * 🎖 🏆 🔥 gibi emojiler gösterilirken atılır (bayrak çiftleri, değişken seçici, ZWJ, tuş kapağı dahil). Boşluklar toparlanır.
+ */
+const EMOJI = /[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}\u{1F3FB}-\u{1F3FF}︎️‍⃣]/gu;
+export function emojisiz(metin) {
+  if (typeof metin !== "string" || !metin) return metin ?? "";
+  return metin.replace(EMOJI, "").replace(/[ \t]{2,}/g, " ").replace(/^[ \t]+|[ \t]+$/gm, "").replace(/^[·:,–-]\s*/, "");
+}
+
+/** Oyuncunun dilindeki başlık/metin (EN boşsa TR); emojiler atılır. */
+export const postaBaslik = (p) => emojisiz(enMi() && p?.baslik_en ? p.baslik_en : p?.baslik_tr ?? "");
+export const postaMetin = (p) => emojisiz(enMi() && p?.metin_en ? p.metin_en : p?.metin_tr ?? "");
 
 /** Alınmamış ödülü olan posta (süresi geçmemiş — sunucu zaten süzer). */
 export const odulBekliyor = (p) => Array.isArray(p?.oduller) && p.oduller.length > 0 && !p?.alindi;
@@ -31,7 +41,7 @@ export function odulAdi(k) {
     case "coin": return tt("{0} coin", { 0: n.toLocaleString(enMi() ? "en-US" : "tr-TR") });
     case "elmas": return tt("{0} elmas", { 0: n.toLocaleString(enMi() ? "en-US" : "tr-TR") });
     case "joker": return `${n}× ${SKILL_TANIMLARI[k.anahtar]?.ad ?? k.anahtar}`;
-    case "avatar": return (enMi() ? k.ad_en : k.ad_tr) || k.ad_tr || tt("Avatar");
+    case "avatar": return tt("Avatar");   // avatar adı gösterilmez (12 Eki 2026)
     default: return tt("Ödül");
   }
 }

@@ -94,7 +94,7 @@
 .sz-mini .sz-rozet-halka { width: 22px; height: 22px; }
 .sz-mini-etiket { font: var(--qt-a-siyah) 10.5px/1 var(--qt-f-baslik); color: var(--qt-metin-soluk); white-space: nowrap; }
 .sz-mini-sayi { position: relative; font: var(--qt-a-siyah) 10px/1 var(--qt-f-baslik); font-variant-numeric: tabular-nums; color: var(--qt-metin); }
-.sz-mini-nokta { position: absolute; top: 0; right: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--qt-vurgu); box-shadow: 0 0 0 2px var(--qt-yuzey); }
+.sz-mini-nokta { position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; border-radius: 50%; background: var(--qt-vurgu); box-shadow: 0 0 0 2px var(--qt-yuzey); }
 .sz-mini:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: -6px; border-radius: 50%; }
 
 /* ---------- Seviye atlama bildirimi (QtToast içinde) ---------- */

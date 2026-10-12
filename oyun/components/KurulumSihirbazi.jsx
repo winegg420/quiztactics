@@ -276,8 +276,7 @@ export default function KurulumSihirbazi({ onTamam }) {
                         className={"g-avatar-sec" + (secilenAvatar === a.url ? " g-avatar-sec--secili" : "") + (kilitli ? " qt-av-kilitli" : "")}
                         aria-pressed={secilenAvatar === a.url}
                         aria-disabled={kilitli || undefined}
-                        aria-label={kilitli ? ceviri("{ad} — kilitli", { ad: ceviri(a.ad) }) : ceviri("{ad} avatarını seç", { ad: ceviri(a.ad) })}
-                        title={ceviri(a.ad)}
+                        aria-label={kilitli ? ceviri("Avatar — kilitli") : ceviri("Avatarı seç")}
                         onClick={() => {
                           if (kilitli) { setHata(null); setEdinmeAvatar({ url: a.url, ad: ceviri(a.ad) }); return; }
                           setHata(null);

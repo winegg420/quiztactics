@@ -75,6 +75,21 @@ export default function SezonYoluPage() {
   const [acilis, setAcilis] = useState("bekle");   // "bekle": veri/perde bekleniyor · "oyna": yol mevcut seviyeye kayar (sahnenin girişi QtSahne'de)
   const [perde, setPerde] = useState(false);       // sezonun ilk açılışı: tam perde
   const [parla, setParla] = useState(null);        // açılışta parlayan durak (mevcut seviye)
+  // Telefon denetimi (12 Eki 2026): yol kaydırılınca üst bölüm küçülür (afiş gizlenir; sezon · seviye · SP çubuğu tek satır),
+  // en üste dönünce açılır. Gecikmeli eşik (48 px / 4 px) titremeyi önler. Küçülme transform'suz (iOS fixed kuralı): yalnız display.
+  const [kucuk, setKucuk] = useState(false);
+
+  useEffect(() => {
+    const yol = yolRef.current;
+    if (!yol) return undefined;
+    const dinle = () => {
+      const st = yol.scrollTop;
+      setKucuk((k) => (k ? st > 4 : st > 48));
+    };
+    yol.addEventListener("scroll", dinle, { passive: true });
+    dinle();
+    return () => yol.removeEventListener("scroll", dinle);
+  }, [durum]);
 
   /** Satırı (seviye) kaydırılan bölgenin ORTASINA getiren scrollTop (yol = QtSahne'nin kaydırılan bölgesi). */
   const ortaHedef = (yol, el) => {
@@ -291,7 +306,7 @@ export default function SezonYoluPage() {
 
   return (
     <OdulKimlik.Provider value={{ profile }}>
-      <QtSahne className="sy-sahne" govdeRef={yolRef}
+      <QtSahne className={`sy-sahne${kucuk ? " sy-sahne--kucuk" : ""}`} govdeRef={yolRef}
         baslik={tt("Sezon Yolu")}
         ust={<SeviyeUst durum={durum} finalOdul={finalOdul} dil={dil} onFinal={(o) => setSecili(anahtar(o))}
           sirada={<SiradakiOdul kompakt durum={durum} toplam={toplam} harita={harita} dil={dil} onGit={(n) => kaydir(n, true)} />} />}

@@ -46,6 +46,7 @@ export default function GorevlerPage() {
   const [salla, setSalla] = useState(0);                  // sandık sallanma sayacı (her alımda)
   const [sallaAktif, setSallaAktif] = useState(false);    // sallanma yalnız alım anında (sekme değişince/açılışta sallanmaz)
   const [acilis, setAcilis] = useState(null);             // { faz: "bekle"|"ac", oduller } | null
+  const [vurgu, setVurgu] = useState(null);               // "Ödülü al": öbür sekmeye geçilince vurgulanan kart ("haftalik:<id>" | "sandik")
   const sandikRef = useRef(null);
   const canli = useRef(true);
   useEffect(() => { canli.current = true; return () => { canli.current = false; }; }, []);
@@ -195,6 +196,8 @@ export default function GorevlerPage() {
 
   const sandik = hft?.sandik;
   const sayiHazir = (kapsam) => (kapsam === "gunluk" ? gun : hft)?.gorevler?.filter(alinabilirMi).length ?? 0;
+  // Sekmedeki hazır ödül sayısı (haftalıkta hazır sandık da sayılır) — sekme noktası ve "Ödülü al" yönlendirmesi için.
+  const sekmeHazir = (kapsam) => sayiHazir(kapsam) + (kapsam === "haftalik" && alinabilirMi(sandik) ? 1 : 0);
   const hazir = veri ? sayiHazir("gunluk") + sayiHazir("haftalik") + (alinabilirMi(sandik) ? 1 : 0) : 0;
 
   const gunluk = sekme === "gunluk";
@@ -227,6 +230,27 @@ export default function GorevlerPage() {
   // Hazır kartlardan yalnız ilki nabız atar (ekranda tek nabız).
   const ilkHazir = liste.find((g) => alinabilirMi(g) && !alinan.has(`${kapsam}:${g.quest_id}`));
 
+  // "Ödülü al (n)": bu sekmede hazır ödül yoksa önce hazır ödülün olduğu sekmeye geç ve ilgili kartı vurgula
+  // (ödülün nerede olduğu görünsün); bu sekmede hazır ödül varsa hepsini topla (mevcut akış).
+  const vurguZaman = useRef(0);
+  useEffect(() => () => clearTimeout(vurguZaman.current), []);
+  const odulDugmesi = () => {
+    const diger = sekme === "gunluk" ? "haftalik" : "gunluk";
+    if (sekmeHazir(sekme) > 0 || sekmeHazir(diger) === 0) { topluAl(); return; }
+    const g = (diger === "gunluk" ? gun : hft)?.gorevler?.find(alinabilirMi);
+    const hedef = g ? `${diger}:${g.quest_id}` : "sandik";
+    setSekme(diger);
+    setVurgu(hedef);
+    clearTimeout(vurguZaman.current);
+    vurguZaman.current = setTimeout(() => { if (canli.current) setVurgu(null); }, 2400);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      try {
+        const el = hedef === "sandik" ? sandikRef.current : document.querySelector(`[data-gk-anahtar="${hedef}"]`);
+        el?.scrollIntoView({ block: "center", behavior: hareketAzaltildi() ? "auto" : "smooth" });
+      } catch { /* kaydırma kritik değil */ }
+    }));
+  };
+
   const sandikaDokun = () => {
     dokunus();
     if (sandikHazir) sandikAc();
@@ -234,7 +258,7 @@ export default function GorevlerPage() {
   };
 
   const sekmeDugmesi = (id, etiket, sn) => {
-    const digerHazir = id !== sekme ? sayiHazir(id) : 0;
+    const digerHazir = id !== sekme ? sekmeHazir(id) : 0;
     return (
       <button type="button" role="tab" id={`gk-sekme-${id}`} aria-selected={sekme === id} aria-controls="gk-panel" tabIndex={sekme === id ? 0 : -1}
               className={sinif("gk-sekme", sekme === id && "gk-sekme--aktif")} onClick={() => { if (sekme !== id) { dokunus(); setSekme(id); } }}>
@@ -260,7 +284,7 @@ export default function GorevlerPage() {
       {mesaj && <p className="gv-mesaj gk-mesaj" role="alert">{mesaj}</p>}
       {hazir > 0 && (
         <QtDugme tur="dogru" tamGenislik boyut="o" className="gv-toplu" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem) && islem !== "toplu"}
-                 onClick={() => { dokunus(); topluAl(); }}>{tt("Ödülü al ({n})", { n: sayiMetni(hazir) })}</QtDugme>
+                 onClick={() => { dokunus(); odulDugmesi(); }}>{tt("Ödülü al ({n})", { n: sayiMetni(hazir) })}</QtDugme>
       )}
     </>
   ) : null;
@@ -288,7 +312,7 @@ export default function GorevlerPage() {
           <div className="gk-panel" id="gk-panel" role="tabpanel" aria-labelledby={`gk-sekme-${sekme}`} key={sekme}>
             <section className={sinif("gk-sahne-alan", sandikYanik && "gk-sahne-alan--parlak")} aria-label={gunluk ? tt("Günlük görevler") : tt("Haftalık sandık")}>
               <span className="gk-isin" aria-hidden="true" />
-              <button type="button" className="gk-sandik-dugme" ref={sandikRef} onClick={sandikaDokun}
+              <button type="button" className={sinif("gk-sandik-dugme", vurgu === "sandik" && "gk-vurgu")} ref={sandikRef} onClick={sandikaDokun}
                       aria-label={sandikHazir ? tt("Sandığı aç") : gunluk ? tt("Günlük görevler") : tt("Haftalık sandık")}>
                 <span className="gk-kaide" aria-hidden="true" />
                 <span className={sinif("gk-yuzer", sandikHazir && "gk-yuzer--hazir")}>
@@ -318,7 +342,7 @@ export default function GorevlerPage() {
                 <GorevKarti key={g.quest_id} g={g} gunluk={gunluk} dil={dil} sezonAcik={sezonAcik} sira={i}
                             anahtar={`${kapsam}:${g.quest_id}`} alindi={efAlindi(kapsam, g)}
                             islemde={islem === `${kapsam}:${g.quest_id}`} mesgul={Boolean(islem)}
-                            nabiz={ilkHazir?.quest_id === g.quest_id}
+                            nabiz={ilkHazir?.quest_id === g.quest_id} vurgu={vurgu === `${kapsam}:${g.quest_id}`}
                             onAl={() => { dokunus(); gorevAlIslem(kapsam, g); }} />
               ))}
             </ul>

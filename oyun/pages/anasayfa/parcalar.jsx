@@ -500,7 +500,7 @@ export function LigKarti({ v }) {
         <span className="as-lk-yuk-uzun">{tt("Yükselme: {n} P", { n: sayi(o.yukselme_cizgisine_fark) })}</span>
         <span className="as-lk-yuk-dar">{tt("{n} P", { n: sayi(o.yukselme_cizgisine_fark) })}</span>
       </>
-    : alt;
+    : o.bolge === "yukselme" && o.ust_lig ? tt("Yükselme bölgesi") : alt;   // 12 Eki: kısa başlıkta kısa hâl (360 px EN'de 4 satıra taşmasın)
   // Kısa ekranda yalnız 2 satır: ben + yanındaki (üstündeki; ben 1. ise altındaki) — yarım satır kalmaz.
   const benI = satirlar.findIndex((x) => x.ben);
   const komsuI = benI > 0 ? benI - 1 : benI === 0 && satirlar.length > 1 ? 1 : -1;
@@ -512,7 +512,7 @@ export function LigKarti({ v }) {
         <b>{tt("{lig} Lig", { lig: LIG_ADLARI[o.lig] ?? o.lig })}</b>
         <span className="as-lk-sira qt-sayi">{tt("Sıra {n}/{m}", { n: o.sira, m: o.grup_boyu })}</span>
         {kalan && !alt && <small className="as-lk-kalan">{tt("Hafta bitimine {k}|ana", { k: kalan })}</small>}
-        {alt && <small className="as-lk-alt-kisa" aria-hidden="true">{altKisa}{kalan && ` · ${kalan}`}</small>}   {/* kısa ekranda alt satır başlığa girer (ellipsis; çakışmaz) */}
+        {alt && <small className="as-lk-alt-kisa" aria-hidden="true"><span className="as-lk-alt-kisa-metin">{altKisa}</span>{kalan && <span className="as-lk-alt-kisa-sure qt-sayi">{kalan}</span>}</small>}   {/* kısa ekranda alt satır başlığa girer (ellipsis; çakışmaz) */}
       </span>
       {alt && (
         <span className="as-lk-alt">

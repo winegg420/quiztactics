@@ -11890,3 +11890,30 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **1070:** `profiles` üzerinde BEFORE INSERT/UPDATE OF lig, takili_cerceve tetikleyicisi: takılı çerçeve `lig_*` ise `'lig_' || lig` (gorunum.lig_cerceve de). Görünüm kuralı yerine tetikleyici seçildi: lig'i yazan birçok fonksiyon (kapanış, düşme, yönetim) var ama tek yerde çözülüyor, okuyan fonksiyonların (oyuncu_kartlari, cercevelerim, cerceve_katalogu, davet_durumum, oyuncu_lig_cerceveleri) hiçbiri değişmedi, okuma başına ek maliyet yok. `cerceve_tak` ve `lig_cerceve_sec` başka ligin çerçevesini reddeder. Mevcut veri eşitlendi. RLS/GRANT değişmedi.
 - İstemci değişmedi: çerçeve gösteren bütün ekranlar (Klasik, Saf Bilgi, Ortak Hazine, Düello, Grup, Profil, Arkadaşlar, Lig, maç sonu, davet) veriyi sunucudan (`oyuncu_kartlari`/`davet_durumum`/lig grubu) alıyor; veri kaynağında düzeldiği için hepsi aynı sonucu verir. Düello tur sonucu kartındaki `cerceve={null}` tasarım gereği.
 - Test: `araclar/lig-cerceve-1070-sql-testi.mjs` 10/10 (prova + canlı): idagg kartı lig_altin; Bronz→Gümüş→Altın→düşüş; Altın'da lig_gumus takma reddi; özel çerçeve (turnuva_sampiyon) lig değişince aynı. Canlı ekran: misafir hesap Profil 390×844 TR (bronz/gümüş/altın) + 360×780 EN altın, konsol 0 (`tasarim/lig-cerceve-1070/`). Klasik tek maç duman GEÇTİ. Build temiz. Test hesabı silindi.
+
+## 2026-10-12 — Yayın öncesi telefon denetimi düzeltme paketi (19 madde; migration 1072, 1073, 1075)
+**Araç:** Claude Code (Opus 5.5; 5 paralel alt ajan, alan başına ayrı dosya kümesi)
+**Neden:** Ida'nın onayladığı 390 px telefon denetimi bulguları (12 Eki 2026), tek seferde.
+
+- **1 Lig çerçevesi:** Koleksiyon'da şu anki lig dışındaki lig çerçeveleri kilitli/pasif + "Lig çerçevesi ligine göre otomatik takılır" (`koleksiyon.js › ligDisiCerceve`).
+- **2 Ana sayfa ilk açılış:** kök sebep — lig özeti/oyuncu kartı/ayarlar/sezon gelmeden varsayılan (yanlış) içerik çiziliyordu. `lib/sonBilinen.js` (oyuncuya bağlı son yanıt önbelleği, yalnız ilk çizim) + aynı boyda iskeletler. Lig ve Profil başlığı da ilk karede doğru.
+- **3 Meydan Oku sonsuz iskelet:** kök sebep — `index.html` ön yüklemesindeki oturum yenilemesi askıda kalınca `src/lib/supabase.js` her çağrıda sınırsız bekliyordu (arkadaşlar, coin, zil). Bekleme 8 sn (profil 9 sn) ile sınırlı; arkadaş listesi 12 sn'de "Tekrar dene". Eski "7 joker türü" anı kalktı.
+- **4 Maç geçmişi:** "20-10 Kaybettin" kök sebebi terk (idagg terk etmiş). Yeni `mac_gecmisim(p_limit)` (1072): mod etiketi, tarih, "Sen x – y Rakip", Düello'da seri/terk sonucu.
+- **5 Görevler:** "doğru cevap" görevinin ikonu tikti → soru işareti; Ödülü al başka sekmedeki ödüle geçip kartı vurgular; alt boşluk.
+- **6 Efekt sahipliği:** canlı ölçüm — idagg hiçbir kozmetiğe sahip değil; Dükkân doğru, Koleksiyon sahip hesap test iznini sahiplik sayıyordu → yalnız gerçek sahiplik.
+- **7 Mod açıklamaları:** tek kaynak `lib/modAciklamalari.js` (Modlar, Meydan Oku, mod penceresi, Düello lobisi, ana sayfa kartları). Grup paneli açıkken Serbest/Dereceli gizli; alt düğme kartları örtmez.
+- **8** İletişim adresi info@quiztactics.com (Gizlilik, Koşullar).
+- **9 Avatar adları** arayüzde hiçbir yerde yok ("Avatar"/"Yeni avatar"); sunucu metninde ad üreten yer yok. İstisna: /yonetim/posta seçici (sahip sayfası).
+- **10 Lig:** "Ligim | Sıralamalar" + 5 yonga, tek etiket, sahne başlık, podyum binmesi 0.
+- **11 Ana sayfa:** lig şeridi iki satır/kısa metin, nokta halka köşesinde, "Son oynadığın" çipi mod kartında.
+- **12 Posta:** emojiler gösterimde temizlenir, 24 sa'ten eski davetler düşer, kart satırlar + okunmamış vurgusu.
+- **13 Hatalarım:** `get_categories` hatası sessizce yutuluyordu (o an DB 500) → bir yeniden deneme + sabit liste; geri düğmesi; "Bankandaki sorular" dağılımı + "Öğrenme yolu".
+- **14 Düello lobisi:** iskelet + ortak `LobiKurallari` (Ortak Hazine ile aynı 3 madde).
+- **15 Sezon Yolu:** kaydırınca üst tek satır (314 → 74 px, transform yok), alt tek bar.
+- **16 Turnuva lobisi:** 1-2-3/madalya rengi yok; lig amblemi + Level.
+- **17 Arkadaşlar:** `arkadas_ara` (1075; ≥3 harf, ≤20, engelli/bot/araç/gizli/askıda yok, 20/dk `rpc_sayac`), "Kodla ekle" arama yanında, Profil Davet sekmesi kaldırıldı (`?sekme=davet` → /arkadaslar), "Maçta" pasif.
+- **18 Profil:** "Turnuva zaferi", en iyi 4 kategori + Tümünü gör, "Level 25/50/75 Çerçevesi", "Level 100 Kanatları" (1073), İlk 10/Kürsü "En iyi: 14. · Hedef: ilk 10" (`turnuva_en_iyi_siram`, 1073).
+- **19** Şehir kilitliyken "Değiştir" pasif.
+- Migration: 1072, 1073, 1075 prova + canlı (yeni RPC'ler yalnız authenticated; mevcut RLS/GRANT değişmedi). 1071/1074 kullanılmadı.
+- Test: 5 betik `araclar/telefon-12eki-*.mjs` (taklit), 390×844 TR + 360×780 EN, konsol 0, taşma 0; ana sayfa soğuk açılış 250 ms × 22 kare iki senaryo yanlış görünüm 0; Meydan Oku uygulama içi 5 geçiş hepsi dolu. Kareler `tasarim/telefon-denetimi-12eki/`. Build temiz. Ajan test hesapları silindi.
+- Açık (Ida'ya): `send_friend_request` engelli kontrolü yapmıyor (güvenlik kuralı değişikliği → soru); push/toast metinlerinde sunucu emojileri duruyor; EN'de lig çerçeve adı profil diline göre TR gelebiliyor; "Maçta" düğmesi gerçek maçta gözle doğrulanmadı.

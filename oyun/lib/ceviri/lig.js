@@ -72,4 +72,8 @@ export default {
   "Eski": "Old",
   "Yeni": "New",
   "Battle Pass çerçevesi": "Battle Pass frame",
+  // Telefon denetimi (12 Eki 2026): iki seviyeli sekmeler
+  "Sıralamalar": "Rankings",
+  "Koleksiyoncu": "Collectors",
+  "Sıralama": "Rankings",
 };

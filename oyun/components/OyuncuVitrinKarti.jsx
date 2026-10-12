@@ -18,7 +18,7 @@ import { LigAmblemi } from "../tasarim/premium/ligAmblemi.jsx";
 import { TacIkon } from "../tasarim/sezon-yolu/simgeler.jsx";
 import { QtIkon } from "../tasarim/index.js";
 import { koleksiyonSayi } from "../lib/koleksiyon.js";
-import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
+import { oyuncuKarti, oyuncuKartiDinle, oyuncuKartiOnbellek } from "../lib/cerceve.js";
 import { KartArkaPlanKatmani, kartArkaPlanSinifi, useKartArkaPlani } from "../tasarim/arka-plan/kayit.jsx";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { BpKartCerceve } from "../tasarim/lig-sahnesi/BpCizimler.jsx";
@@ -35,7 +35,8 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 /** Oyuncu kartı verisi (verilmişse o; yoksa önbellekli toplu okuma). Önizlemedeki sahte kimlikler sunucuya gitmez. */
 export function useOyuncuKarti(userIdHam, verilen) {
   const userId = typeof userIdHam === "string" && UUID.test(userIdHam) ? userIdHam : null;
-  const [kart, setKart] = useState(verilen ?? null);
+  // 12 Eki 2026: ilk çizimde önbellekteki (kendi kartımda son bilinen) kart → soğuk açılışta lig/unvan/vitrin sonradan belirmez
+  const [kart, setKart] = useState(() => verilen ?? (userId ? oyuncuKartiOnbellek(userId) ?? null : null));
   const [tazele, setTazele] = useState(0);
   useEffect(() => {
     if (verilen !== undefined || !userId) return undefined;

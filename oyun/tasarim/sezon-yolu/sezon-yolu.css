@@ -932,3 +932,15 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
   .sy-hero2-vitrin { width: 92px; height: 92px; margin-block: 8px 0; }
   .sy-hero2-vitrin > :not(.sy-hero2-isilti) { scale: 1.05; }
 }
+
+/* =====================================================================
+   Telefon denetimi (12 Eki 2026) — kaydırınca küçülen üst + tek alt bar.
+   Afiş (hero) telefonda ekranın ~%40'ını kaplıyordu; yol kaydırılınca (.sy-sahne--kucuk, SezonYoluPage) afiş gizlenir ve
+   "Sezon N · seviye dairesi · SP çubuğu · x / y SP" tek satırda kalır. Alt yuvada bilgi niteliğindeki ikinci bar (BP bonus satırı,
+   alınabilir değilse) kaydırırken gizlenir → tek bar. Transform YOK (iOS: fixed + transform aynı öğede/atada olmaz); yalnız display.
+   ===================================================================== */
+.sy-seviye2-sezon { display: none; flex: none; font-family: var(--qt-f-baslik); font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: #fff; white-space: nowrap; }
+.sy-sahne--kucuk .sy-hero2 { display: none; }
+.sy-sahne--kucuk .sy-seviye2-sezon { display: inline; }
+.sy-sahne--kucuk .sy-seviye2-daire { width: 32px; height: 32px; font-size: var(--qt-y-m); }
+.sy-sahne--kucuk .sy-bonus-satir:not(.sy-bonus-satir--hazir) { display: none; }

@@ -25,6 +25,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { oyuncuKartiUnut } from "./cerceve.js";
 import { elmasTazele } from "./elmas.js";
 import { coinTazele } from "./coin.js";
+import { sonBilinenOku, sonBilinenYaz } from "./sonBilinen.js";
 
 const OLAY = "bildim-sezon-degisti";
 let sonOzet = null;          // son okunan özet (rozet, bildirim ve maç sonu aynı veriyi kullanır)
@@ -49,6 +50,7 @@ export async function sezonOzeti({ taze = false } = {}) {
   bekleyen = (async () => {
     try {
       sonOzet = await rpc("sezon_ozetim");
+      sonBilinenYaz("sezon_ozet", sonOzet ?? null);   // 12 Eki: soğuk açılışta Sezon kartı/rozeti anında
       return sonOzet;
     } catch (e) {
       console.error("[Bildim] sezon özeti alınamadı:", e?.message ?? e);
@@ -67,16 +69,24 @@ export function sezonOzetiOnbellek() {
 
 /** Özet hook'u: { ozet, tazele }. Sezon değişince (satın alma, ödül, maç sonu) kendini yeniler. */
 export function useSezonOzeti() {
-  const [ozet, setOzet] = useState(sonOzet);
+  // 12 Eki 2026: bellekte yoksa son bilinen özet (yalnız ilk çizim; sunucu yine okunur). yuklendi: özet BİLİNİYOR mu
+  // (okundu ya da son bilinen var) — kart çizen yer bilinmezken iskelet gösterir, "yok" sanıp düzeni kaydırmaz.
+  const [ilk] = useState(() => {
+    if (sonOzet) return { o: sonOzet, b: true };
+    const k = sonBilinenOku("sezon_ozet");
+    return k === undefined ? { o: null, b: false } : { o: k, b: true };
+  });
+  const [ozet, setOzet] = useState(ilk.o);
+  const [yuklendi, setYuklendi] = useState(ilk.b);
   const oku = useCallback(async () => setOzet(await sezonOzeti({ taze: true })), []);
   useEffect(() => {
     let iptal = false;
-    sezonOzeti().then((o) => { if (!iptal) setOzet(o); });
+    sezonOzeti().then((o) => { if (!iptal) { setOzet((eski) => o ?? eski); setYuklendi(true); } });   // hata (null) son bilineni silmez
     const f = () => { sezonOzeti({ taze: true }).then((o) => { if (!iptal) setOzet(o); }); };
     window.addEventListener(OLAY, f);
     return () => { iptal = true; window.removeEventListener(OLAY, f); };
   }, []);
-  return { ozet, tazele: oku };
+  return { ozet, tazele: oku, yuklendi };
 }
 
 /** Tam sayfa verisi. Hata fırlatır (sayfa kendi hata hâlini gösterir). */
@@ -143,6 +153,8 @@ export async function sahipTestSifirla(userId) {
 /** Ödülün oyuncuya görünen adı (dil: 'tr' | 'en'). */
 export function odulAdi(odul, dil = "tr") {
   if (!odul) return "";
+  // Avatar adları arayüzde gösterilmez (12 Eki 2026) — kod içi ad DBde kalır
+  if (odul.tur === "avatar") return dil === "en" ? "New avatar" : "Yeni avatar";
   return (dil === "en" ? odul.ad_en : odul.ad_tr) || odul.ad_tr || "";
 }
 

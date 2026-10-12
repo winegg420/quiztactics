@@ -44,7 +44,7 @@ export const edinmeParasi = (s) => (s?.edinme === "coin" || s?.edinme === "elmas
 
 /**
  * Kilitli avatar kartı.
- * @param {string} url, ad      avatar adresi ve görünen adı
+ * @param {string} url, ad      avatar adresi; ad artık GÖSTERİLMEZ (12 Eki 2026: avatar adları arayüzde yok)
  * @param {object} s            avatar_sahiplik_durumu satırı
  * @param {Function} onKapat
  * @param {Function} [onTak]    satın alındıktan sonra "Tak" (verilmezse yalnız Kapat)
@@ -84,7 +84,7 @@ export function AvatarEdinmeKarti({ url, ad, s, onKapat, onTak, onElmasAl, onAli
 
   const ParaIkonu = para === "coin" ? CoinIkon : ElmasIkon;
   return (
-    <QtModal acik tur="altSayfa" onKapat={onKapat} baslik={ad}
+    <QtModal acik tur="altSayfa" onKapat={onKapat} baslik={tt("Avatar")}
              altlik={(
                <div className="m1-sat-dugmeler">
                  <QtDugme tur="ikincil" onClick={onKapat}>{tt("Kapat")}</QtDugme>
@@ -104,7 +104,7 @@ export function AvatarEdinmeKarti({ url, ad, s, onKapat, onTak, onElmasAl, onAli
         </span>
         {nadirlik && <NadirlikEtiketi nadirlik={nadirlik} />}
         {sahip ? (
-          <p className="qt-av-edinme-satir" role="status">{tt("{ad} senin.", { ad })}</p>
+          <p className="qt-av-edinme-satir" role="status">{tt("Avatar senin.")}</p>
         ) : metin ? (
           <p className="qt-av-edinme-satir">{metin}</p>
         ) : para && !satilik ? (

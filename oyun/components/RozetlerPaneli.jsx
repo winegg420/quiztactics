@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import RozetMadalyonu from "./RozetMadalyonu.jsx";
 import DurumKutusu from "./DurumKutusu.jsx";
 import { useBirKezSirali } from "./KoleksiyonDokumu.jsx";
-import { rozetlerim, rozetVitriniSec } from "../lib/rozet.js";
+import { rozetlerim, rozetVitriniSec, turnuvaEnIyiSiram } from "../lib/rozet.js";
 import { oyuncuKartiUnut } from "../lib/cerceve.js";
 import { hataMesaji } from "../lib/hata.js";
 import { tt, tarihDili } from "../lib/dil.js";
@@ -17,6 +17,8 @@ import "../tasarim/ekranlar/rozet-panel.css";
 const KADEME_ADI = { bronz: "Bronz", gumus: "Gümüş", altin: "Altın", elmas: "Elmas" };
 // "Yeni": sunucunun verdiği kazanıldı_at son 24 saat içindeyse (rozetlerim() ayrı bir "görüldü" alanı döndürmez).
 const YENI_MS = 24 * 3600 * 1000;
+// 1073: sıra rozetlerinde ölçüt "ilk N’de bitirilen turnuva sayısı" (eşik 1) → "0/1" anlamsızdı; yerine en iyi sıra / hedef
+const SIRA_HEDEFI = { turnuva_ilk10: 10, turnuva_ilk3: 3 };
 const yeniMi = (r) => {
   const t = r.kazanildi && r.kazanildi_at ? new Date(r.kazanildi_at).getTime() : NaN;
   return Number.isFinite(t) && Date.now() - t >= 0 && Date.now() - t < YENI_MS;
@@ -43,6 +45,7 @@ export default function RozetlerPaneli({ userId }) {
   const [kaydediliyor, setKaydediliyor] = useState(false);
   const [vitrinHata, setVitrinHata] = useState(null);
   const [acikGruplar, setAcikGruplar] = useState({});
+  const [enIyiSira, setEnIyiSira] = useState(undefined);   // undefined: okunmadı → eski "değer/hedef" görünümü
   // Sıralı giriş + yeni rozet parıltısı yalnız oturumdaki ilk açılışta (sekme değişiminde yeniden oynamaz).
   const sirali = useBirKezSirali("rozet", Boolean(veri));
   const ilkAcilis = useRef(sirali !== "").current;
@@ -50,7 +53,11 @@ export default function RozetlerPaneli({ userId }) {
   const yukle = useCallback(async () => {
     setHata(null);
     try {
-      setVeri(await rozetlerim());
+      const v = await rozetlerim();
+      setVeri(v);
+      if ((v?.rozetler ?? []).some((r) => SIRA_HEDEFI[r.anahtar] && !r.kazanildi)) {
+        try { setEnIyiSira(await turnuvaEnIyiSiram()); } catch { /* okunamazsa eski görünüm kalır */ }
+      }
     } catch (e) {
       setHata(hataMesaji(e, tt("Rozetler yüklenemedi.")));
     }
@@ -85,8 +92,13 @@ export default function RozetlerPaneli({ userId }) {
     }
   };
   const gizliler = rozetler.filter((r) => r.gizli && !r.kazanildi);
+  // Sıra rozeti: "En iyi: 14. · Hedef: ilk 10" (hiç turnuva bitirmediyse "Hedef: ilk 10")
+  const siraMetni = (r) => (!r.kazanildi && SIRA_HEDEFI[r.anahtar] && enIyiSira !== undefined
+    ? (enIyiSira ? tt("En iyi: {n}. · Hedef: ilk {h}", { n: enIyiSira, h: SIRA_HEDEFI[r.anahtar] }) : tt("Hedef: ilk {h}", { h: SIRA_HEDEFI[r.anahtar] }))
+    : null);
   const rozetOgesi = (r) => {
-    const ilerliyor = !r.kazanildi && r.hedef > 0;
+    const sm = siraMetni(r);
+    const ilerliyor = !sm && !r.kazanildi && r.hedef > 0;
     const yeni = yeniMi(r);
     return (
       <button type="button" className={sinif("qt-rp-rozet", !r.kazanildi && "qt-rp-rozet--kilitli", yeni && "qt-rp-rozet--yeni")}
@@ -96,6 +108,7 @@ export default function RozetlerPaneli({ userId }) {
         {yeni && <span className="qt-rp-yeni" aria-hidden="true">{tt("Yeni")}</span>}
         {yeni && ilkAcilis && <span className="qt-rb-parilti" aria-hidden="true" />}
         <span className="qt-rp-ad">{r.ad}</span>
+        {sm && <span className="qt-rp-ilerleme"><span className="qt-rp-sayi">{sm}</span></span>}
         {ilerliyor && (
           <span className="qt-rp-ilerleme">
             <QtIlerleme deger={r.deger ?? 0} en={r.hedef} ton="mor" etiket={`${r.deger ?? 0}/${r.hedef}`} />
@@ -206,6 +219,8 @@ export default function RozetlerPaneli({ userId }) {
             )}
             {secili.kazanildi ? (
               <p className="qt-kucuk qt-soluk">{tt("Kazanıldı: {t}", { t: tarih(secili.kazanildi_at) })}</p>
+            ) : siraMetni(secili) ? (
+              <p className="qt-kucuk">{siraMetni(secili)}</p>
             ) : secili.hedef > 0 ? (
               <div className="qt-rp-detay-ilerleme">
                 <QtIlerleme deger={secili.deger ?? 0} en={secili.hedef} ton="mor" boyut="b" etiket={tt("İlerleme")} />

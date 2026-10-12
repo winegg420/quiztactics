@@ -245,3 +245,40 @@
 @media (min-height: 701px) and (max-width: 560px), (min-height: 701px) and (min-width: 561px) and (max-height: 960px) {
   body.bd-oyun-modu .m1-mac--calisma > .m1-soru:is(.m1-soru--uzun, .m1-soru--cok-uzun) .qt-soru-kart { min-height: clamp(190px, 25dvh, 230px); max-height: 260px; }
 }
+
+/* Telefon denetimi (12 Eki 2026): geri düğmesi + alt yarı — bankanın kategori dağılımı ve öğrenme yolu */
+.m1-cal-geri { display: flex; margin-bottom: calc(var(--qt-b-2) * -1); }
+.m1-cal-dagilim, .m1-cal-yol {
+  display: flex; flex-direction: column; gap: var(--qt-b-3);
+  padding: var(--qt-b-3); border: 3px solid #1d2152; border-radius: 18px;
+  background: var(--qt-yuzey, #fff); box-shadow: 0 4px 0 #1d2152; color: var(--qt-metin);
+}
+.m1-cal-dagilim-serit { display: flex; height: 16px; overflow: hidden; border: 2px solid #1d2152; border-radius: 999px; background: var(--qt-yuzey-2); }
+.m1-cal-dagilim-serit > span { flex-basis: 0; min-width: 4px; background: var(--m1-kat); }
+.m1-cal-dagilim-serit > span + span { border-left: 2px solid #1d2152; }
+.m1-cal-dagilim-liste { display: flex; flex-direction: column; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.m1-cal-dagilim-satir {
+  display: grid; grid-template-columns: 26px minmax(0, 7.5rem) minmax(0, 1fr) 2.5rem; align-items: center; gap: var(--qt-b-2);
+  width: 100%; min-height: 44px; padding: 4px 8px; border: 0; border-radius: 12px; background: transparent;
+  color: inherit; font: inherit; text-align: left; cursor: pointer;
+}
+.m1-cal-dagilim-satir:lang(en) { grid-template-columns: 26px minmax(0, 8.5rem) minmax(0, 1fr) 2.5rem; }
+.m1-cal-dagilim-satir[aria-pressed="true"] { background: var(--qt-ikinci-acik); }
+.m1-cal-dagilim-satir:focus-visible { outline: 3px solid var(--qt-ikinci); outline-offset: 1px; }
+.m1-cal-dagilim-ad { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--qt-a-siyah); font-size: 15px; }
+.m1-cal-dagilim-cubuk { height: 14px; overflow: hidden; border: 2px solid #1d2152; border-radius: 999px; background: var(--qt-yuzey-2); }
+.m1-cal-dagilim-cubuk > i { display: block; height: 100%; border-radius: 999px; background: var(--m1-kat); }
+.m1-cal-dagilim-satir b { text-align: right; font-size: 16px; }
+.m1-cal-yol-taslar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; position: relative; }
+.m1-cal-yol-taslar::before { content: ""; position: absolute; left: 10%; right: 10%; top: 19px; height: 4px; border-radius: 2px; background: var(--qt-yuzey-2); }
+.m1-cal-yol-tas { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--qt-metin-soluk); }
+.m1-cal-yol-rozet {
+  display: grid; place-items: center; width: 42px; height: 42px; border: 3px solid #1d2152; border-radius: 50%;
+  background: var(--qt-yuzey-2); color: #1d2152; opacity: 0.55;
+}
+.m1-cal-yol-tas--tamam { color: var(--qt-metin); }
+.m1-cal-yol-tas--tamam .m1-cal-yol-rozet { background: var(--qt-dogru, #2fbf71); color: #fff; opacity: 1; }
+.m1-cal-yol-tas--sirada { color: var(--qt-metin); }
+.m1-cal-yol-tas--sirada .m1-cal-yol-rozet { background: var(--qt-vurgu-acik); opacity: 1; box-shadow: 0 3px 0 #1d2152; }
+.m1-cal-yol-tas b { font-size: 15px; }
+.m1-cal-yol-yazi { margin: 0; font-weight: var(--qt-a-kalin); text-align: center; }

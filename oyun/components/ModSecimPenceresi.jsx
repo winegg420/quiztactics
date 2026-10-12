@@ -9,6 +9,7 @@ import { ayarlar, useAyar } from "../lib/ayarlar.js";
 import { useDuelloKurallari } from "../lib/duelloKurallari.js";
 import { tt } from "../lib/dil.js";
 import { CoinIkon } from "./ParaIkonlari.jsx";
+import { modAciklama, modJoker } from "../lib/modAciklamalari.js";   // 12 Eki 2026: mod açıklamaları tek kaynak
 
 /**
  * Arkadaşla oynarken mod seçimi (Paket 30 B).
@@ -115,8 +116,8 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       mod: "klasik",
       ikon: "klasik",
       ad: tt("Klasik Maç"),
-      aciklama: tt("Aynı sorular, en çok bilen kazanır."),
-      joker: tt("Maça 3 joker seçersin"),
+      aciklama: modAciklama("klasik"),
+      joker: modJoker("klasik"),
       odul: odulMetni(odul?.klasik),
     },
     {
@@ -126,13 +127,13 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       aciklama: !duelloHazir
         ? " "
         : duelloV4
-        ? tt("Kontrolü al, üst üste 3 doğru yap, düelloyu kazan.")
+        ? modAciklama("duello")
         : duelloPuan
         ? tt("Kategorileri seç, rakibinkine saldır. {h} puan ya da rakibin {y} kategorisini alan kazanır.", { h: duelloHedef, y: duelloYol })
         : duelloSecim
         ? tt("Kategorileri sırayla seçin, {n} yuvayı ilk dolduran kazanır. Rakibin kategorisini almak için sen doğru, rakip yanlış bilmelisin. {t} tur, eşitlikte Altın Soru.", { t: turSayisi, n: duelloEsik })
         : tt("{n} yuvayı ilk dolduran kazanır. Hamle için sen doğru, rakip yanlış bilmelisin. {t} tur, eşitlikte Altın Soru.", { t: turSayisi, n: duelloEsik }),
-      joker: tt("Maça 3 joker seçersin"),
+      joker: modJoker("duello"),
       odul: odulMetni(odul?.duello),
       rozet: tt("En çok ödül"),
     },
@@ -141,8 +142,8 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       mod: "saf",
       ikon: "safBilgi",
       ad: tt("Saf Bilgi"),
-      aciklama: tt("Kategori seç, yalnız bilgiyle yarış."),
-      joker: tt("skill yok"),
+      aciklama: modAciklama("saf"),
+      joker: modJoker("saf"),
       odul: odulMetni(odul?.klasik, true),
     },
     // 957: Kasa — ödül Klasik yoluyla aynı (kasa_bitir), jokerler Klasik envanterinden
@@ -150,8 +151,8 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       mod: "kasa",
       ikon: undefined,   // QtModKart kasa için sandık görselini çizer
       ad: tt("Ortak Hazine"),
-      aciklama: tt("Tek bilen hazineyi alır, doğru anda aç."),
-      joker: tt("Klasik jokerlerin geçer"),
+      aciklama: modAciklama("kasa"),
+      joker: modJoker("kasa"),
       odul: odulMetni(odul?.klasik),
     }] : []),
   ];

@@ -101,11 +101,10 @@ export default function LevelKazanci({ kaynak }) {
             </span>
           ))}
           {avatarlar.map((a) => {
-            const avAd = (aktifDil() === "en" ? a.ad_en : a.ad_tr) ?? a.ad_tr ?? "";
             return (
               <span key={a.anahtar} className="m1-level-skill">
                 <NadirlikImg src={a.url} alt="" width="28" height="28" decoding="async" />
-                {a.sahipti ? tt("{ad} zaten sende · +{n} coin", { ad: avAd, n: a.coin }) : tt("Yeni avatar: {ad}", { ad: avAd })}
+                {a.sahipti ? tt("Bu avatar zaten sende · +{n} coin", { n: a.coin }) : tt("Yeni avatar!")}
               </span>
             );
           })}

@@ -104,10 +104,10 @@ export const CERCEVE_TANIMLARI = {
   lig_efsane: { tur: "lig", malzeme: "efsane", tema: "lig", sus: ["mor_alevler", "efsane_tac"], efekt: "alev", kivilcim: true, ad: "Efsane Lig" },
 
   // ——— Level çerçeveleri (Level 25/50/75/100 rozetiyle gelir) — alt plakada level, yıldız sayısı artar
-  level_25: { tur: "level", malzeme: "bronz", tema: "lig", sus: ["yildiz_1"], plaka: "25", ad: "Level 25 Bronz" },
-  level_50: { tur: "level", malzeme: "gumus", tema: "lig", sus: ["yildiz_2"], plaka: "50", ad: "Level 50 Gümüş" },
-  level_75: { tur: "level", malzeme: "altin", tema: "lig", sus: ["yildiz_3"], plaka: "75", parilti: true, ad: "Level 75 Altın" },
-  level_100: { tur: "level", malzeme: "elmas", tema: "prizma", sus: ["altin_kanatlar", "yildiz_4"], plaka: "100", efekt: "aura", kivilcim: true, ad: "Level 100 Altın Kanatlar" },
+  level_25: { tur: "level", malzeme: "bronz", tema: "lig", sus: ["yildiz_1"], plaka: "25", ad: "Level 25" },
+  level_50: { tur: "level", malzeme: "gumus", tema: "lig", sus: ["yildiz_2"], plaka: "50", ad: "Level 50" },
+  level_75: { tur: "level", malzeme: "altin", tema: "lig", sus: ["yildiz_3"], plaka: "75", parilti: true, ad: "Level 75" },
+  level_100: { tur: "level", malzeme: "elmas", tema: "prizma", sus: ["altin_kanatlar", "yildiz_4"], plaka: "100", efekt: "aura", kivilcim: true, ad: "Level 100" },
 
   // ——— Turnuva çerçevesi (turnuva birincisi, satılmaz — migration 481)
   turnuva_sampiyon: { tur: "lig", malzeme: "altin", tema: "lig", sus: ["defne_altin", "lig_tac"], plaka: "1", parilti: true, ad: "Turnuva Şampiyonu" },

@@ -53,8 +53,8 @@ export default function LevelOdulleri({ level, adet = 3, vurgu = false }) {
       const parcalar = [];
       const av = avatarlar.get(l) ?? [];
       for (const a of av) {
-        parcalar.push(a.sahibim ? tt("{ad} sende · +{n} coin", { ad: a.ad, n: sahipCoin }) : tt("{ad} (avatar)", { ad: a.ad }));
-        if (!a.sahibim) kalemler.push({ level: l, tur: "avatar", ad: a.ad, url: a.url });
+        parcalar.push(a.sahibim ? tt("Avatar sende · +{n} coin", { n: sahipCoin }) : tt("Yeni avatar"));   // avatar adı gösterilmez
+        if (!a.sahibim) kalemler.push({ level: l, tur: "avatar", ad: tt("Yeni avatar"), url: a.url });
       }
       if (aralik > 0 && l % aralik === 0) {
         parcalar.push(tt("Skill hakkı"));
@@ -96,7 +96,7 @@ export default function LevelOdulleri({ level, adet = 3, vurgu = false }) {
           </span>
           <div className="qt-dk-sodul-metin">
             <b className="qt-dk-sodul-ad">
-              {ana.tur === "avatar" ? tt("{ad} (avatar)", { ad: ana.ad }) : ana.ad}
+              {ana.ad}
               {ek.length > 0 && <small className="qt-dk-sodul-ek"> {ek.map(ekMetin).join(" ")}</small>}
             </b>
             <span className="qt-dk-sodul-kalan">{tt("Lv {n}'{ek} · {k} level kaldı", { n: ana.level, ek: bulunmaEki(ana.level), k: kalan })}</span>

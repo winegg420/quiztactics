@@ -37,6 +37,7 @@ import "../tasarim/ekranlar/m1-mac.css";
 import "../tasarim/ekranlar/m1-sonuc.css";
 import "../tasarim/ekranlar/m1-turnuva.css";
 import { gorunenAd } from "../lib/oyuncu.js";
+import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
 
 // Oyuncu listesi değişimlerinde (katılım, puan) yeniden okuma aralığı — bkz. oyuncuTazele.
 const OYUNCU_TAZELE_MS = 3000;   // Aşama 2: 1,5 → 3 sn (oyuncu listesi değişimleri tek okumada birleşir)
@@ -186,7 +187,7 @@ export default function TournamentPage() {
       try {
         const { data: ply, error } = await supabase
           .from("tournament_players")
-          .select("*, profil:profiles(gorunen_ad, gorunen_avatar, gorunum, puan)")
+          .select("*, profil:profiles(gorunen_ad, gorunen_avatar, gorunum, puan, level)")
           .eq("tournament_id", secilen.id)
           .order("joined_at");
         if (error) throw error;
@@ -797,12 +798,13 @@ export default function TournamentPage() {
               (Paket 43 B: düğme içinde düğme geçersiz HTML). */}
           {suzulmusOyuncular.length > 0 && (
             <QtListe etiket={tt("Lobideki oyuncular")} className="qt-liste--kartli m1-tv-lobi-liste">
-              {suzulmusOyuncular.map((o, i) => (
+              {/* Telefon denetimi (12 Eki): 1-2-3 sıra numarası + madalya rengi kaldırıldı (turnuva başlamadan sıralama izlenimi veriyordu);
+                  yerine alt satırda lig amblemi + level (lig: oyuncu kartından toplu, level: profiles.level). */}
+              {suzulmusOyuncular.map((o) => (
                 <QtListeSatiri
                   key={o.user_id}
                   vurgulu={o.user_id === user.id}
                   bas={<>
-                    <span className={`m1-tv-sira qt-sayi${i < 3 && !suzuluyor ? ` m1-tv-sira--${i + 1}` : ""}`} aria-hidden="true">{i + 1}</span>
                     <button
                       type="button"
                       className="m1-tv-oyuncu-ac"
@@ -818,6 +820,7 @@ export default function TournamentPage() {
                       {o.profil?.gorunen_ad}
                     </OyuncuAdiDugmesi>
                   }
+                  alt={<LobiOyuncuEtiketi userId={o.user_id} level={o.profil?.level} />}
                   sag={o.user_id !== user.id ? (
                     <QtIkonDugme
                       ikon="kilic"
@@ -1024,5 +1027,16 @@ function TurnuvaOdulleri({ ayar }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+// Lobi satırı alt etiketi: lig amblemi + "Level n". Lig bilinmiyorsa amblem çizilmez; level yoksa yalnız amblem.
+function LobiOyuncuEtiketi({ userId, level }) {
+  const lv = Number(level);
+  return (
+    <span className="m1-tv-lobi-etiket">
+      <OyuncuLigAmblemi userId={userId} boyut={18} />
+      {Number.isFinite(lv) && lv > 0 && <span className="qt-sayi">{tt("Level {n}", { n: lv })}</span>}
+    </span>
   );
 }

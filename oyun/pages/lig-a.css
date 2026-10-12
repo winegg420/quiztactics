@@ -573,3 +573,26 @@
   .lg-bilgi-serit { gap: 6px; padding-inline: 10px; font-size: 12px; }
   .lg-bilgi-serit > .qt-ikon, .lg-bilgi-serit > svg { width: 16px; height: 16px; }
 }
+
+/* ---------- Telefon denetimi (12 Eki 2026) ---------- */
+/* İki seviyeli sekme: üstte Ligim | Sıralamalar (iki eşit sekme), altında kapsam yongaları tek satır (390 TR · 360 EN). */
+.lg-sekmeler.qt-sekmeler .qt-sekme { flex: 1 1 0; justify-content: center; }
+.lg-yongalar { display: flex; gap: 4px; min-width: 0; margin-top: calc(-1 * var(--qt-b-2)); }
+.lg-yongalar .qt-cip { flex: 1 1 auto; justify-content: center; min-width: 0; padding-inline: 6px; font-size: 13px; white-space: nowrap; }
+@media (max-width: 379px) { .lg-yongalar .qt-cip { padding-inline: 4px; font-size: 12px; } }
+/* Sıralamalar başlığı: Ligim pankartıyla aynı oyun sahnesi (mavi sahne; lige bağlı renk değil) */
+.lg-pankart-sirala { --_lig: var(--qt-lig-elmas); --_lig-dudak: var(--qt-lig-elmas-dudak);
+  --_sahne: var(--qt-lig-elmas-sahne); --_isik: var(--qt-lig-elmas-sahne-isik); --_cerceve: var(--qt-lig-elmas-sahne-cerceve); }
+.lg-arma--ikon { color: var(--qt-lig-yazi); }
+.lg-sure--alt { font-size: var(--qt-y-s); }
+/* Satırda tek etiket: kesilmez (ellipsis yok), dar ekranda da konum gizlenmez */
+.lg-detay--tek .lg-konum { display: inline-flex; flex: none; }
+.lg-detay--tek .lg-konum-sehir { overflow: visible; text-overflow: clip; }
+/* Podyum: uzun ad avatar çerçevesinin üstüne binmesin — çerçeve süsü taşmasına yer + ad en çok 2 satır, çerçevenin altında */
+.lg-podyum-av { display: grid; place-items: center; padding-block: 20px; margin-block: -12px -2px; }
+.lg-yer-1 .lg-podyum-av { padding-block: 26px; }
+.lg-podyum-ad { position: relative; z-index: 1; }
+.lg-podyum-ad > .lg-ad-metin { white-space: normal; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; line-height: 1.15; }
+
+/* 12 Eki 2026 (ana): lig grubu bilinmezken pankartın yerini tutan iskelet (LeaderboardPage) */
+.lg-pankart--iskelet { min-height: 220px; opacity: 0.55; }

@@ -98,5 +98,7 @@ export default {
   "Kontrolü al, 3/3 yap": "Take control, hit 3/3",
   "Doğru anda aç": "Open at the right time",
   "En son oynadığın: {mod}": "Last played: {mod}",
+  "Son oynadığın": "Last played",
+  "Yükselme bölgesi": "Promotion zone",
   "Oyun modları": "Game modes",
 };

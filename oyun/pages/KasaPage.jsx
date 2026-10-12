@@ -60,6 +60,8 @@ import { QtDugme, QtIkon, QtIskelet, QtModal, QtSayac, QtSik, QtSikler, QtSoruKa
 import "../tasarim/ekranlar/m1-mac.css";   // GeriSayim (3-2-1) görünümü
 import "./DuelloPage.a.css";              // m2-bant / m2-hata / m2-onay-eylem / m2-giris ortak kalıpları
 import "../styles/kasa.css";
+import LobiKurallari from "../components/LobiKurallari.jsx";
+import { modKurallari } from "../lib/modAciklamalari.js";
 
 const HARFLER = ["A", "B", "C", "D"];
 // 987: Savunma Sorusu aynı turun içinde ayrı olay — tek sefer anahtarlarına "-s" eki (soru + sonucu; tetik bandı normal tur)
@@ -194,11 +196,8 @@ function KasaGiris() {
         </div>
       </header>
       {/* 990: mobilde ilk ekran — 3 maddelik özet + "Rakip ara" görünür; tam kural listesi aşağıda açılır alanda */}
-      <ol className="ks-ozet">
-        <li><b className="qt-sayi">1</b><span>{ceviri("Soruyu tek başına bilen hazineyi alır.")}</span></li>
-        <li><b className="qt-sayi">2</b><span>{ceviri("AÇ: puanına yaz. DEVAM: hazine büyür, sahipsiz kalır.")}</span></li>
-        <li><b className="qt-sayi">3</b><span>{ceviri("{h} puana ilk ulaşan kazanır.", { h: hedef })}</span></li>
-      </ol>
+      {/* 12 Eki 2026: ortak bileşen (Düello lobisi de aynı düzen); maddeler lib/modAciklamalari.js */}
+      <LobiKurallari mod="kasa" className="ks-ozet" maddeler={modKurallari("kasa", { hedef })} />
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
       {surenMac && (
         <p className="m2-bant ks-suren-mac" role="status">
