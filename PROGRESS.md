@@ -11861,3 +11861,11 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - Prova temiz → uygulandı. Aktif soru 13.417 → 14.194 (+777); EN çevirili aktif 13.899. Kategori × zorluk canlıda migration'la birebir.
 - **Duman testi BAŞARISIZ (soru dışı sebep):** taze misafir hesapta kurulum penceresi 2/3'te ("Avatarını seç") kalıyor — "Avatarsız devam et" `avatar_onayla` 204 dönüyor ama pencere ilerlemiyor, Klasik şeridine dokunulamıyor. Oyun koduna dokunmama sınırı nedeniyle incelenmedi; ayrı iş. Test hesabı silindi.
 - `durum.json › codex_seri` canli_yasak=false, 04–07 `bitti_canlida`.
+
+## 2026-10-12 — "Avatarsız devam et" kurulum kapanı düzeltildi (migration 1069)
+- Kök sebep (ölçüldü): `avatar_onayla(null)` (820) `avatar_onayli = false` yazıyordu; KurulumSihirbazi effect'i bayrağı görüp adımı 2'ye geri atıyor, Layout her açılışta kurulumu yeniden gösteriyordu. Profil › "Avatarı kaldır" (ProfilAyarlari, avatarKaydet(null)) da aynı kapana düşüyordu.
+- 1069: yalnız `v_url is null` dalı → `avatar_onayli = true`; gövde, imza, yetkiler aynı. Prova + canlıya uygulandı.
+- ProfilAyarlari: bilgi metni artık `avatar_onayli && avatar_url` (avatarsız onaylı oyuncuya "harf gösteriliyor" yazar).
+- Diğer çağıranlar (Koleksiyon, DukkanKozmetik, GorunumPage) her zaman URL gönderir; etkilenmez.
+- Etkilenmiş mevcut hesap: 0 (gerçek/araç/lig_gizli ayrı ayrı 0) — veri düzeltmesi gerekmedi.
+- Uçtan uca (yerel istemci + canlı DB, yeni misafir): takma ad → Avatarsız → şehir adımı açıldı → ana sayfa; yenilemede kurulum gelmedi. yayin-oncesi-duman.mjs tek maç geçti (betik Ortak Hazine/Kasa maçı oynar). Test hesapları silindi.
