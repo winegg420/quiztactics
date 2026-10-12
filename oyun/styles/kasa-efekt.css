@@ -403,6 +403,9 @@
 
 /* ---------- MAÇ SONU açılış sahnesi ---------- */
 .ks-bitti--final { display: grid; }
+/* 12 Eki · M4: sahne alttaki boşluğu da kaplar (390×844'te altta ~¼ düz açık şerit kalıyordu); içerik dikeyde ortada */
+.ks-bitti--final { grid-template-rows: minmax(0, 1fr); min-height: calc(100dvh - var(--ks-final-ust, 96px)); }
+.ks-bitti--final > .ks-final { min-height: 0; }
 .ks-final {
   position: relative; display: grid; place-content: center; justify-items: center; gap: 14px; padding: 24px 16px;
   min-height: min(620px, calc(100dvh - 190px)); overflow: hidden; border-radius: var(--qt-r-l); text-align: center;
@@ -512,7 +515,7 @@
 
 /* ---------- tur başı sarsıntısı · son 3 sn titreme (mini kasa) ---------- */
 .ks-kadran--tur-sars .ks-kadran-mini { animation: ks-tur-sars calc(520ms * var(--sr-kasa_tur_bant, 1)) linear; }
-.ks-sahne > .m2-gecis > span { animation-duration: calc((var(--qt-s-kirilma) + var(--qt-s-kisa)) * var(--sr-kasa_tur_bant, 1)); }   /* Tur bandı: yalnız Hazine; Düello m2-gecis aynen */
+.ks-mac > .m2-gecis > span { animation-duration: calc((var(--qt-s-kirilma) + var(--qt-s-kisa)) * var(--sr-kasa_tur_bant, 1)); }   /* Tur bandı: yalnız Hazine; Düello m2-gecis aynen */
 @keyframes ks-tur-sars {
   0%, 100% { transform: rotate(0); } 15% { transform: rotate(-9deg) scale(1.08); } 32% { transform: rotate(8deg); }
   50% { transform: rotate(-5deg); } 68% { transform: rotate(3deg); } 84% { transform: rotate(-1deg); }

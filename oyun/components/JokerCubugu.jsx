@@ -324,13 +324,15 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
             const fiyat = Number(fiyatlar?.[tur] ?? 0);
             const kullanildi = (turDoldu(tur) && !bedavaMi) || soruIcindeKullanildi(tur);
             const macHakKaldi = Math.max(0, turSiniriOf(tur) - turKullanimi(tur));
-            // KASA (985): her jokerde "kalan/sınır" sayacı (ör. 1/2); hak bitince düğme zaten "kullanildi" (pasif)
+            // KASA (985): "kalan/sınır" bilgisi yalnız erişilebilir etikette. 12 Eki · M6: düğmede Klasik gibi tek sayı
+            // (stok rozeti ya da coin fiyatı); maç sınırına gelen joker kilit ikonuyla görünür (kural aynı, yalnız sunum).
             const sayac = turSinirlari ? `${macHakKaldi}/${turSiniriOf(tur)}` : undefined;
+            const sinirKilit = Boolean(turSinirlari) && macHakKaldi <= 0 && !soruIcindeKullanildi(tur);
             // Paket 35 A.2: stok yoksa fiyat rozeti HER ZAMAN görünür
             const fiyatRozeti = !serbestMod && !ucretsiz && adet <= 0 && fiyat > 0;
             // Etkisi soru boyunca süren skill'ler (Sigorta, 2X, İkinci Şans) bu soruda "aktif".
             const surenEtki = ["sigorta", "cifte_puan", "ikinci_sans"].includes(tur) && kullandigim.includes(tur);
-            const durumAdi = surenEtki ? "aktif" : kullanildi ? "kullanildi" : engel && !satilik ? "kilitli" : "hazir";
+            const durumAdi = surenEtki ? "aktif" : sinirKilit ? "kilitli" : kullanildi ? "kullanildi" : engel && !satilik ? "kilitli" : "hazir";
             const aciklama = engel ?? (bedavaMi ? tt("DEVAM ödülü: yalnız bu soru için ücretsiz")
               : satilik ? tt("{0} coin — dokun, al ve kullan", { 0: fiyat }) : bilgi.aciklama);
             const etiket = [bilgi.ad, aciklama, ucretsiz ? tt("Ücretsiz") : null,
@@ -345,7 +347,6 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
                 adet={serbestMod || ucretsiz || fiyatRozeti ? undefined : adet}
                 fiyat={fiyatRozeti ? fiyat : undefined}
                 durum={durumAdi}
-                sayac={sayac}
                 className={`${parlayan === tur ? "m1-skill--parla" : ""} ${calisan === tur ? "qt-skill--calisiyor" : ""}${bedavaMi ? " m1-skill--bedava" : ""}`}
                 data-bedava={bedavaMi ? tt("ÜCRETSİZ") : undefined}
                 // Pasif düğme BASILABİLİR kalır ama skill kullanmaz: sebebini yazar (B.2.4).

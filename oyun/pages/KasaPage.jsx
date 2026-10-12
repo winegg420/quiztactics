@@ -682,6 +682,7 @@ function KasaMac({ id }) {
   // 958: karar her turda gelebilir — band açıldığı fazda kalır; hızlı AÇ/DEVAM'da yeni soru sahnesinde ikinci kez belirmez
   const turBantFazRef = useRef(null);
   const anZamanRef = useRef([]);
+  const iyimserAcRef = useRef(null);   // 12 Eki · M3: iyimser başlatılan AÇ anının tur anahtarı
   const kokRef = useRef(null);
   const imza = useTakiliImza();   // 1040: takılı Cevap İmzası — yalnız kendi profilimden, rakip görmez
   // 980: her ses/efekt bir OLAY anahtarına (tur/altın/faz, AÇ, DEVAM, 3-2-1 rakamı, maç sonu…) bağlı, maç sayfasının
@@ -785,6 +786,10 @@ function KasaMac({ id }) {
     if (!f || !birKez("final")) return;
     // 980: gizli sekmede maç bittiyse sahne/ses yok — dönüşte doğrudan maç sonu (sesler üst üste çalmasın)
     if (gorunurDegil()) return;
+    finalOynat(f);
+  }, [d]);   // eslint-disable-line react-hooks/exhaustive-deps
+  // 12 Eki · M3: final sahnesi tek yerden — sunucu bitişi ya da maçı bitiren AÇ'ın iyimser başlangıcı (kararVer)
+  function finalOynat(f) {
     const kazandim = f.kazandim;
     const sahneMs = hareketAzaltildiMi() ? 1500 : kazandim ? sure("kasa_final_sahne") : sure("kasa_final_kapanis");
     const fk = sureOlcek(kazandim ? "kasa_final_sahne" : "kasa_final_kapanis");   // ses adımları sahneyle ölçeklenir
@@ -798,7 +803,7 @@ function KasaMac({ id }) {
     const z = sesler.map(([ms, f]) => [Math.round(ms * fk), f]).filter(([ms]) => ms < sahneMs).map(([ms, f]) => setTimeout(f, ms));
     z.push(setTimeout(() => setFinalAn(null), sahneMs));
     finalZamanRef.current.push(...z);
-  }, [d]);   // eslint-disable-line react-hooks/exhaustive-deps
+  }
 
   // ---------------- 951: jokerler (yalnız sunum; etkiler sunucuda) ----------------
   const [kirilan, setKirilan] = useState([]);
@@ -808,6 +813,8 @@ function KasaMac({ id }) {
   const [rakipJokerAn, setRakipJokerAn] = useState(null);
   const [cifteAn, setCifteAn] = useState(null);
   const [savunmaAn, setSavunmaAn] = useState(null);   // 987: tetik / savundu / düştü anı
+  const savunmaZamanRef = useRef([]);   // 12 Eki · M5: sıralı tetik anının zamanlayıcıları
+  useEffect(() => () => savunmaZamanRef.current.forEach(clearTimeout), []);
   // 953: DEVAM ödülü anı — yalnız kendi DEVAM'ımın açtığı soruda, sunucunun devam_odul kaydına göre (rakip görmez)
   const [devamAn, setDevamAn] = useState(null);
   const devamBekleRef = useRef(null);
@@ -823,6 +830,8 @@ function KasaMac({ id }) {
     finalZamanRef.current = [];
     kararZamanRef.current.forEach(clearTimeout);
     kararZamanRef.current = [];
+    savunmaZamanRef.current.forEach(clearTimeout);
+    savunmaZamanRef.current = [];
     setAn(null); setCifteAn(null); setFinalAn(null); setRakipKarar(null); setSavunmaAn(null);
   }, []);
   useEffect(() => {
@@ -898,9 +907,12 @@ function KasaMac({ id }) {
         kararZamanRef.current.forEach(clearTimeout); kararZamanRef.current = []; setRakipKarar(null);
         return;
       }
-      if (d.faz !== "sonuc") { anZamanRef.current.forEach(clearTimeout); setAn(null); }
-      const yeniTur = oncekiTur !== `${turAnahtari(d)}`;
       const acildi = d.faz === "cevap" && d.son_karar?.ac && !d.son_karar.son && !kasaSavunma(d);
+      // 12 Eki · M3: kendi AÇ'ım iyimser başladıysa (kararVer) sunucu yanıtı geldiğinde an sürer — yeniden başlamaz, sökülmez
+      const iyimserAc = acildi && d.son_karar.veren === d.ben && iyimserAcRef.current === `${turAnahtari(d)}`;
+      iyimserAcRef.current = null;
+      if (d.faz !== "sonuc" && !iyimserAc) { anZamanRef.current.forEach(clearTimeout); setAn(null); }
+      const yeniTur = oncekiTur !== `${turAnahtari(d)}`;
       // Giriş sahnesi sürerken ilk sorunun bandı/sesi sahnenin altında kalmasın (sahne kendi sesini çalar)
       if (yeniTur && (d.faz === "karar" || d.faz === "cevap") && !girisAktifRef.current) { turBantFazRef.current = d.faz; setTurBant(Date.now()); }
       if (d.faz === "cevap" && !acildi) { if (!girisAktifRef.current) soruSesi(d); }
@@ -916,9 +928,16 @@ function KasaMac({ id }) {
         if (sv) {
           // tetik (bekliyor) ya da sonuç — olay anahtarı faz olayının kendisi (tek sefer); dokunarak geçilir
           const sa = { tip: svSonuc ? sv.durum : "tetik", benim: sv.sahip === d.ben, anahtar: Date.now() };
-          setSavunmaAn(sa);
-          if (!svSonuc) { sesJoker(); titret([16, 30, 16]); }
-          jokerZaman(() => setSavunmaAn((x) => (x?.anahtar === sa.anahtar ? null : x)), sure("kasa_savunma"));
+          // 12 Eki · M5: tetik anı SIRAYLA — önce cevap sonucu + altın uçuşu (varış ~950 ms) ve Cevap İmzası (≤ 1400 ms),
+          // sonra "Savunma Hakkı". Sonuç fazı (kasa_sonuc_sn) bitince an yeni sorunun gösterim payında tamamlanır (bkz. sahne anahtarı).
+          const svGec = svSonuc ? 0 : Math.max(kasaSonucArtisi(s) > 0 ? Math.round(1000 * sureOlcek("kasa_sonuc_ucus")) : 0,
+                                               s.ben_dogru && imza ? 1400 : 0);
+          const svGoster = () => {
+            setSavunmaAn(sa);
+            if (!svSonuc) { sesJoker(); titret([16, 30, 16]); }
+            savunmaZamanRef.current.push(setTimeout(() => setSavunmaAn((x) => (x?.anahtar === sa.anahtar ? null : x)), sure("kasa_savunma")));
+          };
+          if (svGec > 0 && !hareketAzaltildiMi()) savunmaZamanRef.current.push(setTimeout(svGoster, svGec)); else svGoster();
         }
         // 951: ikisi de bildi → "ÇİFTE" patlama bandı
         if (!s.altin && s.ben_dogru && s.rakip_dogru && !hareketAzaltildiMi()) {
@@ -973,7 +992,7 @@ function KasaMac({ id }) {
           kararZaman(() => sonra(null), kapaliMs + (skR.ac ? sure("kasa_an_taban") : sure("kasa_devam_vurus")));
         }
       } else setRakipKarar(null);
-      if (acildi) {
+      if (acildi && !iyimserAc) {
         // AÇ anı: kapı açılır, ışık patlar, altın açanın skor çubuğuna uçar (980: 1,6 → 1,28 sn; kasa-efekt.css ks-ac-*)
         const k = d.son_karar;
         const benim = k.veren === d.ben;
@@ -1070,17 +1089,53 @@ function KasaMac({ id }) {
       setCalisan(null);
     }
   };
+  // 12 Eki · M3: AÇ'a basıldığı an sahne İYİMSER başlar (sunucu yanıtı 1–2 sn sürebiliyordu; düğmede yalnız dönen işaret
+  // görünüyordu). Maçı bitirecek AÇ'ta (puan + hazine ≥ hedef) final sahnesi, öteki AÇ'ta AÇ anı. Sunucu reddederse geri alınır.
+  const acIyimserBaslat = () => {
+    const dd = dGuncelRef.current;
+    if (!dd || dd.durum !== "aktif" || dd.faz !== "karar" || gorunurDegil()) return null;
+    const benO = (dd.oyuncular ?? []).find((o) => o.id === dd.ben);
+    const puan = Number(benO?.puan ?? 0);
+    const deger = Number(dd.kasa ?? 0);
+    const hedef = Number(dd.hedef ?? 80);
+    if (puan + deger >= hedef) {
+      if (!birKez("final")) return null;
+      finalOynat({ kazandim: true, deger, puanOnce: puan, puanSonra: puan + deger, hedef });
+      return "final";
+    }
+    const olcek = sureOlcek("kasa_ac_an");
+    const m = (ms) => Math.round(ms * olcek);
+    iyimserAcRef.current = `${turAnahtari(dd)}`;
+    anBaslat({ tip: "ac", benim: true, deger, seviye: kasaSeviye(deger, dd.hedef, dd.tavan), olcek, kim: "ben", eskiPuan: puan }, [
+      [m(340), { sars: true }, () => { sesRozet(); titret([20, 40, 30]); }],
+      [m(690), { sars: false }],
+      [m(980), { varis: true }, sesCoin],
+      [m(AC_AN_MS), "bitir", () => { const g = dGuncelRef.current; if (g?.faz === "cevap") soruSesi(g); }],
+    ]);
+    return "ac";
+  };
+  const acIyimserGeriAl = (tur) => {
+    if (tur === "final") {
+      finalZamanRef.current.forEach(clearTimeout); finalZamanRef.current = [];
+      setFinalAn(null); calinanRef.current.delete("final");
+    } else if (tur === "ac") {
+      iyimserAcRef.current = null;
+      anZamanRef.current.forEach(clearTimeout); anZamanRef.current = []; setAn(null);
+    }
+  };
   const kararVer = async (ac) => {
     const tikMs = Date.now() + farkRef.current;   // 991
     sesDokunus(); titret(ac ? 20 : 8);
     setHata(null);
     setCalisan(ac ? "karar-ac" : "karar-devam");
+    const iyimser = ac ? acIyimserBaslat() : null;
     try {
       if (!ac) devamBekleRef.current = Number(dGuncelRef.current?.tur);
       const { error } = await tikBasligiEkle(supabase.rpc("kasa_karar", { p_id: id, p_ac: ac }), tikMs);
       if (error) { devamBekleRef.current = null; throw error; }
       await yukle();
     } catch (e) {
+      acIyimserGeriAl(iyimser);
       // Süre tam o an dolduysa sunucu fazı geçirmiştir: ham hata yerine ekran tazelenir.
       if (/karar verilemez/i.test(e?.message ?? "")) yukle().catch(() => {});
       else setHata(c(hataMesaji(e)));
@@ -1127,6 +1182,15 @@ function KasaMac({ id }) {
   const secenekler = secenekleriCoz(d.soru?.secenekler);
 
   // ---------------- maç sonu ----------------
+  // 12 Eki · M3: maçı bitiren AÇ'ın final sahnesi sunucu yanıtı gelmeden (iyimser) başladı — aynı kök, sahne kesintisiz sürer
+  if (finalAn && d.durum === "aktif") {
+    return (
+      <div className="ks-bitti ks-bitti--final" onClick={anlariBitir}>
+        <KasaFinalSahnesi key="kasa-final" kazandim={finalAn.kazandim} deger={finalAn.deger} hedef={finalAn.hedef}
+                          puanOnce={finalAn.puanOnce} puanSonra={finalAn.puanSonra} c={c} />
+      </div>
+    );
+  }
   if (d.durum !== "aktif") {
     const kazandim = d.kazanan === d.ben;
     const durum = d.durum === "iptal" || !d.kazanan ? "berabere" : kazandim ? "kazandi" : "kaybetti";
@@ -1382,9 +1446,7 @@ function KasaMac({ id }) {
         {/* 1040: Cevap İmzası — sonuçta BENİM cevabım doğruysa (Savunma Sorusu dahil; izlerken oynamaz) */}
         <CevapImzasi imza={imza} kapRef={kokRef} sira={dogru}
                      anahtar={sonucMu && dogru != null && benimCevap === dogru ? `${turAnahtari(d)}-sonuc` : null} />
-        {sonucMu && savunmaAn && <KasaSavunmaAni key={savunmaAn.anahtar} tip={savunmaAn.tip} benim={savunmaAn.benim} c={c} />}
         {sonucMu && cifteAn && <KasaCifteBandi key={cifteAn} artis={kasaSonucArtisi(d.sonuc, d.ikisi_artis ?? 6)} c={c} />}
-        {anAc && <KasaAcAni key={anAc.id} deger={anAc.deger} benim={anAc.benim} seviye={anAc.seviye} olcek={anAc.olcek} c={c} />}
         {/* 990: rakibin kararı — kapalı kart → AÇTI / DEVAM ETTİ (dokunarak geçilir) */}
         {rakipKarar && d.faz === "cevap" && (
           <KasaRakipKarar key={rakipKarar.id} asama={rakipKarar.asama} ac={rakipKarar.ac} sureDoldu={rakipKarar.sureDoldu}
@@ -1462,11 +1524,17 @@ function KasaMac({ id }) {
           <span>{c("Bağlantı yeniden kuruluyor…")}</span>
         </p>
       )}
-      <div className="ks-sahne" key={`${d.faz}-${turAnahtari(d)}`}>
-        {turBantGoster && (
-          <span key={turBant} className="m2-gecis" aria-hidden="true">
-            <span>{d.altin ? c("ALTIN SORU") : sav ? c(SAVUNMA_SORUSU) : c("Tur {n}/{t}", { n: Math.max(1, d.tur), t: d.max_tur })}</span>
-          </span>
+      {/* 12 Eki · M2: tur bandı soru kartının üstünde değil, maç kabının başlık alanında kayar — soruyu örtmez */}
+      {turBantGoster && (
+        <span key={turBant} className="m2-gecis m2-gecis--ust" aria-hidden="true">
+          <span>{d.altin ? c("ALTIN SORU") : sav ? c(SAVUNMA_SORUSU) : c("Tur {n}/{t}", { n: Math.max(1, d.tur), t: d.max_tur })}</span>
+        </span>
+      )}
+      {/* 12 Eki · M3/M5: AÇ anı ya da Savunma Hakkı anı sürerken sahne anahtarı sabit — an faz geçişinde baştan oynamaz/kesilmez */}
+      <div className="ks-sahne" key={anAc ? `ac-${anAc.id}` : savunmaAn?.tip === "tetik" && d.faz === "cevap" ? `sonuc-${turAnahtari(d)}` : `${d.faz}-${turAnahtari(d)}`}>
+        {anAc && (d.faz === "karar" || d.faz === "cevap") && <KasaAcAni key={anAc.id} deger={anAc.deger} benim={anAc.benim} seviye={anAc.seviye} olcek={anAc.olcek} c={c} />}
+        {savunmaAn && (d.faz === "sonuc" || (savunmaAn.tip === "tetik" && d.faz === "cevap")) && (
+          <KasaSavunmaAni key={savunmaAn.anahtar} tip={savunmaAn.tip} benim={savunmaAn.benim} c={c} />
         )}
         {sahne}
         {/* Üç an KasaParcalari'nda (aynı işaretleme; /sure-ayar önizlemesi de bunları çizer) */}
