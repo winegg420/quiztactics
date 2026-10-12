@@ -772,6 +772,15 @@ try {
   if (SS) {
     await A.s.locator(".ks-giris-an").first().waitFor({ timeout: 8000 }).then(() => goruntu(A, "giris-sahnesi")).catch(() => {});
     await A.s.locator(".ks-giris-sayi").first().waitFor({ timeout: 8000 }).then(() => goruntu(A, "321")).catch(() => {});
+    // 12 Eki (telefon denetimi 3): an izleyici — tarayıcı içi DOM bakışı (sunucuya istek yok); her an türünden ilk 2 kare
+    const anSay = {};
+    const anIzle = setInterval(async () => {
+      const var_ = await A.s.evaluate(() => ({ bant: !!document.querySelector(".m2-gecis"), ac: !!document.querySelector(".ks-ac-an"),
+        savunma: !!document.querySelector(".ks-savunma-an"), final: !!document.querySelector(".ks-final"),
+        karar: !!document.querySelector(".ks-mac--karar"), joker: !!document.querySelector(".ks-joker-yuva:not(.m1-joker-yuva--pasif)") })).catch(() => ({}));
+      for (const [k, v] of Object.entries(var_)) if (v && (anSay[k] ?? 0) < 2) { anSay[k] = (anSay[k] ?? 0) + 1; await goruntu(A, `an-${k}-${anSay[k]}`); }
+    }, 300);
+    A.anIzle = anIzle;
   }
   // ara toplama (sayfa yenilemeye karşı) + sürücüler
   const toplayici = setInterval(() => { for (const o of oyuncular) topla(o); }, 4000);
@@ -965,6 +974,7 @@ try {
   console.log(`kırılan: ${rapor.kirilanlar.length}`);
   for (const k of rapor.kirilanlar) console.log("  ✗", k);
   console.log(rapor.hata ? `HATA: ${rapor.hata}` : rapor.kirilanlar.length ? "GEÇMEDİ" : "GEÇTİ");
+  if (A?.anIzle) clearInterval(A.anIzle);
   await tarayici.close().catch(() => {});
   process.exit(rapor.hata || rapor.kirilanlar.length ? 2 : 0);
 }

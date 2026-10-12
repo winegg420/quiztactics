@@ -1339,7 +1339,8 @@ function KasaMac({ id }) {
   const rkVeren = rkIlkKare ? d.oyuncular.find((o) => o.id === skD.veren) : null;
   const rk = rakipKarar ?? (rkIlkKare ? { ac: Boolean(skD.ac), eskiKasa: Number(skD.deger ?? 0),
     eskiPuan: skD.ac ? Math.max(0, Number(rkVeren?.puan ?? 0) - Number(skD.deger ?? 0)) : null } : null);
-  const anOrtu = d.faz === "cevap" && Boolean(anAc || anDevam || rk || devamBekliyor);
+  // 12 Eki · M3: iyimser AÇ anı karar fazında başlar — orada da karar sayacı an sürerken görünmez
+  const anOrtu = (d.faz === "cevap" && Boolean(anAc || anDevam || rk || devamBekliyor)) || (d.faz === "karar" && Boolean(anAc));
   const soruOrtulu = d.faz === "cevap" && Boolean(anAc || rk);
   const turBantGoster = turBant && simdi - turBant < sure("kasa_tur_bant") && !anAc && turBantFazRef.current === d.faz;
   const miniHareket = (anSonuc?.varis && !anSonuc.bitti

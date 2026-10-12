@@ -404,7 +404,7 @@
 /* ---------- MAÇ SONU açılış sahnesi ---------- */
 .ks-bitti--final { display: grid; }
 /* 12 Eki · M4: sahne alttaki boşluğu da kaplar (390×844'te altta ~¼ düz açık şerit kalıyordu); içerik dikeyde ortada */
-.ks-bitti--final { grid-template-rows: minmax(0, 1fr); min-height: calc(100dvh - var(--ks-final-ust, 96px)); }
+.ks-bitti--final { grid-template-rows: minmax(0, 1fr); min-height: calc(100dvh - var(--ks-final-ust, 16px)); margin-bottom: calc(-1 * (var(--bd-b-5, 24px) + 12px + env(safe-area-inset-bottom, 0px))); }   /* maç kabıyla (.ks-mac) aynı alt pay */
 .ks-bitti--final > .ks-final { min-height: 0; }
 .ks-final {
   position: relative; display: grid; place-content: center; justify-items: center; gap: 14px; padding: 24px 16px;
