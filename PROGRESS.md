@@ -11917,3 +11917,4 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - Migration: 1072, 1073, 1075 prova + canlı (yeni RPC'ler yalnız authenticated; mevcut RLS/GRANT değişmedi). 1071/1074 kullanılmadı.
 - Test: 5 betik `araclar/telefon-12eki-*.mjs` (taklit), 390×844 TR + 360×780 EN, konsol 0, taşma 0; ana sayfa soğuk açılış 250 ms × 22 kare iki senaryo yanlış görünüm 0; Meydan Oku uygulama içi 5 geçiş hepsi dolu. Kareler `tasarim/telefon-denetimi-12eki/`. Build temiz. Ajan test hesapları silindi.
 - Açık (Ida'ya): `send_friend_request` engelli kontrolü yapmıyor (güvenlik kuralı değişikliği → soru); push/toast metinlerinde sunucu emojileri duruyor; EN'de lig çerçeve adı profil diline göre TR gelebiliyor; "Maçta" düğmesi gerçek maçta gözle doğrulanmadı.
+- Canlı (dağıtım sonrası): arayuz-denetim TEMİZ; tek Klasik maç duman GEÇTİ; test hesabı silindi.
