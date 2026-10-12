@@ -154,7 +154,7 @@
 .d4-cevap-av { --d4-av: 80px; position: relative; display: grid; place-items: center; width: var(--d4-av); height: var(--d4-av); margin: 4px 0 8px; }
 .d4-cevap-halka { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: #fff; }
 .d4-cevap--ben .d4-cevap-halka { box-shadow: 0 0 0 4px var(--hk-mavi); }
-.d4-cevap--rakip .d4-cevap-halka { box-shadow: 0 0 0 4px var(--hk-kirmizi); }
+.d4-cevap--rakip .d4-cevap-halka { box-shadow: 0 0 0 3px var(--hk-kirmizi); }
 .d4-cevap-halka > * { width: 100%; height: 100%; }
 .d4-cevap--yanlis .d4-cevap-halka > * { filter: grayscale(.85); opacity: .75; }
 .d4-cevap-isaret { position: absolute; right: -6px; bottom: -6px; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;

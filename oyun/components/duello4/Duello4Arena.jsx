@@ -27,6 +27,21 @@ import { titret } from "../../lib/geriBildirim.js";
 import "./duello4.css";
 
 const HARFLER = ["A", "B", "C", "D"];
+
+// Tur sonucu avatarı: duello4.css `.d4-cevap-av` kutusu (max-height 700 px altında 64, yoksa 80) — çerçeve dış çapı kutuya eşit olsun
+function useKisaEkran() {
+  const sorgu = "(max-height: 700px)";
+  const oku = () => { try { return window.matchMedia(sorgu).matches; } catch { return false; } };
+  const [kisa, setKisa] = useState(oku);
+  useEffect(() => {
+    let m;
+    try { m = window.matchMedia(sorgu); } catch { return undefined; }
+    const f = () => setKisa(m.matches);
+    m.addEventListener?.("change", f);
+    return () => m.removeEventListener?.("change", f);
+  }, []);
+  return kisa;
+}
 const ACILIS_MS = varsayilanSure("duello4_acilis");     // saldırı sorusu açılınca "kim neyi aldı" paneli (sunucu gösterim payının içinde)
 const SARSINTI_MS = varsayilanSure("duello4_sarsinti");   // geçerli: sure() — lib/sureler.js
 // 1034 · Kart seçimi tek dokunuş (onay düğmesi yok): 1. dokunuş rakibe, 2. dokunuş kendine. Her adımın başında sunucunun
@@ -137,6 +152,7 @@ export default function Duello4Arena({
   secim, ikinciSansElendi = [], kiriliyor = [], ekBalon, jokerSerbest, sonKullanilan, skillDeger,
   onCevap, onKart, onJoker, onYenile, onCik,
 }) {
+  const kisaEkran = useKisaEkran();
   const v = d.v4 ?? {};
   const benId = d.ben;
   const hedef = Number(v.seri_hedef ?? 3);
@@ -471,12 +487,12 @@ export default function Duello4Arena({
   } else if (d.faz === "sonuc" && sm) {
     const benimki = h.oyuncular?.[benId] ?? {};
     const rakibinki = h.oyuncular?.[rakip.id] ?? {};
-    // Tur sonucu kartı: üstte oyuncunun gerçek avatarı (üst bilgideki CerceveliAvatar; çerçevesiz düz daire, halka oyuncu rengi) + sağ altında
+    // Tur sonucu kartı: üstte oyuncunun gerçek avatarı (üst bilgideki gibi KENDİ lig çerçevesiyle; ince "kim" halkası çerçevenin dışında, oyuncu rengi) + sağ altında
     // Doğru/Yanlış/Yanıtsız rozeti; altında ad · kategori · sonuç. Yanlış/yanıtsız avatar soluk.
     const satir = (x, o, ad, kim) => (
       <div className={sinif("d4-cevap", `d4-cevap--${kim}`, x.dogru ? "d4-cevap--dogru" : "d4-cevap--yanlis", x.yanitsiz && "d4-cevap--yanitsiz")}>
         <span className="d4-cevap-av">
-          <span className="d4-cevap-halka"><CerceveliAvatar profile={o} userId={o.id} boyut={80} cerceve={null} aura={null} className="d4-cevap-foto" /></span>
+          <span className="d4-cevap-halka"><CerceveliAvatar profile={o} userId={o.id} boyut={kisaEkran ? 64 : 80} kart={seviyeler[o.id]} className="d4-cevap-foto" /></span>
           <span className="d4-cevap-isaret" role="img" aria-label={x.dogru ? c("Doğru") : x.yanitsiz ? c("Yanıtsız") : c("Yanlış")}>
             <QtIkon ad={x.dogru ? "onay" : x.yanitsiz ? "saat" : "carpi"} boyut={20} />
           </span>

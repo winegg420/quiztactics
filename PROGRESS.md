@@ -11971,3 +11971,11 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **Red:** hakem 14 + kapı 2 = 16 soru canlıda yok (doğrulandı). Kapıda elenen: C11-49, C11-82 (Jev şık ipucu p=0,76 > 0,75; kayıtlı p=0,74 idi, havuz yenilemesinde kaydı). Ida kararı: eşik değişmez, şık yenileme yok → `claude_inceleme: "red"`.
 - **Düzeltilen 5 soru** (C08-66, C09-52, C11-02, C11-175, C12-142) yeni metniyle canlıda.
 - Havuz yenilemek için `.tmp/codex/codex-08…12/durum.json` `canli_yasak` bayrağı geçici false yapıldı, iş sonunda true'ya döndürüldü.
+
+## 2026-10-12 — Düello tur sonucu avatarlarına lig çerçevesi
+**Araç:** Claude Code (Sonnet 5.5)
+**Neden:** Ida kararı (seçenek A): tur sonucu kartındaki büyük avatarlarda oyuncunun kendi lig çerçevesi görünsün.
+
+- `Duello4Arena.jsx`: `.d4-cevap-halka` içindeki CerceveliAvatar `cerceve={null} aura={null}` yerine `kart={seviyeler[o.id]}` (üst bilgideki kaynakla aynı; yoksa oyuncu kartı toplu okunur). Çerçeve dış çapı kutuya eşit: `useKisaEkran` ile 80 px / `max-height: 700px` altında 64 px.
+- `duello4.css`: mavi/kırmızı "kim" halkası çerçevenin DIŞINDA 3 px (önceki 4 px, beyaz zemin kalktı → çerçeve kırpılmaz). Yanlış cevapta gri tonlama aynen.
+- Ölçüm (taklit veri, çerçeveli ben + çerçevesiz rakip): 390×844 ve 360×640, TR + EN (+ azaltılmış hareket) 150 kontrol geçti, çerçeve kutuya sığıyor (64/80), konsol hatası 0.
