@@ -43,6 +43,7 @@ export default {
   "{ad} zaten sende · +{n} coin": "You already own {ad} · +{n} coins",
   "Yeni avatar: {ad}": "New avatar: {ad}",
   "Sahipsin · +{n} coin": "Owned · +{n} coins",
+  "Bu ödül sende var. Alınca yerine {n} coin alırsın.": "You already own this reward. Claim it to get {n} coins instead.",
   "Bu avatar sende var. Alınca yerine {n} coin alırsın.": "You already own this avatar. Claim it to get {n} coins instead.",
   "Lv {n}": "Lv {n}",
 

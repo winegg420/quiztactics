@@ -8,7 +8,7 @@
 // Mevcut seviye işaretçisi oyuncunun KENDİ çerçeveli avatarı (hareketsiz).
 import { QtIkon, sayiBicim } from "../index.js";
 import { tt } from "../../lib/dil.js";
-import { odulAdi } from "../../lib/sezonYolu.js";
+import { odulAdi, sahipCoinSec, SAHIP_COIN_AYARLARI } from "../../lib/sezonYolu.js";
 import { CoinIkon } from "../../components/ParaIkonlari.jsx";
 import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
 import { OdulGorsel, kisaYazi, anahtar, tasMi } from "./OdulGorsel.jsx";
@@ -197,7 +197,7 @@ export default function DikeyYol({ durum, toplam, bpVar, harita, yeniAlinan, yen
   const kutu = (n, kol) => {
     const o = harita.get(`${n}:${kol}`);
     if (!o) return <span className="sy-kutu-bos" />;
-    return <Kutu odul={o} durum={durum} bpVar={bpVar} yeniAlindi={yeniAlinan.has(`${n}:${kol}`)} mesgul={mesgul} onSec={onSec} onAl={onAl} sahipCoin={sahipCoin} tas={tasMi(n, toplam)} sirada={n === siradaki} />;
+    return <Kutu odul={o} durum={durum} bpVar={bpVar} yeniAlindi={yeniAlinan.has(`${n}:${kol}`)} mesgul={mesgul} onSec={onSec} onAl={onAl} sahipCoin={sahipCoinSec(o.tur, { avatar: sahipCoinAv, cerceve: sahipCoinCer, diger: sahipCoinDiger })} tas={tasMi(n, toplam)} sirada={n === siradaki} />;
   };
   return (
     <ol className={`sy-dikey sy-dikey--bp-${bpVar ? "var" : "yok"}`} aria-label={tt("Sezon Yolu ödülleri")}>

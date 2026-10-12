@@ -11979,3 +11979,12 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - `Duello4Arena.jsx`: `.d4-cevap-halka` içindeki CerceveliAvatar `cerceve={null} aura={null}` yerine `kart={seviyeler[o.id]}` (üst bilgideki kaynakla aynı; yoksa oyuncu kartı toplu okunur). Çerçeve dış çapı kutuya eşit: `useKisaEkran` ile 80 px / `max-height: 700px` altında 64 px.
 - `duello4.css`: mavi/kırmızı "kim" halkası çerçevenin DIŞINDA 3 px (önceki 4 px, beyaz zemin kalktı → çerçeve kırpılmaz). Yanlış cevapta gri tonlama aynen.
 - Ölçüm (taklit veri, çerçeveli ben + çerçevesiz rakip): 390×844 ve 360×640, TR + EN (+ azaltılmış hareket) 150 kontrol geçti, çerçeve kutuya sığıyor (64/80), konsol hatası 0.
+
+## 2026-10-12 — Sezon Yolu: sahip olunan çerçeve / tepki paketi / unvan / arka plan yerine coin (migration 1082)
+**Araç:** Claude Code (Sonnet 5.5)
+**Neden:** 1039 yalnız avatar ödülünde sahip olunca coin veriyordu; diğer türlerde oyuncu sessizce hiçbir şey almıyordu (Ida: sembolik coin).
+
+- **Migration `20260612001082_bp_sahip_olunan_odul_coin.sql`** (prova geçti, canlıya uygulandı): `bp_sahip_coin(tur)` (yeni iç yardımcı; avatar 200 · çerçeve 100 · tepki paketi/unvan/arka plan 50; ayar_sayi, varsayılanlar kodda), `bp_odul_sahip_mi` çerçeve/tepki paketi/unvan'ı da kapsar, `bp_odul_uygula` (1039 gövdesi birebir + sahipse `coin_ekle(..., 'sezon_yolu', ref||':sahip')`), `bp_odul_ver_ic` her sahip türünde `zaten_sahip` + `sahip_coin` döner. Elmas yok; 'sezon_yolu' günlük tavandan muaf (coin_ekle + 1080 coin_gunluk_kalan doğrulandı). GRANT/REVOKE değişmedi (yalnız service_role yardımcıları).
+- **İstemci:** `lib/sezonYolu.js › SAHIP_COIN_AYARLARI / sahipCoinSec`; Yol.jsx kutuda "Sahipsin · +N coin", OdulSayfasi.jsx "Bu ödül sende var. Alınca yerine {n} coin alırsın." (yeni çeviri anahtarı avatar-satis.js).
+- **Canlı doğrulama** (araç hesabı, tek işlem, ROLLBACK): sahip olunan çerçeve (pc_ejderha2) +100, ikinci basış null/+0; tepki paketi +50 / +0; unvan +50 / +0; coin_hareketleri `sezon_yolu 100 sezon:46:28:ucretli:sahip`. arka_plan ödülü tanımlı değil (yol sınanmadı, kod aynı kalıp).
+- Karar: tek ayar anahtarı `bp_diger_sahipse_coin` tepki paketi + unvan + arka plan için (Ida'nın tarifi).

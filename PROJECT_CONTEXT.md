@@ -524,7 +524,7 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   15 Dedektif · 25 Şövalye · 35 Büyücü · 50 Kral; `xp_ver` level döngüsünde iç `level_avatar_ver` verir) · Nadir 2 `sezon` (Sezon Yolu
   ÜCRETSİZ kol 10 Kovboy · 24 Korkuluk) · Nadir 9 `coin` (Dükkân, `coin_avatar_nadir` **750**, TEST) · Epik 20 / Efsanevi 10 `elmas`
   (**150 / 300**, `elmas_avatar_<nadirlik>`, TEST). **Epik/Efsanevi level'dan ve ücretsiz koldan ASLA verilmez** (kısıt `avatar_nitelikleri_edinme_veri_check`).
-  Zaten sahip olunan level avatarı → `level_avatar_sahipse_coin` 200, Sezon Yolu avatar ödülü (iki kol) → `bp_avatar_sahipse_coin` 200 coin (tavan dışı).
+  Zaten sahip olunan level avatarı → `level_avatar_sahipse_coin` 200, Sezon Yolu ödülüne zaten sahipse (iki kol, 1082) ödül yerine coin, tavan dışı, elmas yok: avatar → `bp_avatar_sahipse_coin` 200 · çerçeve → `bp_cerceve_sahipse_coin` 100 · tepki paketi / unvan / arka plan → `bp_diger_sahipse_coin` 50 (`bp_sahip_coin`; ayar satırı yoksa kodda varsayılan).
   Sahiplik isteyen avatarı seçmek SAHİPLİK ister (`avatar_onayla`; **sahip hesaba ayrıcalık yok**; botlar muaf). Sahiplik `oyuncu_avatarlari`
   (kaynak dukkan | etkinlik | hediye | level), satın alma `avatar_satin_al` (coin ve elmas dalı; FOR UPDATE, `coin_harca`/`elmas_harca`, çift alım reddi,
   kapı `kozmetik_satis_acik`), istemci durumu `avatar_sahiplik_durumu()` (+ edinme, edinme_level, edinme_sezon_seviye, bp_ucretli_seviye).

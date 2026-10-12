@@ -31,6 +31,18 @@ const OLAY = "bildim-sezon-degisti";
 let sonOzet = null;          // son okunan özet (rozet, bildirim ve maç sonu aynı veriyi kullanır)
 let bekleyen = null;
 
+// 1082: sahip olunan ödül yerine verilen sembolik coin — ayar anahtarları ve varsayılanlar sunucudaki bp_sahip_coin ile aynı.
+export const SAHIP_COIN_AYARLARI = {
+  avatar: ["bp_avatar_sahipse_coin", 200],
+  cerceve: ["bp_cerceve_sahipse_coin", 100],
+  diger: ["bp_diger_sahipse_coin", 50],   // tepki paketi · unvan · arka plan
+};
+export function sahipCoinSec(tur, { avatar = 0, cerceve = 0, diger = 0 } = {}) {
+  if (tur === "avatar") return avatar;
+  if (tur === "cerceve") return cerceve;
+  return tur === "tepki_paketi" || tur === "unvan" || tur === "arka_plan" ? diger : 0;
+}
+
 /** Sezon Yolu verisini gösteren her yere "yeniden oku" der. */
 export function sezonTazele() {
   sonOzet = null;
