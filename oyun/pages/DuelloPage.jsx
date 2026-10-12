@@ -1254,9 +1254,11 @@ function DuelloMac({ id }) {
       const { error } = await tikBasligiEkle(supabase.rpc("duello_kategori_sec", { p_id: id, p_kategori: k }), tikMs);
       if (error) throw error;
       await yukle();
+      return true;   // v4 iyimser 2. adım: sıradaki dokunuş yalnız başarıda gönderilir
     } catch (e) {
       if (/şu an seçilemez/i.test(e?.message ?? "")) yukle().catch(() => {});
       else setHata(ceviri(hataMesaji(e)));
+      return false;
     } finally {
       setCalisan(null);
     }

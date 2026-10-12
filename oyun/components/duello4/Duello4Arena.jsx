@@ -202,6 +202,15 @@ export default function Duello4Arena({
   // Çift dokunuş kalkanı: aynı adımda istek yoldayken ikinci dokunuş gönderilmez (sunucu da aynı kartı yok sayar).
   const kartGonderRef = useRef(null);
   useEffect(() => { if (!calisan) kartGonderRef.current = null; }, [calisan, kartAnahtar]);
+  // İyimser 2. adım (12 Eki 2026): 1. dokunuşta sunucu yanıtı beklenmeden "Kendi kategorini seç" görünür; 2. dokunuş
+  // 1. çağrı bitmeden gelirse sıraya girer, 1. çağrı başarıyla bitince gönderilir. 1. çağrı hata verirse iyimser
+  // görünüm geri alınır ve sıradaki dokunuş gönderilmez (hata mevcut yoldan: onKart → setHata).
+  const [iyimser, setIyimser] = useState(null);   // { tur, gonderilen, secilen }
+  const iyimserRef = useRef(null);                // { tur, birinci: "yolda" | "tamam", bekleyen, ikinciYolda }
+  const iyi = d.faz === "kart" && iyimser?.tur === v.tur ? iyimser : null;
+  useEffect(() => {
+    if (d.faz !== "kart" || (iyimserRef.current && iyimserRef.current.tur !== v.tur)) { iyimserRef.current = null; setIyimser(null); }
+  }, [d.faz, v.tur]);
 
   // ---------------- sesler (her olay anahtarına bağlı tek sefer; gizli sekmede ses.js zaten çalmaz)
   const sesRef = useRef(new Set());
@@ -291,19 +300,50 @@ export default function Duello4Arena({
     );
   } else if (d.faz === "kart" && kart) {
     const kartlar = kart.kartlar ?? [];
-    const gonderilen = kart.gonderilen ?? null;
+    const gonderilen = kart.gonderilen ?? iyi?.gonderilen ?? null;
     if (benKontrol) {
-      const ikinci = adim >= 1 && gonderilen;
+      const adimE = Math.max(adim, iyi?.gonderilen ? 1 : 0);   // iyimser adım
+      const ikinci = adimE >= 1 && gonderilen;
+      const ikinciGitti = Boolean(ikinci && iyi?.secilen);
       // Süre doldu: sunucu ~3 sn geç varış payından sonra iki kartı kendisi seçer — bu arada dokunuş kabul edilmez.
       const sureBitti = !(gosterSn > 0) && !d.kopuk;
-      const duyuruda = KART_TEK_DOKUNUS && adim < 2 && gosterimBas != null && sunucuSimdi < gosterimBas;
+      // Duyuru kilidi yalnız 1. adımda (kart fazı açılışı); 2. adım beklemesiz (12 Eki 2026).
+      const duyuruda = KART_TEK_DOKUNUS && adimE === 0 && gosterimBas != null && sunucuSimdi < gosterimBas;
+      const gonder = async (k, ikinciMi) => {
+        const ok = await onKart(k);
+        const r = iyimserRef.current;
+        if (!r || r.tur !== v.tur) return;
+        if (ok === false) {   // geri al: 1. adım hatasında iyimser görünüm + sıradaki dokunuş düşer
+          if (ikinciMi) { r.ikinciYolda = false; setIyimser((x) => x && { ...x, secilen: null }); }
+          else { iyimserRef.current = null; setIyimser(null); }
+          return;
+        }
+        if (!ikinciMi) {
+          r.birinci = "tamam";
+          if (r.bekleyen) { const b = r.bekleyen; r.bekleyen = null; r.ikinciYolda = true; gonder(b, true); }
+        }
+      };
       const dokun = (k) => {
         if (!KART_TEK_DOKUNUS) { setSecili(k); titret(8); return; }
-        const a = `${v.tur}:${adim}`;
-        if (duyuruda || kartGonderRef.current === a) return;
-        kartGonderRef.current = a;
-        setSecili(k); titret(8);
-        onKart(k);
+        if (adimE === 0) {
+          const a = `${v.tur}:0`;
+          if (duyuruda || kartGonderRef.current === a || iyimserRef.current?.tur === v.tur) return;
+          kartGonderRef.current = a;
+          iyimserRef.current = { tur: v.tur, birinci: "yolda", bekleyen: null, ikinciYolda: false };
+          setIyimser({ tur: v.tur, gonderilen: k, secilen: null });
+          titret(8);
+          gonder(k, false);
+          return;
+        }
+        if (adimE >= 2 || k === gonderilen || ikinciGitti) return;
+        let r = iyimserRef.current;
+        if (!r || r.tur !== v.tur) r = iyimserRef.current = { tur: v.tur, birinci: "tamam", bekleyen: null, ikinciYolda: false };
+        if (r.ikinciYolda || r.bekleyen) return;
+        setIyimser({ tur: v.tur, gonderilen, secilen: k });
+        titret(8);
+        if (r.birinci === "yolda") { r.bekleyen = k; return; }
+        r.ikinciYolda = true;
+        gonder(k, true);
       };
       panel = (
         <div className="d4-panel">
@@ -321,11 +361,11 @@ export default function Duello4Arena({
           <div className={sinif("d4-kartlar", duyuruda && "d4-kartlar--duyuru")}>
             {kartlar.map((x, i) => {
               const durum = x.k === gonderilen ? "rakibe"
-                : secili === x.k ? (ikinci ? "sana" : "rakibe")
+                : (iyi?.secilen ?? secili) === x.k ? (ikinci ? "sana" : "rakibe")
                 : "normal";
               return (
                 <Kart key={x.k} k={x.k} ben={x.ben} rakip={x.rakip} c={c} rakipAd={oranRakip} durum={durum} sira={i}
-                      devreDisi={x.k === gonderilen || adim >= 2 || Boolean(calisan) || sureBitti || duyuruda}
+                      devreDisi={x.k === gonderilen || adim >= 2 || (Boolean(calisan) && !ikinci) || ikinciGitti || sureBitti || duyuruda}
                       onClick={() => dokun(x.k)} />
               );
             })}

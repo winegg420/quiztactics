@@ -11869,3 +11869,14 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - Diğer çağıranlar (Koleksiyon, DukkanKozmetik, GorunumPage) her zaman URL gönderir; etkilenmez.
 - Etkilenmiş mevcut hesap: 0 (gerçek/araç/lig_gizli ayrı ayrı 0) — veri düzeltmesi gerekmedi.
 - Uçtan uca (yerel istemci + canlı DB, yeni misafir): takma ad → Avatarsız → şehir adımı açıldı → ana sayfa; yenilemede kurulum gelmedi. yayin-oncesi-duman.mjs tek maç geçti (betik Ortak Hazine/Kasa maçı oynar). Test hesapları silindi.
+
+## 2026-10-12 — Düello kart seçimi: 2. dokunuş beklemesiz (iyimser 2. adım)
+**Araç:** Claude Code
+**Neden:** Ida saldırıda iki kategoriye art arda hızlıca basmak istedi; 2. dokunuş için ~0,5–1 sn bekliyordu.
+
+- Kök sebep: 2. adım iki istemci kilidiyle bekliyordu — (a) istek yoldayken kartlar `calisan` ile kilitli, 2. adım görünümü ancak RPC + yukle() sonrası geliyordu; (b) sunucunun 2. adım duyurusu (900 ms, `gosterim_bas`) kartları kilitliyordu. Sunucu 2. seçimde duyuruyu kontrol etmiyor (1058), kilit yalnız istemcideydi.
+- `Duello4Arena.jsx`: duyuru kilidi yalnız 1. adımda. 1. dokunuşta iyimser 2/2 ("Kendi kategorini seç", gönderilen kart "rakibe" ve kilitli). 2. dokunuş 1. istek bitmeden gelirse sıraya girer, 1. istek başarıyla bitince gönderilir; 1. istek hata verirse iyimser görünüm geri alınır, sıradaki gönderilmez, hata mevcut yoldan. `kartGonderRef` aynen; sayaç, otomatik seçim, kopukluk yolu değişmedi.
+- `DuelloPage.jsx › kategoriSec` artık true/false döndürür (eski çağıranlar dönüşü kullanmaz).
+- Ölçüm (taklit, RPC 350 ms + 900 ms 2. adım duyurusu): 1. dokunuş → 2. dokunuş mümkün **1310–1395 ms → 7–13 ms**. 40 ms arayla iki dokunuş: önce 2. kayboluyordu, şimdi iki istek doğru sırada (2. ≈360 ms sonra, 1. bitince); kart konumu sabit (zıplama yok). Aynı karta iki kez → tek istek. 1. istek hatası → 2/2 → 1/2 geri, tek istek, hata gösterildi. 360×780 EN + 390×844 TR, konsol 0. Build temiz.
+- Canlı duman (yerel istemci + canlı DB, bota karşı tek maç): 3 turda 60 ms arayla çift dokunuş — hepsi doğru kartlar (`v4_gonderilen`/`v4_secilen` = dokunulan kartlar, oto=false), maç 3/3 kazanıldı, konsol 0. Test hesabı silindi, sunucu/tarayıcı kapatıldı.
+- Aynı kapan (yalnız rapor, dokunulmadı): eski Düello akışı (surum < 4) `DuelloTahta.jsx › V2Kategori` kartları istek yoldayken `calisan` ile kilitler — ayrı iş.
