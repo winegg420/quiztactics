@@ -11998,3 +11998,13 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - Kontrol: Sezon Yolu "Al" (sesCoin/sesRozet) ve rozet bildirimi (RozetBildirimi › sesRozet) zaten sesli; Koleksiyon'da ödül alma düğmesi yok (rozet global bildirimden). Seviye atlama: `gorev_al` XP/level döndürmüyor, atlama sesi global LevelKazanci'da (sesLevel) → Görevler'e eklenmedi.
 - Hata (ara): Yol.jsx'te çok satırlı değiştirmelerden biri uygulanmamıştı (`sahipCoinAv is not defined`, sezon-yolu sayfası konsol hatası); arayüz denetimi yakaladı, düzeltildi.
 - Test: build temiz, arayuz-denetim TEMİZ (konsol 0), araç hesabı silindi.
+
+## 2026-10-13 — "Yeni sürüm hazır · Yenile" bandı
+**Araç:** Claude Code (Sonnet 5.5)
+**Neden:** Vercel'e yeni sürüm çıkınca eski sürümü açık kalan oyuncu fark etsin (daha önce böyle bir mekanizma yoktu).
+
+- **Derleme kimliği:** `vite.config.js › derlemeKimligi()` (VERCEL_GIT_COMMIT_SHA kısa → git kısa hash → zaman damgası; `QT_SURUM` ile elle). `define: __QT_SURUM__` + `dist/version.json` (`yayinDosyalari › writeBundle`). `vercel.json`: `/version.json` → `Cache-Control: no-store`.
+- **İstemci:** `oyun/lib/surumKontrol.js` (açılış +60 sn, 5 dk aralık, görünür olunca, online; sekme gizliyken yok; hata sessiz, oturumda tek konsol uyarısı; dev'de kapalı) + `oyun/components/YeniSurumBandi.jsx` (Layout'ta akışta, sabit değil → alt menüyü örtmez) + `hata-kurtarma.css`. Maçta `body.bd-oyun-modu` ve kutlamada `html.msk-acik` iken CSS ile gizli; otomatik yenileme yok. Çeviri: `ceviri/yeni-surum.js`.
+- **Parça inme hatası:** zaten `vite:preloadError` ile yenileme vardı (aralık bayrağı 60 sn, 8 Eki kararı: oturum başına TEK değil — aynı sekmede ikinci dağıtım için). Karar korundu; eksik yol kapatıldı: `tembelYukle` son hata parça hatasıysa aynı bayrakla bir kez yeniler (`parcaIcinYenile`, iki yol tek bayrağı paylaşır), yoksa "Tekrar dene" kartı.
+- **Ölçüm** (yerel önizleme, taklit, 390×844 TR+EN): bant çıkıyor (52 px, düğme 44 px, alt menü yerinde), `bd-oyun-modu`'nda display:none, kalkınca geri, "Yenile" sayfayı yeniler, konsol boş. Arayüz denetimi TEMİZ (konsol 0).
+- Not: "iki derleme" yerine tek derleme + `dist/version.json` elle değiştirildi (sunucunun yeni dağıtım gibi davranması); iki farklı kimlik (`c88d481e`, `surum-A`) üretildiği ayrıca görüldü.

@@ -133,3 +133,31 @@ html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))
   width: 100%;
 }
 .qt-cikis-dugmeler--dikey { grid-template-columns: 1fr; }
+
+/* "Yeni sürüm hazır" bandı (YeniSurumBandi.jsx) — akışta, kapatılmaz; maçta/kutlamada gizli (kesme yok).
+   Sabit değil + transform yok → iOS sabit-öğe tuzağı ve alt menü örtmesi yok. */
+.qt-yeni-surum {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 12px;
+  box-sizing: border-box;
+  padding: calc(env(safe-area-inset-top, 0px) + 4px) 16px 4px;
+  background: var(--qt-ikinci, #2a73cc);
+  color: var(--qt-ikinci-yazi, #fff);
+  font: 700 14px/1.3 "Baloo 2", system-ui, sans-serif;
+}
+.qt-yeni-surum-dugme {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--qt-vurgu, #ff7a2e);
+  color: var(--qt-vurgu-yazi, #1d2152);
+  font: 800 14px/1 "Baloo 2", system-ui, sans-serif;
+  cursor: pointer;
+}
+body.bd-oyun-modu .qt-yeni-surum,
+html.msk-acik .qt-yeni-surum { display: none; }

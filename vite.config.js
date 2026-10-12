@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "node:path";
+import { execSync } from "node:child_process";
 
 // ============================================================
 // TEK SİTE — Quiz Tactics
@@ -22,6 +23,26 @@ const ROBOTS_YASAK = [
   "/ikon-onizleme", "/ekran-revizyon-onizleme", "/ses-secim", "/sure-ayar", "/gorsel-revizyon", "/stil-rehberi", "/yonetim/",
 ];
 
+// ============================================================
+// DERLEME KİMLİĞİ — "Yeni sürüm hazır" bandı (oyun/lib/surumKontrol.js)
+// Vercel'de commit kısa hash'i; yerelde git hash'i; o da yoksa zaman damgası. QT_SURUM ile elle verilebilir
+// (yerelde iki derlemeyi ayırt etmek için). İstemciye `__QT_SURUM__` olarak gömülür, dist/version.json'a yazılır.
+// ============================================================
+function derlemeKimligi() {
+  const elle = process.env.QT_SURUM;
+  if (elle) return String(elle).trim();
+  const vercel = process.env.VERCEL_GIT_COMMIT_SHA;
+  if (vercel) return String(vercel).slice(0, 8);
+  try {
+    const hash = execSync("git rev-parse --short=8 HEAD", { stdio: ["ignore", "pipe", "ignore"] }).toString().trim();
+    if (hash) return hash;
+  } catch {
+    /* git yok: zaman damgasına düş */
+  }
+  return String(Date.now());
+}
+const DERLEME_KIMLIGI = derlemeKimligi();
+
 function yayinDosyalari(siteUrl) {
   return {
     name: "yayin-dosyalari",
@@ -35,6 +56,8 @@ function yayinDosyalari(siteUrl) {
           this.warn(`${ad} yazılamadı: ${e.message}`);
         }
       };
+
+      yaz("version.json", JSON.stringify({ surum: DERLEME_KIMLIGI }) + "\n");
 
       yaz(
         "robots.txt",
@@ -127,6 +150,8 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), yayinDosyalari(siteUrl), uygulamaOnYukleme()],
+    // Geliştirme sunucusunda "dev": istemci sürüm denetimi yapmaz.
+    define: { __QT_SURUM__: JSON.stringify(mode === "development" ? "dev" : DERLEME_KIMLIGI) },
 
     build: {
       // ============================================================

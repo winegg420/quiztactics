@@ -2,6 +2,7 @@ import { Outlet, NavLink, Link, useNavigate, useLocation, useNavigationType } fr
 import { Suspense, useEffect, useLayoutEffect, useState } from "react";
 import HataSiniri from "../../src/components/HataSiniri.jsx";
 import BaglantiSeridi from "./BaglantiSeridi.jsx";
+import YeniSurumBandi from "./YeniSurumBandi.jsx";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { supabase } from "../../src/lib/supabase.js";
 import RankUpOverlay from "./RankUpOverlay.jsx";
@@ -196,6 +197,8 @@ export default function Layout() {
 
   return (
     <div className="app qt-sayfa a-kabuk">
+      {/* Yeni sürüm bandı: akışta (sabit değil) — alt menüyü/sabit düğmeleri örtmez; maçta CSS ile gizli */}
+      <YeniSurumBandi />
       <RankUpOverlay />
       {kurulumEksik && !tanitimGosterildi ? (
         <Tanitim

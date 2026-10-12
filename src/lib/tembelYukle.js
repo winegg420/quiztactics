@@ -40,6 +40,9 @@ export function tembelYukle(yukleyici) {
           if (!modul) return new Promise(() => {});
           return modul;
         } catch (e) {
+          // Yeni sürüm: eski parça adı sunucuda yok → aralık bayrağıyla korunan yenileme dener;
+          // yenilenirse sayfa yenilenene dek "Yükleniyor…" kalır, aksi halde "Tekrar dene" kartı.
+          if (parcaHatasiMi(e) && sessizOnYukleme === 0 && parcaIcinYenile("lazy", e?.message ?? "")) return new Promise(() => {});
           basarisizlar.add(kur);
           throw e;
         }
@@ -102,20 +105,29 @@ export function parcaHatasiMi(hata) {
 const BAYRAK = "qt_parca_yenile";
 const YENILEME_ARALIK_MS = 60000;
 
+/**
+ * Parça inemediğinde sayfayı yeniler (aralık bayrağı döngüyü engeller). true = yenileme başlatıldı.
+ * vite:preloadError ve tembelYukle'nin son hatası aynı bayrağı paylaşır (çift yenileme olmaz).
+ */
+function parcaIcinYenile(kaynak, ayrinti = "") {
+  try {
+    if (typeof window === "undefined") return false;
+    if (typeof navigator !== "undefined" && navigator.onLine === false) return false;
+    const gecen = Date.now() - Number(sessionStorage.getItem(BAYRAK) || 0);
+    if (gecen >= 0 && gecen < YENILEME_ARALIK_MS) return false;   // az önce yenilendi — döngü yok
+    sessionStorage.setItem(BAYRAK, String(Date.now()));
+    console.warn(`[Bildim] sayfa parçası inemedi (yeni sürüm?) — sayfa yenileniyor (${kaynak}):`, ayrinti);
+    window.location.reload();
+    return true;
+  } catch {
+    return false;   // depolama kapalı: yenileme yapılmaz, hata sayfa içi karta gider
+  }
+}
+
 export function parcaYenilemeKur() {
   if (typeof window === "undefined") return;
   window.addEventListener("vite:preloadError", (olay) => {
-    try {
-      if (typeof navigator !== "undefined" && navigator.onLine === false) return;
-      if (sessizOnYukleme > 0) return;   // boşta önceden indirme: oyuncunun önündeki sayfa yenilenmez
-      const gecen = Date.now() - Number(sessionStorage.getItem(BAYRAK) || 0);
-      if (gecen >= 0 && gecen < YENILEME_ARALIK_MS) return;   // az önce yenilendi — döngü yok
-      sessionStorage.setItem(BAYRAK, String(Date.now()));
-      olay.preventDefault();
-      console.warn("[Bildim] sayfa parçası inemedi (yeni sürüm?) — sayfa yenileniyor:", olay?.payload?.message ?? "");
-      window.location.reload();
-    } catch {
-      /* depolama kapalı: yenileme yapılmaz, hata sayfa içi karta gider */
-    }
+    if (sessizOnYukleme > 0) return;   // boşta önceden indirme: oyuncunun önündeki sayfa yenilenmez
+    if (parcaIcinYenile("preload", olay?.payload?.message ?? "")) olay.preventDefault();
   });
 }

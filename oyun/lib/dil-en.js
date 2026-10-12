@@ -17,6 +17,7 @@ import enProfilTutarlilik from "./ceviri/profil-tutarlilik.js";
 import enArama from "./ceviri/arama.js";
 import enPremium from "./ceviri/premium.js";
 import enCikisOnay from "./ceviri/cikis-onay.js";
+import enYeniSurum from "./ceviri/yeni-surum.js";
 import enGuvenlik from "./ceviri/guvenlik.js";
 import enKoleksiyon from "./ceviri/koleksiyon.js";
 import enSunucu from "./ceviri/sunucu.js";
@@ -57,4 +58,4 @@ import enRakipSikki from "./ceviri/rakip-sikki.js";
 import enTelefonMeydan from "./ceviri/telefon-meydan.js";   // Telefon denetimi: mod açıklamaları + Bitenler (12 Eki 2026)
 import enTelefonKoleksiyon from "./ceviri/telefon-koleksiyon.js";   // Telefon denetimi: Koleksiyon/Profil (12 Eki 2026)   // Rakibin şıkkı + Ort. cevap (1062, 11 Eki 2026)
 
-export default Object.assign({}, temel, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama, enDenetim5, enDenetim6, enHakimiyet, enHakimiyetEkran, enHakimiyetJoker, enSezonYolu, enSezonYoluParca, enGorevler, enAvatarSatis, enKategoriMaci, enKasa, enDuelloSecim, enDuelloPuan, enKisaMetin, enAnaSahne, enDuelloOnizleme, enDuello4, enCevapImzasi, enEkranRevizyon, enMacSonuSpBp, enProfilTutarlilik, enEkranModlar, enEkranGorevler, enEkranTurnuva, enEkranDukkan, enEkranProfil, enEkranMeydan, enT2Dukkan2, enT2Arkadas2, enT2Mesaj2, enT2Meydan2, enT2Koleksiyon2, enT2Calisma2, enGiris3, enKucukEkranlar, enPosta, enRakipSikki, enTelefonKoleksiyon, enTelefonMeydan);
+export default Object.assign({}, temel, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama, enDenetim5, enDenetim6, enHakimiyet, enHakimiyetEkran, enHakimiyetJoker, enSezonYolu, enSezonYoluParca, enGorevler, enAvatarSatis, enKategoriMaci, enKasa, enDuelloSecim, enDuelloPuan, enKisaMetin, enAnaSahne, enDuelloOnizleme, enDuello4, enCevapImzasi, enEkranRevizyon, enMacSonuSpBp, enProfilTutarlilik, enEkranModlar, enEkranGorevler, enEkranTurnuva, enEkranDukkan, enEkranProfil, enEkranMeydan, enT2Dukkan2, enT2Arkadas2, enT2Mesaj2, enT2Meydan2, enT2Koleksiyon2, enT2Calisma2, enGiris3, enKucukEkranlar, enPosta, enRakipSikki, enTelefonKoleksiyon, enTelefonMeydan, enYeniSurum);
