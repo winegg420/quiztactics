@@ -69,6 +69,8 @@ Ortak: `supabase/migrations/` (sıralı SQL) · `supabase/functions/` ·
 secrets'ta: `ANTHROPIC_API_KEY`, `CRON_SECRET`. `.env` varyantları ve
 `.vercel` git'e **girmez**; yalnız `.env.example` istisna.
 
+**Supabase projesi (13 Eki 2026):** `etezccrifaetzrgfvawl` (quiztacticsapp@gmail.com hesabı, eu-central-1, ücretsiz plan). Eski proje `zfpnxzybcpkxsotwdsey` = **eski (hub)** — diğer hub oyunları orada kalır; Quiz Tactics cron işleri orada durduruldu. Gizli anahtarlar: `ANTHROPIC_API_KEY`, `CRON_SECRET`, `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`.
+
 ## Derleme — DÖRT GİRİŞ, DOKUNMA
 
 `vite.config.js › rollupOptions.input` dört giriş taşır ve **koşulsuzdur**:

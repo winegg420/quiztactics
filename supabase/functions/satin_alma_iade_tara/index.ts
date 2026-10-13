@@ -11,7 +11,7 @@
 // Gerekli secret: PLAY_SERVICE_ACCOUNT, PLAY_PACKAGE_NAME, CRON_SECRET
 // Günlük cron (açılış günü eklenecek):
 //   select cron.schedule('satin-alma-iade-tara', '17 4 * * *', $$select net.http_post(
-//     url := 'https://zfpnxzybcpkxsotwdsey.supabase.co/functions/v1/satin_alma_iade_tara',
+//     url := 'https://etezccrifaetzrgfvawl.supabase.co/functions/v1/satin_alma_iade_tara',
 //     headers := jsonb_build_object('x-cron-secret', public.gizli_al('cron_secret'), 'Content-Type', 'application/json'),
 //     body := '{}'::jsonb)$$);
 import { createClient } from "npm:@supabase/supabase-js@2";

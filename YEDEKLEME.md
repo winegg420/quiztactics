@@ -83,7 +83,7 @@ Yani "denenmemiş yedek" sorunu yapısal olarak çözüldü: geri yükleme bir k
 `SUPABASE_DB_URL` deposunun Actions sırlarında tanımlı:
 
 ```
-postgresql://postgres.zfpnxzybcpkxsotwdsey:<SIFRE>@aws-1-eu-central-1.pooler.supabase.com:5432/postgres
+postgresql://postgres.etezccrifaetzrgfvawl:<SIFRE>@aws-1-eu-central-1.pooler.supabase.com:5432/postgres
 ```
 
 `<SIFRE>` = `.env.local` içindeki `SUPABASE_DB_PASSWORD`. **Değer hiçbir yere
@@ -94,7 +94,7 @@ migration'a **yazılmaz**.
 Değiştirmek gerekirse (şifre döndürülürse) aynı yolla:
 
 ```bash
-node -e "const fs=require('fs');const p=fs.readFileSync('.env.local','utf8').match(/SUPABASE_DB_PASSWORD=(.*)/)[1].trim();process.stdout.write('postgresql://postgres.zfpnxzybcpkxsotwdsey:'+encodeURIComponent(p)+'@aws-1-eu-central-1.pooler.supabase.com:5432/postgres')" \
+node -e "const fs=require('fs');const p=fs.readFileSync('.env.local','utf8').match(/SUPABASE_DB_PASSWORD=(.*)/)[1].trim();process.stdout.write('postgresql://postgres.etezccrifaetzrgfvawl:'+encodeURIComponent(p)+'@aws-1-eu-central-1.pooler.supabase.com:5432/postgres')" \
   | gh secret set SUPABASE_DB_URL --repo winegg420/idagggamecenter
 ```
 
@@ -203,14 +203,14 @@ doğrulanmamıştır — ilk fırsatta çalıştırıp bu belgeyi güncelle.
 Şifre `.env.local` içindeki `SUPABASE_DB_PASSWORD`:
 
 ```
-postgresql://postgres.zfpnxzybcpkxsotwdsey:<SIFRE>@aws-1-eu-central-1.pooler.supabase.com:5432/postgres
+postgresql://postgres.etezccrifaetzrgfvawl:<SIFRE>@aws-1-eu-central-1.pooler.supabase.com:5432/postgres
 ```
 
 ### Komut (pg_dump kuruluysa)
 
 ```bash
 # Tam mantıksal yedek: şema + veri + auth kullanıcıları + cron işleri
-pg_dump "postgresql://postgres.zfpnxzybcpkxsotwdsey:<SIFRE>@aws-1-eu-central-1.pooler.supabase.com:5432/postgres" \
+pg_dump "postgresql://postgres.etezccrifaetzrgfvawl:<SIFRE>@aws-1-eu-central-1.pooler.supabase.com:5432/postgres" \
   --schema=public --schema=auth --schema=cron \
   --no-owner --no-privileges \
   -Fc -f quizador-$(date +%Y%m%d).dump

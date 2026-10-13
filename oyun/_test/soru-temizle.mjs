@@ -11,7 +11,7 @@ const env = Object.fromEntries(
     .map((l) => [l.slice(0, l.indexOf("=")).trim(), l.slice(l.indexOf("=") + 1).trim()])
 );
 const c = new pg.Client({
-  connectionString: `postgresql://postgres.zfpnxzybcpkxsotwdsey:${encodeURIComponent(env.SUPABASE_DB_PASSWORD)}@aws-1-eu-central-1.pooler.supabase.com:5432/postgres`,
+  connectionString: `postgresql://postgres.etezccrifaetzrgfvawl:${encodeURIComponent(env.SUPABASE_DB_PASSWORD)}@aws-1-eu-central-1.pooler.supabase.com:5432/postgres`,
   ssl: { rejectUnauthorized: false }, statement_timeout: 300000,
 });
 await c.connect();

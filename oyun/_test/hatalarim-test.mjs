@@ -25,7 +25,7 @@ const env = Object.fromEntries(
 );
 
 const c = new pg.Client({
-  connectionString: `postgresql://postgres.zfpnxzybcpkxsotwdsey:${encodeURIComponent(
+  connectionString: `postgresql://postgres.etezccrifaetzrgfvawl:${encodeURIComponent(
     env.SUPABASE_DB_PASSWORD
   )}@aws-1-eu-central-1.pooler.supabase.com:5432/postgres`,
   ssl: { rejectUnauthorized: false },

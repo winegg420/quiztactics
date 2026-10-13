@@ -11,7 +11,7 @@
 > **KAPALI:** `apple` · `facebook` · `twitter` · ve diğer 20 sağlayıcı
 >
 > ```bash
-> curl -s -H "apikey: <anon>" https://zfpnxzybcpkxsotwdsey.supabase.co/auth/v1/settings
+> curl -s -H "apikey: <anon>" https://etezccrifaetzrgfvawl.supabase.co/auth/v1/settings
 > ```
 
 ---
@@ -34,7 +34,7 @@
 Ölçüm yöntemi (panele girmeden, dışarıdan):
 
 ```bash
-curl -sSI https://zfpnxzybcpkxsotwdsey.supabase.co/auth/v1/callback | grep -i location
+curl -sSI https://etezccrifaetzrgfvawl.supabase.co/auth/v1/callback | grep -i location
 # location: https://quizador.pages.dev/?error=invalid_request&error_code=bad_oauth_callback
 ```
 
@@ -63,7 +63,7 @@ korur, ama asıl düzeltme panel tarafındadır.
    - App permissions: **Read**
    - Type of App: **Web App**
    - Callback URI / Redirect URL:
-     `https://zfpnxzybcpkxsotwdsey.supabase.co/auth/v1/callback`
+     `https://etezccrifaetzrgfvawl.supabase.co/auth/v1/callback`
    - Website URL: `https://idagg-game-center.vercel.app`
    - Terms of service: `https://idagg-game-center.vercel.app/kosullar`
    - Privacy policy: `https://idagg-game-center.vercel.app/gizlilik`
@@ -85,7 +85,7 @@ alanlar Client ID/Secret değil **API Key / API Secret**'tir.
 
 1. Ürünlerden **Facebook Login** ekle → Settings:
    - Valid OAuth Redirect URIs:
-     `https://zfpnxzybcpkxsotwdsey.supabase.co/auth/v1/callback`
+     `https://etezccrifaetzrgfvawl.supabase.co/auth/v1/callback`
    - Client OAuth Login: açık · Web OAuth Login: açık
 2. **App Settings → Basic**:
    - Privacy Policy URL: `https://idagg-game-center.vercel.app/gizlilik`
@@ -123,9 +123,9 @@ Her sağlayıcı için bu iki kontrolü yap:
 ```bash
 # 302 dönmeli (400 = hâlâ kapalı)
 curl -s -o /dev/null -w "%{http_code}\n" \
-  "https://zfpnxzybcpkxsotwdsey.supabase.co/auth/v1/authorize?provider=facebook"
+  "https://etezccrifaetzrgfvawl.supabase.co/auth/v1/authorize?provider=facebook"
 curl -s -o /dev/null -w "%{http_code}\n" \
-  "https://zfpnxzybcpkxsotwdsey.supabase.co/auth/v1/authorize?provider=twitter"
+  "https://etezccrifaetzrgfvawl.supabase.co/auth/v1/authorize?provider=twitter"
 ```
 
 Sonra tarayıcıda: çıkış yap → davet linkiyle gir
@@ -168,7 +168,7 @@ de giriş çalışır, yalnız "Facebook arkadaşların" bölümü görünmez.
 Facebook Login → Settings → **Valid OAuth Redirect URIs**:
 
 ```
-https://zfpnxzybcpkxsotwdsey.supabase.co/auth/v1/callback
+https://etezccrifaetzrgfvawl.supabase.co/auth/v1/callback
 ```
 
 Bu adresi **birebir** gir. Sitenin kendi adresi (`quizsquare.vercel.app`)

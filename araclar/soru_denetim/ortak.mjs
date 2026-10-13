@@ -7,7 +7,7 @@ import { execFileSync } from "node:child_process";
 
 export const KOK = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "../..");
 export const KLASOR = path.join(KOK, ".tmp", "soru_denetim");
-const PROJE = "zfpnxzybcpkxsotwdsey";
+const PROJE = "etezccrifaetzrgfvawl";
 const HOST = "aws-1-eu-central-1.pooler.supabase.com";
 
 function sifre() {

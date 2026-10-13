@@ -65,7 +65,7 @@ Canlı uçta doğrulandı: `twitter` **400**, `facebook` **400**, `apple` **400*
 misafir girişi `anonymous_provider_disabled`. Yalnız Google (302) çalışıyor.
 - Supabase → Authentication → Providers → Twitter + Facebook aç
   (X ve Meta geliştirici portalından Client ID + Secret gerekiyor).
-  Callback: `https://zfpnxzybcpkxsotwdsey.supabase.co/auth/v1/callback`
+  Callback: `https://etezccrifaetzrgfvawl.supabase.co/auth/v1/callback`
 - Aynı ekranda "Allow anonymous sign-ins" → misafir girişi.
 Kod tarafı ikisi için de hazır; kapalıyken dürüst Türkçe mesaj veriyor.
 

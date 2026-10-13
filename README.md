@@ -34,6 +34,8 @@ npm run dev
 
 ### Supabase
 
+Canlı proje: `etezccrifaetzrgfvawl` (13 Eki 2026'dan beri). Eski (hub) proje: `zfpnxzybcpkxsotwdsey`.
+
 ```bash
 npx supabase login
 npx supabase link --project-ref <PROJE_REF>

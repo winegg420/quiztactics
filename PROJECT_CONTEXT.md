@@ -18,7 +18,7 @@ Bu dosya projenin BUGÜNKÜ gerçeğini tutar, tarihçesini değil.
 PWA. Tek depo, tek Vercel projesi; ana adres **quiztactics.com** (10 Eki 2026: quiztactics.vercel.app → quiztactics.com kalıcı yönlendirme, `vercel.json › redirects`, yalnız bu host; www Vercel alan ayarıyla yönlenir; önizleme *.vercel.app adresleri etkilenmez).
 
 18 Eylül 2026'da `idagggamecenter` hub'ından kendi deposuna ayrıldı.
-Supabase **aynı** projedir — veri, anahtarlar ve tablolar taşınmadı.
+13 Ekim 2026’da Supabase’i kendi projesine taşındı: **`etezccrifaetzrgfvawl`** (quiztacticsapp@gmail.com, eu-central-1, ücretsiz). Eski proje `zfpnxzybcpkxsotwdsey` = **eski (hub)**: hub oyunları orada kalır, Quiz Tactics cron işleri orada durduruldu (silinmedi). Ayrıntı: `docs/TASIMA-ENVANTER.md`, `docs/TASIMA-DOGRULAMA.md`.
 `VITE_MOD` ve iki-mod ayrımı kalktı; site kimliği `index.html` içinde
 statik durur.
 
@@ -973,11 +973,7 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.com]`.
 
 ## Açık İşler
 
-- **Edge Function dağıtımı bekliyor (23 Eyl):** `satin_alma_dogrula` (yeni sürüm) ve
-  `satin_alma_iade_tara` depoda hazır, canlıda değil — CLI 403 (makinedeki Supabase belirteci
-  başka hesaba ait), Chrome eklentisi bağlı değildi. Migration'lar (304–306) uygulandı; canlıdaki
-  eski fonksiyon `coin_satin_alma_isle` üzerinden yeni deftere devreder. Satın alma zaten kapalı.
-  10 Eki ölçümü: canlı `satin_alma_dogrula` 9 Eyl sürümü, `send-push` 12 Haz sürümü, `satin_alma_iade_tara` yok.
+- **Edge Function’lar (13 Eki 2026):** dört fonksiyon da yeni projede dağıtık (`generate-questions`, `send-push`, `satin_alma_iade_tara` JWT kapalı; `satin_alma_dogrula` JWT açık). Eksik gizli anahtar: `VAPID_PRIVATE_KEY` (push gönderimi bunsuz çalışmaz), Google OAuth client secret (Google girişi) — Ida’dan bekleniyor.
   `send-push` canlıda `verify_jwt = false` ama `config.toml`'da kaydı yok → dağıtırken `--no-verify-jwt`.
 - **Güvenlik denetimi (10 Eki 2026) A bölümü UYGULANDI (migration 1047, Ida onayı 14:48):** A.1, A.4–A.9, A.11, A.12.
   Bugünkü kural: `public` şemada **anon'a açık tek fonksiyon `ses_secimleri_oyun`** (giriş ekranı müziği); başka hiçbir

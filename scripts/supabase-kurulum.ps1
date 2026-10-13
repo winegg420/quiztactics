@@ -1,7 +1,7 @@
 # Bildim! — Supabase kurulum betiği
 # Önkoşul: `npx supabase login` ile giriş yapılmış olmalı.
 param(
-  [string]$ProjectRef = "zfpnxzybcpkxsotwdsey",
+  [string]$ProjectRef = "etezccrifaetzrgfvawl",
   [string]$AnthropicKey = $env:ANTHROPIC_API_KEY
 )
 

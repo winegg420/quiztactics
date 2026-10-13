@@ -303,7 +303,7 @@ async function hamBaglantiDizgisi() {
     const metin = fs.readFileSync(url, 'utf8');
     const sifre = metin.match(/SUPABASE_DB_PASSWORD=(.*)/)?.[1]?.trim().replace(/^["']|["']$/g, '');
     if (!sifre) return null;
-    return `postgresql://postgres.zfpnxzybcpkxsotwdsey:${encodeURIComponent(sifre)}@aws-1-eu-central-1.pooler.supabase.com:5432/postgres`;
+    return `postgresql://postgres.etezccrifaetzrgfvawl:${encodeURIComponent(sifre)}@aws-1-eu-central-1.pooler.supabase.com:5432/postgres`;
   } catch {
     return null;
   }

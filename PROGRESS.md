@@ -12080,3 +12080,18 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **Lig düşme bölgesi (390 px, taklit veri, 8 kişilik grup):** Altın ligde 1–5 yükselen, 6–8 `lg-bolge-dusen`, 5. sıra düşmede değil; durum rozeti ve "Düşme: son 3" kural yazısı tutarlı; Bronzda düşme bölgesi yok ("Bronz en alt lig: düşme yok"). LeaderboardPage.jsx'e dokunulmadı.
 - **Canlı grup testi:** DB bağlantıları 19/60 (havuz boş). `grup-canli-testi.mjs` yerel arayüz (5184) + canlı Supabase ile tek maç: 20 soru, 83 sn, GEÇTİ; maç sonu ekranı "3. oldun". Not: canlı site (quiztactics.com) headless Chrome'u Vercel güvenlik kontrolüyle engelliyor (403) — test `--adres=http://localhost:<port>` ile koşulmalı.
 - Araç hesabı silindi, geliştirme sunucusu kapatıldı, geçici betikler kaldırıldı.
+
+## 2026-10-13 — Supabase taşıması: kendi projesine (etezccrifaetzrgfvawl)
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** Quiz Tactics, hub hesabındaki ortak projeden (zfpnxzybcpkxsotwdsey) quiztacticsapp@gmail.com hesabındaki kendi ücretsiz projesine eksiksiz taşındı (Ida onayı).
+
+- Yeni proje `etezccrifaetzrgfvawl` (eu-central-1, Postgres 17, ücretsiz). Eski proje = **eski (hub)**: silinmedi, şeması/verisi değişmedi; yalnız Quiz Tactics cron işleri `cron.alter_job(active := false)` ile durduruldu.
+- Yöntem: resmi CLI döküm betikleri (roles / schema / data `--use-copy` mantığı, `session_replication_role=replica`) Docker yerine yerel PG 17.6 `pg_dump`/`psql` ile. auth.users/identities id'leri aynı, supabase_migrations aynı (+1089).
+- Yükleme sonrası eşitleme: yeni projenin varsayılan yetkilerinden gelen fazla anon/authenticated GRANT/EXECUTE geri alındı (yeni yetki açılmadı, mevcut kaldırılmadı — eskiyle 6182/6182 birebir); cron işleri `cron.schedule` ile (24, 1 pasif); Windows psql'in sildiği CR'ler için 50 fonksiyon eski tanımdan yeniden yazıldı.
+- Migration **1089** `yeni_proje_adresleri`: 5 fonksiyon (send-push adresi, avatar kova kontrolü) ve public verideki eski Storage adresleri (profiles 29) yeni ref'e. Yalnız yeni projeye uygulandı.
+- Storage: 3 kova, 269 dosya, 42.834.853 bayt — birebir. Edge Function: 4'ü de dağıtıldı (iade_tara ilk kez). Gizli: CRON_SECRET yeni üretildi (+ `sunucu_gizli`), ANTHROPIC_API_KEY, VAPID_PUBLIC_KEY kopyalandı.
+- Ayarlar: Auth (site_url quiztactics.com, yönlendirme listesi + www + localhost, anonim açık, Google aynı client id, oran/JWT aynı), Realtime presence_enabled=true, API şemaları/max rows aynı, `cron.log_statement=false`.
+- Doğrulama: `docs/TASIMA-DOGRULAMA.md` — 203 tablo satırı, tanım özetleri (fonksiyon, politika, tetikleyici, indeks, kısıt, kolon, RLS, yayın, kova, nesne, cron, sekans) aynı; advisors iki projede aynı sayılar. Envanter: `docs/TASIMA-ENVANTER.md`.
+- Vercel `quiztactics-app`: VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY Production+Preview güncellendi, Development eklendi. Yerel `.env`/`.env.local` yeni projeye (eski şifre/belirteç `*_ESKI_*` adıyla duruyor). `pg-mini.mjs`, `soru_denetim/ortak.mjs`, `oyun/_test/*`, kurulum betiği ve giriş/yedek belgelerinde ref güncellendi.
+- **Ida'dan gerekli:** `VAPID_PRIVATE_KEY` (push gönderimi), Google OAuth client secret (API yalnız özetini veriyor) + Google Cloud Console'a `https://etezccrifaetzrgfvawl.supabase.co/auth/v1/callback` yönlendirme adresi.
+- Bilinen etki: yeni JWT anahtarı yüzünden mevcut oturumlar düştü; misafir test hesapları geri giremez (gerçek oyuncu yok).
