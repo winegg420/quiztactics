@@ -12074,3 +12074,9 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **11 Coin göstergesi:** MacSonuKutlama açılınca elmas her zaman, coin uçuş yoksa hemen tazelenir (bütün modlar bu bileşeni kullanır).
 - Not: canlı DB oturum havuzu (5432) bu oturumda doydu; ölçümler işlem modu (6543) ile yapıldı.
 - Araç: `klasik-mac-ekran.mjs --grup-kisi=3`; `grup-canli-testi.mjs` "N. oldun" başlığını tanır.
+
+## 2026-10-13 — Telefon turu paketi doğrulaması (kod değişmedi)
+> **Araç:** Claude Code (Sonnet 5.5)
+- **Lig düşme bölgesi (390 px, taklit veri, 8 kişilik grup):** Altın ligde 1–5 yükselen, 6–8 `lg-bolge-dusen`, 5. sıra düşmede değil; durum rozeti ve "Düşme: son 3" kural yazısı tutarlı; Bronzda düşme bölgesi yok ("Bronz en alt lig: düşme yok"). LeaderboardPage.jsx'e dokunulmadı.
+- **Canlı grup testi:** DB bağlantıları 19/60 (havuz boş). `grup-canli-testi.mjs` yerel arayüz (5184) + canlı Supabase ile tek maç: 20 soru, 83 sn, GEÇTİ; maç sonu ekranı "3. oldun". Not: canlı site (quiztactics.com) headless Chrome'u Vercel güvenlik kontrolüyle engelliyor (403) — test `--adres=http://localhost:<port>` ile koşulmalı.
+- Araç hesabı silindi, geliştirme sunucusu kapatıldı, geçici betikler kaldırıldı.
