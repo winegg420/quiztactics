@@ -12037,3 +12037,12 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **7 Çevrimiçi "Unauthorized" — YALNIZ TEŞHİS:** realtime.messages politikaları (cevrimici_oku/yaz, 590) canlıda VAR, RLS açık, `cevrimici_kanal_okur_mu` security definer + authenticated EXECUTE — 1053/1066 bozmamış. Management API `config/realtime`: **`presence_enabled: false`**. Presence kapalıyken katılım broadcast okuma iznine göre denetlenir; 590 yalnız `extension='presence'` politikası yazdığı için Unauthorized. Öneri (Ida onayı bekliyor): Realtime ayarında Presence'ı aç (`PATCH /v1/projects/<ref>/config/realtime {presence_enabled:true}`); alternatif cevrimici-* konuları için broadcast SELECT politikası (güvenlik değişikliği). Hiçbir şey değiştirilmedi.
 - **8a** Hazırlık metni: "Maç herkes hazır olunca ya da {n} saniyelik süre bitince başlar." (n = `loadout_secim_sn`), EN güncellendi. **8b** Paylaşım düğmeleri: ızgara 1.4fr/1fr/1fr + yazı sarabilir; ölçüm 390 (141/101/101 px) ve 360 (128/92/92 px) — üç yazı da tam, tek satır.
 - Araç: `arayuz-denetim.mjs --sayfalar=… --genislik=…` filtresi eklendi. 390'da dükkan/lig/calisma: TEMİZ. Test hesabı araç tarafından silindi.
+
+## 13 Eki 2026 — Çevrimiçi "Unauthorized" düzeltildi (Realtime presence_enabled)
+**Araç:** Claude Code (Sonnet 5.5)
+**Neden:** Konsolda "[Bildim] çevrimiçi durumu kapalı (Realtime özel kanal açılamadı): Unauthorized"; teşhis (GPT paketi madde 7) kök nedeni Realtime proje ayarı olarak bulmuştu.
+
+- **Önce ölçüldü** (Management API `GET config/realtime`, salt-okuma): `presence_enabled: false`.
+- **Değiştirildi:** yalnız `PATCH /v1/projects/zfpnxzybcpkxsotwdsey/config/realtime {presence_enabled:true}`. Sonra yeniden okundu: `presence_enabled: true`; diğer ayarlar aynı (max_concurrent_users 200, max_joins_per_second 100, max_presence_events_per_second 20 …). RLS/GRANT/politika DEĞİŞMEDİ.
+- **Doğrulama (canlı, tek anonim hesap, tek koşu):** özel kanal `cevrimici-<uid>` (`private:true, presence.enabled:true`, uygulamadaki gibi) → `phx_join` ok, `presence track` ok, kendi `presence_diff` join'i geldi; Unauthorized yok. Hesap `hesabimi_sil` ile silindi (başka hesap/bot dokunulmadı); geçici betik kaldırıldı.
+- **Not:** `PROJECT_CONTEXT.md` çevrimiçi durumu maddesine ayar satırı eklendi. Uygulama kodu değişmedi.

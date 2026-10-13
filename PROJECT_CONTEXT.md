@@ -457,6 +457,8 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   özel kanalı `cevrimici-<uid>`; yalnız sahibi yazar, yalnız kabul edilmiş arkadaş okur; DB'ye yazım yok. Yeşil
   "Çevrimiçi" / turuncu "Maçta", çevrimiçiler üstte, çevrimdışında gösterge yok. Arka planda kanaldan çıkılır.
   Lig, oyuncu kartı, lobi gibi başka yerde gösterilmez.
+  **Realtime proje ayarı `presence_enabled: true` (13 Eki 2026, API ile açıldı) — kapanırsa özel kanal "Unauthorized" verir;
+  panelde anahtarı yok, yalnız Management API `PATCH /v1/projects/<ref>/config/realtime`.**
 - **Turnuva ve Grup çıkış onayı:** çıkış düğmesi ve geri tuşu onay penceresi açar ("Oyunda kal" / "Çık"; Klasik/Düello ile aynı pencere).
 - **Terk kuralı (460, Ida):** maçın yarısında çıkan asla ödül almaz — 0 coin / XP / elmas, seri,
   görev ve rozet ilerlemesi sayılmaz; kalan tam galibiyet alır. Bütün modlarda sunucuda: Klasik /
