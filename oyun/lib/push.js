@@ -2,7 +2,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { tt } from "./dil.js";
 
 const VAPID_PUBLIC_KEY =
-  "BMO4oFOLsEG16O6hkaSSNg68MMBQ9mEMfQXYcBzRlIQ5qixPCr3BnpRCcrJJcwYnRd53Ap26GKdhtcHYQf0eT_0";
+  "BN2ichsTrBQyCJNpGwkT-ygB4tW05ioy7IoYzNlpi5CL2Yw85wjyKad4GMp6U3wyIOdN35ar2uTMB3FTAopETuQ";
 
 function base64UrlToUint8Array(base64Url) {
   const padding = "=".repeat((4 - (base64Url.length % 4)) % 4);
@@ -42,6 +42,16 @@ export async function bildirimleriAc() {
   if (izin !== "granted") throw new Error(tt("Bildirim izni verilmedi."));
   const kayit = await navigator.serviceWorker.ready;
   let abone = await kayit.pushManager.getSubscription();
+  // Eski VAPID anahtarıyla açılmış abonelik yeni sunucu anahtarıyla çalışmaz: yenile.
+  if (abone && !anahtarUyumlu(abone)) {
+    try {
+      await supabase.rpc("remove_push_subscription", { p_endpoint: abone.endpoint });
+    } catch (e) {
+      console.warn("[Bildim] eski abonelik sunucudan silinemedi:", e?.message ?? e);
+    }
+    await abone.unsubscribe();
+    abone = null;
+  }
   if (!abone) {
     abone = await kayit.pushManager.subscribe({
       userVisibleOnly: true,
@@ -60,6 +70,19 @@ export async function bildirimleriAc() {
     ({ error } = await aboneligiKaydet(abone));
   }
   if (error) throw error;
+}
+
+function anahtarUyumlu(abone) {
+  try {
+    const mevcut = abone.options?.applicationServerKey;
+    if (!mevcut) return true;
+    const beklenen = base64UrlToUint8Array(VAPID_PUBLIC_KEY);
+    const m = new Uint8Array(mevcut);
+    return m.length === beklenen.length && m.every((b, i) => b === beklenen[i]);
+  } catch (e) {
+    console.warn("[Bildim] abonelik anahtarı denetlenemedi:", e?.message ?? e);
+    return true;
+  }
 }
 
 function aboneligiKaydet(abone) {

@@ -973,7 +973,7 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.com]`.
 
 ## Açık İşler
 
-- **Edge Function’lar (13 Eki 2026):** dört fonksiyon da yeni projede dağıtık (`generate-questions`, `send-push`, `satin_alma_iade_tara` JWT kapalı; `satin_alma_dogrula` JWT açık). Eksik gizli anahtar: `VAPID_PRIVATE_KEY` (push gönderimi bunsuz çalışmaz), Google OAuth client secret (Google girişi) — Ida’dan bekleniyor.
+- **Edge Function’lar (13 Eki 2026):** dört fonksiyon da yeni projede dağıtık (`generate-questions`, `send-push`, `satin_alma_iade_tara` JWT kapalı; `satin_alma_dogrula` JWT açık). Push: yeni VAPID çifti üretildi ve yeni projeye girildi (13 Eki; eski özel anahtar kayıptı), public key `oyun/lib/push.js`’te; eski anahtarlı abonelikler istemcide otomatik yenilenir. Eksik gizli anahtar: Google OAuth client secret (Google girişi) — Ida’dan bekleniyor.
   `send-push` canlıda `verify_jwt = false` ama `config.toml`'da kaydı yok → dağıtırken `--no-verify-jwt`.
 - **Güvenlik denetimi (10 Eki 2026) A bölümü UYGULANDI (migration 1047, Ida onayı 14:48):** A.1, A.4–A.9, A.11, A.12.
   Bugünkü kural: `public` şemada **anon'a açık tek fonksiyon `ses_secimleri_oyun`** (giriş ekranı müziği); başka hiçbir

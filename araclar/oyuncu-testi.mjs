@@ -467,6 +467,20 @@ async function hakimiyetDenetimi(id, kapsam) {
 }
 
 async function duelloMaci(kapsam) {
+  // Düello yeni hesapta 5 bitmiş Klasik/Saf Bilgi maçıyla açılır; kilit kartı varsa lobide "Rakip ara" çizilmez.
+  // Kilitliyse (araç hesabı için) eksik maç sayısı kadar bitmiş maç eklenir; sonda temizlenmez (hesap araçla silinir).
+  try {
+    const [k] = await sorgu(`select count(*) n from matches where ${alintila(BEN)} in (oyuncu1, oyuncu2) and durum = 'bitti' and basladi`);
+    const eksik = 5 - Number(k?.n ?? 0);
+    if (eksik > 0) {
+      const [b] = await sorgu(`select id from profiles where is_bot and bot_turu = 'gizli' limit 1`);
+      for (let i = 0; i < eksik && b; i++) {
+        await sorgu(`insert into matches (oyuncu1, oyuncu2, durum, kazanan, bitis, basladi, dereceli)
+          values (${alintila(BEN)}, ${alintila(b.id)}, 'bitti', ${alintila(b.id)}, now(), true, false)`);
+      }
+      if (eksik > 0) console.log(`  · Düello kilidi için ${eksik} bitmiş maç eklendi`);
+    }
+  } catch (e) { console.log("  · kilit hazırlığı atlandı:", e.message); }
   await s.goto(ADRES + "/duello", { waitUntil: "domcontentloaded" });
   await s.waitForTimeout(2500);
   await tanitimlariGec();
