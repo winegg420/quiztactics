@@ -20,6 +20,7 @@ export default {
   "Yükselme: grubunda ilk {n} bir üst lige çıkar (haftada en az 1 puan gerekir).": "Promotion: the top {n} in your group move up a league (at least 1 point that week).",
   "Bronz en alt lig: düşme yok.": "Bronze is the bottom league: no relegation.",
   "Düşme: grubunda son {n} bir alt lige düşer.": "Relegation: the bottom {n} in your group drop a league.",
+  "Bu hafta grubunda düşme yok.": "No relegation in your group this week.",
   "Üst üste {n} hafta hiç maç oynamazsan da bir alt lige düşersin.": "You also drop a league if you play no matches for {n} weeks in a row.",
   "Haftalık ödül (grubunda ilk 3):": "Weekly reward (top 3 in your group):",
   "Elmas için o hafta en az 1 puan kazanmış olmalısın.": "To get gems you must have earned at least 1 point that week.",

@@ -280,9 +280,12 @@ async function hesabiSil() {
   if (GORSEL && !fs.existsSync(GORSEL_DIZIN)) fs.mkdirSync(GORSEL_DIZIN, { recursive: true });
 
   const bulgular = [];
-  for (const g of GENISLIKLER) {
+  // --sayfalar=lig,dukkan  --genislik=390: tek seferlik dar ölçüm (canlı veri yükü az)
+  const sSec = typeof ARG.sayfalar === "string" ? ARG.sayfalar.split(",") : null;
+  const gSec = typeof ARG.genislik === "string" ? ARG.genislik.split(",").map(Number) : null;
+  for (const g of GENISLIKLER.filter((x) => !gSec || gSec.includes(x.w))) {
     await sayfa.setViewportSize({ width: g.w, height: g.h });
-    for (const s of SAYFALAR) {
+    for (const s of SAYFALAR.filter((x) => !sSec || sSec.includes(x.ad))) {
       konsolHatalari.length = 0;
       try {
         await sayfa.goto(ADRES + s.yol, { waitUntil: "domcontentloaded", timeout: 20000 });

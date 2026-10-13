@@ -4,7 +4,7 @@ import { hataMesaji } from "../lib/hata.js";
 import { sesHataUyari } from "../lib/ses.js";
 import { Link, useSearchParams } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
-import { JOKER_BILGI, AKTIF_MAC_SKILLERI, envanterNesne, jokerDukkanModlari, jokerYalnizModu, paketDukkanModlari } from "../lib/jokerler.js";
+import { JOKER_BILGI, AKTIF_MAC_SKILLERI, SATILIK_SKILLER, envanterNesne, jokerDukkanModlari, jokerYalnizModu, paketDukkanModlari } from "../lib/jokerler.js";
 import SkillRozeti from "../components/SkillRozeti.jsx";
 import JokerSatinAlModal from "../components/JokerSatinAlModal.jsx";
 import DukkanKozmetik, { DukkanAvatarlar, useKozmetikDukkan } from "../components/DukkanKozmetik.jsx";
@@ -660,7 +660,7 @@ export default function JokerDukkani() {
 
             {/* Bütün aktif jokerler tek düz liste; mod bilgisi her kartın kendi rozetinde. */}
             <ul className="qt-dk-skill-liste qt-dk-skill-liste--izgara">
-                {AKTIF_MAC_SKILLERI.map((tur, i) => {
+                {SATILIK_SKILLER.map((tur, i) => {
                   // Paket 2 B1/B2: sunucudan gelen satır (fiyat, 10'lu paket, kilit).
                   const sd = skillDukkan?.skiller?.[tur] ?? null;
                   const kilitli = Boolean(sd && sd.acik === false);

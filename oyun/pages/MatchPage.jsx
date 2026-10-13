@@ -1006,7 +1006,10 @@ export default function MatchPage() {
                   ? tt("{0} ile {1}-{2} berabere kaldım", { 0: botAdi(rakipProfil?.gorunen_ad), 1: benimSkor, 2: rakipSkor })
                   : kazandim
                     ? tt("{0} karşısında {1}-{2} kazandım!", { 0: botAdi(rakipProfil?.gorunen_ad), 1: benimSkor, 2: rakipSkor })
-                    : tt("{0} karşısında kıl payı kaybettim", { 0: botAdi(rakipProfil?.gorunen_ad) });
+                    // Yalnız gerçekten yakın yenilgi (fark ≤ 20 puan) "kıl payı"; değilse skor yazılır.
+                    : Math.abs(Number(rakipSkor) - Number(benimSkor)) <= 20
+                      ? tt("{0} karşısında kıl payı kaybettim", { 0: botAdi(rakipProfil?.gorunen_ad) })
+                      : tt("{0} karşısında {1}-{2} kaybettim", { 0: botAdi(rakipProfil?.gorunen_ad), 1: benimSkor, 2: rakipSkor });
                 const mesaj = tt("Quiz Tactics'te {0} Sen de gel, kapışalım: {1}/?davet={2}", { 0: sonucYazi, 1: window.location.origin, 2: user.id });
                 const enc = encodeURIComponent(mesaj);
                 return (

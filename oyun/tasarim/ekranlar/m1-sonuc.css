@@ -374,6 +374,8 @@
 
 /* 12 Eki 2026 (telefon denetimi 3, M11): maç sonu paylaşım düğmeleri (WhatsApp · X · Diğer) 390 px'te 2+1 diziliyordu —
    tek satırda üç eşit sütun; dar ekranda iç pay ve ikon arası daralır, yazı tek satır kalır. */
-.m1-ss-satir.m1-paylas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+.m1-ss-satir.m1-paylas { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr); width: 100%; }
+/* 13 Eki: 360–390 px’de "Whats…" kesilmesin — yazı kısaltılmaz, sığmazsa iki satıra sarar. */
+.m1-paylas .qt-dugme-yazi { white-space: normal; overflow: visible; text-overflow: clip; text-align: center; line-height: 1.15; }
 .m1-paylas > .qt-dugme { min-width: 0; padding-inline: var(--qt-b-2); white-space: nowrap; }
 @media (max-width: 380px) { .m1-paylas > .qt-dugme { gap: 4px; padding-inline: 6px; font-size: var(--qt-y-s); } }

@@ -336,9 +336,11 @@ Oyuncuya görünen ad **"Joker"** (TR + EN; Ida, 24 Eyl 2026 — "Skill" kalktı
 `skill_*` ve `joker_*` iç adları **bilerek korunur** — yeniden adlandırılmaz. Anahtarı hâlâ
 "skill" geçen metinler `dil.js › jokerAdi()` ile çıkışta Joker olur. Tek kayıt kaynağı
 `oyun/lib/jokerler.js`. Jokerler **yalnız coin'le** alınır (test fiyatları: Ek Süre 20 · Soru
-Değiştir 30 · Zaman Baskısı 30 · Sigorta 40 · 2X 50 · 50:50 60 · İkinci Şans 60 · Kalkan 50 · Baskın 70).
+Değiştir 30 · Zaman Baskısı 30 · Sigorta 40 · 2X 50 · 50:50 60 · İkinci Şans 60).
+**Baskın ve Kalkan SATIŞTAN KALKTI (1083, 13 Eki 2026):** Düello v4 bu iki jokeri göstermiyor. `shopVisible:false` → `SATILIK_SKILLER`; `joker_fiyati` ikisine null döner (tek/maç içi satış reddedilir); içlerinde Baskın/Kalkan olan paketler (`duello_30`, `duello_100`, `skill_baskin_10`, `skill_kalkan_10`) `aktif = false`. Eldeki stok birim fiyattan coin'e çevrildi (`coin_hareketleri.tur = 'joker_iade'`, günlük tavandan muaf; joker kaynağı `iade`). Tanımlar ve eski Düello kodu durur.
+Zaman Baskısı her modda aynı adla görünür (Klasik'teki "Süreyi Kısalt" adı 13 Eki 2026'da kalktı; saniye açıklaması moda göre).
 
-Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düello):
+Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düello; 1083'ten beri satılmaz):
 
 | id | Ad | Mod | Davranış |
 |---|---|---|---|

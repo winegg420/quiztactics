@@ -96,7 +96,7 @@ export function HazirKapisi({
       {/* Baykuş maskot kaldırıldı (Ida, 24 Eyl 2026): başlık doğrudan sahnenin üstünde */}
       <h1 className="qt-baslik-1">{hepsiHazir ? tt("Maç başlıyor…") : benHazir ? tt("Rakip bekleniyor") : tt("Hazır mısın?")}</h1>
       <p>
-        {tt("Herkes aynı soruyu aynı anda görür. Maç hepiniz hazır olunca başlar.")}
+        {tt("Herkes aynı soruyu aynı anda görür. Maç herkes hazır olunca ya da {0} saniyelik süre bitince başlar.", { 0: sure })}
       </p>
 
       {tabela}

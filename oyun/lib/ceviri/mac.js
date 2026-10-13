@@ -26,7 +26,7 @@ export default {
   "Bu maçta {0} joker kullanımın kaldı": "{0} joker uses left this match",
   "Maç hakkı: {0}": "Uses left: {0}",
   "Bu maçta joker kullanımın doldu ({0}/{1}).": "No joker uses left this match ({0}/{1}).",
-  "Herkes aynı soruyu aynı anda görür. Maç hepiniz hazır olunca başlar.": "Everyone sees the same question at the same time. The match starts when you're all ready.",
+  "Herkes aynı soruyu aynı anda görür. Maç herkes hazır olunca ya da {0} saniyelik süre bitince başlar.": "Everyone sees the same question at the same time. The match starts when everyone is ready or when the {0}-second timer runs out.",
   "{0}/{1} hazır": "{0}/{1} ready",
   "Beklenen: {0}": "Waiting for: {0}",
   "İstersen maçı sıra tabanlı bırak: sen kendi bölümünü şimdi oynarsın, rakibin kendi zamanında oynar.": "You can switch to turn-based: play your part now, and your opponent plays when they can.",

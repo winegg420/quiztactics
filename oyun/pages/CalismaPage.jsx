@@ -152,8 +152,9 @@ export default function CalismaPage() {
     } catch (e) {
       setHata(hataMesaji(e, tt("Tur kapatılamadı.")));
     }
+    // "bankada" ve "x/y öğrenildi" aynı anın verisi olsun: banka tazelenmeden sonuç açılmaz.
+    await bankaYukle();
     setAsama("sonuc");
-    bankaYukle();
   }, [bankaYukle]);
 
   // ---------- Başlat ----------
@@ -636,7 +637,7 @@ export default function CalismaPage() {
         <div className="m1-cal-son-kutular">
           <div className="m1-cal-son-kutu m1-cal-son-kutu--dogru"><b className="qt-sayi">{sonuc?.dogru ?? 0}</b><span>{tt("doğru")}</span></div>
           <div className="m1-cal-son-kutu m1-cal-son-kutu--yanlis"><b className="qt-sayi">{sonuc?.yanlis ?? 0}</b><span>{tt("yanlış")}</span></div>
-          <div className="m1-cal-son-kutu m1-cal-son-kutu--banka"><b className="qt-sayi">{sonuc?.bankada_kalan ?? 0}</b><span>{tt("bankada")}</span></div>
+          <div className="m1-cal-son-kutu m1-cal-son-kutu--banka"><b className="qt-sayi">{banka ? Number(banka.bekleyen) || 0 : sonuc?.bankada_kalan ?? 0}</b><span>{tt("bankada")}</span></div>
         </div>
 
         {bankaToplam > 0 && (

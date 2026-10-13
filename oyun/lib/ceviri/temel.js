@@ -228,7 +228,6 @@ export default {
     "Tekrar rövanş iste": "Ask for a rematch again",
     // Paket 31 A / C: Klasik Mod saldırı jokerleri
     "Soru ikinizde de değişir.": "The question changes for both of you.",
-    "Süreyi Kısalt": "Cut the Clock",
     "Rakibinin süresi kısalır, seninki aynı kalır.": "Your opponent's time gets shorter; yours stays the same.",
     "Rakip bu soruda joker kullanamaz.": "Your opponent can't use jokers on this question.",
     "Rakibin savunma jokerlerini kilitledi.": "Your opponent locked your defensive jokers.",
@@ -1657,6 +1656,7 @@ export default {
     "{0} maçı terk etti — hükmen kazandın.": "{0} left the match — you win by forfeit.",
     "{0} ile {1}-{2} berabere kaldım": "I drew {1}-{2} with {0}",
     "{0} karşısında kıl payı kaybettim": "I narrowly lost to {0}",
+    "{0} karşısında {1}-{2} kaybettim": "I lost {1}-{2} to {0}",
     "Quiz Tactics'te {0} Sen de gel, kapışalım: {1}/?davet={2}": "On Quiz Tactics: {0} Come and take me on: {1}/?davet={2}",
     "𝕏 Paylaş": "𝕏 Share",
     "Diğer": "Other",

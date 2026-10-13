@@ -163,9 +163,16 @@ export default function LeaderboardPage() {
     return () => { aktif = false; };
   }, [kuralAcik, kapsam, ligAyar]);
   const [donem, setDonem] = useState("hafta");
-  const [liste, setListe] = useState(() => sonBilinenOku("lig_grubum") ?? []);
+  const [listeHam, setListe] = useState(() => sonBilinenOku("lig_grubum") ?? []);
+  // Liste hangi sekmenin (kapsam + dönem) verisi: sekme değişince eski sekmenin listesi/sırası
+  // yeni sekmeye taşınmaz, veri gelene kadar pankart ve liste iskelette kalır.
+  const listeAnahtari = (k, d) => (k === "lig" ? "lig" : `${k}:${d}`);
+  const [listeSahibi, setListeSahibi] = useState("lig");
+  const veriHazir = listeSahibi === listeAnahtari(kapsam, donem);
+  const liste = veriHazir ? listeHam : [];
   const [sehirSirasi, setSehirSirasi] = useState(null);
-  const [yukleniyor, setYukleniyor] = useState(true);
+  const [yukleniyorHam, setYukleniyor] = useState(true);
+  const yukleniyor = yukleniyorHam || !veriHazir;
   const [hata, setHata] = useState(null);
   // Paket 41 A: sıralama okunamadıysa boş durum ("henüz kimse yarışmıyor") çizilmez
   const [listeHata, setListeHata] = useState(false);
@@ -241,6 +248,7 @@ export default function LeaderboardPage() {
 
   useEffect(() => {
     let aktif = true;
+    const anahtar = listeAnahtari(kapsam, donem);
     const yukle = async () => {
       setYukleniyor(true);
       setHata(null);
@@ -294,7 +302,7 @@ export default function LeaderboardPage() {
           setListeHata(hataTuruMesaji(hataTuru(e)) || true);
         }
       } finally {
-        if (aktif) setYukleniyor(false);
+        if (aktif) { setYukleniyor(false); setListeSahibi(anahtar); }
       }
     };
     yukle();
@@ -427,7 +435,7 @@ export default function LeaderboardPage() {
       {/* ---------- LİG PANKARTI (Tasarım A) ----------
           Bütün sayılar `lig_grubum`'dan: lig adı, sıram, sınırlar, sezon süresi.
           Grup boyu ve toplam oyuncu sayısı BİLEREK yazılmaz. */}
-      {kapsam === "lig" && grupBilgi ? (
+      {kapsam === "lig" && grupBilgi && veriHazir ? (
         <section className={`lg-pankart lg-pankart-${ligKod}${siraliOge(0).className ? " " + siraliOge(0).className : ""}`} style={siraliOge(0).style} aria-labelledby="lg-pankart-baslik">
           <div className="lg-pankart-ust">
             {/* 25 Eyl: lig arması = yeni lig amblemi (Fasetli Yıldız), vitrin boyu, üst ligler ışıldar */}
@@ -707,18 +715,24 @@ export default function LeaderboardPage() {
           const sayi = (k) => { const v = Number(ligAyar?.[k]); return Number.isFinite(v) ? v : null; };
           const odul = [1, 2, 3].map((n) => ({ n, coin: sayi(`lig_odul_${ligKod}_${n}`), elmas: sayi(`elmas_lig_${n}`) }));
           const pasif = sayi("lig_pasif_dusme_hafta");
+          // Gerçek kontenjan (1085 kapanışıyla aynı): küçük grupta yükselme bölgesiyle çakışan sıra düşmez.
+          const boy = Number(grupBilgi.grup_boyu) || 0;
+          const yukKota = Math.min(Number(grupBilgi.yukselen) || 0, boy);
+          const dusKota = Math.max(0, Math.min(Number(grupBilgi.dusen) || 0, boy - yukKota));
           return (
             <ul className="lg-kurallar">
               <li>{tt("Her hafta kendi grubunla yarışırsın; sıra haftalık puanına göre belirlenir. Hafta bitince (bitişe {sure} var) sıralama sıfırlanır.", { sure: sureMetni(kalanSezon) })}</li>
               <li>
                 {ligKod === "efsane"
                   ? tt("Efsane en üst lig: yükselme yok, zirvede kalmaya çalışırsın.")
-                  : tt("Yükselme: grubunda ilk {n} bir üst lige çıkar (haftada en az 1 puan gerekir).", { n: grupBilgi.yukselen })}
+                  : tt("Yükselme: grubunda ilk {n} bir üst lige çıkar (haftada en az 1 puan gerekir).", { n: yukKota })}
               </li>
               <li>
                 {ligKod === "bronz"
                   ? tt("Bronz en alt lig: düşme yok.")
-                  : tt("Düşme: grubunda son {n} bir alt lige düşer.", { n: grupBilgi.dusen })}
+                  : dusKota > 0
+                    ? tt("Düşme: grubunda son {n} bir alt lige düşer.", { n: dusKota })
+                    : tt("Bu hafta grubunda düşme yok.")}
                 {ligKod !== "bronz" && pasif ? " " + tt("Üst üste {n} hafta hiç maç oynamazsan da bir alt lige düşersin.", { n: pasif }) : ""}
               </li>
               <li>

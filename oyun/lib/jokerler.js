@@ -55,12 +55,12 @@ export const SKILL_TANIMLARI = {
   baskin: {
     id: "baskin", ad: tt("Baskın"), aciklama: tt("Saldırırken: bu hamlede rakibin cevabı sayılmaz"), ikon: "baski",
     kategori: "saldırı", allowedModes: ["duello"], allowedPhases: ["cevap"],
-    target: "opponent", animation: "ambush", aktif: true, shopVisible: true, yalnizDuello: true,
+    target: "opponent", animation: "ambush", aktif: true, shopVisible: false, yalnizDuello: true,
   },
   kalkan: {
     id: "kalkan", ad: tt("Kalkan"), aciklama: tt("Savunurken: kendi kategorine yapılan hamle tutmaz"), ikon: "kalkan",
     kategori: "savunma", allowedModes: ["duello"], allowedPhases: ["cevap"],
-    target: "self", animation: "shield", aktif: true, shopVisible: true, yalnizDuello: true,
+    target: "self", animation: "shield", aktif: true, shopVisible: false, yalnizDuello: true,
   },
   // Geçmiş envanter/kullanım kayıtları silinmez; bu üç kayıt yalnız görünmez
   // uyumluluk girdileridir ve hiçbir aktif listeye girmez.
@@ -72,6 +72,8 @@ export const SKILL_TANIMLARI = {
 export const AKTIF_MAC_SKILLERI = Object.values(SKILL_TANIMLARI)
   .filter((s) => s.aktif && s.allowedModes)
   .map((s) => s.id);
+// Dükkânda satılan jokerler: aktif ve shopVisible. Baskın/Kalkan (1083) satıştan kalktı; tanımları eski Düello için durur.
+export const SATILIK_SKILLER = AKTIF_MAC_SKILLERI.filter((id) => SKILL_TANIMLARI[id].shopVisible !== false);
 export const VARSAYILAN_SKILL_SETI = ["elli", "sure", "soru_degistir"];
 
 // Dükkân mod ayrımı (Joker sekmesi): tek kaynak yukarıdaki allowedModes. Grup/Turnuva dükkânda ayrı sekme
@@ -90,7 +92,7 @@ export function jokerYalnizModu(id) {
 /** Paketin satıldığı modlar: içindeki HER jokerin çalıştığı modlar. Bilinmeyen/pasif anahtar varsa boş döner. */
 export function paketDukkanModlari(icerik) {
   const turler = Object.keys(icerik ?? {});
-  if (!turler.length || !turler.every((id) => AKTIF_MAC_SKILLERI.includes(id))) return [];
+  if (!turler.length || !turler.every((id) => SATILIK_SKILLER.includes(id))) return [];
   return DUKKAN_MODLARI.filter((m) => turler.every((id) => jokerDukkanModlari(id).includes(m)));
 }
 
@@ -172,7 +174,7 @@ export function jokerBilgi(tur, macTur, ayar) {
   }
   if (tur === "zaman_baskisi") {
     const sn = macTur === "duello" ? Math.max(0, 15 - ayarSayi(ayar, "duello_zaman_baskisi_sn", 10)) : ayarSayi(ayar, "klasik_zaman_baskisi_sn", 5);
-    return { ...temel, ad: macTur === "1v1" ? tt("Süreyi Kısalt") : temel.ad,
+    return { ...temel,
       aciklama: tt("Rakibin süresini {0} saniye kısaltır", { 0: sn }), etkiDegeri: sn };
   }
   return temel;
