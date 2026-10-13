@@ -89,11 +89,15 @@ export function jokerYalnizModu(id) {
   const modlar = jokerDukkanModlari(id);
   return modlar.length === 1 ? modlar[0] : null;
 }
-/** Paketin satıldığı modlar: içindeki HER jokerin çalıştığı modlar. Bilinmeyen/pasif anahtar varsa boş döner. */
-export function paketDukkanModlari(icerik) {
+/** Paketin satıldığı modlar: içindeki HER jokerin çalıştığı modlar. Bilinmeyen/pasif anahtar varsa boş döner.
+ *  Ürün kimliği "klasik_" / "duello_" önekliyse paket YALNIZ o moda aittir (1086: Düello paketlerinin içeriği
+ *  Klasik'te de çalıştığı için kesişim ikisini birden verirdi). */
+export function paketDukkanModlari(icerik, urunId) {
   const turler = Object.keys(icerik ?? {});
   if (!turler.length || !turler.every((id) => SATILIK_SKILLER.includes(id))) return [];
-  return DUKKAN_MODLARI.filter((m) => turler.every((id) => jokerDukkanModlari(id).includes(m)));
+  const ortak = DUKKAN_MODLARI.filter((m) => turler.every((id) => jokerDukkanModlari(id).includes(m)));
+  const onek = /^duello_/.test(urunId ?? "") ? "duello" : /^klasik_/.test(urunId ?? "") ? "1v1" : null;
+  return onek ? ortak.filter((m) => m === onek) : ortak;
 }
 
 export function skillSlotSayisi(ayar) {

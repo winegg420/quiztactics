@@ -479,7 +479,7 @@ export default function JokerDukkani() {
   // paketi dükkândan düşürür). Mod seçici kalktığı için bütün geçerli paketler birlikte gösterilir. Tek türlük 10'lu paketler
   // (fiyat_anahtari dolu) joker kartının kendi düğmesidir, burada listelenmez.
   const dukkanPaketleri = paketler.filter((p) => p.coin_fiyat != null && !p.fiyat_anahtari
-    && paketDukkanModlari(p.icerik).length > 0);
+    && paketDukkanModlari(p.icerik, p.urun_id).length > 0);
 
   return (
     <div className="qt-dk">
@@ -568,7 +568,7 @@ export default function JokerDukkani() {
                   {dukkanPaketleri.map((p) => {
                     // İçerik joker sırasıyla (jsonb anahtar sırası rastgele gelir).
                     const parcalar = AKTIF_MAC_SKILLERI.filter((id) => p.icerik?.[id] != null).map((id) => [id, Number(p.icerik[id])]);
-                    const paketModlari = paketDukkanModlari(p.icerik);
+                    const paketModlari = paketDukkanModlari(p.icerik, p.urun_id);
                     const paketKod = paketModlari.length === 1 ? modKodu(paketModlari[0]) : null;
                     const toplam = parcalar.reduce((t, [, n]) => t + n, 0);
                     // Tek tek alım toplamı sunucudaki tek fiyatlardan; biri okunamadıysa indirim gösterilmez (rakam uydurulmaz).

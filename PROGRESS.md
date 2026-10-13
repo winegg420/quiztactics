@@ -12046,3 +12046,13 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **Değiştirildi:** yalnız `PATCH /v1/projects/zfpnxzybcpkxsotwdsey/config/realtime {presence_enabled:true}`. Sonra yeniden okundu: `presence_enabled: true`; diğer ayarlar aynı (max_concurrent_users 200, max_joins_per_second 100, max_presence_events_per_second 20 …). RLS/GRANT/politika DEĞİŞMEDİ.
 - **Doğrulama (canlı, tek anonim hesap, tek koşu):** özel kanal `cevrimici-<uid>` (`private:true, presence.enabled:true`, uygulamadaki gibi) → `phx_join` ok, `presence track` ok, kendi `presence_diff` join'i geldi; Unauthorized yok. Hesap `hesabimi_sil` ile silindi (başka hesap/bot dokunulmadı); geçici betik kaldırıldı.
 - **Not:** `PROJECT_CONTEXT.md` çevrimiçi durumu maddesine ayar satırı eklendi. Uygulama kodu değişmedi.
+
+## 13 Eki 2026 — Düello paketleri geri açıldı (Baskın/Kalkan'sız) + bot Battle Pass görünümü
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** Ida onayı — Düello paketleri Baskın/Kalkan'sız satışa dönsün; altın isim YALNIZ Battle Pass'e ait (ligde ozlem1907/pinar35/meryemm gibi botlar altın isimli ama BP'siz görünüyordu).
+
+- **1086** `duello_30` = elli 7 · sure 9 · soru_degistir 6 · zaman_baskisi 6 · ikinci_sans 2 → **915 coin** (tek tek 1080); `duello_100` = 24·30·20·19·7 → **3085 coin** (tek tek 3630). 910 formülü + öz-denetim (Baskın/Kalkan yok denetimi eklendi). 1083 iade/ret mantığı ve Baskın/Kalkan satış dışılığı aynı. `joker_coin_ile_al` aktif + Baskın/Kalkan'sız paketi kabul ediyor (salt-okuma; satın alma testi yapılmadı).
+- **İstemci:** `jokerler.js › paketDukkanModlari(icerik, urunId)` — `duello_`/`klasik_` öneki paketi tek moda bağlar (içerik ortak olsa da). `JokerDukkani.jsx` iki çağrıda `p.urun_id` geçirir. Dükkânda mod alt sekmesi yok; paket kartındaki mod rozeti bu sonuçtan gelir.
+- **1087** `bot_bp_gorunur(id, level)`: `bot_rasgele('bp:'||id) < min(0,35; 0,10 + 0,004×level)`, yalnız aktif/test olmayan sezon + sezon yolu açıkken; yeni işlev bot_kozmetik gibi kapalı (yalnız iç çağrı). `bot_kozmetik` isim efekti havuzundan `isim_altin` çıktı. `oyuncu_kartlari` canlı tanımdan: gizli botta `bp.var = bot_bp_gorunur`, `isim_efekti` önce `bp.var → isim_altin`, `bp_parlama = bp.var`. Gerçek oyuncu dalı aynı; ek sorgu yok.
+- **Ölçüm (salt-okuma, read only işlem):** 155 gizli bottan 35'i BP görünümlü (~%23). Kart örneğinde 119 botun 26'sı altın isim = 26 BP = 26 parlama; **altın isim + BP'siz: 0**; gerçek oyuncu: 1 BP / 1 altın, değişmedi. Bu haftaki 3 grupta (5–7 bot) 1/0/0 BP'li bot — gruplar haftalık değişir, oran ortalamada grup başına ~1–2.
+- Build temiz; `arayuz-denetim --sayfalar=lig,dukkan --genislik=390` TEMİZ, araç hesabı silindi.
