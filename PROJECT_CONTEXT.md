@@ -707,7 +707,7 @@ Ida "kendin doldur" dedi; hepsi test değeridir, yayından önce yeniden bakıla
   tamamlandı (defter `test` / `test_bakiye_baslangic`). Yayın günü: ayarı 150'ye çek, test elmaslarına karar ver.
 - **Yeni profil dili (610, D-203):** profil giriş ekranındaki dille doğar (misafir/e-posta kayıt verisi `dil`;
   Google yönlendirmesinde cihazdaki `bildim_giris_dili` yeni hesaba bir kez yazılır). Mevcut profilin kayıtlı
-  dili ezilmez. Soru dili `profiles.dil` → `soru_dilinde` (aktif soru havuzu 14.194, 13.899'unun EN çevirisi var — 12 Eki 2026, 1068 sonrası ölçüm).
+  dili ezilmez. Soru dili `profiles.dil` → `soru_dilinde` (aktif soru havuzu 15.564, 15.232'sinin EN çevirisi var — 13 Eki 2026, 1090 sonrası ölçüm; toplam 19.431).
 - **Sigorta 30 · 2X 40 coin; 10'lu paket 255 / 340** (%15 indirim; migration 307,
   `joker_paketleri.skill_sigorta_10` / `skill_cifte_puan_10`). Yalnız Klasik; Düello'ya
   gelmez.

@@ -12103,3 +12103,13 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - `bildirimleriAc`: mevcut abonelik farklı applicationServerKey ile duruyorsa sunucudan silinip unsubscribe + yeniden subscribe (`anahtarUyumlu`). Yeni projede push_subscriptions zaten boştu.
 - Test (yerel arayüz + yeni Supabase, kalıcı Chrome bağlamı — Playwright'ın gizli bağlamında Push API kapalı): eski anahtarla abonelik → bildirimleriAc → yeni anahtarla yenilendi, kayıt yeni DB'ye düştü; `push_gonder` → send-push 200 `{basarili:1,basarisiz:0}`. Hesap silindi.
 - `araclar/oyuncu-testi.mjs`: "Rakip ara" bulunamamasının sebebi seçici değil, yeni hesapta Düello kilidiydi (5 Klasik/Saf Bilgi maçı). Düello başında eksik bitmiş maç ekleniyor; test artık lobiye giriyor ve bot maçına giriyor. Aracın v2'ye özgü denetimleri (sürüm 2, yuva skoru, hâkimiyet) v4'te hâlâ başarısız — ürün hatası değil, araç eski; v4 için `duello-v4-canli-bot-testi.mjs`.
+
+## 2026-10-13 — Soru paketi: codex-13 + codex-14 (392 soru, migration 1090)
+**Araç:** Claude Code (Sonnet 5.5)
+**Neden:** Codex'in iki soru paketi hakem incelemesinden sonra yeni projedeki havuza eklendi (Ida onayı).
+
+- Hakem: 6 soru çıkarıldı (C13-20, C13-105, C13-146, C14-07, C14-77, C14-119); C13-184, C14-12, C14-183 "cevrilemez" idi, hakem metniyle EN eklendi (yanlış şıklar çevrildi, özel adlar aynen). Sonuç 197 + 195 = 392; hepsinde EN var, `ceviri_atlanan` boş.
+- Migration **1090** `codex_13_14_sorular`: tek dosya, LF, idempotent (`on conflict (soru)`; çeviri/karıştırma `created_at >= transaction_timestamp()` ile yalnız yeni satırlar). Yalnız yeni projeye (`etezccrifaetzrgfvawl`) `araclar/migration-uygula.mjs` ile uygulandı. **Dikkat:** `supabase/.temp/project-ref` hâlâ ESKİ hub projesini (zfpnxzybcpkxsotwdsey) gösteriyor — `supabase db push` bu yüzden kullanılmadı, kullanılmaz.
+- Ölçüm (canlı, salt okunur): havuz 19.039 → **19.431** (aktif 15.172 → 15.564, EN'li aktif 15.232); atlanan 0; z2 273 / z3 119; çalışan Quiz Tactics maçı yoktu.
+- Doğrulama: 392 eklendi, 6 çıkan soru yok, 392/392 EN, hepsinde 4 şık + dogru_cevap 0–3, TR/EN şık sayısı eşit, 3 EN düzeltme doğru, 289/392'de doğru şık sıfırdan farklı (karıştırma çalıştı). RLS üç tabloda açık, grant yalnız postgres/service_role (taban çizgisiyle aynı, sapma yok).
+- Codex klasörleri (codex-13, codex-14) git'e girmedi; yalnız migration.
