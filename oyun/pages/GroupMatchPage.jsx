@@ -465,6 +465,12 @@ export default function GroupMatchPage() {
   const siraliSkor = [...katilimcilar]
     .filter((k) => k.davet_durumu === "kabul" && !k.terk_at)
     .sort((a, b) => b.skor - a.skor);
+  // 13 Eki 2026: "BERABERE" yalnız birinciliği paylaşınca; sonuncu oyuncu berabere görmez.
+  const enYuksekSkor = siraliSkor.length ? (siraliSkor[0].skor ?? 0) : 0;
+  const birinciSayisi = siraliSkor.filter((k) => (k.skor ?? 0) === enYuksekSkor).length;
+  const birincidekiMiyim = (benimKayit?.skor ?? 0) === enYuksekSkor;
+  const grupBerabere = mac.kazanan === null && birincidekiMiyim && birinciSayisi > 1;
+  const grupKazandim = mac.kazanan === user.id || (mac.kazanan === null && birincidekiMiyim && birinciSayisi === 1);
 
   /** Oyuncu satırı listesi (bekleme, hazır kapısı, sonuç dökümü ortak). */
   const oyuncuListesi = (liste, sag, siraNo = false) => (
@@ -596,9 +602,9 @@ export default function GroupMatchPage() {
         baslik={tt("Maç bitti!")}
         skor={benimKayit?.skor ?? 0}
         skorEtiket={tt("puan")}
-        kazandi={mac.kazanan === user.id}
-        kaybetti={mac.kazanan !== null && mac.kazanan !== user.id}
-        berabere={mac.kazanan === null}
+        kazandi={grupKazandim}
+        kaybetti={!grupKazandim && !grupBerabere}
+        berabere={grupBerabere}
         sessiz
         onBitti={() => setGecisBitti(true)}
       />
@@ -608,8 +614,8 @@ export default function GroupMatchPage() {
   if (mac.durum === "bitti") {
     // 10 Eki 2026: özet hata verdiyse sahne özetsiz kurulur (eskiden sonsuza dek boş sayfa kalıyordu).
     if (!macSonuOzet && !macSonuHata) return <div className="msk-bekle" aria-busy="true" />;
-    const kazandim = mac.kazanan === user.id;
-    const berabere = mac.kazanan === null;
+    const kazandim = grupKazandim;
+    const berabere = grupBerabere;
     const sahneVeri = ozettenSahne(macSonuOzet);
     // A.3 kararı: grup maçında orta sahnede kendi sonucun + derecen (N oyuncu arasında kaçıncı olduğun);
     // bütün sıralama Detay'da. Grup ödülsüz: coin/XP/lig yok, yalnız rozet ve görev.
@@ -618,7 +624,7 @@ export default function GroupMatchPage() {
       <MacSonuKutlama
         durum={berabere ? "berabere" : kazandim ? "kazandi" : "kaybetti"}
         mod="grup"
-        baslik={berabere ? tt("BERABERE") : kazandim ? tt("ZAFER!") : tt("Maç bitti")}
+        baslik={berabere ? tt("BERABERE") : kazandim ? tt("ZAFER!") : derece > 1 ? tt("{n}. oldun", { n: derece }) : tt("Maç bitti")}
         altYazi={ceviri("Arkadaş maçı — ödül ve puan yok.")}
         karsilasma={
           <div className="msk-derece">

@@ -106,6 +106,7 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   ve varış ≤ bitiş + pay → kabul. Pay `cevap_gec_varis_sn` 5 (cevaplar), `secim_gec_varis_sn` 3 (Hazine AÇ/DEVAM,
   Düello seçim + kategori). Faz, cevaplamayan oyuncu için bitiş + pay dolunca kapanır; herkes cevapladıysa beklenmez
   (Klasik'te süresi biten istemcinin `mac_soruyu_atla`sı da "cevap yok" sayılır). Kasa, Düello, Klasik/Saf Bilgi,
+  **Bot bekletmez (1088, 13 Eki 2026):** insan cevapladıktan sonra bot aynı soruyu hemen cevaplar (Klasik/Saf Bilgi/Grup/Hazine anında, Düello v4 ≤ 2 sn); isabet ve zorluk değişmez.
   Grup, Turnuva, Hatalarım. Sahte tık beyanının kazancı en çok pay kadar; puan/hız beyana bağlı değil (`at` =
   least(varış, bitiş)). Testler `araclar/gec-cevap-sql-testi.mjs` (ROLLBACK) + `araclar/gec-cevap-canli-testi.mjs`.
 - **Gösterim payı (325/326):** sunucu yeni fazın/sorunun bitişine pay ekler — Düello

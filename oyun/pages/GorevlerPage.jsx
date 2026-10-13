@@ -165,11 +165,12 @@ export default function GorevlerPage() {
 
   // "Ödülü al (n)": alınabilir görevleri (günlük → haftalık) mevcut gorev_al ile TEK TEK, sırayla alır; sandık hazırsa perdeyi açar.
   // Yeni toplu RPC yok; biri hata verirse durur ve hata mesajı gösterilir.
-  const topluAl = async () => {
+  // 13 Eki 2026: yalnız bulunduğun sekmenin ödüllerini alır (düğmedeki sayı = bu sekmede görünen hazır kartlar).
+  const topluAl = async (yalniz = sekme) => {
     if (islem) return;
     const sira = [
-      ...(gun?.gorevler ?? []).filter(alinabilirMi).map((g) => ["gunluk", g]),
-      ...(hft?.gorevler ?? []).filter(alinabilirMi).map((g) => ["haftalik", g]),
+      ...(yalniz === "gunluk" ? (gun?.gorevler ?? []).filter(alinabilirMi).map((g) => ["gunluk", g]) : []),
+      ...(yalniz === "haftalik" ? (hft?.gorevler ?? []).filter(alinabilirMi).map((g) => ["haftalik", g]) : []),
     ];
     setIslem("toplu");
     setMesaj(null);
@@ -183,6 +184,7 @@ export default function GorevlerPage() {
         await bekle(TOPLU_ARA_MS);
       }
       asama = "sandik";
+      if (yalniz !== "haftalik") return;   // sandık Haftalık sekmesinde
       const taze = await gorevlerimOku().catch(() => null);   // son haftalık alınınca sandık açılabilir olur: sunucudan taze oku
       const s = taze?.haftalik?.sandik;
       if (s?.alinabilir && !s.alindi) {
@@ -202,7 +204,8 @@ export default function GorevlerPage() {
   const sayiHazir = (kapsam) => (kapsam === "gunluk" ? gun : hft)?.gorevler?.filter(alinabilirMi).length ?? 0;
   // Sekmedeki hazır ödül sayısı (haftalıkta hazır sandık da sayılır) — sekme noktası ve "Ödülü al" yönlendirmesi için.
   const sekmeHazir = (kapsam) => sayiHazir(kapsam) + (kapsam === "haftalik" && alinabilirMi(sandik) ? 1 : 0);
-  const hazir = veri ? sayiHazir("gunluk") + sayiHazir("haftalik") + (alinabilirMi(sandik) ? 1 : 0) : 0;
+  // Düğmedeki sayı bu sekmenin hazır ödülleri; bu sekmede yoksa öbür sekmeninki (düğme o sekmeye götürür).
+  const hazir = !veri ? 0 : sekmeHazir(sekme) || sekmeHazir(sekme === "gunluk" ? "haftalik" : "gunluk");
 
   const gunluk = sekme === "gunluk";
   const kapsam = gunluk ? "gunluk" : "haftalik";

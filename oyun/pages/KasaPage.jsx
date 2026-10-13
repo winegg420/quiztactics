@@ -1365,7 +1365,8 @@ function KasaMac({ id }) {
                   : devamBekliyor ? Number(skD.deger) : rk ? rk.eskiKasa : undefined}
                 sayiSure={anDevam ? Math.round(900 * (anDevam.olcek ?? 1)) : 520}
                 carpan={anDevam ? { anahtar: anDevam.id, metin: anDevam.metin, olcek: anDevam.olcek } : null}
-                sahipGoster={anSonuc?.sahipDegisti && !anSonuc.anahtarVaris ? anSonuc.sahipOnce : undefined}
+                /* 13 Eki 2026: sahip etiketi sonuç bandıyla aynı kaynaktan (d.sahip) okunur — eskiden anahtar uçuşu
+                   bitene kadar (~1,9 sn) eski sahip (çoğu kez SAHİPSİZ) yazıyor, bant "hazine rakipte" derken çelişiyordu */
                 hareket={miniHareket}
                 artis={anSonuc?.varis && !anSonuc.bitti ? { anahtar: anSonuc.id, n: anSonuc.artis, buyuk: anSonuc.buyuk } : null} />
   );

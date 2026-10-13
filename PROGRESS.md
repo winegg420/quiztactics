@@ -12056,3 +12056,21 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **1087** `bot_bp_gorunur(id, level)`: `bot_rasgele('bp:'||id) < min(0,35; 0,10 + 0,004×level)`, yalnız aktif/test olmayan sezon + sezon yolu açıkken; yeni işlev bot_kozmetik gibi kapalı (yalnız iç çağrı). `bot_kozmetik` isim efekti havuzundan `isim_altin` çıktı. `oyuncu_kartlari` canlı tanımdan: gizli botta `bp.var = bot_bp_gorunur`, `isim_efekti` önce `bp.var → isim_altin`, `bp_parlama = bp.var`. Gerçek oyuncu dalı aynı; ek sorgu yok.
 - **Ölçüm (salt-okuma, read only işlem):** 155 gizli bottan 35'i BP görünümlü (~%23). Kart örneğinde 119 botun 26'sı altın isim = 26 BP = 26 parlama; **altın isim + BP'siz: 0**; gerçek oyuncu: 1 BP / 1 altın, değişmedi. Bu haftaki 3 grupta (5–7 bot) 1/0/0 BP'li bot — gruplar haftalık değişir, oran ortalamada grup başına ~1–2.
 - Build temiz; `arayuz-denetim --sayfalar=lig,dukkan --genislik=390` TEMİZ, araç hesabı silindi.
+
+## 2026-10-13 — Telefon turu düzeltme paketi (11 madde, 390 px canlı tur)
+> **Araç:** Claude Code
+> **Neden:** Claude'un 390 px canlı turunda bulunan 11 sorun.
+
+- **1 Grup sonucu:** "BERABERE" yalnız birincilik paylaşılınca; tek birinci ZAFER!, diğerleri "N. oldun" (GroupMatchPage; geçiş ekranı da aynı). Canlı tek maçta 3. oyuncu "3. oldun" gördü.
+- **2 Lig düşme bölgesi:** dusmeSiniri artık kurallar yazısıyla aynı kontenjandan (`dusenKota`), koşul `>=`; 8 kişide 6–8 kırmızı (LeaderboardPage).
+- **3 Geliştirme sayfaları:** 11 rota SahipKapisi'ne alındı (oyuncuya açık bağlantı yoktu).
+- **4 Ana sayfa çipi:** Düello/Hazine kartında "Son oynadığın" üst kenara asılı sekme, kart içeriği aşağı iner; çok kısa ekran kademesinde (s5+) gizli. 360/390 ölçüldü: başlıkla çakışma yok.
+- **5 Hazine etiketi:** kök neden sunum katmanı — sonuç anında kadran anahtar uçuşu bitene kadar (~1,9 sn) `sahip_once`'ı (çoğu kez null → SAHİPSİZ) gösteriyordu; sunucu sahibi sonuçla aynı işlemde yazıyor (eski veri/yarış değil). `sahipGoster` kaldırıldı, etiket d.sahip'ten.
+- **6 AÇ coin yönü:** hata YOK — hedef `skor-${kim}`, rakip açınca `skor-rakip` (sağ çubuk); ilk karedeki ±80 px saçılma yanılsaması. Dokunulmadı.
+- **7 Görevler:** kısa ekran kuralı 699→760 px (390×735'te kart düğmesi alt şeridin altında kalıyordu; ölçüm: örtülen 0). "Ödülü al (n)" bulunduğun sekmenin sayısı ve yalnız o sekmeyi alır; sekmede yoksa öbür sekmeye götürür.
+- **8 Bot bekletmesi (migration 1088):** Klasik/Saf Bilgi (submit_match_answer içinde bot aynı soruyu hemen cevaplar), Grup (son insan cevaplayınca), Hazine (bot_cevap_at şimdiye), Düello v4 (insan cevapladıysa sonraki 2 sn'lik tik). İsabet/zorluk aynı. Yeni fonksiyon/GRANT yok. Turnuva süreyle ilerler, dokunulmadı. Canlı grup maçında bot cevapları insanla aynı anda.
+- **9 Grup şeridi:** 2–3 oyuncu eşit paylaşır (ad üstte, puan altta, sıra avatar köşesinde); 4–5'te kaydırma + sıradakinin kenarı. 360/390 taklitle ölçüldü.
+- **10 Saf Bilgi:** jokersiz modda kart clamp(170px,25dvh,230px), şık 62 px — alt boşluk doldu, cevaptan sonra kayma yok.
+- **11 Coin göstergesi:** MacSonuKutlama açılınca elmas her zaman, coin uçuş yoksa hemen tazelenir (bütün modlar bu bileşeni kullanır).
+- Not: canlı DB oturum havuzu (5432) bu oturumda doydu; ölçümler işlem modu (6543) ile yapıldı.
+- Araç: `klasik-mac-ekran.mjs --grup-kisi=3`; `grup-canli-testi.mjs` "N. oldun" başlığını tanır.

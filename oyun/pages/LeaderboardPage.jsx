@@ -335,9 +335,13 @@ export default function LeaderboardPage() {
   // YAZILMAZ; yalnız sınırı hesaplamak için kullanılır.
   const ligKod = LIG_KODLARI.includes(grupBilgi?.lig) ? grupBilgi.lig : "bronz";
   const yukselmeVar = kapsam === "lig" && grupBilgi && ligKod !== "efsane" && grupBilgi.yukselen > 0;
-  const dusmeSiniri = grupBilgi ? grupBilgi.grup_boyu - grupBilgi.dusen : 0;
+  // 13 Eki 2026: kurallar yazısıyla (dusKota) ve 1085 kapanışıyla aynı kontenjan — 8 kişide 5 yükselir, 6–8 düşer.
+  const grupBoyu = Number(grupBilgi?.grup_boyu) || 0;
+  const yukselenKota = Math.min(Number(grupBilgi?.yukselen) || 0, grupBoyu);
+  const dusenKota = Math.max(0, Math.min(Number(grupBilgi?.dusen) || 0, grupBoyu - yukselenKota));
+  const dusmeSiniri = grupBilgi ? grupBoyu - dusenKota : 0;
   const dusmeVar = kapsam === "lig" && grupBilgi && ligKod !== "bronz"
-    && grupBilgi.dusen > 0 && dusmeSiniri > grupBilgi.yukselen;
+    && dusenKota > 0 && dusmeSiniri >= yukselenKota;
   const bolge = (sira) => {
     if (yukselmeVar && sira <= grupBilgi.yukselen) return "yukselen";
     if (dusmeVar && sira > dusmeSiniri) return "dusen";

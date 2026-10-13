@@ -5,6 +5,7 @@ export default {
   "ZAFER!": "VICTORY!",
   "Bu sefer olmadı": "Not this time",
   "BERABERE": "DRAW",
+  "{n}. oldun": "You finished #{n}",
   "Harika maçtı!": "What a match!",
   "Düello senin!": "The duel is yours!",
   "Rövanşta görüşürüz": "See you in the rematch",

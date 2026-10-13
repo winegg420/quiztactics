@@ -220,19 +220,19 @@ export default function BildimApp() {
         <Route path="/kozmetik-onizleme" element={<SahipKapisi><KozmetikOnizlemePage /></SahipKapisi>} />
         <Route path="/mac-sonu-onizleme" element={<SahipKapisi><MacSonuOnizlemePage /></SahipKapisi>} />
         <Route path="/ekran-revizyon-onizleme" element={<SahipKapisi><EkranRevizyonOnizlemePage /></SahipKapisi>} />
-        <Route path="/ses-secim" element={<SesSecimPage />} />
-        <Route path="/sure-ayar" element={<SureAyarPage />} />
-        <Route path="/avatar-onizleme" element={<AvatarOnizlemePage />} />
+        <Route path="/ses-secim" element={<SahipKapisi><SesSecimPage /></SahipKapisi>} />
+        <Route path="/sure-ayar" element={<SahipKapisi><SureAyarPage /></SahipKapisi>} />
+        <Route path="/avatar-onizleme" element={<SahipKapisi><AvatarOnizlemePage /></SahipKapisi>} />
         <Route path="/avatar-nadirlik" element={<SahipKapisi><AvatarNadirlikPage /></SahipKapisi>} />
-        <Route path="/cerceve-onizleme" element={<CerceveOnizlemePage />} />
+        <Route path="/cerceve-onizleme" element={<SahipKapisi><CerceveOnizlemePage /></SahipKapisi>} />
         <Route path="/arka-plan-onizleme" element={<SahipKapisi><ArkaPlanOnizlemePage /></SahipKapisi>} />
-        <Route path="/premium-onizleme" element={<PremiumOnizlemePage />} />
-        <Route path="/ikon-onizleme" element={<IkonOnizlemePage />} />
-        <Route path="/tasarim-onizleme" element={<TasarimOnizlemePage />} />
-        <Route path="/gorsel-revizyon" element={<GorselRevizyonPage />} />
-        <Route path="/stil-rehberi" element={<StilRehberiPage />} />
-        <Route path="/lig-sahne-onizleme" element={<LigSahneOnizlemePage />} />
-        <Route path="/duello-onizleme" element={<DuelloOnizlemePage />} />
+        <Route path="/premium-onizleme" element={<SahipKapisi><PremiumOnizlemePage /></SahipKapisi>} />
+        <Route path="/ikon-onizleme" element={<SahipKapisi><IkonOnizlemePage /></SahipKapisi>} />
+        <Route path="/tasarim-onizleme" element={<SahipKapisi><TasarimOnizlemePage /></SahipKapisi>} />
+        <Route path="/gorsel-revizyon" element={<SahipKapisi><GorselRevizyonPage /></SahipKapisi>} />
+        <Route path="/stil-rehberi" element={<SahipKapisi><StilRehberiPage /></SahipKapisi>} />
+        <Route path="/lig-sahne-onizleme" element={<SahipKapisi><LigSahneOnizlemePage /></SahipKapisi>} />
+        <Route path="/duello-onizleme" element={<SahipKapisi><DuelloOnizlemePage /></SahipKapisi>} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<AnaSayfa />} />

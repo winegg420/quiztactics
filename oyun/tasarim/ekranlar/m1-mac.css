@@ -530,6 +530,23 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) .m1-grup-satir .ls-ad-dugme { min-height: 0; align-self: center; }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) .m1-grup-puan { font-size: var(--qt-y-m); }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) .m1-grup-balon { right: auto; left: 50%; top: 100%; translate: -50% 4px; max-width: none; white-space: nowrap; }
+  /* 13 Eki 2026: 2–3 oyuncu kaydırmasız sığar — kartlar eşit paylaşır; ad üstte, puan altta; sıra rozeti avatarın köşesinde.
+     4–5 oyuncuda kaydırmalı şerit (42vw) kalır, sıradaki kartın kenarı görünür. */
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-grup-skor:not(:has(> :nth-child(4))) { overflow-x: visible; -webkit-mask-image: none; mask-image: none; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-grup-skor:not(:has(> :nth-child(4))) > .m1-grup-satir {
+    flex: 1 1 0; min-width: 0; max-width: none;
+    display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 6px; row-gap: 0; align-items: center;
+    padding: 3px 8px 3px 4px; border-radius: var(--qt-r-m);
+  }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-grup-skor:not(:has(> :nth-child(4))) .m1-grup-sira {
+    position: absolute; left: 0; top: -3px; z-index: 1; width: 17px; height: 17px; font-size: 10px;
+  }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-grup-skor:not(:has(> :nth-child(4))) > .m1-grup-satir > :not(.m1-grup-sira, .m1-grup-ad, .ls-ad-dugme, .m1-grup-puan, .m1-grup-balon) { grid-row: 1 / span 2; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-grup-skor:not(:has(> :nth-child(4))) > .m1-grup-satir > :is(.m1-grup-ad, .ls-ad-dugme) { grid-column: 2; grid-row: 1; justify-self: stretch; min-width: 0; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-grup-skor:not(:has(> :nth-child(4))) .m1-grup-ad { text-align: left; font-size: 12.5px; line-height: 1.2; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-grup-skor:not(:has(> :nth-child(4))) .m1-grup-ad .ls-ad-dugme { justify-content: flex-start; text-align: left; max-width: 100%; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-grup-skor:not(:has(> :nth-child(4))) .m1-grup-puan { justify-self: start; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-grup-skor:not(:has(> :nth-child(4))) .m1-grup-puan { grid-column: 2; grid-row: 2; font-size: var(--qt-y-s); line-height: 1.1; }
 }
 
 @media (max-height: 900px) {
@@ -728,6 +745,12 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--uzun .qt-sik { font-size: 16px; }
   body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--cok-uzun .qt-sik { font-size: 15px; }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-sik-harf { width: 32px; height: 32px; }
+  /* 13 Eki 2026: joker şeridi olmayan modda (Saf Bilgi) şeridin yeri karta ve şıklara verilir — alt yarı boş kalmaz.
+     Yine esnemez (dvh'ye bağlı sabit): cevaptan sonra hiçbir şey kaymaz. */
+  body.bd-oyun-modu .m1-mac > .m1-soru:not(:has(.m1-joker-yuva)) > .qt-soru { flex: none; }
+  body.bd-oyun-modu .m1-mac > .m1-soru:not(:has(.m1-joker-yuva)) .qt-soru-kart { min-height: clamp(170px, 25dvh, 230px); max-height: 250px; }
+  body.bd-oyun-modu .m1-mac > .m1-soru:not(:has(.m1-joker-yuva)) .qt-sikler { gap: 10px; }
+  body.bd-oyun-modu .m1-mac > .m1-soru:not(:has(.m1-joker-yuva)) .qt-sik { min-height: 62px; }
   /* Tepki satırı: emoji + sohbet düğmeleri yan yana, ortalı; açılan paneller kendi satırında */
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--qt-b-2); }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt > .bd-ses-yuva:empty { display: none; }

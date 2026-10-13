@@ -19,6 +19,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, ...v] = a.replace(/^--/, "").split("="); return [k, v.length ? v.join("=") : true]; }));
+const GRUP_KISI = Number(ARG["grup-kisi"]) || 4;   // --grup-kisi=3: grup şeridi 3 oyunculu ölçüm
 const ADRES = String(ARG.adres || "http://localhost:5187");
 const TUM_MODLAR = ["klasik", "saf", "uzun", "grup", "turnuva"];
 const MODLAR = ARG.yalniz ? String(ARG.yalniz).split(",").filter((m) => TUM_MODLAR.includes(m)) : TUM_MODLAR;
@@ -71,13 +72,13 @@ function macSatiri(ben, jokersiz) {
 function grupSatiri(ben) {
   const k = (id, ad, skor) => ({ group_match_id: GRUP_ID, user_id: id, davet_durumu: "kabul", skor, joined_at: iso(-90000), hazir: true, terk_at: null, profil: profil(id, ad) });
   return { id: GRUP_ID, durum: "aktif", basladi: true, aktif_soru: 0, soru_ids: SORU_IDLERI, kategori: "cografya", duraklatildi_at: null, soru_baslangic: iso(-300),
-    katilimcilar: [k(ben, "Sen", 0), k(RAKIP, "Deniz", 0), k(RAKIP2, "Ayşe", 0), k(RAKIP3, "Mert", 0)] };
+    katilimcilar: [k(ben, "Sen", 0), k(RAKIP, "Deniz", 0), k(RAKIP2, "Ayşe", 0), k(RAKIP3, "Mert", 0)].slice(0, GRUP_KISI) };
 }
 const turnuvaSatiri = () => ({ id: TURNUVA_ID, durum: "aktif", aktif_soru: 0, soru_ids: SORU_IDLERI, tarih: new Date().toISOString().slice(0, 10), saat: "20:00",
   bitis: null, kazanan: null, baslangic: iso(-60000) });
 function turnuvaOyunculari(ben) {
   const o = (id, ad, dogru) => ({ tournament_id: TURNUVA_ID, user_id: id, elendi: false, dogru_sayisi: dogru, joined_at: iso(-120000), profil: { gorunen_ad: ad, gorunen_avatar: null, gorunum: null, puan: 100 } });
-  return [o(ben, "Sen", 0), o(RAKIP, "Deniz", 0), o(RAKIP2, "Ayşe", 0), o(RAKIP3, "Mert", 0)];
+  return [o(ben, "Sen", 0), o(RAKIP, "Deniz", 0), o(RAKIP2, "Ayşe", 0), o(RAKIP3, "Mert", 0)].slice(0, GRUP_KISI);
 }
 
 // ---------------------------------------------------------------- sayfa içi ölçüm

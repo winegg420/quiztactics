@@ -169,7 +169,7 @@ export default function AnaSayfaA() {
 
         <div className="as-a-seritler" role="group" aria-label={tt("Oyun modları")}>
           {seritler.map((m) => (
-            <button key={m.anahtar} type="button" className={`as-mod-serit as-mod-serit--${m.anahtar}`}
+            <button key={m.anahtar} type="button" className={`as-mod-serit as-mod-serit--${m.anahtar}${sonMod?.anahtar === m.anahtar ? " as-mod-serit--son" : ""}`}
                     aria-label={`${m.ad}. ${m.vaat}`} aria-haspopup={m.anahtar === "klasik" ? "dialog" : undefined} onClick={m.git}>
               <span className="as-mod-serit-metin"><b>{m.ad}</b><small>{m.vaat}</small></span>
               <ModFiguru tur={m.anahtar} />

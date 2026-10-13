@@ -52,6 +52,7 @@ import { yumusakHareketKur } from "../tasarim/yumusakHareket.js";
 yumusakHareketKur();
 import { sesMacSonu, sesMuzikSahne } from "../lib/ses.js";
 import { coinTazele } from "../lib/coin.js";
+import { elmasTazele } from "../lib/elmas.js";
 import { sezonTazele, useSezonOzeti } from "../lib/sezonYolu.js";
 import SezonZaferSeridi from "./sezon/SezonZaferSeridi.jsx";
 import SezonSpSeridi from "./sezon/SezonSpSeridi.jsx";
@@ -508,6 +509,15 @@ function MacSonuKutlama({
     if (asama !== 1) return undefined;
     const k = requestAnimationFrame(() => setAsama(2));
     return () => cancelAnimationFrame(k);
+  }, [asama]);
+
+  // 13 Eki 2026: maç sonu açılınca üst çubuk bakiyesi tazelenir — coin uçuşu yoksa (maç coini 0; görev/lig ödülü) coin
+  // hemen, elmas her durumda. Uçuş varsa coin sayacı uçuşun varışında geçer (coinVardi / bitir).
+  useEffect(() => {
+    if (asama !== 2) return;
+    elmasTazele();
+    if (!(coin > 0)) coinTazele();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [asama]);
 
   // Geç takılan bölümün gecikmeleri takıldığı an kadar kısalır (boyamadan önce, yeniden çizimsiz).

@@ -56,7 +56,7 @@ try {
   while (Date.now() - baslangic < 8 * 60 * 1000) {
     const hazir = s.getByRole("button", { name: /Hazırım/ });
     if (await hazir.count() && await hazir.first().isEnabled().catch(() => false)) await hazir.first().tap().catch(() => {});
-    if (await s.getByText(/^(ZAFER!|BERABERE|Maç bitti)$/).count()) break;
+    if (await s.getByText(/^(ZAFER!|BERABERE|Maç bitti|[0-9]+[.] oldun)$/).count()) break;
     const metin = await s.locator(":is(.bd-soru-metin, .qt-soru-metin)").first().innerText({ timeout: 500 }).catch(() => "");
     if (metin && metin !== sonMetin) { sorular++; sonMetin = metin; sonDegisim = Date.now();
       console.log(`  soru ${sorular} · ${((Date.now() - baslangic) / 1000).toFixed(1)} sn`);
@@ -66,7 +66,7 @@ try {
     if (Date.now() - sonDegisim > 30000) { hatalar.push(`soru ${sorular}'de 30 sn+ takılma`); sonDegisim = Date.now(); }
     await s.waitForTimeout(400);
   }
-  if (!(await s.getByText(/^(ZAFER!|BERABERE|Maç bitti)$/).count())) hatalar.push("maç sonu ekranı gelmedi");
+  if (!(await s.getByText(/^(ZAFER!|BERABERE|Maç bitti|[0-9]+[.] oldun)$/).count())) hatalar.push("maç sonu ekranı gelmedi");
   await s.screenshot({ path: path.resolve("tasarim/grup-kilit-1056-mac-sonu-390.png") }).catch(() => {});
 } catch (e) { hatalar.push("Beklenmeyen: " + String(e.message).split("\n")[0]); }
 await s.waitForTimeout(1000);
