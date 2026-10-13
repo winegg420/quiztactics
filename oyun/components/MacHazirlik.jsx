@@ -8,6 +8,7 @@ import { ayar } from "../lib/ayarlar.js";
 import { QtDugme, QtIkon, QtKart, QtRozet } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import { tt } from "../lib/dil.js";
+import { sunucuOffsetMs } from "../lib/zaman.js";
 import SkillSeti from "./SkillSeti.jsx";
 
 /** Rakip dönmezse maçın hükmen biteceği süre — Grup/Hızlı (sunucudaki değerle aynı). */
@@ -180,7 +181,7 @@ export function HazirKapisi({
  * Sayıyı SUNUCU belirler: soru saati geri sayım kadar ileri kurulur, iki
  * istemci de aynı anı görür. Burada yalnız kalan saniye çizilir.
  */
-export function GeriSayim({ kalan }) {
+export function GeriSayim({ kalan, altYazi = null }) {
   const n = Math.max(1, Math.ceil(kalan));
   // 8 Eki 2026: donuk gri perde yerine açık gök + ışın sahnesi; her rakam kendi renginde (3 kırmızı · 2 sarı · 1 yeşil)
   return (
@@ -191,10 +192,54 @@ export function GeriSayim({ kalan }) {
           <span className="m1-sayim-halka" aria-hidden="true" />
           <span className="m1-sayim-sayi">{n}</span>
         </span>
-        <span className="m1-sayim-not">{tt("Hazır ol!")}</span>
+        <span className="m1-sayim-not">{altYazi ?? tt("Hazır ol!")}</span>
       </div>
     </div>
   );
+}
+
+/**
+ * 1091 · Grup ve Düello için 3-2-1 kalan saniyesi (Klasik'teki MatchPage mantığının ortak hâli).
+ * Sunucu ilk sorunun başlangıcını 3 sn + gösterim payı ileri kurar; burada sunucu saatine göre sayılır.
+ * Kalan süre YALNIZ azalır (saat farkı sonradan değişse de geri sıçramaz); bir başlangıç için sayım bir kez biter.
+ * @param {boolean} aktif  yalnız ilk soru/tur için true
+ * @param {string|number|null} baslangic  sunucudaki soru başlangıcı (ISO ya da ms)
+ * @param {number|null} saatFarkMs  sunucu - istemci saat farkı
+ * @returns {number|null}  gösterilecek kalan sn (en çok 3) ya da null
+ */
+export function useGeriSayim(aktif, baslangic, saatFarkMs) {
+  const [kalan, setKalan] = useState(null);
+  const sonRef = useRef({ baslangic: null, kalan: Infinity, t: 0 });
+  const bittiRef = useRef(null);
+  const farkRef = useRef(saatFarkMs ?? 0);
+  farkRef.current = saatFarkMs ?? 0;
+  useEffect(() => {
+    if (!aktif || baslangic == null || bittiRef.current === baslangic) { setKalan(null); return undefined; }
+    const bitis = new Date(baslangic).getTime();
+    if (!Number.isFinite(bitis)) { setKalan(null); return undefined; }
+    const son = sonRef.current.baslangic === baslangic ? sonRef.current : { baslangic, kalan: Infinity, t: performance.now() };
+    sonRef.current = son;
+    let id = null;
+    const hesapla = () => {
+      const simdi = performance.now();
+      const k = Math.min((bitis - (Date.now() + farkRef.current)) / 1000, son.kalan - (simdi - son.t) / 1000);
+      son.kalan = k; son.t = simdi;
+      if (k > 0.05) { setKalan(Math.min(k, 3)); return; }
+      bittiRef.current = baslangic;
+      setKalan(null);
+      clearInterval(id);
+    };
+    hesapla();
+    id = setInterval(hesapla, 100);
+    return () => clearInterval(id);
+  }, [aktif, baslangic]);
+  return kalan;
+}
+
+/** Nabız yanıtından sunucu saat farkı (nabiz.js en kısa gidiş-dönüşlü örneği verir). */
+export function nabizSaatFarki(nabiz) {
+  if (!nabiz?.sunucu_zamani) return null;
+  return nabiz._saat_fark_ms ?? sunucuOffsetMs(nabiz.sunucu_zamani, nabiz._saat_ornek_ms ?? Date.now());
 }
 
 /**

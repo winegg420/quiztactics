@@ -24,6 +24,7 @@ import { sesDogru, sesYanlis, sesTik, sesKategoriGeriSayim, sesTurGecis, sesCanK
   sesKategoriSecildi, sesRakipCevapladi, sesSonSaniyeler } from "../../lib/ses.js";
 import { sure, sureOlcek, varsayilanSure } from "../../lib/sureler.js";
 import { titret } from "../../lib/geriBildirim.js";
+import { GeriSayim, useGeriSayim } from "../MacHazirlik.jsx";
 import "./duello4.css";
 
 const HARFLER = ["A", "B", "C", "D"];
@@ -183,7 +184,8 @@ export default function Duello4Arena({
 
   // Giriş (3-2-1): ilk nötr soru sunucuda soru_baslangic'a kadar gizli. O an gelince durum bir kez tazelenir.
   const soruBasMs = gosterimBas ? gosterimBas - payiMs : null;
-  const girisAcik = d.faz === "notr" && !d.soru && soruBasMs && sunucuSimdi < soruBasMs + 1500;
+  // 1091: giriş, Klasik/Grup ile aynı ortak 3-2-1 ekranıyla (sunucu saatine göre, yalnız maç başında bir kez).
+  const geriSayim = useGeriSayim(d.faz === "notr" && !d.soru && Boolean(soruBasMs), soruBasMs, farkMs);
   useEffect(() => {
     if (!(d.faz === "notr" && !d.soru && soruBasMs)) return undefined;
     const bekle = soruBasMs - (Date.now() + farkMs) + 80;
@@ -304,9 +306,13 @@ export default function Duello4Arena({
   // ---------------- sahne paneli
   let panel = null;
   let eylem = null;
+  let sayimKatmani = null;   // 1091: sabit (fixed) katman — transform'lu d4-sahne'nin DIŞINDA çizilir
   if (d.faz === "notr" && !soruMetni) {
     const kalan = soruBasMs ? Math.ceil((soruBasMs - sunucuSimdi) / 1000) : 0;
-    panel = (
+    // 1091: sayım sürerken ortak 3-2-1; bitip soru gelene kadarki an için eski "BAŞLA" paneli kalır.
+    if (geriSayim !== null || kalan > 0) {
+      sayimKatmani = <GeriSayim kalan={geriSayim ?? Math.min(kalan, 3)} altYazi={v.ilk_mac ? c("Tek bilen KONTROLÜ alır · 3/3 seri kazanır") : null} />;
+    } else panel = (
       <div className="d4-panel d4-panel--orta d4-giris">
         <span className="d4-amblem"><QtIkon ad="kilic" boyut={46} /></span>
         <h2 className="d4-dev">{c("DÜELLO")}</h2>
@@ -527,6 +533,7 @@ export default function Duello4Arena({
   return (
     <div className={sinif("m2-mac hk-mac d4-arena", `d4-arena--${d.faz}`, v.son && "d4-arena--sonduello")}>
       <MacUstSerit onCik={onCik} cikisEtiketi={c("Düellodan çık")} rozet={c("Düello")} />
+      {sayimKatmani}
       {ust}
       {kopukBant && (
         <p className="m2-bant m2-bant--uyari m2-bant--katman" role="status">

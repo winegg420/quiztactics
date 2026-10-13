@@ -314,6 +314,8 @@
   font-weight: var(--qt-a-siyah);
   font-size: var(--qt-y-xl);
   line-height: 1.2;
+  max-width: calc(100vw - 32px);   /* 1091: Düello ilk maç ipucu gibi uzun alt yazı kenara dayanmasın */
+  text-align: center;
 }
 @keyframes m1-sayim-pop { 0% { opacity: 0; transform: scale(0.4) rotate(-12deg); } 60% { opacity: 1; transform: scale(1.12) rotate(3deg); } 100% { transform: none; } }
 @keyframes m1-sayim-halka { 0% { opacity: 0.9; transform: scale(0.9); } 100% { opacity: 0; transform: scale(1.7); } }

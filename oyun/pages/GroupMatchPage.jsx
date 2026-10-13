@@ -31,7 +31,7 @@ import { y } from "../lib/yol.js";
 import { kanalBekleme, kanalYenilenmeli, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
 import { tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
 import { useMacNabiz } from "../lib/nabiz.js";
-import { HazirKapisi, KopukPerde } from "../components/MacHazirlik.jsx";
+import { HazirKapisi, KopukPerde, GeriSayim, useGeriSayim, nabizSaatFarki } from "../components/MacHazirlik.jsx";
 import { useDil } from "../lib/dilKanca.js";
 import { GB_MS } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
@@ -303,6 +303,10 @@ export default function GroupMatchPage() {
   const { nabiz, hazirla } = useMacNabiz("grup_mac_nabiz", nabizParam, Boolean(mac) && mac.durum !== "bitti" && mac.durum !== "iptal");
 
   const duraklatildi = Boolean(nabiz?.duraklatildi) && mac?.durum === "aktif";
+  // 1091: ilk sorudan önce 3-2-1 (sunucu ilk soruyu 3 sn + gösterim payı ileri kurar; herkes aynı anı görür).
+  const geriSayim = useGeriSayim(
+    mac?.durum === "aktif" && (mac?.aktif_soru ?? 0) === 0 && Boolean(mac?.basladi) && !duraklatildi,
+    mac?.soru_baslangic ?? null, nabizSaatFarki(nabiz));   // maç satırı: aktif_soru ile başlangıç birlikte değişir
 
   const oncekiNabizRef = useRef(null);
   useEffect(() => {
@@ -661,6 +665,9 @@ export default function GroupMatchPage() {
   // Aktif maç
   return sahne(
     <>
+      {/* 1091: 3-2-1 yalnız ilk sorudan önce, bir kez. */}
+      {geriSayim !== null && <GeriSayim kalan={geriSayim} />}
+
       {/* Bir oyuncu ekrandan ayrıldı: ekran kilitlenir, süre durur. */}
       {duraklatildi && (
         <KopukPerde bekleyenAdlar={nabiz?.bekleyenler ?? []} gecenSn={nabiz?.duraklama_sn ?? 0} />
