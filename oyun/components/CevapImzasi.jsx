@@ -474,8 +474,14 @@ export function imzaOynat(imza, hedef) {
   } catch (e) {
     console.warn("[Bildim] cevap imzası oynatılamadı:", e?.message ?? e);
   }
-  const zaman = setTimeout(() => ogeler.forEach((o) => o.remove()), EN_UZUN_MS + GUVENLIK_PAYI_MS);
-  return () => { clearTimeout(zaman); ogeler.forEach((o) => o.remove()); };
+  // Bilgi Ampulü canvas'ı şıkkın ~160 px üstüne taşar ve soru metnini kapatıyordu: oynarken soru kartı (+ kategori/sıra satırı)
+  // canvas'ın (z-index 4) üstüne alınır → ampul kartın ARKASINA girer. Yalnız imza süresince; bitince eski değer döner.
+  const kartlar = tur === "ampul" ? [...document.querySelectorAll(".qt-soru-kart, .qt-soru-ust")] : [];
+  const eskiZ = kartlar.map((k) => k.style.zIndex);
+  kartlar.forEach((k) => { k.style.zIndex = k.classList.contains("qt-soru-ust") ? "6" : "5"; });
+  const kartlariGeriAl = () => kartlar.forEach((k, i) => { k.style.zIndex = eskiZ[i]; });
+  const zaman = setTimeout(() => { ogeler.forEach((o) => o.remove()); kartlariGeriAl(); }, EN_UZUN_MS + GUVENLIK_PAYI_MS);
+  return () => { clearTimeout(zaman); ogeler.forEach((o) => o.remove()); kartlariGeriAl(); };
 }
 
 /**

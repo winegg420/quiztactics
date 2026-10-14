@@ -757,6 +757,8 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 
 /* ---------- Alt yuvalar sıkı (9 Eki 2026): yol listesi için daha çok yükseklik; hiçbir öğe kaldırılmadı, yalnız boşluklar ---------- */
 .sy-sahne .qt-sahne-alt { gap: 4px; padding-block: 4px 6px; }
+/* Liste sonu: sabit alt alan (görev satırı + "Ödülleri al") yüksekliği kadar boşluk (ölçüm: SezonYoluPage › --sy-alt-boy) */
+.sy-sahne .qt-sahne-ic > .qt-sahne-govde { padding-bottom: calc(var(--qt-b-3) + var(--sy-alt-boy, 112px)); }
 .sy-sahne .sy-sirada--kart { min-height: 56px; padding-block: 2px; }
 .sy-sahne .sy-sirada--kart .sy-sirada-yuva { width: 48px; height: 48px; }
 .sy-sahne .sy-hepsini, .sy-sahne .qt-sahne-alt .qt-dugme { min-height: var(--qt-dokunma, 44px); }

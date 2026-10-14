@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import GeriDugmesi from "../components/GeriDugmesi.jsx";
 import Icindekiler from "../components/Icindekiler.jsx";
+import YasalDilSecici from "../components/YasalDilSecici.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 import { QtDugme, QtMarka } from "../tasarim/index.js";
@@ -20,6 +21,7 @@ export default function KosullarPage() {
       <div className="g-yasal-ic">
       <header className="g-yasal-ust">
         <GeriDugmesi />
+        <YasalDilSecici />
         <QtMarka as={Link} to={y()} aria-label={tt("Quiz Tactics ana sayfa")} />
       </header>
       <article className="g-yasal-metin">

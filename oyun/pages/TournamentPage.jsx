@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import MacUstSerit from "../components/MacUstSerit.jsx";
+import { beklemeJokerUstunde } from "../lib/beklemeKonum.js";
 import { hataMesaji, hataTuru, hataTuruMesaji } from "../lib/hata.js";
 import { useGeriTusuOnayi } from "../lib/geriTusuOnayi.js";
 import { useOyunModu } from "../lib/oyunModu.js";
@@ -988,7 +989,7 @@ export default function TournamentPage() {
               sira={toplamSoru && !soru.altin ? tt("Soru {n} / {t}", { n: (soru.soru_index ?? turnuva.aktif_soru) + 1, t: toplamSoru }) : null}
               sayac={<IzleyiciSayac key={soru.soru_index ?? turnuva.aktif_soru} soru={soru} />}
             />
-            <p className="m1-bekleme">{tt("Oyuncular cevaplıyor…")}</p>
+            <p className="m1-bekleme" ref={beklemeJokerUstunde}>{tt("Oyuncular cevaplıyor…")}</p>
           </div>
         )
       )}

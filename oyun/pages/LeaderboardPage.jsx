@@ -450,7 +450,7 @@ export default function LeaderboardPage() {
             </span>
             <div className="lg-pankart-metin">
               <h1 id="lg-pankart-baslik" className="qt-baslik-2">
-                {tt("{lig} Ligi", { lig: LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig })}
+                {tt("{lig} Lig", { lig: LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig })}
               </h1>
               {/* 7 Eki: geri sayım TEK SATIR kısa hap ("5g 3sa"); tam metin erişilebilir etikette */}
               <p className="lg-sure" aria-label={tt("Hafta bitimine {sure}", { sure: sureMetni(kalanSezon) })}>
@@ -682,7 +682,7 @@ export default function LeaderboardPage() {
             {(podyum.length === 3 ? kalanlar : ilk100).length > 0 && (
               <div className="qt-liste lg-liste" role="list"
                    aria-label={kapsam === "lig" && grupBilgi
-                     ? tt("{lig} Ligi", { lig: LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig })
+                     ? tt("{lig} Lig", { lig: LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig })
                      : kapsamAdi}>
                 {(podyum.length === 3 ? kalanlar : ilk100).map((s, i, dizi) => {
                   const sIdx = (podyum.length === 3 ? 3 : 1) + i;

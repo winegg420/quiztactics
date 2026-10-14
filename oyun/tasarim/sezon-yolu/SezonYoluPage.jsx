@@ -91,6 +91,20 @@ export default function SezonYoluPage() {
     return () => yol.removeEventListener("scroll", dinle);
   }, [durum]);
 
+  // Listenin altına, sabit alt alanın (görev satırı + "Ödülleri al") yüksekliği kadar boşluk: son satır alt alanın
+  // arkasında kalmasın / ona yapışmasın. Yükseklik ölçülür (--sy-alt-boy), alt alan değişince (satır gelir/gider) güncellenir.
+  useEffect(() => {
+    const yol = yolRef.current;
+    const alt = yol?.parentElement?.querySelector(":scope > .qt-sahne-alt");
+    if (!yol || !alt) return undefined;
+    const yaz = () => yol.style.setProperty("--sy-alt-boy", `${Math.round(alt.getBoundingClientRect().height)}px`);
+    yaz();
+    if (typeof ResizeObserver === "undefined") return undefined;
+    const ro = new ResizeObserver(yaz);
+    ro.observe(alt);
+    return () => ro.disconnect();
+  }, [durum]);
+
   /** Satırı (seviye) kaydırılan bölgenin ORTASINA getiren scrollTop (yol = QtSahne'nin kaydırılan bölgesi). */
   const ortaHedef = (yol, el) => {
     const yr = yol.getBoundingClientRect();

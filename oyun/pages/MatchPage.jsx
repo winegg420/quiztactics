@@ -3,6 +3,7 @@ import SureDolduGecis from "../components/SureDolduGecis.jsx";
 import { sesRakipCevapladi } from "../lib/ses.js";
 import { hataMesaji } from "../lib/hata.js";
 import { useParams, useNavigate } from "react-router-dom";
+import { beklemeJokerUstunde } from "../lib/beklemeKonum.js";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import QuestionCard from "../components/QuestionCard.jsx";
@@ -1315,7 +1316,7 @@ export default function MatchPage() {
         )}
 
         {cevapladim && (
-          <div className="m1-bekleme" role="status">
+          <div className="m1-bekleme" role="status" ref={beklemeJokerUstunde}>
             {/* Rakip bu soruyu zaten cevapladıysa soru benim cevabımla geçer — "X cevaplayınca" yazılmaz */}
             {senkron && !(ilerleme.rakip > kendiIndeks)
               ? tt("{0} cevaplayınca soru geçecek…", { 0: botAdi(rakipProfil?.gorunen_ad) ?? "" })

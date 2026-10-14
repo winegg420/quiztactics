@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { QtBosDurum, QtCip, QtDugme, QtIkon, QtIkonDugme, QtListe, QtListeSatiri, QtModal, QtRozet } from "../tasarim/index.js";
+import { beklemeJokerUstunde } from "../lib/beklemeKonum.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import "../tasarim/ekranlar/m1-sonuc.css";
 import MacUstSerit from "../components/MacUstSerit.jsx";
@@ -769,7 +770,7 @@ export default function GroupMatchPage() {
       )}
 
       {cevapladim && (
-        <div className="m1-bekleme" role="status">
+        <div className="m1-bekleme" role="status" ref={beklemeJokerUstunde}>
           {tt("Diğer oyuncuların cevaplaması bekleniyor…")}
         </div>
       )}

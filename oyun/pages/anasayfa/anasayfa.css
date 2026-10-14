@@ -1134,11 +1134,11 @@ html.as-kaydirmasiz { --qt-zemin: var(--as-s-zemin); }
     repeating-conic-gradient(from 0deg at 58px 50%, var(--_ko-a) 0deg 11deg, var(--_ko-b) 11deg 22deg);
   box-shadow: inset 0 0 0 2px #fff, 0 4px 0 var(--_ko-dudak), var(--as-golge-kucuk);
 }
-.as-ko--lig-bronz { --_ko-a: #f9e1cd; --_ko-b: #fef7f2; --_ko-dudak: var(--qt-lig-bronz-sahne-isik); }
-.as-ko--lig-gumus { --_ko-a: #d5e3f6; --_ko-b: #f6f9fe; --_ko-dudak: var(--qt-lig-gumus-sahne-isik); }
-.as-ko--lig-altin { --_ko-a: #fae2bc; --_ko-b: #fdf9f2; --_ko-dudak: var(--qt-lig-altin-sahne-isik); }
-.as-ko--lig-elmas { --_ko-a: #d2f2fa; --_ko-b: #f4fcfe; --_ko-dudak: var(--qt-lig-elmas-sahne-isik); }
-.as-ko--lig-efsane { --_ko-a: #ebdbff; --_ko-b: #faf6ff; --_ko-dudak: var(--qt-lig-efsane-sahne-isik); }
+.as-ko--lig-bronz { --_ko-a: var(--qt-lig-bronz-isin-a); --_ko-b: var(--qt-lig-bronz-isin-b); --_ko-dudak: var(--qt-lig-bronz-sahne-isik); }
+.as-ko--lig-gumus { --_ko-a: var(--qt-lig-gumus-isin-a); --_ko-b: var(--qt-lig-gumus-isin-b); --_ko-dudak: var(--qt-lig-gumus-sahne-isik); }
+.as-ko--lig-altin { --_ko-a: var(--qt-lig-altin-isin-a); --_ko-b: var(--qt-lig-altin-isin-b); --_ko-dudak: var(--qt-lig-altin-sahne-isik); }
+.as-ko--lig-elmas { --_ko-a: var(--qt-lig-elmas-isin-a); --_ko-b: var(--qt-lig-elmas-isin-b); --_ko-dudak: var(--qt-lig-elmas-sahne-isik); }
+.as-ko--lig-efsane { --_ko-a: var(--qt-lig-efsane-isin-a); --_ko-b: var(--qt-lig-efsane-isin-b); --_ko-dudak: var(--qt-lig-efsane-sahne-isik); }
 .as-sahne .as-ko-ust > .ls-ad-dugme { flex: 0 1 auto; align-self: center; }
 .as-sahne .as-ko-ad {
   display: block; justify-self: start; align-self: center; height: auto; line-height: 1.3;

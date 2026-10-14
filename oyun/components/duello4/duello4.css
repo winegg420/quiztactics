@@ -306,6 +306,12 @@
   transition: --d4-ben 1.4s ease, --d4-rakip 1.4s ease, --d4-vinyet 1.4s ease, --d4-odak 1.6s ease,
               --d4-taban-ust 1.6s ease, --d4-taban-alt 1.6s ease;
 }
+/* Oyuncunun ligi (15 Eki 2026): zemin tabanı lig ışınının iki tonunu alır (profil kartı ile aynı kaynak: tokenlar.css › 7c). */
+.hk-mac.d4-arena.d4-lig--bronz { --d4-taban-ust: var(--qt-lig-bronz-isin-b); --d4-taban-alt: var(--qt-lig-bronz-isin-a); }
+.hk-mac.d4-arena.d4-lig--gumus { --d4-taban-ust: var(--qt-lig-gumus-isin-b); --d4-taban-alt: var(--qt-lig-gumus-isin-a); }
+.hk-mac.d4-arena.d4-lig--altin { --d4-taban-ust: var(--qt-lig-altin-isin-b); --d4-taban-alt: var(--qt-lig-altin-isin-a); }
+.hk-mac.d4-arena.d4-lig--elmas { --d4-taban-ust: var(--qt-lig-elmas-isin-b); --d4-taban-alt: var(--qt-lig-elmas-isin-a); }
+.hk-mac.d4-arena.d4-lig--efsane { --d4-taban-ust: var(--qt-lig-efsane-isin-b); --d4-taban-alt: var(--qt-lig-efsane-isin-a); }
 .hk-mac.d4-arena.d4-zemin--ben { --d4-ben: rgb(55 138 221 / .11); }
 .hk-mac.d4-arena.d4-zemin--rakip { --d4-rakip: rgb(226 75 74 / .10); }
 .hk-mac.d4-arena.d4-zemin--gerilim { --d4-vinyet: rgb(30 36 56 / .20); }

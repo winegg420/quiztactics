@@ -191,6 +191,8 @@
 .m1-balon--rakip { justify-self: end; grid-column: 2; border-radius: var(--qt-r-m) var(--qt-r-m) var(--qt-r-s) var(--qt-r-m); background: var(--qt-ikinci-acik); color: var(--qt-ikinci-koyu); }
 .m1-tepki { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--qt-b-2); }
 .m1-kaliplar { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--qt-b-2); }
+/* Emoji balonu (tepki) maç üst şeridinde avatarın ÜST yarısında durur: alttaki "Soru N / 20" satırına ve kategori hapına binmez */
+.m1-mac .qt-mac-ust .qt-tepki-balon { top: -22px; }
 .m1-bekleme { text-align: center; color: var(--qt-zemin-soluk); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
 .m1-alt { display: flex; flex-direction: column; gap: var(--qt-b-2); margin-top: auto; }
 

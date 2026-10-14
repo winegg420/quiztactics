@@ -21,5 +21,6 @@
 .a-dereceli-aciklama { margin: 0; padding-inline: var(--qt-b-2); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); text-align: center; }
 
 /* Mod seçim penceresi (9 Eki 2026): açıklama satırı levhanın alt kenarına yapışıp kırpılmasın */
-.a-modsecim-dereceli { padding-bottom: var(--qt-b-3); flex-shrink: 0; }
+/* Levha beyaz modal zemininde üst kenarsız kalıp "üstten kesilmiş" görünüyordu (yalnız alt dudak vardı): dört kenarda çizgi + alt dudak */
+.a-dereceli.a-modsecim-dereceli { padding-bottom: var(--qt-b-3); flex-shrink: 0; box-shadow: inset 0 0 0 2px var(--qt-cizgi), 0 var(--qt-dudak-s) 0 var(--qt-cizgi); }
 .a-modsecim-dereceli .a-dereceli-aciklama { line-height: 1.4; min-height: 1.4em; overflow: visible; }

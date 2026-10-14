@@ -28,7 +28,12 @@ import { titret } from "../../lib/geriBildirim.js";
 import { GeriSayim, useGeriSayim } from "../MacHazirlik.jsx";
 import RehberBalonu from "../RehberBalonu.jsx";
 import { useIlkMacRehberi } from "../../lib/ilkMacRehberi.js";
+import { sonBilinenOku } from "../../lib/sonBilinen.js";
 import "./duello4.css";
+
+const LIGLER = ["bronz", "gumus", "altin", "elmas", "efsane"];
+/** Oyuncunun ligi (ana sayfanın son bilinen lig özeti; ağ isteği yok). Bilinmiyorsa null → nötr zemin. */
+const benimLigim = () => { const l = sonBilinenOku("lig_ozet")?.lig; return LIGLER.includes(l) ? l : null; };
 
 const HARFLER = ["A", "B", "C", "D"];
 
@@ -158,6 +163,7 @@ export default function Duello4Arena({
   onCevap, onKart, onJoker, onYenile, onCik,
 }) {
   const kisaEkran = useKisaEkran();
+  const ligim = benimLigim();
   const v = d.v4 ?? {};
   const benId = d.ben;
   const hedef = Number(v.seri_hedef ?? 3);
@@ -294,7 +300,7 @@ export default function Duello4Arena({
   const sn = Math.ceil(gosterSn ?? 0);
   useEffect(() => {
     if (d.durum !== "aktif" || sn <= 0 || sn > 3 || d.kopuk) return;
-    if (soruFazi && !kilitli && soruMetni && !acilisAcik) birKez(`tik:${v.soru_no}:${sn}`, () => sesTik(sn));
+    if (soruFazi && !cevapVerdim && soruMetni && !acilisAcik) birKez(`tik:${v.soru_no}:${sn}`, () => sesTik(sn));
     else if (d.faz === "kart" && benKontrol && adim < 2) birKez(`ksay:${v.tur}:${sn}`, () => { sesKategoriGeriSayim(sn); if (sn <= 2) titret(20); });
   }, [sn]);   // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -576,7 +582,7 @@ export default function Duello4Arena({
   }
 
   return (
-    <div className={sinif("m2-mac hk-mac d4-arena", `d4-arena--${d.faz}`, v.son && "d4-arena--sonduello",
+    <div className={sinif("m2-mac hk-mac d4-arena", ligim && `d4-lig--${ligim}`, `d4-arena--${d.faz}`, v.son && "d4-arena--sonduello",
                           !v.son && kontrol != null && `d4-zemin--${taraf}`, gerilim && "d4-zemin--gerilim")}>
       <MacUstSerit onCik={onCik} cikisEtiketi={c("Düellodan çık")} rozet={c("Düello")} />
       {sayimKatmani}

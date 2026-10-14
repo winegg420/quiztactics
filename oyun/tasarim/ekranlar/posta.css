@@ -64,7 +64,8 @@
 .bz-posta-satir .qt-satir-baslik { overflow-wrap: anywhere; }
 
 /* ---------- Yönetim › Posta gönder ---------- */
-.yp { display: flex; flex-direction: column; gap: var(--qt-b-4); padding-top: var(--qt-b-4); padding-bottom: var(--qt-b-8); color: var(--qt-zemin-metin); }
+/* Alt boşluk: yapışkan gönder çubuğu (.yp-cubuk ≈ 68 px) + alt menü son alanı örtmesin */
+.yp { display: flex; flex-direction: column; gap: var(--qt-b-4); padding-top: var(--qt-b-4); padding-bottom: calc(var(--qt-b-8) + var(--qt-altmenu-yukseklik, 0px) + 76px + env(safe-area-inset-bottom, 0px)); color: var(--qt-zemin-metin); }
 .yp > * { min-width: 0; }
 .yp-bolum { display: flex; flex-direction: column; gap: var(--qt-b-3); }
 .yp-bolum h2 { margin: 0; }

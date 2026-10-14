@@ -114,6 +114,13 @@
   --qt-lig-elmas-sahne: #dff6fc;    --qt-lig-elmas-sahne-isik: #9fe3f4;
   --qt-lig-efsane-sahne: #f1e6ff;   --qt-lig-efsane-sahne-isik: #d2b1ff;
   --qt-lig-notr-sahne: var(--qt-ikinci-acik);  --qt-lig-notr-sahne-isik: #c7e0fa;
+  /* Lig ışını iki tonu (15 Eki 2026): ana sayfa profil kartı ışınları (.as-ko--lig-*) ve Düello arenası zemini
+     (.d4-lig--*) AYNI kaynaktan alır. -a = koyu ışın / zemin altı, -b = açık ışın / zemin üstü. */
+  --qt-lig-bronz-isin-a: #f9e1cd;   --qt-lig-bronz-isin-b: #fef7f2;
+  --qt-lig-gumus-isin-a: #d5e3f6;   --qt-lig-gumus-isin-b: #f6f9fe;
+  --qt-lig-altin-isin-a: #fae2bc;   --qt-lig-altin-isin-b: #fdf9f2;
+  --qt-lig-elmas-isin-a: #d2f2fa;   --qt-lig-elmas-isin-b: #f4fcfe;
+  --qt-lig-efsane-isin-a: #ebdbff;  --qt-lig-efsane-isin-b: #faf6ff;
   /* Sahne çerçevesi (7 Eki 2026): profil sahnesi + Lig pankartı. Dört ligde *-dudak ile aynı; Gümüş'te gri dudak (#8793a8)
      mavi ışınlarla ton çatıştırıyor ve zeminde 2,65:1 kalıyordu → çelik mavisi #5b7db0 (zemin 3,58:1, sayfa 2,94:1;
      Altın 2,62 · Bronz 4,39 aralığında). Genel --qt-lig-gumus-dudak (ana sayfa çipi, 2. sıra madalyası) DEĞİŞMEDİ. */
