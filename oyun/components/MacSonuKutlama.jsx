@@ -187,7 +187,9 @@ function Taraf({ kisi, rol, yan, canToplam, sen, zafer }) {
  *                                     Ortak Hazine: açılan hazineler) — 7 Eki 2026
  * @param {number} [detayRozet]       Detay düğmesindeki sayı (kaçırılan soru)
  * @param {ReactNode} [children]       sahnenin altına serbest içerik (sohbet, tepkiler…)
- * @param {string} [skorEtiket]        skorun altındaki kelime (varsayılan "doğru"; Klasik "puan")
+ * @param {"kazandi"|"kaybetti"|"berabere"} [sesDurum]  yalnız sonuç SESİ için durum (görünüm `durum`dan); Grup Maçı'nda
+ *        ne 1. ne son olan oyuncuya "berabere" → nötr ses (14 Eki 2026)
+ * @param {string} [skorEtiket]       skorun altındaki kelime (varsayılan "doğru"; Klasik "puan")
  * @param {{ben?:string|null, rakip?:string|null}} [zaferEfekti]  önizleme için elde efekt; verilmezse oyuncu
  *        kartından (oyuncu_kartlari önbelleği — avatarla aynı çağrı, ek sorgu yok)
  * @param {boolean} [sezonBp]  Sezon Yolu (720): oyuncu Battle Pass sahibi mi (önizleme taklidi). Verilmezse sezon_ozetim.bp
@@ -222,6 +224,7 @@ function MacSonuKutlama({
   zaferEfekti,
   sezonBp,
   sezonMacRef,
+  sesDurum,
 }) {
   // Terk eden: ödül bölümü hiç yok, kaybetti renginde sade sahne. Kalan: galibiyet, fanfarsız.
   const benTerk = terk === "ben";
@@ -352,8 +355,9 @@ function MacSonuKutlama({
     if (kutlama) z(t.kupa, () => lottie.kupa.current?.oynat());
     if (kutlama) z(t.konfeti, () => { lottie.konfeti.current?.oynat(); sesMacSonu("kazandin"); });
     else if (kazandi) z(t.avatar, () => sesMacSonu("kazandin"));
-    if (durum === "kaybetti" && !benTerk) z(t.avatar, () => sesMacSonu("kaybettin"));
-    if (durum === "berabere") z(t.avatar, () => sesMacSonu("beraberlik"));
+    const sesSonuc = benTerk ? durum : (sesDurum ?? durum);
+    if (sesSonuc === "kaybetti" && !benTerk) z(t.avatar, () => sesMacSonu("kaybettin"));
+    if (sesSonuc === "berabere" && !kazandi) z(t.avatar, () => sesMacSonu("beraberlik"));
 
     if (coin > 0) {
       z(t.coin, () => {

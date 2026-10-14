@@ -197,7 +197,8 @@ function davetKutusu(c, kod, baglanti) {
 /**
  * Kartı çizer, PNG Blob döner.
  * @param {{ tur: "sonuc"|"davet", ad?: string, avatar?: string|null, benSkor?: number, rakipSkor?: number,
- *           durum?: "kazandi"|"kaybetti"|"berabere", rakipAd?: string, skorEtiket?: string, kod?: string|null, baglanti: string }} v
+ *           durum?: "kazandi"|"kaybetti"|"berabere", rakipAd?: string, skorEtiket?: string, derece?: number|null,
+ *           kod?: string|null, baglanti: string }} v
  * @returns {Promise<Blob>}
  */
 export async function paylasKartiCiz(v) {
@@ -232,7 +233,8 @@ export async function paylasKartiCiz(v) {
       const baslik = v.durum === "kazandi" ? tt("Kazandım!") : v.durum === "berabere" ? tt("Berabere!") : tt("Rövanş zamanı!");
       c.fillText(baslik, KART_EN / 2, y + 92);
       c.font = `800 150px ${BASLIK}`;
-      c.fillText(`${Number(v.benSkor ?? 0)} – ${Number(v.rakipSkor ?? 0)}`, KART_EN / 2, y + 236);
+      // Çok oyunculu modlar (Grup, Turnuva): skor yerine derece ("2.")
+      c.fillText(v.derece ? tt("{n}.", { n: v.derece }) : `${Number(v.benSkor ?? 0)} – ${Number(v.rakipSkor ?? 0)}`, KART_EN / 2, y + 236);
       c.fillStyle = RENK.metin;
       const alt = v.rakipAd ? tt("{ad} karşısında", { ad: v.rakipAd }) : (v.skorEtiket ?? "");
       c.fillText(sigdir(c, alt, w - 80, 44, 30, 700, GOVDE), KART_EN / 2, y + 298);

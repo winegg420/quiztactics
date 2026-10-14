@@ -6,7 +6,7 @@
  * Kart dokunuştan ÖNCE hazırlanır (Safari paylaşımı ancak dokunuşun hemen ardından açar; uzun bekleme
  * kullanıcı etkileşimini düşürür). Davet kodu modül içinde bir kez alınır.
  * @param {{ tur?: "davet"|"sonuc", sonuc?: { ad?: string, avatar?: string|null, benSkor?: number, rakipSkor?: number,
- *           durum?: "kazandi"|"kaybetti"|"berabere", rakipAd?: string }, className?: string, tamGenislik?: boolean,
+ *           durum?: "kazandi"|"kaybetti"|"berabere", rakipAd?: string, derece?: number, skorEtiket?: string }, className?: string, tamGenislik?: boolean,
  *           boyut?: "k"|"o"|"b", tur2?: string }} p   tur2 = QtDugme türü (varsayılan "ikincil")
  */
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -40,7 +40,7 @@ export default function PaylasDugmesi({ tur = "davet", sonuc, className, tamGeni
   const bilgiZamani = useRef(0);
 
   const ad = tur === "sonuc" ? sonuc?.ad : profile?.gorunen_ad;
-  const anahtar = JSON.stringify([tur, ad, sonuc?.avatar, sonuc?.benSkor, sonuc?.rakipSkor, sonuc?.durum, sonuc?.rakipAd]);
+  const anahtar = JSON.stringify([tur, ad, sonuc?.avatar, sonuc?.benSkor, sonuc?.rakipSkor, sonuc?.durum, sonuc?.rakipAd, sonuc?.derece, sonuc?.skorEtiket]);
 
   const hazirla = useCallback(async () => {
     const d = await davetBilgisi();
@@ -48,7 +48,7 @@ export default function PaylasDugmesi({ tur = "davet", sonuc, className, tamGeni
     try {
       const blob = await paylasKartiCiz({
         tur, ad, avatar: sonuc?.avatar ?? null, benSkor: sonuc?.benSkor, rakipSkor: sonuc?.rakipSkor,
-        durum: sonuc?.durum, rakipAd: sonuc?.rakipAd, kod: d.kod, baglanti: d.baglanti,
+        durum: sonuc?.durum, rakipAd: sonuc?.rakipAd, derece: sonuc?.derece, skorEtiket: sonuc?.skorEtiket, kod: d.kod, baglanti: d.baglanti,
       });
       dosya = new File([blob], tur === "sonuc" ? "quiztactics-mac.png" : "quiztactics-davet.png", { type: "image/png" });
     } catch (e) {

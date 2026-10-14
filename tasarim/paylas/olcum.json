@@ -23,7 +23,7 @@
    "height": 44
   },
   "bilgi": "Bağlantı kopyalandı",
-  "pano": "http://localhost:5188/davet/QT7K2M",
+  "pano": "http://localhost:5187/davet/QT7K2M",
   "yatayTasma": 0
  },
  "paylas-kasa-390": {
@@ -44,6 +44,51 @@
  "paylas-klasik-390": {
   "x": 16,
   "y": 610,
+  "w": 159,
+  "h": 44,
+  "vh": 844,
+  "minH": "44px",
+  "boxSizing": "border-box",
+  "zoom": "1",
+  "kok": "16px",
+  "gorunur": true,
+  "ustteki": true,
+  "kesisen": [],
+  "panelKapali": true
+ },
+ "paylas-saf-390": {
+  "x": 16,
+  "y": 610,
+  "w": 159,
+  "h": 44,
+  "vh": 844,
+  "minH": "44px",
+  "boxSizing": "border-box",
+  "zoom": "1",
+  "kok": "16px",
+  "gorunur": true,
+  "ustteki": true,
+  "kesisen": [],
+  "panelKapali": true
+ },
+ "paylas-grup-390": {
+  "x": 16,
+  "y": 395,
+  "w": 159,
+  "h": 44,
+  "vh": 844,
+  "minH": "44px",
+  "boxSizing": "border-box",
+  "zoom": "1",
+  "kok": "16px",
+  "gorunur": true,
+  "ustteki": true,
+  "kesisen": [],
+  "panelKapali": true
+ },
+ "paylas-turnuva-390": {
+  "x": 16,
+  "y": 536,
   "w": 159,
   "h": 44,
   "vh": 844,
@@ -94,7 +139,7 @@
    "height": 44
   },
   "bilgi": "Bağlantı kopyalandı",
-  "pano": "http://localhost:5188/davet/QT7K2M",
+  "pano": "http://localhost:5187/davet/QT7K2M",
   "yatayTasma": 0
  },
  "paylas-kasa-1440": {
@@ -115,6 +160,51 @@
  "paylas-klasik-1440": {
   "x": 496,
   "y": 610,
+  "w": 220,
+  "h": 44,
+  "vh": 900,
+  "minH": "44px",
+  "boxSizing": "border-box",
+  "zoom": "1",
+  "kok": "16px",
+  "gorunur": true,
+  "ustteki": true,
+  "kesisen": [],
+  "panelKapali": true
+ },
+ "paylas-saf-1440": {
+  "x": 496,
+  "y": 610,
+  "w": 220,
+  "h": 44,
+  "vh": 900,
+  "minH": "44px",
+  "boxSizing": "border-box",
+  "zoom": "1",
+  "kok": "16px",
+  "gorunur": true,
+  "ustteki": true,
+  "kesisen": [],
+  "panelKapali": true
+ },
+ "paylas-grup-1440": {
+  "x": 496,
+  "y": 395,
+  "w": 220,
+  "h": 44,
+  "vh": 900,
+  "minH": "44px",
+  "boxSizing": "border-box",
+  "zoom": "1",
+  "kok": "16px",
+  "gorunur": true,
+  "ustteki": true,
+  "kesisen": [],
+  "panelKapali": true
+ },
+ "paylas-turnuva-1440": {
+  "x": 496,
+  "y": 536,
   "w": 220,
   "h": 44,
   "vh": 900,

@@ -17,6 +17,7 @@ import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
 import MeydanaDonus from "../components/MeydanaDonus.jsx";
 import MacSonuKutlama from "../components/MacSonuKutlama.jsx";
+import PaylasDugmesi from "../components/PaylasDugmesi.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import QuestionCard from "../components/QuestionCard.jsx";
@@ -653,6 +654,14 @@ export default function TournamentPage() {
           gorevler={sahneVeri.gorevler}
           rozetler={sahneVeri.rozetler}
           detayRozet={turnuvaYanlis}
+          // Klasik/Düello/Hazine ile aynı: Paylaş sahnede, Detay'ı açmadan görünür; kartta skor yerine derece
+          paylas={benSatir?.terk_at ? null : (
+            <PaylasDugmesi tur="sonuc" tur2="birincil" tamGenislik sonuc={{
+              ad: benSatir?.profil?.gorunen_ad ?? profile?.gorunen_ad, avatar: (benSatir?.profil?.gorunen_avatar ?? profile?.gorunen_avatar) || null,
+              durum: sampiyonBenim ? "kazandi" : "kaybetti", derece: sira || null,
+              skorEtiket: tt("{t} oyuncu arasında · {d} doğru", { t: oyuncular.length, d: benSatir?.dogru_sayisi ?? 0 }),
+            }} />
+          )}
           detay={
             <>
               {kazanan && (

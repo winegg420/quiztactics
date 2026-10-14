@@ -1,6 +1,6 @@
 // PAYLAŞ düğmesi + 1080×1920 paylaşım kartları — ekran görüntüsü ve ölçüm (14 Eki 2026).
 // · Düello maç sonu (Son Düello BERABERE, 1102) TAKLİT VERİYLE: duello_* ve mac_sonu_ozet tarayıcıda taklit edilir
-//   (sunucuya yazmaz). Paylaş Detay açılmadan sahnede görünür (14 Eki: Düello + Ortak Hazine + Klasik); dokununca (navigator.share yoksa) "Bağlantı kopyalandı".
+//   (sunucuya yazmaz). Paylaş Detay açılmadan sahnede görünür (14 Eki: Düello + Ortak Hazine + Klasik + Saf Bilgi + Grup + Turnuva); dokununca (navigator.share yoksa) "Bağlantı kopyalandı".
 // · Arkadaşlar › Arkadaş davet et: Facebook + Paylaş yan yana (gerçek sayfa; yalnız okuma).
 // · İki kart (sonuç + davet) TR ve EN: lib/paylasKarti.js tarayıcıda çizilir, PNG olarak kaydedilir.
 // Genişlikler: 390 ve 1440. Çıktı: tasarim/paylas/*.png + olcum.json
@@ -75,9 +75,26 @@ function bitmisKasa(ben) {
     gecmis: [1, 2, 3].map((t) => ({ tur: t, altin: false, kategori: "cografya", soru: soru.soru, secenekler: soru.secenekler, dogru_cevap: 1, benim_cevabim: 1,
       ben_dogru: true, rakip_dogru: t === 3, karar: t === 3 ? "ac" : "devam", karar_ben: true, acilan_deger: 12, kasa_sonra: t * 2 })) };
 }
-function bitmisMac(ben) {
+// 14 Eki 2026: Grup (3 kişi, ben 2.) ve Turnuva (6 kişi, ben 3.) maç sonu — Paylaş aynı yerleşimle sahnede
+const DIGER = ["0d0e1100-0000-4000-8000-0000000000cc", "0d0e1100-0000-4000-8000-0000000000dd", "0d0e1100-0000-4000-8000-0000000000ee", "0d0e1100-0000-4000-8000-0000000000ff"];
+function bitmisGrup(ben) {
+  const k = (id, ad, skor) => ({ group_match_id: ID, user_id: id, davet_durumu: "kabul", skor, joined_at: "2026-10-14T10:00:00Z", hazir: true, terk_at: null,
+    profil: { id, gorunen_ad: ad, gorunen_avatar: id === ben ? "/avatars/pro/tilki-k04.svg" : null, gorunum: null } });
+  return { id: ID, durum: "bitti", basladi: true, aktif_soru: 10, soru_ids: [], kategori: null, kazanan: RAKIP, olusturan: RAKIP, duraklatildi_at: null,
+    soru_baslangic: "2026-10-14T10:05:00Z", created_at: "2026-10-14T10:00:00Z",
+    katilimcilar: [k(ben, "Sen", 80), k(RAKIP, "Deniz Yıldırımoğlu", 110), k(DIGER[0], "Mert", 40)] };
+}
+const TURNUVA = { id: ID, durum: "bitti", tarih: new Date().toISOString().slice(0, 10), saat: "20:00", kazanan: RAKIP, aktif_soru: 12, soru_ids: [],
+  baslangic: "2026-10-14T17:00:00Z", bitis: "2026-10-14T17:10:00Z", altin_soru: false };
+function turnuvaOyunculari(ben) {
+  const o = (id, ad, dogru, elendi, soru) => ({ tournament_id: ID, user_id: id, elendi, elenme_sorusu: soru, dogru_sayisi: dogru, terk_at: null, joined_at: "2026-10-14T16:59:00Z",
+    profil: { gorunen_ad: ad, gorunen_avatar: id === ben ? "/avatars/pro/tilki-k04.svg" : null, gorunum: null, puan: 100, level: 5 } });
+  return [o(RAKIP, "Deniz Yıldırımoğlu", 12, false, null), o(DIGER[0], "Mert", 11, true, 12), o(ben, "Sen", 9, true, 10),
+    o(DIGER[1], "Ayşe", 6, true, 7), o(DIGER[2], "Ali", 4, true, 5), o(DIGER[3], "Ece", 2, true, 3)];
+}
+function bitmisMac(ben, jokersiz = false) {
   const p = (id, ad, av) => ({ id, gorunen_ad: ad, gorunen_avatar: av, gorunum: null, acik_bot: false });
-  return { id: ID, durum: "bitti", oyuncu1: ben, oyuncu2: RAKIP, oyuncu1_skor: 120, oyuncu2_skor: 90, kazanan: ben, terk_eden: null, senkron: true,
+  return { id: ID, durum: "bitti", jokersiz, oyuncu1: ben, oyuncu2: RAKIP, oyuncu1_skor: 120, oyuncu2_skor: 90, kazanan: ben, terk_eden: null, senkron: true,
     oyuncu1_soru: 10, oyuncu2_soru: 10, soru_sayisi: 10, mevcut_soru: 10, created_at: "2026-10-14T10:00:00Z", kabul_at: "2026-10-14T10:00:05Z",
     p1: p(ben, "Sen", "/avatars/pro/tilki-k04.svg"), p2: p(RAKIP, "Deniz Yıldırımoğlu", "/avatars/pro2/samuray-y15.svg") };
 }
@@ -176,26 +193,31 @@ try {
     ok("maç sonu sayfa hatası yok", konsol.length === 0, konsol.join(" | "));
     await b.close();
 
-    // ---------- Ortak Hazine ve Klasik maç sonu: Paylaş sahnede ----------
-    for (const mod of ["kasa", "klasik"]) {
+    // ---------- Ortak Hazine, Klasik, Saf Bilgi, Grup, Turnuva maç sonu: Paylaş sahnede ----------
+    for (const mod of ["kasa", "klasik", "saf", "grup", "turnuva"]) {
       const bm = await baglamAc("tr", w, h);
       const sm = await bm.newPage();
       const hatalar = [];
       sm.on("pageerror", (e) => hatalar.push("SAYFA: " + String(e).slice(0, 200)));
       sm.on("console", (m) => { if (m.type() === "error" && /TypeError|ReferenceError|undefined/.test(m.text())) hatalar.push("KONSOL: " + m.text().slice(0, 300)); });
-      await sm.route(/\/rest\/v1\/(rpc\/|oyun_ayarlari|matches)/, async (r) => {
+      await sm.route(/\/rest\/v1\/(rpc\/|oyun_ayarlari|matches|group_matches|tournaments|tournament_players)/, async (r) => {
         const req = r.request(); const u = req.url();
         const json = (veri) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(veri) });
         try {
           if (u.includes("/rest/v1/oyun_ayarlari")) return json(Object.entries(KASA_AYAR).map(([anahtar, deger]) => ({ anahtar, deger })));
           if (u.includes("/rpc/kasa_durum")) return json(bitmisKasa(jwtSub(req)));
           if (u.includes("/rpc/kasa_giris")) return json({ durum: "bitti", rakip_geldi: true, kalan_sn: 0, baglanmayan: null });
-          if (u.includes("/rest/v1/matches")) return json(bitmisMac(jwtSub(req)));
+          if (u.includes("/rest/v1/matches")) return json(bitmisMac(jwtSub(req), mod === "saf"));
+          if (u.includes("/rest/v1/group_matches")) { const g = bitmisGrup(jwtSub(req)); return json(/vnd\.pgrst\.object/.test(req.headers()["accept"] || "") ? g : [g]); }
+          // Turnuva: açık turnuva yok, son biten bu turnuva
+          if (u.includes("/rest/v1/tournaments")) return json(/bitti/.test(decodeURIComponent(u)) ? [TURNUVA] : []);
+          if (u.includes("/rest/v1/tournament_players")) return json(turnuvaOyunculari(jwtSub(req)));
           if (u.includes("/rpc/mac_sonu_ozet")) return json(OZET);
           return r.fallback();
         } catch { try { await r.fallback(); } catch { /* */ } }
       });
-      await sm.goto(`${ADRES}/${mod === "kasa" ? "kasa" : "mac"}/${ID}`, { waitUntil: "domcontentloaded", timeout: 30000 });
+      const yol = { kasa: `/kasa/${ID}`, klasik: `/mac/${ID}`, saf: `/mac/${ID}`, grup: `/grup-mac/${ID}`, turnuva: "/turnuva" }[mod];
+      await sm.goto(`${ADRES}${yol}`, { waitUntil: "domcontentloaded", timeout: 30000 });
       await sm.waitForSelector(".msk-baslik", { timeout: 30000 }).catch(async (e) => { await sm.screenshot({ path: path.join(CIKTI, `_hata-${mod}.png`) }); console.log("URL", sm.url(), hatalar.join(" | ")); throw e; });
       await sm.waitForTimeout(3500);
       await paylasOlc(sm, `${mod}-${w}`);
@@ -236,10 +258,12 @@ try {
       const ortak = { kod: "QT7K2M", baglanti: `${location.origin}/davet/QT7K2M` };
       const sonuc = await m.paylasKartiCiz({ tur: "sonuc", ad: "Deniz Yıldırımoğlu", avatar: "/avatars/pro/tilki-k04.svg", benSkor: 15, rakipSkor: 12, durum: "kazandi", rakipAd: "Ayşe K.", ...ortak });
       const davet = await m.paylasKartiCiz({ tur: "davet", ad: "Deniz Yıldırımoğlu", ...ortak });
+      // 14 Eki 2026: çok oyunculu modlar (Grup, Turnuva) — skor yerine derece
+      const derece = await m.paylasKartiCiz({ tur: "sonuc", ad: "Deniz Yıldırımoğlu", avatar: "/avatars/pro/tilki-k04.svg", durum: "kaybetti", derece: 2, skorEtiket: "3 oyuncu arasında · 80 puan", ...ortak });
       const boyut = async (blob) => { const g = await createImageBitmap(blob); return [g.width, g.height]; };
-      return { sonuc: await veri(sonuc), davet: await veri(davet), sonucB: await boyut(sonuc), davetB: await boyut(davet), tip: [sonuc.type, davet.type] };
+      return { sonuc: await veri(sonuc), davet: await veri(davet), derece: await veri(derece), sonucB: await boyut(sonuc), davetB: await boyut(davet), dereceB: await boyut(derece), tip: [sonuc.type, davet.type, derece.type] };
     });
-    for (const tur of ["sonuc", "davet"]) {
+    for (const tur of ["sonuc", "davet", "derece"]) {
       fs.writeFileSync(path.join(CIKTI, `kart-${tur}-${dil}.png`), Buffer.from(kartlar[tur].split(",")[1], "base64"));
       ok(`kart ${tur} ${dil}: PNG 1080×1920`, kartlar[`${tur}B`][0] === 1080 && kartlar[`${tur}B`][1] === 1920 && kartlar.tip.every((t) => t === "image/png"), JSON.stringify(kartlar[`${tur}B`]));
     }

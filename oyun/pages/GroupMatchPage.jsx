@@ -12,6 +12,7 @@ import MacSorulari from "../components/MacSorulari.jsx";
 import MacOzetSatiri from "../components/MacOzetSatiri.jsx";
 import SureDolduGecis from "../components/SureDolduGecis.jsx";
 import MacSonuKutlama from "../components/MacSonuKutlama.jsx";
+import PaylasDugmesi from "../components/PaylasDugmesi.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
@@ -637,6 +638,9 @@ export default function GroupMatchPage() {
     return (
       <MacSonuKutlama
         durum={berabere ? "berabere" : kazandim ? "kazandi" : "kaybetti"}
+        // Ne 1. ne son (en düşük puanı paylaşmıyor) → "kaybettin" yerine nötr (beraberlik) sesi
+        sesDurum={!berabere && !kazandim && siraliSkor.length > 2
+          && (benimKayit?.skor ?? 0) > Math.min(...siraliSkor.map((k) => k.skor ?? 0)) ? "berabere" : undefined}
         mod="grup"
         baslik={berabere ? tt("BERABERE") : kazandim ? tt("ZAFER!") : derece > 1 ? tt("{n}. oldun", { n: derece }) : tt("Maç bitti")}
         altYazi={ceviri("Arkadaş maçı — ödül ve puan yok.")}
@@ -651,6 +655,14 @@ export default function GroupMatchPage() {
         rozetler={sahneVeri.rozetler}
         detayRozet={yanlisAdet}
         modOzet={<MacOzetSatiri kaynak={`grup:${id}`} />}
+        // Klasik/Düello/Hazine ile aynı: Paylaş sahnede, Detay'ı açmadan görünür; kartta skor yerine derece
+        paylas={
+          <PaylasDugmesi tur="sonuc" tur2="birincil" tamGenislik sonuc={{
+            ad: benimKayit?.profil?.gorunen_ad, avatar: benimKayit?.profil?.gorunen_avatar || null,
+            durum: berabere ? "berabere" : kazandim ? "kazandi" : "kaybetti", derece,
+            skorEtiket: tt("{t} oyuncu arasında · {p} puan", { t: siraliSkor.length, p: benimKayit?.skor ?? 0 }),
+          }} />
+        }
         detay={
           <>
             {oyuncuListesi(siraliSkor, (k) => <b className="qt-sayi">{k.skor}</b>, true)}
