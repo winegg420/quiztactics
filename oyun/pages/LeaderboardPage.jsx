@@ -621,7 +621,7 @@ export default function LeaderboardPage() {
             />
           </div>
         ) : ilk100.length === 1 && ilk100[0].user_id === user.id ? (
-          <div className="qt-kart qt-kart--yuzey qt-kart--dolgu-o">
+          <div className="qt-kart qt-kart--yuzey qt-kart--dolgu-o lg-yalniz">
             <QtBosDurum
               ikon="kisiler"
               gorsel="arkadaslar"

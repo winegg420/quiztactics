@@ -226,7 +226,8 @@
 .qt-dk-paket-adet b { font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); }
 .qt-dk-paket-adet small { font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); }
 .qt-dk-paket-metin h3 { overflow-wrap: anywhere; }
-.qt-dk-fiyat-eski { margin-right: 2px; font-weight: var(--qt-a-kalin); opacity: 0.7; text-decoration-thickness: 2px; }
+/* Yeşil (dogru) düğmede yazı #0d2a1b / zemin #2fd27a: 0,7 saydamlıkta kontrast 4,05:1 idi → 0,85 ile 5,7:1 (≥ 4,5) */
+.qt-dk-fiyat-eski { margin-right: 2px; font-weight: var(--qt-a-kalin); opacity: 0.85; text-decoration-thickness: 2px; }
 
 /* ——— Kurallar ——— */
 .qt-dk-kurallar {

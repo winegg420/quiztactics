@@ -45,8 +45,9 @@ const ARAC = ARAMA.get("arac") !== "0";
 const KABUK = ARAMA.get("kabuk") === "1";
 const DETAY = ARAMA.get("detay") !== "0";
 const profil = (id, ad, dosya) => ({ id, gorunen_ad: ad, gorunen_avatar: `/avatars/pro/${dosya}.svg` });
-const BEN = profil("onizleme-ben", "Deniz", "astronot-k17");
-const RAKIP = profil("onizleme-rakip", "Mert", "baykus-k03");
+// ?ben= / ?rakip= → uzun oyuncu adı ölçümü (yalnız bu sayfa).
+const BEN = profil("onizleme-ben", ARAMA.get("ben") || "Deniz", "astronot-k17");
+const RAKIP = profil("onizleme-rakip", ARAMA.get("rakip") || "Mert", "baykus-k03");
 
 /** level_kazancim yanıtı şeklinde örnek. */
 const xp = (x, level, levelXp, gereken, ek = {}) => ({

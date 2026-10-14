@@ -42,7 +42,8 @@ try {
   await s.waitForTimeout(1500);   // sayfa ayarları (kasa_modu_acik) gelsin
   await ara.click();
   await s.waitForTimeout(3000);
-  if (await s.getByRole("button", { name: /Rakip ara/i }).count()) { console.log("  · arama başlamadı, yeniden dokunuluyor"); await s.getByRole("button", { name: /Rakip ara/i }).first().click().catch(() => {}); }
+  // 14 Eki 2026: arama ekranı lobi düğmesinin ÜSTÜNE biner (düğme DOM'da kalır) → düğme sayısı arama başladı mı ölçmez; ekran metnine bakılır.
+  if (!(await s.getByText(/Rakip aranıyor|Rakip bulundu/i).count())) { console.log("  · arama başlamadı, yeniden dokunuluyor"); await s.getByRole("button", { name: /Rakip ara/i }).first().click().catch(() => {}); }
   await s.waitForURL(/\/kasa\/[0-9a-f-]{36}/, { timeout: 90000 });
   macId = s.url().match(/\/kasa\/([0-9a-f-]{36})/)[1];
   console.log("maç", macId);

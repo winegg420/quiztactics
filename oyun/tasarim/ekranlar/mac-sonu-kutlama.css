@@ -254,6 +254,8 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
   animation: msk-sol-gir var(--qt-s-orta) var(--qt-egri-cikis) calc(var(--t-avatar) + 200ms) backwards;
 }
 .msk-isim-metin { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Uzun adda da "Sen" çipi adın yerini yemez: yer yetmezse alt satıra iner (ad çipin yüzünden ikinci kez kesilmesin) */
+.msk-isim { flex-wrap: wrap; justify-content: center; row-gap: 0; }
 /* ≤ 8 karakterli ad hiçbir genişlikte kısalmaz: "Sen" çipi yer yetmezse alt satıra iner (ad "ida…" olmasın) */
 .msk-isim--kisa { flex-wrap: wrap; justify-content: center; row-gap: 0; }
 .msk-isim--kisa .msk-isim-dugme { flex: none; max-width: none; }
@@ -325,7 +327,7 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
   /* 360 px: iki avatar sütunu adlara yetsin diye skor rozeti daralır */
   .msk-skor { padding-inline: var(--qt-b-2); }
   .msk-skor-sayi { font-size: var(--qt-y-2xl); }
-  .msk-isim { padding-inline: var(--qt-b-2); }
+  .msk-isim { padding-inline: var(--qt-b-1); }
 }
 /* A.3: Klasik puanı 3 basamaklı (200–110) — rozet avatar sütunlarını daraltmasın */
 .msk-skor--uzun { padding-inline: var(--qt-b-2); }
