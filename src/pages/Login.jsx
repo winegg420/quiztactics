@@ -229,7 +229,8 @@ export default function Login() {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         // D-203: yeni hesapsa profil bu dille doğar (mevcut hesapta veri yok sayılır)
-        options: { emailRedirectTo: window.location.origin, data: { dil }, captchaToken },
+        // Yalnız uygulama A: e-posta TEK dilde gider — şablon dili bu adresten okur ({{ .RedirectTo }}, docs/eposta-sablon-GERI-AL.md)
+        options: { emailRedirectTo: `${window.location.origin}/?dil=${dil === "en" ? "en" : "tr"}`, data: { dil }, captchaToken },
       });
       if (error) throw error;
       setGonderildi(true);

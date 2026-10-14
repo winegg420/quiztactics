@@ -24,6 +24,9 @@ let gecti = 0, kaldi = 0;
 const ok = (ad, kosul, ek = "") => { if (kosul) { gecti++; console.log("  ✓", ad); } else { kaldi++; console.log("  ✗", ad, ek); } };
 
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
+// Uygulama kapısı (src/lib/uygulamaKipi.js): tarayıcıda oyun yerine kurulum sayfası açılır. Her bağlam ?dev=1 ile
+// aynı geliştirici geçişini alır (oturum işareti; localhost zaten serbest).
+{ const yeni = tarayici.newContext.bind(tarayici); tarayici.newContext = async (...a) => { const c = await yeni(...a); await c.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } }); return c; }; }
 const baglam = await tarayici.newContext({ storageState: OTURUM, viewport: { width: 390, height: 844 }, hasTouch: true, serviceWorkers: "block", locale: "tr-TR" });
 await baglam.addInitScript(() => { try { localStorage.setItem("bildim_tanitim", "1"); localStorage.setItem("bildim_dil", "tr"); } catch { /* yok */ } });
 const s = await baglam.newPage();

@@ -36,6 +36,9 @@ const esikGeriAl = async () => {
 const rapor = { adres: ADRES, tarih: new Date().toISOString(), gecisler: [], bant: [], sifirBekleme: [], cevapSonrasi: [], kart: [], macSonuBosMs: null, ilkTik: null, mac: null };
 
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
+// Uygulama kapısı (src/lib/uygulamaKipi.js): tarayıcıda oyun yerine kurulum sayfası açılır. Her bağlam ?dev=1 ile
+// aynı geliştirici geçişini alır (oturum işareti; localhost zaten serbest).
+{ const yeni = tarayici.newContext.bind(tarayici); tarayici.newContext = async (...a) => { const c = await yeni(...a); await c.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } }); return c; }; }
 try {
   const b = await tarayici.newContext({ storageState: ham, viewport: { width: 390, height: 844 }, hasTouch: true, locale: "tr-TR", timezoneId: "Europe/Istanbul" });
   await b.addInitScript(() => { try { localStorage.setItem("bildim_duello_tanitim_v14", "1"); } catch { /* yok */ } });

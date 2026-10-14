@@ -64,6 +64,9 @@ const aktif = await pg.tek(`select count(*)::text from duellolar where durum = '
 if (aktif !== "0") { console.log("DUR: test hesabının aktif düellosu var"); process.exit(1); }
 
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
+// Uygulama kapısı (src/lib/uygulamaKipi.js): tarayıcıda oyun yerine kurulum sayfası açılır. Her bağlam ?dev=1 ile
+// aynı geliştirici geçişini alır (oturum işareti; localhost zaten serbest).
+{ const yeni = tarayici.newContext.bind(tarayici); tarayici.newContext = async (...a) => { const c = await yeni(...a); await c.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } }); return c; }; }
 const kok = new URL(ADRES).origin;
 const oyuncular = [];
 async function ac(ad, hesap) {

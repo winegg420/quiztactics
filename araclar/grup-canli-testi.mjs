@@ -14,6 +14,9 @@ const durum = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
 const yerel = durum.origins?.[0]?.localStorage ?? [];
 
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
+// Uygulama kapısı (src/lib/uygulamaKipi.js): tarayıcıda oyun yerine kurulum sayfası açılır. Her bağlam ?dev=1 ile
+// aynı geliştirici geçişini alır (oturum işareti; localhost zaten serbest).
+{ const yeni = tarayici.newContext.bind(tarayici); tarayici.newContext = async (...a) => { const c = await yeni(...a); await c.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } }); return c; }; }
 const baglam = await tarayici.newContext({ ...devices["Pixel 7"], viewport: { width: 390, height: 800 } });
 await baglam.addInitScript((kayitlar) => {
   if (sessionStorage.getItem("__grupTestiYuklendi")) return;

@@ -36,6 +36,9 @@ const BOT = await tek(`select id::text from profiles where is_bot order by creat
 
 let macId = null;
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
+// Uygulama kapısı (src/lib/uygulamaKipi.js): tarayıcıda oyun yerine kurulum sayfası açılır. Her bağlam ?dev=1 ile
+// aynı geliştirici geçişini alır (oturum işareti; localhost zaten serbest).
+{ const yeni = tarayici.newContext.bind(tarayici); tarayici.newContext = async (...a) => { const c = await yeni(...a); await c.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } }); return c; }; }
 try {
   await db.sorgu(`update profiles set last_seen = now() where id in (${alintila(uid)}, ${alintila(BOT)})`);
   await db.sorgu(`select set_config('request.jwt.claim.sub', ${alintila(uid)}, false)`);

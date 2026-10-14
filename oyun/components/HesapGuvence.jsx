@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { acikSaglayicilariOku, ACIK_SAGLAYICILAR, epostaGirisGorunur } from "../../src/lib/saglayicilar.js";
-import { tt } from "../lib/dil.js";
+import { tt, aktifDil } from "../lib/dil.js";
 import { QtDugme, QtIkon, QtKart } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-profil.css";
 
@@ -77,7 +77,8 @@ function BaglamaFormu() {
     try {
       const { error } = await supabase.auth.updateUser(
         { email: email.trim() },
-        { emailRedirectTo: `${window.location.origin}${window.location.pathname}` }
+        // E-posta TEK dilde: şablon dili bu adresten okur ({{ .RedirectTo }}, docs/eposta-sablon-GERI-AL.md)
+        { emailRedirectTo: `${window.location.origin}/?dil=${aktifDil() === "en" ? "en" : "tr"}` }
       );
       if (error) throw error;
       setGonderildi(true);

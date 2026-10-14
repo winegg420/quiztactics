@@ -94,6 +94,9 @@ const HAZIRLIK = ({ kayitlar, koken, dil }) => {
   } catch { /* depolama kapalı */ }
 };
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
+// Uygulama kapısı (src/lib/uygulamaKipi.js): tarayıcıda oyun yerine kurulum sayfası açılır. Her bağlam ?dev=1 ile
+// aynı geliştirici geçişini alır (oturum işareti; localhost zaten serbest).
+{ const yeni = tarayici.newContext.bind(tarayici); tarayici.newContext = async (...a) => { const c = await yeni(...a); await c.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } }); return c; }; }
 const konsol = { A: [], B: [] };
 async function bagla(ad, h) {
   const b = await tarayici.newContext({ ...devices["Pixel 7"], viewport: { width: GEN, height: YUK }, deviceScaleFactor: 2,

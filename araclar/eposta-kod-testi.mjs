@@ -33,7 +33,7 @@ async function kur({ istekler, kur: ek, dil } = {}) {
     const yol = u.pathname;
     let govde = null;
     try { govde = r.request().postDataJSON(); } catch { /* gövde yok */ }
-    istekler?.push({ yol, yontem: r.request().method(), govde });
+    istekler?.push({ yol, yontem: r.request().method(), govde, ara: u.searchParams.get("redirect_to") });
     const json = (status, veri) => r.fulfill({ status, contentType: "application/json", body: JSON.stringify(veri) });
     if (yol.endsWith("/auth/v1/otp")) return json(200, {});
     if (yol.endsWith("/auth/v1/verify")) {
@@ -80,6 +80,7 @@ for (const dil of ["tr", "en"]) {
   await sayfa.waitForSelector("#g-giris-kod", { timeout: 5000 }).catch(() => {});
   const otp = istekler.find((i) => i.yol.endsWith("/auth/v1/otp"));
   sonuc(`[${dil}] /otp isteği (e-posta + captcha)`, otp?.govde?.email === "deneme@ornek.com" && otp?.govde?.gotrue_meta_security?.captcha_token === "sahte-captcha");
+  sonuc(`[${dil}] e-posta dili adreste (redirect_to ?dil=${dil})`, (otp?.ara ?? "").endsWith(`/?dil=${dil}`), otp?.ara);
   const kodAlani = sayfa.locator("#g-giris-kod");
   sonuc(`[${dil}] kod alanı açıldı (one-time-code, numeric)`, (await kodAlani.count()) === 1
     && (await kodAlani.getAttribute("autocomplete")) === "one-time-code" && (await kodAlani.getAttribute("inputmode")) === "numeric");
@@ -137,6 +138,8 @@ for (const dil of ["tr", "en"]) {
     sonuc("misafir: yanlış kod → hata", /Kod yanlış ya da süresi dolmuş/.test((await sayfa.locator(".qt-pf-hata").first().textContent().catch(() => "")) ?? ""));
     await kodAlani.fill(DOGRU_KOD);
     await sayfa.click(".qt-pf-guvence-eposta button[type=submit]");
+    const put = istekler.find((i) => i.yol.endsWith("/auth/v1/user") && i.yontem === "PUT");
+    sonuc("misafir: e-posta dili adreste (?dil=tr)", (put?.ara ?? "").endsWith("/?dil=tr"), put?.ara);
     const v = istekler.filter((i) => i.yol.endsWith("/auth/v1/verify")).pop();
     sonuc("misafir: /verify type=email_change, yeni adres", v?.govde?.type === "email_change" && v?.govde?.email === "deneme@ornek.com" && v?.govde?.token === DOGRU_KOD);
     const tamam = await sayfa.getByText("Hesabın artık kalıcı").first().waitFor({ timeout: 5000 }).then(() => true).catch(() => false);

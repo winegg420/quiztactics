@@ -26,6 +26,9 @@ const satir = async (id) => (await db.sorgu(`select faz, tur::text tur, soru_id:
   extract(epoch from now() - kopuk_at)::int::text gecen, coalesce(kazanan::text, '') kazanan from kasa_maclari where id = '${id}'`))[0];
 
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
+// Uygulama kapısı (src/lib/uygulamaKipi.js): tarayıcıda oyun yerine kurulum sayfası açılır. Her bağlam ?dev=1 ile
+// aynı geliştirici geçişini alır (oturum işareti; localhost zaten serbest).
+{ const yeni = tarayici.newContext.bind(tarayici); tarayici.newContext = async (...a) => { const c = await yeni(...a); await c.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } }); return c; }; }
 const yeni = async (dosya) => {
   const b = await tarayici.newContext({ storageState: durumDosya(dosya), viewport: { width: 390, height: 844 }, hasTouch: true, serviceWorkers: "block" });
   const s = await b.newPage();

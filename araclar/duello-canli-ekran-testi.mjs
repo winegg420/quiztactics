@@ -171,6 +171,9 @@ const kirildi = (m) => { rapor.kirilanlar.push(m); console.log("  ✗ KIRILAN:",
 const notEkle = (m) => { rapor.notlar.push(m); console.log("  ·", m); };
 
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });   // tek tarayıcı, iki bağlam
+// Uygulama kapısı (src/lib/uygulamaKipi.js): tarayıcıda oyun yerine kurulum sayfası açılır. Her bağlam ?dev=1 ile
+// aynı geliştirici geçişini alır (oturum işareti; localhost zaten serbest).
+{ const yeni = tarayici.newContext.bind(tarayici); tarayici.newContext = async (...a) => { const c = await yeni(...a); await c.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } }); return c; }; }
 async function baglamAc(ad, hesap) {
   const b = await tarayici.newContext({ ...devices["Pixel 7"], viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, locale: "tr-TR", timezoneId: "Europe/Istanbul" });
   await b.addInitScript(SAYFA_HAZIRLIK, { tanitimAnahtari: duelloTanitimAnahtari(), kayitlar: hesap.kayitlar, koken: KOKEN });

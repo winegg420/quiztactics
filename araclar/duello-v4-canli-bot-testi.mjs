@@ -38,6 +38,9 @@ ok("A v4 test listesinde", (await tek(`select duello_v2_test_kullanicisi_mi(${al
 await db.sorgu(`update duellolar set durum = 'iptal', bitis = now() where durum = 'aktif' and ${alintila(A)} in (oyuncu1, oyuncu2)`);
 
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
+// Uygulama kapısı (src/lib/uygulamaKipi.js): tarayıcıda oyun yerine kurulum sayfası açılır. Her bağlam ?dev=1 ile
+// aynı geliştirici geçişini alır (oturum işareti; localhost zaten serbest).
+{ const yeni = tarayici.newContext.bind(tarayici); tarayici.newContext = async (...a) => { const c = await yeni(...a); await c.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } }); return c; }; }
 const b = await tarayici.newContext({ storageState: durumDosya, viewport: { width: 390, height: 844 }, hasTouch: true, serviceWorkers: "block" });
 const s = await b.newPage();
 const konsol = [];

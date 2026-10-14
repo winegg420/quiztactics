@@ -16,6 +16,9 @@ const db = await new PgIstemci(await baglantiDizgisi()).baglan();
 let hata = 0;
 const ok = (ad, k, ek = "") => { if (k) console.log("  ✓", ad); else { hata++; console.log("  ✗", ad, ek); } };
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
+// Uygulama kapısı (src/lib/uygulamaKipi.js): tarayıcıda oyun yerine kurulum sayfası açılır. Her bağlam ?dev=1 ile
+// aynı geliştirici geçişini alır (oturum işareti; localhost zaten serbest).
+{ const yeni = tarayici.newContext.bind(tarayici); tarayici.newContext = async (...a) => { const c = await yeni(...a); await c.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } }); return c; }; }
 try {
   const katAktif = await db.tek(`select aktif from avatar_katalogu where url='${KAT}'`);
   const kilitler = [HAZIR, DIGER, ...(katAktif === "t" ? [KAT] : [])];

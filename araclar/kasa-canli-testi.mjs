@@ -199,6 +199,9 @@ const notEkle = (m) => { rapor.notlar.push(m); console.log("  ·", m); };
 const adim = (m) => { rapor.adimlar.push(`+${sn()} ${m}`); console.log(`· +${sn()}s ${m}`); };
 
 const tarayici = await chromium.launch({ channel: "chrome", headless: true, args: ["--autoplay-policy=no-user-gesture-required"] });
+// Uygulama kapısı (src/lib/uygulamaKipi.js): tarayıcıda oyun yerine kurulum sayfası açılır. Her bağlam ?dev=1 ile
+// aynı geliştirici geçişini alır (oturum işareti; localhost zaten serbest).
+{ const yeni = tarayici.newContext.bind(tarayici); tarayici.newContext = async (...a) => { const c = await yeni(...a); await c.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } }); return c; }; }
 async function baglamAc(ad, hesap) {
   const b = await tarayici.newContext({ ...devices["Pixel 7"], viewport: { width: GEN, height: YUK }, deviceScaleFactor: 2,
     locale: DIL === "en" ? "en-US" : "tr-TR", timezoneId: "Europe/Istanbul", reducedMotion: AZALT ? "reduce" : "no-preference" });
