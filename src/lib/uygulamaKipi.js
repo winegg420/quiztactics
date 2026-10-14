@@ -143,3 +143,62 @@ export function masaustuMu() {
   if (iosMu() || androidMu()) return false;
   return !/mobile/i.test(ua());
 }
+
+// ---------- kurulum önerisi (beforeinstallprompt: Android Chrome, masaüstü Chrome/Edge) ----------
+// Olay sayfa açılır açılmaz gelebilir (kurulum sayfası tembel yüklenmeden önce); bu yüzden modül
+// yüklenince dinlenir ve saklanır. preventDefault Chrome'un kendi mini bandını bastırır — düğmeyi
+// kurulum sayfası gösterir. iOS/Safari/Firefox bu olayı hiç göndermez.
+let kurulumOlayi = (typeof window !== "undefined" && window.__qtKurulumOlayi) || null;   // baslat.js erken yakaladıysa
+let kurulumBitti = false;
+const kurulumDinleyiciler = new Set();
+const kurulumBildir = () => kurulumDinleyiciler.forEach((f) => { try { f(); } catch { /* dinleyici hatası kapıyı bozmasın */ } });
+
+if (typeof window !== "undefined") {
+  try {
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      kurulumOlayi = e;
+      kurulumBildir();
+    });
+    window.addEventListener("appinstalled", () => {
+      kurulumOlayi = null;
+      kurulumBitti = true;
+      kurulumBildir();
+    });
+  } catch { /* olay desteklenmiyor: menüden kurulum anlatılır */ }
+}
+
+/** { hazir: kur düğmesi gösterilebilir mi, kuruldu: bu sekmede kurulum tamamlandı mı } */
+export function kurulumDurumu() {
+  return { hazir: Boolean(kurulumOlayi), kuruldu: kurulumBitti };
+}
+
+/** Durum değişince çağrılır; dönen işlev aboneliği kaldırır. */
+export function kurulumDinle(fn) {
+  kurulumDinleyiciler.add(fn);
+  return () => kurulumDinleyiciler.delete(fn);
+}
+
+/** Tarayıcının kurulum penceresini açar. Dönüş: "accepted" | "dismissed" | "yok". */
+export async function kurulumuBaslat() {
+  const olay = kurulumOlayi;
+  if (!olay) return "yok";
+  kurulumOlayi = null;   // olay tek kullanımlık
+  try { window.__qtKurulumOlayi = null; } catch { /* yok */ }
+  try {
+    await olay.prompt();
+    const { outcome } = await olay.userChoice;
+    if (outcome === "accepted") kurulumBitti = true;
+    return outcome;
+  } catch (e) {
+    console.warn("[Kurulum] kurulum penceresi açılamadı:", e?.message ?? e);
+    return "yok";
+  } finally {
+    kurulumBildir();
+  }
+}
+
+/** Masaüstü Chromium (Chrome/Edge/Opera/Brave) — kurulum destekler. */
+export function masaustuChromiumMu() {
+  return masaustuMu() && /chrome|chromium|edg\//i.test(ua()) && !/firefox/i.test(ua());
+}

@@ -18,6 +18,8 @@ Bu dosya projenin BUGÜNKÜ gerçeğini tutar, tarihçesini değil.
 PWA. Tek depo, tek Vercel projesi; ana adres **quiztactics.com** (10 Eki 2026: quiztactics.vercel.app → quiztactics.com kalıcı yönlendirme, `vercel.json › redirects`, yalnız bu host; www Vercel alan ayarıyla yönlenir; önizleme *.vercel.app adresleri etkilenmez).
 
 18 Eylül 2026'da `idagggamecenter` hub'ından kendi deposuna ayrıldı.
+
+**Yalnız uygulama (Ida, 14 Eki 2026):** oyun yalnız kurulu uygulamada açılır (iOS ana ekran, Android/masaüstü PWA, ileride Play Store TWA). Tarayıcı sekmesinde oyun rotaları yerine `src/pages/KurulumSayfasi.jsx` (tanıtım + platforma göre kurulum: Android/masaüstü Chromium `beforeinstallprompt` düğmesi, iOS Safari adımları, iOS Safari-dışı/Android uygulama içi tarayıcı → "Safari'de aç"/"Chrome'da aç", macOS Safari Dock'a Ekle, diğer masaüstü → QR `public/quiztactics-qr.svg`). Kapı ve tek "uygulama içinde mi" ölçümü: `src/lib/uygulamaKipi.js` (deneyim kapısı, güvenlik değil). Tarayıcıda serbest: /gizlilik /kosullar /hesap-sil + SahipKapisi'li geliştirici sayfaları. Geliştirici geçişi: localhost ve `?dev=1` (oturum boyu; arayüzde hiç geçmez). Test: `araclar/uygulama-kapisi-testi.mjs` (vite preview + `__VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS=qt.test`). Sıradaki aşamalar: e-posta 6 haneli kod, davet kodu 3 katman (`bekleyen_davet`), push yalnız uygulamada.
 13 Ekim 2026’da Supabase’i kendi projesine taşındı: **`etezccrifaetzrgfvawl`** (quiztacticsapp@gmail.com, eu-central-1, ücretsiz). Eski proje `zfpnxzybcpkxsotwdsey` = **eski (hub)**: hub oyunları orada kalır, Quiz Tactics cron işleri orada durduruldu (silinmedi). Ayrıntı: `docs/TASIMA-ENVANTER.md`, `docs/TASIMA-DOGRULAMA.md`.
 `VITE_MOD` ve iki-mod ayrımı kalktı; site kimliği `index.html` içinde
 statik durur.

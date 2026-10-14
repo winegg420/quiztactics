@@ -12244,3 +12244,15 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - `KurulumSayfasi` (temel sürüm; Aşama 2'de platforma özel kurulum): giriş ekranı düzeni (g-giris), /davet/:kod gelirse kod `bildim_davet_kodu`'na yazılır (Android/masaüstünde uygulama aynı depoyu paylaşır).
 - `oyuncu-testi.mjs` geliştirici geçişini init script ile alır. Diğer eski canlı test betikleri (`araclar/*-canli-*.mjs`) gerekirse aynı satırı almalı.
 - Test: build temiz · `araclar/uygulama-kapisi-testi.mjs` (vite preview + qt.test adı, Supabase kesik) 17/17: tarayıcıda 5 oyun rotası → kurulum, 3 yasal sayfa serbest, ?dev=1 açar/silinir/oturumda kalır, standalone + iOS standalone + TWA → oyun, /davet kod saklandı, sayfada "dev" yok.
+
+## 2026-10-14 — Yalnız uygulama: Aşama 2 — kurulum sayfası
+**Araç:** Claude Code
+**Neden:** Kapıdan sonra tarayıcıya düşen oyuncunun her platformda uygulamayı kurabilmesi.
+- `KurulumSayfasi` platforma göre (`data-senaryo`): **ios-safari** 4 adım (Paylaş → Ana Ekrana Ekle → Ekle → simgeden aç; ikonlar `AnaEkranaEkle`'den dışa aktarıldı) · **ios-safari-degil** (iOS Chrome/Firefox/Instagram…) "Safari'de aç" anlatımı + bağlantıyı kopyala · **android-uygulama-ici** (Instagram/Facebook/`; wv)` WebView) "Chrome'da aç" = `intent://…;package=com.android.chrome;S.browser_fallback_url=…` + kopyala · **android** / **masaustu-chromium**: `beforeinstallprompt` geldiyse "Uygulamayı yükle" düğmesi (kabul → "Uygulama kuruldu" + simgeden aç), gelmediyse menüden kurulum adımı · **mac-safari** Dosya → Dock'a Ekle + QR · **masaustu-diger** (Firefox) "kuramıyor, Chrome/Edge ya da telefon" + QR.
+- `beforeinstallprompt` en erken `src/baslat.js`'te yakalanır (`window.__qtKurulumOlayi`), `uygulamaKipi.js` devralır (`kurulumDurumu/kurulumDinle/kurulumuBaslat`); `appinstalled` dinlenir. Chrome'un kendi mini bandı bastırılır.
+- QR: `public/quiztactics-qr.svg` (https://quiztactics.com, M düzeltme) — `npx qrcode@1.5.4` ile scratchpad'de BİR KEZ üretildi, projeye paket eklenmedi. Davet adresi QR'a girmez (Aşama 4 sunucu eşleştirmesi/elle kod).
+- Kopyala düğmesi o anki adresi (davet yolu dahil) kopyalar; pano izni yoksa adres seçilebilir metin olarak yazılır.
+- Stil `oyun/tasarim/ekranlar/g-kurulum.css` (fixed/transform yok; QR dokunmatik dar ekranda gizli). EN `oyun/lib/ceviri/kurulum.js` (dil-en.js'e eklendi).
+- Manifest `screenshots` EKLENMEDİ: gerçek oyun ekranı görüntüsü gerekiyor; açık iş.
+- Test: build temiz · `uygulama-kapisi-testi.mjs` 41/41: 10 UA senaryosu (iOS Safari/Chrome/Instagram, Android Chrome/Instagram/Facebook, macOS Safari, Win Chrome/Edge/Firefox), QR görünürlüğü, taklit `beforeinstallprompt` (DOMContentLoaded'da, erken yakalama) → düğme 52 px → istem → "kuruldu", 390 TR/EN · 360 · 1440 TR/EN'de dil doğru, yatay taşma 0, <44 px hedef 0, konsol hatası 0. Ekran görüntüleri gözle kontrol edildi.
+- Gerçek cihazda bakılacak (headless'ta ölçülemez): intent:// ile Chrome'a geçiş, iOS paylaş menüsü, macOS Dock'a Ekle, gerçek Chrome kurulum penceresi.

@@ -7,6 +7,12 @@
 import { aktifDil, sozlukYukle, turkceyeDus } from "../oyun/lib/dil.js";
 import { dilUyarisiGoster } from "../oyun/lib/dilUyari.js";
 
+// Kurulum önerisi (beforeinstallprompt) uygulama modülleri inmeden gelebilir: en erken burada yakalanır,
+// src/lib/uygulamaKipi.js devralır (kurulum sayfasındaki "Uygulamayı yükle" düğmesi).
+try {
+  window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); window.__qtKurulumOlayi = e; });
+} catch { /* olay desteklenmiyor */ }
+
 const BEKLEME_KIMLIK = "qt-acilis-bekleme";
 const ORTA = "display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;min-height:100dvh;margin:0;padding:24px;text-align:center;font:600 16px/1.4 system-ui,sans-serif;color:#1b2a4a";
 

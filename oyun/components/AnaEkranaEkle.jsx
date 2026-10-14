@@ -43,7 +43,7 @@ function dahaOnceKapatildi() {
 }
 
 /** Safari'nin paylaş ikonu — kutudan yukarı çıkan ok. */
-function PaylasIkonu({ boyut = 20 }) {
+export function PaylasIkonu({ boyut = 20 }) {
   return (
     <svg
       width={boyut}
@@ -65,7 +65,7 @@ function PaylasIkonu({ boyut = 20 }) {
 }
 
 /** Ana ekrana ekleme adımındaki artı kutusu. */
-function ArtiKutuIkonu({ boyut = 20 }) {
+export function ArtiKutuIkonu({ boyut = 20 }) {
   return (
     <svg
       width={boyut}

@@ -18,6 +18,7 @@ Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık
 - 👀 **Rakibin şıkkı ve ortalama cevap süren** — Klasik, Saf Bilgi ve Ortak Hazine'de soru kapanınca rakibin hangi şıkkı seçtiği küçük avatarıyla görünür; maç sonunda "Ort. cevap 6,2 sn · rakip 8,1 sn".
 - 👥 Arkadaşlar, meydan okuma, rövanş, grup maçı, saf bilgi, hatalarım, görevler, dükkân ve koleksiyon.
 - 🤖 **Claude API ile soru üretimi** — Sorular Edge Function ile üretilir ve veritabanına kaydedilir.
+- 📲 **Yalnız uygulama** — Oyun kurulu uygulamada oynanır (iPhone: Safari › Paylaş › Ana Ekrana Ekle · Android/masaüstü Chrome-Edge: Uygulamayı yükle · macOS Safari: Dock'a Ekle). quiztactics.com tarayıcıda tanıtım + kurulum sayfasıdır; Firefox gibi kurulum desteklemeyen tarayıcılara telefon için QR gösterilir.
 - 🔐 Google / Facebook / X ile giriş, e-posta sihirli bağlantı ve misafir oyun.
 
 ## Teknolojiler

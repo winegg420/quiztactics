@@ -1,144 +1,46 @@
-/* =====================================================================
-   ŞERİT G — TANITIM (Tanitim.jsx) + KURULUM SİHİRBAZI (KurulumSihirbazi.jsx)
-   İkisi de eski Modal'ın (bd-modal-katman + qt-ortu) içinde `.qt-modal` paneli.
-   ===================================================================== */
-
-/* Tanıtım ilk açılışta her şeyin üstünde (eski katman z 210 idi). */
-.bd-modal-katman.g-tanitim-katman { z-index: 210; }
-
-/* ---------- Tanıtım ---------- */
-.g-tanitim { gap: var(--qt-b-4); text-align: center; }
-.g-tanitim-ust {
+/* Kurulum sayfası (src/pages/KurulumSayfasi.jsx) — giriş ekranı düzeni (g-giris) üstüne
+   yalnız kurulum kartının iç düzeni. Adım listesi g-ekle.css › .g-ekle-adimlar.
+   fixed/transform yok (iOS kuralı). */
+.g-kurulum-icerik {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--qt-b-3);
-  margin: calc(-1 * var(--qt-b-2)) calc(-1 * var(--qt-b-2)) 0 0;
+  flex-direction: column;
+  gap: var(--qt-b-4);
+  margin-top: var(--qt-b-2);
 }
-.g-tanitim-noktalar { display: flex; gap: var(--qt-b-2); }
-.g-tanitim-nokta {
-  width: 10px;
-  height: 10px;
-  border-radius: var(--qt-r-hap);
-  background: var(--qt-cizgi-guclu);
-  transition: width var(--qt-s-orta) var(--qt-egri-cikis), background-color var(--qt-s-orta) var(--qt-egri-cikis);
+.g-kurulum-icerik > p { margin: 0; }
+.g-kurulum-tamam {
+  font-family: var(--qt-f-baslik);
+  font-weight: var(--qt-a-siyah);
+  color: var(--qt-dogru-koyu);
 }
-.g-tanitim-nokta--aktif { width: 28px; background: var(--qt-ikinci); }
-
-.g-tanitim-icerik { display: flex; flex-direction: column; align-items: center; gap: var(--qt-b-3); }
-.g-tanitim-gorsel {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 100%;
-  border-radius: var(--qt-r-l);
-}
-/* 4 kart (11 Eki 2026): mod rengi zemin + açık ışın (.qt-isin-sahne) + büyük ModFiguru; lig kartı sarı + kupa */
-.g-tanitim-gorsel.qt-isin-sahne { --isin-m: 50% 50%; min-height: 168px; box-shadow: 0 var(--qt-dudak-s) 0 var(--_d); }
-.g-tanitim-gorsel--klasik { --isin-zemin: var(--qt-mod-klasik); --_d: var(--qt-mod-klasik-dudak); }
-.g-tanitim-gorsel--duello { --isin-zemin: var(--qt-mod-duello); --_d: var(--qt-mod-duello-dudak); }
-.g-tanitim-gorsel--kasa { --isin-zemin: var(--qt-mod-kasa); --_d: var(--qt-mod-kasa-dudak); }
-.g-tanitim-gorsel--lig { --isin-zemin: var(--qt-mod-turnuva); --_d: var(--qt-mod-turnuva-dudak); }
-.g-tanitim-gorsel .g-tanitim-figur { width: 120px; height: 120px; }
-@media (max-height: 700px) {
-  .g-tanitim-gorsel.qt-isin-sahne { min-height: 136px; }
-  .g-tanitim-gorsel .g-tanitim-figur { width: 96px; height: 96px; }
-}
-.g-tanitim .g-tanitim-baslik { font-size: var(--qt-y-2xl); }
-.g-tanitim .g-tanitim-metin { font-size: var(--qt-y-m); text-wrap: pretty; margin-inline: auto; }
-
-/* ---------- Kurulum sihirbazı ---------- */
-.g-sihirbaz { gap: var(--qt-b-4); }
-.g-sihirbaz-adimlar { display: flex; align-items: center; gap: var(--qt-b-3); }
-.g-sihirbaz-cizgi { display: flex; flex: 1; gap: var(--qt-b-2); }
-.g-sihirbaz-parca {
-  flex: 1;
-  height: 8px;
-  border-radius: var(--qt-r-hap);
-  background: var(--qt-yuzey-3);
-  transition: background-color var(--qt-s-orta) var(--qt-egri-cikis);
-}
-.g-sihirbaz-parca--dolu { background: var(--qt-ikinci); }
-.g-sihirbaz-adim { display: flex; flex-direction: column; gap: var(--qt-b-4); }
-.g-sihirbaz-adim > .qt-kucuk { margin-top: calc(-1 * var(--qt-b-2)); }
-.g-sihirbaz .g-sihirbaz-hata { width: 100%; min-height: 0; box-shadow: 0 3px 0 var(--qt-cizgi); }
-
-/* Avatar ızgarası: dar telefonda 4, geniş panelde 5 sütun; en az 56 px hedef. */
-.g-avatar-izgara {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
-  gap: var(--qt-b-2);
-  max-height: min(40dvh, 300px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  /* 58 avatar (31 hazır + 27 katalog) bu kutuda kaydırılır: iOS'ta iç kaydırma parmağı izlesin, yatay kaydırma yok */
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
-  overflow-x: hidden;
-  padding: var(--qt-b-1) var(--qt-b-1) var(--qt-b-2);
-  margin: 0 calc(-1 * var(--qt-b-1));
-}
-.g-avatar-sec {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 1;
-  min-width: 44px;
+.g-kurulum-adres {
   margin: 0;
-  padding: var(--qt-b-1);
-  border: 3px solid transparent;
-  border-radius: var(--qt-r-m);
+  padding: var(--qt-b-2) var(--qt-b-3);
+  border-radius: var(--qt-r-s);
   background: var(--qt-yuzey-2);
-  box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-cizgi);
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform var(--qt-s-basma) var(--qt-egri-cikis), box-shadow var(--qt-s-basma) var(--qt-egri-cikis),
-    border-color var(--qt-s-kisa) var(--qt-egri-cikis), background-color var(--qt-s-kisa) var(--qt-egri-cikis);
+  overflow-wrap: anywhere;
+  user-select: all;
+  -webkit-user-select: all;
 }
-.g-avatar-sec img { display: block; width: 100%; height: auto; pointer-events: none; }
-.g-avatar-sec:active { transform: translateY(var(--qt-dudak-s)); box-shadow: 0 0 0 var(--qt-cizgi); }
-.g-avatar-sec--secili { border-color: var(--qt-ikinci); background: var(--qt-ikinci-acik); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-ikinci-dudak); }
-.g-avatar-sec:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
-@media (hover: hover) and (pointer: fine) {
-  .g-avatar-sec:not(.g-avatar-sec--secili):hover { background: var(--qt-yuzey-3); }
-}
-
-.g-sihirbaz-google { display: inline-flex; align-items: center; gap: var(--qt-b-2); }
-.g-sihirbaz-google img { width: 26px; height: 26px; border-radius: var(--qt-r-hap); }
-
-/* Canlı oyuncu kartı önizlemesi (11 Eki 2026; eski alttaki "O Oyuncu" satırının yerine) — Profil kimlik kartının küçüğü.
-   Mavi = sen. */
-.g-sihirbaz-kart {
+.g-kurulum-qr {
   display: flex;
   align-items: center;
-  gap: var(--qt-b-3);
-  min-width: 0;
-  padding: var(--qt-b-2) var(--qt-b-3);
-  border: 2px solid var(--qt-ikinci);
-  border-radius: var(--qt-r-l);
-  background: var(--qt-ikinci-acik);
-  box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-ikinci-dudak);
+  gap: var(--qt-b-4);
+  padding-top: var(--qt-b-3);
+  border-top: 1px solid var(--qt-cizgi);
 }
-.g-sihirbaz-kart-avatar { flex: none; display: grid; place-items: center; width: 56px; height: 56px; }
-.g-sihirbaz-kart-bos {
-  display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%;
-  border: 2px dashed var(--qt-cizgi-guclu); background: var(--qt-yuzey);
-  font: var(--qt-a-siyah) 26px/1 var(--qt-f-baslik); color: var(--qt-metin-soluk);
+.g-kurulum-qr img {
+  flex: none;
+  width: 132px;
+  height: 132px;
+  padding: 6px;
+  border-radius: 12px;
+  background: #fff;
+  image-rendering: pixelated;
 }
-.g-sihirbaz-kart-metin { display: grid; gap: 2px; min-width: 0; }
-.g-sihirbaz-kart-metin b {
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  font: var(--qt-a-siyah) var(--qt-y-l)/1.15 var(--qt-f-baslik); color: var(--qt-metin);
+.g-kurulum-qr p { margin: 0; }
+/* QR telefonda gereksiz: masaüstü tarayıcı dar pencerede açılsa da gösterilir; yalnız dokunmatik
+   küçük ekranda gizlenir. */
+@media (pointer: coarse) and (max-width: 700px) {
+  .g-kurulum-qr { display: none; }
 }
-.g-sihirbaz-kart-konum {
-  display: flex; align-items: center; gap: 6px; min-width: 0;
-  font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin);
-}
-.g-sihirbaz-kart-konum > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.g-sihirbaz-kart .g-sihirbaz-kart-yer { color: var(--qt-metin-soluk); font-weight: var(--qt-a-kalin); }
-.g-avatar-kilit-baslik { margin-top: var(--qt-b-3); color: var(--qt-metin); }
-
-@media (prefers-reduced-motion: reduce) {
-  .g-tanitim-nokta, .g-sihirbaz-parca, .g-avatar-sec { transition: none; }
-  .g-avatar-sec:active { transform: none; }
-}
-

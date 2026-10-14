@@ -123,6 +123,115 @@ for (const [ad, kur] of [["display-mode standalone", standalone], ["iOS navigato
   await baglam.close();
 }
 
+// ---------- Aşama 2: platforma göre kurulum yolu ----------
+const UA = {
+  iosSafari: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1",
+  iosChrome: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/126.0.6478.54 Mobile/15E148 Safari/604.1",
+  iosInstagram: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 340.0.0.22.109",
+  androidChrome: "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36",
+  androidInstagram: "Mozilla/5.0 (Linux; Android 14; Pixel 8; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/126.0.0.0 Mobile Safari/537.36 Instagram 340.0.0.22.109",
+  androidFacebook: "Mozilla/5.0 (Linux; Android 14; Pixel 8; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/126.0.0.0 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/470.0.0.0;]",
+  macSafari: "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15",
+  masaustuChrome: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+  masaustuEdge: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0",
+  firefox: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0",
+};
+const MASA = { width: 1440, height: 900 };
+
+/** Taklit beforeinstallprompt: uygulama modülleri inmeden (DOMContentLoaded) gönderilir — erken yakalama da sınanır. */
+const sahteKurulum = () => {
+  document.addEventListener("DOMContentLoaded", () => {
+    const e = new Event("beforeinstallprompt", { cancelable: true });
+    e.prompt = async () => { window.__istemAcildi = true; };
+    e.userChoice = Promise.resolve({ outcome: "accepted" });
+    window.dispatchEvent(e);
+  });
+};
+
+async function senaryoOku(sayfa) {
+  try {
+    await sayfa.waitForSelector(".g-kurulum-icerik", { timeout: 15000 });
+    return await sayfa.getAttribute(".g-kurulum-icerik", "data-senaryo");
+  } catch {
+    return null;
+  }
+}
+
+for (const [ad, ua, beklenen, viewport] of [
+  ["iOS Safari", UA.iosSafari, "ios-safari"],
+  ["iOS Chrome", UA.iosChrome, "ios-safari-degil"],
+  ["iOS Instagram", UA.iosInstagram, "ios-safari-degil"],
+  ["Android Chrome (öneri yok)", UA.androidChrome, "android"],
+  ["Android Instagram", UA.androidInstagram, "android-uygulama-ici"],
+  ["Android Facebook", UA.androidFacebook, "android-uygulama-ici"],
+  ["macOS Safari", UA.macSafari, "mac-safari", MASA],
+  ["masaüstü Chrome", UA.masaustuChrome, "masaustu-chromium", MASA],
+  ["masaüstü Edge", UA.masaustuEdge, "masaustu-chromium", MASA],
+  ["masaüstü Firefox", UA.firefox, "masaustu-diger", MASA],
+]) {
+  const { baglam, sayfa, konsol } = await yeniSayfa({ ua, viewport });
+  await sayfa.goto(KOK + "/turnuva", { waitUntil: "domcontentloaded" });
+  const s = await senaryoOku(sayfa);
+  sonuc(`${ad} → ${beklenen}`, s === beklenen, `bulunan=${s}${konsol.length ? " · " + konsol.join(" | ") : ""}`);
+  if (beklenen === "android-uygulama-ici") {
+    // intent:// gezinmesi headless tarayıcıda açılamaz; yalnız düğmenin varlığı ölçülür (gerçek cihaz: kontrol listesi).
+    const href = (await sayfa.getByRole("button", { name: "Chrome'da aç" }).count()) === 1 ? "var" : null;
+    sonuc(`${ad}: "Chrome'da aç" düğmesi var`, href !== null);
+  }
+  if (["masaustu-chromium", "mac-safari", "masaustu-diger"].includes(beklenen)) {
+    const qr = await sayfa.locator(".g-kurulum-qr img").count();
+    sonuc(`${ad}: QR görünür`, qr === 1);
+  }
+  await baglam.close();
+}
+
+// Android Chrome + kurulum önerisi: düğme → istem → "kuruldu"
+{
+  const { baglam, sayfa } = await yeniSayfa({ ua: UA.androidChrome, kur: sahteKurulum });
+  await sayfa.goto(KOK + "/", { waitUntil: "domcontentloaded" });
+  await senaryoOku(sayfa);
+  const dugme = sayfa.getByRole("button", { name: "Uygulamayı yükle" });
+  const var_ = (await dugme.count()) === 1;
+  sonuc("Android + beforeinstallprompt → 'Uygulamayı yükle' düğmesi", var_);
+  if (var_) {
+    const kutu = await dugme.boundingBox();
+    sonuc("kur düğmesi ≥44 px", kutu && kutu.height >= 44, `h=${kutu?.height}`);
+    await dugme.click();
+    await sayfa.waitForSelector('[data-senaryo="kuruldu"]', { timeout: 5000 }).catch(() => {});
+    const acildi = await sayfa.evaluate(() => window.__istemAcildi === true);
+    const kuruldu = (await sayfa.locator('[data-senaryo="kuruldu"]').count()) === 1;
+    sonuc("istem açıldı + 'Uygulama kuruldu' gösterildi", acildi && kuruldu);
+  }
+  await baglam.close();
+}
+
+// İngilizce + görsel ölçüm (yatay taşma, ekran görüntüsü)
+const GORSEL = ARG.gorsel ? String(ARG.gorsel) : null;
+for (const [ad, ua, viewport, dil] of [
+  ["390 iOS TR", UA.iosSafari, { width: 390, height: 844 }, "tr"],
+  ["390 iOS EN", UA.iosSafari, { width: 390, height: 844 }, "en"],
+  ["360 Android-uygulama-içi TR", UA.androidInstagram, { width: 360, height: 640 }, "tr"],
+  ["1440 masaüstü Chrome EN", UA.masaustuChrome, MASA, "en"],
+  ["1440 Firefox TR", UA.firefox, MASA, "tr"],
+]) {
+  const kur = dil === "en" ? () => { try { localStorage.setItem("bildim_dil", "en"); } catch { /* yok */ } } : undefined;
+  const { baglam, sayfa, konsol } = await yeniSayfa({ ua, viewport, kur });
+  await sayfa.goto(KOK + "/", { waitUntil: "domcontentloaded" });
+  await senaryoOku(sayfa);
+  await sayfa.waitForTimeout(400);
+  const olc = await sayfa.evaluate(() => ({
+    tasma: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    baslik: document.querySelector("#g-kurulum-baslik")?.textContent ?? "",
+    kucukHedef: [...document.querySelectorAll(".g-kurulum-icerik button, .g-giris-dil button")]
+      .map((b) => b.getBoundingClientRect()).filter((r) => r.height > 0 && r.height < 44).length,
+  }));
+  const dilTamam = dil === "en" ? olc.baslik === "Quiz Tactics is an app" : olc.baslik === "Quiz Tactics bir uygulama";
+  sonuc(`${ad}: dil doğru, taşma yok, hedefler ≥44`, dilTamam && olc.tasma <= 0 && olc.kucukHedef === 0 && !konsol.length,
+    `başlık="${olc.baslik}" taşma=${olc.tasma} küçük=${olc.kucukHedef}${konsol.length ? " · " + konsol.join(" | ") : ""}`);
+  if (GORSEL) await sayfa.screenshot({ path: `${GORSEL}/kurulum-${ad.replace(/\s+/g, "-")}.png`, fullPage: true });
+  await baglam.close();
+}
+
 await tarayici.close();
 console.log(hata ? `\n${hata} HATA` : "\nTÜMÜ GEÇTİ");
 process.exit(hata ? 1 : 0);
