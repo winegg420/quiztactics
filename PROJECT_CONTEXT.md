@@ -77,6 +77,10 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   `soru_sec(..., p_serbest_klasik => true)`, 309) ve Hatalarım'da çıkar.
   Rekabetçi havuz 6.694 → 6.303. İşaret "elle"dir (`soru_elle_isaret_mi`), tetikleyici korur.
   Yeni soru ve denetim düzeltmeleri aynı Jev testinden geçer (`soru_denetim/kapi.mjs › sikIpucuTesti`).
+- **Codex kalite taraması (1103, 15 Eki 2026):** 11.185 karar — `tut` → `denetim_durumu='onaylandi'` (8.221; şüpheli işaretli
+  1.448'i böylece rekabetçi havuza girdi), `duzelt` → aktif + 'bekliyor' kalır, işaret `soru_denetim.sebep` = `duzelt_sik`/`duzelt_diger`
+  (metin henüz düzeltilmedi), `cikar` → `aktif=false` + 'reddedildi', sebep `tekrar`/`dogruluk`/`diger` (silinmedi). EN uygun değil (136) →
+  çeviri `eskidi=true` + `ceviri_atlanan.kod='denetim_1103'`. Kayıtlar `soru_denetim.kaynak='codex_tarama_1103'`; geri alma `docs/soru-tarama-1103-geri-al.sql`.
 - **Ağırlıklı zorluk (324):** normal maçlarda (Klasik serbest/dereceli, Saf Bilgi, Düello, Grup,
   Soru Değiştir, Hatalarım dolgusu) `soru_sec` her yuva için önce grup seçer — kolay (zorluk 1–2)
   `soru_agirlik_kolay` 70 · orta (3) `soru_agirlik_orta` 25 · zor (4–5) `soru_agirlik_zor` 5
@@ -735,7 +739,7 @@ Ida "kendin doldur" dedi; hepsi test değeridir, yayından önce yeniden bakıla
   hatası, hata kartı `online`). Test: `araclar/dil-yenileme-testi.mjs` (taklit; eski kod 6 sn'de 140 yenileme yapıyordu).
 - **Yeni profil dili (610, D-203):** profil giriş ekranındaki dille doğar (misafir/e-posta kayıt verisi `dil`;
   Google yönlendirmesinde cihazdaki `bildim_giris_dili` yeni hesaba bir kez yazılır). Mevcut profilin kayıtlı
-  dili ezilmez. Soru dili `profiles.dil` → `soru_dilinde` (aktif soru havuzu 15.761, 15.429'unun EN çevirisi var — 14 Eki 2026, 1095 (codex-15, +197) sonrası ölçüm; toplam 19.628).
+  dili ezilmez. Soru dili `profiles.dil` → `soru_dilinde` (aktif soru havuzu 14.723, 14.570'inin EN çevirisi var — 15 Eki 2026, 1103 (Codex kalite taraması) sonrası ölçüm; toplam 19.628).
 - **Sigorta 30 · 2X 40 coin; 10'lu paket 255 / 340** (%15 indirim; migration 307,
   `joker_paketleri.skill_sigorta_10` / `skill_cifte_puan_10`). Yalnız Klasik; Düello'ya
   gelmez.
