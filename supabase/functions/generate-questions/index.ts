@@ -182,6 +182,11 @@ const questionSchema = {
 };
 
 Deno.serve(async (req) => {
+  // DEVRE DIŞI (Paket 4, 14 Eki 2026): fonksiyon silinmedi, yalnız çağrılamaz. SORU_URET_ACIK=1 sırrı
+  // tanımlanmadıkça hiçbir iş yapmadan 410 döner (Anthropic kredisi yanmaz). Geri açma: docs/generate-questions-kapali.md
+  if (Deno.env.get("SORU_URET_ACIK") !== "1") {
+    return new Response("Gone: generate-questions devre dışı", { status: 410 });
+  }
   if (req.method !== "POST") {
     return new Response("Method Not Allowed", { status: 405 });
   }

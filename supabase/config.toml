@@ -1,8 +1,9 @@
 # Bildim! Supabase yapılandırması
 project_id = "bildim"
 
+# Paket 4 (14 Eki 2026): devre dışı — JWT zorunlu + kodda SORU_URET_ACIK kapısı (docs/generate-questions-kapali.md).
 [functions.generate-questions]
-verify_jwt = false
+verify_jwt = true
 
 # --- Sosyal giriş sağlayıcıları ---
 # Etkinleştirmek için Supabase Dashboard > Authentication > Providers bölümünden
