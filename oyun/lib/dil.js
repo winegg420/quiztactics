@@ -162,11 +162,16 @@ export function sozlukYukle(dil) {
   if (!DILLER.includes(dil)) return Promise.reject(new Error("Bilinmeyen dil: " + dil));
   if (sozlukHazirlar.has(dil)) return Promise.resolve();
   if (!sozlukIstegi[dil]) {
-    sozlukIstegi[dil] = import("./dil-en.js")
+    // Paket B/12 (15 Eki 2026): sözlük iki parça (vite.config.js › sozlukBolme). Açılış yalnız ÇEKİRDEĞİ bekler; EK
+    // (yalnız tembel sayfalarda geçen metinler) uygulama paketi inince arka planda iner (ekSozlukBaslat — ilk açılışın
+    // bant genişliğiyle yarışmasın), tembel sayfalar onu bekler (ekSozlukBekle).
+    // Vite dışında (araclar/ altındaki Node betikleri) sanal modül yok → birleşik dil-en.js (ek gerekmez)
+    sozlukIstegi[dil] = (VITE_ICINDE ? import("virtual:dil-en-cekirdek") : import(/* @vite-ignore */ NODE_SOZLUK))
       .then((m) => {
         Object.assign(SOZLUK[dil], m.default);
         kaliplar = null;   // sunucu mesajı kalıpları yeni sözlükten kurulsun
         sozlukHazirlar.add(dil);
+        if (ekBaslasin) ekSozlukYukle();
       })
       .catch((e) => {
         delete sozlukIstegi[dil];
@@ -174,6 +179,27 @@ export function sozlukYukle(dil) {
       });
   }
   return sozlukIstegi[dil];
+}
+
+let ekSozlukIstegi = null;
+const VITE_ICINDE = typeof import.meta.env !== "undefined";
+const NODE_SOZLUK = "./dil-en.js";   // değişken: Vite bunu pakete katmasın (tarayıcıda hiç çalışmaz)
+let ekBaslasin = false;
+function ekSozlukYukle() {
+  if (ekSozlukIstegi || !sozlukHazirlar.has("en") || !VITE_ICINDE) return;
+  ekSozlukIstegi = import("virtual:dil-en-ek")
+    .then((e) => { Object.assign(SOZLUK.en, e.default); kaliplar = null; })
+    .catch((e) => { console.warn("[Dil] ek sözlük inemedi:", e?.message ?? e); ekSozlukIstegi = null; });
+}
+/** baslat.js uygulama paketi indikten sonra çağırır; bundan sonra dil İngilizceye geçerse ek de hemen iner. */
+export function ekSozlukBaslat() {
+  ekBaslasin = true;
+  ekSozlukYukle();
+}
+/** Tembel sayfa yüklenmeden önce: İngilizcede ek sözlük (en çok 6 sn) beklenir; Türkçede/yüklenmemişse hemen döner. */
+export function ekSozlukBekle() {
+  if (!ekSozlukIstegi) return Promise.resolve();
+  return Promise.race([ekSozlukIstegi, new Promise((coz) => setTimeout(coz, 6000))]);
 }
 
 /**

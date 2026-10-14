@@ -4,7 +4,7 @@
 // `tt()` modül yüklenirken de çağrıldığı için (sekme adları, katalog metinleri) sözlük, uygulamanın
 // modülleri ÇALIŞMADAN önce bellekte olmalı; bu yüzden uygulama (main.jsx) buradan dinamik yüklenir.
 // Üst düzey `await` kullanılamaz: derleme hedefi safari12 (vite.config.js).
-import { aktifDil, sozlukYukle, turkceyeDus } from "../oyun/lib/dil.js";
+import { aktifDil, ekSozlukBaslat, sozlukYukle, turkceyeDus } from "../oyun/lib/dil.js";
 import { dilUyarisiGoster } from "../oyun/lib/dilUyari.js";
 
 // Kurulum önerisi (beforeinstallprompt) uygulama modülleri inmeden gelebilir: en erken burada yakalanır,
@@ -68,6 +68,7 @@ async function baslat() {
     acilisHatasiGoster(kok);
     return;
   }
+  ekSozlukBaslat();   // Paket B/12: İngilizcede ek sözlük (tembel sayfa metinleri) şimdi arka planda iner
   if (sozlukInemedi) dilUyarisiGoster();
 }
 

@@ -16,6 +16,7 @@
 // ============================================================
 import { createElement, lazy } from "react";
 import { otomatikYenile } from "./yenilemeSigortasi.js";
+import { ekSozlukBekle } from "../../oyun/lib/dil.js";
 
 const BEKLEME_MS = 700;
 const basarisizlar = new Set();
@@ -28,6 +29,8 @@ export function tembelYukle(yukleyici) {
   const kur = () => {
     tembel = lazy(async () => {
       try {
+        // Paket B/12: İngilizcede sayfanın metinleri ek sözlükte olabilir — sayfa modülü çalışmadan önce beklenir
+        await ekSozlukBekle();
         const modul = await yukleyici();
         // vite:preloadError yakalanıp sayfa yenilemeye alındıysa modül boş döner: yenileme bitene
         // kadar "Yükleniyor…" kalsın (React "undefined.default" hatası çizmesin).
