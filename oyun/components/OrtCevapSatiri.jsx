@@ -2,6 +2,7 @@
 // Veri sunucudan (mac_sonu_ozet / kasa_durum › ort_cevap = { ben, rakip } ms, tek ortalama). Soru bazlı süre YOK.
 // Veri yoksa (eski maç / kimse cevaplamadı) satır hiç çizilmez; yalnız bir tarafta veri varsa yalnız o taraf yazılır.
 import { tt, aktifDil } from "../lib/dil.js";
+import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
 
 const sn = (ms) => {
   const metin = (Math.round(Number(ms) / 100) / 10).toFixed(1);

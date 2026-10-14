@@ -68,6 +68,7 @@ import { sure, sureOlcek } from "../lib/sureler.js";
 import { aramaAraligiSn } from "../lib/gorunurluk.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs, tikBasligiEkle } from "../lib/zaman.js";
 import { saatOrnegiEkle, saatFarkiMs } from "../lib/sunucuSaati.js";
+import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
 
 // Bu istemcinin çizebildiği en yüksek Düello sürümü. 23 Eyl 2026: canlıdaki eski paket
 // (yalnız v1 arayüzü) v2 maçını v1 gibi çizdi — saldıran tarafın şıkları kapalı kaldı.

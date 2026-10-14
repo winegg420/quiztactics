@@ -65,6 +65,7 @@ import LobiKurallari from "../components/LobiKurallari.jsx";
 import RehberBalonu from "../components/RehberBalonu.jsx";
 import { useIlkMacRehberi } from "../lib/ilkMacRehberi.js";
 import { modKurallari } from "../lib/modAciklamalari.js";
+import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
 
 const HARFLER = ["A", "B", "C", "D"];
 // 987: Savunma Sorusu aynı turun içinde ayrı olay — tek sefer anahtarlarına "-s" eki (soru + sonucu; tetik bandı normal tur)

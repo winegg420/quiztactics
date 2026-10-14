@@ -156,6 +156,9 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
 .msk-afis--sakin { animation: msk-afis-in var(--msk-afis) var(--qt-egri-cikis) backwards; }
 /* Odak yalnız ekran okuyucu için programla verilir (tabIndex -1); görünür halka çizilmez. */
 .msk-afis:focus, .msk-afis:focus-visible { outline: none; }
+/* Paket B/5 (15 Eki 2026): bu dosya artık ana stilden SONRA iner; eskiden genel :focus-visible { border-radius } kuralı
+   bundan sonra geldiği için odaktaki afişin köşesi küçük kalıyordu — aynı görünüm için sıra burada korunur */
+.msk-afis:focus-visible { border-radius: var(--bd-r-s); }
 .msk-baslik {
   margin: 0;
   color: var(--qt-yuzey);

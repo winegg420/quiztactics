@@ -42,7 +42,7 @@ import AnaSayfa from "../oyun/pages/anasayfa/AnaSayfaA.jsx";
 import "../oyun/tasarim/ekranlar/a-meydan.css";
 import "../oyun/tasarim/ekranlar/m1-mac.css";
 import "../oyun/tasarim/ekranlar/satin-al-onay.css";
-import "../oyun/tasarim/ekranlar/mac-sonu-kutlama.css";
+// Paket B/5 (15 Eki 2026): mac-sonu-kutlama.css artık onu kullanan ekranlarda (MacSonuKutlama, maç sayfaları, önizlemeler) içe aktarılır
 import "../oyun/tasarim/ekranlar/mac-oyuncu.css";
 import "../oyun/tasarim/ekranlar/mac-ses.css";
 import { useSayfaBasligi } from "../oyun/lib/sayfaBasligi.js";

@@ -44,6 +44,7 @@ import { tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
 
 // Sunucu her doğru cevaba 10 puan yazar (cevap_ver, migration 250). Yalnız
 // sonuç ekranındaki "n soru farkla" metni için; puanlama sunucuda kalır.

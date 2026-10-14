@@ -36,6 +36,7 @@ import { useDil } from "../lib/dilKanca.js";
 import { GB_MS } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
 import { botAdi } from "../lib/botAdi.js";
+import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
 
 const GRUP_SECIMI = `*,
   katilimcilar:group_match_players(group_match_id, user_id, davet_durumu, skor, joined_at, hazir, terk_at,

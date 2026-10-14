@@ -16,6 +16,7 @@ import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { aktifDil, dilKaydet, tt } from "../lib/dil.js";
 import { cerceveTarziAyarla } from "../lib/cerceveTarzi.js";
 import "../tasarim/ekranlar/mac-sonu-onizleme.css";
+import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
 
 const BAKIYE = 1480;
 // 540: ?zafer=zafer_havai_fisek → kazanan tarafın zafer efekti (performans ölçümü ve önizleme). Yoksa efekt yok.

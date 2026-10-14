@@ -40,6 +40,7 @@ import { gorunenAd } from "../lib/oyuncu.js";
 import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
 import { GeriSayim, useGeriSayim } from "../components/MacHazirlik.jsx";
 import { saatFarkiMs, saatOrnegiEkle } from "../lib/sunucuSaati.js";
+import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
 
 // Oyuncu listesi değişimlerinde (katılım, puan) yeniden okuma aralığı — bkz. oyuncuTazele.
 const OYUNCU_TAZELE_MS = 3000;   // Aşama 2: 1,5 → 3 sn (oyuncu listesi değişimleri tek okumada birleşir)
