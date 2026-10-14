@@ -75,10 +75,18 @@
             var sure = kes ? setTimeout(function () { kes.abort(); }, 8000) : 0;
             var basliklar = { apikey: anahtar, "Content-Type": "application/json" };
             if (belirtec) basliklar.Authorization = "Bearer " + belirtec;
+            basliklar["x-arayuz-dil"] = dil;
             return fetch(url + yol, { method: "POST", headers: basliklar, body: JSON.stringify(govde), signal: kes ? kes.signal : undefined })
               .then(function (y) { clearTimeout(sure); if (!y.ok) throw new Error("HTTP " + y.status); return y.json(); },
                 function (h) { clearTimeout(sure); throw h; });
           };
+          // Arayüz dili (oyun/lib/dil.js › aktifDil ile aynı kural): kayıtlı seçim, yoksa tarayıcı dili tr* → tr, değilse en.
+          var dil = (function () {
+            try { var k = localStorage.getItem("bildim_dil"); if (k === "tr" || k === "en") return k; } catch (e) { /* yok */ }
+            var l = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+            for (var i = 0; i < l.length; i++) if (typeof l[i] === "string" && l[i].toLowerCase().indexOf("tr") === 0) return "tr";
+            return "en";
+          })();
           var eski = !o.expires_at || o.expires_at * 1000 - Date.now() < 90000;
           var oturum = (eski
             ? istek("/auth/v1/token?grant_type=refresh_token", { refresh_token: o.refresh_token }).then(function (d) {
@@ -98,6 +106,17 @@
             oturum: oturum,
             profil: oturum.then(function (b) { return b ? istek("/rest/v1/rpc/profilim", {}, b) : null; })
               .then(null, function () { return null; }),
+            // 1098 (14 Eki 2026): ilk tur verisi TEK çağrıda, JS inerken. 'kabuk' her ekranın üst çubuk/zil verisi,
+            // 'ana' yalnız ana sayfa kartları. src/lib/supabase.js › ozettenYanit aynı adlı RPC'yi bir kez buradan karşılar.
+            ozet: {
+              an: Date.now(),
+              kabuk: oturum.then(function (b) { return b ? istek("/rest/v1/rpc/ana_sayfa_ozet", { p_kapsam: "kabuk" }, b) : null; })
+                .then(null, function () { return null; }),
+              ana: location.pathname === "/"
+                ? oturum.then(function (b) { return b ? istek("/rest/v1/rpc/ana_sayfa_ozet", { p_kapsam: "ana" }, b) : null; })
+                  .then(null, function () { return null; })
+                : null,
+            },
           };
         } catch (e) { /* depolama kapalı / bozuk kayıt: uygulama normal yoldan açılır */ }
       })();
