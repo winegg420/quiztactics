@@ -7,8 +7,9 @@ import "../../oyun/tasarim/ekranlar/g-kurulum.css";
 import { PaylasIkonu, ArtiKutuIkonu } from "../../oyun/components/AnaEkranaEkle.jsx";
 import {
   iosMu, iosSafariMi, androidMu, uygulamaIciTarayici, macSafariMi, masaustuChromiumMu,
-  kurulumDurumu, kurulumDinle, kurulumuBaslat,
+  kurulumDurumu, kurulumDinle, kurulumuBaslat, cihazTipi,
 } from "../lib/uygulamaKipi.js";
+import { supabase } from "../lib/supabase.js";
 import { ModFiguru } from "../../oyun/components/ModFiguru.jsx";
 import { useDil } from "../../oyun/lib/dilKanca.js";
 import { DILLER } from "../../oyun/lib/dil.js";
@@ -181,19 +182,76 @@ function KurulumKarti({ ceviri }) {
   );
 }
 
-const DAVET_KODU_ANAHTAR ="bildim_davet_kodu";   // DavetPage + AuthContext ile aynı anahtar
+/**
+ * Bekleyen davet (migration 1096): uygulama tarayıcının deposunu GÖRMEDİĞİ yerlerde (iOS Safari ↔ ana ekran,
+ * macOS Safari ↔ Dock, uygulama içi tarayıcılar) davet sunucuya bırakılır; uygulamada giriş yapan yeni hesaba
+ * aynı ağ + cihaz tipinden "X seni davet etti, doğru mu?" diye sorulur (DavetEslestirme.jsx).
+ * Android Chrome ve masaüstü Chromium'da kurulan uygulama aynı depoyu paylaştığı için gerekmez.
+ * Sunucu ham IP saklamaz; oturumsuz çağrılır (yalnız bu RPC anon'a açık). Sekme başına bir kez.
+ */
+function davetiSunucuyaBirak(kod, referans) {
+  const yol = senaryo();
+  if (yol === "android" || yol === "masaustu-chromium") return;
+  const tur = kod ? "arkadas" : referans ? "referans" : null;
+  const deger = kod || referans;
+  if (!tur) return;
+  const anahtar = `qt_davet_birakildi_${deger}`;
+  try {
+    if (window.sessionStorage.getItem(anahtar)) return;
+    window.sessionStorage.setItem(anahtar, "1");
+  } catch { /* özel mod: yine de bir kez dene */ }
+  supabase
+    .rpc("davet_bekle_kaydet", { p_tur: tur, p_deger: deger, p_cihaz: cihazTipi() })
+    .then(({ error }) => { if (error) console.warn("[Kurulum] davet sunucuya bırakılamadı:", error.message); })
+    .catch((e) => console.warn("[Kurulum] davet sunucuya bırakılamadı:", e?.message ?? e));
+}
+
+/** Davet kodu kartı: eşleştirme olmazsa (paylaşılan ağ) oyuncu kodu uygulamada elle girer. */
+function DavetKoduKarti({ kod, ceviri }) {
+  const [kopyalandi, setKopyalandi] = useState(false);
+  const kopyala = async () => {
+    try {
+      await navigator.clipboard.writeText(kod);
+      setKopyalandi(true);
+    } catch (e) {
+      console.warn("[Kurulum] kod kopyalanamadı:", e?.message ?? e);
+    }
+  };
+  return (
+    <div className="g-kurulum-davet">
+      <p className="qt-kucuk"><b>{ceviri("Davet kodun")}</b></p>
+      <p className="g-kurulum-davet-kod">{kod}</p>
+      <QtDugme tur="ikincil" tamGenislik onClick={kopyala}>
+        {kopyalandi ? ceviri("Kod kopyalandı") : ceviri("Kodu kopyala")}
+      </QtDugme>
+      <p className="qt-kucuk qt-soluk">{ceviri("Uygulamada davet otomatik gelmezse Arkadaşlar › Davet koduyla ekle'ye yapıştır.")}</p>
+    </div>
+  );
+}
+
+const DAVET_KODU_ANAHTAR = "bildim_davet_kodu";   // DavetPage + AuthContext ile aynı anahtar
 
 export default function KurulumSayfasi() {
   const { dil, ceviri, dilDegistir } = useDil();
 
   // /davet/:kod ile gelindiyse kodu sakla: uygulama aynı depoyu paylaşıyorsa (Android, masaüstü)
   // girişten sonra arkadaşlık isteği kendiliğinden gider (AuthContext › davetKoduUygula).
-  useEffect(() => {
+  const [davetKodu] = useState(() => {
     try {
       const m = /^\/davet\/([A-Za-z0-9]{8})\/?$/.exec(window.location.pathname);
-      if (m) window.localStorage.setItem(DAVET_KODU_ANAHTAR, m[1].toUpperCase());
+      return m ? m[1].toUpperCase() : null;
+    } catch {
+      return null;
+    }
+  });
+  useEffect(() => {
+    let referans = null;
+    try {
+      if (davetKodu) window.localStorage.setItem(DAVET_KODU_ANAHTAR, davetKodu);
+      referans = window.localStorage.getItem("bildim_davet");   // ?davet=<uuid> (main.jsx saklar)
     } catch { /* özel mod: kod elle girilir */ }
-  }, []);
+    davetiSunucuyaBirak(davetKodu, referans);
+  }, [davetKodu]);
 
   return (
     <div className="qt-sayfa g-giris g-kurulum">
@@ -228,6 +286,7 @@ export default function KurulumSayfasi() {
                 {ceviri("Oyun yalnız ana ekrana eklenen uygulamada açılır. Kurulum ücretsiz, birkaç saniye sürer.")}
               </p>
               <KurulumKarti ceviri={ceviri} />
+              {davetKodu && <DavetKoduKarti kod={davetKodu} ceviri={ceviri} />}
             </QtKart>
 
             <section className="g-giris-modlar" aria-labelledby="g-kurulum-modlar-baslik">

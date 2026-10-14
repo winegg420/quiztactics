@@ -38,6 +38,7 @@ import "../tasarim/ekranlar/g-ortak.css";
 import "../tasarim/ekranlar/g-kurulum.css";
 import DavetBandi from "./DavetBandi.jsx";
 import Tanitim from "./Tanitim.jsx";
+import DavetEslestirme from "./DavetEslestirme.jsx";   // Yalnız uygulama Aşama 4: tarayıcıdan gelen bekleyen davet (1096)
 import { useBildimManifest } from "../lib/manifest.js";
 import BildirimToast from "./BildirimToast.jsx";
 import RozetBildirimi from "./RozetBildirimi.jsx";
@@ -212,6 +213,8 @@ export default function Layout() {
       ) : (
         kurulumEksik && <Suspense fallback={null}><KurulumSihirbazi /></Suspense>
       )}
+      {/* Bekleyen davet onayı: kurulum (ad/avatar) bittikten sonra, yalnız uygulamada, yeni hesapta */}
+      {profile && !kurulumEksik && <DavetEslestirme />}
 
       {/* ============ ÜST ÇUBUK (Tasarım Adım 2 · Yön A, Şerit A) ============
           QtUstCubuk: marka + masaüstü menü (≥ 850 px) + sağda eylemler.

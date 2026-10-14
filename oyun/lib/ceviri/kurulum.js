@@ -49,4 +49,21 @@ export default {
   "Doğrula": "Verify",
   "Doğrulanıyor…": "Verifying…",
   "Hesabın artık kalıcı — ilerlemen aynen kaldı.": "Your account is now permanent — your progress is kept.",
+
+  // ——— Aşama 4: bekleyen davet (KurulumSayfasi, DavetEslestirme.jsx) ———
+  "Davet kodun": "Your invite code",
+  "Kodu kopyala": "Copy code",
+  "Kod kopyalandı": "Code copied",
+  "Uygulamada davet otomatik gelmezse Arkadaşlar › Davet koduyla ekle'ye yapıştır.":
+    "If the invite doesn't come through in the app, paste it in Friends › Add with invite code.",
+  "{ad} seni davet etti, doğru mu?": "Did {ad} invite you?",
+  "Evet dersen arkadaş olursunuz. Tanımıyorsan Hayır de.": "Say Yes to become friends. If you don't know them, say No.",
+  "Evet dersen davet hesabına bağlanır. Tanımıyorsan Hayır de.": "Say Yes to link the invite to your account. If you don't know them, say No.",
+  "Evet": "Yes",
+  "Hayır": "No",
+  "{ad} ile artık arkadaşsınız.": "You and {ad} are now friends.",
+  "{ad} kişisine arkadaşlık isteği gönderildi.": "Friend request sent to {ad}.",
+  "{ad} adlı oyuncunun daveti hesabına bağlandı.": "{ad}'s invite is now linked to your account.",
+  "Davet bu hesaba bağlanamadı.": "The invite couldn't be linked to this account.",
+  "Davet işlenemedi. Arkadaşlar sayfasından davet koduyla ekleyebilirsin.": "The invite couldn't be processed. You can add them with the invite code on the Friends page.",
 };

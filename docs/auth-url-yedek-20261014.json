@@ -1,0 +1,5 @@
+{
+  "site_url": "https://quiztactics.com",
+  "uri_allow_list": "http://localhost:5173,https://quizador.pages.dev/**,https://idagg-game-center.vercel.app/**,https://*.quizador.pages.dev/**,https://quizador.vercel.app/**,https://quizsquare.vercel.app/**,https://quiztactics.vercel.app/**,https://quiztactics.com/**,https://www.quiztactics.com/**,http://localhost:5173/**,http://localhost:*/**",
+  "alindi": "2026-10-14T12:49:45.096Z"
+}

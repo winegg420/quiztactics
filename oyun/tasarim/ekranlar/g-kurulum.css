@@ -44,3 +44,21 @@
 @media (pointer: coarse) and (max-width: 700px) {
   .g-kurulum-qr { display: none; }
 }
+/* Davet kodu kartı (Aşama 4): eşleştirme olmazsa elle girilecek kod */
+.g-kurulum-davet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qt-b-2);
+  padding-top: var(--qt-b-3);
+  border-top: 1px solid var(--qt-cizgi);
+}
+.g-kurulum-davet > p { margin: 0; }
+.g-kurulum-davet-kod {
+  font-family: var(--qt-f-baslik);
+  font-weight: var(--qt-a-siyah);
+  font-size: 26px;
+  letter-spacing: .18em;
+  text-align: center;
+  user-select: all;
+  -webkit-user-select: all;
+}

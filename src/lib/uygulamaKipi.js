@@ -202,3 +202,11 @@ export async function kurulumuBaslat() {
 export function masaustuChromiumMu() {
   return masaustuMu() && /chrome|chromium|edg\//i.test(ua()) && !/firefox/i.test(ua());
 }
+
+/** Bekleyen davet eşleştirmesi için kaba cihaz tipi (migration 1096: ios | android | masaustu | diger). */
+export function cihazTipi() {
+  if (iosMu()) return "ios";
+  if (androidMu()) return "android";
+  if (masaustuMu()) return "masaustu";
+  return "diger";
+}
