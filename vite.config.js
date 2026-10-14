@@ -47,7 +47,7 @@ function yayinDosyalari(siteUrl) {
   return {
     name: "yayin-dosyalari",
     apply: "build",
-    writeBundle(secenekler) {
+    writeBundle(secenekler, paket) {
       const kok = secenekler.dir || "dist";
       const yaz = (ad, icerik) => {
         try {
@@ -57,7 +57,26 @@ function yayinDosyalari(siteUrl) {
         }
       };
 
-      yaz("version.json", JSON.stringify({ surum: DERLEME_KIMLIGI }) + "\n");
+      // Paket B/3 (15 Eki 2026): yeni sürümün AÇILIŞ dosyaları — açık uygulama yeni dağıtımı fark edince bunları arka planda
+      // indirir (oyun/lib/surumKontrol.js › yeniSurumuOnYukle); SW /assets/*'i önbelleğe yazar, sonraki açılış sıcak olur.
+      // Liste: index.html girişi + main.jsx (baslat.js dinamik yükler) + sekme/maç sayfaları, statik içe aktarma kapanışları
+      // ve CSS'leriyle. Zorla yenileme YOK.
+      const ON_YUKLE_SAYFA = /oyun\/pages\/(anasayfa\/AnaSayfaA|ModlarPage|LeaderboardPage|FriendsPage|JokerDukkani|ProfilePage|MatchPage|DuelloPage|KasaPage)\.jsx$/;
+      const secilen = new Set();
+      const ekle = (ad) => {
+        const p = paket?.[ad];
+        if (!p || p.type !== "chunk" || secilen.has(ad)) return;
+        secilen.add(ad);
+        for (const c of p.viteMetadata?.importedCss ?? []) secilen.add(c);
+        for (const i of p.imports ?? []) ekle(i);
+      };
+      for (const p of Object.values(paket ?? {})) {
+        if (p.type !== "chunk") continue;
+        const kaynak = String(p.facadeModuleId ?? "").replace(/\\/g, "/");
+        if ((p.isEntry && /\/index\.html$/.test(kaynak)) || /\/src\/main\.jsx$/.test(kaynak) || ON_YUKLE_SAYFA.test(kaynak)) ekle(p.fileName);
+      }
+      const onYukle = [...secilen].map((ad) => "/" + ad).sort();
+      yaz("version.json", JSON.stringify({ surum: DERLEME_KIMLIGI, on_yukle: onYukle }) + "\n");
 
       yaz(
         "robots.txt",

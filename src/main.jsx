@@ -59,10 +59,15 @@ if (davet) {
 }
 
 // PWA service worker
+// 15 Eki 2026 HATA: 2 Eki'den beri main.jsx baslat.js'ten DİNAMİK yükleniyor; "load" çoğu zaman bu dosya çalışmadan
+// bitiyordu → yeni cihazda SW HİÇ kaydolmuyordu (çevrimdışı kabuk, push, Android kurulum önerisi). Sayfa zaten
+// yüklendiyse hemen kaydedilir.
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
+  const swKaydet = () => {
     navigator.serviceWorker.register("/sw.js").catch((e) => console.warn("[Bildim] /sw.js başarısız:", e?.message ?? e));
-  });
+  };
+  if (document.readyState === "complete") swKaydet();
+  else window.addEventListener("load", swKaydet, { once: true });
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(
