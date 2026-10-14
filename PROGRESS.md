@@ -12145,3 +12145,10 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **Sonra:** Klasik 3 (2,8 sn) → 2 → 1, 15/15/15 · Saf Bilgi 3 → 2 → 1, 15/15/15 · Düello 3 (2,4 sn) → 2 → 1, 15/15/15, kart 10'da duyuru + pay sonra 1'er sn, atlama 0 · Grup 3 → 2 → 1, 15/15/15 · Hazine 3 → 2 → 1, 15/15/15 · Turnuva* (taklit) 3 → 2 → 1 (2 ve 1 = 1000 ms), S1/S2 15. Botun ilk cevabı her modda sayım bitişinden sonra (2,4–3,7 sn). Tablonun tamamı GEÇTİ (Turnuva (e)/(f) uygulanmaz).
 - **Gözlem / açık:** Canlı DB yer yer `statement timeout` verdi (bir koşuda `kuyruga_gir` / `get_categories`, bir koşuda Grup `submit_group_match_answer`; o Grup maçı 1. soruda takılı kaldı, tekrar koşuda olmadı). Bu fonksiyonlara dokunulmadı; kök sebep ölçülmedi (pg_stat_statements: grup RPC'leri ort ~0,3 sn, en kötü 7 sn). Takılan maç test hesabıyla silindiği için satırı incelenemedi; araç artık 3 soruya ulaşmayan maçın satırını kapatmadan önce kaydeder (`tani`).
 - Test hesapları (SenkronA*) her koşu sonunda silindi.
+
+## 2026-10-14 — E-posta girişi açıldı
+- `src/lib/saglayicilar.js › EPOSTA_GIRIS_ACIK = true` (özel SMTP: Resend, no-reply@quiztactics.com hazır). Başka ayara dokunulmadı.
+- Akış yalnız e-posta bağlantısı (magic link, `signInWithOtp`); şifre/şifre sıfırlama yok. Login ve HesapGuvence try-catch + TR/EN mesajlı.
+- `Login.jsx › girisHatasi`: geçersiz e-posta, e-posta gönderilemedi, kayıt kapalı eşlemeleri eklendi (ham İngilizce mesaj sızmasın); EN çeviri `ceviri/temel.js`.
+- Auth e-posta şablonları ve Redirect URL listesi repoda YOK (`supabase/config.toml` yönetmiyor) → panelden elle bakılacak.
+- Doğrulama: build temiz, localhost'ta giriş ekranında e-posta alanı görünüyor. Gerçek kayıt/mail testi Ida'da.

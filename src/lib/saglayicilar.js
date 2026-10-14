@@ -39,7 +39,7 @@ export async function acikSaglayicilariOku() {
 // Supabase varsayılan e-posta servisi yalnız proje ekibinin adreslerine mail yollar; diğer herkese
 // "Email address not authorized" döner (bounce oranı uyarısı geldi). Kalıcı çözüm: özel SMTP + alan adı.
 // Geri açmak için `true` yap. Sahip/test için gizli kapı: adreste `?eposta=1`.
-export const EPOSTA_GIRIS_ACIK = false;
+export const EPOSTA_GIRIS_ACIK = true;   // 14 Eki 2026: özel SMTP (Resend, no-reply@quiztactics.com) hazır
 
 // FACEBOOK DÜĞMESİ GİZLİ (2 Eki 2026): canlıda sağlayıcı kapalı (auth/v1/settings › external.facebook=false).
 // Geri açmak için `true` yap; düğmeye bağlı kod ve metinler yerinde durur.

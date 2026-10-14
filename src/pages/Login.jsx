@@ -32,6 +32,15 @@ function girisHatasi(e, saglayiciAd, ceviri) {
   if (/rate limit|too many/i.test(m)) {
     return ceviri("Çok fazla deneme yapıldı. Birkaç dakika sonra tekrar dene.");
   }
+  if (/invalid.*email|email.*invalid|validate email/i.test(m)) {
+    return ceviri("E-posta adresi geçersiz görünüyor.");
+  }
+  if (/email.*(not authorized|rate limit)|sending.*email|error sending/i.test(m)) {
+    return ceviri("E-posta şu an gönderilemedi. Biraz sonra tekrar dene ya da Google ile devam et.");
+  }
+  if (/signups? (not allowed|disabled)/i.test(m)) {
+    return ceviri("Bu adresle kayıt şu an kapalı. Google ile devam edebilirsin.");
+  }
   if (/redirect|not allowed/i.test(m)) {
     return ceviri("Giriş adresi doğrulanamadı. Sayfayı yenileyip tekrar dene.");
   }

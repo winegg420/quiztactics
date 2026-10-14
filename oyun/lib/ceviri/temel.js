@@ -698,6 +698,8 @@ export default {
     "bekleniyor…": "waiting…",
     "Geçerli bir e-posta adresi yaz (ör. ad@ornek.com).": "Enter a valid email address (e.g. name@example.com).",
     "Yeniden gönder": "Send again",
+    "E-posta şu an gönderilemedi. Biraz sonra tekrar dene ya da Google ile devam et.": "We couldn't send the email right now. Try again shortly or continue with Google.",
+    "Bu adresle kayıt şu an kapalı. Google ile devam edebilirsin.": "Sign-up with this address is currently closed. You can continue with Google.",
     "Adresi değiştir": "Change address",
     "Bu mod şu an kapalı.": "This mode is closed for now.",
     "Seni ana sayfaya götürüyoruz…": "Taking you to the home page…",
