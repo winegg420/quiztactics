@@ -43,6 +43,7 @@ import { gorunenAd } from "../../lib/oyuncu.js";
 import { sonModuYaz, sonModuOku } from "../../lib/sonMod.js";
 import { sonBilinenOku, sonBilinenYaz } from "../../lib/sonBilinen.js";
 import { oyuncuKarti, oyuncuKartiOnbellek } from "../../lib/cerceve.js";
+import { ilkCizimdenSonra, ilkCizimdenSonraBekle } from "../../lib/ilkCizimdenSonra.js";
 
 // Arama ekranı + mod penceresi dokununca açılır: ilk yük paketinde taşınmaz, açılıştan sonra boşta
 // önceden iner (8 Eki 2026, soğuk açılış).
@@ -121,6 +122,15 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
         console.warn("[Ana sayfa] lig_grubum_ozet:", e?.message ?? e);
       }
       if (aktif) setLigHazir(true);   // hata da "bilinen" sayılır: iskelet takılı kalmaz (son bilinen varsa o durur)
+    })();
+    return () => { aktif = false; };
+  }, [uid]);
+
+  // Paket A/2: yanlış bankası yalnız bir kart rozeti — ilk çizimden sonra, boşta okunur.
+  useEffect(() => {
+    if (!uid) return undefined;
+    let aktif = true;
+    const iptal = ilkCizimdenSonra(async () => {
       try {
         const { data, error } = await supabase.rpc("yanlis_bankam");
         if (error) throw error;
@@ -128,8 +138,8 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
       } catch (e) {
         console.warn("[Ana sayfa seçenek] yanlis_bankam:", e?.message ?? e);
       }
-    })();
-    return () => { aktif = false; };
+    });
+    return () => { aktif = false; iptal(); };
   }, [uid]);
 
   useEffect(() => {
@@ -197,7 +207,9 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
     return () => { aktif = false; };
   }, []);
 
-  const siraYukle = useCallback(async () => {
+  // secenek.ertele (yalnız ilk açılış): davet rozetleri ilk çizimden sonra okunur (Paket A/2).
+  // Realtime olay yükü de buraya gelir; onda ertele yok → hemen.
+  const siraYukle = useCallback(async (secenek) => {
     if (!uid) return;
     try {
       const { data, error } = await aktifMaclarim(uid);
@@ -216,6 +228,7 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
     } catch (e) {
       console.warn("[Ana sayfa seçenek] maç listesi:", e?.message ?? e);
     }
+    if (secenek?.ertele === true) await ilkCizimdenSonraBekle();
     try {
       const { data, error } = await supabase.rpc("gonderdigim_davetler");
       if (error) throw error;
@@ -240,7 +253,7 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
     }
   }, [uid]);
   useEffect(() => {
-    siraYukle();
+    siraYukle({ ertele: true });
     // Ana sayfayla aynı: maç satırı değişince liste tazelenir (ayrı kanal adı).
     // Aşama 2: yalnız benim maçlarım (süzgeç tek kolon alır → iki dinleyici)
     if (!uid) return undefined;
@@ -393,9 +406,11 @@ export function useDevamEdenMaclar() {
 
   const yukle = useCallback(async () => {
     if (!uid) { setListe([]); return; }
-    const sonuc = [];
+    // Paket A/2: bölümler PARALEL okunur (eskiden 5 tur sırayla); sıra yine Klasik → Düello → Hazine → Grup → Turnuva.
+    const bolumler = [];
+    const bolum = (is) => { const parca = []; bolumler.push(is(parca).then(() => parca, () => parca)); };
 
-    try {
+    bolum(async (sonuc) => { try {
       const { data, error } = await aktifMaclarim(uid);
       if (error) throw error;
       for (const m of data ?? []) {
@@ -408,9 +423,9 @@ export function useDevamEdenMaclar() {
       }
     } catch (e) {
       console.warn("[Ana sayfa] devam eden Klasik/Saf Bilgi maçları:", e?.message ?? e);
-    }
+    } });
 
-    try {
+    bolum(async (sonuc) => { try {
       const { data: duellolar, error } = await supabase.rpc("duello_aktif_benim");
       if (error) throw error;
       const rakipIdler = (duellolar ?? []).map((d) => (d.oyuncu1 === uid ? d.oyuncu2 : d.oyuncu1));
@@ -427,10 +442,10 @@ export function useDevamEdenMaclar() {
       }
     } catch (e) {
       console.warn("[Ana sayfa] devam eden Düello:", e?.message ?? e);
-    }
+    } });
 
     // KASA (deneysel, 950): ayar satırı yoksa (migration uygulanmamış) ya da mod kapalıysa sorulmaz.
-    try {
+    bolum(async (sonuc) => { try {
       if (Number(await ayar("kasa_modu_acik", 0)) >= 1) {
         const { data: kasalar, error } = await supabase.rpc("kasa_aktif_benim");
         if (error) throw error;
@@ -449,9 +464,9 @@ export function useDevamEdenMaclar() {
       }
     } catch (e) {
       console.warn("[Ana sayfa] devam eden Kasa:", e?.message ?? e);
-    }
+    } });
 
-    try {
+    bolum(async (sonuc) => { try {
       const { data, error } = await supabase.from("group_matches")
         .select("id, aktif_soru, soru_ids, oyuncu_sayisi").eq("durum", "aktif").limit(20);
       if (error) throw error;
@@ -463,9 +478,9 @@ export function useDevamEdenMaclar() {
       }
     } catch (e) {
       console.warn("[Ana sayfa] devam eden Grup maçları:", e?.message ?? e);
-    }
+    } });
 
-    try {
+    bolum(async (sonuc) => { try {
       const { data: turnuvalar, error } = await aktifTurnuvalar();
       if (error) throw error;
       const ids = (turnuvalar ?? []).filter((t) => t.durum === "aktif").slice(0, 5).map((t) => t.id);
@@ -480,9 +495,10 @@ export function useDevamEdenMaclar() {
       }
     } catch (e) {
       console.warn("[Ana sayfa] devam eden Turnuva:", e?.message ?? e);
-    }
+    } });
 
-    setListe(sonuc);
+    const parcalar = await Promise.all(bolumler);
+    setListe(parcalar.flat());
   }, [uid]);
 
   useEffect(() => {

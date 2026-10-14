@@ -30,6 +30,7 @@
 import { supabase } from "../../src/lib/supabase.js";
 import { adayYolu, muzikAcikMi, muzikDinle, sesBaglami, sesMuzikKancasi, sesSecimi, sesSecimleriniAyarla, sesTaniAcik } from "./ses.js";
 import { muzikOnizlemeUrl, muzikTamSure, muzikTamUrl } from "./muzikParcalari.js";
+import { ilkCizimdenSonraBekle } from "./ilkCizimdenSonra.js";
 
 const SECIM_ANAHTARI = "bildim_ses_secim";   // ses.js ile aynı anahtar
 const GECIS_SN = 0.8;            // ekran değişince odalar arası geçiş
@@ -45,11 +46,15 @@ const ayar = () => ({
 
 // ------------------------------------------------------------ seçimleri sunucudan al
 let tazeleme = null;
+let ilkTazeleme = true;
 /** Açılışta bir kez: önbellekteki sürümü yollar, değiştiyse yeni listeyi yazar. */
 export function secimleriTazele() {
   if (tazeleme) return tazeleme;
   tazeleme = (async () => {
     try {
+      // Paket A/2: cihazda kayıtlı seçim varsa müzik onunla çalar; açılıştaki tazeleme ilk çizimden sonra, boşta.
+      if (ilkTazeleme && onbellek?.secimler) await ilkCizimdenSonraBekle();
+      ilkTazeleme = false;
       const { data, error } = await supabase.rpc("ses_secimleri_oyun", { p_surum: onbellek?.surum ?? null });
       if (error) throw error;
       if (!data || typeof data !== "object") return;

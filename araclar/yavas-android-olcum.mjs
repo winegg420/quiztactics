@@ -1,7 +1,8 @@
 // Ucuz Android açılış ölçümü — yerel ÜRETİM derlemesi (vite preview) + canlı Supabase, normal oyuncu kadar istek.
 // Taklit: CPU 6x yavaş · yavaş 4G (150 ms RTT, 1,6 Mbit/s iniş, 750 kbit/s çıkış) · 390×844 · Android Chrome UA.
 // Her ekran: soğuk (boş HTTP önbelleği, yeni bağlam) + sıcak (aynı bağlamda ikinci açılış). SW kapalı (iki koşu karşılaştırılabilir).
-// Ölçer: ilk boyama (FCP), en büyük boyama (LCP), içerik hazır (yükleniyor göstergesi yok + Supabase isteği bitmiş, 300 ms sabit),
+// Ölçer: ilk boyama (FCP), en büyük boyama (LCP), içerik hazır (yükleniyor göstergesi yok + ertelenmeyen Supabase istekleri bitmiş,
+// 300 ms sabit), tam hazır (bütün istekler dahil),
 // etkileşime hazır (son uzun görevden sonra 2 sn sessizlik), en uzun görev, toplam engelleme (TBT), Supabase istek sayısı/şelalesi, indirilen bayt.
 // Maç açılışı (--mac): Klasik, Düello, Ortak Hazine — bota karşı TEK maç; maç adresine geçişten ilk oynanabilir kareye kadar.
 // Kullanım: npm run build && npx vite preview --port 5199 --strictPort
@@ -31,7 +32,9 @@ const EKRANLAR = [
 
 // Sayfa içi ölçüm: uzun görevler, boyamalar, Supabase fetch sayacı, "hazır" anı.
 const IZCI = () => {
-  const o = (window.__olc = { uzun: [], fcp: null, lcp: null, hazir: null, ilkMac: null, macAdres: null, ucus: 0, istek: [] });
+  const o = (window.__olc = { uzun: [], fcp: null, lcp: null, hazir: null, icerik: null, ilkMac: null, macAdres: null, ucus: 0, ucusAna: 0, istek: [] });
+  // Ertelenen (ilk çizimden sonra, boşta) istekler "içerik hazır"ı bekletmez — Paket A/2 ile ertelenenlerin listesi
+  const ERTELENEN = /rpc\/(yanlis_bankam|gonderdigim_davetler|ses_secimleri_oyun)|durum=eq\.bekliyor/;
   try { new PerformanceObserver((l) => { for (const e of l.getEntries()) o.uzun.push([e.startTime, e.duration]); }).observe({ type: "longtask", buffered: true }); } catch { /* yok */ }
   try { new PerformanceObserver((l) => { for (const e of l.getEntries()) if (e.name === "first-contentful-paint") o.fcp = e.startTime; }).observe({ type: "paint", buffered: true }); } catch { /* yok */ }
   try { new PerformanceObserver((l) => { const e = l.getEntries().at(-1); if (e) o.lcp = e.startTime; }).observe({ type: "largest-contentful-paint", buffered: true }); } catch { /* yok */ }
@@ -40,18 +43,22 @@ const IZCI = () => {
     const url = String(a[0]?.url ?? a[0]);
     if (!/supabase\.co/.test(url)) return f0.apply(this, a);
     const k = { yol: url.replace(/^https:\/\/[^/]+/, "").split("?")[0], bas: performance.now(), bit: null };
-    o.istek.push(k); o.ucus++;
-    return f0.apply(this, a).finally(() => { o.ucus--; k.bit = performance.now(); });
+    const ana = !ERTELENEN.test(url);
+    o.istek.push(k); o.ucus++; if (ana) o.ucusAna++;
+    return f0.apply(this, a).finally(() => { o.ucus--; if (ana) o.ucusAna--; k.bit = performance.now(); });
   };
   const ps = history.pushState;
   history.pushState = function (...a) { const r = ps.apply(this, a); if (/\/(mac|duello|kasa)\/[0-9a-f-]{36}/.test(location.pathname) && o.macAdres == null) o.macAdres = performance.now(); return r; };
   const YUKLENIYOR = "#qt-ilk-yukleme, [aria-busy=true], [class*=iskelet], [class*=yukleniyor], [class*=skeleton], .qt-durum--yukleniyor";
   const gorunur = (el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== "hidden"; };
-  let aday = null;
+  let aday = null, adayI = null;
   const bak = () => {
     const kok = document.getElementById("root");
     const icerik = kok && kok.innerText.trim().length > 20;
     const yuk = [...document.querySelectorAll(YUKLENIYOR)].some(gorunur);
+    if (o.icerik == null) {
+      if (icerik && !yuk && o.ucusAna === 0) { adayI ??= performance.now(); if (performance.now() - adayI >= 300) o.icerik = adayI; } else adayI = null;
+    }
     if (o.hazir == null) {
       if (icerik && !yuk && o.ucus === 0) { aday ??= performance.now(); if (performance.now() - aday >= 300) o.hazir = aday; } else aday = null;
     }
@@ -75,7 +82,7 @@ function ozet(o, bayt) {
   let tur = 0, sinir = -1;
   for (const k of [...ist].sort((a, b) => a.bas - b.bas)) if (k.bas > sinir) { tur++; sinir = Math.max(...ist.filter((x) => x.bas <= k.bas && x.bit).map((x) => x.bit), k.bit ?? k.bas); }
   return {
-    fcp: Math.round(o.fcp ?? -1), lcp: Math.round(o.lcp ?? -1), hazir: Math.round(o.hazir ?? -1), etkilesim: Math.round(tti),
+    fcp: Math.round(o.fcp ?? -1), icerik: Math.round(o.icerik ?? -1), lcp: Math.round(o.lcp ?? -1), hazir: Math.round(o.hazir ?? -1), etkilesim: Math.round(tti),
     en_uzun_gorev: Math.round(Math.max(0, ...uzun.map((t) => t.d))), tbt: Math.round(tbt), uzun_gorev_sayisi: uzun.length,
     supabase_istek: ist.length, sira_turu: tur, ilk_supabase: Math.round(ist[0]?.bas ?? -1),
     son_supabase_bitis: Math.round(Math.max(-1, ...ist.map((k) => k.bit ?? -1))),
@@ -134,8 +141,8 @@ try {
     const soguk = await olc(s, bayt, e.yol);
     const sicak = await olc(s, bayt, e.yol);
     sonuc.ekranlar[e.kod] = { ad: e.ad, soguk, sicak };
-    console.log(`${e.ad.padEnd(10)} soğuk FCP ${soguk.fcp} · hazır ${soguk.hazir} · etkileşim ${soguk.etkilesim} · en uzun ${soguk.en_uzun_gorev} · TBT ${soguk.tbt} · SB ${soguk.supabase_istek}/${soguk.sira_turu} tur · JS ${soguk.bayt.js} KB`);
-    console.log(`${"".padEnd(10)} sıcak FCP ${sicak.fcp} · hazır ${sicak.hazir} · etkileşim ${sicak.etkilesim} · en uzun ${sicak.en_uzun_gorev} · TBT ${sicak.tbt} · SB ${sicak.supabase_istek}/${sicak.sira_turu} tur`);
+    console.log(`${e.ad.padEnd(10)} soğuk FCP ${soguk.fcp} · içerik ${soguk.icerik} · hazır ${soguk.hazir} · etkileşim ${soguk.etkilesim} · en uzun ${soguk.en_uzun_gorev} · TBT ${soguk.tbt} · SB ${soguk.supabase_istek}/${soguk.sira_turu} tur · JS ${soguk.bayt.js} KB`);
+    console.log(`${"".padEnd(10)} sıcak FCP ${sicak.fcp} · içerik ${sicak.icerik} · hazır ${sicak.hazir} · etkileşim ${sicak.etkilesim} · en uzun ${sicak.en_uzun_gorev} · TBT ${sicak.tbt} · SB ${sicak.supabase_istek}/${sicak.sira_turu} tur`);
     await b.close();
   }
 
