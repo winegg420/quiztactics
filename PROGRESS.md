@@ -12161,3 +12161,10 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **Uygulama içi hesap silme VAR** (yeni işlev yazılmadı).
 - Doğrulama: build temiz; oturumsuz Chrome'da 390 px, TR ve EN: `/gizlilik` + `/hesap-sil` açılıyor, yatay taşma 0, konsol hatası yok, TR→EN geçişi çalışıyor. Test hesabı açılmadı.
 - **Ida'nın kararı bekleyenler:** veri sorumlusu unvanı/adresi (şahıs mı şirket mi), Sentry/Supabase/Vercel saklama süreleri metne yazılsın mı, e-posta silme talebinin 30 günlük taahhüdü, "ücretli satın alma kapalı" cümlesi (açılınca güncelle), Facebook girişi Meta panelinde bu adresleri ister: `https://quiztactics.com/gizlilik` ve `https://quiztactics.com/hesap-sil`.
+
+## 2026-10-14 — Facebook girişi kaldırıldı (gizlendi)
+- Neden: Meta işletme doğrulaması şirketsiz alınamıyor; Facebook girişi yayında kullanılmayacak.
+- `src/lib/saglayicilar.js › FACEBOOK_GIRIS_ACIK = false` bayrağı zaten vardı; giriş ekranında düğme bu bayrakla kapalı (360/390/1440 px'te metinde "Facebook" yok, doğrulandı). Profil hesap bağlama aynı bayrağı kullanıyor.
+- Gizlilik (`GizlilikPage`) ve hesap-sil (`HesapSilPage`) metinleri "Facebook ile giriş şu an sunulmuyor" olacak şekilde sadeleştirildi (TR/EN, `ceviri/yasal.js`). Gizlilik ve hesap-sil adresleri aynen çalışıyor.
+- Dokunulmadı: Google/e-posta/misafir, `facebook_kimligi_kaydet` ve `facebookArkadas.js` altyapısı.
+- Açık nokta: Arkadaşlar sayfasında "Facebook'ta paylaş" düğmesi (davet linki paylaşımı, giriş değil) duruyor; Facebook arkadaş önerisi bölümü yalnız FB oturumu varsa görünür. Karar Ida'da.

@@ -7,7 +7,8 @@ export default {
   "Hesap silme": "Account deletion",
   "sayfasına bak.": "page.",
   "Ayrıntılar için": "For details, see the",
-  "Google / Facebook ile giriş:": "Sign-in with Google / Facebook:",
+  "Google ile giriş:": "Sign-in with Google:",
+  "Facebook ile giriş şu an sunulmuyor.": "Sign-in with Facebook is currently not available.",
   "bu yöntemi seçersen sağlayıcıdan yalnız hesabını tanımak için gereken temel bilgiyi (e-posta adresi ve hesap kimliği) alırız. Şifreni görmeyiz. Misafir olarak da oynayabilirsin; misafir hesabında e-posta tutulmaz.":
     "If you choose this method, we receive only the basic information needed to recognise your account (email address and account ID) from the provider. We never see your password. You can also play as a guest; no email is stored for a guest account.",
   "oturum açıklık bilgisi (son görülme) ve hata kayıtları. Uygulama bir hatayla karşılaşınca hata izleme hizmetine (Sentry) teknik bir rapor gider; IP adresi ve çerez gönderilmez, e-posta ve kimlik benzeri bilgiler rapordan temizlenir, ekran kaydı alınmaz.":
@@ -53,8 +54,8 @@ export default {
     "Including your username in the email speeds things up. After verifying your request, we delete your account within",
   "30 gün içinde": "30 days",
   "sileriz ve sana haber veririz.": "and let you know.",
-  "Facebook veya Google ile giriş yaptıysan aynı yöntem geçerlidir; Facebook'taki uygulama izinlerini ayrıca Facebook ayarlarından kaldırabilirsin.":
-    "The same method applies if you signed in with Facebook or Google; you can also remove the app's permissions in your Facebook settings.",
+  "Google ile giriş yaptıysan aynı yöntem geçerlidir. Facebook ile giriş şu an sunulmuyor; daha önce Facebook ile girdiysen uygulama izinlerini Facebook ayarlarından kaldırabilirsin.":
+    "The same method applies if you signed in with Google. Sign-in with Facebook is currently not available; if you signed in with Facebook before, you can remove the app's permissions in your Facebook settings.",
   "Hangi veriler silinir": "What is deleted",
   "Giriş kaydın ve e-posta adresin.": "Your sign-in record and email address.",
   "Profilin: takma ad, avatar, rütbe, puanlar, rozetler, koleksiyon ve satın alınmış kozmetikler, tercihlerin, şehir/ülke seçimin.":

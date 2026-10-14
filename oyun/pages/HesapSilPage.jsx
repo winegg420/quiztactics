@@ -53,7 +53,7 @@ export default function HesapSilPage() {
         {tt("E-postaya takma adını yazman işimizi hızlandırır. Talebini doğrulayıp hesabını en geç")} <b>{tt("30 gün içinde")}</b> {tt("sileriz ve sana haber veririz.")}
       </p>
       <p>
-        {tt("Facebook veya Google ile giriş yaptıysan aynı yöntem geçerlidir; Facebook'taki uygulama izinlerini ayrıca Facebook ayarlarından kaldırabilirsin.")}
+        {tt("Google ile giriş yaptıysan aynı yöntem geçerlidir. Facebook ile giriş şu an sunulmuyor; daha önce Facebook ile girdiysen uygulama izinlerini Facebook ayarlarından kaldırabilirsin.")}
       </p>
 
       <h2>{tt("Hangi veriler silinir")}</h2>

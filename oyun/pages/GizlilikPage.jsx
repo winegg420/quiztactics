@@ -45,7 +45,7 @@ export default function GizlilikPage() {
           <b>{tt("Hesap bilgileri:")}</b> {tt("e-posta adresi (yalnız giriş için; hiçbir zaman başka oyunculara gösterilmez) ve")} <b>{tt("senin seçtiğin takma ad")}</b>{tt(". Diğer oyuncular yalnızca bu takma adı görür — gerçek adın ve e-postan gizlidir.")}
         </li>
         <li>
-          <b>{tt("Google / Facebook ile giriş:")}</b> {tt("bu yöntemi seçersen sağlayıcıdan yalnız hesabını tanımak için gereken temel bilgiyi (e-posta adresi ve hesap kimliği) alırız. Şifreni görmeyiz. Misafir olarak da oynayabilirsin; misafir hesabında e-posta tutulmaz.")}
+          <b>{tt("Google ile giriş:")}</b> {tt("bu yöntemi seçersen sağlayıcıdan yalnız hesabını tanımak için gereken temel bilgiyi (e-posta adresi ve hesap kimliği) alırız. Şifreni görmeyiz. Misafir olarak da oynayabilirsin; misafir hesabında e-posta tutulmaz.")} {tt("Facebook ile giriş şu an sunulmuyor.")}
         </li>
         <li>
           <b>{tt("Avatar:")}</b> {tt("hazır avatarlardan seçtiğin görsel. Google hesabının fotoğrafı")} <b>{tt("otomatik olarak alınmaz")}</b>{tt("; yalnız sen onaylarsan kullanılır.")}
@@ -115,7 +115,7 @@ export default function GizlilikPage() {
         <li><b>Resend</b> {tt("— giriş e-postalarının (bağlantı/kod) gönderimi; yalnız e-posta adresin ve mesaj içeriği işlenir.")}</li>
         <li><b>Cloudflare</b> {tt("— alan adının DNS hizmeti ve info@ adresine gelen e-postaların yönlendirilmesi.")}</li>
         <li><b>Sentry</b> {tt("— hata izleme (yukarıda anlatılan sınırlarla; sunucuları Frankfurt'ta).")}</li>
-        <li><b>Google</b> {tt("ve")} <b>Facebook (Meta)</b> {tt("— yalnız bu yöntemle giriş yaparsan, kendi gizlilik politikalarına tabi olarak.")}</li>
+        <li><b>Google</b> {tt("— yalnız bu yöntemle giriş yaparsan, kendi gizlilik politikalarına tabi olarak.")}</li>
         <li><b>Google Play</b> {tt("— uygulama içi satın alma açıldığında ödeme işlemleri için; kart bilgilerin bize ulaşmaz.")}</li>
       </ul>
       <p>
