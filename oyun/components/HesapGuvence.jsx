@@ -25,6 +25,7 @@ function bagHatasi(e) {
   if (/manual linking is disabled|linking.*disabled/i.test(m)) return epostaGirisGorunur() ? tt("Google ile bağlama şu an kapalı. E-posta ile güvenceye alabilirsin.") : tt("Google ile bağlama şu an kapalı. Daha sonra tekrar dene.");
   if (/already.*(registered|exists|linked)|identity_already_exists|email_exists/i.test(m)) return epostaGirisGorunur() ? tt("Bu hesap başka bir oyuncuya bağlı. Başka bir e-posta ya da Google hesabı dene.") : tt("Bu hesap başka bir oyuncuya bağlı. Başka bir Google hesabı dene.");
   if (/rate limit|too many/i.test(m)) return tt("Çok fazla deneme yapıldı. Birkaç dakika sonra tekrar dene.");
+  if (/otp_expired|token has expired|token.*invalid|invalid.*(otp|token)/i.test(m)) return tt("Kod yanlış ya da süresi dolmuş. Kontrol et veya yeni kod iste.");
   if (/invalid.*email|email.*invalid/i.test(m)) return tt("E-posta adresi geçersiz görünüyor.");
   if (/network|fetch/i.test(m)) return tt("Bağlantı kurulamadı. İnternetini kontrol edip tekrar dene.");
   return tt("Hesap bağlanamadı. Tekrar dene.");
@@ -40,6 +41,8 @@ function BaglamaFormu() {
   const [email, setEmail] = useState("");
   const [bekleyen, setBekleyen] = useState(null);
   const [gonderildi, setGonderildi] = useState(false);
+  const [kod, setKod] = useState("");
+  const [dogrulandi, setDogrulandi] = useState(false);
   const [hata, setHata] = useState(null);
 
   useEffect(() => {
@@ -86,12 +89,53 @@ function BaglamaFormu() {
     }
   };
 
-  if (gonderildi) {
+  // Yalnız uygulama (Aşama 3): doğrulama e-postadaki kodla uygulamanın İÇİNDE yapılır (bağlantı
+  // iPhone'da Safari'de açılır, uygulamaya dönmez). verifyOtp type "email_change", e-posta = yeni adres.
+  const kodDogrula = async (ev) => {
+    ev.preventDefault();
+    if (!/^\d{6,8}$/.test(kod) || bekleyen) return;
+    setHata(null);
+    setBekleyen("kod");
+    try {
+      const { error } = await supabase.auth.verifyOtp({ email: email.trim(), token: kod, type: "email_change" });
+      if (error) throw error;
+      setDogrulandi(true);
+    } catch (e) {
+      console.error("[Bildim] e-posta kodu doğrulanamadı:", e);
+      setHata(bagHatasi(e));
+    } finally {
+      setBekleyen(null);
+    }
+  };
+
+  if (dogrulandi) {
     return (
       <p className="qt-pf-not qt-pf-not--dogru" role="status">
         <QtIkon ad="onay" boyut={20} />
-        <span>{tt("E-postana bir doğrulama bağlantısı gönderdik. Bağlantıya dokununca hesabın kalıcı olur — ilerlemen aynen kalır.")}</span>
+        <span>{tt("Hesabın artık kalıcı — ilerlemen aynen kaldı.")}</span>
       </p>
+    );
+  }
+
+  if (gonderildi) {
+    return (
+      <div className="qt-pf-guvence-yontemler">
+        <p className="qt-pf-not qt-pf-not--dogru" role="status">
+          <QtIkon ad="onay" boyut={20} />
+          <span>{tt("E-postana bir kod gönderdik. Kodu buraya yaz, hesabın kalıcı olsun — ilerlemen aynen kalır.")}</span>
+        </p>
+        <form className="qt-pf-guvence-eposta" onSubmit={kodDogrula}>
+          <label className="qt-pf-alan">
+            <span>{tt("Doğrulama kodu")}</span>
+            <input type="text" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]*" maxLength={8}
+                   value={kod} onChange={(e) => { setKod(e.target.value.replace(/\D/g, "").slice(0, 8)); setHata(null); }} />
+          </label>
+          <QtDugme type="submit" tamGenislik yukleniyor={bekleyen === "kod"} devreDisi={!/^\d{6,8}$/.test(kod) || !!bekleyen}>
+            {bekleyen === "kod" ? tt("Doğrulanıyor…") : tt("Doğrula")}
+          </QtDugme>
+        </form>
+        {hata && <p className="qt-pf-hata" role="alert">{hata}</p>}
+      </div>
     );
   }
 
@@ -125,7 +169,10 @@ function BaglamaFormu() {
 /** Profil › Ayarlar — kalıcı giriş (yalnız misafire görünür). */
 export function HesapGuvenceKarti() {
   const { user } = useAuth();
-  if (!misafirMi(user)) return null;
+  // Kod doğrulanınca hesap kalıcı olur (is_anonymous=false); kart o anda kaybolmasın, onay mesajı görünsün.
+  const [misafirdi, setMisafirdi] = useState(false);
+  useEffect(() => { if (misafirMi(user)) setMisafirdi(true); }, [user]);
+  if (!misafirMi(user) && !misafirdi) return null;
   return (
     <QtKart as="section" className="qt-pf-guvence" aria-labelledby="qt-pf-guvence-baslik">
       <div className="qt-pf-guvence-ust">
@@ -145,7 +192,8 @@ export default function HesapGuvenceOnerisi({ kazandim }) {
   const { user } = useAuth();
   const [goster, setGoster] = useState(false);
   useEffect(() => {
-    setGoster(Boolean(kazandim) && misafirMi(user) && !oku());
+    // Kod doğrulanıp hesap kalıcı olunca kart açık kalır (onay mesajı); yalnız "Sonra" kapatır.
+    setGoster((g) => g || (Boolean(kazandim) && misafirMi(user) && !oku()));
   }, [kazandim, user]);
   if (!goster) return null;
   return (

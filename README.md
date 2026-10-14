@@ -19,7 +19,7 @@ Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık
 - 👥 Arkadaşlar, meydan okuma, rövanş, grup maçı, saf bilgi, hatalarım, görevler, dükkân ve koleksiyon.
 - 🤖 **Claude API ile soru üretimi** — Sorular Edge Function ile üretilir ve veritabanına kaydedilir.
 - 📲 **Yalnız uygulama** — Oyun kurulu uygulamada oynanır (iPhone: Safari › Paylaş › Ana Ekrana Ekle · Android/masaüstü Chrome-Edge: Uygulamayı yükle · macOS Safari: Dock'a Ekle). quiztactics.com tarayıcıda tanıtım + kurulum sayfasıdır; Firefox gibi kurulum desteklemeyen tarayıcılara telefon için QR gösterilir.
-- 🔐 Google / Facebook / X ile giriş, e-posta sihirli bağlantı ve misafir oyun.
+- 🔐 Google / Facebook / X ile giriş, e-posta kodu (uygulama içinde girilir) ve misafir oyun.
 
 ## Teknolojiler
 

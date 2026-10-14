@@ -33,6 +33,10 @@ function girisHatasi(e, saglayiciAd, ceviri) {
   if (/captcha/i.test(m)) {
     return ceviri("Güvenlik doğrulaması başarısız oldu. Kutuyu yenileyip tekrar dene.");
   }
+  // verifyOtp: yanlış ya da süresi geçmiş kod (GoTrue: otp_expired / "Token has expired or is invalid")
+  if (/otp_expired|token has expired|token.*invalid|invalid.*(otp|token)/i.test(m)) {
+    return ceviri("Kod yanlış ya da süresi dolmuş. Kontrol et veya yeni kod iste.");
+  }
   if (/rate limit|too many/i.test(m)) {
     return ceviri("Çok fazla deneme yapıldı. Birkaç dakika sonra tekrar dene.");
   }
@@ -182,6 +186,29 @@ export default function Login() {
   // Ters bölüler bir ara kaybolmuştu (/^[^s@]+…/): "s" harfi içeren her adres reddediliyordu.
   const epostaGecerli = (x) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(x).trim());
 
+  // Yalnız uygulama (Aşama 3): e-postadaki bağlantı iPhone'da Safari'de açılır ve oturum ana ekran
+  // uygulamasına geçmez. Bu yüzden giriş e-postadaki kodla, uygulamanın İÇİNDE tamamlanır
+  // (verifyOtp type "email": hem mevcut hesap hem yeni kayıt kodu). Bağlantı e-postada kalır.
+  // Uzunluk Supabase ayarı (mailer_otp_length); 6–8 hane kabul edilir.
+  const [kod, setKod] = useState("");
+  const kodGecerli = /^\d{6,8}$/.test(kod);
+  const kodDogrula = async (e) => {
+    e.preventDefault();
+    if (!kodGecerli || bekleyen) return;
+    setHata(null);
+    setBekleyen("kod");
+    try {
+      const { error } = await supabase.auth.verifyOtp({ email: email.trim(), token: kod, type: "email" });
+      if (error) throw error;
+      // Oturum AuthContext › onAuthStateChange ile açılır; giriş ekranı kendiliğinden kalkar.
+    } catch (err) {
+      setHataYeri("kod");
+      setHata(girisHatasi(err, "E-posta", ceviri));
+    } finally {
+      setBekleyen(null);
+    }
+  };
+
   const epostaGiris = async (e) => {
     e.preventDefault();
     setHata(null);
@@ -206,6 +233,7 @@ export default function Login() {
       });
       if (error) throw error;
       setGonderildi(true);
+      setKod("");
       captchaSifirla();
     } catch (err) {
       setHataYeri("eposta");
@@ -333,9 +361,28 @@ export default function Login() {
                       ikon="mesaj"
                       ton="dogru"
                       className="g-giris-gonderildi"
-                      metin={ceviri("Giriş bağlantısı {eposta} adresine gönderildi. E-postanı kontrol et.", { eposta: email })}
+                      metin={ceviri("Giriş kodu {eposta} adresine gönderildi. E-postadaki kodu buraya yaz.", { eposta: email })}
                       eylem={
                         <div className="g-giris-gonderildi-eylem">
+                          <form className="g-giris-form g-giris-kod" onSubmit={kodDogrula} noValidate>
+                            <label className="qt-gizli" htmlFor="g-giris-kod">{ceviri("Giriş kodu")}</label>
+                            <input
+                              id="g-giris-kod"
+                              className="g-girdi g-girdi-kod"
+                              type="text"
+                              inputMode="numeric"
+                              autoComplete="one-time-code"
+                              pattern="[0-9]*"
+                              maxLength={8}
+                              placeholder={ceviri("Kod")}
+                              value={kod}
+                              onChange={(e) => { setKod(e.target.value.replace(/\D/g, "").slice(0, 8)); if (hataYeri === "kod") setHata(null); }}
+                            />
+                            <QtDugme type="submit" tur="birincil" tamGenislik yukleniyor={bekleyen === "kod"} devreDisi={!kodGecerli || bekleyen !== null}>
+                              {bekleyen === "kod" ? ceviri("Giriş yapılıyor…") : ceviri("Giriş yap")}
+                            </QtDugme>
+                          </form>
+                          {hataNotu("kod")}
                           <QtDugme tur="ikincil" boyut="k" yukleniyor={bekleyen === "eposta"} devreDisi={bekleyen !== null || !captchaToken} onClick={epostaGiris}>
                             {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("Yeniden gönder")}
                           </QtDugme>
@@ -375,7 +422,7 @@ export default function Login() {
                         yukleniyor={bekleyen === "eposta"}
                         devreDisi={bekleyen !== null || !captchaToken}
                       >
-                        {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("E-posta ile giriş bağlantısı al")}
+                        {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("E-posta ile giriş kodu al")}
                       </QtDugme>
                     </form>
                   )}

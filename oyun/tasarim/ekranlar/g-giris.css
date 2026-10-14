@@ -105,6 +105,9 @@
 
 .g-giris-gonderildi { padding: var(--qt-b-2) 0; }
 .g-giris-gonderildi-eylem { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--qt-b-2); }
+/* Yalnız uygulama (Aşama 3): e-postadaki kod uygulamada girilir — kod formu satırın tamamını kaplar. */
+.g-giris-gonderildi-eylem .g-giris-kod { flex: 1 0 100%; }
+.g-girdi.g-girdi.g-girdi-kod { text-align: center; font-size: 22px; letter-spacing: .3em; font-variant-numeric: tabular-nums; }
 
 .g-giris .g-giris-misafir-not { margin-top: var(--qt-b-3); text-align: center; text-wrap: pretty; }
 

@@ -34,4 +34,19 @@ export default {
   "Adres çubuğundaki yükle simgesine ya da menüden": "Click the install icon in the address bar, or in the menu choose",
   "'ye tıkla": ".",
   "Zaten kuruluysa Quiz Tactics'i uygulamadan aç": "Already installed? Open Quiz Tactics from the app",
+
+  // ——— Aşama 3: e-posta kodu (Login.jsx, HesapGuvence.jsx) ———
+  "E-posta ile giriş kodu al": "Get a sign-in code by email",
+  "Giriş kodu {eposta} adresine gönderildi. E-postadaki kodu buraya yaz.":
+    "We sent a sign-in code to {eposta}. Enter the code from the email here.",
+  "Giriş kodu": "Sign-in code",
+  "Kod": "Code",
+  "Giriş yap": "Sign in",
+  "Kod yanlış ya da süresi dolmuş. Kontrol et veya yeni kod iste.": "The code is wrong or has expired. Check it or request a new one.",
+  "E-postana bir kod gönderdik. Kodu buraya yaz, hesabın kalıcı olsun — ilerlemen aynen kalır.":
+    "We sent a code to your email. Enter it here to make your account permanent — your progress stays.",
+  "Doğrulama kodu": "Verification code",
+  "Doğrula": "Verify",
+  "Doğrulanıyor…": "Verifying…",
+  "Hesabın artık kalıcı — ilerlemen aynen kaldı.": "Your account is now permanent — your progress is kept.",
 };
