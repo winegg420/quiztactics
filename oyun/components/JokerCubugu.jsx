@@ -308,7 +308,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
           {serbestMod
             ? tt("Jokerler şimdilik ücretsiz ve sınırsız")
             : durum.sinir === null || durum.sinir === undefined
-            ? tt("Arkadaş maçı: sınırsız joker (envanter/coin düşer)")
+            ? tt("Arkadaş maçı: her jokeri bir kez kullanırsın; stoğundan düşer, stok yoksa coin’le alınır.")
             : tt("Bu maçta {0} joker kullanımın kaldı", { 0: Math.max(0, durum.sinir - durum.kullanilan) })}
         </div>
       )}

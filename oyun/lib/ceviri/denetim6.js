@@ -2,7 +2,7 @@
 // (dil.js ile aynı kural); dil.js bu dosyayı SOZLUK.en'e katar.
 export default {
   // D-412: arkadaş maçında joker sayısı sınırsız ama her kullanım envanterden / coin'den düşer
-  "Arkadaş maçı: sınırsız joker (envanter/coin düşer)": "Friend match: unlimited jokers (uses your stock/coins)",
+  "Arkadaş maçı: her jokeri bir kez kullanırsın; stoğundan düşer, stok yoksa coin’le alınır.": "Friend match: each joker once; it comes from your stock, or is bought with coins if you have none.",
   // D-226: lig çubuğu tek ölçü + görünür açıklama
   "Yükselme hattına yakınlığın": "How close you are to promotion",
   "Yükselme hattının içindesin — sıranı koru.": "You're inside the promotion line — hold your rank.",
