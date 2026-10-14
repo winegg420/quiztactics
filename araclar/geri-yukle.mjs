@@ -16,15 +16,43 @@ if (!/@(127\.0\.0\.1|localhost|\[::1\])[:/]/.test(dizgi)) { console.error('Yaln�
 const tirnak = (s) => '"' + s.replace(/"/g, '""') + '"';
 const PARTI = 200;
 
+/** SQL metnini üst düzey ';' ile böler (tek tırnak, $tag$ ve -- yorumlarını gözetir). */
+function ifadelereBol(sql) {
+  const cikti = [];
+  let bas = 0;
+  for (let i = 0; i < sql.length; i++) {
+    const ch = sql[i];
+    if (ch === "'") { i = sql.indexOf("'", i + 1); while (sql[i + 1] === "'") i = sql.indexOf("'", i + 2); if (i < 0) break; }
+    else if (ch === '-' && sql[i + 1] === '-') { i = sql.indexOf('\n', i); if (i < 0) break; }
+    else if (ch === '$') {
+      const m = /^\$[A-Za-z_0-9]*\$/.exec(sql.slice(i, i + 64));
+      if (m) { const son = sql.indexOf(m[0], i + m[0].length); if (son < 0) break; i = son + m[0].length - 1; }
+    } else if (ch === ';') {
+      const s = sql.slice(bas, i + 1).replace(/^(\s*--[^\n]*\n)+/, '').trim();
+      if (s && s !== ';') cikti.push(s);
+      bas = i + 1;
+    }
+  }
+  return cikti;
+}
+
 async function ana() {
   const c = new PgIstemci(dizgi);
   await c.baglan();
   try {
     const manifest = JSON.parse(fs.readFileSync(path.join(klasor, 'manifest.json'), 'utf8'));
     await c.sorgu('set session_replication_role = replica'); // FK/tetikleyici sırası gerekmez
-    // Şema: ifade ifade değil, tek blok — dosya "if not exists"/hata yutan bloklarla yazıldı.
-    try { await c.sorgu(fs.readFileSync(path.join(klasor, 'sema.sql'), 'utf8')); }
-    catch (e) { console.error('sema.sql uygulanırken hata (devam ediliyor):', e.message); }
+    await c.sorgu('set check_function_bodies = off'); // fonksiyon gövdeleri oluşturma sırasında doğrulanmasın (pg_dump gibi)
+    // Şema: ifade ifade uygulanır; yerelde olmayan eklenti/cron gibi ifadelerin hatası sayılır, akış durmaz.
+    const ifadeler = ifadelereBol(fs.readFileSync(path.join(klasor, 'sema.sql'), 'utf8'));
+    const hatalar = new Map();
+    let tamam = 0;
+    for (const ifade of ifadeler) {
+      try { await c.sorgu(ifade); tamam++; }
+      catch (e) { hatalar.set(e.message, (hatalar.get(e.message) || 0) + 1); }
+    }
+    console.log(`şema: ${ifadeler.length} ifade, ${tamam} tamam, ${ifadeler.length - tamam} hata`);
+    for (const [m, n] of [...hatalar].slice(0, 10)) console.log(`  şema hatası x${n}: ${m}`);
 
     const sonuc = {};
     for (const [ad, beklenen] of Object.entries(manifest.tablo_satirlari)) {
@@ -61,6 +89,7 @@ async function ana() {
       const [sema, tablo] = ad.split('.');
       try { sonuc[ad].hedefte = Number(await c.tek(`select count(*) from ${tirnak(sema)}.${tirnak(tablo)}`)); }
       catch { sonuc[ad].hedefte = null; }
+      if (sonuc[ad].hedefte === null && sonuc[ad].beklenen === 0) continue; // boş Supabase tablosu yerelde yok: fark sayılmaz
       if (sonuc[ad].hedefte !== sonuc[ad].beklenen) { fark++; console.log(`FARK ${ad}: beklenen ${sonuc[ad].beklenen}, hedefte ${sonuc[ad].hedefte}${sonuc[ad].hata ? ' — ' + sonuc[ad].hata : ''}`); }
     }
     const nesne = {

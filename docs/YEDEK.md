@@ -32,6 +32,12 @@ node araclar/yedek-al.mjs
    Şemayı uygular, NDJSON verisini yükler, tablo/fonksiyon/policy/tetikleyici sayılarını `manifest.json` ile karşılaştırır (`TÜM SAYILAR EŞLEŞTİ`).
 3. Canlıya gerçek felaket geri yüklemesi ayrı, bilinçli bir işlemdir (yeni Supabase projesi + aynı araç, adres elle verilir).
 
-## Durum
+## Doğrulama (14 Eki 2026)
 
-- `geri-yukle.mjs` **henüz çalıştırılıp doğrulanmadı**: bu makinede Docker ve Postgres yok (bkz. PROGRESS.md 14 Eki 2026).
+- İkinci kopya:  (OneDrive, kişisel hesap oturumu açık). 481 dosya / 86.102.713 bayt — kaynakla birebir.
+- Geri yükleme testi: geçici gömülü Postgres 18 (npm , repo dışı, test sonrası silindi) ile  koşuldu.
+  - Eşleşti: public tablo 172/172, fonksiyon 834/834, tetikleyici 103/103 ve veri içeren tüm tabloların satır sayıları (public + auth + storage + cron + migrations).
+  - Şema: 3896 ifadeden 3824 uygulandı; 72 hata yerel ortama özgü (pg_cron/pg_net/supabase_vault eklentisi yok,  ve Supabase'in kendi auth/storage tabloları yok, auth.users'a bağlı 37 yabancı anahtar).
+  - Policy 130/133: 3 storage policy'si  olmadığı için yerelde kurulamadı. Gerçek Supabase yığınında () bu fark beklenmez.
+  - Auth/storage verisi test iskeletine (text kolonlu) yüklendi; satır sayıları eşleşti, tür/kısıt doğrulaması yapılmadı.
+- Sonuç: yedek içeriği eksiksiz ve yüklenebilir; tam birebir şema doğrulaması Supabase yığını (Docker) gerektirir.

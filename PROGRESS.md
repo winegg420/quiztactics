@@ -12187,3 +12187,9 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **Ölçüm:** `duello-v4-ekran.mjs` (taklit; 390×844 + 360×640, TR/EN, hareket azaltma) **740/750** — rehber metinleri, Geç ≥44 px, ekranda kalma, Geç sonrası çıkmama, zemin sınıfları (mavi/kırmızı/gerilim/final) eklendi. Kalan 10 hata ÖNCEDEN VAR (değişiklik geri alınarak doğrulandı): "00-giris" tek ekran + "DÜELLO" beklentisi — 1091'de giriş ortak 3-2-1'e geçtiğinden araç beklentisi eskimiş. Görüntüler `tasarim/duello-v4/` (08c-rehber-seri yeni). Build temiz.
 - **Gözlem:** paralel bir pencere aynı anda commit atıyordu (yedek aracı); commit'ler geçici index ile yalnız bu paketin dosyalarıyla atıldı.
 - **Açık:** gerçek iPhone'da zemin geçişi ve balon konumu Ida'nın telefonunda bakılmalı; `duello-v4-sql-testi` yerel koşusu; Son Düello'da berabere sonsuz tekrar (önceden de böyle) ayrı karar.
+
+## 14 Eki 2026 — Yedek ikinci kopya + geri yükleme testi
+- İkinci kopya: `C:\Users\ida\OneDrive\quiztactics-yedek\2026-10-14` (Google Drive/harici disk yok); 481 dosya, 86.102.713 bayt, kaynakla eşit.
+- Geri yükleme testi: repo dışı geçici `embedded-postgres` (PG 18.4) ile yapıldı, sonra silindi; repoya paket eklenmedi. Public tablo/fonksiyon/tetikleyici ve tüm satır sayıları eşleşti; policy 130/133 (storage.foldername yerelde yok).
+- Düzeltmeler: `geri-yukle.mjs` ifade ifade uygular, `check_function_bodies=off` (bir fonksiyon oluşturma 20+ dk takılıyordu), boş Supabase tablosunu fark saymaz. `pg-mini.mjs`: yerel TLS'siz bağlantı + SCRAM sonrası mesajların tek pakette gelip düşmesi (takılma) düzeltildi.
+- Açık: gerçek Supabase yığınında (Docker) birebir şema doğrulaması; OneDrive eşitlemesinin bulutta bitmesi.

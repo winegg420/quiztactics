@@ -66,13 +66,17 @@ export class PgIstemci {
     istek.writeInt32BE(80877103, 4);
     ham.write(istek);
     const yanit = await new Promise((coz) => ham.once('data', coz));
-    if (yanit.toString() !== 'S') throw new PgHata('Sunucu TLS kabul etmedi');
-
-    this.soket = await new Promise((coz, at) => {
-      const t = tls.connect({ socket: ham, servername: this.sunucu, rejectUnauthorized: false });
-      t.once('error', at);
-      t.once('secureConnect', () => coz(t));
-    });
+    const yerel = /^(localhost|127\.0\.0\.1|::1)$/i.test(this.sunucu);
+    if (yanit.toString() === 'N' && yerel) {
+      this.soket = ham; // yerel Postgres TLS'siz olabilir (geçici geri yükleme testi)
+    } else {
+      if (yanit.toString() !== 'S') throw new PgHata('Sunucu TLS kabul etmedi');
+      this.soket = await new Promise((coz, at) => {
+        const t = tls.connect({ socket: ham, servername: this.sunucu, rejectUnauthorized: false });
+        t.once('error', at);
+        t.once('secureConnect', () => coz(t));
+      });
+    }
     this.soket.on('data', (d) => this.#veri(d));
     this.soket.on('error', () => {});
 
@@ -170,7 +174,8 @@ export class PgIstemci {
     for (let i = 0; i < 32; i++) kanit[i] = istemciAnahtar[i] ^ imza[i];
 
     this.soket.write(mesaj('p', Buffer.from(`${sonProofsuz},p=${kanit.toString('base64')}`, 'utf8')));
-    await this.#bekle((tur, g) => tur === 'R' && g.readInt32BE(0) === 12);
+    // SASLFinal + AuthenticationOk + ParameterStatus… + ReadyForQuery tek TCP parçasında gelebilir
+    // (TLS'siz yerel bağlantı); ikinci bir bekleme kaydı gelmeden mesajlar düşerdi → tek beklemeyle Z'ye kadar.
     await this.#bekle((tur) => tur === 'Z');
   }
 
