@@ -45,6 +45,7 @@ import { tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import PaylasDugmesi from "../components/PaylasDugmesi.jsx";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
 
 // Sunucu her doğru cevaba 10 puan yazar (cevap_ver, migration 250). Yalnız
@@ -994,6 +995,11 @@ export default function MatchPage() {
                 const enc = encodeURIComponent(mesaj);
                 return (
                   <div className="m1-ss-satir m1-paylas" role="group" aria-label={tt("Paylaş")}>
+                    {/* Sistem paylaşımı + 1080×1920 maç sonucu kartı (Instagram, TikTok …) */}
+                    <PaylasDugmesi tur="sonuc" tur2="birincil" tamGenislik className="m1-paylas-kart" sonuc={{
+                      ad: benimProfil?.gorunen_ad, avatar: avatarSrc(benimProfil), benSkor: benimSkor, rakipSkor,
+                      durum: berabere ? "berabere" : kazandim ? "kazandi" : "kaybetti", rakipAd: botAdi(rakipProfil?.gorunen_ad),
+                    }} />
                     <QtDugme as="a" tur="ikincil" boyut="k" ikon="paylas" href={`https://wa.me/?text=${enc}`} target="_blank" rel="noreferrer">
                       WhatsApp
                     </QtDugme>

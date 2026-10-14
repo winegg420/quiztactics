@@ -68,6 +68,7 @@ import { sure, sureOlcek } from "../lib/sureler.js";
 import { aramaAraligiSn } from "../lib/gorunurluk.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs, tikBasligiEkle } from "../lib/zaman.js";
 import { saatOrnegiEkle, saatFarkiMs } from "../lib/sunucuSaati.js";
+import PaylasDugmesi from "../components/PaylasDugmesi.jsx";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
 
 // Bu istemcinin çizebildiği en yüksek Düello sürümü. 23 Eyl 2026: canlıdaki eski paket
@@ -1382,7 +1383,8 @@ function DuelloMac({ id }) {
   if (d.durum !== "aktif") {
     const kazandim = d.kazanan === d.ben;
     const rov = d.rovans ?? {};
-    const durum = d.durum === "iptal" ? "berabere" : kazandim ? "kazandi" : "kaybetti";
+    // 1102: Son Düello sınırında kazanan çıkmadı (v4.berabere) → berabere
+    const durum = d.durum === "iptal" || (d.durum === "bitti" && !d.kazanan && d.v4?.berabere) ? "berabere" : kazandim ? "kazandi" : "kaybetti";
     // 680 · Hâkimiyet: skor yerine yuva sayısı. Nakavt: eşik (hkS.esik; 870: 5) yuvaya ulaşan kazanır; son tur (duello_max_tur) sonunda yuvası çok olan;
     // eşitse Altın Soru (kim bildiyse o kazanır).
     const hkS = hkModel(d, ben, rakip);
@@ -1437,6 +1439,17 @@ function DuelloMac({ id }) {
           detay={d.durum === "bitti" || ezeliMetin || d.gecmis?.length ? (
             <>
               {d.durum === "bitti" && <OdulDokumu kaynak={`duello:${d.id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />}
+              {/* Sistem paylaşımı + 1080×1920 maç sonucu kartı (Klasik maç sonuyla aynı) */}
+              {d.durum === "bitti" && !sahne.terk && (
+                <div className="m1-ss-satir m1-paylas" role="group" aria-label={ceviri("Paylaş")}>
+                  <PaylasDugmesi tur="sonuc" tur2="birincil" tamGenislik className="m1-paylas-kart" sonuc={{
+                    ad: ben.gorunen_ad, avatar: ben.gorunen_avatar ?? null,
+                    benSkor: v4Mac ? Number(ben.dogru ?? 0) : hkS.acik && !hkS.puan ? hkS.benY : Number(ben.puan ?? 0),
+                    rakipSkor: v4Mac ? Number(rakip.dogru ?? 0) : hkS.acik && !hkS.puan ? hkS.rakipY : Number(rakip.puan ?? 0),
+                    durum, rakipAd: rakip.gorunen_ad,
+                  }} />
+                </div>
+              )}
               {/* Son tahta: iki tarafın yuvaları (ikonlarla) */}
               {d.durum === "bitti" && !v4Mac && <HkSonTahta d={d} ben={ben} rakip={rakip} c={c2} />}
               {/* Her soru: hamle sonucu (Aldın / Tutmadı / Kontra…), doğru cevap ve "şık işaretlenmedi" notu (sunucu: gecmis) */}

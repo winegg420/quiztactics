@@ -29,6 +29,7 @@ import "./arkadasCevrimici.css";
 import { gorunenAd } from "../lib/oyuncu.js";
 import { useArkadasaMacTeklifi } from "../lib/arkadasMaci.js";
 import { useArkadasArama, ARAMA_EN_AZ } from "../lib/arkadasArama.js";
+import PaylasDugmesi from "../components/PaylasDugmesi.jsx";
 
 const DOSTLUK_SECIMI = `id, requester, addressee, durum,
   req:profiles!friendships_requester_fkey(id, gorunen_ad, gorunen_avatar, gorunum, puan),
@@ -332,9 +333,13 @@ export default function FriendsPage() {
     <section className="ls-bolum" aria-labelledby="ar-davet">
       <h2 id="ar-davet" className="qt-baslik-3 ls-bolum-baslik">{tt("Arkadaş davet et")}</h2>
       <DavetKarti vurgulu={bosMu} kodGirisiGizle ekDugmeler={
-        <QtDugme tur="ikincil" tamGenislik devreDisi={!davetLinki} onClick={() => facebookDavetAc(davetLinki)}>
-          {tt("Facebook'ta paylaş")}
-        </QtDugme>
+        <div className="qt-paylas-ikili">
+          <QtDugme tur="ikincil" tamGenislik devreDisi={!davetLinki} onClick={() => facebookDavetAc(davetLinki)}>
+            {tt("Facebook'ta paylaş")}
+          </QtDugme>
+          {/* Sistem paylaşımı + 1080×1920 genel davet kartı (Instagram, TikTok, WhatsApp …) */}
+          <PaylasDugmesi tur="davet" boyut="o" tamGenislik />
+        </div>
       } />
     </section>
   );

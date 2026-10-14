@@ -1,0 +1,54 @@
+{
+ "mac-sonu-390": {
+  "baslik": "BERABERE",
+  "kutu": {
+   "x": 16,
+   "y": 360,
+   "width": 358,
+   "height": 44
+  },
+  "bilgi": "Bağlantı kopyalandı",
+  "pano": "http://localhost:5188/davet/QT7K2M",
+  "yatayTasma": 0
+ },
+ "davet-390": {
+  "fb": {
+   "x": 31,
+   "y": 610.953125,
+   "width": 183.828125,
+   "height": 44
+  },
+  "pd": {
+   "x": 222.828125,
+   "y": 610.953125,
+   "width": 136.171875,
+   "height": 44
+  }
+ },
+ "mac-sonu-1440": {
+  "baslik": "BERABERE",
+  "kutu": {
+   "x": 480,
+   "y": 360,
+   "width": 479.984375,
+   "height": 44
+  },
+  "bilgi": "Bağlantı kopyalandı",
+  "pano": "http://localhost:5188/davet/QT7K2M",
+  "yatayTasma": 0
+ },
+ "davet-1440": {
+  "fb": {
+   "x": 419,
+   "y": 608.578125,
+   "width": 341.21875,
+   "height": 52
+  },
+  "pd": {
+   "x": 768.21875,
+   "y": 608.578125,
+   "width": 252.78125,
+   "height": 52
+  }
+ }
+}

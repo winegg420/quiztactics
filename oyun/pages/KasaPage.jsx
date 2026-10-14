@@ -65,6 +65,7 @@ import LobiKurallari from "../components/LobiKurallari.jsx";
 import RehberBalonu from "../components/RehberBalonu.jsx";
 import { useIlkMacRehberi } from "../lib/ilkMacRehberi.js";
 import { modKurallari } from "../lib/modAciklamalari.js";
+import PaylasDugmesi from "../components/PaylasDugmesi.jsx";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
 
 const HARFLER = ["A", "B", "C", "D"];
@@ -1352,6 +1353,14 @@ function KasaMac({ id }) {
           detay={d.durum === "bitti" ? (
             <>
               <OdulDokumu kaynak={`kasa:${d.id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />
+              {/* Sistem paylaşımı + 1080×1920 maç sonucu kartı (Klasik / Düello maç sonuyla aynı) */}
+              {!sahne.terk && (
+                <div className="m1-ss-satir m1-paylas" role="group" aria-label={c("Paylaş")}>
+                  <PaylasDugmesi tur="sonuc" tur2="birincil" tamGenislik className="m1-paylas-kart" sonuc={{
+                    ad: ben.gorunen_ad, avatar: ben.gorunen_avatar ?? null, benSkor: skor.a, rakipSkor: skor.b, durum, rakipAd: rakip.gorunen_ad,
+                  }} />
+                </div>
+              )}
               <KasaGecmis gecmis={d.gecmis} c={c} />
               {/* 957: arkadaşla Kasa geçmişi (Düello 'ezeli' ile aynı metin ve görünüm) */}
               {ezeliMetin && <div className="bd-duello-ezeli">{ezeliMetin}</div>}

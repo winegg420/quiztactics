@@ -1,0 +1,10 @@
+/* PAYLAŞ düğmesi (components/PaylasDugmesi.jsx) — düğme + kısa durum yazısı ("Bağlantı kopyalandı"). */
+.qt-paylas { display: flex; flex-direction: column; align-items: stretch; gap: var(--qt-b-1, 4px); min-width: 0; }
+.qt-paylas-bilgi { font-size: 0.85rem; font-weight: 700; color: var(--success-2, #1D8A50); text-align: center; }
+/* Maç sonu paylaş satırında (m1-paylas ızgarası) kart paylaşımı tam satır, diğer düğmelerin üstünde */
+.m1-paylas > .m1-paylas-kart { grid-column: 1 / -1; }
+/* Davet bölümü: Facebook ve Paylaş yan yana; dar ekranda alt alta */
+.qt-paylas-ikili { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: var(--qt-b-2, 8px); width: 100%; }
+.qt-paylas-ikili .qt-dugme { min-width: 0; padding-inline: var(--qt-b-2, 8px); }
+.qt-paylas-ikili .qt-dugme-yazi { white-space: normal; overflow: visible; text-overflow: clip; text-align: center; line-height: 1.15; }
+@media (max-width: 340px) { .qt-paylas-ikili { grid-template-columns: 1fr; } }
