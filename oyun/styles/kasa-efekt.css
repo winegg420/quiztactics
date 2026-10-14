@@ -328,8 +328,11 @@
 }
 .ks-giris-isik {
   position: absolute; left: 50%; top: 52%; width: 680px; height: 680px; margin: -340px 0 0 -340px; border-radius: 50%;
-  background: repeating-conic-gradient(rgba(224, 161, 0, .2) 0 8deg, rgba(224, 161, 0, 0) 8deg 22deg);
-  -webkit-mask: radial-gradient(closest-side, #000 18%, transparent 100%); mask: radial-gradient(closest-side, #000 18%, transparent 100%);
+  /* 14 Eki (Paket A): ışınlar + yumuşak kenar ÖNCEDEN ÇİZİLMİŞ görsel (araclar/hazine-isik-uret.mjs; eskisi canlı
+     repeating-conic-gradient + radial mask idi — maskeli katman scale/rotate sırasında telefonda her karede yeniden boyanıyordu).
+     Görünüm aynı; katman yalnız transform/opacity oynatır, kendi birleştirme katmanında kalır. */
+  background: url("/hazine/giris-isik.webp") center / 100% 100% no-repeat;
+  will-change: transform, opacity;
   opacity: 0; animation: ks-giris-isin 4000ms linear var(--ks-gec, 0ms) both;
 }
 @keyframes ks-giris-isin { 0% { opacity: 0; transform: scale(.35) rotate(0); } 12% { opacity: .55; } 50% { opacity: .45; } 100% { opacity: 1; transform: scale(1.1) rotate(120deg); } }

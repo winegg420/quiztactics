@@ -284,9 +284,19 @@ export function KasaGirisSahnesi({ hedef, acmaMin, tavan = 0, carpanYazi = null,
       setN(yeni);
       if (yeni && !bildirilenRef.current.has(yeni)) { bildirilenRef.current.add(yeni); geriRef.current.onSayi?.(yeni); }
     };
+    // 14 Eki (Paket A): 80 ms'lik sabit tik yerine bir sonraki rakam sınırına kurulan zamanlayıcı (en çok 250 ms —
+    // bitisMs yoklamayla birkaç ms oynayabilir). Rakamlar aynı anlarda değişir; sahne boyunca ~12 yerine ~4 uyanma/sn.
+    let z = null;
+    const kur = () => {
+      if (bitti) return;
+      const t = performance.now();
+      const kalan = kilit != null ? (kilit - t) / 1000 : (Number(geriRef.current.bitisMs) - Date.now()) / 1000;
+      const sinir = kalan > 3 ? kalan - 3 : kalan - Math.floor(kalan);
+      z = setTimeout(() => { tik(); kur(); }, Number.isFinite(sinir) ? Math.max(16, Math.min(250, Math.round(sinir * 1000) + 5)) : 250);
+    };
     tik();
-    const z = setInterval(tik, 80);
-    return () => clearInterval(z);
+    kur();
+    return () => clearTimeout(z);
   }, []);
   return (
     <div className={sinif("ks-giris-an", n && "ks-giris-an--sayim")} role="status" aria-live="polite" style={{ "--ks-gec": gecikme }}>

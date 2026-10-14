@@ -475,6 +475,8 @@ function KasaMac({ id }) {
   useEffect(() => {
     sesKilidiAc();
     sesOnYukle("mac"); sesOnYukle("skill"); sesOnYukle(["coin", "rozet", "xp_dolma"]);   // maç sesleri önceden insin (ilk soru/tik sessiz kalmasın)
+    // Giriş sahnesinin önceden çizilmiş ışık görseli (kasa-efekt.css › .ks-giris-isik) sahne açılmadan insin
+    try { new Image().src = "/hazine/giris-isik.webp"; } catch { /* görsel yoksa sahne ışıksız açılır */ }
     yukle();
     const kanal = supabase
       .channel(`kasa-${id}`)
@@ -511,7 +513,14 @@ function KasaMac({ id }) {
     document.addEventListener("visibilitychange", gorunur);
     window.addEventListener("pageshow", tazeleHemen);
     window.addEventListener("online", tazeleHemen);
-    const saat = setInterval(() => setSimdi(Date.now()), 200);
+    // 14 Eki (Paket A): giriş sahnesi (sandık + 3-2-1) boyunca sayfa saati DURUR — sahne kendi sayacıyla akar ve bitince
+    // girisBitti ile saati bir kez ilerletir. Eskiden 200 ms'de bir bütün KasaPage yeniden çiziliyordu (CPU 6x'te kasma).
+    // Sigorta: sahnenin sunucu bitişi geçtiyse saat yine işler (sahne kendi bitişini bildiremese de 200 ms içinde kalkar).
+    const saat = setInterval(() => {
+      const bitis = girisBitisRef.current;
+      if (girisAktifRef.current && bitis != null && Date.now() + farkRef.current < bitis) return;
+      setSimdi(Date.now());
+    }, 200);
     return () => {
       clearInterval(yoklama);
       clearInterval(saat);
@@ -756,6 +765,8 @@ function KasaMac({ id }) {
   else if (gd.basladi) gd.bitti = true;
   const girisAktifRef = useRef(false);
   girisAktifRef.current = girisAktif;
+  const girisBitisRef = useRef(null);   // sunucu saatiyle sahne bitişi (200 ms saatinin sigortası)
+  girisBitisRef.current = girisBitis;
   useEffect(() => {
     if (!girisAktif || !birKez("giris:dusus")) return;
     // düşüş (kasa-efekt.css ks-giris-in: yere ~%20'de oturur) — geç gelen istemcide / gizli sekmede düşüş sesi atlanır
@@ -1604,7 +1615,10 @@ function KasaMac({ id }) {
         {savunmaAn && (d.faz === "sonuc" || (savunmaAn.tip === "tetik" && d.faz === "cevap")) && (
           <KasaSavunmaAni key={savunmaAn.anahtar} tip={savunmaAn.tip} benim={savunmaAn.benim} c={c} />
         )}
-        {sahne}
+        {/* 14 Eki (Paket A): giriş sahnesi (opak, kökü örter) sürerken alttaki soru ÇİZİLMEZ — ilk soru verisi 3-2-1
+            sırasında gelince soru ağacının çizimi (CPU 6x'te ~100 ms) sayımın ortasında kare düşürüyordu. Sahne kalkınca bir
+            kez çizilir; sayaç sunucu saatinden okunduğu için süre kaybı yok. */}
+        {girisAktif ? null : sahne}
         {/* Üç an KasaParcalari'nda (aynı işaretleme; /sure-ayar önizlemesi de bunları çizer) */}
         {jokerBilgiMetni && ["cevap", "sonuc"].includes(d.faz) && <KasaJokerBilgi key={jokerBilgiMetni.anahtar} bilgi={jokerBilgiMetni} />}
         {/* 953: DEVAM ödülü kazanıldı — altın parıltılı kart (yalnız bende; kazanamayınca karar satırında küçük not) */}

@@ -20,10 +20,16 @@ function bostaIsit() {
   if (bostaIsitildi || typeof window === "undefined") return;
   bostaIsitildi = true;
   const calistir = () => { try { macSonuOnYukle(); } catch { /* ısınmazsa sahne yine kendisi indirir */ } };
-  setTimeout(() => {
+  // 14 Eki (Paket A): ısınma (lottie_light + konfeti modülü, CPU 6x'te ~200 ms tek görev) maç başı sahnesi sürerken
+  // DÜŞMESİN — 5 sn, Hazine girişinde sandık/3-2-1'in tam ortasına denk geliyordu. 3-2-1 / giriş sahnesi ekrandaysa
+  // 1 sn sonra yeniden bakılır (bütün modlar: Hazine .ks-giris-an, ortak sayım .m1-sayim).
+  const SAHNE = ".ks-giris-an, .m1-sayim";
+  const dene = () => {
+    if (document.querySelector(SAHNE)) { setTimeout(dene, 1000); return; }
     if (window.requestIdleCallback) window.requestIdleCallback(calistir, { timeout: 4000 });
     else calistir();
-  }, 5000);
+  };
+  setTimeout(dene, 5000);
 }
 
 /**
