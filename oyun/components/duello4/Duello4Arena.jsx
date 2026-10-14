@@ -163,6 +163,11 @@ export default function Duello4Arena({
   const sunucuSimdi = Math.max(simdi, Date.now()) + farkMs;
   const gosterimBas = d.sureler?.gosterim_bas ? new Date(d.sureler.gosterim_bas).getTime() : null;
   const payiMs = Number(d.sureler?.gosterim_payi_ms ?? 2000);
+  // 1092: saldırı sorusunda sunucu "kim neyi aldı" açılışını gösterim payından ÖNCE ekler (gosterim_bas = soru anı +
+  // açılış + pay); açılış soru anından başlar. Kart fazında duyurudan sonra pay vardır (kartlar yalnız duyuruda kilitli).
+  const acilisMs = Number(d.sureler?.acilis_ms ?? 0);
+  const kartPayiMs = Number(d.sureler?.kart_payi_ms ?? 0);
+  const acilisBasMs = gosterimBas ? gosterimBas - payiMs - acilisMs : null;
   const soruFazi = ["notr", "cevap", "son"].includes(d.faz);
   const cv = d.cevap ?? {};
   const kilitli = Boolean(cv.ben_cevapladim);
@@ -185,7 +190,10 @@ export default function Duello4Arena({
   // Giriş (3-2-1): ilk nötr soru sunucuda soru_baslangic'a kadar gizli. O an gelince durum bir kez tazelenir.
   const soruBasMs = gosterimBas ? gosterimBas - payiMs : null;
   // 1091: giriş, Klasik/Grup ile aynı ortak 3-2-1 ekranıyla (sunucu saatine göre, yalnız maç başında bir kez).
-  const geriSayim = useGeriSayim(d.faz === "notr" && !d.soru && Boolean(soruBasMs), soruBasMs, farkMs);
+  // 1092: maçın 1. sorusu sayım sırasında gelir (sunucu, yavaş telefonda başlangıç sonrası okumayı beklemesin diye) ve katmanın
+  // ALTINDA bekler; sayım yalnız maç başında (soru no 1) bir kez.
+  const geriSayim = useGeriSayim(d.faz === "notr" && Number(v.soru_no) === 1 && Boolean(soruBasMs), soruBasMs, farkMs);
+  const sayimSurer = geriSayim !== null;
   useEffect(() => {
     if (!(d.faz === "notr" && !d.soru && soruBasMs)) return undefined;
     const bekle = soruBasMs - (Date.now() + farkMs) + 80;
@@ -195,7 +203,7 @@ export default function Duello4Arena({
   }, [d.faz, Boolean(d.soru), soruBasMs]);   // eslint-disable-line react-hooks/exhaustive-deps
 
   // Saldırı sorusu açılışı: kim neyi aldı (gösterim payının ilk ~1,6 sn'si).
-  const acilisAcik = d.faz === "cevap" && gosterimBas && sunucuSimdi < gosterimBas - payiMs + sure("duello4_acilis");
+  const acilisAcik = d.faz === "cevap" && gosterimBas && sunucuSimdi < acilisBasMs + sure("duello4_acilis");
 
   // Kontrol çekirdeği: el değişince uçuş + sarsıntı (TEK SEFER, anahtar = soru no).
   const oncekiKontrolRef = useRef(kontrol);
@@ -245,13 +253,13 @@ export default function Duello4Arena({
       // Soru sesi panelin kalktığı SUNUCU anına bağlı (faz cihaza geç gelse de görselle aynı an); o an yeniden
       // çizim zorlanır, panel 200 ms'lik saat tikini beklemez. Çok geride kaldıysa (yenileme/geç katılım) çalmaz.
       if (!gosterimBas) { sesKategoriSecildi(); sonra(sure("duello4_acilis"), () => sesSoruGeldi()); return; }
-      const bekle = gosterimBas - payiMs + sure("duello4_acilis") - (Date.now() + farkMs);
+      const bekle = acilisBasMs + sure("duello4_acilis") - (Date.now() + farkMs);
       if (bekle > 0) {
         sesKategoriSecildi();   // panel hâlâ ekranda
         sonra(Math.ceil(bekle) + 1, () => { setAcilisBitti(Date.now()); sesSoruGeldi(); });
       } else if (bekle > -GEC_SES_MS) sesSoruGeldi();
     });
-    if ((d.faz === "notr" || d.faz === "son") && soruMetni) birKez(`soru:${v.soru_no}`, () => sesSoruGeldi());
+    if ((d.faz === "notr" || d.faz === "son") && soruMetni && !sayimSurer) birKez(`soru:${v.soru_no}`, () => sesSoruGeldi());
     if (h && sm) {
       birKez(`sonuc:${h.no}`, () => {
         const benimki = h.oyuncular?.[benId];
@@ -261,7 +269,7 @@ export default function Duello4Arena({
         } else if (sm.baski) sonra(Math.round(650 * sureOlcek("duello4_baski")), () => { sesSonSaniyeler(); titret([30, 50, 30]); });
       });
     }
-  }, [d.faz, d.durum, soruMetni, h?.no, benKontrol]);   // eslint-disable-line react-hooks/exhaustive-deps
+  }, [d.faz, d.durum, soruMetni, h?.no, benKontrol, sayimSurer]);   // eslint-disable-line react-hooks/exhaustive-deps
   // Rakip cevapladı (ben hâlâ düşünürken) — soru başına bir kez.
   useEffect(() => {
     if (soruFazi && cv.rakip_cevapladi && !kilitli) birKez(`rakip:${v.soru_no}`, () => sesRakipCevapladi());
@@ -306,17 +314,27 @@ export default function Duello4Arena({
   // ---------------- sahne paneli
   let panel = null;
   let eylem = null;
-  let sayimKatmani = null;   // 1091: sabit (fixed) katman — transform'lu d4-sahne'nin DIŞINDA çizilir
-  if (d.faz === "notr" && !soruMetni) {
-    const kalan = soruBasMs ? Math.ceil((soruBasMs - sunucuSimdi) / 1000) : 0;
+  // 1091: sabit (fixed) katman — transform'lu d4-sahne'nin DIŞINDA çizilir. 1092: soru gelmiş olsa da sayım sürerken üstte.
+  const sayimKatmani = sayimSurer
+    ? <GeriSayim kalan={geriSayim} altYazi={v.ilk_mac ? c("Tek bilen KONTROLÜ alır · 3/3 seri kazanır") : null} />
+    : null;
+  if (d.faz === "notr" && !soruMetni && v.giris_bekle) {
+    // 1092: sunucu ilk soruyu iki oyuncu da maç ekranına gelince kurar (en çok duello_baglanma_sn); o ana kadar bekleme.
+    panel = (
+      <div className="d4-panel d4-panel--orta d4-giris" role="status">
+        <span className="d4-amblem"><QtIkon ad="kilic" boyut={46} /></span>
+        <h2 className="d4-dev">{c("DÜELLO")}</h2>
+        <p className="d4-alt d4-giris-bekle">{c("Rakip bağlanıyor…")}</p>
+      </div>
+    );
+  } else if (d.faz === "notr" && !soruMetni) {
     // 1091: sayım sürerken ortak 3-2-1; bitip soru gelene kadarki an için eski "BAŞLA" paneli kalır.
-    if (geriSayim !== null || kalan > 0) {
-      sayimKatmani = <GeriSayim kalan={geriSayim ?? Math.min(kalan, 3)} altYazi={v.ilk_mac ? c("Tek bilen KONTROLÜ alır · 3/3 seri kazanır") : null} />;
-    } else panel = (
+    // 1092: rakam YALNIZ ortak sayımdan (useGeriSayim) gelir — biten sayım ikinci bir hesapla yeniden görünmez.
+    if (!sayimSurer) panel = (
       <div className="d4-panel d4-panel--orta d4-giris">
         <span className="d4-amblem"><QtIkon ad="kilic" boyut={46} /></span>
         <h2 className="d4-dev">{c("DÜELLO")}</h2>
-        <b className="d4-giris-sayi" key={kalan}>{kalan > 0 ? kalan : c("BAŞLA")}</b>
+        <b className="d4-giris-sayi">{c("BAŞLA")}</b>
         {v.ilk_mac && <p className="d4-alt">{c("Tek bilen KONTROLÜ alır · 3/3 seri kazanır")}</p>}
       </div>
     );
@@ -330,7 +348,7 @@ export default function Duello4Arena({
       // Süre doldu: sunucu ~3 sn geç varış payından sonra iki kartı kendisi seçer — bu arada dokunuş kabul edilmez.
       const sureBitti = !(gosterSn > 0) && !d.kopuk;
       // Duyuru kilidi yalnız 1. adımda (kart fazı açılışı); 2. adım beklemesiz (12 Eki 2026).
-      const duyuruda = KART_TEK_DOKUNUS && adimE === 0 && gosterimBas != null && sunucuSimdi < gosterimBas;
+      const duyuruda = KART_TEK_DOKUNUS && adimE === 0 && gosterimBas != null && sunucuSimdi < gosterimBas - kartPayiMs;
       const gonder = async (k, ikinciMi) => {
         const ok = await onKart(k);
         const r = iyimserRef.current;

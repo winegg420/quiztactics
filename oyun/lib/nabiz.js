@@ -19,10 +19,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { zamanAsimiyla } from "./gorunurluk.js";
+import { saatOrnegiEkle } from "./sunucuSaati.js";
 
 const ARALIK_MS = 3000;
-// Saat farkı için örnek penceresi: en kısa gidiş-dönüşlü (en az belirsiz) örnek kullanılır (NTP yaklaşımı).
-const SAAT_ORNEK_PENCERE_MS = 60000;
 
 /**
  * @param {string} rpcAdi  "mac_nabiz" | "grup_mac_nabiz" | "hizli_mac_nabiz"
@@ -35,7 +34,6 @@ export function useMacNabiz(rpcAdi, parametreler, aktif = true) {
   const hazirRef = useRef(false);
   const paramRef = useRef(parametreler);
   paramRef.current = parametreler;
-  const saatOrnekleri = useRef([]);
 
   // 1056: yanıtı gelmeyen nabız varken yenisi atılmaz (DB yavaşken 3 sn'de bir istek aynı maç
   // satırında sıraya giriyordu); takılan istek 10 sn'de gerçekten kesilir (AbortController).
@@ -61,15 +59,9 @@ export function useMacNabiz(rpcAdi, parametreler, aktif = true) {
         // orta noktası alınır (lib/soruCek.js ile aynı NTP yaklaşımı). Yüksek gecikmede geri sayım kayıyordu.
         // Tek yavaş yanıt (DB takılması) saat farkını yüzlerce ms oynatıp geri sayımı geri sıçratıyordu (D-409):
         // nabız başına yeni fark değil, penceredeki EN KISA gidiş-dönüşlü örneğin farkı verilir.
+        // 1092: pencere ortak sunucu saati modülünde (lib/sunucuSaati.js) — bütün sayaçlar aynı farkı okur.
         const ornekMs = (gonderildiMs + alindiMs) / 2;
-        let saatFarkMs;
-        if (r.sunucu_zamani) {
-          const simdi = Date.now();
-          const liste = saatOrnekleri.current.filter((o) => simdi - o.at < SAAT_ORNEK_PENCERE_MS);
-          liste.push({ at: simdi, rtt: alindiMs - gonderildiMs, fark: new Date(r.sunucu_zamani).getTime() - ornekMs });
-          saatOrnekleri.current = liste;
-          saatFarkMs = liste.reduce((en, o) => (o.rtt < en.rtt ? o : en)).fark;
-        }
+        const saatFarkMs = r.sunucu_zamani ? saatOrnegiEkle(gonderildiMs, alindiMs, r.sunucu_zamani) ?? undefined : undefined;
         setNabiz({ ...r, _saat_ornek_ms: ornekMs, _saat_fark_ms: saatFarkMs });
         setNabizHatasi(null);
       }

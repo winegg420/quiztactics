@@ -42,7 +42,8 @@ import { sure, sureOlcek, varsayilanSure } from "../lib/sureler.js";
 import { aramaAraligiSn } from "../lib/gorunurluk.js";
 import { useOyunModu, useMacSonuGecisi } from "../lib/oyunModu.js";
 import { sonModuYaz } from "../lib/sonMod.js";
-import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle, tikBasligiEkle } from "../lib/zaman.js";
+import { sayacKaymasi, sayacGoster, sayacSinirMs, tikBasligiEkle } from "../lib/zaman.js";
+import { saatOrnegiEkle, saatFarkiMs, sayimFarkiMs } from "../lib/sunucuSaati.js";
 import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
 import { BasiliTut } from "../lib/useBasiliTut.js";
 import { useDonukSayac } from "../lib/useDonukSayac.js";
@@ -388,8 +389,7 @@ function KasaMac({ id }) {
     return () => { aktif = false; window.clearTimeout(zamanlayici); };
   }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const farkRef = useRef(0);
-  const farkOrnekRef = useRef([]);
+  const farkRef = useRef(saatFarkiMs() ?? 0);   // 1092: ortak sunucu saati modülünden
   const fazBitisRef = useRef(null);
   const dImzaRef = useRef("");
   const kanalHazirRef = useRef(false);
@@ -426,9 +426,8 @@ function KasaMac({ id }) {
       if (data) {
         // 980: istek/yanıt orta noktası + penceredeki en kısa gidiş-dönüş (eskisi yanıt anı + en büyük farktı:
         // giriş geri sayımı ve sayaç dönüş gecikmesi kadar geride kalıyor, örnek pencereden düşünce sıçrıyordu)
-        const saat = saatFarkiOrnekle(farkOrnekRef.current, gonderildi, alindi, data.sunucu_zamani);
-        farkOrnekRef.current = saat.ornekler;
-        farkRef.current = saat.fark;
+        // 1092: örnek penceresi ortak sunucu saati modülünde (lib/sunucuSaati.js; yöntem aynı).
+        farkRef.current = saatOrnegiEkle(gonderildi, alindi, data.sunucu_zamani) ?? farkRef.current;
         const imza = JSON.stringify({ ...data, sunucu_zamani: null });
         if (imza !== dImzaRef.current) { dImzaRef.current = imza; setD(data); }
         setYuklemeHatasi(null);
@@ -1383,6 +1382,8 @@ function KasaMac({ id }) {
       <>
         <KasaKadran d={d} c={c} />
         {kalanBas > 0 && kalanBas <= 3 && <GeriSayim kalan={kalanBas} />}
+        {/* 1092: sunucu başlangıcı iki oyuncu da maç ekranına gelince kurar (faz_bitis o ana kadar boş; en çok kasa_baglanma_sn) */}
+        {!d.faz_bitis && <p className="m2-bant m2-bant--katman" role="status">{c("Rakip bağlanıyor…")}</p>}
       </>
     );
   } else if (d.faz === "karar") {
@@ -1559,7 +1560,7 @@ function KasaMac({ id }) {
       {girisAktif && (
         <KasaGirisSahnesi hedef={Number(d.hedef ?? 50)} acmaMin={Number(d.acma_min ?? 0)} gecenMs={girisGecen}
                           tavan={Number(d.tavan ?? 0)} carpanYazi={carpanYazisi(d.devam_carpan, dil)}
-                          bitisMs={girisBitis - farkRef.current} onSayi={girisSayi} onBitti={girisBitti} c={c} />
+                          bitisMs={girisBitis - sayimFarkiMs(farkRef.current)} onSayi={girisSayi} onBitti={girisBitti} c={c} />
       )}
       {an && (
         <div className="ks-efekt" aria-hidden="true" key={an.id}>

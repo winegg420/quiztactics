@@ -27,6 +27,7 @@
 //   return () => durdur();
 // ============================================================
 import { supabase } from "../../src/lib/supabase.js";
+import { saatOrnegiEkle } from "./sunucuSaati.js";
 import { zamanAsimiyla } from "./gorunurluk.js";
 
 /**
@@ -71,6 +72,8 @@ export function soruCek({
       if (error) throw error;
       const s = Array.isArray(data) ? data[0] : data;
       if (!s) throw new Error("boş yanıt");
+      // 1092: her soru yanıtı ortak sunucu saatine örnek (turnuva lobisinde ilk örnek budur — 3-2-1 bununla başlar)
+      if (s.sunucu_zamani) saatOrnegiEkle(gonderildiMs, alindiMs, s.sunucu_zamani);
       // Sunucu saati istek dönüşünde ölçülürse ağ gecikmesinin tamamı saat
       // farkına eklenir. NTP yaklaşımıyla gidiş-dönüşün orta noktasını kullan.
       const teslim = () => {

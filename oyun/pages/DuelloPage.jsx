@@ -66,7 +66,8 @@ import { modAciklama, modKurallari } from "../lib/modAciklamalari.js";   // 12 E
 import { rpcDene } from "../lib/rpcDene.js";
 import { sure, sureOlcek } from "../lib/sureler.js";
 import { aramaAraligiSn } from "../lib/gorunurluk.js";
-import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle, tikBasligiEkle } from "../lib/zaman.js";
+import { sayacKaymasi, sayacGoster, sayacSinirMs, tikBasligiEkle } from "../lib/zaman.js";
+import { saatOrnegiEkle, saatFarkiMs } from "../lib/sunucuSaati.js";
 
 // Bu istemcinin çizebildiği en yüksek Düello sürümü. 23 Eyl 2026: canlıdaki eski paket
 // (yalnız v1 arayüzü) v2 maçını v1 gibi çizdi — saldıran tarafın şıkları kapalı kaldı.
@@ -505,9 +506,8 @@ function DuelloMac({ id }) {
       .then(([ek, toplam]) => { if (aktif) setSkillDeger({ ek: Number(ek), baski: Math.max(0, 15 - Number(toplam)) }); });
     return () => { aktif = false; };
   }, []);
-  const farkRef = useRef(0); // sunucu saati - istemci saati (ms)
+  const farkRef = useRef(saatFarkiMs() ?? 0); // sunucu saati - istemci saati (ms; 1092: ortak modülden)
   const fazBitisRef = useRef(null); // sunucu saatiyle geçerli faz bitişi (ms) — yedek yoklama için
-  const farkOrnekRef = useRef([]); // son 60 sn'nin saat farkı örnekleri
   const yukleniyorRef = useRef(false);
   const dImzaRef = useRef("");
   const kanalHazirRef = useRef(false);   // Realtime kanalı SUBSCRIBED mi
@@ -627,9 +627,8 @@ function DuelloMac({ id }) {
         }
         // Saat farkı (980): istek/yanıt orta noktası + son 60 sn'nin en kısa gidiş-dönüşlü örneği (lib/zaman.js ›
         // saatFarkiOrnekle; Klasik nabiz.js ile aynı). Eskisi yanıt anı + en büyük farktı (dönüş gecikmesi kadar geride).
-        const saat = saatFarkiOrnekle(farkOrnekRef.current, durumGonderildi, durumAlindi ?? Date.now(), data.sunucu_zamani);
-        farkOrnekRef.current = saat.ornekler;
-        farkRef.current = saat.fark;
+        // 1092: örnek penceresi ortak sunucu saati modülünde (lib/sunucuSaati.js; yöntem aynı).
+        farkRef.current = saatOrnegiEkle(durumGonderildi, durumAlindi ?? Date.now(), data.sunucu_zamani) ?? farkRef.current;
         // Durum değişmediyse state'e yeni nesne yazılmaz: bütün maç ağacı boşuna
         // yeniden çizilmesin (sunucu_zamani her yanıtta farklıdır, karşılaştırmaya girmez).
         const imza = JSON.stringify({ ...data, sunucu_zamani: null });
@@ -1010,7 +1009,9 @@ function DuelloMac({ id }) {
     if (!(kalanSn > 0)) return 0;
     const an = Date.now();
     const fg = farkGosterRef.current;
-    if (!fg) farkGosterRef.current = { fark: farkRef.current, an };
+    // 1092: büyük düzeltme (> 400 ms) kötü bir ilk örneğin (yavaş açılışta bekleyen istek) düzeltilmesidir — kaydırılmaz,
+    // bir kerede uygulanır; yoksa sayaç saniyeler boyunca gerçeğin gerisinde kalıp rakam atlıyordu (kart sayacı 10 → 8).
+    if (!fg || Math.abs(farkRef.current - fg.fark) > 400) farkGosterRef.current = { fark: farkRef.current, an };
     else {
       const izin = 0.05 * Math.max(0, an - fg.an);
       fg.fark += Math.max(-izin, Math.min(izin, farkRef.current - fg.fark));

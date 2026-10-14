@@ -9,6 +9,7 @@ import { QtDugme, QtIkon, QtKart, QtRozet } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import { tt } from "../lib/dil.js";
 import { sunucuOffsetMs } from "../lib/zaman.js";
+import { saatFarkiMs, sayimKalani } from "../lib/sunucuSaati.js";
 import SkillSeti from "./SkillSeti.jsx";
 
 /** Rakip dönmezse maçın hükmen biteceği süre — Grup/Hızlı (sunucudaki değerle aynı). */
@@ -199,31 +200,37 @@ export function GeriSayim({ kalan, altYazi = null }) {
 }
 
 /**
- * 1091 · Grup ve Düello için 3-2-1 kalan saniyesi (Klasik'teki MatchPage mantığının ortak hâli).
+ * 1091 · 3-2-1 kalan saniyesi — 1092'den beri BÜTÜN modların tek sayımı (Klasik/Saf Bilgi, Grup, Düello, Turnuva).
  * Sunucu ilk sorunun başlangıcını 3 sn + gösterim payı ileri kurar; burada sunucu saatine göre sayılır.
  * Kalan süre YALNIZ azalır (saat farkı sonradan değişse de geri sıçramaz); bir başlangıç için sayım bir kez biter.
+ * 1092: "3" görünürken (kalan > 2; gösterim payı dahil) bitiş her tikte en iyi saat örneğiyle yeniden tahmin edilir — ekranda
+ * değişen bir şey yok. Kalan 2'ye inince bitiş YEREL saate (performance.now) kilitlenir: 2 ve 1 tam birer saniye görünür,
+ * sonradan gelen saat örneği rakamı kısaltamaz/uzatamaz. İlk görüşte kalan zaten ≤ 2 ise (gerçekten geç gelen) oradan sayar.
  * @param {boolean} aktif  yalnız ilk soru/tur için true
  * @param {string|number|null} baslangic  sunucudaki soru başlangıcı (ISO ya da ms)
- * @param {number|null} saatFarkMs  sunucu - istemci saat farkı
+ * @param {number|null} [saatFarkMs]  sunucu - istemci saat farkı; verilmezse ortak sunucu saati (lib/sunucuSaati.js)
  * @returns {number|null}  gösterilecek kalan sn (en çok 3) ya da null
  */
 export function useGeriSayim(aktif, baslangic, saatFarkMs) {
   const [kalan, setKalan] = useState(null);
-  const sonRef = useRef({ baslangic: null, kalan: Infinity, t: 0 });
+  const sonRef = useRef({ baslangic: null, kilit: null });   // kilit: yerel bitiş (performance.now, ms)
   const bittiRef = useRef(null);
-  const farkRef = useRef(saatFarkMs ?? 0);
-  farkRef.current = saatFarkMs ?? 0;
+  const farkRef = useRef(saatFarkMs);
+  farkRef.current = saatFarkMs;
+  // Başlangıç iki kaynaktan (nabız / maç satırı) farklı yazımla gelebilir: karşılaştırma ms değeriyle.
+  const basMs = baslangic == null ? null : new Date(baslangic).getTime();
   useEffect(() => {
-    if (!aktif || baslangic == null || bittiRef.current === baslangic) { setKalan(null); return undefined; }
-    const bitis = new Date(baslangic).getTime();
-    if (!Number.isFinite(bitis)) { setKalan(null); return undefined; }
-    const son = sonRef.current.baslangic === baslangic ? sonRef.current : { baslangic, kalan: Infinity, t: performance.now() };
+    if (!aktif || basMs == null || !Number.isFinite(basMs) || bittiRef.current === basMs) { setKalan(null); return undefined; }
+    const bitis = basMs;
+    const baslangic = basMs;
+    const son = sonRef.current.baslangic === baslangic ? sonRef.current : { baslangic, kilit: null };
     sonRef.current = son;
     let id = null;
     const hesapla = () => {
-      const simdi = performance.now();
-      const k = Math.min((bitis - (Date.now() + farkRef.current)) / 1000, son.kalan - (simdi - son.t) / 1000);
-      son.kalan = k; son.t = simdi;
+      // Henüz hiç saat örneği yoksa (ör. turnuva lobisi) rakam gösterilmez: telefon saati yanlışsa sayım kayardı.
+      if (farkRef.current == null && saatFarkiMs() == null && son.kilit == null) { setKalan(null); return; }
+      // çekirdek lib/sunucuSaati.js › sayimKalani (belirsiz örnekte "geç biten" taraf; 2'de yerel saate kilit)
+      const k = sayimKalani(son, bitis, performance.now(), Date.now(), farkRef.current);
       if (k > 0.05) { setKalan(Math.min(k, 3)); return; }
       bittiRef.current = baslangic;
       setKalan(null);
@@ -232,14 +239,21 @@ export function useGeriSayim(aktif, baslangic, saatFarkMs) {
     hesapla();
     id = setInterval(hesapla, 100);
     return () => clearInterval(id);
-  }, [aktif, baslangic]);
+  }, [aktif, basMs]);
+  // İlk çizimde (etki henüz çalışmadan) değer burada hesaplanır: aksi hâlde soru bir kare sayım katmanı OLMADAN görünüyordu
+  // (Düello 1. sorusu sayım sırasında gelir — 1092). Asıl durum nesnesine dokunmaz (kilit etkide kurulur).
+  if (kalan === null && aktif && basMs != null && Number.isFinite(basMs) && bittiRef.current !== basMs
+      && sonRef.current.baslangic !== basMs && (farkRef.current != null || saatFarkiMs() != null)) {
+    const k = sayimKalani({ kilit: null }, basMs, performance.now(), Date.now(), farkRef.current);
+    if (k > 0.05) return Math.min(k, 3);
+  }
   return kalan;
 }
 
-/** Nabız yanıtından sunucu saat farkı (nabiz.js en kısa gidiş-dönüşlü örneği verir). */
+/** Nabız yanıtından sunucu saat farkı (nabiz.js, ortak sunucu saati modülünün en kısa gidiş-dönüşlü örneğini verir). */
 export function nabizSaatFarki(nabiz) {
-  if (!nabiz?.sunucu_zamani) return null;
-  return nabiz._saat_fark_ms ?? sunucuOffsetMs(nabiz.sunucu_zamani, nabiz._saat_ornek_ms ?? Date.now());
+  if (!nabiz?.sunucu_zamani) return saatFarkiMs();
+  return nabiz._saat_fark_ms ?? saatFarkiMs() ?? sunucuOffsetMs(nabiz.sunucu_zamani, nabiz._saat_ornek_ms ?? Date.now());
 }
 
 /**

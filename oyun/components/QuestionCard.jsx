@@ -3,6 +3,7 @@ import { QtSoruKarti, QtSayac, QtSik, QtSikler, QtSonucBandi, QtSkill, QtSkillCu
 import "../tasarim/ekranlar/m1-mac.css";
 import { supabase } from "../../src/lib/supabase.js";
 import { kalanSure, sunucuOffsetMs, gosterimTavani, sayacKaymasi, sayacGoster } from "../lib/zaman.js";
+import { saatOrnegiEkle } from "../lib/sunucuSaati.js";
 import JokerCubugu from "./JokerCubugu.jsx";
 import { SisPerdesi, SisKenar } from "./Sis.jsx";
 import Konfeti from "./Konfeti.jsx";
@@ -212,7 +213,12 @@ export default function QuestionCard({
     if (!soru) return;
     // Saat farkını soru geldiği anda bir kez sabitle; tik başına yeniden
     // hesaplanırsa sayaç donar.
-    const offset = sunucuOffsetMs(soru.sunucu_zamani, soru._saat_ornek_ms ?? Date.now());
+    // 1092: soru yanıtı ortak sunucu saatine örnek olarak verilir; sayaç penceredeki en kısa gidiş-dönüşlü farkı kullanır
+    // (nabız/Düello/Hazine ile aynı fark). Gidiş-dönüş bilinmiyorsa (eski yol) tek örnek farkına düşer.
+    const rtt = Number(soru._ag_gecikmesi_ms);
+    const offset = soru.sunucu_zamani && soru._saat_ornek_ms != null && Number.isFinite(rtt)
+      ? saatOrnegiEkle(soru._saat_ornek_ms - rtt / 2, soru._saat_ornek_ms + rtt / 2, soru.sunucu_zamani) ?? 0
+      : sunucuOffsetMs(soru.sunucu_zamani, soru._saat_ornek_ms ?? Date.now());
     offsetRef.current = offset;
     // 326: aynı sorunun ilk görülen başlangıcı (Ek Süre sonrası tazelenen soru yeni başlangıçla gelir).
     const soruAnahtar = `${soru.question_id}-${soru.soru_index}`;

@@ -267,9 +267,18 @@ export function KasaGirisSahnesi({ hedef, acmaMin, tavan = 0, carpanYazi = null,
   const bildirilenRef = useRef(new Set());
   useEffect(() => {
     let bitti = false;
+    // 1092: ortak sayım kuralı (MacHazirlik › useGeriSayim ile aynı): kalan 2'ye inince bitiş yerel saate kilitlenir —
+    // sonradan gelen saat örneği rakamı kısaltamaz/uzatamaz; 2 ve 1 tam birer saniye.
+    let kilit = null;
     const tik = () => {
       if (bitti) return;
-      const kalan = (Number(geriRef.current.bitisMs) - Date.now()) / 1000;
+      const t = performance.now();
+      let kalan;
+      if (kilit != null) kalan = (kilit - t) / 1000;
+      else {
+        kalan = (Number(geriRef.current.bitisMs) - Date.now()) / 1000;
+        if (kalan <= 2) kilit = t + Math.max(0, kalan) * 1000;
+      }
       if (!(kalan > 0)) { bitti = true; setN(null); geriRef.current.onBitti?.(); return; }
       const yeni = kalan <= 3 ? Math.ceil(kalan) : null;
       setN(yeni);

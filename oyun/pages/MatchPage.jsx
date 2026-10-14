@@ -35,14 +35,12 @@ import { sonModuYaz } from "../lib/sonMod.js";
 import { soruCek } from "../lib/soruCek.js";
 import { kanalBekleme, kanalYenilenmeli, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
 import { useMacNabiz } from "../lib/nabiz.js";
-import { HazirKapisi, KopukPerde, GeriSayim, useKopukToplamSn } from "../components/MacHazirlik.jsx";
+import { HazirKapisi, KopukPerde, GeriSayim, useKopukToplamSn, useGeriSayim, nabizSaatFarki } from "../components/MacHazirlik.jsx";
 import { macBittiReklam } from "../lib/reklam.js";
 import { y } from "../lib/yol.js";
 import { GB_MS } from "../lib/geriBildirim.js";
-import { sunucuOffsetMs, tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
+import { tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
 
-// Maç başı geri sayımda ekranda görünen en büyük rakam (sunucu mac_geri_sayim_sn = 3).
-const GERI_SAYIM_RAKAM = 3;
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 import { rpcDene } from "../lib/rpcDene.js";
@@ -556,35 +554,11 @@ export default function MatchPage() {
   const ilkSoruMu = (mac?.aktif_soru ?? 0) === 0;
   // Sunucu, 3 sn'ye ayrıca gösterim payı ekler (mac_geri_sayim_payi_ms): geç haber alan taraf da 3-2-1'i baştan
   // görür. Pay boyunca "3" bekler (kalan en çok 3 gösterilir), sonra gerçek zamanla akar.
-  const [geriSayim, setGeriSayim] = useState(null);
-  const sayimSonRef = useRef({ baslangic: null, kalan: Infinity, t: 0 });
-  const sayimBittiRef = useRef(null);  // geri sayımı biten başlangıç: sonraki nabız kaymasıyla "1" yeniden çıkmasın
-  useEffect(() => {
-    if (!ilkSoruMu || !nabiz?.basladi || !nabiz?.baslangic || !nabiz?.sunucu_zamani
-      || sayimBittiRef.current === nabiz.baslangic) {
-      setGeriSayim(null);
-      return undefined;
-    }
-    // Saat farkı nabiz.js'ten: penceredeki en kısa gidiş-dönüşlü örnek (tek yavaş yanıt sayımı oynatmaz, D-409).
-    const fark = nabiz._saat_fark_ms ?? sunucuOffsetMs(nabiz.sunucu_zamani, nabiz._saat_ornek_ms ?? Date.now());
-    const bitis = new Date(nabiz.baslangic).getTime();
-    let id = null;
-    // Kalan süre YALNIZ azalır: saat farkı sonradan büyürse sayım geri sıçramaz, gerçek hızda akmaya devam eder.
-    const son = sayimSonRef.current.baslangic === nabiz.baslangic ? sayimSonRef.current : { baslangic: nabiz.baslangic, kalan: Infinity, t: performance.now() };
-    sayimSonRef.current = son;
-    const hesapla = () => {
-      const simdi = performance.now();
-      const kalan = Math.min((bitis - (Date.now() + fark)) / 1000, son.kalan - (simdi - son.t) / 1000);
-      son.kalan = kalan; son.t = simdi;
-      if (kalan > 0.05) { setGeriSayim(Math.min(kalan, GERI_SAYIM_RAKAM)); return; }
-      sayimBittiRef.current = nabiz.baslangic;
-      setGeriSayim(null);
-      clearInterval(id);
-    };
-    hesapla();
-    id = setInterval(hesapla, 100);
-    return () => clearInterval(id);
-  }, [ilkSoruMu, nabiz?.basladi, nabiz?.baslangic, nabiz?._saat_fark_ms, nabiz?.sunucu_zamani]);
+  // 1092: ortak sayım (MacHazirlik › useGeriSayim; bu dosyadaki eski kopyayla aynı mantık — kalan yalnız azalır,
+  // bir başlangıç için bir kez biter). Saat farkı nabızdan (ortak sunucu saati modülünün en kısa gidiş-dönüşlü örneği).
+  const geriSayim = useGeriSayim(
+    ilkSoruMu && Boolean(nabiz?.basladi && nabiz?.baslangic && nabiz?.sunucu_zamani),
+    nabiz?.baslangic ?? null, nabizSaatFarki(nabiz));
 
   /** Rakip gelmiyor: maçı sıra tabanlı (asenkron) bırak. */
   const asenkronaGec = async () => {
@@ -857,6 +831,9 @@ export default function MatchPage() {
     // Rakip ekranda olsa bile onay vermeden maç başlamaz (kullanıcı isteği).
     if (senkronBekliyor) {
       return (
+        <>
+        {/* 1092: nabız "başladı" dediği an 3-2-1 başlar; maç satırı (Realtime/yoklama) geç gelse de sayım kapının üstünde görünür */}
+        {geriSayim !== null && <GeriSayim kalan={geriSayim} />}
         <HazirKapisi
           skillSecimi={!mac.jokersiz}
           macTur="1v1"
@@ -899,6 +876,7 @@ export default function MatchPage() {
             </div>
           }
         />
+        </>
       );
     }
 

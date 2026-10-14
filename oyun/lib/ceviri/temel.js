@@ -947,6 +947,7 @@ export default {
     "Sesli sohbet daveti": "Voice chat invite",
     "Kabul edersen mikrofonun açılır. Konuşma kaydedilmez.": "If you accept, your microphone turns on. The conversation isn't recorded.",
     "Bağlanıyor…": "Connecting…",
+    "Rakip bağlanıyor…": "Opponent connecting…",   // 1092: Düello / Ortak Hazine giriş beklemesi
     "İptal": "Cancel",
     "Sesli sohbet açık": "Voice chat on",
     "Sustur": "Mute",

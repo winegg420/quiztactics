@@ -304,9 +304,13 @@ export default function GroupMatchPage() {
 
   const duraklatildi = Boolean(nabiz?.duraklatildi) && mac?.durum === "aktif";
   // 1091: ilk sorudan önce 3-2-1 (sunucu ilk soruyu 3 sn + gösterim payı ileri kurar; herkes aynı anı görür).
+  // 1092: maç satırı henüz "başlamadı" diyorsa başlangıç nabızdan okunur (nabız başlatmayı satırdan önce bildirir; yavaş
+  // telefonda satır 2–3 sn geç geliyordu). Satır başladıysa yalnız satır (aktif_soru ile başlangıç birlikte değişir — 1091).
+  const satirBasladi = Boolean(mac?.basladi);
   const geriSayim = useGeriSayim(
-    mac?.durum === "aktif" && (mac?.aktif_soru ?? 0) === 0 && Boolean(mac?.basladi) && !duraklatildi,
-    mac?.soru_baslangic ?? null, nabizSaatFarki(nabiz));   // maç satırı: aktif_soru ile başlangıç birlikte değişir
+    mac?.durum === "aktif" && !duraklatildi
+      && (satirBasladi ? (mac?.aktif_soru ?? 0) === 0 : Boolean(nabiz?.basladi && nabiz?.baslangic)),
+    satirBasladi ? (mac?.soru_baslangic ?? null) : (nabiz?.baslangic ?? null), nabizSaatFarki(nabiz));
 
   const oncekiNabizRef = useRef(null);
   useEffect(() => {
@@ -540,6 +544,9 @@ export default function GroupMatchPage() {
   // başlamaz — kimse yarı yolda maçın içine düşmesin.
   if (mac.durum === "aktif" && !(mac.basladi ?? true)) {
     return sahne(
+      <>
+      {/* 1092: nabız "başladı" dediği an 3-2-1 başlar; maç satırı geç gelse de sayım kapının üstünde görünür */}
+      {geriSayim !== null && <GeriSayim kalan={geriSayim} />}
       <HazirKapisi
         macTur="grup"
         benHazir={Boolean(nabiz?.ben_hazir)}
@@ -566,6 +573,7 @@ export default function GroupMatchPage() {
           </div>
         }
       />
+      </>
     );
   }
 

@@ -38,13 +38,23 @@ import "../tasarim/ekranlar/m1-sonuc.css";
 import "../tasarim/ekranlar/m1-turnuva.css";
 import { gorunenAd } from "../lib/oyuncu.js";
 import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
+import { GeriSayim, useGeriSayim } from "../components/MacHazirlik.jsx";
+import { saatFarkiMs, saatOrnegiEkle } from "../lib/sunucuSaati.js";
 
 // Oyuncu listesi değişimlerinde (katılım, puan) yeniden okuma aralığı — bkz. oyuncuTazele.
 const OYUNCU_TAZELE_MS = 3000;   // Aşama 2: 1,5 → 3 sn (oyuncu listesi değişimleri tek okumada birleşir)
 
 /** Elenen/izleyen oyuncuya soru sayacı (Paket 41 M.2). Sunucu saatiyle hizalı. */
 function IzleyiciSayac({ soru }) {
-  const [fark] = useState(() => (soru?.sunucu_zamani ? new Date(soru.sunucu_zamani).getTime() - Date.now() : 0));
+  // 1092: ortak sunucu saati (eskisi yanıt anındaki tek farktı — dönüş gecikmesi kadar geride kalıyordu).
+  const [fark] = useState(() => {
+    const rtt = Number(soru?._ag_gecikmesi_ms);
+    if (soru?.sunucu_zamani && soru._saat_ornek_ms != null && Number.isFinite(rtt)) {
+      const f = saatOrnegiEkle(soru._saat_ornek_ms - rtt / 2, soru._saat_ornek_ms + rtt / 2, soru.sunucu_zamani);
+      if (f != null) return f;
+    }
+    return saatFarkiMs() ?? (soru?.sunucu_zamani ? new Date(soru.sunucu_zamani).getTime() - Date.now() : 0);
+  });
   // 326: sayaç tavanı sorunun ilk görülen başlangıcına göre (gösterim payı + Ek Süre).
   const ilkRef = useRef({ index: null, bas: null });
   if (soru?.baslangic && ilkRef.current.index !== soru.soru_index) ilkRef.current = { index: soru.soru_index, bas: soru.baslangic };
@@ -526,6 +536,8 @@ export default function TournamentPage() {
   useEffect(() => { sesOnYukle("turnuva"); }, []);
   // Müzik (Ajan H): turnuva maçı sürerken maç döngüsü, lobide turnuva teması.
   const turnuvaAktif = turnuva?.durum === "aktif";
+  // 1092: ilk soru sunucuda o an + 3 sn + gösterim payı kurulur; lobidekiler ortak 3-2-1'i görür (yalnız ilk soruda, bir kez).
+  const geriSayim = useGeriSayim(turnuvaAktif && Number(turnuva?.aktif_soru ?? 0) === 0, turnuva?.soru_baslangic ?? null);
   useEffect(() => {
     const ayarla = (macta) => import("../lib/sesArkaPlan.js").then((m) => m.muzikTurnuvaMacta(macta)).catch(() => { /* müzik kritik değil */ });
     ayarla(turnuvaAktif);
@@ -880,6 +892,7 @@ export default function TournamentPage() {
   return (
     <div className="qt-sahne-mac qt-sahne-gok m1-mac">
       <h1 className="qt-gizli">{tt("Turnuva")}</h1>
+      {geriSayim !== null && <GeriSayim kalan={geriSayim} />}
       {/* Paket 41 B/E/H: Klasik ile aynı çıkış (X), mod rozeti ve ses */}
       {/* Paket 43 C: hâlâ yarışan oyuncu için çıkış onaylı; elenmiş oyuncu / izleyici doğrudan çıkar.
           Vazgeç'te maç duraklamaz — soru sayacı sunucu saatinden akmaya devam eder. */}
