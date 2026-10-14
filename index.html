@@ -128,6 +128,26 @@
          ve ilk yukleme gecikmesi istenmiyor. -->
     <link rel="preload" as="font" type="font/woff2" href="/fonts/baloo-2-latin.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/nunito-latin.woff2" crossorigin />
+    <!-- Paket A/4 (14 Eki 2026): Türkçe harfler (ğ, ş, İ) nunito-latin-ext'te. Ön yüklenmeyince ancak metin çizilince
+         (yavaş 4G + CPU 6x'te 4,1 sn) fark ediliyor, 5,1 sn'de inip yazıyı yeniden diziyordu. Yalnız Türkçe arayüzde
+         (oyun/lib/dil.js › aktifDil ile aynı kural) ön yüklenir; İngilizce oyuncu fazladan indirmez. -->
+    <script>
+      (function () {
+        try {
+          var k = null;
+          try { k = localStorage.getItem("bildim_dil"); } catch (e) { /* depolama kapalı */ }
+          var tr = k === "tr";
+          if (k !== "tr" && k !== "en") {
+            var l = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+            for (var i = 0; i < l.length; i++) if (typeof l[i] === "string" && l[i].toLowerCase().indexOf("tr") === 0) tr = true;
+          }
+          if (!tr) return;
+          var b = document.createElement("link");
+          b.rel = "preload"; b.as = "font"; b.type = "font/woff2"; b.href = "/fonts/nunito-latin-ext.woff2"; b.crossOrigin = "anonymous";
+          document.head.appendChild(b);
+        } catch (e) { /* ön yükleme olmadan normal yol */ }
+      })();
+    </script>
     <link rel="stylesheet" href="/fonts/yazitipleri.css" />
     <!-- JavaScript ve uygulama stilleri inerken boş ekran gösterme. React ilk
          çizimde bu küçük, metinsiz marka yükleyicisini kendiliğinden değiştirir. -->
