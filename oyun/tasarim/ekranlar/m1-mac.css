@@ -783,6 +783,8 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-kart { flex: 0 1 auto; min-height: 120px; }
 }
 @media (max-width: 560px), (min-width: 561px) and (max-height: 960px) {
+  /* 14 Eki: kısa ekranda bekleme hapı çubuğun hak satırının yerine oturur (lib/beklemeKonum.js) — satır o sürede gizli */
+  body.bd-oyun-modu .m1-joker-yuva[data-bekleme-ustte] .m1-skill-hak { visibility: hidden; }
   /* Soluk joker çubuğunun üstüne düşerse okunur kalsın: ortalı küçük hap */
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-bekleme {
     left: 50%; right: auto; translate: -50% 0; max-width: calc(100% - 24px);

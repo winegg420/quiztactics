@@ -13,6 +13,7 @@
 //   node araclar/klasik-mac-ekran.mjs --adres=http://localhost:5187 [--yalniz=klasik,grup] [--dil=tr] [--boyut=390x844]
 //        [--oturum=.arayuz-denetim-oturum.json]
 // Oturum: --oturum, yoksa .arayuz-denetim-oturum.json, o da yoksa en yeni .arayuz-denetim-oturum-*.json.
+// --taklit-oturum (ya da hiç oturum dosyası yoksa): sahte JWT + taklit profil/ayar — canlıya HİÇ istek gitmez (14 Eki 2026).
 // Çıktı: tasarim/klasik-mac-turu/<mod>-<an>-<g>x<y>-<dil>.png (an: acik · secili · sonuc) + olcum.json
 import { chromium } from "playwright-core";
 import fs from "node:fs";
@@ -28,18 +29,36 @@ const BOYUTLAR = ARG.boyut ? [String(ARG.boyut).split("x").map(Number)] : [[390,
 const CIKTI = path.resolve("tasarim/klasik-mac-turu");
 fs.mkdirSync(CIKTI, { recursive: true });
 
+const REF = "etezccrifaetzrgfvawl";
+const b64 = (o) => Buffer.from(JSON.stringify(o)).toString("base64url");
+const TAKLIT_BEN = "0c1a5100-0000-4000-8000-0000000000aa";
+const TAKLIT_JWT = `${b64({ alg: "HS256", typ: "JWT" })}.${b64({ sub: TAKLIT_BEN, role: "authenticated", aud: "authenticated", exp: Math.floor(Date.now() / 1000) + 36000, is_anonymous: true })}.sahte`;
+const TAKLIT_KULLANICI = { id: TAKLIT_BEN, aud: "authenticated", role: "authenticated", email: "", phone: "", is_anonymous: true,
+  app_metadata: { provider: "anonymous", providers: [] }, user_metadata: {}, created_at: "2026-10-01T10:00:00Z" };
+const TAKLIT_OTURUM = { access_token: TAKLIT_JWT, token_type: "bearer", expires_in: 36000, expires_at: Math.floor(Date.now() / 1000) + 36000,
+  refresh_token: "sahte", user: TAKLIT_KULLANICI };
+const TAKLIT_PROFIL = { id: TAKLIT_BEN, xp: 1240, dil: "tr", lig: "gumus", coin: 1480, puan: 320, seri: 3, ulke: "TR", elmas: 40, level: 7, askida: false,
+  is_bot: false, gorunum: null, acik_bot: false, level_xp: 140, seri_gun: 3, takma_ad: "Deniz", username: "oyuncu_taklit", lig_gizli: false,
+  avatar_url: "/avatars/pro/tilki-k04.svg", gorunen_avatar: "/avatars/pro/tilki-k04.svg", gorunen_ad: "Deniz", created_at: "2026-10-01T10:00:00Z",
+  davet_kodu: "QT7K2M", toplam_mac: 42, arac_hesabi: true, hile_yetkisi: false, mesaj_kapali: false, avatar_onayli: true, rahatsiz_etme: false,
+  dereceli_tercih: true, takma_ad_secildi: true, vitrin_rozetleri: [], kosullar_kabul_at: "2026-10-01T10:00:00Z", level_gereken: 400 };
+const TAKLIT = Boolean(ARG["taklit-oturum"]);
 function oturumDosyasi() {
+  if (TAKLIT) return null;
   if (ARG.oturum) return path.resolve(String(ARG.oturum));
   const varsayilan = path.resolve(".arayuz-denetim-oturum.json");
   if (fs.existsSync(varsayilan)) return varsayilan;
   const adaylar = fs.readdirSync(".").filter((f) => /^\.arayuz-denetim-oturum-.+\.json$/.test(f))
     .map((f) => ({ f, t: fs.statSync(f).mtimeMs })).sort((a, b) => b.t - a.t);
-  if (!adaylar.length) { console.error("Oturum dosyası yok (.arayuz-denetim-oturum*.json). Önce node araclar/arayuz-denetim.mjs."); process.exit(2); }
+  if (!adaylar.length) { console.error("Oturum dosyası yok (.arayuz-denetim-oturum*.json) — taklit oturumla devam (--taklit-oturum)."); return null; }
   return path.resolve(adaylar[0].f);
 }
 const OTURUM = oturumDosyasi();
-const durumDosya = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
+const TAKLIT_MOD = !OTURUM;
 const kok = new URL(ADRES).origin;
+const durumDosya = TAKLIT_MOD
+  ? { cookies: [], origins: [{ origin: kok, localStorage: [{ name: `sb-${REF}-auth-token`, value: JSON.stringify(TAKLIT_OTURUM) }] }] }
+  : JSON.parse(fs.readFileSync(OTURUM, "utf8"));
 durumDosya.origins = (durumDosya.origins || []).slice(0, 1).map((o) => ({ ...o, origin: kok }));
 const oturumKullanici = (() => {
   try {
@@ -155,6 +174,16 @@ const OLC = () => {
     tepkiVar: Boolean(document.querySelector(".m1-alt .m1-tepki, .m1-alt .qt-ikon-dugme")),
     sikDurumlari: siklar.map((e) => (String(e.className).match(/qt-sik--([a-z]+)/) || [])[1] || "?"),
     bant: (q(".m1-sonuc-yuva")?.innerText || "").trim().slice(0, 60),
+    // 14 Eki: "… bekleniyor" satırı, sonuç bandı ve joker hak satırı birbirine binmemeli
+    bekleme: (() => {
+      const bk = q(".m1-bekleme"); if (!bk || !gor(bk)) return null;
+      const r = bk.getBoundingClientRect();
+      const kes = (e) => { if (!e || !gor(e)) return false; const k = e.getBoundingClientRect();
+        return Math.min(r.right, k.right) - Math.max(r.left, k.left) > 1 && Math.min(r.bottom, k.bottom) - Math.max(r.top, k.top) > 1; };
+      const bandMetin = [...document.querySelectorAll(".m1-sonuc-yuva *")].filter((e) => e.children.length === 0 && (e.textContent || "").trim() && gor(e));
+      return { top: +r.top.toFixed(1), bottom: +r.bottom.toFixed(1), bantaBiniyor: bandMetin.some(kes), hakSatiriBiniyor: kes(q(".m1-skill-hak")),
+        jokerBiniyor: [...document.querySelectorAll(".m1-joker-yuva .qt-skill")].some(kes), sikBiniyor: siklar.some(kes) };
+    })(),
   };
 };
 
@@ -206,6 +235,7 @@ async function yonlendir(r, b) {
     // ---- RPC
     if (yol.startsWith("rpc/")) {
       const fn = yol.slice(4);
+      if (fn === "profilim" && TAKLIT_MOD) return json(r, { ...TAKLIT_PROFIL, dil: b.dil });
       if (fn === "profilim") {
         // Gerçek profil bir kez okunur; dil tarayıcıda taklit edilir (veritabanı değişmez)
         if (!onbellek.profilim) { const y = await r.fetch(); onbellek.profilim = await y.json(); }
@@ -229,11 +259,13 @@ async function yonlendir(r, b) {
       case "tournament_players": return liste(turnuvaOyunculari(ben));
       case "match_jokers": case "group_match_jokers": case "match_messages": case "group_match_messages": return liste([]);
       case "oyun_ayarlari": {
+        if (TAKLIT_MOD) return json(r, []);   // taklit: varsayılan ayarlar
         if (!onbellek.ayarlar) { const y = await r.fetch(); onbellek.ayarlar = await y.json(); }
         gecenOkuma.add("oyun_ayarlari (önbellek)");
         return json(r, onbellek.ayarlar);
       }
       default:
+        if (TAKLIT_MOD) return json(r, nesneIstek ? null : []);
         gecenOkuma.add(`GET ${yol}`);
         return r.continue();
     }
@@ -278,6 +310,8 @@ async function sayfaCalistir(ctx, mod, [g, h], dil) {
   await sayfa.addInitScript((d) => { try { localStorage.setItem("bildim_dil", d); localStorage.setItem("bildim_tanitim", "1"); } catch { /* depolama kapalı */ } }, dil);
   await sayfa.route(/\/rest\/v1\//, (r) => yonlendir(r, bag));
   await sayfa.route(/\/functions\/v1\//, (r) => json(r, {}));
+  if (TAKLIT_MOD) await sayfa.route(/\/auth\/v1\//, (r) => { const u = r.request().url();
+    return json(r, u.includes("/user") ? TAKLIT_KULLANICI : u.includes("/token") ? TAKLIT_OTURUM : {}); });
   await sayfa.route(/\/realtime\/|\.(mp3|ogg|wav|m4a)(\?|$)/, (r) => r.abort());
   const kayit = { mod, boyut: `${g}x${h}`, dil, not: [] };
   const ad = (an) => path.join(CIKTI, `${mod}-${an}-${g}x${h}-${dil}.png`);
@@ -331,7 +365,7 @@ try {
   try {
     const son = await baglam.storageState();
     const jetonVar = son.origins?.some((o) => o.localStorage?.some((x) => /^sb-.*-auth-token$/.test(x.name)));
-    if (jetonVar) fs.writeFileSync(OTURUM, JSON.stringify(son, null, 1));
+    if (jetonVar && OTURUM) fs.writeFileSync(OTURUM, JSON.stringify(son, null, 1));
   } catch { /* yazılamadı: bir sonraki koşu yeniden giriş ister */ }
   await baglam.close().catch(() => {});
   await tarayici.close().catch(() => {});
@@ -343,7 +377,7 @@ let eski = [];
 try { if (ARG.yalniz || ARG.dil || ARG.boyut) eski = JSON.parse(fs.readFileSync(raporYolu, "utf8")).sayfalar ?? []; } catch { /* ilk koşu */ }
 const anahtar = (s) => `${s.mod}|${s.boyut}|${s.dil}`;
 const birlesik = [...eski.filter((e) => !sonuclar.some((s) => anahtar(s) === anahtar(e))), ...sonuclar];
-fs.writeFileSync(raporYolu, JSON.stringify({ uretim: iso(0), adres: ADRES, oturum: path.basename(OTURUM),
+fs.writeFileSync(raporYolu, JSON.stringify({ uretim: iso(0), adres: ADRES, oturum: OTURUM ? path.basename(OTURUM) : "taklit",
   kesilenYazmalar: [...kesilenler], taklitsizRpc: [...taklitsizRpc], gecenOkumalar: [...gecenOkuma], sayfalar: birlesik }, null, 1));
 
 console.log("\nmod      boyut    dil  kayma(px)  sığıyor  yatay  örtüşme  alt-tek-satır  soru-kayar  not");
