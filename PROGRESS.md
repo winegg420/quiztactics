@@ -12168,3 +12168,10 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - Gizlilik (`GizlilikPage`) ve hesap-sil (`HesapSilPage`) metinleri "Facebook ile giriş şu an sunulmuyor" olacak şekilde sadeleştirildi (TR/EN, `ceviri/yasal.js`). Gizlilik ve hesap-sil adresleri aynen çalışıyor.
 - Dokunulmadı: Google/e-posta/misafir, `facebook_kimligi_kaydet` ve `facebookArkadas.js` altyapısı.
 - Açık nokta: Arkadaşlar sayfasında "Facebook'ta paylaş" düğmesi (davet linki paylaşımı, giriş değil) duruyor; Facebook arkadaş önerisi bölümü yalnız FB oturumu varsa görünür. Karar Ida'da.
+
+## 14 Eki 2026 — Yedek aracı (yayın öncesi madde 10)
+- Ön kontrol: `supabase/.temp/project-ref` ve `.env` = `etezccrifaetzrgfvawl` (doğru; hub değil).
+- Eklendi: `araclar/yedek-al.mjs` (pg-mini ile salt-okunur, tutarlı görüntü; Docker/pg_dump yok), `araclar/geri-yukle.mjs`, `docs/YEDEK.md`; `.gitignore`'a yedek desenleri.
+- İlk yedek: 82 MB, 123 sn, 210 tablo (public 172 + auth 27 + storage 8 + cron 2 + migrations 1), Storage 269/269 dosya. Şema: 834 fonksiyon, 133 policy, 103 tetikleyici, 24 cron işi.
+- Geri yükleme testi YAPILMADI: Docker ve yerel Postgres kurulu değil (kurulum gerekiyor → talimat gereği durdu). `geri-yukle.mjs` doğrulanmadı.
+- Karar: yedek repo dışında (`quiztactics-yedek`), ikinci kopya Ida'nın bulut diskine.

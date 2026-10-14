@@ -63,3 +63,8 @@ RAPOR.md
 .sezon-gorev-oturum*.json
 denetim/oturum-*.json
 denetim/betikler/tur2/*.json
+
+# Canlý yedekler (kullanýcý verisi) — repo dýþýnda tutulur, yanlýþlýkla girmesin
+quiztactics-yedek/
+yedek/
+*.ndjson
