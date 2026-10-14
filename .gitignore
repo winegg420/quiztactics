@@ -72,3 +72,15 @@ yedek/
 
 # Tanıtım sayfası ham ekran görüntüleri (araclar/tanitim-ekran.mjs)
 tanitim-ham/
+
+# Play Store / TWA (android/): derleme çıktıları ve imza anahtarları repoya girmez
+*.keystore
+*.jks
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/app/release/
+*.aab
+*.apk
+*.idsig
