@@ -73,8 +73,9 @@ export function girisDiliniAl() {
 
 // ------------------------------------------------------------ sayfa dili
 // Aşama 2: kancasız metinler (`tt`) sayfa yüklenirken çözülen dili kullanır.
-// Profil tercihi farklı çıkarsa `useDil` bunu tarayıcıya yazıp sayfayı bir
-// kez yeniler; elle dil değişimi de yeniler. Böylece modül düzeyindeki
+// Profil tercihi farklı çıkarsa `useDil` bunu tarayıcıya yazıp SAYFA YENİLENMEDEN
+// uygular (`dilUygula`, 14 Eki 2026 — eskiden yeniliyordu, döngüye girebiliyordu);
+// elle dil değişimi tek bir yenileme yapar. Böylece modül düzeyindeki
 // sabitler (sekme adları, katalog metinleri) de doğru dilde kurulur.
 let aktif = null;
 
@@ -89,16 +90,43 @@ export function tarihDili() {
   return aktifDil() === "en" ? "en-GB" : "tr-TR";
 }
 
-try {
-  if (typeof document !== "undefined") {
+const TR_ACIKLAMA = typeof document !== "undefined" ? document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "" : "";
+/** Sayfa dili + açıklama meta'sı; açılışta İngilizceyse sekme başlığı da (sonra rotalar kendi başlığını yazar). */
+function belgeDiliniYaz(acilis = false) {
+  try {
+    if (typeof document === "undefined") return;
     document.documentElement.lang = aktifDil();
     // Sekme başlığı ve açıklama meta'sı (index.html Türkçe): İngilizce oyuncuya İngilizce (paylaşım/arama önizlemesi statik kalır)
-    if (aktifDil() === "en") {
-      document.title = "Quiz Tactics — Trivia Game";
-      document.querySelector('meta[name="description"]')?.setAttribute("content", "A trivia game: 1v1 challenges, daily tournaments, city and country leagues. Thousands of questions, free.");
-    }
+    const en = aktifDil() === "en";
+    if (acilis && en) document.title = "Quiz Tactics — Trivia Game";
+    document.querySelector('meta[name="description"]')?.setAttribute("content", en
+      ? "A trivia game: 1v1 challenges, daily tournaments, city and country leagues. Thousands of questions, free."
+      : TR_ACIKLAMA);
+  } catch { /* DOM yok */ }
+}
+belgeDiliniYaz(true);
+
+// Dil yenilemesiz değişince (açılışta profil dili ≠ tarayıcıdaki dil) dinleyiciler haber alır:
+// kök (dilKanca.js › DilKoku) ağacı yeniden kurar, kancasız `tt` metinleri de yeni dilde çizilir.
+const dilDinleyicileri = new Set();
+export function dilAboneOl(dinleyici) {
+  dilDinleyicileri.add(dinleyici);
+  return () => dilDinleyicileri.delete(dinleyici);
+}
+
+/**
+ * Dili SAYFA YENİLENMEDEN uygular: tarayıcıya yazar, sayfa dilini değiştirir, kökü haberdar eder.
+ * Sözlük önceden yüklenmiş olmalı (`sozlukYukle`). Modül düzeyinde bir kez hesaplanmış birkaç sabit
+ * (ör. varsayılan oyuncu adı) bir sonraki açılışa kadar eski dilde kalabilir — kabul edilen bedel.
+ */
+export function dilUygula(dil, zorla = false) {
+  if (!DILLER.includes(dil) || (!zorla && dil === aktifDil())) return;
+  dilKaydet(dil);
+  belgeDiliniYaz();
+  for (const d of dilDinleyicileri) {
+    try { d(dil); } catch (e) { console.error("[Dil] dinleyici hatası:", e); }
   }
-} catch { /* DOM yok */ }
+}
 
 /**
  * Geçerli dili SIRALI KURALLA çözer.

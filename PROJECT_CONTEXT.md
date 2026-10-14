@@ -726,6 +726,11 @@ Ida "kendin doldur" dedi; hepsi test değeridir, yayından önce yeniden bakıla
 - **Başlangıç elması tek ayar (610):** `baslangic_elmas` = 10.000 (TEST; **yayında 150**) — yeni hesap ilk
   girişte alır (`handle_new_user`; bot hesabı almaz). Test için mevcut insan hesapların bakiyesi 10.000'e
   tamamlandı (defter `test` / `test_bakiye_baslangic`). Yayın günü: ayarı 150'ye çek, test elmaslarına karar ver.
+- **Dil kaynağı tek yön (Ida, 14 Eki 2026):** girişli oyuncuda kaynak `profiles.dil`. Açılışta profil dili tarayıcıdakinden farklıysa
+  localStorage'a yazılır ve **sayfa yenilenmeden** uygulanır (`dil.js › dilUygula` + `dilKanca.js › DilKoku` ağacı yeniden kurar).
+  Elle değişim: önce profil, sonra tek yenileme; profil yazılamazsa dil değişmez ("Dil kaydedilemedi" şeridi). **Yenileme sigortası:**
+  kodun kendi yaptığı otomatik yenilemeler `src/lib/yenilemeSigortasi.js › otomatikYenile` üzerinden — 30 sn'de en çok 2 (dil, parça
+  hatası, hata kartı `online`). Test: `araclar/dil-yenileme-testi.mjs` (taklit; eski kod 6 sn'de 140 yenileme yapıyordu).
 - **Yeni profil dili (610, D-203):** profil giriş ekranındaki dille doğar (misafir/e-posta kayıt verisi `dil`;
   Google yönlendirmesinde cihazdaki `bildim_giris_dili` yeni hesaba bir kez yazılır). Mevcut profilin kayıtlı
   dili ezilmez. Soru dili `profiles.dil` → `soru_dilinde` (aktif soru havuzu 15.761, 15.429'unun EN çevirisi var — 14 Eki 2026, 1095 (codex-15, +197) sonrası ölçüm; toplam 19.628).

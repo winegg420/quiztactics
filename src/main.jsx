@@ -9,6 +9,7 @@ import { BrowserRouter } from "react-router-dom";
 import KokUygulama from "./BildimApp.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import HataSiniri from "./components/HataSiniri.jsx";
+import { DilKoku } from "../oyun/lib/dilKanca.js";
 import YukleniyorEkrani from "../oyun/components/YukleniyorEkrani.jsx";
 import { hataIzlemeKur } from "./lib/hataIzleme.js";
 import { parcaYenilemeKur } from "./lib/tembelYukle.js";
@@ -67,9 +68,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <AuthProvider>
         {/* Son savunma: kabuğun dışında bir hata olursa beyaz ekran yerine kart */}
         <HataSiniri>
-          <Suspense fallback={<YukleniyorEkrani />}>
-            <KokUygulama />
-          </Suspense>
+          {/* Dil yenilemesiz değişince (açılışta profil dili) ağaç yeniden kurulur — oyun/lib/dilKanca.js */}
+          <DilKoku>
+            <Suspense fallback={<YukleniyorEkrani />}>
+              <KokUygulama />
+            </Suspense>
+          </DilKoku>
         </HataSiniri>
       </AuthProvider>
     </BrowserRouter>

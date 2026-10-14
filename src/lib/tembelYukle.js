@@ -15,6 +15,7 @@
 // parça hatası için HataSiniri sayfayı yeniler (kullanıcı eylemi ya da tek online olayı; döngü yok).
 // ============================================================
 import { createElement, lazy } from "react";
+import { otomatikYenile } from "./yenilemeSigortasi.js";
 
 const BEKLEME_MS = 700;
 const basarisizlar = new Set();
@@ -117,8 +118,7 @@ function parcaIcinYenile(kaynak, ayrinti = "") {
     if (gecen >= 0 && gecen < YENILEME_ARALIK_MS) return false;   // az önce yenilendi — döngü yok
     sessionStorage.setItem(BAYRAK, String(Date.now()));
     console.warn(`[Bildim] sayfa parçası inemedi (yeni sürüm?) — sayfa yenileniyor (${kaynak}):`, ayrinti);
-    window.location.reload();
-    return true;
+    return otomatikYenile("parca");   // ortak sigorta (src/lib/yenilemeSigortasi.js)
   } catch {
     return false;   // depolama kapalı: yenileme yapılmaz, hata sayfa içi karta gider
   }

@@ -2,6 +2,7 @@ import { Component } from "react";
 import { hataBildir } from "../lib/hataIzleme.js";
 import { tt } from "../../oyun/lib/dil.js";
 import { parcaHatasiMi, tembelleriSifirla } from "../lib/tembelYukle.js";
+import { otomatikYenile } from "../lib/yenilemeSigortasi.js";
 import { QtBosDurum, QtDugme, QtKart } from "../../oyun/tasarim/temel.jsx";
 import "../../oyun/tasarim/ekranlar/g-sayfalar.css";
 
@@ -43,13 +44,15 @@ export default class HataSiniri extends Component {
     }
   }
 
-  tekrarDene() {
+  tekrarDene(olay) {
     if (!this.state.hata) return;
     // Parça (chunk) hatası: Chromium başarısız import'u belge içinde önbelleğe alır, yumuşak
     // yeniden deneme parçayı bir daha istemez (ölçüldü) → çevrimiçiyken sayfa yenilenir.
-    // Tek tetikleyici düğme ya da tek `online` olayı olduğu için döngü olmaz.
+    // Düğme = oyuncunun isteği (doğrudan yenilenir); `online` olayı otomatiktir → ortak sigortadan geçer
+    // (src/lib/yenilemeSigortasi.js: 30 sn'de en çok 2). Sigorta atarsa kart yerinde kalır.
     if (parcaHatasiMi(this.state.hata) && !(typeof navigator !== "undefined" && navigator.onLine === false)) {
-      window.location.reload();
+      if (olay?.type === "online") otomatikYenile("hata-karti-online");
+      else window.location.reload();
       return;
     }
     tembelleriSifirla();

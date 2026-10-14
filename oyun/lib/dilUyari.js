@@ -3,13 +3,14 @@
 // Sözlük yokken yazıldığı için metin iki dilde sabittir. iOS: fixed + transform birlikte kullanılmaz.
 const KIMLIK = "qt-dil-uyari";
 
-export function dilUyarisiGoster() {
+/** @param {string} [metin] verilmezse sözlük uyarısı (iki dilde sabit) */
+export function dilUyarisiGoster(metin) {
   try {
     if (typeof document === "undefined" || document.getElementById(KIMLIK)) return;
     const kutu = document.createElement("div");
     kutu.id = KIMLIK;
     kutu.setAttribute("role", "status");
-    kutu.textContent = "English couldn't be loaded — check your connection. · İngilizce yüklenemedi, Türkçe gösteriliyor.";
+    kutu.textContent = metin || "English couldn't be loaded — check your connection. · İngilizce yüklenemedi, Türkçe gösteriliyor.";
     kutu.style.cssText =
       "position:fixed;left:12px;right:12px;top:calc(12px + env(safe-area-inset-top, 0px));z-index:2147483000;" +
       "margin:0 auto;max-width:520px;padding:12px 16px;border-radius:12px;" +
