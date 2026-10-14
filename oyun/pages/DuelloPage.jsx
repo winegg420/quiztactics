@@ -40,7 +40,7 @@ import { useDuelloKurallari } from "../lib/duelloKurallari.js";
 import AramaSahnesi from "../components/AramaSahnesi.jsx";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesDokunus, sesRakipBulundu,
   sesOnYukle, sesKategoriGeriSayim, sesSoruGeldi, sesTurGecis, sesSkill,
-  sesKategoriSecildi, sesRakipCevapladi, sesHataUyari, sesCoin } from "../lib/ses.js";
+  sesKategoriSecildi, sesRakipCevapladi, sesHataUyari, sesCoin, macSesleriniOnYukle } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
 import { useOyunModu, useMacSonuGecisi } from "../lib/oyunModu.js";
 import { sonModuYaz } from "../lib/sonMod.js";
@@ -1069,7 +1069,8 @@ function DuelloMac({ id }) {
   // ---------------- Düello 1.0: ses + görsel anlar (Tasarım A) ----------------
   // Yalnız sunum: durum akışına, RPC'lere, kilitlere dokunmaz. Her ses bir ref
   // korumasıyla bir kez çalar (StrictMode çift efekti çift ses vermez).
-  useEffect(() => { sesOnYukle("duello"); sesOnYukle("mac"); sesOnYukle("skill"); }, []);
+  // Paket B/13: açılışta yalnız ilk soruya kadar çalacak sesler; gerisi ilk soru görününce (ses.js › macSesleriniOnYukle)
+  useEffect(() => macSesleriniOnYukle(["duello", "skill"]), []);
 
   // Kategori seçimi geri sayımı: rakam her değiştiğinde ses; son 3 sn "bong".
   const v2Aktif = d?.surum === 2 && d?.durum === "aktif";

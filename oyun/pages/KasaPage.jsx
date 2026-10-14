@@ -50,7 +50,7 @@ import { useDonukSayac } from "../lib/useDonukSayac.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesDokunus, sesRakipBulundu, sesSoruGeldi,
-  sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill, sesOnYukle, sesKalpAtisi } from "../lib/ses.js";
+  sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill, sesOnYukle, sesKalpAtisi, macSesleriniOnYukle } from "../lib/ses.js";
 import { KasaAcAni, KasaAltinYagmuru, UcanParcalar, kasaSeviye, KasaGirisSahnesi, KasaFinalSahnesi,
   KasaCifteBandi, KasaRakipKarar, KasaSavunmaAni } from "../components/KasaEfekt.jsx";
 import Konfeti from "../components/Konfeti.jsx";
@@ -475,7 +475,8 @@ function KasaMac({ id }) {
   // İlk yükleme + Realtime sinyali + yedek yoklama + görünürlük/ağ dönüşü
   useEffect(() => {
     sesKilidiAc();
-    sesOnYukle("mac"); sesOnYukle("skill"); sesOnYukle(["coin", "rozet", "xp_dolma"]);   // maç sesleri önceden insin (ilk soru/tik sessiz kalmasın)
+    // maç sesleri önceden insin (ilk soru/tik sessiz kalmasın) — Paket B/13: gerisi ilk soru görününce
+    const sesErtele = macSesleriniOnYukle(["skill", ["coin", "rozet", "xp_dolma"]]);
     // Giriş sahnesinin önceden çizilmiş ışık görseli (kasa-efekt.css › .ks-giris-isik) sahne açılmadan insin
     try { new Image().src = "/hazine/giris-isik.webp"; } catch { /* görsel yoksa sahne ışıksız açılır */ }
     yukle();
@@ -523,6 +524,7 @@ function KasaMac({ id }) {
       setSimdi(Date.now());
     }, 200);
     return () => {
+      sesErtele();
       clearInterval(yoklama);
       clearInterval(saat);
       window.clearTimeout(yenidenDeneRef.current);

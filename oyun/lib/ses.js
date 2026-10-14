@@ -576,6 +576,29 @@ export function sesOnYukle(grup = "mac") {
   }
 }
 
+// Paket B/13 (15 Eki 2026): MAÇ BAŞI KADEMELİ ÖN YÜKLEME. Maç açılırken 20'ye yakın ses dosyası (Storage) ilk veriyle
+// ve maç ekranı parçalarıyla bant genişliği için yarışıyordu (yavaş 4G). Açılışta yalnız ilk soruya kadar çalacaklar
+// (dokunuş, 3-2-1, soru geldi, tur geçişi, son saniyeler) iner; gerisi (doğru/yanlış, jokerler, mod sesleri) ilk soru
+// ekranda görününce (.qt-soru-metin; en geç 20 sn) ve ilk çizim bittikten sonra iner. İnmeden çalınırsa yedek ton çalar.
+export const MAC_ILK_SESLER = ["dokunus", "tik", "sayim_son", "soru_geldi", "tur_gecis", "son_saniyeler"];
+export function macSesleriniOnYukle(sonraGruplar = []) {
+  sesOnYukle(MAC_ILK_SESLER);
+  const kalan = [...(GRUPLAR.mac ?? []).filter((r) => !MAC_ILK_SESLER.includes(r))];
+  const indir = () => { sesOnYukle(kalan); for (const g of sonraGruplar) sesOnYukle(g); };
+  if (typeof document === "undefined") { indir(); return () => {}; }
+  let bitti = false;
+  const bas = Date.now();
+  const z = setInterval(() => {
+    if (bitti) return;
+    if (document.querySelector(".qt-soru-metin") || Date.now() - bas > 20000) {
+      bitti = true; clearInterval(z);
+      const sonra = () => { if (typeof requestAnimationFrame === "function") requestAnimationFrame(() => setTimeout(indir, 300)); else setTimeout(indir, 300); };
+      sonra();
+    }
+  }, 500);
+  return () => { bitti = true; clearInterval(z); };
+}
+
 // Yedek tonlar (dosya çalınamazsa)
 const tonSoruGeldi = () => {
   ton({ frekans: 784, sure: 0.08, hacim: 0.13, tip: "triangle" });
