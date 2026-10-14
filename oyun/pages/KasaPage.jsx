@@ -777,7 +777,8 @@ function KasaMac({ id }) {
     if ((girisGecen != null && girisGecen > 900) || gorunurDegil()) return;
     sesTurGecis();
     // zamanlayıcılar an listesinde: sekme gizlenince / sayfa kapanınca temizlenir (StrictMode temizliği sesi yutmasın)
-    anZamanRef.current.push(setTimeout(() => { sesCoin(); titret([10, 30, 10]); }, 650),
+    // 14 Eki: coin sesi yalnız oyuncu hazineyi AÇINCA (giriş düşüşünde, tur sonunda, rakibin AÇ'ında çalmaz)
+    anZamanRef.current.push(setTimeout(() => titret([10, 30, 10]), 650),
                             setTimeout(() => { sesRozet(); titret(20); }, 1300));
   }, [girisAktif]);   // eslint-disable-line react-hooks/exhaustive-deps
   // 3-2-1: her rakam maçta bir kez (sahne yeniden kurulsa da), gizli sekmede sessiz
@@ -818,8 +819,9 @@ function KasaMac({ id }) {
     setFinalAn(f);
     // Zamanlayıcılar ref'te: d sonradan değişse de sahne yarıda kalmaz (yalnız sayfa kapanınca temizlenir)
     const sesler = kazandim
-      ? [[150, () => sesJoker()], [1150, () => { sesRozet(); titret([30, 50, 40]); }],
-         [2300, () => { sesCoin(); titret([40, 30, 60]); }], [2450, sesXpDolma], [2900, sesCoin]]
+      // 14 Eki: joker sesi yalnız joker kullanımında, coin sesi yalnız kendi AÇ'ında — final sahnesi ikisini de çalmaz
+      ? [[150, sesTurGecis], [1150, () => { sesRozet(); titret([30, 50, 40]); }],
+         [2300, () => titret([40, 30, 60])], [2450, sesXpDolma]]
       : [[200, sesTurGecis], [1350, () => { sesYanlis(); titret(40); }]];
     // Sahne bitince sesi de biter: kısalmış sahnede (hareket azaltma 1,5 sn) sonraki sesler kutlamanın seslerine binmesin
     const z = sesler.map(([ms, f]) => [Math.round(ms * fk), f]).filter(([ms]) => ms < sahneMs).map(([ms, f]) => setTimeout(f, ms));
@@ -892,7 +894,7 @@ function KasaMac({ id }) {
     if (d.durum !== "aktif" || !o || Number(o.tur) !== bek) return;
     const an = { kazandi: Boolean(o.kazandi), joker: o.joker ?? null, anahtar: Date.now() };
     setDevamAn(an);
-    if (an.kazandi) { sesJoker(); titret([14, 40, 20]); }   // kaybedince sessiz
+    if (an.kazandi) { sesRozet(); titret([14, 40, 20]); }   // ödül jokeri kazanıldı (kullanılmadı) → ödül sesi; kaybedince sessiz
     jokerZaman(() => setDevamAn((x) => (x?.anahtar === an.anahtar ? null : x)), an.kazandi ? sure("kasa_devam_odul") : Math.round(1200 * sureOlcek("kasa_devam_odul")));
   }, [d]);   // eslint-disable-line react-hooks/exhaustive-deps
   // Rakip yeni joker kullandı → ikon + kısa efekt (rakip avatarının altında)
@@ -958,7 +960,7 @@ function KasaMac({ id }) {
                                                s.ben_dogru && imza ? 1400 : 0);
           const svGoster = () => {
             setSavunmaAn(sa);
-            if (!svSonuc) { sesJoker(); titret([16, 30, 16]); }
+            if (!svSonuc) { sesTurGecis(); titret([16, 30, 16]); }
             savunmaZamanRef.current.push(setTimeout(() => setSavunmaAn((x) => (x?.anahtar === sa.anahtar ? null : x)), sure("kasa_savunma")));
           };
           if (svGec > 0 && !hareketAzaltildiMi()) savunmaZamanRef.current.push(setTimeout(svGoster, svGec)); else svGoster();
@@ -978,9 +980,9 @@ function KasaMac({ id }) {
           const kim = (u) => (!u ? null : u === d.ben ? "ben" : "rakip");
           anBaslat({ tip: "sonuc", kasaOnce: Number(s.kasa_once ?? 0), artis: gercekArtis, buyuk,
                      sahipOnce: s.sahip_once ?? null, sahipDegisti, anahtarDen: kim(s.sahip_once), anahtarA: kim(s.sahip_sonra) }, [
-            [su(950), { varis: true }, () => { sesCoin(); titret(buyuk ? [12, 40, 18] : 10); }],
+            [su(950), { varis: true }, () => titret(buyuk ? [12, 40, 18] : 10)],   // her turun altın uçuşu sessiz (coin yalnız AÇ'ta)
             ...(buyuk ? [[su(1180), null, sesXpDolma]] : []),
-            ...(sahipDegisti ? [[su(1900), { anahtarVaris: true }, () => { sesJoker(); titret(14); }]] : []),
+            ...(sahipDegisti ? [[su(1900), { anahtarVaris: true }, () => { sesTurGecis(); titret(14); }]] : []),
             [su(2600), { bitti: true }],
           ]);
         }
@@ -1031,7 +1033,7 @@ function KasaMac({ id }) {
             [m(340), { sars: true }, () => { if (benim) sesRozet(); else sesTurGecis(); titret(benim ? [20, 40, 30] : 20); }],
             [m(690), { sars: false }],
             // kısalmış anda coin sesi düşer (sesler üst üste binmesin; açılış + soru sesi kalır)
-            [m(980), { varis: true }, payO >= 0.75 ? sesCoin : null],
+            [m(980), { varis: true }, benim && payO >= 0.75 ? sesCoin : null],   // rakibin AÇ'ında coin sesi yok
             [m(AC_AN_MS), "bitir", () => soruSesi(d)],
           ]);
         if (kapaliMs) kararZaman(basla, kapaliMs); else basla();
@@ -1050,7 +1052,7 @@ function KasaMac({ id }) {
                    metin: carpanYazisi(sk.carpan, dil) ?? "" }, [
           // kısalmış anda tek ses (coin): soru sesiyle birlikte üç ses 400 ms'ye sıkışıyordu (sekme dönüşü ölçümü)
           ...(payO >= 0.75 ? [[m(60), null, () => { sesRozet(); titret([16, 30, 16]); }]] : []),
-          [m(560), { varis: true }, () => { sesCoin(); titret(12); }],
+          [m(560), { varis: true }, () => titret(12)],
           [m(DEVAM_AN_MS), "bitir"],
         ]);
         if (kapaliMs) kararZaman(basla, kapaliMs); else basla();

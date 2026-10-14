@@ -1,0 +1,225 @@
+{
+ "etiket": "sonra",
+ "hazine": {
+  "zamanlar": [
+   {
+    "ad": "tur1 cevap",
+    "t": 2409
+   },
+   {
+    "ad": "tur1 sonuç",
+    "t": 4926
+   },
+   {
+    "ad": "tur2 karar (ben)",
+    "t": 8148
+   },
+   {
+    "ad": "tur2 cevap (DEVAM ×2)",
+    "t": 9964
+   },
+   {
+    "ad": "tur2 sonuç (ikisi doğru +6)",
+    "t": 12978
+   },
+   {
+    "ad": "tur3 karar (rakip)",
+    "t": 16192
+   },
+   {
+    "ad": "tur3 cevap (rakip AÇ)",
+    "t": 17995
+   },
+   {
+    "ad": "tur3 sonuç",
+    "t": 22001
+   },
+   {
+    "ad": "tur4 karar (ben → AÇ)",
+    "t": 25203,
+    "tiklandi": true
+   },
+   {
+    "ad": "tur4 cevap (benim AÇ)",
+    "t": 27805
+   },
+   {
+    "ad": "bitti (kazandım)",
+    "t": 31809
+   }
+  ],
+  "macIci": {
+   "tik": 1,
+   "soru_geldi": 4,
+   "dogru": 3,
+   "tur_gecis": 7,
+   "rozet": 2,
+   "xp_dolma": 1,
+   "dokunus": 1,
+   "coin": 1
+  },
+  "macSonu": {
+   "kazandin": 1,
+   "coin": 1
+  },
+  "kayit": [
+   {
+    "rol": "tik",
+    "dosya": "tik.mp3",
+    "t": 2768,
+    "sureMs": 19
+   },
+   {
+    "rol": "soru_geldi",
+    "dosya": "soru_geldi.wav",
+    "t": 3683,
+    "sureMs": 328
+   },
+   {
+    "rol": "dogru",
+    "dosya": "dogru.mp3",
+    "t": 5769,
+    "sureMs": 295
+   },
+   {
+    "rol": "tur_gecis",
+    "dosya": "tur_gecis.wav",
+    "t": 7903,
+    "sureMs": 369
+   },
+   {
+    "rol": "tur_gecis",
+    "dosya": "tur_gecis.wav",
+    "t": 8263,
+    "sureMs": 369
+   },
+   {
+    "rol": "soru_geldi",
+    "dosya": "soru_geldi.wav",
+    "t": 10247,
+    "sureMs": 328
+   },
+   {
+    "rol": "rozet",
+    "dosya": null,
+    "t": 10333
+   },
+   {
+    "rol": "dogru",
+    "dosya": "dogru.mp3",
+    "t": 13258,
+    "sureMs": 295
+   },
+   {
+    "rol": "xp_dolma",
+    "dosya": null,
+    "t": 14581
+   },
+   {
+    "rol": "tur_gecis",
+    "dosya": "tur_gecis.wav",
+    "t": 15389,
+    "sureMs": 369
+   },
+   {
+    "rol": "tur_gecis",
+    "dosya": "tur_gecis.wav",
+    "t": 16254,
+    "sureMs": 369
+   },
+   {
+    "rol": "tur_gecis",
+    "dosya": "tur_gecis.wav",
+    "t": 19446,
+    "sureMs": 369
+   },
+   {
+    "rol": "soru_geldi",
+    "dosya": "soru_geldi.wav",
+    "t": 20782,
+    "sureMs": 328
+   },
+   {
+    "rol": "dogru",
+    "dosya": "dogru.mp3",
+    "t": 22251,
+    "sureMs": 295
+   },
+   {
+    "rol": "tur_gecis",
+    "dosya": "tur_gecis.wav",
+    "t": 24387,
+    "sureMs": 369
+   },
+   {
+    "rol": "tur_gecis",
+    "dosya": "tur_gecis.wav",
+    "t": 25247,
+    "sureMs": 369
+   },
+   {
+    "rol": "dokunus",
+    "dosya": "dokunus.mp3",
+    "t": 26667,
+    "sureMs": 115
+   },
+   {
+    "rol": "rozet",
+    "dosya": null,
+    "t": 27154
+   },
+   {
+    "rol": "coin",
+    "dosya": "coin.wav",
+    "t": 28063,
+    "sureMs": 332
+   },
+   {
+    "rol": "soru_geldi",
+    "dosya": "soru_geldi.wav",
+    "t": 28755,
+    "sureMs": 328
+   },
+   {
+    "rol": "kazandin",
+    "dosya": "kazandin.wav",
+    "t": 33501,
+    "sureMs": 1387
+   },
+   {
+    "rol": "coin",
+    "dosya": "coin.wav",
+    "t": 34354,
+    "sureMs": 332
+   }
+  ],
+  "hatalar": []
+ },
+ "grup-1": {
+  "sonucSesi": [
+   "kazandin"
+  ],
+  "tum": {
+   "kazandin": 1
+  },
+  "hatalar": []
+ },
+ "grup-2": {
+  "sonucSesi": [
+   "beraberlik"
+  ],
+  "tum": {
+   "beraberlik": 1
+  },
+  "hatalar": []
+ },
+ "grup-3": {
+  "sonucSesi": [
+   "kaybettin"
+  ],
+  "tum": {
+   "kaybettin": 1
+  },
+  "hatalar": []
+ }
+}

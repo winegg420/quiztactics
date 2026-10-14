@@ -1,0 +1,267 @@
+{
+ "etiket": "once",
+ "hazine": {
+  "zamanlar": [
+   {
+    "ad": "tur1 cevap",
+    "t": 2514
+   },
+   {
+    "ad": "tur1 sonuç",
+    "t": 5017
+   },
+   {
+    "ad": "tur2 karar (ben)",
+    "t": 8219
+   },
+   {
+    "ad": "tur2 cevap (DEVAM ×2)",
+    "t": 10028
+   },
+   {
+    "ad": "tur2 sonuç (ikisi doğru +6)",
+    "t": 13042
+   },
+   {
+    "ad": "tur3 karar (rakip)",
+    "t": 16246
+   },
+   {
+    "ad": "tur3 cevap (rakip AÇ)",
+    "t": 18056
+   },
+   {
+    "ad": "tur3 sonuç",
+    "t": 22062
+   },
+   {
+    "ad": "tur4 karar (ben → AÇ)",
+    "t": 25265,
+    "tiklandi": true
+   },
+   {
+    "ad": "tur4 cevap (benim AÇ)",
+    "t": 27857
+   },
+   {
+    "ad": "bitti (kazandım)",
+    "t": 31864
+   }
+  ],
+  "macIci": {
+   "tik": 3,
+   "soru_geldi": 4,
+   "dogru": 3,
+   "coin": 6,
+   "joker": 3,
+   "tur_gecis": 4,
+   "rozet": 2,
+   "xp_dolma": 1,
+   "dokunus": 1
+  },
+  "macSonu": {
+   "kazandin": 1,
+   "coin": 1
+  },
+  "kayit": [
+   {
+    "rol": "tik",
+    "dosya": "tik.mp3",
+    "t": 2931,
+    "sureMs": 20
+   },
+   {
+    "rol": "tik",
+    "dosya": "tik.mp3",
+    "t": 2932
+   },
+   {
+    "rol": "soru_geldi",
+    "dosya": "soru_geldi.wav",
+    "t": 3953,
+    "sureMs": 328
+   },
+   {
+    "rol": "dogru",
+    "dosya": "dogru.mp3",
+    "t": 5981,
+    "sureMs": 295
+   },
+   {
+    "rol": "coin",
+    "dosya": "coin.wav",
+    "t": 7059,
+    "sureMs": 332
+   },
+   {
+    "rol": "joker",
+    "dosya": "joker.mp3",
+    "t": 8109,
+    "sureMs": 387
+   },
+   {
+    "rol": "tur_gecis",
+    "dosya": "tur_gecis.wav",
+    "t": 8421,
+    "sureMs": 369
+   },
+   {
+    "rol": "soru_geldi",
+    "dosya": "soru_geldi.wav",
+    "t": 10427,
+    "sureMs": 328
+   },
+   {
+    "rol": "rozet",
+    "dosya": null,
+    "t": 10506
+   },
+   {
+    "rol": "coin",
+    "dosya": "coin.wav",
+    "t": 11143,
+    "sureMs": 332
+   },
+   {
+    "rol": "dogru",
+    "dosya": "dogru.mp3",
+    "t": 13416,
+    "sureMs": 295
+   },
+   {
+    "rol": "coin",
+    "dosya": "coin.wav",
+    "t": 14483,
+    "sureMs": 332
+   },
+   {
+    "rol": "xp_dolma",
+    "dosya": null,
+    "t": 14745
+   },
+   {
+    "rol": "joker",
+    "dosya": "joker.mp3",
+    "t": 15550,
+    "sureMs": 387
+   },
+   {
+    "rol": "tur_gecis",
+    "dosya": "tur_gecis.wav",
+    "t": 16325,
+    "sureMs": 369
+   },
+   {
+    "rol": "tik",
+    "dosya": "tik.mp3",
+    "t": 18390,
+    "sureMs": 21
+   },
+   {
+    "rol": "tur_gecis",
+    "dosya": "tur_gecis.wav",
+    "t": 19612,
+    "sureMs": 369
+   },
+   {
+    "rol": "coin",
+    "dosya": "coin.wav",
+    "t": 20521,
+    "sureMs": 332
+   },
+   {
+    "rol": "soru_geldi",
+    "dosya": "soru_geldi.wav",
+    "t": 20947,
+    "sureMs": 328
+   },
+   {
+    "rol": "dogru",
+    "dosya": "dogru.mp3",
+    "t": 22425,
+    "sureMs": 295
+   },
+   {
+    "rol": "coin",
+    "dosya": "coin.wav",
+    "t": 23489,
+    "sureMs": 332
+   },
+   {
+    "rol": "joker",
+    "dosya": "joker.mp3",
+    "t": 24553,
+    "sureMs": 387
+   },
+   {
+    "rol": "tur_gecis",
+    "dosya": "tur_gecis.wav",
+    "t": 25327,
+    "sureMs": 369
+   },
+   {
+    "rol": "dokunus",
+    "dosya": "dokunus.mp3",
+    "t": 26719,
+    "sureMs": 115
+   },
+   {
+    "rol": "rozet",
+    "dosya": null,
+    "t": 27206
+   },
+   {
+    "rol": "coin",
+    "dosya": "coin.wav",
+    "t": 28127,
+    "sureMs": 332
+   },
+   {
+    "rol": "soru_geldi",
+    "dosya": "soru_geldi.wav",
+    "t": 28542,
+    "sureMs": 328
+   },
+   {
+    "rol": "kazandin",
+    "dosya": "kazandin.wav",
+    "t": 32700,
+    "sureMs": 1387
+   },
+   {
+    "rol": "coin",
+    "dosya": "coin.wav",
+    "t": 33549,
+    "sureMs": 332
+   }
+  ],
+  "hatalar": []
+ },
+ "grup-1": {
+  "sonucSesi": [
+   "kazandin"
+  ],
+  "tum": {
+   "kazandin": 1
+  },
+  "hatalar": []
+ },
+ "grup-2": {
+  "sonucSesi": [
+   "kaybettin"
+  ],
+  "tum": {
+   "kaybettin": 1
+  },
+  "hatalar": []
+ },
+ "grup-3": {
+  "sonucSesi": [
+   "kaybettin"
+  ],
+  "tum": {
+   "kaybettin": 1
+  },
+  "hatalar": []
+ }
+}
