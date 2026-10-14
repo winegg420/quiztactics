@@ -414,13 +414,16 @@ export function Susleme({ tur = "lobi" }) {
 // Kompakt oyuncu kartı · canlı lig kartı · günlük görev şeridi
 // ============================================================
 
+// 15 Eki 2026: kartın ışın deseni ligin rengini alır (anasayfa.css › .as-ko--lig-*)
+const LIG_KO = ["bronz", "gumus", "altin", "elmas", "efsane"];
+
 /** Kompakt oyuncu kartı: çerçeveli avatar, ad, rütbe, level + XP, lig rozeti, seri. Dokununca profil. */
 export function KompaktOyuncu({ v }) {
   const { oyuncu, profile, user, ligOzet } = v;
   const benPuan = ligOzet?.satirlar?.find((r) => r.ben)?.puan;
   const arkaPlan = useKartArkaPlani(user?.id);   // 30 Eyl: takılı arka plan kartın arkasında (hareketli, ~100 px)
   return (
-    <Link to={y("/profil")} className={`as-ko${kartArkaPlanSinifi(arkaPlan)}`} aria-label={tt("Profilim: {ad}, Level {n}", { ad: oyuncu.ad, n: oyuncu.level })}>
+    <Link to={y("/profil")} className={`as-ko${LIG_KO.includes(ligOzet?.lig) ? ` as-ko--lig-${ligOzet.lig}` : ""}${kartArkaPlanSinifi(arkaPlan)}`} aria-label={tt("Profilim: {ad}, Level {n}", { ad: oyuncu.ad, n: oyuncu.level })}>
       <KartArkaPlanKatmani sanat={arkaPlan} hareketli yukseklik={100} />
       <CerceveliAvatar profile={profile} userId={user?.id} boyut={64} hareketli />
       <span className="as-ko-govde">

@@ -1125,6 +1125,20 @@ html.as-kaydirmasiz { --qt-zemin: var(--as-s-zemin); }
   box-shadow: inset 0 0 0 2px #fff, 0 4px 0 #8db3db, var(--as-golge-kucuk);
   color: var(--as-s-lacivert);
 }
+/* 15 Eki 2026: ışınlar oyuncunun LİGİNE bağlı (Altın ligde gümüş gibi görünüyordu). İki ton lig sahnesi token'larından
+   (tokenlar.css › 7c): koyu ışın = sahne %80 + sahne-isik %20 (Altın %70/%30 — bronzdan ayrılsın), açık ışın = sahne %35 + beyaz %65; alt dudak = sahne-isik.
+   Lig bilinmiyorsa yukarıdaki mavi kalır; BP sahibi kartına (.abp-sahip) dokunulmaz. */
+.as-sahne .as-ko[class*="as-ko--lig-"]:not(.abp-sahip) {
+  background:
+    radial-gradient(circle at 58px 50%, #fff 0, rgb(255 255 255 / 0) 70px),
+    repeating-conic-gradient(from 0deg at 58px 50%, var(--_ko-a) 0deg 11deg, var(--_ko-b) 11deg 22deg);
+  box-shadow: inset 0 0 0 2px #fff, 0 4px 0 var(--_ko-dudak), var(--as-golge-kucuk);
+}
+.as-ko--lig-bronz { --_ko-a: #f9e1cd; --_ko-b: #fef7f2; --_ko-dudak: var(--qt-lig-bronz-sahne-isik); }
+.as-ko--lig-gumus { --_ko-a: #d5e3f6; --_ko-b: #f6f9fe; --_ko-dudak: var(--qt-lig-gumus-sahne-isik); }
+.as-ko--lig-altin { --_ko-a: #fae2bc; --_ko-b: #fdf9f2; --_ko-dudak: var(--qt-lig-altin-sahne-isik); }
+.as-ko--lig-elmas { --_ko-a: #d2f2fa; --_ko-b: #f4fcfe; --_ko-dudak: var(--qt-lig-elmas-sahne-isik); }
+.as-ko--lig-efsane { --_ko-a: #ebdbff; --_ko-b: #faf6ff; --_ko-dudak: var(--qt-lig-efsane-sahne-isik); }
 .as-sahne .as-ko-ust > .ls-ad-dugme { flex: 0 1 auto; align-self: center; }
 .as-sahne .as-ko-ad {
   display: block; justify-self: start; align-self: center; height: auto; line-height: 1.3;
