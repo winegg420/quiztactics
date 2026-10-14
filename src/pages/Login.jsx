@@ -10,6 +10,7 @@ import { useDil } from "../../oyun/lib/dilKanca.js";
 import { DILLER, girisDiliniKaydet } from "../../oyun/lib/dil.js";
 import { turnuvaSaatleri, turnuvaSaatiGoster, yerelSaatGoster } from "../../oyun/lib/zaman.js";
 
+import { useTurnstile } from "../lib/turnstile.js";
 import { ACIK_SAGLAYICILAR, FACEBOOK_GIRIS_ACIK, acikSaglayicilariOku, epostaGirisGorunur } from "../lib/saglayicilar.js";
 
 // Supabase'in İngilizce hata metinlerini oyuncuya anlaşılır Türkçeye çevirir.
@@ -28,6 +29,9 @@ function girisHatasi(e, saglayiciAd, ceviri) {
     return eposta
       ? ceviri("Misafir girişi şu an kapalı. Google veya e-posta ile devam edebilirsin.")
       : ceviri("Misafir girişi şu an kapalı. Google ile devam edebilirsin.");
+  }
+  if (/captcha/i.test(m)) {
+    return ceviri("Güvenlik doğrulaması başarısız oldu. Kutuyu yenileyip tekrar dene.");
   }
   if (/rate limit|too many/i.test(m)) {
     return ceviri("Çok fazla deneme yapıldı. Birkaç dakika sonra tekrar dene.");
@@ -70,6 +74,8 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [gonderildi, setGonderildi] = useState(false);
   const [hata, setHata] = useState(null);
+  // Cloudflare Turnstile: token olmadan misafir/e-posta düğmeleri pasif; token tek kullanımlık → her çağrıdan sonra sıfırlanır
+  const { kutuRef: captchaRef, token: captchaToken, durum: captchaDurum, sifirla: captchaSifirla } = useTurnstile(dil);
   // Paket 42 S.2: hata basılan düğmenin yanında açılır (eskiden formun en üstünde, sayfayı ~46 px itiyordu)
   const [hataYeri, setHataYeri] = useState("sosyal");   // sosyal | eposta | misafir
   const [bekleyen, setBekleyen] = useState(null); // hangi düğme çalışıyor
@@ -160,11 +166,12 @@ export default function Login() {
       // 1064: otomasyon tarayıcısının (Playwright denetim/ekran araçları) açtığı hesap sunucuda
       // lig_gizli doğar — lige, sıralamaya, "seni geçti" bildirimine ve şampiyonluğa girmez.
       const arac = typeof navigator !== "undefined" && navigator.webdriver === true;
-      const { error } = await supabase.auth.signInAnonymously({ options: { data: arac ? { dil, arac: true } : { dil } } });
+      const { error } = await supabase.auth.signInAnonymously({ options: { captchaToken, data: arac ? { dil, arac: true } : { dil } } });
       if (error) throw error;
     } catch (e) {
       setHataYeri("misafir");
       setHata(girisHatasi(e, "Misafir", ceviri));
+      captchaSifirla();
     } finally {
       setBekleyen(null);
     }
@@ -183,6 +190,11 @@ export default function Login() {
       return;
     }
     setEpostaHata(null);
+    if (!captchaToken) {
+      setHataYeri("eposta");
+      setHata(ceviri("Güvenlik doğrulaması bekleniyor…"));
+      return;
+    }
     setBekleyen("eposta");
     girisHedefiniKaydet();
     girisDiliniKaydet(dil);
@@ -190,13 +202,15 @@ export default function Login() {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         // D-203: yeni hesapsa profil bu dille doğar (mevcut hesapta veri yok sayılır)
-        options: { emailRedirectTo: window.location.origin, data: { dil } },
+        options: { emailRedirectTo: window.location.origin, data: { dil }, captchaToken },
       });
       if (error) throw error;
       setGonderildi(true);
+      captchaSifirla();
     } catch (err) {
       setHataYeri("eposta");
       setHata(girisHatasi(err, "E-posta", ceviri));
+      captchaSifirla();
     } finally {
       setBekleyen(null);
     }
@@ -322,7 +336,7 @@ export default function Login() {
                       metin={ceviri("Giriş bağlantısı {eposta} adresine gönderildi. E-postanı kontrol et.", { eposta: email })}
                       eylem={
                         <div className="g-giris-gonderildi-eylem">
-                          <QtDugme tur="ikincil" boyut="k" yukleniyor={bekleyen === "eposta"} devreDisi={bekleyen !== null} onClick={epostaGiris}>
+                          <QtDugme tur="ikincil" boyut="k" yukleniyor={bekleyen === "eposta"} devreDisi={bekleyen !== null || !captchaToken} onClick={epostaGiris}>
                             {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("Yeniden gönder")}
                           </QtDugme>
                           <QtDugme tur="hayalet" boyut="k" onClick={() => { setGonderildi(false); setHata(null); }}>
@@ -359,7 +373,7 @@ export default function Login() {
                         className="g-giris-kaydir"
                         ikon="mesaj"
                         yukleniyor={bekleyen === "eposta"}
-                        devreDisi={bekleyen !== null}
+                        devreDisi={bekleyen !== null || !captchaToken}
                       >
                         {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("E-posta ile giriş bağlantısı al")}
                       </QtDugme>
@@ -369,6 +383,12 @@ export default function Login() {
                 </>
               )}
 
+              {/* Turnstile (Managed): e-posta ve misafir girişi için; Google/Facebook/X girişi captcha istemez */}
+              <div className="g-giris-captcha" ref={captchaRef} />
+              {captchaDurum === "hata" && (
+                <QtToast ton="yanlis" metin={ceviri("Güvenlik doğrulaması yüklenemedi. Sayfayı yenileyip tekrar dene.")} className="g-giris-not" />
+              )}
+
               <div className="g-giris-ayrac"><span>{ceviri("hesap açmadan")}</span></div>
 
               <QtDugme
@@ -376,7 +396,7 @@ export default function Login() {
                 tamGenislik
                 ikon="oyna"
                 yukleniyor={bekleyen === "misafir"}
-                devreDisi={bekleyen !== null}
+                devreDisi={bekleyen !== null || !captchaToken}
                 onClick={misafirGiris}
               >
                 {bekleyen === "misafir" ? ceviri("Giriş yapılıyor…") : ceviri("Misafir olarak dene")}

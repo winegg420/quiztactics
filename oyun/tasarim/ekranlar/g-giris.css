@@ -185,3 +185,5 @@
   .g-giris-avatarlar { --_a: 38px; }
   .g-giris-baslik { font-size: var(--qt-y-xl); }
 }
+
+.g-giris .g-giris-captcha { display: flex; justify-content: center; min-height: 0; margin-top: 12px; }

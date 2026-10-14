@@ -32,6 +32,11 @@ export default {
       "Guest sign-in is currently closed. You can continue with Google or email.",
     "Çok fazla deneme yapıldı. Birkaç dakika sonra tekrar dene.":
       "Too many attempts. Please try again in a few minutes.",
+    "Güvenlik doğrulaması başarısız oldu. Kutuyu yenileyip tekrar dene.":
+      "Security check failed. Please retry the check and try again.",
+    "Güvenlik doğrulaması yüklenemedi. Sayfayı yenileyip tekrar dene.":
+      "The security check could not load. Refresh the page and try again.",
+    "Güvenlik doğrulaması bekleniyor…": "Waiting for the security check…",
     "Giriş adresi doğrulanamadı. Sayfayı yenileyip tekrar dene.":
       "The sign-in address could not be verified. Refresh the page and try again.",
     "Bağlantı kurulamadı. İnternetini kontrol edip tekrar dene.":

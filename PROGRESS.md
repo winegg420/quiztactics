@@ -12206,3 +12206,9 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - `.env.local` yeni şifreyle pg-mini üzerinden bağlandı (SELECT 1 başarılı).
 - Yeni yedek alındı (210 tablo, 269 storage dosyası, 82,2 MB); OneDrive `quiztactics-yedek/2026-10-14-2` kopyası dosya sayısı/boyut birebir eşit (481 dosya).
 - GitHub Actions `veritabani-yedek.yml` elle tetiklendi: "password authentication failed for user postgres" ile BAŞARISIZ → `SUPABASE_DB_URL` secret'ı hâlâ eski/yanlış şifreyle. Secret yeniden girilmeli (özel karakterler URL-kodlu olmalı).
+
+## 2026-10-14 — Cloudflare Turnstile (captcha) giriş ekranına eklendi
+- Supabase Auth'ta CAPTCHA açıktı; `signInAnonymously` ve `signInWithOtp` `captchaToken` bekliyordu → misafir/e-posta girişi hata veriyordu.
+- Karar: yeni paket kurulmadı (`@marsidev/react-turnstile` yasak liste kuralı) — resmi betik, `src/lib/turnstile.js` (`useTurnstile`). Site anahtarı herkese açık: `VITE_TURNSTILE_SITE_KEY`, yoksa koddaki sabit; localhost'ta Cloudflare test anahtarı (canlı Supabase bu sahte token'ı reddeder → yerelde captcha'lı giriş için `araclar/test-oturumu.mjs` kullanılır).
+- Depoda şifre/signUp/şifre sıfırlama akışı YOK (yalnız magic link + misafir + OAuth); widget `Login.jsx`'te tek kutu, e-posta ve misafir düğmeleri token gelmeden pasif; token her çağrıdan sonra sıfırlanır. Google/FB/X captcha istemez.
+- Diğer çağrılar: `HesapGuvence` (`updateUser`/`linkIdentity`) captcha kapsamında değil. `araclar/test-oturumu.mjs` admin API ile oturum açtığı için captcha'dan etkilenmez; Playwright araçları misafir girişi yerine bunu kullanmalı.
