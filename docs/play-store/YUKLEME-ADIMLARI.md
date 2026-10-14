@@ -12,7 +12,7 @@ Hazır olanlar (14 Eki 2026):
 | Simge, tanıtım görseli, ekran görüntüleri | `docs/play-store/gorseller/` (üretim: `node docs/play-store/gorsel-uret.mjs`) |
 | Veri güvenliği formu | `docs/play-store/veri-guvenligi.md` |
 | İçerik derecelendirme, hedef kitle, kategori | `docs/play-store/icerik-derecelendirme.md` |
-| Digital Asset Links | `public/.well-known/assetlinks.json` (yükleme anahtarı parmak izi yazılı) |
+| Digital Asset Links | `public/.well-known/assetlinks.json` — yükleme anahtarı SHA-256: `72:80:26:D9:…:4E:FD:E3` (Play App Signing izi hesap açılınca EKLENECEK, adım 3) |
 
 ---
 
