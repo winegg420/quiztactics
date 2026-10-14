@@ -400,6 +400,25 @@ function yukleDosya(c, dosya) {
   return s;
 }
 
+// Maç sonu sonuç sesleri: xp_dolma bunlar bitince başlar (B3).
+const SONUC_ROLLERI = ["kazandin", "kaybettin", "beraberlik"];
+let sonucBitisAni = 0;   // AudioContext saati (sn)
+const KIS_SURESI_SN = 0.12;
+/** Bir rolün çalan kopyalarını kısa fade ile kısıp durdurur (ani kesme tıklama yapar). */
+function kisVeDurdur(c, rol) {
+  const liste = calanlar.get(rol);
+  if (!liste?.length) return;
+  for (const k of liste.splice(0)) {
+    try {
+      const g = k.kazanc.gain;
+      g.cancelScheduledValues(c.currentTime);
+      g.setValueAtTime(g.value, c.currentTime);
+      g.linearRampToValueAtTime(0, c.currentTime + KIS_SURESI_SN);
+      k.kaynak.stop(c.currentTime + KIS_SURESI_SN + 0.02);
+    } catch { /* zaten bitmiş */ }
+  }
+}
+
 function tamponCal(c, tampon, hacim, hiz, rol) {
   try {
     if (c.state === "suspended") c.resume();
@@ -422,6 +441,14 @@ function tamponCal(c, tampon, hacim, hiz, rol) {
     const kayit = { kaynak, kazanc };
     liste.push(kayit);
     calanlar.set(rol, liste);
+    // B2: yeni soru sesi çalarken hâlâ süren doğru/yanlış sesi kısa fade ile kısılıp durur (üst üste binmesin).
+    if (rol === "soru_geldi") for (const r of ["dogru", "yanlis"]) kisVeDurdur(c, r);
+    // B3: maç sonu sonucu sesinin bitiş anı — xp_dolma bundan sonra başlar.
+    if (SONUC_ROLLERI.includes(rol)) sonucBitisAni = c.currentTime + (tampon.duration || 0) / (hiz || 1);
+    if (sesTaniAcik()) {
+      const k = (window.__sesKayit || []).slice().reverse().find((x) => x.rol === rol);
+      if (k) k.sureMs = Math.round(((tampon.duration || 0) / (hiz || 1)) * 1000);
+    }
     kaynak.onended = () => {
       const l = calanlar.get(rol);
       const i = l ? l.indexOf(kayit) : -1;
@@ -439,10 +466,19 @@ function tamponCal(c, tampon, hacim, hiz, rol) {
  * @param {Function} yedek  dosya yoksa/bozuksa çalacak osilatör tonu
  * @param {{carpan?:number, hiz?:number}} [secenek]
  */
+let xpErtelendi = false;   // ertelenen xp_dolma çağrısı ikinci kez ertelenmesin
 function cal(rol, yedek, { carpan = 1, hiz = 1 } = {}) {
   // 980: gizli sekmede ses yok (bütün modlar) — arka planda faz/an sesleri çalıyor, kısılmış zamanlayıcılar dönüşte
   // birikmiş sesleri arka arkaya patlatıyordu (ölçüm: kasa-canli-testi --dondur, 6 Eki 2026)
   if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
+  // B3: XP dolma sesi, maç sonu kazandın/kaybettin sesi bitince başlar (sonuç sesi hâlâ çalıyorsa kalanı kadar bekler).
+  if (rol === "xp_dolma" && !xpErtelendi && ctx) {
+    const kalanMs = (sonucBitisAni - ctx.currentTime) * 1000;
+    if (kalanMs > 0 && kalanMs < 6000) {
+      setTimeout(() => { xpErtelendi = true; try { cal(rol, yedek, { carpan, hiz }); } finally { xpErtelendi = false; } }, kalanMs + 40);
+      return;
+    }
+  }
   const dosya = dosyaAdi(rol);
   taniKaydi(rol, sesAcikMi() ? dosya : "efekt-kapali");
   if (!dosya || !calabilir()) return;     // sessiz seçildi / ses kapalı → indirme de yok

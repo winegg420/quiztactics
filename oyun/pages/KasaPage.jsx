@@ -1063,6 +1063,7 @@ function KasaMac({ id }) {
   useEffect(() => {
     // Maç bitince faz satırda kalır (ör. AÇ ile biten maçta "karar"): sonuç ekranında tik çalmasın
     if (!d || d.durum !== "aktif" || !["cevap", "karar"].includes(d.faz) || d.cevap?.ben_cevapladim) return;
+    if (d.faz === "cevap" && secim !== null && secim !== undefined) return;   // cevap yoldayken de son 3 sn sesi çalmaz
     // 13 Eki: iyimser AÇ başladı, yanıt bekleniyor — karar sayacı gizli, sayim_son tikleri çalmaz
     if (d.faz === "karar" && acBasildiRef.current === `${turAnahtari(d)}`) return;
     const n = Math.ceil(gosterSn);

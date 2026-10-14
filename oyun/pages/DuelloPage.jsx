@@ -1058,6 +1058,7 @@ function DuelloMac({ id }) {
   useEffect(() => {
     if (!d || d.durum !== "aktif" || !["cevap", "altin"].includes(d.faz) || d.surum === 4) return;   // maç sonu ekranında tik yok; v4 tik'i arenada
     if (d.surum === 2 && d.cevap?.ben_cevapladim) return;   // cevabı kilitleyene tik çalınmaz
+    if (secim !== null && secim !== undefined) return;       // cevap yoldayken de (sunucu onayını bekleme) son 3 sn sesi çalmaz
     const sn = Math.ceil(gosterSn);
     // 980: anahtar faz + rakam (yalnız rakam değil) — aynı fazda sayaç geri sıçrasa da aynı saniye ikinci kez çalmaz;
     // gizli sekmede çalmaz (dönüşte birikmiş tik'ler arka arkaya patlamasın)
