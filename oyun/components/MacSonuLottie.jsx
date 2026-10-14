@@ -28,6 +28,7 @@
 // katmanı da transform'suz (bkz. mac-sonu-kutlama.css).
 // ============================================================
 import { useEffect, useImperativeHandle, useRef, useState } from "react";
+import { konfetiYukle } from "../lib/konfeti.js";
 
 const KLASOR = "/lottie/mac-sonu/";
 const GEC_SINIR_MS = 1200;    // geçici animasyon (coin, yıldız patlaması)
@@ -82,13 +83,7 @@ export function macSonuOnYukle() {
 // boyamasıyla 4× CPU kısıtlamasında p95 kareyi 67 ms'ye çıkarıyordu. canvas-confetti
 // OffscreenCanvas varsa iş parçacığında çizer (ana iş parçacığı boş kalır), yoksa ana
 // iş parçacığına düşer. O da tembel yüklenir.
-let konfetiSozu = null;
-export function konfetiYukle() {
-  if (!konfetiSozu) {
-    konfetiSozu = import("canvas-confetti").then((m) => m.default ?? m).catch((e) => { konfetiSozu = null; throw e; });
-  }
-  return konfetiSozu;
-}
+export { konfetiYukle };   // Paket B/6: tek kaynak lib/konfeti.js
 
 /** Renkler tasarım token'larından (Yön A): coin altını, vurgu turuncusu, mor, yeşil, mavi, pembe. */
 function konfetiRenkleri() {

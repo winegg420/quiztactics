@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
@@ -10,7 +10,8 @@ import { tt } from "../lib/dil.js";
 import { bildirimMetni } from "../lib/konum.js";
 import { useDmOkunmamis, dmTazele } from "../lib/mesajlar.js";
 import { bildirimDinle } from "../lib/bildirimKanali.js";
-import PostaDetay from "./PostaDetay.jsx";
+// Paket B/6: posta detayı yalnız bir posta açılınca iner (ana sayfa ilk açılış paketine girmez)
+const PostaDetay = lazy(() => import("./PostaDetay.jsx"));
 import {
   POSTA_GONDEREN, postaBaslik, odulBekliyor, postaRozetSayisi, postaKutusuOku, postaKutusuOkundu, emojisiz,
 } from "../lib/posta.js";
@@ -453,12 +454,12 @@ export default function BildirimZili() {
       />
       {acik && typeof document !== "undefined" && createPortal(panel, document.body)}
       {acikPosta && (
-        <PostaDetay
+        <Suspense fallback={null}><PostaDetay
           posta={postalar.find((p) => p.id === acikPosta)}
           onKapat={() => setAcikPosta(null)}
           onAlindi={(id, verilen) => setPostalar((l) => l.map((p) =>
             p.id === id ? { ...p, alindi: new Date().toISOString(), verilen, okundu: true } : p))}
-        />
+        /></Suspense>
       )}
     </div>
   );

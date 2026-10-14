@@ -17,7 +17,8 @@ import { Routes, Route, Navigate, useLocation, useNavigate, useParams } from "re
 import { girisHedefiniAl, bilinenYol } from "./lib/girisHedefi.js";
 import { useAuth } from "./context/AuthContext.jsx";
 import { supabaseHazir } from "./lib/supabase.js";
-import Login from "./pages/Login.jsx";
+// Paket B/6: giriş ekranı tembel — oturumu olan oyuncunun ilk açılış paketine girmez
+const Login = tembelYukle(() => import("./pages/Login.jsx"));
 import { oyunAcilabilir } from "./lib/uygulamaKipi.js";
 import { QtMarka, QtKart, QtBosDurum } from "../oyun/tasarim/index.js";
 import { tt } from "../oyun/lib/dil.js";
@@ -211,7 +212,9 @@ export default function BildimApp() {
 
   if (!session && !bagimsizModul)
     return (
-      <Login />
+      <Suspense fallback={<YukleniyorEkrani />}>
+        <Login />
+      </Suspense>
     );
 
   return (

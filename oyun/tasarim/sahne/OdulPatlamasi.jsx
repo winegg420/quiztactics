@@ -12,7 +12,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CoinIkon, ElmasIkon } from "../../components/ParaIkonlari.jsx";
-import { konfetiYukle } from "../../components/MacSonuLottie.jsx";
+import { konfetiYukle } from "../../lib/konfeti.js";
 import { QT_SAHNE_COIN_HAPI } from "./QtSahne.jsx";
 import { ziplat } from "../hareket.js";
 import { sesCoin, sesXpDolma } from "../../lib/ses.js";

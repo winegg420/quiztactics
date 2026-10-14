@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { QtDugme, QtModal } from "../tasarim/index.js";
-import { misafirMi } from "./HesapGuvence.jsx";
+import { misafirMi } from "../lib/misafir.js";
 import { tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
 

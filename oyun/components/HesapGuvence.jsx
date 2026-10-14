@@ -31,9 +31,7 @@ function bagHatasi(e) {
   return tt("Hesap bağlanamadı. Tekrar dene.");
 }
 
-export function misafirMi(user) {
-  return Boolean(user?.is_anonymous);
-}
+export { misafirMi } from "../lib/misafir.js";   // Paket B/6: tek kaynak lib/misafir.js
 
 /** Bağlama formu — Profil › Ayarlar kartında ve ilk galibiyet önerisinde aynı. */
 function BaglamaFormu() {
