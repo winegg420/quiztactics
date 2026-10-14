@@ -50,7 +50,7 @@ import { useDonukSayac } from "../lib/useDonukSayac.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesDokunus, sesRakipBulundu, sesSoruGeldi,
-  sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill, sesOnYukle } from "../lib/ses.js";
+  sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill, sesOnYukle, sesKalpAtisi } from "../lib/ses.js";
 import { KasaAcAni, KasaAltinYagmuru, UcanParcalar, kasaSeviye, KasaGirisSahnesi, KasaFinalSahnesi,
   KasaCifteBandi, KasaRakipKarar, KasaSavunmaAni } from "../components/KasaEfekt.jsx";
 import Konfeti from "../components/Konfeti.jsx";
@@ -62,6 +62,8 @@ import "../tasarim/ekranlar/m1-mac.css";   // GeriSayim (3-2-1) görünümü
 import "./DuelloPage.a.css";              // m2-bant / m2-hata / m2-onay-eylem / m2-giris ortak kalıpları
 import "../styles/kasa.css";
 import LobiKurallari from "../components/LobiKurallari.jsx";
+import RehberBalonu from "../components/RehberBalonu.jsx";
+import { useIlkMacRehberi } from "../lib/ilkMacRehberi.js";
 import { modKurallari } from "../lib/modAciklamalari.js";
 
 const HARFLER = ["A", "B", "C", "D"];
@@ -108,6 +110,10 @@ const DEVAM_VURUS_MS = varsayilanSure("kasa_devam_vurus");    // 990: DEVAM ETT�
 const FINAL_SAHNE_MS = varsayilanSure("kasa_final_sahne");   // maç sonu açılış sahnesi (kazanan) — sonra MacSonuKutlama
 const FINAL_KAPANIS_MS = varsayilanSure("kasa_final_kapanis"); // kaybeden: kasa kapanır/kararır
 const CIFTE_MS = varsayilanSure("kasa_cifte");
+// 14 Eki 2026 · karar gerilimi: sandık seviyesi → kademe (1–4) → kalp atışı aralığı (60 → 120 vuruş/dk) ve karar başı titreşimi
+const KALP_KADEME = { az: 1, orta: 2, dolu: 3, tavan: 4 };
+const KALP_ARALIK_MS = [0, 1000, 820, 650, 500];
+const KARAR_TITRESIM = [0, 12, [16, 60, 16], [24, 50, 24], [32, 40, 32, 40, 32]];
 const ARAMA_IPUCLARI = [
   "Aynı soruyu aynı anda cevaplarsınız.",
   "Tek başına bilen hazinenin sahibi olur.",
@@ -1051,6 +1057,43 @@ function KasaMac({ id }) {
     if (n > 0 && n <= 3 && !gorunurDegil() && birKez(`tik:${turAnahtari(d)}-${d.faz}-${n}`)) sesTik(n);
   }, [gosterSn, d]);   // eslint-disable-line react-hooks/exhaustive-deps
 
+  // ---------------- 14 Eki 2026 · karar gerilimi (yalnız sunum): sandık seviyesi büyüdükçe kalp atışı hızlanır, karar
+  // verende karar başında bir kez titreşim (seviyeyle güçlenir; navigator.vibrate yoksa / hareket azaltmada titret() atlar).
+  // Karar verilince (istek yolda / iyimser AÇ anı), süre dolunca, kopuklukta ya da faz değişince susar. Kural/süre etkilenmez.
+  const kararKademe = d?.durum === "aktif" && d?.faz === "karar" && !girisAktif && !calisan && an?.tip !== "ac"
+    && !kararSureDoldu && kopukDonukSn == null
+    ? KALP_KADEME[kasaSeviye(d.karar?.deger ?? d.kasa, d.hedef, d.tavan)] ?? 0 : 0;
+  useEffect(() => {
+    if (!kararKademe) return undefined;
+    const aralik = KALP_ARALIK_MS[kararKademe];
+    const at = () => { if (!gorunurDegil()) sesKalpAtisi(kararKademe); };
+    at();
+    const z = setInterval(at, aralik);
+    return () => clearInterval(z);
+  }, [kararKademe]);
+  useEffect(() => {
+    if (!kararKademe || d?.karar?.veren !== d?.ben || gorunurDegil()) return;
+    if (birKez(`karar-titresim:${turAnahtari(d)}`)) titret(KARAR_TITRESIM[kararKademe]);
+  }, [kararKademe]);   // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ---------------- 1094 · İlk Hazine rehberi: yalnız sunucunun rehber dediği maçta (oyuncunun ilk Hazine maçı; hesapta kalıcı,
+  // misafir dahil). Düello 1093 ile aynı altyapı (lib/ilkMacRehberi.js + RehberBalonu). Üç an, her biri bir kez: ilk sonuç
+  // (hazine nasıl büyür) · ilk kendi kararım (AÇ / DEVAM ne demek) · ilk AÇ'tan sonra (AÇ ne yaptı). "Geç" rehberi kapatır.
+  // AÇ anı ekrandan çekildikten sonra (an / rakip kararı kartı bitince, 400 ms dengeli) — ilk karede yanıp sönmesin.
+  const acRehberHam = Boolean(d?.rehber && d?.durum === "aktif" && d?.faz === "cevap" && d?.son_karar?.ac && !d.son_karar.son
+    && !an && !rakipKarar && !girisAktif);
+  const [acRehber, setAcRehber] = useState(false);
+  useEffect(() => {
+    if (!acRehberHam) { setAcRehber(false); return undefined; }
+    const t = setTimeout(() => setAcRehber(true), 400);
+    return () => clearTimeout(t);
+  }, [acRehberHam]);
+  const rehberAday = !d?.rehber || d?.durum !== "aktif" || girisAktif ? null
+    : d.faz === "karar" && d.karar?.veren === d.ben && an?.tip !== "ac" && !calisan && !kararSureDoldu ? "karar"
+    : acRehber && acRehberHam ? "ac"
+    : d.faz === "sonuc" && d.sonuc && !d.altin && !d.sonuc.savunma ? "hazine" : null;
+  const { rehber, gec: rehberGec } = useIlkMacRehberi("ks", id, rehberAday);
+
   // ---------------- eylemler ----------------
   const cevapVer = async (i) => {
     const tikMs = Date.now() + farkRef.current;   // 991: tıklama anı (sunucu saati) — geç varsa da süre içinde sayılır
@@ -1370,6 +1413,17 @@ function KasaMac({ id }) {
                 artis={anSonuc?.varis && !anSonuc.bitti ? { anahtar: anSonuc.id, n: anSonuc.artis, buyuk: anSonuc.buyuk } : null} />
   );
 
+  // 1094 · ilk Hazine rehberi metinleri (kurallar sunucudan: kasa_cozumle her soruda artis / ikisi_artis ekler, tek bilen
+  // sahip olur; AÇ hazineyi puana yazar ve sıfırlar; devam_birakir maça sabit)
+  const REHBER_METNI = {
+    hazine: "Hazine her soruda büyür. Tek başına bilen alır.",
+    karar: d.devam_birakir ? "AÇ: puanına yaz. DEVAM: hazine büyür, sahipsiz kalır." : "AÇ: puanına yaz. DEVAM: hazine büyür.",
+    ac: "AÇ hazineyi puana ekler, hazine sıfırlanır.",
+  };
+  const rehberBalonu = (anahtar) => rehber === anahtar && (
+    <RehberBalonu onek="ks" metin={c(REHBER_METNI[anahtar])} onGec={rehberGec} className={`ks-rehber--${anahtar}`} c={c} />
+  );
+
   let sahne = null;
   let jokerYuva = null;
   if (girisAktif) {
@@ -1388,7 +1442,7 @@ function KasaMac({ id }) {
     );
   } else if (d.faz === "karar") {
     sahne = <KasaKarar d={d} c={c} calisan={calisan} onKarar={kararVer} kalan={kopukDonukSn != null ? null : gosterSn}
-                       sureDoldu={kararSureDoldu}
+                       sureDoldu={kararSureDoldu} rehber={rehberBalonu("karar")}
                        carpanYazi={carpanYazisi(d.devam_carpan, dil)} />;
   } else if (d.faz === "cevap" || d.faz === "sonuc") {
     const sonucMu = d.faz === "sonuc";
@@ -1510,7 +1564,7 @@ function KasaMac({ id }) {
                anahtar={anSonuc?.anahtarVaris && !anSonuc.bitti ? anSonuc.anahtarA : null}
                rakipJoker={["cevap", "sonuc"].includes(d.faz) && Array.isArray(d.rakip_joker) ? d.rakip_joker : []}
                onay={d.faz === "cevap" ? { [ben.id]: kilitli, [rakip.id]: Boolean(d.cevap?.rakip_cevapladi) } : {}} />
-      <div className="ks-serit">
+      <div className={sinif("ks-serit", (rehber === "hazine" || rehber === "ac") && "ks-serit--rehber")}>
         {/* 990: hazine şeridin ortasında ortak nesne (soru/sonuç); karar/başlangıçta büyük sandık sahnede — ortada hedef */}
         <KasaSkor d={d} ben={ben} rakip={rakip} c={c}
                   puanGoster={anAc && !anAc.varis ? { [anAc.kim]: anAc.eskiPuan } : rk?.ac ? { rakip: rk.eskiPuan } : {}}
@@ -1520,6 +1574,8 @@ function KasaMac({ id }) {
                   )} />
         {/* 957: maç içi tepki (kapalı modda hiçbir şey çizmez) */}
         <TepkiCubugu tepki={tepki} className="ks-tepki" />
+        {rehberBalonu("hazine")}
+        {rehberBalonu("ac")}
       </div>
       {kopukBant && (
         <p className="m2-bant m2-bant--uyari m2-bant--katman" role="status">

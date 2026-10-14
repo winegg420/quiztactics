@@ -235,4 +235,8 @@ export default {
   // 11 Eki 2026: karar süresi doldu (sayaç 0 = sunucu bitişi; düğmeler pasif)
   "Süre doldu · DEVAM": "Time's up · KEEP",
   "Süre doldu · AÇ": "Time's up · OPEN",
+  // 1094 · ilk Hazine rehberi (devam_birakir maçında karar balonu kisa-metin.js'teki "AÇ: puanına yaz. DEVAM: … sahipsiz kalır.")
+  "Hazine her soruda büyür. Tek başına bilen alır.": "The treasure grows every question. Answer alone to take it.",
+  "AÇ: puanına yaz. DEVAM: hazine büyür.": "OPEN: add it to your score. KEEP: it grows.",
+  "AÇ hazineyi puana ekler, hazine sıfırlanır.": "OPEN adds the treasure to the score and resets it.",
 };

@@ -481,6 +481,19 @@ export function sesTik(kalanSn) {
   cal("tik", () => tonTik(kalanSn), { carpan: 0.8 + (5 - n) * 0.05, hiz: 1 + (5 - n) * 0.06 });
 }
 
+/**
+ * Hazine karar gerilimi (14 Eki 2026): tek kalp atışı ("lub-dub"). Dosya YOK — Web Audio osilatörüyle üretilir (lisans
+ * gerekmez, indirme yok). kademe 1–4 (sandık az → tavan): atış biraz yükselir ve sertleşir; ritmi çağıran kurar.
+ * Telefon hoparlörü 100 Hz altını vermez → üçgen dalga 120/96 Hz (üst harmonikleri duyulur). Gizli sekmede çalmaz.
+ */
+export function sesKalpAtisi(kademe = 1) {
+  if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
+  const k = Math.max(1, Math.min(4, Number(kademe) || 1));
+  const hacim = 0.11 + (k - 1) * 0.03;
+  ton({ frekans: 120 + k * 4, sure: 0.12, hacim, tip: "triangle" });
+  ton({ frekans: 96 + k * 3, sure: 0.15, hacim: hacim * 0.75, tip: "triangle", gecikme: 0.17 });
+}
+
 /** Süre doldu. */
 export function sesSureDoldu() { kanca("cevap"); cal("sure_doldu", tonSureDoldu); }
 

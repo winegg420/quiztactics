@@ -183,6 +183,38 @@
 .ks-karar-not { margin: 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
 .ks-nokta { width: 10px; height: 10px; border-radius: 50%; background: var(--qt-mod-duello); animation: ks-nabiz 1.2s ease-in-out infinite; }
 @keyframes ks-nabiz { 50% { transform: scale(.55); opacity: .5; } }
+/* 14 Eki 2026 · karar gerilimi: sandık seviyesi büyüdükçe arkada altın ışık güçlenir, sahne hafif yakınlaşır (karar başında
+   bir kez, ~0,7 sn; sonra durur). YALNIZ transform + opacity (bileşik katman; düzen/boyama tetiklemez — 3-2-1 kasması dersi:
+   filter / letter-spacing / box-shadow animasyonu YOK). Kök değil iç öğe; içinde fixed katman yok (iOS kuralı). */
+.ks-karar-sahne { --ks-yakin: 1.02; --ks-isik: .22; position: relative; isolation: isolate; display: grid; justify-items: center;
+  animation: ks-karar-yakin .7s var(--qt-egri-cikis, cubic-bezier(.2, .8, .2, 1)) both; }
+.ks-karar-sahne::before {
+  content: ""; position: absolute; z-index: -1; inset: -6% -18% 4%; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 214, 92, .85), rgba(255, 196, 0, .32) 55%, rgba(255, 196, 0, 0) 100%);
+  opacity: var(--ks-isik); animation: ks-karar-isik .9s ease-out both;
+}
+.ks-karar-sahne--orta { --ks-yakin: 1.035; --ks-isik: .38; }
+.ks-karar-sahne--dolu { --ks-yakin: 1.05; --ks-isik: .58; }
+.ks-karar-sahne--tavan { --ks-yakin: 1.07; --ks-isik: .8; }
+@keyframes ks-karar-yakin { from { transform: scale(1); } to { transform: scale(var(--ks-yakin)); } }
+@keyframes ks-karar-isik { from { opacity: 0; } }
+/* 1094 · ilk Hazine rehberi: taban görünüm styles/rehber-balonu.css (Düello ile ortak); burada yalnız konum + ok.
+   hazine/ac: skor şeridinin altında, ortada (ok yukarı → mini sandık / skorlar) · karar: düğmelerin altında (ok yukarı).
+   Üst katman: akışta yer kaplamaz, 360 px'te taşmaz (max-width kabın genişliği − 8 px). */
+.ks-serit--rehber { position: relative; z-index: 4; }
+.ks-karar-eylem { position: relative; }
+.ks-rehber--hazine, .ks-rehber--ac, .ks-rehber--karar { top: calc(100% + 10px); left: 50%; translate: -50% 0; }
+.ks-karar-eylem .ks-rehber--karar { z-index: 6; }
+/* kısa ekranda (360×640, EN üç satır) düğmelerin altına sığmaz → düğmelerin ÜSTÜNDE, ok aşağı */
+@media (max-height: 700px) {
+  .ks-rehber--karar { top: auto; bottom: calc(100% + 10px); }
+  .ks-rehber--karar::before { top: auto; bottom: -6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* sade: yakınlaşma yok, ışık durağan ve hafif (yalnız renk) */
+  .ks-karar-sahne { animation: none; }
+  .ks-karar-sahne::before { animation: none; opacity: calc(var(--ks-isik) * .6); }
+}
 
 /* cevap / sonuç */
 .ks-karar-satir {

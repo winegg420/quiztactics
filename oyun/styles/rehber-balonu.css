@@ -1,0 +1,17 @@
+/* İlk maç rehberi balonu — ortak taban (Düello 1093'ten taşındı; Hazine 1094). :where() → özgüllük 0: modül CSS'i
+   (konum, ok yönü) yükleme sırasından bağımsız kazanır. Üst katman: akışta yer kaplamaz, dokunuş yalnız balonda.
+   Yalnız transform/opacity girişi; hareket azaltmada animasyon yok. */
+:where(.qt-rehber) { position: absolute; z-index: 5; display: flex; align-items: center; gap: 2px;
+  width: max-content; max-width: min(270px, calc(100% - 8px)); padding: 0 2px 0 14px; border-radius: 14px;
+  background: var(--hk-metin, #1d2152); color: #fff; font-size: 14px; font-weight: 800; line-height: 1.25; text-align: left;
+  box-shadow: 0 8px 20px rgb(20 24 60 / .28); }
+:where(.qt-rehber)::before { content: ""; position: absolute; top: -6px; left: var(--qt-rehber-ok, 50%); width: 12px; height: 12px; margin-left: -6px;
+  background: inherit; border-radius: 2px; transform: rotate(45deg); }
+:where(.qt-rehber-yazi) { padding-block: 6px; }
+:where(.qt-rehber-gec) { flex: none; min-width: 44px; min-height: 44px; padding: 0 12px; border: 0; border-radius: 12px; background: none;
+  color: #ffd76a; font: inherit; font-weight: 900; cursor: pointer; }
+:where(.qt-rehber-gec):focus-visible { outline: 2px solid #ffd76a; outline-offset: -4px; }
+@media (prefers-reduced-motion: no-preference) {
+  :where(.qt-rehber) { animation: qt-rehber-gir .32s cubic-bezier(.2, .9, .3, 1.2) both; }
+}
+@keyframes qt-rehber-gir { from { opacity: 0; transform: translateY(6px) scale(.96); } to { opacity: 1; transform: none; } }

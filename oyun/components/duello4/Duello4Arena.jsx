@@ -26,6 +26,8 @@ import { sesDogru, sesYanlis, sesTik, sesKategoriGeriSayim, sesTurGecis, sesCanK
 import { sure, sureOlcek, varsayilanSure } from "../../lib/sureler.js";
 import { titret } from "../../lib/geriBildirim.js";
 import { GeriSayim, useGeriSayim } from "../MacHazirlik.jsx";
+import RehberBalonu from "../RehberBalonu.jsx";
+import { useIlkMacRehberi } from "../../lib/ilkMacRehberi.js";
 import "./duello4.css";
 
 const HARFLER = ["A", "B", "C", "D"];
@@ -51,16 +53,7 @@ const SARSINTI_MS = varsayilanSure("duello4_sarsinti");   // geçerli: sure() �
 // false → eski akış (kart seç + alt eylem düğmesiyle onayla); sunucu tarafı için docs/duello-v4-kart-akisi-geri-al.sql.
 const KART_TEK_DOKUNUS = true;
 const GEC_SES_MS = 500;   // olay anı bundan çok geride kaldıysa (yenileme/geç katılım) sesi çalınmaz
-// İlk Düello rehberi (1093): balon en çok bu kadar görünür; an (faz) değişince de kalkar. Sayaca/akışa dokunmaz.
-const REHBER_MS = 5000;
-const rehberKayitAnahtari = (id) => `d4_rehber:${id}`;
-function rehberKaydiOku(id) {
-  try { const x = JSON.parse(localStorage.getItem(rehberKayitAnahtari(id)) || "null"); return { goruldu: new Set(x?.g ?? []), gec: Boolean(x?.gec) }; }
-  catch { return { goruldu: new Set(), gec: false }; }
-}
-function rehberKaydiYaz(id, r) {
-  try { localStorage.setItem(rehberKayitAnahtari(id), JSON.stringify({ g: [...r.goruldu], gec: r.gec })); } catch { /* gizli sekme: yalnız bellekte */ }
-}
+// İlk Düello rehberi (1093): ortak mantık lib/ilkMacRehberi.js + components/RehberBalonu.jsx (Hazine 1094 ile paylaşılır).
 const yuzde = (v) => (v === null || v === undefined ? "?" : aktifDil() === "en" ? `${v}%` : `%${v}`);
 
 // ---------------------------------------------------------------- küçük parçalar
@@ -256,28 +249,9 @@ export default function Duello4Arena({
     : d.faz === "kart" && benKontrol && adim === 0 && Number(v.seri ?? 0) === hedef - 1 ? "seri"
     : d.faz === "kart" && benKontrol && adim === 0 ? "kart"
     : d.faz === "sonuc" && h && (h.sonuc === "kontrol_aldi" || h.sonuc === "el_degisti") ? "kontrol" : null;
-  const rehberRef = useRef(null);
-  if (rehberRef.current === null || rehberRef.current.id !== d.id) rehberRef.current = { id: d.id, ...rehberKaydiOku(d.id) };
-  const [rehber, setRehber] = useState(null);
-  useEffect(() => {
-    const r = rehberRef.current;
-    if (!rehberAday) { setRehber(null); return; }
-    if (r.gec || r.goruldu.has(rehberAday)) return;
-    r.goruldu.add(rehberAday);
-    rehberKaydiYaz(d.id, r);
-    setRehber(rehberAday);
-  }, [rehberAday]);   // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    if (!rehber) return undefined;
-    const t = setTimeout(() => setRehber(null), REHBER_MS);
-    return () => clearTimeout(t);
-  }, [rehber]);
-  const rehberGec = () => { const r = rehberRef.current; r.gec = true; rehberKaydiYaz(d.id, r); setRehber(null); };
+  const { rehber, gec: rehberGec } = useIlkMacRehberi("d4", d.id, rehberAday);
   const rehberBalonu = (anahtar, metin, ek) => rehber === anahtar && (
-    <div className={sinif("d4-rehber", `d4-rehber--${anahtar}`, ek)} role="status">
-      <span className="d4-rehber-yazi">{metin}</span>
-      <button type="button" className="d4-rehber-gec" onClick={rehberGec}>{c("Geç")}</button>
-    </div>
+    <RehberBalonu onek="d4" metin={metin} onGec={rehberGec} className={sinif(`d4-rehber--${anahtar}`, ek)} c={c} />
   );
 
   // ---------------- sesler (her olay anahtarına bağlı tek sefer; gizli sekmede ses.js zaten çalmaz)

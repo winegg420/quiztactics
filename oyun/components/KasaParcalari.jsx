@@ -209,12 +209,14 @@ export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {}, an
 }
 
 /** Karar fazı: sahip AÇ / DEVAM seçer; diğer oyuncu "Rakip karar veriyor…" görür. */
-export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = null, sureDoldu = false }) {
+export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = null, sureDoldu = false, rehber = null }) {
   const benim = d.karar?.veren === d.ben;
   const deger = Number(d.karar?.deger ?? d.kasa ?? 0);
   // Gerilim: sahipte kalp atışı, beklerken titreme; son 3 sn kızarır ve hızlı titrer (tik sesi sayfada).
   const gergin = kalan != null && kalan > 0 && kalan <= 3;
   const hareket = gergin ? ["gergin"] : [benim ? "nabiz" : "titre"];
+  // 14 Eki 2026: karar gerilimi — sandık seviyesine göre ışık + hafif yakınlaşma (yalnız transform/opacity; kasa.css ks-karar-sahne)
+  const seviye = kasaSeviye(deger, d.hedef, d.tavan);
   // 11 Eki 2026: süre doldu → net durum (sunucu süre dolumunu uygular; hazine tavanda ve tavan ≥ hedef ise otomatik AÇ — 988)
   const otoAc = Number(d.tavan) > 0 && deger >= Number(d.tavan) && Number(d.tavan) >= Number(d.hedef);
   const sureDolduSatiri = sureDoldu ? (
@@ -223,7 +225,7 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = n
   if (!benim) {
     return (
       <div className="ks-karar ks-karar--bekle" role="status" aria-live="polite">
-        <KasaKadran d={d} c={c} hareket={hareket} />
+        <span className={sinif("ks-karar-sahne", `ks-karar-sahne--${seviye}`)}><KasaKadran d={d} c={c} hareket={hareket} /></span>
         {sureDolduSatiri ?? <p className="ks-karar-baslik"><span className="ks-nokta" aria-hidden="true" />{c("Rakip karar veriyor…")}</p>}
         <p className="ks-karar-not">{c("Açarsa {k} puan alır, hazine sıfırlanır.", { k: deger })}</p>
       </div>
@@ -242,7 +244,7 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = n
   const hakKazanir = Boolean(d.savunma_acik) && !hakVar;   // bilerek DEVAM → Savunma Hakkı (987)
   return (
     <div className="ks-karar">
-      <KasaKadran d={d} c={c} hareket={hareket} />
+      <span className={sinif("ks-karar-sahne", `ks-karar-sahne--${seviye}`)}><KasaKadran d={d} c={c} hareket={hareket} /></span>
       <div className="ks-karar-eylem">
         <QtDugme tamGenislik boyut="b" ikon={acKilit ? "kilit" : "coin"} yukleniyor={calisan === "karar-ac"}
                  devreDisi={!!calisan || acKilit || sureDoldu} className={sinif("ks-karar-dugme", acKilit && "ks-ac-kilitli")}
@@ -270,6 +272,8 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = n
             </span>
           </QtDugme>
         )}
+        {/* 1094: ilk Hazine rehberi — düğmelerin altında, ok yukarı (kasa.css ks-rehber--karar) */}
+        {rehber}
       </div>
       {sureDolduSatiri}
       {/* 9 Eki 2026 (Ida): karar ekranı yazıları azaldı — hak bilgisi DEVAM alt yazısında, "Süre dolarsa DEVAM sayılır." kalktı */}

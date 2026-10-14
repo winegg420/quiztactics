@@ -1,0 +1,444 @@
+{
+  "01-rehber-hazine-360x640-tr": {
+    "balon": [
+      {
+        "sinif": "qt-rehber ks-rehber ks-rehber--hazine",
+        "metin": "Hazine her soruda büyür. Tek başına bilen alır. Geç",
+        "kutu": {
+          "sol": 45,
+          "sag": 315,
+          "ust": 186,
+          "alt": 233
+        },
+        "gecH": 44,
+        "gecW": 49
+      }
+    ],
+    "sahne": null,
+    "olcek": null,
+    "isik": null,
+    "anim": null,
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 0,
+    "titresim": []
+  },
+  "02-rehber-karar-360x640-tr": {
+    "balon": [
+      {
+        "sinif": "qt-rehber ks-rehber ks-rehber--karar",
+        "metin": "AÇ: puanına yaz. DEVAM: hazine büyür, sahipsiz kalır. Geç",
+        "kutu": {
+          "sol": 45,
+          "sag": 315,
+          "ust": 401,
+          "alt": 448
+        },
+        "gecH": 44,
+        "gecW": 49
+      }
+    ],
+    "sahne": "ks-karar-sahne ks-karar-sahne--az",
+    "olcek": 1.02,
+    "isik": 0.22,
+    "anim": "ks-karar-yakin",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 4,
+    "titresim": [
+      12
+    ]
+  },
+  "03-gerilim-az-360x640-tr": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--az",
+    "olcek": 1.02,
+    "isik": 0.22,
+    "anim": "ks-karar-yakin",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 6,
+    "titresim": []
+  },
+  "03-gerilim-orta-360x640-tr": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--orta",
+    "olcek": 1.035,
+    "isik": 0.38,
+    "anim": "ks-karar-yakin",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 6,
+    "titresim": []
+  },
+  "03-gerilim-dolu-360x640-tr": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--dolu",
+    "olcek": 1.05,
+    "isik": 0.58,
+    "anim": "ks-karar-yakin",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 8,
+    "titresim": []
+  },
+  "03-gerilim-tavan-360x640-tr": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--tavan",
+    "olcek": 1.07,
+    "isik": 0.8,
+    "anim": "ks-karar-yakin",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 12,
+    "titresim": []
+  },
+  "kalp-360x640-tr": {
+    "az": 6,
+    "orta": 6,
+    "dolu": 8,
+    "tavan": 12
+  },
+  "titresim-360x640-tr": [
+    [
+      24,
+      50,
+      24
+    ]
+  ],
+  "04-rakip-karar-360x640-tr": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--dolu",
+    "olcek": 1.05,
+    "isik": 0.58,
+    "anim": "ks-karar-yakin",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 4,
+    "titresim": []
+  },
+  "05-rehber-ac-360x640-tr": {
+    "balon": [
+      {
+        "sinif": "qt-rehber ks-rehber ks-rehber--ac",
+        "metin": "AÇ hazineyi puana ekler, hazine sıfırlanır. Geç",
+        "kutu": {
+          "sol": 45,
+          "sag": 315,
+          "ust": 186,
+          "alt": 233
+        },
+        "gecH": 44,
+        "gecW": 49
+      }
+    ],
+    "sahne": null,
+    "olcek": null,
+    "isik": null,
+    "anim": null,
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 0,
+    "titresim": []
+  },
+  "01-rehber-hazine-360x640-en": {
+    "balon": [
+      {
+        "sinif": "qt-rehber ks-rehber ks-rehber--hazine",
+        "metin": "The treasure grows every question. Answer alone to take it. Skip",
+        "kutu": {
+          "sol": 45,
+          "sag": 315,
+          "ust": 186,
+          "alt": 251
+        },
+        "gecH": 44,
+        "gecW": 53
+      }
+    ],
+    "sahne": null,
+    "olcek": null,
+    "isik": null,
+    "anim": null,
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 0,
+    "titresim": []
+  },
+  "02-rehber-karar-360x640-en": {
+    "balon": [
+      {
+        "sinif": "qt-rehber ks-rehber ks-rehber--karar",
+        "metin": "OPEN: add it to your score. KEEP: it grows and is up for grabs. Skip",
+        "kutu": {
+          "sol": 45,
+          "sag": 315,
+          "ust": 384,
+          "alt": 448
+        },
+        "gecH": 44,
+        "gecW": 53
+      }
+    ],
+    "sahne": "ks-karar-sahne ks-karar-sahne--az",
+    "olcek": 1.02,
+    "isik": 0.22,
+    "anim": "ks-karar-yakin",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 2,
+    "titresim": [
+      12
+    ]
+  },
+  "03-gerilim-az-360x640-en": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--az",
+    "olcek": 1.02,
+    "isik": 0.22,
+    "anim": "ks-karar-yakin",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 6,
+    "titresim": []
+  },
+  "03-gerilim-orta-360x640-en": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--orta",
+    "olcek": 1.035,
+    "isik": 0.38,
+    "anim": "ks-karar-yakin",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 8,
+    "titresim": []
+  },
+  "03-gerilim-dolu-360x640-en": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--dolu",
+    "olcek": 1.05,
+    "isik": 0.58,
+    "anim": "ks-karar-yakin",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 8,
+    "titresim": []
+  },
+  "03-gerilim-tavan-360x640-en": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--tavan",
+    "olcek": 1.07,
+    "isik": 0.8,
+    "anim": "ks-karar-yakin",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 12,
+    "titresim": []
+  },
+  "kalp-360x640-en": {
+    "az": 6,
+    "orta": 8,
+    "dolu": 8,
+    "tavan": 12
+  },
+  "titresim-360x640-en": [
+    [
+      24,
+      50,
+      24
+    ]
+  ],
+  "04-rakip-karar-360x640-en": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--dolu",
+    "olcek": 1.05,
+    "isik": 0.58,
+    "anim": "ks-karar-yakin",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 4,
+    "titresim": []
+  },
+  "05-rehber-ac-360x640-en": {
+    "balon": [
+      {
+        "sinif": "qt-rehber ks-rehber ks-rehber--ac",
+        "metin": "OPEN adds the treasure to the score and resets it. Skip",
+        "kutu": {
+          "sol": 45,
+          "sag": 315,
+          "ust": 186,
+          "alt": 233
+        },
+        "gecH": 44,
+        "gecW": 53
+      }
+    ],
+    "sahne": null,
+    "olcek": null,
+    "isik": null,
+    "anim": null,
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 0,
+    "titresim": []
+  },
+  "01-rehber-hazine-360x640-tr-azalt": {
+    "balon": [
+      {
+        "sinif": "qt-rehber ks-rehber ks-rehber--hazine",
+        "metin": "Hazine her soruda büyür. Tek başına bilen alır. Geç",
+        "kutu": {
+          "sol": 45,
+          "sag": 315,
+          "ust": 186,
+          "alt": 233
+        },
+        "gecH": 44,
+        "gecW": 49
+      }
+    ],
+    "sahne": null,
+    "olcek": null,
+    "isik": null,
+    "anim": null,
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 0,
+    "titresim": []
+  },
+  "02-rehber-karar-360x640-tr-azalt": {
+    "balon": [
+      {
+        "sinif": "qt-rehber ks-rehber ks-rehber--karar",
+        "metin": "AÇ: puanına yaz. DEVAM: hazine büyür, sahipsiz kalır. Geç",
+        "kutu": {
+          "sol": 45,
+          "sag": 315,
+          "ust": 401,
+          "alt": 448
+        },
+        "gecH": 44,
+        "gecW": 49
+      }
+    ],
+    "sahne": "ks-karar-sahne ks-karar-sahne--az",
+    "olcek": 1,
+    "isik": 0.13,
+    "anim": "none",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 4,
+    "titresim": []
+  },
+  "03-gerilim-az-360x640-tr-azalt": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--az",
+    "olcek": 1,
+    "isik": 0.13,
+    "anim": "none",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 6,
+    "titresim": []
+  },
+  "03-gerilim-orta-360x640-tr-azalt": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--orta",
+    "olcek": 1,
+    "isik": 0.23,
+    "anim": "none",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 8,
+    "titresim": []
+  },
+  "03-gerilim-dolu-360x640-tr-azalt": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--dolu",
+    "olcek": 1,
+    "isik": 0.35,
+    "anim": "none",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 10,
+    "titresim": []
+  },
+  "03-gerilim-tavan-360x640-tr-azalt": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--tavan",
+    "olcek": 1,
+    "isik": 0.48,
+    "anim": "none",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 12,
+    "titresim": []
+  },
+  "kalp-360x640-tr-azalt": {
+    "az": 6,
+    "orta": 8,
+    "dolu": 10,
+    "tavan": 12
+  },
+  "titresim-360x640-tr-azalt": [],
+  "04-rakip-karar-360x640-tr-azalt": {
+    "balon": [],
+    "sahne": "ks-karar-sahne ks-karar-sahne--dolu",
+    "olcek": 1,
+    "isik": 0.35,
+    "anim": "none",
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 4,
+    "titresim": []
+  },
+  "05-rehber-ac-360x640-tr-azalt": {
+    "balon": [
+      {
+        "sinif": "qt-rehber ks-rehber ks-rehber--ac",
+        "metin": "AÇ hazineyi puana ekler, hazine sıfırlanır. Geç",
+        "kutu": {
+          "sol": 45,
+          "sag": 315,
+          "ust": 186,
+          "alt": 233
+        },
+        "gecH": 44,
+        "gecW": 49
+      }
+    ],
+    "sahne": null,
+    "olcek": null,
+    "isik": null,
+    "anim": null,
+    "yatayTasma": 0,
+    "w": 360,
+    "h": 640,
+    "kalp": 0,
+    "titresim": []
+  }
+}
