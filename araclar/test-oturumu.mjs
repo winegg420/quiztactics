@@ -56,6 +56,8 @@ async function ac() {
     const b = await t.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: "block" });
     await b.addInitScript(([k, v]) => { try { if (!localStorage.getItem(k)) localStorage.setItem(k, v); localStorage.setItem("bildim_tanitim", "1"); } catch { /* yok */ } },
       [`sb-${REF}-auth-token`, JSON.stringify(kayit)]);
+    // Uygulama kapısı (src/lib/uygulamaKipi.js): canlı adreste kurulum sayfası yerine oyun açılsın (?dev=1 ile aynı geçiş)
+    await b.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } });
     const s = await b.newPage();
     await s.goto(ADRES + "/", { waitUntil: "domcontentloaded" });
     await s.waitForTimeout(4000);

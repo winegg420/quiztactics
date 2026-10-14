@@ -71,4 +71,33 @@ export default {
   "Kapalı. Bildirimler için iOS 16.4 veya üstü gerekir.": "Off. Notifications need iOS 16.4 or later.",
 
   "Davet işlenemedi. Arkadaşlar sayfasından davet koduyla ekleyebilirsin.":"The invite couldn't be processed. You can add them with the invite code on the Friends page.",
+
+  // Tanıtım sayfası (src/pages/TanitimSayfasi.jsx, 14 Eki 2026)
+  "Canlı 1v1 bilgi yarışması. Aynı soru, aynı an, aynı süre: hız bonusu yok, bilen kazanır.":
+    "Live 1v1 trivia. Same question, same moment, same clock: no speed bonus, whoever knows wins.",
+  "Hemen kur": "Install now",
+  "Ücretsiz · birkaç saniye · ana ekranında": "Free · a few seconds · on your home screen",
+  "Davet kodun hazır:": "Your invite code is ready:",
+  "Beş mod, tek hesap": "Five modes, one account",
+  "Hepsi aynı oyunda: bir maç at, düelloya gir, akşam turnuvasına yetiş.":
+    "All in one game: play a quick match, jump into a duel, make the evening tournament.",
+  "{mod} ekranı": "{mod} screen",
+  "Aynı 20 soru, aynı anda. En çok bilen kazanır.": "Same 20 questions, at the same time. Whoever knows most wins.",
+  "Hazine büyür; tek bilen alır. Doğru anda aç.": "The treasure grows; only a lone right answer takes it. Open it at the right moment.",
+  "Günde beş seans. Lobiye katıl, ilk üçe gir, ödülü kap.": "Five sessions a day. Join the lobby, finish top three, take the prize.",
+  "Her hafta yeni bir yarış. Bronz'dan Efsane'ye tırman.": "A new race every week. Climb from Bronze to Legend.",
+  "Oynadıkça senin olur": "Play more, unlock more",
+  "Lig çerçeveli avatarlarla haftanın ilk üçü": "This week's top three with their league frames",
+  "Lig çerçeveleri": "League frames",
+  "Avatarının çerçevesi ligini gösterir. Yükseldikçe çerçeve de yükselir.": "Your avatar's frame shows your league. Climb up and your frame climbs with you.",
+  "31 avatar": "31 avatars",
+  "Tilkiden astronota, ninjadan dinozora. Level atladıkça yenileri açılır.": "From fox to astronaut, ninja to dinosaur. New ones unlock as you level up.",
+  "Arkadaş davet kartı": "Friend invite card",
+  "Arkadaşınla oyna": "Play with friends",
+  "Davet bağlantını paylaş, meydan oku ya da grup maçı kur. Arkadaşın gelince ikiniz de coin kazanırsınız.":
+    "Share your invite link, send a challenge or set up a group match. When your friend joins, you both earn coins.",
+  "Şehir, ülke ve dünya sıralamaları": "City, country and world rankings",
+  "Şehrinin şampiyonu ol": "Be your city's champion",
+  "Her hafta şehir, ülke ve dünya sıralaması. İlk üçe giren rozeti alır.": "Weekly city, country and world rankings. The top three earn a badge.",
+  "Hemen kur, ilk maçına gir": "Install now, play your first match",
 };

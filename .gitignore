@@ -69,3 +69,6 @@ denetim/betikler/tur2/*.json
 quiztactics-yedek/
 yedek/
 *.ndjson
+
+# Tanıtım sayfası ham ekran görüntüleri (araclar/tanitim-ekran.mjs)
+tanitim-ham/

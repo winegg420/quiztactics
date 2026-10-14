@@ -78,7 +78,7 @@ function TelefonQr({ ceviri }) {
   );
 }
 
-function KurulumKarti({ ceviri }) {
+export function KurulumKarti({ ceviri }) {
   const [yol] = useState(senaryo);
   const [kurulum, setKurulum] = useState(kurulumDurumu);
   const [bekliyor, setBekliyor] = useState(false);
@@ -207,7 +207,7 @@ function davetiSunucuyaBirak(kod, referans) {
 }
 
 /** Davet kodu kartı: eşleştirme olmazsa (paylaşılan ağ) oyuncu kodu uygulamada elle girer. */
-function DavetKoduKarti({ kod, ceviri }) {
+export function DavetKoduKarti({ kod, ceviri }) {
   const [kopyalandi, setKopyalandi] = useState(false);
   const kopyala = async () => {
     try {
@@ -231,9 +231,8 @@ function DavetKoduKarti({ kod, ceviri }) {
 
 const DAVET_KODU_ANAHTAR = "bildim_davet_kodu";   // DavetPage + AuthContext ile aynı anahtar
 
-export default function KurulumSayfasi() {
-  const { dil, ceviri, dilDegistir } = useDil();
-
+/** /davet/:kod ile gelindiyse kodu döndürür ve davet yollarını kurar (tanıtım sayfası da kullanır). */
+export function useDavetKodu() {
   // /davet/:kod ile gelindiyse kodu sakla: uygulama aynı depoyu paylaşıyorsa (Android, masaüstü)
   // girişten sonra arkadaşlık isteği kendiliğinden gider (AuthContext › davetKoduUygula).
   const [davetKodu] = useState(() => {
@@ -252,6 +251,12 @@ export default function KurulumSayfasi() {
     } catch { /* özel mod: kod elle girilir */ }
     davetiSunucuyaBirak(davetKodu, referans);
   }, [davetKodu]);
+  return davetKodu;
+}
+
+export default function KurulumSayfasi() {
+  const { dil, ceviri, dilDegistir } = useDil();
+  const davetKodu = useDavetKodu();
 
   return (
     <div className="qt-sayfa g-giris g-kurulum">

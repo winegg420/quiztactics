@@ -91,6 +91,8 @@ const GorunumPage = tembelYukle(() => import("../oyun/pages/GorunumPage.jsx"));
 // Yasal metinler giriş duvarının ÖNÜNDE olmalı (Play Store + reklam ağları).
 // Tarayıcı sekmesinde oyun yerine tanıtım + kurulum (src/lib/uygulamaKipi.js › kapı).
 const KurulumSayfasi = tembelYukle(() => import("./pages/KurulumSayfasi.jsx"));
+// Yeni tanıtım + kurulum sayfasının önizlemesi (14 Eki 2026): kapının dışında, ?dev gerekmez; onaydan sonra kurulum sayfasının yerine geçecek.
+const TanitimSayfasi = tembelYukle(() => import("./pages/TanitimSayfasi.jsx"));
 const GizlilikPage = tembelYukle(() => import("../oyun/pages/GizlilikPage.jsx"));
 const KosullarPage = tembelYukle(() => import("../oyun/pages/KosullarPage.jsx"));
 const HesapSilPage = tembelYukle(() => import("../oyun/pages/HesapSilPage.jsx"));
@@ -172,6 +174,13 @@ export default function BildimApp() {
       pathname.startsWith("/insan-prototip") || pathname.startsWith("/preview/") || pathname.startsWith("/tasarim-yonleri") ||
       pathname.startsWith("/tasarim-sistemi") || pathname.startsWith("/kozmetik-onizleme") || pathname.startsWith("/mac-sonu-onizleme") || pathname.startsWith("/ekran-revizyon-onizleme"))) ||
     pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar") || pathname.startsWith("/hesap-sil");
+
+  if (pathname === "/tanitim-onizleme")
+    return (
+      <Suspense fallback={<YukleniyorEkrani />}>
+        <TanitimSayfasi />
+      </Suspense>
+    );
 
   // KAPI: oyun yalnız kurulu uygulamada açılır. Tarayıcı sekmesinde (yasal ve sahip sayfaları
   // hariç) kurulum sayfası. Geliştirici geçişi: localhost ve ?dev=1 (uygulamaKipi.js).
