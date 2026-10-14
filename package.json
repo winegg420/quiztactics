@@ -17,6 +17,7 @@
     "test:duello2": "node oyun/_test/duello2-db-calistir.mjs",
     "test:duello2bot": "node oyun/_test/duello2-bot-db-calistir.mjs",
     "test:dans": "node oyun/_test/dans-testi.mjs",
+    "test:tanitim": "node araclar/tanitim-tiklama-testi.mjs",
     "test:ios:kur": "playwright-core install webkit",
     "muayene": "node oyun/harita/muayene/calistir.mjs",
     "cephe-ao": "node oyun/harita/varlik/cephe_ao.mjs",

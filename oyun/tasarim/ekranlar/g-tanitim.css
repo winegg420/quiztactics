@@ -120,9 +120,13 @@ html:has(.tn), body:has(.tn) { background: #0f1236; }
   place-items: center;
   isolation: isolate;
 }
+/* Süs katmanları (açılış sahnesi: ışınlar + telefonlar aria-hidden) hiçbir şeyin tıklamasını yutmaz — .tn-isin 980 px
+   olduğu için dar ekranda üstteki TR/EN ve "Hemen kur" düğmelerinin üstüne taşıyordu (araclar/tanitim-tiklama-testi.mjs). */
+.tn-sahne, .tn-sahne * { pointer-events: none; }
 .tn-isin {
   position: absolute;
   z-index: -1;
+  pointer-events: none;
   inset: 50% auto auto 50%;
   width: 980px;
   height: 980px;
