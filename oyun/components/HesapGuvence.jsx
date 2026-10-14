@@ -31,7 +31,8 @@ function bagHatasi(e) {
   return tt("Hesap bağlanamadı. Tekrar dene.");
 }
 
-export { misafirMi } from "../lib/misafir.js";   // Paket B/6: tek kaynak lib/misafir.js
+import { misafirMi } from "../lib/misafir.js";   // Paket B/6: tek kaynak lib/misafir.js
+export { misafirMi };   // yeniden dışa aktarma yerel ad oluşturmaz — bu dosya da kullandığı için önce import
 
 /** Bağlama formu — Profil › Ayarlar kartında ve ilk galibiyet önerisinde aynı. */
 function BaglamaFormu() {
