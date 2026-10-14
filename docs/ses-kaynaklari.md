@@ -20,6 +20,13 @@ idi; bu belge oradaki `KAYNAKLAR.md`'dir (aşağıdaki "bu klasör" = `araclar/s
    kovaya yükler ve `oyun/lib/sesAdayKova.js` eşlemesini yeniden üretir. Eşleme dağıtımla gider —
    yeni aday sayfada push'tan sonra çalar. Önce yükle, sonra push (tersi sesi susturur).
 
+### İşlenmiş kopya (`<an>-n1`, 15 Eki 2026)
+
+Seçili adayın normalize edilmiş hâli: `node araclar/ses-isle.mjs` (tepe −1 dBFS, baş sessizlik 20 ms, an başına süre sınırı,
+kısık sesler ortanca seviyeye; ölçüm `docs/ses-isleme-raporu.json`) → `araclar/ses-adaylar-kaynak/<an>-n1.wav` →
+`ses-adaylari-yukle.mjs` → push → `node araclar/ses-secim-cevir.mjs` (seçimi kopyaya çevirir; `--geri` kaynağa döner).
+Kopya `adaylar.js › islenmisKopya` ile her anın SON adayı olarak görünür; orijinal aday ve dosyası durur. Kaynağın lisansı geçerlidir.
+
 ### Tam parça eklemek (müzik — Ajan M, 24 Eyl 2026)
 
 Müzikte oyun 30 sn önizlemeyi değil TAM parçayı çalar; tam parçalar bu klasöre/`public/`'e

@@ -866,6 +866,16 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   migration 380 + 400; istemci açılışta sürümle doğrular). **Seçilmeyen adaylar silinmez** (ileride
   değiştirmek için). Yeni aday / yeni an ekleme: `docs/ses-kaynaklari.md` başı (yeni aday = önce kovaya
   yükle, sonra push).
+- **Ses işleme (15 Eki 2026, Ida'nın test turu):** seçili efekt adayları `araclar/ses-isle.mjs` ile işlenip **yeni adla**
+  (`<an>-n1`, WAV) kovaya yüklendi, `ses_secimleri` bunlara çevrildi (`araclar/ses-secim-cevir.mjs`; `--geri` kaynağa döner).
+  Kural: tepe −1 dBFS · baştaki sessizlik ≤ 20 ms · süre sınırı yanlış ≤ 0,6 sn, skill_* ≤ 1,2, vs_ani/rakip_bulundu/rozet ≤ 1,8,
+  turnuva ≤ 2,5 (sonu fade) · kısık sesler (etkin RMS ortancanın ~3 dB altı) ortanca seviyeye yükseltilir (yumuşak sınırlayıcı).
+  Orijinaller kovada ve `/ses-secim` listesinde durur; kopya her anın SON adayıdır. Ölçüm tablosu `docs/ses-isleme-raporu.json`.
+  `/ses-secim`'de sure_doldu · rakip_cevapladi · yanlis · skill_zaman_baskisi kartında "Değiştirilmesi önerilir" etiketi vardır
+  (`adaylar.js › DEGISTIRILMESI_ONERILEN`). **Zamanlama (ses.js):** soru_geldi çalarken süren doğru/yanlış 120 ms fade ile kısılır;
+  xp_dolma, kazandin/kaybettin/beraberlik sesi bitince başlar (`sonucBitisAni`); cevap verildikten sonra son_saniyeler ve
+  sayim_son (son 3 sn) çalmaz — Düello v4 `cevapVerdim`, Düello eski `secim`, Hazine `secim`, Klasik `cevapVerildiRef`.
+  Doğrulama `araclar/ses-zamanlama-dogrula.mjs` (gerçek ses.js + dosyalar, oturumsuz sayfa).
 
 ### Profil avatarları
 

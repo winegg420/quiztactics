@@ -111,6 +111,7 @@ function SesKarti({ an, secili, kaydediliyor, calanId, onCal, onSec }) {
         <div className="ss-kart-metin">
           <h3 id={baslikId} className="ss-kart-ad">{en() ? an.adEn : an.ad}</h3>
           <p className="ss-kart-yer">{en() ? an.yerEn : an.yer}</p>
+          {an.degistirOnerilir && <p className="ss-kart-oneri" role="note">{ts("Değiştirilmesi önerilir")}</p>}
         </div>
         {secili ? (
           <QtRozet ton="dogru" ikon="onay" boyut="k">{ts("Seçildi")}</QtRozet>

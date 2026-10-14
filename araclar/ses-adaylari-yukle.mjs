@@ -43,7 +43,7 @@ function envOku(ad) {
 function dosyalariTopla() {
   const liste = [];
   for (const dosya of fs.readdirSync(KAYNAK).sort()) {
-    const m = /^([a-z0-9_]+-(?:k\d+|p\d+|\d+))\.(wav|mp3|aac)$/.exec(dosya);
+    const m = /^([a-z0-9_]+-(?:k\d+|p\d+|n\d+|\d+))\.(wav|mp3|aac)$/.exec(dosya);
     if (!m) { if (!dosya.startsWith(".")) console.warn(`atlandı (ad kalıbı dışında): ${dosya}`); continue; }
     const yol = path.join(KAYNAK, dosya);
     const icerik = fs.readFileSync(yol);
@@ -112,7 +112,7 @@ async function ana() {
   }
 
   const env = { ...envOku(".env"), ...envOku(".env.local") };
-  const anahtar = env.SUPABASE_SERVICE_ROLE_KEY;
+  const anahtar = env.SUPABASE_SERVICE_ROLE_KEY ?? env.SUPABASE_YENI_SERVICE_ROLE_KEY;   // 13 Eki 2026'dan beri anahtar _YENI_ adıyla
   const adres = String(env.VITE_SUPABASE_URL ?? "").replace(/\/$/, "");
   if (!anahtar) {
     console.error("DUR: .env.local içinde SUPABASE_SERVICE_ROLE_KEY yok. Ida: anahtarı .env.local'e ekle\n"

@@ -147,9 +147,24 @@ function adayKur(an, a, i, sayac) {
   return { id, dosya, tam: muzik ? muzikTamUrl(id) : null, kaynak: "Pixabay", baslik: a.ad, yazar: a.yazar, url: a.url, lisans: "Pixabay İçerik Lisansı" };
 }
 
+/** Sahibin dinleyip "değiştirilmesi önerilir" dediği anlar (15 Eki 2026 test turu): sayfada etiket gösterilir. */
+export const DEGISTIRILMESI_ONERILEN = ["sure_doldu", "rakip_cevapladi", "yanlis", "skill_zaman_baskisi"];
+
+/** İşlenmiş kopya (araclar/ses-isle.mjs → <an>-n1): seçili adayın tepe −1 dBFS'e normalize edilmiş, baştaki sessizliği 20 ms'ye
+ *  kırpılmış, an başına süre sınırına (yanlış ≤0,6 sn · skill ≤1,2 · vs/rakip bulundu/rozet ≤1,8 · turnuva ≤2,5) indirilmiş hâli.
+ *  Orijinal aday listede durur; kopya listenin SONUNA eklenir (aday numaraları kaymaz). Kova eşlemesinde yoksa eklenmez. */
+function islenmisKopya(an) {
+  const id = `${an}-n1`;
+  const dosya = sesAdayUrl(id);
+  if (!dosya) return [];
+  return [{ id, dosya, kaynak: "Quiz Tactics", baslik: "Normalize edilmiş kopya (−1 dBFS)", yazar: "Quiz Tactics", url: null, lisans: "Kaynak adayın lisansı" }];
+}
+
 export const EFEKTLER = EFEKT_TANIM.map(([an, ad, adEn, yer, yerEn, mevcut, liste]) => {
   const sayac = { k: 0, p: 0 };
-  return { an, ad, adEn, yer, yerEn, tur: "efekt", mevcut: mevcut ? `/ses/${mevcut}` : null, adaylar: liste.map((a, i) => adayKur(an, a, i, sayac)) };
+  return { an, ad, adEn, yer, yerEn, tur: "efekt", mevcut: mevcut ? `/ses/${mevcut}` : null,
+    degistirOnerilir: DEGISTIRILMESI_ONERILEN.includes(an),
+    adaylar: [...liste.map((a, i) => adayKur(an, a, i, sayac)), ...islenmisKopya(an)] };
 });
 
 export const MUZIKLER = MUZIK_TANIM.map(([an, ad, adEn, yer, yerEn, liste]) => {

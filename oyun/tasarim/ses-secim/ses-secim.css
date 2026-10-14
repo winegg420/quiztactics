@@ -27,6 +27,8 @@
 .ss-kart-metin { display: grid; gap: var(--qt-b-1); min-width: 0; }
 .ss-kart-ad { margin: 0; font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
 .ss-kart-yer { margin: 0; font-size: var(--qt-y-s); color: var(--qt-metin-soluk); }
+/* "Değiştirilmesi önerilir" etiketi (sure_doldu, rakip_cevapladi, yanlis, skill_zaman_baskisi) */
+.ss-kart-oneri { display: inline-block; margin: 4px 0 0; padding: 2px 10px; border-radius: var(--qt-r-hap); background: var(--qt-uyari-acik); color: var(--qt-uyari-koyu); border: 2px solid var(--qt-uyari-dudak); font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); }
 
 .ss-adaylar {
   list-style: none;

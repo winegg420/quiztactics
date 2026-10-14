@@ -10,6 +10,7 @@ export default {
   "Efektler": "Sound effects",
   "Müzik": "Music",
   "Mevcut": "Current",
+  "Değiştirilmesi önerilir": "Replacing recommended",
   "Aday {n}": "Option {n}",
   "Şu an sessiz": "Silent now",
   "Sessiz kalsın": "Keep silent",
