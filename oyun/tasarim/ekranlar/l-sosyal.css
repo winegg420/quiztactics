@@ -304,6 +304,7 @@
   background-image: var(--qt-zemin-desen);
   color: var(--qt-zemin-metin);
   font-family: var(--qt-f-govde);
+  overscroll-behavior: contain;   /* katmandaki kaydırma arka sayfaya geçmesin */
 }
 @media (min-width: 850px) {
   .ms-sohbet { padding-inline: max(0px, calc((100% - 680px) / 2)); }
@@ -519,7 +520,8 @@
   font-size: var(--qt-y-m); /* 16 px: iOS odakta yakınlaştırmasın */
   font-weight: var(--qt-a-normal);
   line-height: 1.35;
-  overflow-y: auto;
+  overflow-y: hidden;   /* 4 satırı aşınca SohbetKutusu › boyutla "auto" yapar */
+  overscroll-behavior: contain;
 }
 .ms-metin::placeholder { color: var(--qt-metin-soluk); }
 .ms-metin:focus { outline: none; border-color: var(--qt-ikinci); background: var(--qt-yuzey); }

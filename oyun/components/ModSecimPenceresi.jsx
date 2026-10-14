@@ -123,7 +123,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
     {
       mod: "duello",
       ikon: "duello",
-      ad: tt("Düello (Taktik Maçı)"),
+      ad: tt("Düello"),
       aciklama: !duelloHazir
         ? " "
         : duelloV4

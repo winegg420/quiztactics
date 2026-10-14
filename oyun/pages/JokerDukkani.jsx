@@ -504,11 +504,11 @@ export default function JokerDukkani() {
       {(sekme === "avatar" || sekme === "efekt") && <ul className="qt-dk-kural" aria-label={tt("Dükkân kuralı")}>
         <li className="qt-dk-kural-oge qt-dk-kural-oge--coin qt-dk-kural-oge--acik">
           <CoinIkon boyut={16} />
-          <b>{tt("Coin: Joker · Nadir")}</b>
+          <b>{tt("Coin ile: Joker, Nadir")}</b>
         </li>
         <li className="qt-dk-kural-oge qt-dk-kural-oge--elmas qt-dk-kural-oge--acik">
           <ElmasIkon boyut={16} />
-          <b>{tt("Elmas: Epik · Efsanevi")}</b>
+          <b>{tt("Elmas ile: Epik, Efsanevi")}</b>
         </li>
       </ul>}
 

@@ -67,6 +67,8 @@ import "../tasarim/ekranlar/dukkan-profil.css";
 
 // 12 Eki 2026: Davet sekmesi kalktı — davet bölümü yalnız Arkadaşlar sayfasında (eski ?sekme=davet oraya yönlenir)
 const SEKME_KODLARI = ["istatistik", "ayarlar", "rozet", "koleksiyon"];
+// 14 Eki 2026: adresteki eş anlamlılar (ör. /profil?sekme=rozetler) asıl sekme koduna çevrilir
+const SEKME_ESLER = { rozetler: "rozet", istatistikler: "istatistik", ayar: "ayarlar", koleksiyonlar: "koleksiyon" };
 
 export default function ProfilePage() {
   const { user, profile, refreshProfile, signOut, profilHata } = useAuth();
@@ -98,7 +100,8 @@ export default function ProfilePage() {
     } catch (e) { console.error("[Bildim] sekme adresi yazılamadı:", e); }
   };
   useEffect(() => {
-    const s = new URLSearchParams(konum.search).get("sekme");
+    const ham = new URLSearchParams(konum.search).get("sekme");
+    const s = SEKME_ESLER[ham] ?? ham;
     if (s === "davet") { git(y("/arkadaslar"), { replace: true }); return undefined; }
     if (!konum.state?.sekmeTik) setKisaKimlik(s === "ayarlar" || s === "davet");
     if (!s || !SEKME_KODLARI.includes(s)) return;

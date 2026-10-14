@@ -1,0 +1,120 @@
+{
+ "oyna-390": {
+  "rozet": "En çok ödül",
+  "adlar": [
+   "Klasik Maç",
+   "Düello",
+   "Saf Bilgi"
+  ],
+  "kutu": [
+   280,
+   504,
+   82,
+   20
+  ],
+  "kart": [
+   20,
+   498,
+   350
+  ],
+  "tamIcinde": true,
+  "tekSatir": true
+ },
+ "dukkan-390-tr": "Coin ile: Joker, Nadir\nElmas ile: Epik, Efsanevi",
+ "dukkan-390-en": "With coins: Jokers, Rare\nWith gems: Epic, Legendary",
+ "mesaj-390": {
+  "bos": {
+   "overflowY": "hidden",
+   "kaydirmaCubugu": 0,
+   "html": "hidden",
+   "body": "hidden",
+   "scrollY": 0,
+   "sayfaUzun": true
+  },
+  "kaydirmaSonra": {
+   "overflowY": "hidden",
+   "kaydirmaCubugu": 0,
+   "html": "hidden",
+   "body": "hidden",
+   "scrollY": 0,
+   "sayfaUzun": true
+  },
+  "cok": {
+   "overflowY": "auto",
+   "kaydirmaCubugu": 0,
+   "html": "hidden",
+   "body": "hidden",
+   "scrollY": 0,
+   "sayfaUzun": true
+  },
+  "tek": {
+   "overflowY": "hidden",
+   "kaydirmaCubugu": 0,
+   "html": "hidden",
+   "body": "hidden",
+   "scrollY": 0,
+   "sayfaUzun": true
+  }
+ },
+ "profil-rozetler-390": "Rozetler",
+ "profil-rozet-390": "Rozetler",
+ "oyna-1440": {
+  "rozet": "En çok ödül",
+  "adlar": [
+   "Klasik Maç",
+   "Düello",
+   "Saf Bilgi"
+  ],
+  "kutu": [
+   890,
+   579,
+   82,
+   20
+  ],
+  "kart": [
+   460,
+   573,
+   520
+  ],
+  "tamIcinde": true,
+  "tekSatir": true
+ },
+ "dukkan-1440-tr": "Coin ile: Joker, Nadir\nElmas ile: Epik, Efsanevi",
+ "dukkan-1440-en": "With coins: Jokers, Rare\nWith gems: Epic, Legendary",
+ "mesaj-1440": {
+  "bos": {
+   "overflowY": "hidden",
+   "kaydirmaCubugu": 0,
+   "html": "hidden",
+   "body": "hidden",
+   "scrollY": 0,
+   "sayfaUzun": true
+  },
+  "kaydirmaSonra": {
+   "overflowY": "hidden",
+   "kaydirmaCubugu": 0,
+   "html": "hidden",
+   "body": "hidden",
+   "scrollY": 0,
+   "sayfaUzun": true
+  },
+  "cok": {
+   "overflowY": "auto",
+   "kaydirmaCubugu": 0,
+   "html": "hidden",
+   "body": "hidden",
+   "scrollY": 0,
+   "sayfaUzun": true
+  },
+  "tek": {
+   "overflowY": "hidden",
+   "kaydirmaCubugu": 0,
+   "html": "hidden",
+   "body": "hidden",
+   "scrollY": 0,
+   "sayfaUzun": true
+  }
+ },
+ "profil-rozetler-1440": "Rozetler",
+ "profil-rozet-1440": "Rozetler"
+}

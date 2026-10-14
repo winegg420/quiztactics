@@ -112,10 +112,14 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
 
   // Arka plan kaymasın
   useEffect(() => {
+    // 14 Eki: yalnız body yetmiyordu — kaydırılan öğe kök (html) olabiliyor; ikisi de kilitlenir
     const govde = document.body;
+    const kok = document.documentElement;
     const eski = govde.style.overflow;
+    const eskiKok = kok.style.overflow;
     govde.style.overflow = "hidden";
-    return () => { govde.style.overflow = eski; };
+    kok.style.overflow = "hidden";
+    return () => { govde.style.overflow = eski; kok.style.overflow = eskiKok; };
   }, []);
 
   // ---- "⋯" menüsü: Esc ve dışarı tıklama kapatır, açılınca ilk öğeye odak
@@ -300,7 +304,10 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
     t.style.height = "auto";
     const satir = parseFloat(getComputedStyle(t).lineHeight) || 20;
     const dolgu = parseFloat(getComputedStyle(t).paddingTop) + parseFloat(getComputedStyle(t).paddingBottom);
-    t.style.height = `${Math.min(t.scrollHeight, satir * 4 + dolgu)}px`;
+    const sinir = satir * 4 + dolgu;
+    t.style.height = `${Math.min(t.scrollHeight, sinir)}px`;
+    // Kaydırma çubuğu (Windows'ta okları) yalnız 4 satır aşılınca: boş/tek satırda görünmesin
+    t.style.overflowY = t.scrollHeight > sinir + 1 ? "auto" : "hidden";
   };
   useLayoutEffect(boyutla, [metin]);
 
