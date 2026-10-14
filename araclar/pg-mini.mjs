@@ -79,6 +79,14 @@ export class PgIstemci {
     }
     this.soket.on('data', (d) => this.#veri(d));
     this.soket.on('error', () => {});
+    // Sunucu kimlik doğrulama hatasında ReadyForQuery göndermeden bağlantıyı kapatır (ör. yanlış/eski parola):
+    // bekleyen sorgu sonsuza dek asılı kalmasın.
+    this.soket.on('close', () => {
+      const f = this.bekleyen[0];
+      if (!f) return;
+      f('E', Buffer.from('Mbağlantı kapandı (kimlik doğrulama başarısız olabilir: parolayı kontrol et)\0', 'utf8'));
+      f('Z', Buffer.alloc(1));
+    });
 
     // StartupMessage
     const par = Buffer.concat([

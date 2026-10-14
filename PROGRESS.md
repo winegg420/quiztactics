@@ -12193,3 +12193,11 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - Geri yükleme testi: repo dışı geçici `embedded-postgres` (PG 18.4) ile yapıldı, sonra silindi; repoya paket eklenmedi. Public tablo/fonksiyon/tetikleyici ve tüm satır sayıları eşleşti; policy 130/133 (storage.foldername yerelde yok).
 - Düzeltmeler: `geri-yukle.mjs` ifade ifade uygular, `check_function_bodies=off` (bir fonksiyon oluşturma 20+ dk takılıyordu), boş Supabase tablosunu fark saymaz. `pg-mini.mjs`: yerel TLS'siz bağlantı + SCRAM sonrası mesajların tek pakette gelip düşmesi (takılma) düzeltildi.
 - Açık: gerçek Supabase yığınında (Docker) birebir şema doğrulaması; OneDrive eşitlemesinin bulutta bitmesi.
+
+## 14 Eki 2026 — CRON_SECRET döndürüldü (güvenlik maddesi 2)
+- Bulgu: Edge `CRON_SECRET` ile `public.sunucu_gizli.cron_secret` EŞİT DEĞİLDİ (DB değeri 72 karakter, farklı) → pg_net üzerinden `send-push` çağrıları (bildirim_yaz, haftalik_sonuc_bildir, notify_new_hizli_davet, push_gonder) 401 alıyor olmalıydı.
+- Yapıldı: yeni 96 hex değer üretildi; sırayla Edge secret → `sunucu_gizli` (tek satır update) → yerel `.env` (`CRON_SECRET`) ve `.env.local` (`CRON_SECRET_YENI`). Üçü de aynı. Değer hiçbir yere yazılmadı.
+- Doğrulama: `send-push` DB'deki değerle 400 (yetki geçti, user_ids boş), yanlış sırla 401; `cron.job` komutları SQL fonksiyonu çağırıyor (sır yalnız 4 push fonksiyonunda), dakika/hızlı tik işleri başarılı.
+- Eski sızmış sır (9 Eyl öncesi) 8 migration dosyasında ve git geçmişinde duruyor (8 commit, depo herkese açık); bu proje için artık geçersiz. Eski hub projesinde (zfpnxzybcpkxsotwdsey) hâlâ geçerli olabilir.
+- Karar: DB parolası değişti → `.env.local`'deki `SUPABASE_DB_PASSWORD` geçersiz; araçlar yeni parolayla çalışır (bkz. rapor). `pg-mini`: yanlış parolada sonsuz asılma düzeltildi (bağlantı kapanınca hata verir).
+- Açık: GitHub Actions `SUPABASE_DB_URL` secret'ı (veritabani-yedek.yml, testler.yml) yeni parolayla güncellenmeli; 14 Eki yedeği (`sunucu_gizli.ndjson`) eski sırları içerir (artık ölü).
