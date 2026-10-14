@@ -29,12 +29,15 @@ const MODLAR = [
 const AVATARLAR = ["tilki-k04", "astronot-k17", "ninja-k18", "dinozor-k10", "kedi-k01", "korsan-k19",
   "robot-k15", "buyucu-k21", "panda-k05", "viking-k25", "ejderha-k11", "dedektif-k22"];
 
+/** Görsel dosyası: İngilizce arayüzde aynı ekranın İngilizce çekimi (-en). */
+const tanitimGorseli = (ad, dil) => `/tanitim/${ad}${dil === "en" ? "-en" : ""}.webp`;
+
 /** Telefon çerçevesinde gerçek oyun ekranı. */
-function Telefon({ gorsel, alt, oncelikli = false, className = "" }) {
+function Telefon({ gorsel, dil, alt, oncelikli = false, className = "" }) {
   return (
     <figure className={`tn-telefon ${className}`}>
       <img
-        src={`/tanitim/${gorsel}.webp`}
+        src={tanitimGorseli(gorsel, dil)}
         alt={alt}
         width="585"
         height="1266"
@@ -113,7 +116,7 @@ export default function TanitimSayfasi() {
               {ceviri("Bilgini oyuna")} <span className="tn-baslik-vurgu">{ceviri("dönüştür.")}</span>
             </h1>
             <p className="tn-giris-metni">
-              {ceviri("Canlı 1v1 bilgi yarışması. Aynı soru, aynı an, aynı süre: hız bonusu yok, bilen kazanır.")}
+              {ceviri("Canlı 1v1 bilgi yarışması. Aynı soru, aynı an, aynı süre. Bilen kazanır.")}
             </p>
             <div className="tn-eylem">
               <QtDugme tur="birincil" boyut="b" className="tn-kur-dugme" yukleniyor={bekliyor} onClick={hemenKur}>
@@ -130,9 +133,9 @@ export default function TanitimSayfasi() {
 
           <div className="tn-sahne" aria-hidden="true">
             <span className="tn-isin" />
-            <Telefon gorsel="klasik" alt="" className="tn-sahne-sol" />
-            <Telefon gorsel="hazine" alt="" className="tn-sahne-sag" />
-            <Telefon gorsel="duello" alt="" className="tn-sahne-orta" oncelikli />
+            <Telefon gorsel="klasik" dil={dil} alt="" className="tn-sahne-sol" />
+            <Telefon gorsel="hazine" dil={dil} alt="" className="tn-sahne-sag" />
+            <Telefon gorsel="duello" dil={dil} alt="" className="tn-sahne-orta" oncelikli />
           </div>
         </section>
 
@@ -145,7 +148,7 @@ export default function TanitimSayfasi() {
           <ul className="tn-mod-ray">
             {MODLAR.map((m, i) => (
               <li key={m.tur} className={`tn-mod tn-mod--${m.tur}`} style={{ "--tn-sira": i }} data-tn-gir>
-                <Telefon gorsel={m.gorsel} alt={ceviri("{mod} ekranı", { mod: modAdi(m) })} />
+                <Telefon gorsel={m.gorsel} dil={dil} alt={ceviri("{mod} ekranı", { mod: modAdi(m) })} />
                 <h3 className="tn-mod-ad">{modAdi(m)}</h3>
                 <p className="tn-mod-vaat">{ceviri(m.vaat)}</p>
               </li>
@@ -160,7 +163,7 @@ export default function TanitimSayfasi() {
           </div>
           <div className="tn-izgara">
             <article className="tn-parca tn-parca--cerceve" data-tn-gir>
-              <img src="/tanitim/podyum.webp" alt={ceviri("Lig çerçeveli avatarlarla haftanın ilk üçü")}
+              <img src={tanitimGorseli("podyum", dil)} alt={ceviri("Lig çerçeveli avatarlarla haftanın ilk üçü")}
                 width="640" height="418" loading="lazy" decoding="async" />
               <div className="tn-parca-metin">
                 <h3>{ceviri("Lig çerçeveleri")}</h3>
@@ -177,22 +180,22 @@ export default function TanitimSayfasi() {
                 ))}
               </ul>
               <div className="tn-parca-metin">
-                <h3>{ceviri("31 avatar")}</h3>
+                <h3>{ceviri("30+ avatar")}</h3>
                 <p>{ceviri("Tilkiden astronota, ninjadan dinozora. Level atladıkça yenileri açılır.")}</p>
               </div>
             </article>
 
             <article className="tn-parca tn-parca--davet" data-tn-gir>
-              <img src="/tanitim/davet.webp" alt={ceviri("Arkadaş davet kartı")}
-                width="600" height="311" loading="lazy" decoding="async" />
+              <img src={tanitimGorseli("davet", dil)} alt={ceviri("Sen ve rakibin, aynı soruda")}
+                width="640" height="216" loading="lazy" decoding="async" />
               <div className="tn-parca-metin">
                 <h3>{ceviri("Arkadaşınla oyna")}</h3>
-                <p>{ceviri("Davet bağlantını paylaş, meydan oku ya da grup maçı kur. Arkadaşın gelince ikiniz de coin kazanırsınız.")}</p>
+                <p>{ceviri("Davet bağlantını paylaş, meydan oku ya da grup maçı kur. Arkadaşın gelince ikiniz de ödül kazanırsınız.")}</p>
               </div>
             </article>
 
             <article className="tn-parca tn-parca--sampiyon" data-tn-gir>
-              <img src="/tanitim/sampiyon.webp" alt={ceviri("Şehir, ülke ve dünya sıralamaları")}
+              <img src={tanitimGorseli("sampiyon", dil)} alt={ceviri("Şehir, ülke ve dünya sıralamaları")}
                 width="640" height="279" loading="lazy" decoding="async" />
               <div className="tn-parca-metin">
                 <h3>{ceviri("Şehrinin şampiyonu ol")}</h3>

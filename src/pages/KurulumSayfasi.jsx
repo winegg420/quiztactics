@@ -254,6 +254,7 @@ export function useDavetKodu() {
   return davetKodu;
 }
 
+// 14 Eki 2026: kapı artık TanitimSayfasi.jsx'i çizer (bu sayfa rotada değil); bileşenler oradan kullanılır.
 export default function KurulumSayfasi() {
   const { dil, ceviri, dilDegistir } = useDil();
   const davetKodu = useDavetKodu();

@@ -11,7 +11,7 @@ import { chromium } from "playwright-core";
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => a.replace(/^--/, "").split("=")));
 const PORT = Number(ARG.port || 4173);
 const KOK = `http://qt.test:${PORT}`;
-const KURULUM = "#g-kurulum-baslik";
+const KURULUM = "#tn-kur-baslik";   // 14 Eki 2026: kapı TanitimSayfasi'ni çizer (kurulum kartı içinde aynı)
 
 const tarayici = await chromium.launch({
   channel: "chrome",
@@ -193,6 +193,7 @@ for (const [ad, ua, beklenen, viewport] of [
   const dugme = sayfa.getByRole("button", { name: "Uygulamayı yükle" });
   const var_ = (await dugme.count()) === 1;
   sonuc("Android + beforeinstallprompt → 'Uygulamayı yükle' düğmesi", var_);
+  sonuc("açılışta 'Hemen kur' düğmesi var", (await sayfa.getByRole("button", { name: "Hemen kur" }).count()) === 1);
   if (var_) {
     const kutu = await dugme.boundingBox();
     sonuc("kur düğmesi ≥44 px", kutu && kutu.height >= 44, `h=${kutu?.height}`);
@@ -221,11 +222,11 @@ for (const [ad, ua, viewport, dil] of [
   await sayfa.waitForTimeout(400);
   const olc = await sayfa.evaluate(() => ({
     tasma: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-    baslik: document.querySelector("#g-kurulum-baslik")?.textContent ?? "",
-    kucukHedef: [...document.querySelectorAll(".g-kurulum-icerik button, .g-giris-dil button")]
+    baslik: document.querySelector("#tn-kur-baslik")?.textContent ?? "",
+    kucukHedef: [...document.querySelectorAll(".g-kurulum-icerik button, .tn-dil button, .tn-kur-dugme, .tn-alt-baglantilar a")]
       .map((b) => b.getBoundingClientRect()).filter((r) => r.height > 0 && r.height < 44).length,
   }));
-  const dilTamam = dil === "en" ? olc.baslik === "Quiz Tactics is an app" : olc.baslik === "Quiz Tactics bir uygulama";
+  const dilTamam = dil === "en" ? olc.baslik === "Install now, play your first match" : olc.baslik === "Hemen kur, ilk maçına gir";
   sonuc(`${ad}: dil doğru, taşma yok, hedefler ≥44`, dilTamam && olc.tasma <= 0 && olc.kucukHedef === 0 && !konsol.length,
     `başlık="${olc.baslik}" taşma=${olc.tasma} küçük=${olc.kucukHedef}${konsol.length ? " · " + konsol.join(" | ") : ""}`);
   if (GORSEL) await sayfa.screenshot({ path: `${GORSEL}/kurulum-${ad.replace(/\s+/g, "-")}.png`, fullPage: true });

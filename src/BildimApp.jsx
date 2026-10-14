@@ -89,9 +89,8 @@ const HazirInsanPrototipi = tembelYukle(() => import("../oyun/harita/aday/HazirI
 const KarakterVitrini = tembelYukle(() => import("../oyun/vitrin/KarakterVitrini.jsx"));
 const GorunumPage = tembelYukle(() => import("../oyun/pages/GorunumPage.jsx"));
 // Yasal metinler giriş duvarının ÖNÜNDE olmalı (Play Store + reklam ağları).
-// Tarayıcı sekmesinde oyun yerine tanıtım + kurulum (src/lib/uygulamaKipi.js › kapı).
-const KurulumSayfasi = tembelYukle(() => import("./pages/KurulumSayfasi.jsx"));
-// Yeni tanıtım + kurulum sayfasının önizlemesi (14 Eki 2026): kapının dışında, ?dev gerekmez; onaydan sonra kurulum sayfasının yerine geçecek.
+// Tarayıcı sekmesinde oyun yerine tanıtım + kurulum (src/lib/uygulamaKipi.js › kapı). 14 Eki 2026'dan beri
+// TanitimSayfasi; kurulum mantığı KurulumSayfasi.jsx'teki bileşenlerden gelir (KurulumKarti, DavetKoduKarti, useDavetKodu).
 const TanitimSayfasi = tembelYukle(() => import("./pages/TanitimSayfasi.jsx"));
 const GizlilikPage = tembelYukle(() => import("../oyun/pages/GizlilikPage.jsx"));
 const KosullarPage = tembelYukle(() => import("../oyun/pages/KosullarPage.jsx"));
@@ -175,19 +174,12 @@ export default function BildimApp() {
       pathname.startsWith("/tasarim-sistemi") || pathname.startsWith("/kozmetik-onizleme") || pathname.startsWith("/mac-sonu-onizleme") || pathname.startsWith("/ekran-revizyon-onizleme"))) ||
     pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar") || pathname.startsWith("/hesap-sil");
 
-  if (pathname === "/tanitim-onizleme")
-    return (
-      <Suspense fallback={<YukleniyorEkrani />}>
-        <TanitimSayfasi />
-      </Suspense>
-    );
-
   // KAPI: oyun yalnız kurulu uygulamada açılır. Tarayıcı sekmesinde (yasal ve sahip sayfaları
-  // hariç) kurulum sayfası. Geliştirici geçişi: localhost ve ?dev=1 (uygulamaKipi.js).
+  // hariç) tanıtım + kurulum sayfası. Geliştirici geçişi: localhost ve ?dev=1 (uygulamaKipi.js).
   if (!oyunAcilabilir(pathname))
     return (
       <Suspense fallback={<YukleniyorEkrani />}>
-        <KurulumSayfasi />
+        <TanitimSayfasi />
       </Suspense>
     );
 

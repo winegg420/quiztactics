@@ -44,6 +44,11 @@ const s = await baglam.newPage();
 s.on("pageerror", (e) => console.log("  pageerror:", String(e).slice(0, 160)));
 
 const bekle = (ms) => s.waitForTimeout(ms);
+// Dil sözlüğü inince sayfa kendini yeniden yükleyebilir (src/baslat.js): kesilen gezinme bir kez daha denenir.
+async function git(adres) {
+  try { await s.goto(adres, { waitUntil: "domcontentloaded" }); }
+  catch { await s.waitForTimeout(1500); await s.goto(adres, { waitUntil: "domcontentloaded" }); }
+}
 async function tanitimlariGec() {
   for (let i = 0; i < 6; i++) {
     const b = s.getByRole("button", { name: /^(Geç|Atla|Anladım|Tamam|Kapat|Skip|Got it|OK|Close)$/ });
@@ -59,6 +64,11 @@ const NOTR = DIL === "en" ? ["Alex", "Sam", "Jordan", "Robin", "Kai", "Noa", "Ar
   : ["Deniz", "Ege", "Arda", "Ada", "Kaan", "Elif", "Mert", "Zeynep", "Can", "Ece", "Defne", "Emir", "Nehir", "Alp", "Duru", "Kuzey", "Asya", "Bora", "Lara", "Efe", "Mira", "Aras", "Ela", "Doruk", "Selin", "Toprak", "İpek", "Atlas", "Yaren", "Oğuz"];
 const db = new PgIstemci(await baglantiDizgisi());
 await db.baglan();
+// Uygulama profildeki dili tarayıcıya yazıp sayfayı yeniler (dilKanca.js): test hesabının profil dili çekim diline eşitlenir.
+{
+  const benId = (() => { try { return JSON.parse(fs.readFileSync(OTURUM.replace(/\.json$/, ".hesap.json"), "utf8")).id; } catch { return null; } })();
+  if (benId) await db.sorgu(`update profiles set dil = ${alintila(DIL)} where id = ${alintila(benId)}`).catch((e) => console.log("  ! profil dili:", e.message));
+}
 const adHaritasi = new Map();
 // Döner: [ekrandaki metin, profildeki ad] çiftleri. Ekranda "…" ile kısaltılmış adlar önekle eşleşir.
 async function oyuncuAdlari() {
@@ -104,6 +114,7 @@ async function metinDegistir(esle) {
   }, esle);
 }
 async function cek(ad) {
+  adHaritasi.clear();   // her ekran havuzun başından: görünen adlar sırayla, ek numarasız
   const esle = [];
   if (BENIM_AD) esle.push([BENIM_AD, DIL === "en" ? "You" : "Sen"]);
   for (const [metin, gercek] of await oyuncuAdlari()) {
@@ -126,7 +137,7 @@ async function cek(ad) {
 const ister = (ad) => !SADECE || SADECE.includes(ad);
 
 async function sayfa(yol, ad, hazirSecici, beklemeMs = 2500) {
-  await s.goto(ADRES + yol, { waitUntil: "domcontentloaded" });
+  await git(ADRES + yol);
   if (hazirSecici) await s.locator(hazirSecici).first().waitFor({ timeout: 15000 }).catch(() => console.log("  ! bekleme:", hazirSecici));
   await bekle(beklemeMs);
   await tanitimlariGec();
@@ -136,7 +147,7 @@ async function sayfa(yol, ad, hazirSecici, beklemeMs = 2500) {
 
 // Maç: bot rakiple; görüntü alınınca maçtan çıkılır (test hesabı iş bitince silinir).
 async function mactanCik() {
-  const cik = s.getByRole("button", { name: /Maçtan çık|Leave match|Leave the match|Çık|Pes et/i }).first();
+  const cik = s.getByRole("button", { name: /Maçtan çık|Düellodan çık|Leave match|Leave the match|Leave duel|Çık|Pes et/i }).first();
   if (await cik.count()) {
     await cik.tap({ timeout: 2000 }).catch(() => {});
     await bekle(600);
@@ -149,7 +160,7 @@ async function soruBekle(ms = 40000) {
   return s.locator(".qt-sik:not([disabled])").first().waitFor({ timeout: ms }).then(() => true).catch(() => false);
 }
 async function rakipAra(yol, desen) {
-  await s.goto(ADRES + yol, { waitUntil: "domcontentloaded" });
+  await git(ADRES + yol);
   await bekle(2500);
   await tanitimlariGec();
   for (let i = 0; i < 80 && !desen.test(s.url()); i++) {
@@ -164,9 +175,10 @@ async function rakipAra(yol, desen) {
   return desen.test(s.url());
 }
 async function klasik() {
-  await s.goto(ADRES + "/", { waitUntil: "domcontentloaded" });
+  await git(ADRES + "/");
   await bekle(2500);
   await tanitimlariGec();
+  await s.locator(".as-mod-serit--klasik").first().waitFor({ timeout: 45000 }).catch(() => {});   // dil yüklemesi + yenileme bitsin
   await s.locator(".as-mod-serit--klasik").first().tap({ timeout: 4000 }).catch(() => {});
   await bekle(900);
   const k = s.getByRole("button", { name: /^Klasik|^Classic/ }).last();
@@ -179,7 +191,11 @@ async function klasik() {
     if (await bot.count()) { await bot.first().tap().catch(() => {}); await bekle(1200); }
     await bekle(1500);
   }
-  if (!/\/mac\//.test(s.url())) { console.log("  ! Klasik: maça girilemedi"); return; }
+  if (!/\/mac\//.test(s.url())) {
+    console.log("  ! Klasik: maça girilemedi —", s.url());
+    await s.screenshot({ path: path.join(CIKTI, "klasik-hata.png") }).catch(() => {});
+    return;
+  }
   await bekle(1500);
   const hazir = s.getByRole("button", { name: /Hazırım|I'm ready|Ready/i });
   if (await hazir.count()) await hazir.first().tap({ timeout: 4000 }).catch(() => {});
@@ -210,7 +226,7 @@ async function kasa() {
   await bekle(3000);
   await cek("kasa-acilis");
   if (await soruBekle(30000)) { await bekle(1500); await cek("kasa-soru"); }
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 90; i++) {
     if (await s.locator(".ks-karar button").count()) { await bekle(800); await cek("kasa-karar"); break; }
     if (await s.locator(".qt-sik:not([disabled])").count()) await s.locator(".qt-sik:not([disabled])").first().tap({ timeout: 1500 }).catch(() => {});
     await bekle(1000);

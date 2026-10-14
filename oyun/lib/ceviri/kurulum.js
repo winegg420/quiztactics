@@ -73,8 +73,8 @@ export default {
   "Davet işlenemedi. Arkadaşlar sayfasından davet koduyla ekleyebilirsin.":"The invite couldn't be processed. You can add them with the invite code on the Friends page.",
 
   // Tanıtım sayfası (src/pages/TanitimSayfasi.jsx, 14 Eki 2026)
-  "Canlı 1v1 bilgi yarışması. Aynı soru, aynı an, aynı süre: hız bonusu yok, bilen kazanır.":
-    "Live 1v1 trivia. Same question, same moment, same clock: no speed bonus, whoever knows wins.",
+  "Canlı 1v1 bilgi yarışması. Aynı soru, aynı an, aynı süre. Bilen kazanır.":
+    "Live 1v1 trivia. Same question, same moment, same clock. Whoever knows wins.",
   "Hemen kur": "Install now",
   "Ücretsiz · birkaç saniye · ana ekranında": "Free · a few seconds · on your home screen",
   "Davet kodun hazır:": "Your invite code is ready:",
@@ -90,12 +90,12 @@ export default {
   "Lig çerçeveli avatarlarla haftanın ilk üçü": "This week's top three with their league frames",
   "Lig çerçeveleri": "League frames",
   "Avatarının çerçevesi ligini gösterir. Yükseldikçe çerçeve de yükselir.": "Your avatar's frame shows your league. Climb up and your frame climbs with you.",
-  "31 avatar": "31 avatars",
+  "30+ avatar": "30+ avatars",
   "Tilkiden astronota, ninjadan dinozora. Level atladıkça yenileri açılır.": "From fox to astronaut, ninja to dinosaur. New ones unlock as you level up.",
-  "Arkadaş davet kartı": "Friend invite card",
+  "Sen ve rakibin, aynı soruda": "You and your rival, on the same question",
   "Arkadaşınla oyna": "Play with friends",
-  "Davet bağlantını paylaş, meydan oku ya da grup maçı kur. Arkadaşın gelince ikiniz de coin kazanırsınız.":
-    "Share your invite link, send a challenge or set up a group match. When your friend joins, you both earn coins.",
+  "Davet bağlantını paylaş, meydan oku ya da grup maçı kur. Arkadaşın gelince ikiniz de ödül kazanırsınız.":
+    "Share your invite link, send a challenge or set up a group match. When your friend joins, you both get rewards.",
   "Şehir, ülke ve dünya sıralamaları": "City, country and world rankings",
   "Şehrinin şampiyonu ol": "Be your city's champion",
   "Her hafta şehir, ülke ve dünya sıralaması. İlk üçe giren rozeti alır.": "Weekly city, country and world rankings. The top three earn a badge.",

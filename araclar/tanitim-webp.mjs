@@ -27,7 +27,7 @@ const ISLER = [
   { ad: "siralama", kaynak: "lig-siralama", genislik: 585 },
   { ad: "podyum", kaynak: "lig-siralama", kirp: [0, 880, 780, 510], genislik: 640 },
   { ad: "sampiyon", kaynak: "lig-siralama", kirp: [0, 530, 780, 340], genislik: 640 },
-  { ad: "davet",kaynak: "arkadaslar", kirp: [24, 540, 732, 380], genislik: 600 },
+  { ad: "davet", kaynak: "duello-soru", kirp: [20, 104, 740, 250], genislik: 640 },   // Sen — rakip (coin rakamı yok)
 ];
 
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });

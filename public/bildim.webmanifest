@@ -22,6 +22,13 @@
     { "src": "/quiztactics-q-icon-512.png?v=20260930-q", "sizes": "512x512", "type": "image/png", "purpose": "any" },
     { "src": "/quiztactics-q-icon-512.png?v=20260930-q", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
+  "screenshots": [
+    { "src": "/tanitim/duello.webp", "sizes": "585x1266", "type": "image/webp", "form_factor": "narrow", "label": "Düello: kontrolü al, üst üste 3 doğru yap" },
+    { "src": "/tanitim/klasik.webp", "sizes": "585x1266", "type": "image/webp", "form_factor": "narrow", "label": "Klasik: aynı 20 soru, aynı anda" },
+    { "src": "/tanitim/hazine.webp", "sizes": "585x1266", "type": "image/webp", "form_factor": "narrow", "label": "Ortak Hazine: doğru anda aç" },
+    { "src": "/tanitim/turnuva.webp", "sizes": "585x1266", "type": "image/webp", "form_factor": "narrow", "label": "Günde beş turnuva" },
+    { "src": "/tanitim/siralama.webp", "sizes": "585x1266", "type": "image/webp", "form_factor": "narrow", "label": "Şehir, ülke ve dünya sıralamaları" }
+  ],
   "shortcuts": [
     {
       "name": "Hemen Oyna",

@@ -239,6 +239,7 @@ html:has(.tn), body:has(.tn) { background: #0f1236; }
   .tn-mod { width: auto; }
   .tn-mod .tn-telefon { --tn-tel: 100%; }
   .tn-mod:nth-child(even) { margin-top: 56px; }
+  .tn-mod-ad { font-size: 19px; white-space: nowrap; }
 }
 
 /* ---------- 3 · öne çıkanlar ---------- */
