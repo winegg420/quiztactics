@@ -72,7 +72,7 @@ export default function GizlilikPage() {
           <b>{tt("Bildirim izni:")}</b> {tt("bildirimleri açarsan tarayıcının verdiği abonelik anahtarı. İstediğin an profil sayfasından kapatabilirsin.")}
         </li>
         <li>
-          <b>{tt("Teknik kayıtlar:")}</b> {tt("oturum açıklık bilgisi (son görülme) ve hata kayıtları. Uygulama bir hatayla karşılaşınca hata izleme hizmetine (Sentry) teknik bir rapor gider; IP adresi ve çerez gönderilmez, e-posta ve kimlik benzeri bilgiler rapordan temizlenir, ekran kaydı alınmaz.")}
+          <b>{tt("Teknik kayıtlar:")}</b> {tt("oturum açıklık bilgisi (son görülme) ve hata kayıtları. Uygulama bir hatayla karşılaşınca hata izleme hizmetine (Sentry) teknik bir rapor gider; IP adresi ve çerez gönderilmez, e-posta ve kimlik benzeri bilgiler rapordan temizlenir, ekran kaydı alınmaz.")} {tt("Uygulama içi kayıt: hata özetleri (sayfa, temizlenmiş hata mesajı, sürüm, cihaz türü) ve temel olaylar (kayıt, giriş, kurulum, davet) hesabına bağlı olarak kendi veritabanımızda 30 gün tutulur; IP adresi ve kişisel içerik tutulmaz.")}
         </li>
       </ul>
 

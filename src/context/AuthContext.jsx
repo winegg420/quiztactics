@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, useCallback, useRef } from "react";
 import { tt } from "../../oyun/lib/dil.js";
 import { supabase, supabaseHazir } from "../lib/supabase.js";
+import { olayKaydet, oturumKimligi } from "../lib/izlemeKaydi.js";
 import { fbBelirteciSakla, fbKimligiKaydet, facebookOturumuMu } from "../../oyun/lib/facebookArkadas.js";
 
 const AuthContext = createContext(null);
@@ -140,7 +141,7 @@ export function AuthProvider({ children }) {
       });
       if (!error) {
         localStorage.removeItem("bildim_davet");
-        if (data) refreshProfile(userId);
+        if (data) { refreshProfile(userId); olayKaydet("davet_eslesti", "referans"); }
       }
     };
 
@@ -155,6 +156,7 @@ export function AuthProvider({ children }) {
         if (!error) {
           try { localStorage.removeItem('bildim_davet_kodu'); } catch { /* özel mod */ }
           refreshProfile(userId);
+          olayKaydet("davet_eslesti", "kod");
         }
       } catch (e) { console.warn("[Auth] arkadas_davet_kodu_ile_ekle başarısız:", e?.message ?? e);
         /* profil henüz tamamlanmamış olabilir — sonraki girişte tekrar denenir */
@@ -190,6 +192,7 @@ export function AuthProvider({ children }) {
         islenenKimlik = session?.user?.id ?? null;
         if (session) {
           refreshProfile(session.user.id);
+          olayKaydet("giris", oturumKimligi());   // izleme (1097): sekme oturumu başına bir kez
           davetTalep(session.user.id);
           davetKoduUygula(session.user.id);
           // Facebook ile girildiyse: belirteci oturumluk sakla (arkadaş

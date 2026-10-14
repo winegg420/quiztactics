@@ -1,0 +1,20 @@
+/* Yönetim › İzleme (1097) — yalnız sahip. Sade, tek sütun; telefonda da okunur. */
+.yi { display: flex; flex-direction: column; gap: var(--qt-b-4); padding-top: var(--qt-b-4); padding-bottom: var(--qt-b-8); color: var(--qt-zemin-metin); }
+.yi > * { min-width: 0; }
+.yi-ust { display: flex; align-items: center; justify-content: space-between; gap: var(--qt-b-3); flex-wrap: wrap; }
+.yi-ust h1 { margin: 0; }
+.yi-bolum { display: flex; flex-direction: column; gap: var(--qt-b-3); }
+.yi-bolum h2 { margin: 0; }
+.yi-sayilar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-2); margin: 0; }
+@media (min-width: 640px) { .yi-sayilar { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.yi-sayi { display: flex; flex-direction: column; gap: 2px; padding: var(--qt-b-2) var(--qt-b-3); border-radius: 12px; border: 2px solid var(--qt-cizgi); background: var(--qt-yuzey); min-width: 0; }
+.yi-sayi dt { font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+.yi-sayi dd { margin: 0; font-size: 1.4rem; font-weight: var(--qt-a-siyah); color: var(--qt-metin); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.yi-sayi[data-ton="yanlis"] { border-color: var(--qt-yanlis); }
+.yi-tablo { width: 100%; border-collapse: collapse; font-size: var(--qt-y-s); color: var(--qt-metin); table-layout: fixed; }
+.yi-tablo th, .yi-tablo td { padding: 6px 4px; text-align: left; border-bottom: 1px solid var(--qt-cizgi); vertical-align: top; overflow-wrap: anywhere; }
+.yi-tablo th { font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); }
+.yi-tablo .yi-sag { text-align: right; width: 4.5em; font-variant-numeric: tabular-nums; }
+.yi-mesaj { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.85em; }
+.yi-alt { font-size: var(--qt-y-s); color: var(--qt-metin-soluk); margin: 0; }
+.yi-hata { color: var(--qt-yanlis); font-weight: var(--qt-a-kalin); margin: 0; }

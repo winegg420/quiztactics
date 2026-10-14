@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { hataBildir } from "../lib/hataIzleme.js";
+import { hataKaydet } from "../lib/izlemeKaydi.js";
 import { tt } from "../../oyun/lib/dil.js";
 import { parcaHatasiMi, tembelleriSifirla } from "../lib/tembelYukle.js";
 import { otomatikYenile } from "../lib/yenilemeSigortasi.js";
@@ -69,6 +70,8 @@ export default class HataSiniri extends Component {
     // Sentry kuruluysa raporla. Kurulu değilse (VITE_SENTRY_DSN boşsa) bu
     // çağrı sessizce hiçbir şey yapmaz — ekran ve davranış aynı kalır.
     hataBildir(hata, bilgi);
+    // İzleme kaydı (1097): React sınırı hataları pencere "error" olayına düşmez.
+    hataKaydet("react", `${hata?.name ? hata.name + ": " : ""}${hata?.message ?? hata}`);
   }
 
   render() {

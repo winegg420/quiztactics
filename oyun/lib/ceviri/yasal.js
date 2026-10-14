@@ -2,6 +2,8 @@
 // Anahtar Türkçe metnin kendisi.
 export default {
   "14 Ekim 2026": "14 October 2026",
+  "Uygulama içi kayıt: hata özetleri (sayfa, temizlenmiş hata mesajı, sürüm, cihaz türü) ve temel olaylar (kayıt, giriş, kurulum, davet) hesabına bağlı olarak kendi veritabanımızda 30 gün tutulur; IP adresi ve kişisel içerik tutulmaz.":
+    "In-app logging: error summaries (page, scrubbed error message, version, device type) and basic events (sign-up, sign-in, install, invite) are linked to your account and kept in our own database for 30 days; no IP address or personal content is stored.",
   "Veri sorumlusu: Quiz Tactics. İletişim:": "Data controller: Quiz Tactics. Contact:",
   "Hesabını silmek için": "To delete your account, see the",
   "Hesap silme": "Account deletion",

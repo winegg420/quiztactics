@@ -999,11 +999,18 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.com]`.
 
 ## Açık İşler
 
-- **Edge Function’lar (13 Eki 2026):** dört fonksiyon da yeni projede dağıtık (`generate-questions`, `send-push`, `satin_alma_iade_tara` JWT kapalı; `satin_alma_dogrula` JWT açık). Push: yeni VAPID çifti üretildi ve yeni projeye girildi (13 Eki; eski özel anahtar kayıptı), public key `oyun/lib/push.js`’te; eski anahtarlı abonelikler istemcide otomatik yenilenir. Eksik gizli anahtar: Google OAuth client secret (Google girişi) — Ida’dan bekleniyor.
+- **İzleme ve kayıt (14 Eki 2026, Paket 4, migration 1097):** istemci hataları (yakalanmamış JS, React sınırı, başarısız rpc/rest) → `istemci_hata`;
+  olaylar → `olay_kaydi` (`kayit` profiles tetikleyicisi, bot hariç; `giris` sekme oturumu başına; `kurulum` uygulamanın cihazdaki ilk açılışı;
+  `davet_eslesti` referans/kod/bekleyen). Maç başladı/bitti AYRI yazılmaz — maç tablolarından sayılır. Yazma yalnız `istemci_kayit_yaz`
+  (authenticated; girişsiz hatalar atılır — Ida), aynı hata oturumda 1 kez, kullanıcı başına dakikada 5 hata / 10 olay (rpc_sayac), 30 gün (`kayit_budama`).
+  İstemci: `src/lib/izlemeKaydi.js` (15 sn toplu / sayfa gizlenince). Sahip sayfası `/yonetim/izleme` (`izleme_ozeti`). Uyarı: cron `bildim-izleme-uyari`
+  5 dk'da bir, son 10 dk'da ≥ 50 hata → info@quiztactics.com (Resend API, anahtar Vault `resend_api_key`, saatte en çok 1, gönderen no-reply@).
+  Dış bekçi: `GET https://quiztactics.com/api/saglik` (Vercel fonksiyonu → `saglik_ping`, CDN 30 sn). Geri alma `docs/izleme-1097-geri-al.sql`.
+- **Edge Function’lar (13 Eki 2026):** dört fonksiyon da yeni projede dağıtık (`send-push`, `satin_alma_iade_tara` JWT kapalı; `satin_alma_dogrula` JWT açık). **`generate-questions` DEVRE DIŞI (14 Eki 2026, Paket 4):** JWT açık + `SORU_URET_ACIK` sırrı yoksa 410; silinmedi, geri açma `docs/generate-questions-kapali.md`. Push: yeni VAPID çifti üretildi ve yeni projeye girildi (13 Eki; eski özel anahtar kayıptı), public key `oyun/lib/push.js`’te; eski anahtarlı abonelikler istemcide otomatik yenilenir. Eksik gizli anahtar: Google OAuth client secret (Google girişi) — Ida’dan bekleniyor.
   `send-push` canlıda `verify_jwt = false` ama `config.toml`'da kaydı yok → dağıtırken `--no-verify-jwt`.
 - **Güvenlik denetimi (10 Eki 2026) A bölümü UYGULANDI (migration 1047, Ida onayı 14:48):** A.1, A.4–A.9, A.11, A.12.
-  Bugünkü kural: `public` şemada **anon'a açık tek fonksiyon `ses_secimleri_oyun`** (giriş ekranı müziği); başka hiçbir
-  RPC giriş yapılmadan çağrılmaz. İç yardımcılar/tetikleyiciler + `coin_harca`, `eski_davetleri_temizle`,
+  Bugünkü kural: `public` şemada **anon'a açık fonksiyonlar yalnız `ses_secimleri_oyun`** (giriş ekranı müziği), `davet_bekle_kaydet` (1096) ve
+  `saglik_ping` (1097, `select 1` — dış bekçi); başka hiçbir RPC giriş yapılmadan çağrılmaz. İç yardımcılar/tetikleyiciler + `coin_harca`, `eski_davetleri_temizle`,
   `mac_oyuncu_indeksi` authenticated'a da kapalı (yalnız postgres/cron + service_role). postgres'in yeni açtığı
   fonksiyonlar PUBLIC/anon'a kendiliğinden açılmaz (authenticated + service_role açılır); yeni tablolarda anon'a yazma yok.
   Push aboneliği: yalnız FCM/Mozilla/Apple/Windows push alan adı, ≤ 1000 karakter, kullanıcı başına 5, başkasının

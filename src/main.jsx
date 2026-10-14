@@ -12,6 +12,7 @@ import HataSiniri from "./components/HataSiniri.jsx";
 import { DilKoku } from "../oyun/lib/dilKanca.js";
 import YukleniyorEkrani from "../oyun/components/YukleniyorEkrani.jsx";
 import { hataIzlemeKur } from "./lib/hataIzleme.js";
+import { izlemeKur } from "./lib/izlemeKaydi.js";
 import { parcaYenilemeKur } from "./lib/tembelYukle.js";
 import "./styles.css";
 // Bildim görsel dili (tema tokenları) — global stillerden SONRA yüklenir
@@ -39,6 +40,8 @@ cubukBaslat();
 // Hata izleme: YALNIZ VITE_SENTRY_DSN tanımlıysa kurulur. Boşsa Sentry paketi
 // hiç yüklenmez ve konsola uyarı basılmaz — DSN'siz çalışmak normal durumdur.
 hataIzlemeKur();
+// İzleme kaydı (1097): yakalanmamış hatalar + kurulum olayı → istemci_kayit_yaz (toplu, oturumlu).
+izlemeKur();
 
 // D-103/D-201: yeni sürümden sonra eski sayfa parçası inemezse sayfa BİR KEZ sessizce yenilenir
 // (oturum başına bayrak; çevrimdışıyken yenilenmez — hata sayfa içi karta gider).

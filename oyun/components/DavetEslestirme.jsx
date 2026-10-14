@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
+import { olayKaydet } from "../../src/lib/izlemeKaydi.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { uygulamaIcindeMi, cihazTipi } from "../../src/lib/uygulamaKipi.js";
 import { QtModal, QtDugme, QtAvatar, QtToast, QtToastYuvasi } from "../tasarim/index.js";
@@ -72,6 +73,7 @@ export default function DavetEslestirme() {
       const durum = (Array.isArray(data) ? data[0] : data)?.durum;
       setDavet(null);
       if (!kabul) return;
+      if (["arkadas_oldu", "zaten_arkadas", "istek_gonderildi", "baglandi"].includes(durum)) olayKaydet("davet_eslesti", "bekleyen");
       const ad = davet.gorunen_ad || tt("Arkadaşın");
       if (durum === "arkadas_oldu" || durum === "zaten_arkadas") setSonuc({ ton: "dogru", metin: tt("{ad} ile artık arkadaşsınız.", { ad }) });
       else if (durum === "istek_gonderildi") setSonuc({ ton: "dogru", metin: tt("{ad} kişisine arkadaşlık isteği gönderildi.", { ad }) });

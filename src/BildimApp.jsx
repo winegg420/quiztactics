@@ -125,6 +125,7 @@ const LigSahneOnizlemePage = tembelYukle(() => import("../oyun/tasarim/lig-sahne
 const GorselRevizyonPage =tembelYukle(() => import("../oyun/tasarim/gorsel-revizyon/GorselRevizyonPage.jsx"));   // görsel revizyon adayları (tasarim/BRIEF_GORSEL_REVIZYON.md) — girişli herkes, menüde yok
 const YonetimSikayetlerPage = tembelYukle(() => import("../oyun/pages/YonetimSikayetlerPage.jsx"));   // 620: şikâyet yönetimi — yalnız yönetici (sunucu), menüde yok
 const YonetimPostaPage = tembelYukle(() => import("../oyun/pages/YonetimPostaPage.jsx"));   // 1060: posta gönder — yalnız sahip (SahipKapisi + sunucu sahip_mi), menüde yok
+const YonetimIzlemePage = tembelYukle(() => import("../oyun/pages/YonetimIzlemePage.jsx"));   // 1097: hata/olay izleme — yalnız sahip (SahipKapisi + sunucu sahip_mi), menüde yok
 
 // Maç sayfası maç kimliğine anahtarlı: rövanş / yeni maç aynı rotada /mac/eski → /mac/yeni geçince React
 // bileşeni yeniden kurmuyordu; eski maçın durumu (ilerleme damgası, kanallar, zamanlayıcılar) yeni maça
@@ -281,6 +282,7 @@ export default function BildimApp() {
           <Route path="profil" element={<ProfilePage />} />
           <Route path="yonetim/sikayetler" element={<YonetimSikayetlerPage />} />
           <Route path="yonetim/posta" element={<SahipKapisi><YonetimPostaPage /></SahipKapisi>} />
+          <Route path="yonetim/izleme" element={<SahipKapisi><YonetimIzlemePage /></SahipKapisi>} />
           {/* Paket 41 I: bilinmeyen adres → 404 (eskiden sessizce ana sayfa) */}
           <Route path="*" element={<BulunamadiPage />} />
         </Route>
