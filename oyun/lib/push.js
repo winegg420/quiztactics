@@ -1,5 +1,6 @@
 import { supabase } from "../../src/lib/supabase.js";
 import { tt } from "./dil.js";
+import { iosMu, uygulamaIcindeMi } from "../../src/lib/uygulamaKipi.js";
 
 const VAPID_PUBLIC_KEY =
   "BN2ichsTrBQyCJNpGwkT-ygB4tW05ioy7IoYzNlpi5CL2Yw85wjyKad4GMp6U3wyIOdN35ar2uTMB3FTAopETuQ";
@@ -17,15 +18,8 @@ export function pushDestekleniyor() {
 
 /** iPhone/iPad Safari sekmesi (ana ekrana eklenmemiş): Apple web push'u yalnız ana ekran uygulamasına veriyor. */
 export function iosSekmesi() {
-  try {
-    const ua = navigator.userAgent || "";
-    const ios = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-    const standalone = navigator.standalone === true || window.matchMedia?.("(display-mode: standalone)").matches;
-    return ios && !standalone;
-  } catch (e) {
-    console.warn("[Bildim] iOS denetimi yapılamadı:", e?.message ?? e);
-    return false;
-  }
+  // Ölçüm tek yerde: src/lib/uygulamaKipi.js
+  return iosMu() && !uygulamaIcindeMi();
 }
 
 export async function pushDurumu() {

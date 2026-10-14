@@ -122,6 +122,9 @@ await baglam.addInitScript(() => {
   };
   requestAnimationFrame(tik);
 });
+// Uygulama kapısı (src/lib/uygulamaKipi.js): tarayıcıda oyun yerine kurulum sayfası açılır.
+// Test tarayıcısı ?dev=1 ile aynı geliştirici geçişini alır (localhost zaten serbest).
+await baglam.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } });
 if (DIL) await baglam.addInitScript((dil) => { try { localStorage.setItem("bildim_dil", dil); } catch { /* yok */ } }, DIL);
 const s = await baglam.newPage();
 

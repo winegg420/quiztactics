@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { tt } from "../lib/dil.js";
+import { iosMu, iosSafariMi, uygulamaIcindeMi } from "../../src/lib/uygulamaKipi.js";
 import { QtDugme, QtIkonDugme } from "../tasarim/index.js";
 import "../tasarim/ekranlar/g-ekle.css";
 
@@ -29,42 +30,9 @@ import "../tasarim/ekranlar/g-ekle.css";
 const ANAHTAR = "quizador_ana_ekran_kapatildi";
 const GECIKME_MS = 2500; // sayfa otursun, kapıda karşılamasın
 
-/** Cihaz iPhone/iPad mi? iPadOS 13+ masaüstü Safari gibi davranır. */
-function iosMu() {
-  try {
-    const ua = navigator.userAgent || "";
-    if (/iphone|ipad|ipod/i.test(ua)) return true;
-    // iPadOS 13+: platform "MacIntel" ama dokunmatik nokta sayısı > 1
-    return navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
-  } catch {
-    return false;
-  }
-}
-
-/** Gerçek Safari mi? (Chrome/Firefox/Edge/Opera ve uygulama içi tarayıcılar hariç) */
-function safariMi() {
-  try {
-    const ua = navigator.userAgent || "";
-    // iOS'ta tüm tarayıcılar WebKit; ayırt etmek yalnız UA ile mümkün.
-    if (/crios|fxios|edgios|opios|yabrowser|duckduckgo/i.test(ua)) return false;
-    // Uygulama içi tarayıcılar (Instagram, Facebook, X, LinkedIn): menü yok
-    if (/fban|fbav|fb_iab|instagram|line\/|twitter|linkedinapp|micromessenger/i.test(ua))
-      return false;
-    return /safari/i.test(ua);
-  } catch {
-    return false;
-  }
-}
-
-/** Uygulama zaten ana ekrandan mı açıldı? */
-function kuruluMu() {
-  try {
-    if (navigator.standalone === true) return true;
-    return window.matchMedia?.("(display-mode: standalone)")?.matches === true;
-  } catch {
-    return false;
-  }
-}
+// Cihaz, Safari ve "uygulama içinde mi" ölçümü tek yerde: src/lib/uygulamaKipi.js
+const safariMi = iosSafariMi;
+const kuruluMu = uygulamaIcindeMi;
 
 function dahaOnceKapatildi() {
   try {

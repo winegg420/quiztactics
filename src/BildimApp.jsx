@@ -18,6 +18,7 @@ import { girisHedefiniAl, bilinenYol } from "./lib/girisHedefi.js";
 import { useAuth } from "./context/AuthContext.jsx";
 import { supabaseHazir } from "./lib/supabase.js";
 import Login from "./pages/Login.jsx";
+import { oyunAcilabilir } from "./lib/uygulamaKipi.js";
 import { QtMarka, QtKart, QtBosDurum } from "../oyun/tasarim/index.js";
 import { tt } from "../oyun/lib/dil.js";
 import SahipKapisi from "./components/SahipKapisi.jsx";
@@ -88,6 +89,8 @@ const HazirInsanPrototipi = tembelYukle(() => import("../oyun/harita/aday/HazirI
 const KarakterVitrini = tembelYukle(() => import("../oyun/vitrin/KarakterVitrini.jsx"));
 const GorunumPage = tembelYukle(() => import("../oyun/pages/GorunumPage.jsx"));
 // Yasal metinler giriş duvarının ÖNÜNDE olmalı (Play Store + reklam ağları).
+// Tarayıcı sekmesinde oyun yerine tanıtım + kurulum (src/lib/uygulamaKipi.js › kapı).
+const KurulumSayfasi = tembelYukle(() => import("./pages/KurulumSayfasi.jsx"));
 const GizlilikPage = tembelYukle(() => import("../oyun/pages/GizlilikPage.jsx"));
 const KosullarPage = tembelYukle(() => import("../oyun/pages/KosullarPage.jsx"));
 const HesapSilPage = tembelYukle(() => import("../oyun/pages/HesapSilPage.jsx"));
@@ -169,6 +172,15 @@ export default function BildimApp() {
       pathname.startsWith("/insan-prototip") || pathname.startsWith("/preview/") || pathname.startsWith("/tasarim-yonleri") ||
       pathname.startsWith("/tasarim-sistemi") || pathname.startsWith("/kozmetik-onizleme") || pathname.startsWith("/mac-sonu-onizleme") || pathname.startsWith("/ekran-revizyon-onizleme"))) ||
     pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar") || pathname.startsWith("/hesap-sil");
+
+  // KAPI: oyun yalnız kurulu uygulamada açılır. Tarayıcı sekmesinde (yasal ve sahip sayfaları
+  // hariç) kurulum sayfası. Geliştirici geçişi: localhost ve ?dev=1 (uygulamaKipi.js).
+  if (!oyunAcilabilir(pathname))
+    return (
+      <Suspense fallback={<YukleniyorEkrani />}>
+        <KurulumSayfasi />
+      </Suspense>
+    );
 
   if (!supabaseHazir && !bagimsizModul) {
     return (
