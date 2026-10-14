@@ -18,7 +18,7 @@ Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık
 - 👀 **Rakibin şıkkı ve ortalama cevap süren** — Klasik, Saf Bilgi ve Ortak Hazine'de soru kapanınca rakibin hangi şıkkı seçtiği küçük avatarıyla görünür; maç sonunda "Ort. cevap 6,2 sn · rakip 8,1 sn".
 - 👥 Arkadaşlar, meydan okuma, rövanş, grup maçı, saf bilgi, hatalarım, görevler, dükkân ve koleksiyon.
 - 🤖 **Claude API ile soru üretimi** — Sorular Edge Function ile üretilir ve veritabanına kaydedilir.
-- 📤 **Paylaş** — Maç sonu (Klasik, Düello, Ortak Hazine) ve Arkadaşlar › davet bölümünde sistem paylaşım menüsü (Instagram, TikTok, WhatsApp …): 1080×1920 maç sonucu ya da davet kartı + davet kodu/bağlantısı; paylaşım yoksa bağlantı panoya kopyalanır.
+- 📤 **Paylaş** — Maç sonu (Klasik, Saf Bilgi, Düello, Ortak Hazine, Grup, Turnuva — çok oyunculu modlarda kartta derece) ve Arkadaşlar › davet bölümünde sistem paylaşım menüsü (Instagram, TikTok, WhatsApp …): 1080×1920 maç sonucu ya da davet kartı + davet kodu/bağlantısı; paylaşım yoksa bağlantı panoya kopyalanır.
 - 📲 **Yalnız uygulama** — Oyun kurulu uygulamada oynanır (iPhone: Safari › Paylaş › Ana Ekrana Ekle · Android/masaüstü Chrome-Edge: Uygulamayı yükle · macOS Safari: Dock'a Ekle). quiztactics.com tarayıcıda tanıtım + kurulum sayfasıdır; Firefox gibi kurulum desteklemeyen tarayıcılara telefon için QR gösterilir. Tarayıcıda açılan davet linki kurulumdan sonra uygulamada "X seni davet etti, doğru mu?" diye sorulur; bildirim izni yalnız uygulamada istenir (iPhone: iOS 16.4+).
 - 🔐 Google / Facebook / X ile giriş, e-posta kodu (uygulama içinde girilir) ve misafir oyun.
 
