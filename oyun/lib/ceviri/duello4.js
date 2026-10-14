@@ -8,7 +8,7 @@ export default {
   "Kartlar: rakibe gönder, kendine seç": "Cards: send one, pick one",
   "Kontrol sende: 4 karttan birini rakibe gönderir, birini kendine seçersin. Her biriniz kendi kategorinizin sorusunu cevaplarsınız.": "With control, you send one of 4 cards to your opponent and pick another for yourself. Each of you answers your own category's question.",
   "Üst üste 3 doğru": "3 in a row",
-  "Tur sınırına ya da art arda 5 nötr soruya gelinirse Son Düello başlar: aynı soru, joker yok, tek bilen kazanır.": "If the round limit or 5 neutral questions in a row is reached, the Last Duel starts: same question, no jokers, the sole correct answer wins.",
+  "Nötr ve saldırı soruları birlikte sayılır; 20. soru Son Düello: aynı soru, joker yok, tek bilen kazanır.": "Neutral and attack questions count together; question 20 is the Last Duel: same question, no jokers, the sole correct answer wins.",
   "50:50, Ek Süre, İkinci Şans, Zaman Baskısı ve Soru Değiştir. Soru başına en çok 1 joker; Son Düello'da joker yok.": "50:50, Extra Time, Second Chance, Time Pressure and Swap Question. At most 1 joker per question; no jokers in the Last Duel.",
   "Tur {n}": "Round {n}",
   "NÖTR": "NEUTRAL",

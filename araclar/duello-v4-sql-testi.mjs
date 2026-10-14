@@ -8,7 +8,7 @@
 // · başarılı saldırı (seri +1) · el değişimi (yeni sahip 1/3, kullanım listesi sıfır) · ikisi doğru / ikisi yanlış (değişmez)
 // · kart süresi dolumu (rakibin en zayıfı / kendi en güçlüsü, 1034) · duyuru duraklaması (1034) · kategori tekrar kuralı + havuz yeniden açılması · seri 3/3 → bitti
 // (ödül, geçmiş, rozet ölçütleri hatasız ve v4'ü saymaz) · 15 tur → Son Düello (aynı soru, jokersiz, tek bilen kazanır,
-// ikisi aynıysa yeni soru) · art arda 5 nötr → Son Düello · jokerler (50:50 kendi sorusu, Zaman Baskısı rakip süresi,
+// ikisi aynıysa yeni soru) · art arda 5 nötr Son Düello DEĞİL, toplam 20. soru Son Düello (1093) · jokerler (50:50 kendi sorusu, Zaman Baskısı rakip süresi,
 // Soru Değiştir aynı kategori+zorluk yalnız kendi sorusu, soruda 1, Baskın/Kalkan ret) · durum() şekli (gizli gönderim)
 // · kopukluk dondurma + dönüş + terk (45 sn) · duello_terk · rövanş (v4 açılır) · bot-insan tam maç · eski (surum 2) maç
 // akışı · yetkiler (yeni fonksiyonlar istemciye kapalı) · migration kapsamı (md5: yalnız 9 hedef fonksiyon değişti).
@@ -324,14 +324,19 @@ try {
   ok('Son Düello kazananı A', s.durum === 'bitti' && s.kazanan === A);
   ok('Altın Dokunuş ölçütü Son Düello galibiyetini sayar', Number(await tek(`select rozet_olcut('${A}', 'uzatma_galibiyet')::text`)) === Number(altinOnce) + 1);
 
-  console.log('9) Art arda 5 nötr → Son Düello');
+  // 1093: art arda nötr artık Son Düello tetiklemez; Son Düello toplam soru sınırında (v4_max_soru, 20 → 20. soru).
+  console.log('9) Art arda 5 nötr → Son Düello YOK; toplam sınırda Son Düello (1093)');
   m = await olustur(A, B);
   for (let i = 0; i < 5; i++) {
     await ac(m); await cevapla(A, m, i % 2 === 0); await cevapla(B, m, i % 2 === 0);
     await ilerle(m);
   }
   s = await satir(m);
-  ok('5. nötrden sonra Son Düello', s.faz === 'son' && s.v4_notr_seri === '5' && s.v4_kontrol === null, `${s.faz} ${s.v4_notr_seri}`);
+  ok('5. nötrden sonra yine nötr (Son Düello yok)', s.faz === 'notr' && s.v4_son !== true && s.v4_kontrol === null, `${s.faz} ${s.v4_notr_seri}`);
+  await db.sorgu(`update duellolar set v4_soru_no = v4_max_soru - 2 where id = '${m}'`);
+  await ac(m); await cevapla(A, m, true); await cevapla(B, m, true);
+  await ilerle(m); s = await satir(m);
+  ok('toplam sınırdaki soru Son Düello', s.faz === 'son' && Number(s.v4_soru_no) === Number(s.v4_max_soru), `${s.faz} ${s.v4_soru_no}/${s.v4_max_soru}`);
   await db.sorgu(`update duellolar set durum = 'iptal' where id = '${m}'`);
 
   console.log('10) Kopukluk / dönüş / terk');

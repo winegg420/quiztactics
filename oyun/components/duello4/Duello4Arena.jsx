@@ -288,13 +288,16 @@ export default function Duello4Arena({
   const sayacVar = (soruFazi && Boolean(soruMetni) && !acilisAcik) || d.faz === "kart";
   const toplamSn = d.faz === "kart" ? Number(d.sureler?.kart ?? 10) : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(gosterSn ?? 0));
   const rakipSeciyor = d.faz === "kart" && !benKontrol;
+  // 1093: Son Düello toplam soru sınırında (nötr + saldırı). Kart fazında sıradaki soru gösterilir.
+  const maxSoru = Number(v.max_soru ?? 20);
+  const soruSirasi = Math.min(maxSoru, Math.max(1, Number(v.soru_no ?? 0) + (d.faz === "kart" ? 1 : 0)));
   const ust = (
     <header className={sinif("d4-ust", v.son && "d4-ust--son")}>
       <div className="d4-ust-satir">
         <Oyuncu o={ben} c={c} kontrolde={benKontrol} seri={Number(v.seri ?? 0)} hedef={hedef} tepki={tepkiBen}
                 onay={soruFazi && kilitli} seviye={seviyeler[ben.id]} />
         <div className="d4-orta">
-          <span className="d4-tur">{v.son ? c("SON DÜELLO") : kontrol == null ? c("NÖTR") : <>{c("Tur")} <b className="qt-sayi">{v.tur}/{v.max_tur}</b></>}</span>
+          <span className="d4-tur">{v.son ? c("SON DÜELLO") : <>{kontrol == null ? c("NÖTR") : c("Soru")} <b className="qt-sayi">{soruSirasi}/{maxSoru}</b></>}</span>
           {sayacVar
             ? <QtSayac kalan={soruFazi ? sayacSn : gosterSn} toplam={toplamSn} esik={d.faz === "kart" ? 3 : 5} boyut="k" durdu={cevapVerdim || d.kopuk != null || (d.faz === "kart" && gosterimBas != null && sunucuSimdi < gosterimBas)} ekBalon={ekBalon} className="d4-sayac" />
             : <span className="d4-sayac d4-sayac--bos" aria-hidden="true" />}

@@ -275,7 +275,7 @@ const V4_IPUCLARI = [
   "Kontrolü al, üst üste 3 doğru yap, düelloyu kazan.",
   "İkinize aynı soru gelir. Yalnız biriniz bilirse kontrol onda olur.",
   "Kontrol sende: 4 karttan birini rakibe gönderir, birini kendine seçersin. Her biriniz kendi kategorinizin sorusunu cevaplarsınız.",
-  "Tur sınırına ya da art arda 5 nötr soruya gelinirse Son Düello başlar: aynı soru, joker yok, tek bilen kazanır.",
+  "Nötr ve saldırı soruları birlikte sayılır; 20. soru Son Düello: aynı soru, joker yok, tek bilen kazanır.",
 ];
 const IPUCU_SN = 3;
 // Paket 41 F: düello aramasının üst sınırı (Klasik'teki gibi sonsuz bekleme yok)
