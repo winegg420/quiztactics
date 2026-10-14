@@ -314,6 +314,9 @@ export default function Duello4Arena({
     </header>
   );
 
+  // Arena zemini (1093): kontrol sahibinin rengine hafif ton, seri hedef-1'de hafif gerilim, Son Düello'da final sahnesi (CSS).
+  const gerilim = !v.son && kontrol != null && Number(v.seri ?? 0) === hedef - 1;
+
   // ---------------- sahne paneli
   let panel = null;
   let eylem = null;
@@ -552,7 +555,8 @@ export default function Duello4Arena({
   }
 
   return (
-    <div className={sinif("m2-mac hk-mac d4-arena", `d4-arena--${d.faz}`, v.son && "d4-arena--sonduello")}>
+    <div className={sinif("m2-mac hk-mac d4-arena", `d4-arena--${d.faz}`, v.son && "d4-arena--sonduello",
+                          !v.son && kontrol != null && `d4-zemin--${taraf}`, gerilim && "d4-zemin--gerilim")}>
       <MacUstSerit onCik={onCik} cikisEtiketi={c("Düellodan çık")} rozet={c("Düello")} />
       {sayimKatmani}
       {ust}

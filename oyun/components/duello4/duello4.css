@@ -280,3 +280,40 @@
 }
 .d4-ozet .hk-ele-k { overflow: visible; padding: 3px 9px; gap: 3px; white-space: nowrap; font-size: 12px; }
 .d4-ozet-nokta { letter-spacing: 1px; font-size: 11px; line-height: 1; }
+
+/* ---------------------------------------------------------------- arena zemini (1093, 14 Eki 2026)
+   Düz zemin yerine çok açık soğuk/nötr degrade + hafif vinyet + çok düşük opaklıkta soyut arena dokusu (halkalar).
+   Taban MAVİ DEĞİL (sen = mavi ile karışmasın); kartlar beyaz kalır. Kontrol sahibinin tarafına hafif ton (sen mavi /
+   rakip kırmızı), seri hedef-1'de hafif gerilim (vinyet + ton biraz artar), Son Düello'da koyulaşan derin ton + ortada odak
+   ışığı. Tek öğenin arka planı: katman/fixed/transform yok (iOS kuralı). Renkler @property ile yavaş geçer; desteklemeyen
+   tarayıcıda anında değişir. Hareket azaltmada geçiş yok (durum renkleri sabit uygulanır). */
+@property --d4-ben { syntax: "<color>"; inherits: false; initial-value: rgb(55 138 221 / 0); }
+@property --d4-rakip { syntax: "<color>"; inherits: false; initial-value: rgb(226 75 74 / 0); }
+@property --d4-vinyet { syntax: "<color>"; inherits: false; initial-value: rgb(30 36 56 / .09); }
+@property --d4-odak { syntax: "<color>"; inherits: false; initial-value: rgb(255 255 255 / .45); }
+@property --d4-taban-ust { syntax: "<color>"; inherits: false; initial-value: #f6f7f9; }
+@property --d4-taban-alt { syntax: "<color>"; inherits: false; initial-value: #eaecf0; }
+.hk-mac.d4-arena {
+  --d4-ben: rgb(55 138 221 / 0); --d4-rakip: rgb(226 75 74 / 0); --d4-vinyet: rgb(30 36 56 / .09);
+  --d4-odak: rgb(255 255 255 / .45); --d4-taban-ust: #f6f7f9; --d4-taban-alt: #eaecf0;
+  background:
+    radial-gradient(62% 40% at 50% 40%, var(--d4-odak), transparent 72%),
+    radial-gradient(85% 60% at 0% 18%, var(--d4-ben), transparent 72%),
+    radial-gradient(85% 60% at 100% 18%, var(--d4-rakip), transparent 72%),
+    radial-gradient(135% 100% at 50% 42%, transparent 56%, var(--d4-vinyet) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800' fill='none' stroke='%231d2433' stroke-opacity='.045'%3E%3Ccircle cx='400' cy='400' r='120' stroke-width='3'/%3E%3Ccircle cx='400' cy='400' r='230' stroke-width='2'/%3E%3Ccircle cx='400' cy='400' r='340' stroke-width='2' stroke-dasharray='6 14'/%3E%3Ccircle cx='400' cy='400' r='395' stroke-width='1.5'/%3E%3Cpath d='M400 0v800M0 400h800' stroke-width='1.5' stroke-dasharray='4 18'/%3E%3C/svg%3E") 50% 42% / 760px auto no-repeat,
+    linear-gradient(180deg, var(--d4-taban-ust), var(--d4-taban-alt));
+  transition: --d4-ben 1.4s ease, --d4-rakip 1.4s ease, --d4-vinyet 1.4s ease, --d4-odak 1.6s ease,
+              --d4-taban-ust 1.6s ease, --d4-taban-alt 1.6s ease;
+}
+.hk-mac.d4-arena.d4-zemin--ben { --d4-ben: rgb(55 138 221 / .11); }
+.hk-mac.d4-arena.d4-zemin--rakip { --d4-rakip: rgb(226 75 74 / .10); }
+.hk-mac.d4-arena.d4-zemin--gerilim { --d4-vinyet: rgb(30 36 56 / .20); }
+.hk-mac.d4-arena.d4-zemin--gerilim.d4-zemin--ben { --d4-ben: rgb(55 138 221 / .17); }
+.hk-mac.d4-arena.d4-zemin--gerilim.d4-zemin--rakip { --d4-rakip: rgb(226 75 74 / .16); }
+/* Final sahnesi: derin arduvaz ton + koyu vinyet + ortada beyaz odak (metin kontrastı: --hk-soluk ≥ 4,5:1 korunur) */
+.hk-mac.d4-arena.d4-arena--sonduello {
+  --d4-taban-ust: #dfe2ea; --d4-taban-alt: #c6cad7; --d4-vinyet: rgb(18 20 36 / .40); --d4-odak: rgb(255 255 255 / .78);
+}
+@media (prefers-reduced-motion: reduce) { .hk-mac.d4-arena { transition: none; } }
+
