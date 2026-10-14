@@ -670,6 +670,12 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
 }
 .msk-detay { display: flex; flex-direction: column; gap: var(--qt-b-3); scroll-margin-top: var(--qt-b-4); }
 .msk-detay-dugme { align-self: center; }
+/* Paylaş sahnede görünür (14 Eki 2026): Detay ile aynı satırda, eşit genişlik; dar ekranda da tek satır */
+.msk-detay--paylas { flex-direction: row; justify-content: center; align-items: flex-start; gap: var(--qt-b-2); }
+.msk-detay--paylas > * { flex: 1 1 0; min-width: 0; max-width: 220px; }
+.msk-detay--paylas > .msk-detay-dugme { align-self: flex-start; }
+/* İçerik ölçeklenince (data-sikisik) Paylaş/Detay ekranda yine ≥ 44 px dokunma hedefi kalsın */
+.msk-icerik[data-sikisik] .msk-detay .qt-dugme { min-height: calc(var(--qt-dokunma) / var(--msk-sigdir, 1)); }
 .msk-detay-dugme .qt-ikon { transition: transform var(--qt-s-kisa) var(--qt-egri-cikis); }
 .msk-detay--acik .msk-detay-dugme .qt-ikon:last-child { transform: rotate(180deg); }
 .msk-detay-govde { display: flex; flex-direction: column; gap: var(--qt-b-3); }

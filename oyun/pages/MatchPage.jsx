@@ -968,6 +968,13 @@ export default function MatchPage() {
           rozetler={sahne.rozetler}
           detayRozet={yanlisAdet}
           modOzet={sahne.terk ? null : <MacOzetSatiri kaynak={`mac:${id}`} ortCevap={macSonuOzet?.ort_cevap} />}
+          // Sistem paylaşımı + 1080×1920 maç sonucu kartı (Instagram, TikTok …) — sahnede görünür; WhatsApp/𝕏/Diğer Detay'da
+          paylas={sahne.terk ? null : (
+            <PaylasDugmesi tur="sonuc" tur2="birincil" tamGenislik sonuc={{
+              ad: benimProfil?.gorunen_ad, avatar: avatarSrc(benimProfil), benSkor: benimSkor, rakipSkor,
+              durum: berabere ? "berabere" : kazandim ? "kazandi" : "kaybetti", rakipAd: botAdi(rakipProfil?.gorunen_ad),
+            }} />
+          )}
           detay={
             <>
               {/* Paket 20 I.3: satır satır döküm (aynı sunucu kaydı, ikinci sorgu yok) */}
@@ -995,11 +1002,6 @@ export default function MatchPage() {
                 const enc = encodeURIComponent(mesaj);
                 return (
                   <div className="m1-ss-satir m1-paylas" role="group" aria-label={tt("Paylaş")}>
-                    {/* Sistem paylaşımı + 1080×1920 maç sonucu kartı (Instagram, TikTok …) */}
-                    <PaylasDugmesi tur="sonuc" tur2="birincil" tamGenislik className="m1-paylas-kart" sonuc={{
-                      ad: benimProfil?.gorunen_ad, avatar: avatarSrc(benimProfil), benSkor: benimSkor, rakipSkor,
-                      durum: berabere ? "berabere" : kazandim ? "kazandi" : "kaybetti", rakipAd: botAdi(rakipProfil?.gorunen_ad),
-                    }} />
                     <QtDugme as="a" tur="ikincil" boyut="k" ikon="paylas" href={`https://wa.me/?text=${enc}`} target="_blank" rel="noreferrer">
                       WhatsApp
                     </QtDugme>

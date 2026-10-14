@@ -1353,18 +1353,16 @@ function KasaMac({ id }) {
           detay={d.durum === "bitti" ? (
             <>
               <OdulDokumu kaynak={`kasa:${d.id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />
-              {/* Sistem paylaşımı + 1080×1920 maç sonucu kartı (Klasik / Düello maç sonuyla aynı) */}
-              {!sahne.terk && (
-                <div className="m1-ss-satir m1-paylas" role="group" aria-label={c("Paylaş")}>
-                  <PaylasDugmesi tur="sonuc" tur2="birincil" tamGenislik className="m1-paylas-kart" sonuc={{
-                    ad: ben.gorunen_ad, avatar: ben.gorunen_avatar ?? null, benSkor: skor.a, rakipSkor: skor.b, durum, rakipAd: rakip.gorunen_ad,
-                  }} />
-                </div>
-              )}
               <KasaGecmis gecmis={d.gecmis} c={c} />
               {/* 957: arkadaşla Kasa geçmişi (Düello 'ezeli' ile aynı metin ve görünüm) */}
               {ezeliMetin && <div className="bd-duello-ezeli">{ezeliMetin}</div>}
             </>
+          ) : null}
+          // Sistem paylaşımı + 1080×1920 maç sonucu kartı — sahnede görünür (Klasik / Düello ile aynı)
+          paylas={d.durum === "bitti" && !sahne.terk ? (
+            <PaylasDugmesi tur="sonuc" tur2="birincil" tamGenislik sonuc={{
+              ad: ben.gorunen_ad, avatar: ben.gorunen_avatar ?? null, benSkor: skor.a, rakipSkor: skor.b, durum, rakipAd: rakip.gorunen_ad,
+            }} />
           ) : null}
           eylemNotu={hata ? <span className="m2-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</span> : null}
           eylemler={{ onYeniMac: () => navigate(y("/kasa")), onAnaSayfa: () => navigate(y()), yeniMacEtiketi: c("Yeni maç") }}

@@ -1,6 +1,6 @@
 // PAYLAŞ düğmesi + 1080×1920 paylaşım kartları — ekran görüntüsü ve ölçüm (14 Eki 2026).
 // · Düello maç sonu (Son Düello BERABERE, 1102) TAKLİT VERİYLE: duello_* ve mac_sonu_ozet tarayıcıda taklit edilir
-//   (sunucuya yazmaz). Detay açılır, Paylaş düğmesi görünür; dokununca (navigator.share yoksa) "Bağlantı kopyalandı".
+//   (sunucuya yazmaz). Paylaş Detay açılmadan sahnede görünür (14 Eki: Düello + Ortak Hazine + Klasik); dokununca (navigator.share yoksa) "Bağlantı kopyalandı".
 // · Arkadaşlar › Arkadaş davet et: Facebook + Paylaş yan yana (gerçek sayfa; yalnız okuma).
 // · İki kart (sonuç + davet) TR ve EN: lib/paylasKarti.js tarayıcıda çizilir, PNG olarak kaydedilir.
 // Genişlikler: 390 ve 1440. Çıktı: tasarim/paylas/*.png + olcum.json
@@ -61,6 +61,51 @@ const OZET = {
   lig: { puan: 12 }, level: null, gorevler: [], rozetler: [],
 };
 
+const KASA_AYAR = { kasa_modu_acik: 1, kasa_odul_acik: 1, kasa_odul_carpani: 1, kasa_artis: 2, kasa_ikisi_dogru_artis: 6,
+  kasa_hedef_puan: 80, kasa_max_tur: 36, kasa_soru_sn: 15, kasa_karar_sn: 5, kasa_sonuc_sn: 3, kasa_tavan: 60, kasa_devam_carpan: 2, kasa_acma_min: 0 };
+function bitmisKasa(ben) {
+  const oyuncu = (id, ad, puan, acma) => ({ id, gorunen_ad: ad, gorunen_avatar: id === RAKIP ? "/avatars/pro2/samuray-y15.svg" : "/avatars/pro/tilki-k04.svg", gorunum: null, unvan: null, puan, acma });
+  const soru = { soru: "Türkiye'nin başkenti neresidir?", secenekler: ["İstanbul", "Ankara", "İzmir", "Bursa"], kategori: "cografya" };
+  return { id: ID, durum: "bitti", dereceli: true, faz: "sonuc", faz_bitis: new Date().toISOString(), sunucu_zamani: new Date().toISOString(),
+    ben, tur: 9, max_tur: 36, hedef: 80, altin: false, artis: 2, ikisi_artis: 6, kasa: 0, sahip: null, soru,
+    oyuncular: [oyuncu(ben, "Sen", 82, 3), oyuncu(RAKIP, "Deniz Yıldırımoğlu", 54, 2)],
+    karar: null, son_karar: null, cevap: null, sonuc: null, kopuk: null, baglanmayan: null,
+    sureler: { soru: 15, karar: 5, sonuc: 3, nabiz: 10, kopuk: 25, gosterim_payi_ms: 1500, gosterim_bas: null },
+    kazanan: ben, sonuc_neden: "hedef", terk: { ben: false, rakip: false }, rovans: { isteyen: null, id: null, gecerli: false },
+    gecmis: [1, 2, 3].map((t) => ({ tur: t, altin: false, kategori: "cografya", soru: soru.soru, secenekler: soru.secenekler, dogru_cevap: 1, benim_cevabim: 1,
+      ben_dogru: true, rakip_dogru: t === 3, karar: t === 3 ? "ac" : "devam", karar_ben: true, acilan_deger: 12, kasa_sonra: t * 2 })) };
+}
+function bitmisMac(ben) {
+  const p = (id, ad, av) => ({ id, gorunen_ad: ad, gorunen_avatar: av, gorunum: null, acik_bot: false });
+  return { id: ID, durum: "bitti", oyuncu1: ben, oyuncu2: RAKIP, oyuncu1_skor: 120, oyuncu2_skor: 90, kazanan: ben, terk_eden: null, senkron: true,
+    oyuncu1_soru: 10, oyuncu2_soru: 10, soru_sayisi: 10, mevcut_soru: 10, created_at: "2026-10-14T10:00:00Z", kabul_at: "2026-10-14T10:00:05Z",
+    p1: p(ben, "Sen", "/avatars/pro/tilki-k04.svg"), p2: p(RAKIP, "Deniz Yıldırımoğlu", "/avatars/pro2/samuray-y15.svg") };
+}
+const jwtSub = (req) => { try { const t = (req.headers()["authorization"] || "").split(" ")[1]; return JSON.parse(Buffer.from(t.split(".")[1], "base64url").toString()).sub; } catch { return null; } };
+// Paylaş: Detay açılmadan ilk ekranda tam görünür, ≥ 44 px, başka öğeyle çakışmıyor (üstüne binen yok)
+async function paylasOlc(s, ad) {
+  const dugme = s.locator(".msk-detay .qt-paylas .qt-dugme").first();
+  await dugme.waitFor({ timeout: 8000 });
+  const o = await s.evaluate(() => {
+    const d = document.querySelector(".msk-detay .qt-paylas .qt-dugme");
+    const r = d.getBoundingClientRect();
+    const ust = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    const kesisen = [...document.querySelectorAll(".msk-detay-dugme, .msk-eylem .qt-dugme, .msk-eylem .qt-ikon-dugme, .msk-gorevler, .msk-lig, .msk-kart, .msk-mod-ozet, .msk-karsilasma, .qt-altmenu")]
+      .filter((e) => { const k = e.getBoundingClientRect(); return k.width && k.height && !(k.right <= r.left || k.left >= r.right || k.bottom <= r.top || k.top >= r.bottom); })
+      .map((e) => e.className.toString().slice(0, 40));
+    const eylem = document.querySelector(".msk-eylem")?.getBoundingClientRect();
+    const cs = getComputedStyle(d);
+    return { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height), vh: innerHeight, minH: cs.minHeight, boxSizing: cs.boxSizing, zoom: cs.zoom, kok: getComputedStyle(document.documentElement).fontSize,
+      gorunur: r.top >= 0 && r.bottom <= (eylem ? eylem.top : innerHeight) && r.left >= 0 && r.right <= innerWidth,
+      ustteki: ust && d.contains(ust), kesisen, panelKapali: Boolean(document.querySelector(".msk-panel[hidden]") || !document.querySelector(".msk-panel")) };
+  });
+  olcum[`paylas-${ad}`] = o;
+  ok(`${ad}: Paylaş Detay kapalıyken ilk ekranda tam görünür`, o.gorunur && o.panelKapali, JSON.stringify(o));
+  ok(`${ad}: Paylaş ≥ 44 px`, o.h >= 44 && o.w >= 44, JSON.stringify(o));
+  ok(`${ad}: Paylaş başka öğeye binmiyor`, o.ustteki && o.kesisen.length === 0, JSON.stringify(o));
+  return { x: o.x, y: o.y, width: o.w, height: o.h };
+}
+
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
 const kok = new URL(ADRES).origin;
 const baglamAc = async (dil, w, h) => {
@@ -116,13 +161,9 @@ try {
     ok("başlık BERABERE", /BERABERE/i.test(baslik), baslik);
     ok("alt yazı: ödülün yarısı ikinize", alt.includes("Son Düello'da kazanan çıkmadı"), "");
     await s.screenshot({ path: path.join(CIKTI, `duello-berabere-${w}.png`) });
-    await s.locator(".msk-detay-dugme").click();
-    const dugme = s.locator(".qt-paylas .qt-dugme").first();
-    await dugme.waitFor({ timeout: 8000 });
-    await dugme.scrollIntoViewIfNeeded();
-    await s.waitForTimeout(500);
-    const kutu = await dugme.boundingBox();
-    ok("maç sonu Paylaş görünür, ≥ 44 px", kutu && kutu.height >= 44 && kutu.width >= 44, JSON.stringify(kutu));
+    // 14 Eki 2026: Paylaş Detay'ın İÇİNDE DEĞİL — sahnede, Detay'ı açmadan ilk ekranda
+    const kutu = await paylasOlc(s, `duello-${w}`);
+    const dugme = s.locator(".msk-detay .qt-paylas .qt-dugme").first();
     await s.screenshot({ path: path.join(CIKTI, `mac-sonu-paylas-${w}.png`) });
     await dugme.click();
     await s.locator(".qt-paylas-bilgi").waitFor({ timeout: 8000 }).catch(() => {});
@@ -134,6 +175,34 @@ try {
     ok("maç sonu yatay taşma yok", olcum[`mac-sonu-${w}`].yatayTasma <= 0);
     ok("maç sonu sayfa hatası yok", konsol.length === 0, konsol.join(" | "));
     await b.close();
+
+    // ---------- Ortak Hazine ve Klasik maç sonu: Paylaş sahnede ----------
+    for (const mod of ["kasa", "klasik"]) {
+      const bm = await baglamAc("tr", w, h);
+      const sm = await bm.newPage();
+      const hatalar = [];
+      sm.on("pageerror", (e) => hatalar.push("SAYFA: " + String(e).slice(0, 200)));
+      sm.on("console", (m) => { if (m.type() === "error" && /TypeError|ReferenceError|undefined/.test(m.text())) hatalar.push("KONSOL: " + m.text().slice(0, 300)); });
+      await sm.route(/\/rest\/v1\/(rpc\/|oyun_ayarlari|matches)/, async (r) => {
+        const req = r.request(); const u = req.url();
+        const json = (veri) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(veri) });
+        try {
+          if (u.includes("/rest/v1/oyun_ayarlari")) return json(Object.entries(KASA_AYAR).map(([anahtar, deger]) => ({ anahtar, deger })));
+          if (u.includes("/rpc/kasa_durum")) return json(bitmisKasa(jwtSub(req)));
+          if (u.includes("/rpc/kasa_giris")) return json({ durum: "bitti", rakip_geldi: true, kalan_sn: 0, baglanmayan: null });
+          if (u.includes("/rest/v1/matches")) return json(bitmisMac(jwtSub(req)));
+          if (u.includes("/rpc/mac_sonu_ozet")) return json(OZET);
+          return r.fallback();
+        } catch { try { await r.fallback(); } catch { /* */ } }
+      });
+      await sm.goto(`${ADRES}/${mod === "kasa" ? "kasa" : "mac"}/${ID}`, { waitUntil: "domcontentloaded", timeout: 30000 });
+      await sm.waitForSelector(".msk-baslik", { timeout: 30000 }).catch(async (e) => { await sm.screenshot({ path: path.join(CIKTI, `_hata-${mod}.png`) }); console.log("URL", sm.url(), hatalar.join(" | ")); throw e; });
+      await sm.waitForTimeout(3500);
+      await paylasOlc(sm, `${mod}-${w}`);
+      await sm.screenshot({ path: path.join(CIKTI, `mac-sonu-paylas-${mod}-${w}.png`) });
+      ok(`${mod}: sayfa hatası yok`, hatalar.length === 0, hatalar.join(" | "));
+      await bm.close();
+    }
 
     // ---------- Arkadaşlar › davet: Facebook + Paylaş ----------
     const b2 = await baglamAc("tr", w, h);

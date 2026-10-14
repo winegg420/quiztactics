@@ -1439,23 +1439,21 @@ function DuelloMac({ id }) {
           detay={d.durum === "bitti" || ezeliMetin || d.gecmis?.length ? (
             <>
               {d.durum === "bitti" && <OdulDokumu kaynak={`duello:${d.id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />}
-              {/* Sistem paylaşımı + 1080×1920 maç sonucu kartı (Klasik maç sonuyla aynı) */}
-              {d.durum === "bitti" && !sahne.terk && (
-                <div className="m1-ss-satir m1-paylas" role="group" aria-label={ceviri("Paylaş")}>
-                  <PaylasDugmesi tur="sonuc" tur2="birincil" tamGenislik className="m1-paylas-kart" sonuc={{
-                    ad: ben.gorunen_ad, avatar: ben.gorunen_avatar ?? null,
-                    benSkor: v4Mac ? Number(ben.dogru ?? 0) : hkS.acik && !hkS.puan ? hkS.benY : Number(ben.puan ?? 0),
-                    rakipSkor: v4Mac ? Number(rakip.dogru ?? 0) : hkS.acik && !hkS.puan ? hkS.rakipY : Number(rakip.puan ?? 0),
-                    durum, rakipAd: rakip.gorunen_ad,
-                  }} />
-                </div>
-              )}
               {/* Son tahta: iki tarafın yuvaları (ikonlarla) */}
               {d.durum === "bitti" && !v4Mac && <HkSonTahta d={d} ben={ben} rakip={rakip} c={c2} />}
               {/* Her soru: hamle sonucu (Aldın / Tutmadı / Kontra…), doğru cevap ve "şık işaretlenmedi" notu (sunucu: gecmis) */}
               {v4Mac ? <D4Gecmis gecmis={d.gecmis} c={c2} /> : <V2Gecmis gecmis={d.gecmis} maxTur={d.max_tur} benId={d.ben} c={c2} />}
               {ezeliMetin && <div className="bd-duello-ezeli">{ezeliMetin}</div>}
             </>
+          ) : null}
+          // Sistem paylaşımı + 1080×1920 maç sonucu kartı — sahnede görünür (Klasik / Kasa ile aynı)
+          paylas={d.durum === "bitti" && !sahne.terk ? (
+            <PaylasDugmesi tur="sonuc" tur2="birincil" tamGenislik sonuc={{
+              ad: ben.gorunen_ad, avatar: ben.gorunen_avatar ?? null,
+              benSkor: v4Mac ? Number(ben.dogru ?? 0) : hkS.acik && !hkS.puan ? hkS.benY : Number(ben.puan ?? 0),
+              rakipSkor: v4Mac ? Number(rakip.dogru ?? 0) : hkS.acik && !hkS.puan ? hkS.rakipY : Number(rakip.puan ?? 0),
+              durum, rakipAd: rakip.gorunen_ad,
+            }} />
           ) : null}
           eylemNotu={hata ? <span className="m2-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</span> : null}
           eylemler={{ onYeniMac: () => navigate(y("/duello")), onAnaSayfa: () => navigate(y()), yeniMacEtiketi: ceviri("Yeni düello") }}

@@ -182,6 +182,7 @@ function Taraf({ kisi, rol, yan, canToplam, sen, zafer }) {
  * @param {ReactNode} [rovans]         Rövanş düğmesinin yerine (rövanş isteği/kabul akışları)
  * @param {ReactNode} [eylemNotu]      eylem çubuğunun üstünde tam satır (rövanş yanıtı, hata)
  * @param {ReactNode} [detay]          açılır "Detay" bölümü (döküm, sorular, paylaş)
+ * @param {ReactNode} [paylas]         sahnede Detay düğmesinin yanında görünür Paylaş düğmesi (14 Eki 2026)
  * @param {ReactNode} [modOzet]        moda özel kısa özet, skorun altında sahnede (Düello: ele geçirilen kategoriler,
  *                                     Ortak Hazine: açılan hazineler) — 7 Eki 2026
  * @param {number} [detayRozet]       Detay düğmesindeki sayı (kaçırılan soru)
@@ -213,6 +214,7 @@ function MacSonuKutlama({
   rovans,
   eylemNotu,
   detay,
+  paylas,
   modOzet,
   detayRozet = 0,
   children,
@@ -730,13 +732,16 @@ function MacSonuKutlama({
 
       {/* A.3: açılır Detay (ödül dökümü, sorular, paylaş) + serbest ek içerik (sohbet, tepkiler).
           A.4: sahnede yalnız düğme; içerik gövdenin üstünde açılan panelde (kaydırma yalnız panelde). */}
-      {asama >= 2 && panelVar && (
-        <div className={`msk-detay msk-a${detayAcik ? " msk-detay--acik" : ""}`} onClick={durdur}>
-          <QtDugme tur="ikincil" boyut="k" className="msk-detay-dugme" ikonSag="asagi" aria-expanded={detayAcik}
-                   aria-controls={panelId} onClick={() => setDetayAcik(true)}>
-            {tt("Detay")}
-            {detayRozet > 0 && <span className="msk-detay-rozet"> ({detayRozet})</span>}
-          </QtDugme>
+      {asama >= 2 && (panelVar || paylas) && (
+        <div className={`msk-detay msk-a${paylas ? " msk-detay--paylas" : ""}${detayAcik ? " msk-detay--acik" : ""}`} onClick={durdur}>
+          {paylas}
+          {panelVar && (
+            <QtDugme tur="ikincil" boyut="k" className="msk-detay-dugme" ikonSag="asagi" aria-expanded={detayAcik}
+                     aria-controls={panelId} onClick={() => setDetayAcik(true)}>
+              {tt("Detay")}
+              {detayRozet > 0 && <span className="msk-detay-rozet"> ({detayRozet})</span>}
+            </QtDugme>
+          )}
         </div>
       )}
       </div>{/* .msk-icerik */}

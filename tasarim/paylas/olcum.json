@@ -1,15 +1,60 @@
 {
+ "paylas-duello-390": {
+  "x": 16,
+  "y": 670,
+  "w": 159,
+  "h": 44,
+  "vh": 844,
+  "minH": "44px",
+  "boxSizing": "border-box",
+  "zoom": "1",
+  "kok": "16px",
+  "gorunur": true,
+  "ustteki": true,
+  "kesisen": [],
+  "panelKapali": true
+ },
  "mac-sonu-390": {
   "baslik": "BERABERE",
   "kutu": {
    "x": 16,
-   "y": 360,
-   "width": 358,
+   "y": 670,
+   "width": 159,
    "height": 44
   },
   "bilgi": "Bağlantı kopyalandı",
   "pano": "http://localhost:5188/davet/QT7K2M",
   "yatayTasma": 0
+ },
+ "paylas-kasa-390": {
+  "x": 25,
+  "y": 709,
+  "w": 151,
+  "h": 44,
+  "vh": 844,
+  "minH": "46.3158px",
+  "boxSizing": "border-box",
+  "zoom": "1",
+  "kok": "16px",
+  "gorunur": true,
+  "ustteki": true,
+  "kesisen": [],
+  "panelKapali": true
+ },
+ "paylas-klasik-390": {
+  "x": 16,
+  "y": 610,
+  "w": 159,
+  "h": 44,
+  "vh": 844,
+  "minH": "44px",
+  "boxSizing": "border-box",
+  "zoom": "1",
+  "kok": "16px",
+  "gorunur": true,
+  "ustteki": true,
+  "kesisen": [],
+  "panelKapali": true
  },
  "davet-390": {
   "fb": {
@@ -25,17 +70,62 @@
    "height": 44
   }
  },
+ "paylas-duello-1440": {
+  "x": 496,
+  "y": 650,
+  "w": 220,
+  "h": 44,
+  "vh": 900,
+  "minH": "44px",
+  "boxSizing": "border-box",
+  "zoom": "1",
+  "kok": "16px",
+  "gorunur": true,
+  "ustteki": true,
+  "kesisen": [],
+  "panelKapali": true
+ },
  "mac-sonu-1440": {
   "baslik": "BERABERE",
   "kutu": {
-   "x": 480,
-   "y": 360,
-   "width": 479.984375,
+   "x": 496,
+   "y": 650,
+   "width": 220,
    "height": 44
   },
   "bilgi": "Bağlantı kopyalandı",
   "pano": "http://localhost:5188/davet/QT7K2M",
   "yatayTasma": 0
+ },
+ "paylas-kasa-1440": {
+  "x": 496,
+  "y": 742,
+  "w": 220,
+  "h": 44,
+  "vh": 900,
+  "minH": "44px",
+  "boxSizing": "border-box",
+  "zoom": "1",
+  "kok": "16px",
+  "gorunur": true,
+  "ustteki": true,
+  "kesisen": [],
+  "panelKapali": true
+ },
+ "paylas-klasik-1440": {
+  "x": 496,
+  "y": 610,
+  "w": 220,
+  "h": 44,
+  "vh": 900,
+  "minH": "44px",
+  "boxSizing": "border-box",
+  "zoom": "1",
+  "kok": "16px",
+  "gorunur": true,
+  "ustteki": true,
+  "kesisen": [],
+  "panelKapali": true
  },
  "davet-1440": {
   "fb": {
