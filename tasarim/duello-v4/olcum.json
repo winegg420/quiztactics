@@ -1,153 +1,471 @@
 {
  "00-giris-390x844-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
-  "tasan": [],
+  "tasan": [
+   "span.m1-sayim-isin"
+  ],
   "dikeyTasma": 0,
-  "altKenar": 828,
+  "altKenar": 1292,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen NÖTR Deniz Yıld… DÜELLO 2 Tek bilen KONTROLÜ alır · 3/3 seri kazanır",
+  "metin": "Düello 2 Tek bilen KONTROLÜ alır · 3/3 seri kazanır Sen NÖTR 1/20 Deniz Yıld…",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
  },
  "01-notr-390x844-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen NÖTR 14 Deniz Yıld… Bilim Aynı soru Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Şimdi kullanabilirsin. 0/4 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1 Aynı joker en çok 2 kez, soru başına 1.",
+  "metin": "Düello Sen NÖTR 1/20 14 Deniz Yıld… Bilim Aynı soru Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Şimdi kullanabilirsin. 0/4 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1 Aynı joker en çok 2 kez, soru başına 1.",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
  },
  "02-kontrol-sende-390x844-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 170,
+   "altBosluk": 170,
+   "panelH": 642,
+   "avatar": [
+    80,
+    80
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--kontrol d4-rehber--ben",
+    "metin": "Tek bilen kontrolü alır Geç",
+    "ust": 190,
+    "alt": 234,
+    "sol": 22,
+    "sag": 236,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 0/20 Deniz Yıld… KONTROL SENDE Tek doğru bilen sendin Sen Doğru Deniz Yıld… Yanlış",
+  "metin": "Düello Sen Soru 1/20 Deniz Yıld… Tek bilen kontrolü alır Geç KONTROL SENDE Tek doğru bilen sendin Sen Müzik Doğru Deniz Yıld… Tarih Yanlış",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
  "03-kart-gonder-390x844-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--kart",
+    "metin": "Kategoriyi sen seçersin Geç",
+    "ust": 135,
+    "alt": 179,
+    "sol": 144,
+    "sag": 364,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 9 Deniz Yıld… 1/2 RAKİBE GÖNDER Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Rakibe gönder",
+  "metin": "Düello Sen Soru 2/20 9 Deniz Yıld… Kategoriyi sen seçersin Geç 1/2 Rakibe gönderilecek kategoriyi seç Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
   "cekirdek": "d4-hat d4-hat--ben",
-  "kartH": 150,
+  "kartH": 300,
   "kartMin": "150px"
  },
  "04-kart-sec-390x844-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 7 Deniz Yıld… 2/2 KENDİNE SEÇ Tarih Sen %74 Rakip %28 RAKİBE Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Kendine seç",
+  "metin": "Düello Sen Soru 2/20 7 Deniz Yıld… 2/2 Kendi kategorini seç Tarih Sen %74 Rakip %28 RAKİBE Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
   "cekirdek": "d4-hat d4-hat--ben",
-  "kartH": 150,
+  "kartH": 300,
   "kartMin": "150px"
  },
  "05-bekleyen-390x844-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 6 Deniz Yıld… RAKİP SEÇİYOR 2/2 Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
+  "metin": "Düello Sen Soru 2/20 5 Deniz Yıld… RAKİP SEÇİYOR 2/2 Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
   "cekirdek": "d4-hat d4-hat--rakip",
-  "kartH": 150,
+  "kartH": 300,
   "kartMin": "150px"
  },
  "06-acilis-390x844-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 Deniz Yıld… SANA GÖNDERDİ Tarih KENDİNE ALDI Müzik Süre doldu · otomatik seçildi",
+  "metin": "Düello Sen Soru 1/20 Deniz Yıld… SANA GÖNDERDİ Tarih KENDİNE ALDI Müzik Süre doldu · otomatik seçildi",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "07-soru-390x844-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 14 Deniz Yıld… Tarih Rakipten Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Rakip: Müzik Şimdi kullanabilirsin. 0/4 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1 Aynı joker en çok 2 kez, soru başına 1.",
+  "metin": "Düello Sen Soru 1/20 14 −32 Deniz Yıld… Tarih Rakipten Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Rakibin sorusu: Müzik Şimdi kullanabilirsin. 0/4 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1 Aynı joker en çok 2 kez, soru başına 1.",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "08-son-baski-390x844-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 127,
+   "altBosluk": 128,
+   "panelH": 642,
+   "avatar": [
+    80,
+    80
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--ben d4-zemin--gerilim",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 Deniz Yıld… BAŞARILI SALDIRI Seri 2/3 Sen Doğru Deniz Yıld… Yanlış SON BASKI Bir saldırı daha, düello senin",
+  "metin": "Düello Sen Soru 1/20 Deniz Yıld… BAŞARILI SALDIRI Seri 2/3 Sen Müzik Doğru Deniz Yıld… Tarih Yanlış SON BASKI Bir saldırı daha, düello senin",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
- "09-el-degisti-390x844-tr": {
+ "08c-rehber-seri-390x844-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--seri",
+    "metin": "Bir doğru daha, kazanırsın Geç",
+    "ust": 135,
+    "alt": 179,
+    "sol": 68,
+    "sag": 308,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben d4-zemin--gerilim",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 Deniz Yıld… KONTROL RAKİBE GEÇTİ Rakip 1/3 Sen Yanlış Deniz Yıld… Doğru",
+  "metin": "Düello Sen Soru 2/20 9 Deniz Yıld… Bir doğru daha, kazanırsın Geç 1/2 Rakibe gönderilecek kategoriyi seç Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
+  "cekirdek": "d4-hat d4-hat--ben",
+  "kartH": 300,
+  "kartMin": "150px"
+ },
+ "09-el-degisti-390x844-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 148,
+   "altBosluk": 149,
+   "panelH": 642,
+   "avatar": [
+    81,
+    81
+   ],
+   "rozet": [
+    39,
+    39
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 828,
+  "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 2/20 Deniz Yıld… KONTROL RAKİBE GEÇTİ Rakip 1/3 Sen Müzik Yanlış Deniz Yıld… Tarih Doğru",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "10-kazanildi-390x844-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 144,
+   "altBosluk": 144,
+   "panelH": 642,
+   "avatar": [
+    80,
+    80
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 40,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 Deniz Yıld… DÜELLO KAZANILDI 3/3 Sen Doğru Deniz Yıld… Yanlış",
+  "metin": "Düello Sen Soru 3/20 Deniz Yıld… DÜELLO KAZANILDI 3/3 Sen Müzik Doğru Deniz Yıld… Tarih Yanlış",
+  "cekirdek": "d4-hat d4-hat--ben",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "12-rakip-baski-390x844-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 127,
+   "altBosluk": 128,
+   "panelH": 642,
+   "avatar": [
+    80,
+    80
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 828,
+  "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip d4-zemin--gerilim",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 4/20 Deniz Yıld… RAKİP SALDIRDI Rakip 2/3 Sen Tarih Yanıtsız Deniz Yıld… Müzik Doğru SON BASKI Rakip bir saldırı uzakta",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "13-seri-degismedi-390x844-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 170,
+   "altBosluk": 170,
+   "panelH": 642,
+   "avatar": [
+    80,
+    80
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75",
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 828,
+  "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip d4-zemin--gerilim",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 5/20 Deniz Yıld… SERİ DEĞİŞMEDİ İkiniz de bilemediniz Sen Tarih Yanlış Deniz Yıld… Müzik Yanlış",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "14-kontrol-rakipte-390x844-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 170,
+   "altBosluk": 170,
+   "panelH": 642,
+   "avatar": [
+    80,
+    80
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 828,
+  "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 6/20 Deniz Yıld… KONTROL RAKİPTE Tek doğru bilen rakipti Sen Bilim Yanlış Deniz Yıld… Bilim Doğru",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "15-kontrolu-aldin-390x844-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 170,
+   "altBosluk": 170,
+   "panelH": 642,
+   "avatar": [
+    81,
+    81
+   ],
+   "rozet": [
+    39,
+    39
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 828,
+  "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 7/20 Deniz Yıld… KONTROLÜ ALDIN Seri 1/3 Sen Sanat Doğru Deniz Yıld… Spor Yanlış",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
  "11-son-duello-390x844-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-arena--sonduello",
   "kucuk": [],
   "kesik": [],
   "metin": "Düello Sen SON DÜELLO 14 Deniz Yıld… SON DÜELLO Coğrafya Joker yok Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
@@ -155,311 +473,991 @@
   "kartH": 0,
   "kartMin": null
  },
- "00-giris-360x640-tr": {
+ "16-mac-sonu-ozet-390x844-tr": {
+  "sonucPanel": null,
+  "ozet": {
+   "metin": "DÜELLO ÖZETİ Sen Kontrol 5 tur En uzun seri ●●● 3/3 Rakip Kontrol 2 tur En uzun seri ●●○ 2/3 Kontrol 2 kez el değiştirdi · 7. turda bitti",
+   "kesik": []
+  },
   "yatayTasma": 0,
-  "tasan": [],
+  "tasan": [
+   "div.msk-huzme"
+  ],
   "dikeyTasma": 0,
-  "altKenar": 624,
-  "ekran": 640,
+  "altKenar": 0,
+  "ekran": 844,
+  "rehber": [],
+  "zemin": "",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen NÖTR Deniz Yıld… DÜELLO 2 Tek bilen KONTROLÜ alır · 3/3 seri kazanır",
+  "metin": "",
+  "cekirdek": "",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "00-giris-360x640-tr": {
+  "sonucPanel": null,
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [
+   "span.m1-sayim-isin"
+  ],
+  "dikeyTasma": 0,
+  "altKenar": 987,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello 3 Tek bilen KONTROLÜ alır · 3/3 seri kazanır Sen NÖTR 1/20 Deniz Yıld…",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
  },
  "01-notr-360x640-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen NÖTR 13 Deniz Yıld… Bilim Aynı soru Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
+  "metin": "Düello Sen NÖTR 1/20 14 Deniz Yıld… Bilim Aynı soru Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
  },
  "02-kontrol-sende-360x640-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 89,
+   "altBosluk": 89,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--kontrol d4-rehber--ben",
+    "metin": "Tek bilen kontrolü alır Geç",
+    "ust": 187,
+    "alt": 231,
+    "sol": 20,
+    "sag": 234,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 0/20 Deniz Yıld… KONTROL SENDE Tek doğru bilen sendin Sen Doğru Deniz Yıld… Yanlış",
+  "metin": "Düello Sen Soru 1/20 Deniz Yıld… Tek bilen kontrolü alır Geç KONTROL SENDE Tek doğru bilen sendin Sen Müzik Doğru Deniz Yıld… Tarih Yanlış",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
  "03-kart-gonder-360x640-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--kart",
+    "metin": "Kategoriyi sen seçersin Geç",
+    "ust": 132,
+    "alt": 176,
+    "sol": 116,
+    "sag": 336,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 8 Deniz Yıld… 1/2 RAKİBE GÖNDER Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Rakibe gönder",
+  "metin": "Düello Sen Soru 2/20 9 Deniz Yıld… Kategoriyi sen seçersin Geç 1/2 Rakibe gönderilecek kategoriyi seç Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
   "cekirdek": "d4-hat d4-hat--ben",
-  "kartH": 104,
+  "kartH": 193,
   "kartMin": "96px"
  },
  "04-kart-sec-360x640-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 6 Deniz Yıld… 2/2 KENDİNE SEÇ Tarih Sen %74 Rakip %28 RAKİBE Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Kendine seç",
+  "metin": "Düello Sen Soru 2/20 7 Deniz Yıld… 2/2 Kendi kategorini seç Tarih Sen %74 Rakip %28 RAKİBE Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
   "cekirdek": "d4-hat d4-hat--ben",
-  "kartH": 104,
+  "kartH": 193,
   "kartMin": "96px"
  },
  "05-bekleyen-360x640-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 5 Deniz Yıld… RAKİP SEÇİYOR 2/2 Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
+  "metin": "Düello Sen Soru 2/20 6 Deniz Yıld… RAKİP SEÇİYOR 2/2 Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
   "cekirdek": "d4-hat d4-hat--rakip",
-  "kartH": 104,
+  "kartH": 201,
   "kartMin": "96px"
  },
  "06-acilis-360x640-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 Deniz Yıld… SANA GÖNDERDİ Tarih KENDİNE ALDI Müzik Süre doldu · otomatik seçildi",
+  "metin": "Düello Sen Soru 1/20 Deniz Yıld… SANA GÖNDERDİ Tarih KENDİNE ALDI Müzik Süre doldu · otomatik seçildi",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "07-soru-360x640-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 13 Deniz Yıld… Tarih Rakipten Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Rakip: Müzik 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
+  "metin": "Düello Sen Soru 1/20 14 −32 Deniz Yıld… Tarih Rakipten Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Rakibin sorusu: Müzik 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "08-son-baski-360x640-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 55,
+   "altBosluk": 55,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--ben d4-zemin--gerilim",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 Deniz Yıld… BAŞARILI SALDIRI Seri 2/3 Sen Doğru Deniz Yıld… Yanlış SON BASKI Bir saldırı daha, düello senin",
+  "metin": "Düello Sen Soru 1/20 Deniz Yıld… BAŞARILI SALDIRI Seri 2/3 Sen Müzik Doğru Deniz Yıld… Tarih Yanlış SON BASKI Bir saldırı daha, düello senin",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
- "09-el-degisti-360x640-tr": {
+ "08c-rehber-seri-360x640-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--seri",
+    "metin": "Bir doğru daha, kazanırsın Geç",
+    "ust": 132,
+    "alt": 176,
+    "sol": 66,
+    "sag": 306,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben d4-zemin--gerilim",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 Deniz Yıld… KONTROL RAKİBE GEÇTİ Rakip 1/3 Sen Yanlış Deniz Yıld… Doğru",
+  "metin": "Düello Sen Soru 2/20 9 Deniz Yıld… Bir doğru daha, kazanırsın Geç 1/2 Rakibe gönderilecek kategoriyi seç Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
+  "cekirdek": "d4-hat d4-hat--ben",
+  "kartH": 193,
+  "kartMin": "96px"
+ },
+ "09-el-degisti-360x640-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 71,
+   "altBosluk": 71,
+   "panelH": 444,
+   "avatar": [
+    65,
+    65
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 2/20 Deniz Yıld… KONTROL RAKİBE GEÇTİ Rakip 1/3 Sen Müzik Yanlış Deniz Yıld… Tarih Doğru",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "10-kazanildi-360x640-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 87,
+   "altBosluk": 87,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 34,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 Deniz Yıld… DÜELLO KAZANILDI 3/3 Sen Doğru Deniz Yıld… Yanlış",
+  "metin": "Düello Sen Soru 3/20 Deniz Yıld… DÜELLO KAZANILDI 3/3 Sen Müzik Doğru Deniz Yıld… Tarih Yanlış",
+  "cekirdek": "d4-hat d4-hat--ben",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "12-rakip-baski-360x640-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 55,
+   "altBosluk": 55,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip d4-zemin--gerilim",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 4/20 Deniz Yıld… RAKİP SALDIRDI Rakip 2/3 Sen Tarih Yanıtsız Deniz Yıld… Müzik Doğru SON BASKI Rakip bir saldırı uzakta",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "13-seri-degismedi-360x640-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 89,
+   "altBosluk": 89,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75",
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip d4-zemin--gerilim",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 5/20 Deniz Yıld… SERİ DEĞİŞMEDİ İkiniz de bilemediniz Sen Tarih Yanlış Deniz Yıld… Müzik Yanlış",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "14-kontrol-rakipte-360x640-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 89,
+   "altBosluk": 89,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 6/20 Deniz Yıld… KONTROL RAKİPTE Tek doğru bilen rakipti Sen Bilim Yanlış Deniz Yıld… Bilim Doğru",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "15-kontrolu-aldin-360x640-tr": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 89,
+   "altBosluk": 89,
+   "panelH": 444,
+   "avatar": [
+    65,
+    65
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 7/20 Deniz Yıld… KONTROLÜ ALDIN Seri 1/3 Sen Sanat Doğru Deniz Yıld… Spor Yanlış",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
  "11-son-duello-360x640-tr": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-arena--sonduello",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen SON DÜELLO 13 Deniz Yıld… SON DÜELLO Coğrafya Joker yok Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
+  "metin": "Düello Sen SON DÜELLO 14 Deniz Yıld… SON DÜELLO Coğrafya Joker yok Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
   "cekirdek": "d4-hat d4-hat--son",
   "kartH": 0,
   "kartMin": null
  },
- "00-giris-390x844-en": {
+ "16-mac-sonu-ozet-360x640-tr": {
+  "sonucPanel": null,
+  "ozet": {
+   "metin": "DÜELLO ÖZETİ Sen Kontrol 5 tur En uzun seri ●●● 3/3 Rakip Kontrol 2 tur En uzun seri ●●○ 2/3 Kontrol 2 kez el değiştirdi · 7. turda bitti",
+   "kesik": []
+  },
   "yatayTasma": 0,
-  "tasan": [],
+  "tasan": [
+   "div.msk-huzme"
+  ],
   "dikeyTasma": 0,
-  "altKenar": 828,
-  "ekran": 844,
+  "altKenar": 0,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You NEUTRAL Deniz Yıld… DUEL 2 Sole correct answer takes CONTROL · 3/3 streak wins",
+  "metin": "",
+  "cekirdek": "",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "00-giris-390x844-en": {
+  "sonucPanel": null,
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [
+   "span.m1-sayim-isin"
+  ],
+  "dikeyTasma": 0,
+  "altKenar": 1299,
+  "ekran": 844,
+  "rehber": [],
+  "zemin": "",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Duel 2 Sole correct answer takes CONTROL · 3/3 streak wins You NEUTRAL 1/20 Deniz Yıld…",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
  },
  "01-notr-390x844-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You NEUTRAL 14 Deniz Yıld… Science Same question Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs You can use it now. 0/4 50:50 3 Extra Time +5 s 2 Time Pressure -5 s 1 Same joker 2× max, 1 per question.",
+  "metin": "Duel You NEUTRAL 1/20 14 Deniz Yıld… Science Same question Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs You can use it now. 0/4 50:50 3 Extra Time +5 s 2 Time Pressure -5 s 1 Same joker 2× max, 1 per question.",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
  },
  "02-kontrol-sende-390x844-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 170,
+   "altBosluk": 170,
+   "panelH": 642,
+   "avatar": [
+    80,
+    80
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--kontrol d4-rehber--ben",
+    "metin": "The only correct answer takes control Skip",
+    "ust": 190,
+    "alt": 237,
+    "sol": 22,
+    "sag": 292,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 0/20 Deniz Yıld… YOU HAVE CONTROL Only you got it right You Right Deniz Yıld… Wrong",
+  "metin": "Duel You Question 1/20 Deniz Yıld… The only correct answer takes control Skip YOU HAVE CONTROL Only you got it right You Music Right Deniz Yıld… History Wrong",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
  "03-kart-gonder-390x844-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--kart",
+    "metin": "You pick the category Skip",
+    "ust": 135,
+    "alt": 179,
+    "sol": 149,
+    "sag": 364,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 9 Deniz Yıld… 1/2 SEND TO OPPONENT History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55% Send to opponent",
+  "metin": "Duel You Question 2/20 9 Deniz Yıld… You pick the category Skip 1/2 Pick a category to send your opponent History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55%",
   "cekirdek": "d4-hat d4-hat--ben",
-  "kartH": 150,
+  "kartH": 292,
   "kartMin": "150px"
  },
  "04-kart-sec-390x844-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 7 Deniz Yıld… 2/2 PICK FOR ME History You 74% Opponent 28% TO THEM Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55% Pick for me",
+  "metin": "Duel You Question 2/20 7 Deniz Yıld… 2/2 Pick your own category History You 74% Opponent 28% TO THEM Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55%",
   "cekirdek": "d4-hat d4-hat--ben",
-  "kartH": 150,
+  "kartH": 292,
   "kartMin": "150px"
  },
  "05-bekleyen-390x844-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 5 Deniz Yıld… OPPONENT IS PICKING 2/2 History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55%",
+  "metin": "Duel You Question 2/20 5 Deniz Yıld… OPPONENT IS PICKING 2/2 History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55%",
   "cekirdek": "d4-hat d4-hat--rakip",
-  "kartH": 150,
+  "kartH": 300,
   "kartMin": "150px"
  },
  "06-acilis-390x844-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 Deniz Yıld… SENT TO YOU History THEY TOOK Music Time's up · auto-picked",
+  "metin": "Duel You Question 1/20 Deniz Yıld… SENT TO YOU History THEY TOOK Music Time's up · auto-picked",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "07-soru-390x844-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 14 Deniz Yıld… History From opponent Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Opponent: Music You can use it now. 0/4 50:50 3 Extra Time +5 s 2 Time Pressure -5 s 1 Same joker 2× max, 1 per question.",
+  "metin": "Duel You Question 1/20 14 −32 Deniz Yıld… History From opponent Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Opponent's question: Music You can use it now. 0/4 50:50 3 Extra Time +5 s 2 Time Pressure -5 s 1 Same joker 2× max, 1 per question.",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "08-son-baski-390x844-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 127,
+   "altBosluk": 128,
+   "panelH": 642,
+   "avatar": [
+    80,
+    80
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--ben d4-zemin--gerilim",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 Deniz Yıld… SUCCESSFUL ATTACK Streak 2/3 You Right Deniz Yıld… Wrong FINAL PUSH One more hit and the duel is yours",
+  "metin": "Duel You Question 1/20 Deniz Yıld… SUCCESSFUL ATTACK Streak 2/3 You Music Right Deniz Yıld… History Wrong FINAL PUSH One more hit and the duel is yours",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
- "09-el-degisti-390x844-en": {
+ "08c-rehber-seri-390x844-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--seri",
+    "metin": "One more correct answer and you win Skip",
+    "ust": 132,
+    "alt": 179,
+    "sol": 68,
+    "sag": 338,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben d4-zemin--gerilim",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 Deniz Yıld… CONTROL LOST Opponent 1/3 You Wrong Deniz Yıld… Right",
+  "metin": "Duel You Question 2/20 9 Deniz Yıld… One more correct answer and you win Skip 1/2 Pick a category to send your opponent History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55%",
+  "cekirdek": "d4-hat d4-hat--ben",
+  "kartH": 292,
+  "kartMin": "150px"
+ },
+ "09-el-degisti-390x844-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 170,
+   "altBosluk": 170,
+   "panelH": 642,
+   "avatar": [
+    81,
+    81
+   ],
+   "rozet": [
+    39,
+    39
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 828,
+  "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Duel You Question 2/20 Deniz Yıld… CONTROL LOST Opponent 1/3 You Music Wrong Deniz Yıld… History Right",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "10-kazanildi-390x844-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 168,
+   "altBosluk": 168,
+   "panelH": 642,
+   "avatar": [
+    80,
+    80
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 40,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 Deniz Yıld… DUEL WON 3/3 You Right Deniz Yıld… Wrong",
+  "metin": "Duel You Question 3/20 Deniz Yıld… DUEL WON 3/3 You Music Right Deniz Yıld… History Wrong",
+  "cekirdek": "d4-hat d4-hat--ben",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "12-rakip-baski-390x844-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 127,
+   "altBosluk": 128,
+   "panelH": 642,
+   "avatar": [
+    80,
+    80
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 828,
+  "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip d4-zemin--gerilim",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Duel You Question 4/20 Deniz Yıld… OPPONENT LANDED Opponent 2/3 You History No answer Deniz Yıld… Music Right FINAL PUSH Opponent is one hit away",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "13-seri-degismedi-390x844-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 149,
+   "altBosluk": 149,
+   "panelH": 642,
+   "avatar": [
+    80,
+    80
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75",
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 828,
+  "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip d4-zemin--gerilim",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Duel You Question 5/20 Deniz Yıld… STREAK UNCHANGED You both missed You History Wrong Deniz Yıld… Music Wrong",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "14-kontrol-rakipte-390x844-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 149,
+   "altBosluk": 149,
+   "panelH": 642,
+   "avatar": [
+    80,
+    80
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 828,
+  "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Duel You Question 6/20 Deniz Yıld… OPPONENT HAS CONTROL Only your opponent got it right You Science Wrong Deniz Yıld… Science Right",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "15-kontrolu-aldin-390x844-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 170,
+   "altBosluk": 170,
+   "panelH": 642,
+   "avatar": [
+    81,
+    81
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 36,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 828,
+  "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Duel You Question 7/20 Deniz Yıld… YOU TOOK CONTROL Streak 1/3 You Art Right Deniz Yıld… Sports Wrong",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
  "11-son-duello-390x844-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 828,
   "ekran": 844,
+  "rehber": [],
+  "zemin": "d4-arena--sonduello",
   "kucuk": [],
   "kesik": [],
   "metin": "Duel You LAST DUEL 14 Deniz Yıld… LAST DUEL Geography No jokers Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
@@ -467,315 +1465,1017 @@
   "kartH": 0,
   "kartMin": null
  },
- "00-giris-360x640-en": {
+ "16-mac-sonu-ozet-390x844-en": {
+  "sonucPanel": null,
+  "ozet": {
+   "metin": "DUEL SUMMARY You Control 5 rounds Longest streak ●●● 3/3 Opponent Control 2 rounds Longest streak ●●○ 2/3 Control changed hands 2 times · Ended in round 7",
+   "kesik": []
+  },
   "yatayTasma": 0,
-  "tasan": [],
+  "tasan": [
+   "div.msk-huzme"
+  ],
   "dikeyTasma": 0,
-  "altKenar": 624,
-  "ekran": 640,
+  "altKenar": 0,
+  "ekran": 844,
+  "rehber": [],
+  "zemin": "",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You NEUTRAL Deniz Yıld… DUEL 2 Sole correct answer takes CONTROL · 3/3 streak wins",
+  "metin": "",
+  "cekirdek": "",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "00-giris-360x640-en": {
+  "sonucPanel": null,
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [
+   "span.m1-sayim-isin"
+  ],
+  "dikeyTasma": 0,
+  "altKenar": 987,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Duel 2 Sole correct answer takes CONTROL · 3/3 streak wins You NEUTRAL 1/20 Deniz Yıld…",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
  },
  "01-notr-360x640-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You NEUTRAL 13 Deniz Yıld… Science Same question Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs 50:50 3 Extra Time +5 s 2 Time Pressure -5 s 1",
+  "metin": "Duel You NEUTRAL 1/20 14 Deniz Yıld… Science Same question Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs 50:50 3 Extra Time +5 s 2 Time Pressure -5 s 1",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
  },
  "02-kontrol-sende-360x640-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 89,
+   "altBosluk": 89,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--kontrol d4-rehber--ben",
+    "metin": "The only correct answer takes control Skip",
+    "ust": 187,
+    "alt": 234,
+    "sol": 20,
+    "sag": 290,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 0/20 Deniz Yıld… YOU HAVE CONTROL Only you got it right You Right Deniz Yıld… Wrong",
+  "metin": "Duel You Question 1/20 Deniz Yıld… The only correct answer takes control Skip YOU HAVE CONTROL Only you got it right You Music Right Deniz Yıld… History Wrong",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
  "03-kart-gonder-360x640-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--kart",
+    "metin": "You pick the category Skip",
+    "ust": 132,
+    "alt": 176,
+    "sol": 121,
+    "sag": 336,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 8 Deniz Yıld… 1/2 SEND TO OPPONENT History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55% Send to opponent",
+  "metin": "Duel You Question 2/20 9 Deniz Yıld… You pick the category Skip 1/2 Pick a category to send your opponent History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55%",
   "cekirdek": "d4-hat d4-hat--ben",
-  "kartH": 104,
+  "kartH": 193,
   "kartMin": "96px"
  },
  "04-kart-sec-360x640-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 6 Deniz Yıld… 2/2 PICK FOR ME History You 74% Opponent 28% TO THEM Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55% Pick for me",
+  "metin": "Duel You Question 2/20 7 Deniz Yıld… 2/2 Pick your own category History You 74% Opponent 28% TO THEM Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55%",
   "cekirdek": "d4-hat d4-hat--ben",
-  "kartH": 104,
+  "kartH": 193,
   "kartMin": "96px"
  },
  "05-bekleyen-360x640-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 5 Deniz Yıld… OPPONENT IS PICKING 2/2 History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55%",
+  "metin": "Duel You Question 2/20 5 Deniz Yıld… OPPONENT IS PICKING 2/2 History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55%",
   "cekirdek": "d4-hat d4-hat--rakip",
-  "kartH": 104,
+  "kartH": 201,
   "kartMin": "96px"
  },
  "06-acilis-360x640-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 Deniz Yıld… SENT TO YOU History THEY TOOK Music Time's up · auto-picked",
+  "metin": "Duel You Question 1/20 Deniz Yıld… SENT TO YOU History THEY TOOK Music Time's up · auto-picked",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "07-soru-360x640-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 13 Deniz Yıld… History From opponent Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Opponent: Music 50:50 3 Extra Time +5 s 2 Time Pressure -5 s 1",
+  "metin": "Duel You Question 1/20 14 −32 Deniz Yıld… History From opponent Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Opponent's question: Music 50:50 3 Extra Time +5 s 2 Time Pressure -5 s 1",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "08-son-baski-360x640-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 55,
+   "altBosluk": 55,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--ben d4-zemin--gerilim",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 Deniz Yıld… SUCCESSFUL ATTACK Streak 2/3 You Right Deniz Yıld… Wrong FINAL PUSH One more hit and the duel is yours",
+  "metin": "Duel You Question 1/20 Deniz Yıld… SUCCESSFUL ATTACK Streak 2/3 You Music Right Deniz Yıld… History Wrong FINAL PUSH One more hit and the duel is yours",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
- "09-el-degisti-360x640-en": {
+ "08c-rehber-seri-360x640-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--seri",
+    "metin": "One more correct answer and you win Skip",
+    "ust": 129,
+    "alt": 176,
+    "sol": 66,
+    "sag": 336,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben d4-zemin--gerilim",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 Deniz Yıld… CONTROL LOST Opponent 1/3 You Wrong Deniz Yıld… Right",
+  "metin": "Duel You Question 2/20 9 Deniz Yıld… One more correct answer and you win Skip 1/2 Pick a category to send your opponent History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55%",
+  "cekirdek": "d4-hat d4-hat--ben",
+  "kartH": 193,
+  "kartMin": "96px"
+ },
+ "09-el-degisti-360x640-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 89,
+   "altBosluk": 89,
+   "panelH": 444,
+   "avatar": [
+    65,
+    65
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Duel You Question 2/20 Deniz Yıld… CONTROL LOST Opponent 1/3 You Music Wrong Deniz Yıld… History Right",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "10-kazanildi-360x640-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 87,
+   "altBosluk": 87,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 34,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 Deniz Yıld… DUEL WON 3/3 You Right Deniz Yıld… Wrong",
+  "metin": "Duel You Question 3/20 Deniz Yıld… DUEL WON 3/3 You Music Right Deniz Yıld… History Wrong",
+  "cekirdek": "d4-hat d4-hat--ben",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "12-rakip-baski-360x640-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 55,
+   "altBosluk": 55,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip d4-zemin--gerilim",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Duel You Question 4/20 Deniz Yıld… OPPONENT LANDED Opponent 2/3 You History No answer Deniz Yıld… Music Right FINAL PUSH Opponent is one hit away",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "13-seri-degismedi-360x640-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 89,
+   "altBosluk": 89,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75",
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip d4-zemin--gerilim",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Duel You Question 5/20 Deniz Yıld… STREAK UNCHANGED You both missed You History Wrong Deniz Yıld… Music Wrong",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "14-kontrol-rakipte-360x640-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 71,
+   "altBosluk": 71,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Duel You Question 6/20 Deniz Yıld… OPPONENT HAS CONTROL Only your opponent got it right You Science Wrong Deniz Yıld… Science Right",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "15-kontrolu-aldin-360x640-en": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 89,
+   "altBosluk": 89,
+   "panelH": 444,
+   "avatar": [
+    65,
+    65
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Duel You Question 7/20 Deniz Yıld… YOU TOOK CONTROL Streak 1/3 You Art Right Deniz Yıld… Sports Wrong",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
  "11-son-duello-360x640-en": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-arena--sonduello",
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You LAST DUEL 13 Deniz Yıld… LAST DUEL Geography No jokers Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
+  "metin": "Duel You LAST DUEL 14 Deniz Yıld… LAST DUEL Geography No jokers Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
   "cekirdek": "d4-hat d4-hat--son",
   "kartH": 0,
   "kartMin": null
  },
- "00-giris-360x640-tr-azalt": {
+ "16-mac-sonu-ozet-360x640-en": {
+  "sonucPanel": null,
+  "ozet": {
+   "metin": "DUEL SUMMARY You Control 5 rounds Longest streak ●●● 3/3 Opponent Control 2 rounds Longest streak ●●○ 2/3 Control changed hands 2 times · Ended in round 7",
+   "kesik": []
+  },
   "yatayTasma": 0,
-  "tasan": [],
+  "tasan": [
+   "div.msk-huzme"
+  ],
   "dikeyTasma": 0,
-  "altKenar": 624,
+  "altKenar": 0,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen NÖTR Deniz Yıld… DÜELLO 2 Tek bilen KONTROLÜ alır · 3/3 seri kazanır",
+  "metin": "",
+  "cekirdek": "",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "00-giris-360x640-tr-azalt": {
+  "sonucPanel": null,
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [
+   "span.m1-sayim-isin"
+  ],
+  "dikeyTasma": 0,
+  "altKenar": 870,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello 2 Tek bilen KONTROLÜ alır · 3/3 seri kazanır Sen NÖTR 1/20 Deniz Yıld…",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
  },
  "01-notr-360x640-tr-azalt": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen NÖTR 13 Deniz Yıld… Bilim Aynı soru Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
+  "metin": "Düello Sen NÖTR 1/20 14 +5 Deniz Yıld… Bilim Aynı soru Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
  },
  "02-kontrol-sende-360x640-tr-azalt": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 89,
+   "altBosluk": 89,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--kontrol d4-rehber--ben",
+    "metin": "Tek bilen kontrolü alır Geç",
+    "ust": 187,
+    "alt": 231,
+    "sol": 20,
+    "sag": 234,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 0/20 Deniz Yıld… KONTROL SENDE Tek doğru bilen sendin Sen Doğru Deniz Yıld… Yanlış",
+  "metin": "Düello Sen Soru 1/20 Deniz Yıld… Tek bilen kontrolü alır Geç KONTROL SENDE Tek doğru bilen sendin Sen Müzik Doğru Deniz Yıld… Tarih Yanlış",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
  "03-kart-gonder-360x640-tr-azalt": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--kart",
+    "metin": "Kategoriyi sen seçersin Geç",
+    "ust": 132,
+    "alt": 176,
+    "sol": 116,
+    "sag": 336,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 8 Deniz Yıld… 1/2 RAKİBE GÖNDER Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Rakibe gönder",
+  "metin": "Düello Sen Soru 2/20 9 Deniz Yıld… Kategoriyi sen seçersin Geç 1/2 Rakibe gönderilecek kategoriyi seç Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
   "cekirdek": "d4-hat d4-hat--ben",
-  "kartH": 104,
+  "kartH": 193,
   "kartMin": "96px"
  },
  "04-kart-sec-360x640-tr-azalt": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 6 Deniz Yıld… 2/2 KENDİNE SEÇ Tarih Sen %74 Rakip %28 RAKİBE Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Kendine seç",
+  "metin": "Düello Sen Soru 2/20 7 Deniz Yıld… 2/2 Kendi kategorini seç Tarih Sen %74 Rakip %28 RAKİBE Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
   "cekirdek": "d4-hat d4-hat--ben",
-  "kartH": 104,
+  "kartH": 193,
   "kartMin": "96px"
  },
  "05-bekleyen-360x640-tr-azalt": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 5 Deniz Yıld… RAKİP SEÇİYOR 2/2 Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
+  "metin": "Düello Sen Soru 2/20 6 Deniz Yıld… RAKİP SEÇİYOR 2/2 Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
   "cekirdek": "d4-hat d4-hat--rakip",
-  "kartH": 104,
+  "kartH": 201,
   "kartMin": "96px"
  },
  "06-acilis-360x640-tr-azalt": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 Deniz Yıld… SANA GÖNDERDİ Tarih KENDİNE ALDI Müzik Süre doldu · otomatik seçildi",
+  "metin": "Düello Sen Soru 1/20 Deniz Yıld… SANA GÖNDERDİ Tarih KENDİNE ALDI Müzik Süre doldu · otomatik seçildi",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "07-soru-360x640-tr-azalt": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 13 Deniz Yıld… Tarih Rakipten Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Rakip: Müzik 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
+  "metin": "Düello Sen Soru 1/20 14 −32 Deniz Yıld… Tarih Rakipten Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Rakibin sorusu: Müzik 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "08-son-baski-360x640-tr-azalt": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 55,
+   "altBosluk": 55,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--ben d4-zemin--gerilim",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 Deniz Yıld… BAŞARILI SALDIRI Seri 2/3 Sen Doğru Deniz Yıld… Yanlış SON BASKI Bir saldırı daha, düello senin",
+  "metin": "Düello Sen Soru 1/20 Deniz Yıld… BAŞARILI SALDIRI Seri 2/3 Sen Müzik Doğru Deniz Yıld… Tarih Yanlış SON BASKI Bir saldırı daha, düello senin",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
- "09-el-degisti-360x640-tr-azalt": {
+ "08c-rehber-seri-360x640-tr-azalt": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [
+   {
+    "sinif": "d4-rehber d4-rehber--seri",
+    "metin": "Bir doğru daha, kazanırsın Geç",
+    "ust": 132,
+    "alt": 176,
+    "sol": 66,
+    "sag": 306,
+    "gecH": 44
+   }
+  ],
+  "zemin": "d4-zemin--ben d4-zemin--gerilim",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 Deniz Yıld… KONTROL RAKİBE GEÇTİ Rakip 1/3 Sen Yanlış Deniz Yıld… Doğru",
+  "metin": "Düello Sen Soru 2/20 9 Deniz Yıld… Bir doğru daha, kazanırsın Geç 1/2 Rakibe gönderilecek kategoriyi seç Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
+  "cekirdek": "d4-hat d4-hat--ben",
+  "kartH": 193,
+  "kartMin": "96px"
+ },
+ "09-el-degisti-360x640-tr-azalt": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 71,
+   "altBosluk": 71,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 2/20 Deniz Yıld… KONTROL RAKİBE GEÇTİ Rakip 1/3 Sen Müzik Yanlış Deniz Yıld… Tarih Doğru",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
  },
  "10-kazanildi-360x640-tr-azalt": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 87,
+   "altBosluk": 87,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 34,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 Deniz Yıld… DÜELLO KAZANILDI 3/3 Sen Doğru Deniz Yıld… Yanlış",
+  "metin": "Düello Sen Soru 3/20 Deniz Yıld… DÜELLO KAZANILDI 3/3 Sen Müzik Doğru Deniz Yıld… Tarih Yanlış",
+  "cekirdek": "d4-hat d4-hat--ben",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "12-rakip-baski-360x640-tr-azalt": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 55,
+   "altBosluk": 55,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip d4-zemin--gerilim",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 4/20 Deniz Yıld… RAKİP SALDIRDI Rakip 2/3 Sen Tarih Yanıtsız Deniz Yıld… Müzik Doğru SON BASKI Rakip bir saldırı uzakta",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "13-seri-degismedi-360x640-tr-azalt": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 89,
+   "altBosluk": 89,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75",
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip d4-zemin--gerilim",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 5/20 Deniz Yıld… SERİ DEĞİŞMEDİ İkiniz de bilemediniz Sen Tarih Yanlış Deniz Yıld… Müzik Yanlış",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "14-kontrol-rakipte-360x640-tr-azalt": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 89,
+   "altBosluk": 89,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--rakip",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 6/20 Deniz Yıld… KONTROL RAKİPTE Tek doğru bilen rakipti Sen Bilim Yanlış Deniz Yıld… Bilim Doğru",
+  "cekirdek": "d4-hat d4-hat--rakip",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "15-kontrolu-aldin-360x640-tr-azalt": {
+  "sonucPanel": {
+   "ortusme": [],
+   "tasma": [],
+   "ustBosluk": 89,
+   "altBosluk": 89,
+   "panelH": 444,
+   "avatar": [
+    64,
+    64
+   ],
+   "rozet": [
+    38,
+    38
+   ],
+   "baslikPx": 30,
+   "altPx": 17,
+   "soluk": [
+    "0.75"
+   ]
+  },
+  "ozet": null,
+  "yatayTasma": 0,
+  "tasan": [],
+  "dikeyTasma": 0,
+  "altKenar": 624,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-zemin--ben",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "Düello Sen Soru 7/20 Deniz Yıld… KONTROLÜ ALDIN Seri 1/3 Sen Sanat Doğru Deniz Yıld… Spor Yanlış",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 0,
   "kartMin": null
  },
  "11-son-duello-360x640-tr-azalt": {
+  "sonucPanel": null,
+  "ozet": null,
   "yatayTasma": 0,
   "tasan": [],
   "dikeyTasma": 0,
   "altKenar": 624,
   "ekran": 640,
+  "rehber": [],
+  "zemin": "d4-arena--sonduello",
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen SON DÜELLO 13 Deniz Yıld… SON DÜELLO Coğrafya Joker yok Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
+  "metin": "Düello Sen SON DÜELLO 14 Deniz Yıld… SON DÜELLO Coğrafya Joker yok Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
   "cekirdek": "d4-hat d4-hat--son",
+  "kartH": 0,
+  "kartMin": null
+ },
+ "16-mac-sonu-ozet-360x640-tr-azalt": {
+  "sonucPanel": null,
+  "ozet": {
+   "metin": "DÜELLO ÖZETİ Sen Kontrol 5 tur En uzun seri ●●● 3/3 Rakip Kontrol 2 tur En uzun seri ●●○ 2/3 Kontrol 2 kez el değiştirdi · 7. turda bitti",
+   "kesik": []
+  },
+  "yatayTasma": 0,
+  "tasan": [
+   "div.msk-huzme"
+  ],
+  "dikeyTasma": 0,
+  "altKenar": 0,
+  "ekran": 640,
+  "rehber": [],
+  "zemin": "",
+  "kucuk": [],
+  "kesik": [],
+  "metin": "",
+  "cekirdek": "",
   "kartH": 0,
   "kartMin": null
  }

@@ -5,7 +5,7 @@ Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık
 ## Oyun
 
 - ⚡ **Klasik** — 1v1 bilgi maçı. Süre içinde doğru cevaplayan herkes aynı puanı alır (hız bonusu yok); jokerlerle desteklenir. **Dereceli** (lig puanı + tam coin) ya da **Serbest** (lig puanı yok, coin %50).
-- 🥊 **Düello v4** — Taktik maçı. Kimin doğru bildiği kontrolü belirler; kontrol sahibi rakibe kategori gönderir, ardışık doğrularla seriyi 3/3'e çıkaran kazanır. 20 saldırı turundan sonra jokersiz **Son Düello**.
+- 🥊 **Düello v4** — Taktik maçı. Kimin doğru bildiği kontrolü belirler; kontrol sahibi rakibe kategori gönderir, ardışık doğrularla seriyi 3/3'e çıkaran kazanır. Toplam 20. soru (nötr ve saldırı birlikte) jokersiz **Son Düello**. İlk Düello'da kısa rehber balonları.
 - 💰 **Ortak Hazine** — İki oyuncu ortak hazineyi büyütür; tek başına bilen **AÇ** (puanı al) ya da **DEVAM** (hazine ×2) der. Hedef 80 puan; DEVAM ile kazanılan Savunma Hakkı.
 - 🌙 **Turnuva** — Günde 5 seans, TSİ **10:00 · 14:00 · 18:00 · 20:00 · 24:00**; eleme usulü, eşitlikte Altın Soru.
 - 🏅 **Lig** — Bronz → Gümüş → Altın → Elmas → Efsane; 25 kişilik gruplar, ilk 5 yükselir, son 5 düşer, pazartesi 00:00 (TSİ) sıfırlanır.

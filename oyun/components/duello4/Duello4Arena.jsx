@@ -3,7 +3,8 @@
 // (mevcut kılıç ikonu; sahibin tarafına kayar, el değişince karşıya uçar + kısa sarsıntı), altında faza göre panel:
 // nötr / saldırı sorusu · 4 kart (önce RAKİBE GÖNDER, sonra KENDİNE SEÇ) · bekleyen (rakip seçiyor) · açılış (kim neyi aldı)
 // · tur sonucu anı (iki cevap, avatar tepkisi, 2/3 SON BASKI, 3/3 düello anı) · SON DÜELLO (aynı soru, jokersiz).
-// Yazı: ekran başına 1 başlık + 1 kısa alt bilgi + 1 eylem; maç sırasında öğretici cümle yok (yalnız ilk v4 maçında tek satır).
+// Yazı: ekran başına 1 başlık + 1 kısa alt bilgi + 1 eylem; maç sırasında öğretici cümle yok (yalnız ilk v4 maçında tek satır
+// + 1093 ilk Düello rehberi: üç kısa balon, "Geç" ile kapanır).
 // Ses: mevcut ses.js; her an bir olay anahtarına bağlı TEK SEFER, sesler aralıklı (üst üste binmez).
 // iOS: position:fixed YOK; sarsıntı/uçuş yalnız iç sahnede (fixed katman içermez). Hareket azaltmada animasyonlar kapalı (CSS).
 import { useEffect, useRef, useState } from "react";
@@ -50,6 +51,16 @@ const SARSINTI_MS = varsayilanSure("duello4_sarsinti");   // geçerli: sure() �
 // false → eski akış (kart seç + alt eylem düğmesiyle onayla); sunucu tarafı için docs/duello-v4-kart-akisi-geri-al.sql.
 const KART_TEK_DOKUNUS = true;
 const GEC_SES_MS = 500;   // olay anı bundan çok geride kaldıysa (yenileme/geç katılım) sesi çalınmaz
+// İlk Düello rehberi (1093): balon en çok bu kadar görünür; an (faz) değişince de kalkar. Sayaca/akışa dokunmaz.
+const REHBER_MS = 5000;
+const rehberKayitAnahtari = (id) => `d4_rehber:${id}`;
+function rehberKaydiOku(id) {
+  try { const x = JSON.parse(localStorage.getItem(rehberKayitAnahtari(id)) || "null"); return { goruldu: new Set(x?.g ?? []), gec: Boolean(x?.gec) }; }
+  catch { return { goruldu: new Set(), gec: false }; }
+}
+function rehberKaydiYaz(id, r) {
+  try { localStorage.setItem(rehberKayitAnahtari(id), JSON.stringify({ g: [...r.goruldu], gec: r.gec })); } catch { /* gizli sekme: yalnız bellekte */ }
+}
 const yuzde = (v) => (v === null || v === undefined ? "?" : aktifDil() === "en" ? `${v}%` : `%${v}`);
 
 // ---------------------------------------------------------------- küçük parçalar
@@ -238,6 +249,37 @@ export default function Duello4Arena({
     if (d.faz !== "kart" || (iyimserRef.current && iyimserRef.current.tur !== v.tur)) { iyimserRef.current = null; setIyimser(null); }
   }, [d.faz, v.tur]);
 
+  // ---------------- İlk Düello rehberi (1093): yalnız sunucunun v4.rehber dediği maçta (oyuncunun ilk Düellosu; hesapta
+  // kalıcı bayrak, misafir dahil). Üç an, her biri bir kez: kart seçerken · kontrol değişince · 2/3 seride. "Geç" rehberi
+  // kapatır. Balon üst katman; sayaç, kartlar ve şıklar aynen çalışır (dokunuş yalnız balonun kendisinde).
+  const rehberAday = !v.rehber || d.durum !== "aktif" ? null
+    : d.faz === "kart" && benKontrol && adim === 0 && Number(v.seri ?? 0) === hedef - 1 ? "seri"
+    : d.faz === "kart" && benKontrol && adim === 0 ? "kart"
+    : d.faz === "sonuc" && h && (h.sonuc === "kontrol_aldi" || h.sonuc === "el_degisti") ? "kontrol" : null;
+  const rehberRef = useRef(null);
+  if (rehberRef.current === null || rehberRef.current.id !== d.id) rehberRef.current = { id: d.id, ...rehberKaydiOku(d.id) };
+  const [rehber, setRehber] = useState(null);
+  useEffect(() => {
+    const r = rehberRef.current;
+    if (!rehberAday) { setRehber(null); return; }
+    if (r.gec || r.goruldu.has(rehberAday)) return;
+    r.goruldu.add(rehberAday);
+    rehberKaydiYaz(d.id, r);
+    setRehber(rehberAday);
+  }, [rehberAday]);   // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!rehber) return undefined;
+    const t = setTimeout(() => setRehber(null), REHBER_MS);
+    return () => clearTimeout(t);
+  }, [rehber]);
+  const rehberGec = () => { const r = rehberRef.current; r.gec = true; rehberKaydiYaz(d.id, r); setRehber(null); };
+  const rehberBalonu = (anahtar, metin, ek) => rehber === anahtar && (
+    <div className={sinif("d4-rehber", `d4-rehber--${anahtar}`, ek)} role="status">
+      <span className="d4-rehber-yazi">{metin}</span>
+      <button type="button" className="d4-rehber-gec" onClick={rehberGec}>{c("Geç")}</button>
+    </div>
+  );
+
   // ---------------- sesler (her olay anahtarına bağlı tek sefer; gizli sekmede ses.js zaten çalmaz)
   const sesRef = useRef(new Set());
   const birKez = (anahtar, f) => { if (sesRef.current.has(anahtar)) return; sesRef.current.add(anahtar); f(); };
@@ -292,7 +334,7 @@ export default function Duello4Arena({
   const maxSoru = Number(v.max_soru ?? 20);
   const soruSirasi = Math.min(maxSoru, Math.max(1, Number(v.soru_no ?? 0) + (d.faz === "kart" ? 1 : 0)));
   const ust = (
-    <header className={sinif("d4-ust", v.son && "d4-ust--son")}>
+    <header className={sinif("d4-ust", v.son && "d4-ust--son", rehber && "d4-ust--rehber")}>
       <div className="d4-ust-satir">
         <Oyuncu o={ben} c={c} kontrolde={benKontrol} seri={Number(v.seri ?? 0)} hedef={hedef} tepki={tepkiBen}
                 onay={soruFazi && kilitli} seviye={seviyeler[ben.id]} />
@@ -311,6 +353,11 @@ export default function Duello4Arena({
         <span className="d4-hat-yol" />
         <span className={sinif("d4-cekirdek", sarsinti && "d4-cekirdek--ucus")}><QtIkon ad={v.son ? "duello" : "kilic"} boyut={22} /></span>
       </div>
+      {rehberBalonu("kontrol", c("Tek bilen kontrolü alır"), `d4-rehber--${taraf}`)}
+      {rehberBalonu("seri", c("Bir doğru daha, kazanırsın"))}
+      {/* kart + seri: çekirdek bende (solda); balon hattın boş kısmında — başlığı/kartları örtmez. Kart oku aşağıdaki
+          kartları, seri oku yukarıdaki seri noktalarımı gösterir. */}
+      {rehberBalonu("kart", c("Kategoriyi sen seçersin"))}
     </header>
   );
 

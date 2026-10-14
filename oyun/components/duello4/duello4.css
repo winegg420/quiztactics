@@ -317,3 +317,28 @@
 }
 @media (prefers-reduced-motion: reduce) { .hk-mac.d4-arena { transition: none; } }
 
+/* ---------------------------------------------------------------- ilk Düello rehberi (1093)
+   Gerçek öğenin yanında kısa balon (kart: kontrol hattının boş sağında, ok aşağıdaki kartlara · kontrol: çekirdeğin altında ·
+   seri: hattın boş kısmında, ok yukarıdaki seri noktalarıma). Üst katman:
+   akışta yer kaplamaz, sayaç/şıklar çalışır; dokunuş yalnız balonda. "Geç" ≥ 44 px. */
+.d4-ust--rehber { position: relative; z-index: 4; }
+.d4-rehber { position: absolute; z-index: 5; top: calc(100% + 10px); display: flex; align-items: center; gap: 2px;
+  width: max-content; max-width: min(270px, calc(100% - 8px)); padding: 0 2px 0 14px; border-radius: 14px;
+  background: var(--hk-metin); color: #fff; font-size: 14px; font-weight: 800; line-height: 1.25; text-align: left;
+  box-shadow: 0 8px 20px rgb(20 24 60 / .28); }
+.d4-rehber::before { content: ""; position: absolute; top: -6px; left: var(--d4-ok, 50%); width: 12px; height: 12px; margin-left: -6px;
+  background: inherit; border-radius: 2px; transform: rotate(45deg); }
+.d4-rehber-yazi { padding-block: 6px; }
+.d4-rehber-gec { flex: none; min-width: 44px; min-height: 44px; padding: 0 12px; border: 0; border-radius: 12px; background: none;
+  color: #ffd76a; font: inherit; font-weight: 900; cursor: pointer; }
+.d4-rehber-gec:focus-visible { outline: 2px solid #ffd76a; outline-offset: -4px; }
+.d4-rehber--orta { left: 50%; translate: -50% 0; }
+.d4-rehber--ben { left: 4px; --d4-ok: 30px; }
+.d4-rehber--rakip { right: 4px; --d4-ok: calc(100% - 30px); }
+.d4-rehber--seri { top: auto; bottom: 1px; left: 50px; --d4-ok: 40px; }
+.d4-rehber--kart { top: auto; bottom: 1px; right: 8px; --d4-ok: calc(100% - 40px); }
+.d4-rehber--kart::before { top: auto; bottom: -6px; }
+@media (prefers-reduced-motion: no-preference) {
+  .d4-rehber { animation: d4-rehber-gir .32s cubic-bezier(.2, .9, .3, 1.2) both; }
+}
+@keyframes d4-rehber-gir { from { opacity: 0; transform: translateY(6px) scale(.96); } to { opacity: 1; transform: none; } }

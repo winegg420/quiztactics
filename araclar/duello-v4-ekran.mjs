@@ -27,7 +27,7 @@ const ORAN_RAKIP = { tarih: 28, sinema: 72, muzik: 40, bilim: 55, sanat: null, s
 function yeniDurum(ben) {
   return { ben, faz: "notr", kontrol: null, seri: 0, tur: 0, soruNo: 1, son: false, soruVar: true, kartlar: ["tarih", "sinema", "muzik", "bilim"],
     adim: 0, gonderilen: null, secilen: null, oto: false, benimKat: "bilim", rakipKat: "bilim", sonHamle: null, cevapladim: false,
-    rakipCevapladi: false, gosterimFark: -500, bitisMs: 14000, yeniAn: Date.now(), ilk: true };
+    rakipCevapladi: false, gosterimFark: -500, bitisMs: 14000, yeniAn: Date.now(), ilk: true, rehber: true };
 }
 function durum(st) {
   const simdi = Date.now();
@@ -42,7 +42,7 @@ function durum(st) {
     oyuncular: [oyuncu(st.ben, "Sen", 3), oyuncu(RAKIP, "Deniz Yıldırımoğlu", 2)],
     v4: {
       kontrol: st.kontrol, seri: st.seri, seri_hedef: 3, tur: st.tur, max_tur: 20, notr_seri: 0, notr_max: 5, son: st.son, soru_no: st.soruNo,
-      kullanilan: [], ilk_mac: st.ilk,
+      max_soru: 20, rehber: st.rehber, kullanilan: [], ilk_mac: st.ilk,
       kart: st.faz === "kart" ? { kartlar: st.kartlar.map((k) => ({ k, ben: ORAN_BEN[k] ?? null, rakip: ORAN_RAKIP[k] ?? null })), adim: st.adim,
         gonderilen: st.kontrol === st.ben ? st.gonderilen : null, secilen: null, varsayilan: 50 } : null,
       benim_kategori: st.faz !== "kart" ? st.benimKat : null, rakip_kategori: st.faz !== "kart" ? st.rakipKat : null, oto: st.faz !== "kart" ? st.oto : null,
@@ -99,6 +99,8 @@ const OLC = () => {
     sonucPanel, ozet: ozetOlc,
     yatayTasma: document.documentElement.scrollWidth - window.innerWidth, tasan,
     dikeyTasma: Math.round(document.documentElement.scrollHeight - window.innerHeight), altKenar: Math.round(altKenar), ekran: window.innerHeight,
+    rehber: [...document.querySelectorAll(".d4-rehber")].filter(gorunur).map((e) => { const r = e.getBoundingClientRect(); return { sinif: e.className, metin: e.innerText.replace(/\s+/g, " ").trim(), ust: Math.round(r.top), alt: Math.round(r.bottom), sol: Math.round(r.left), sag: Math.round(r.right), gecH: Math.round(e.querySelector(".d4-rehber-gec")?.getBoundingClientRect().height ?? 0) }; }),
+    zemin: kok ? [...kok.classList].filter((x) => /d4-zemin|sonduello/.test(x)).join(" ") : "",
     kucuk, kesik, metin: (kok?.innerText ?? "").replace(/\s+/g, " ").slice(0, 400),
     cekirdek: document.querySelector(".d4-hat")?.className ?? "",
     kartH: Math.round(document.querySelector(".d4-kart")?.getBoundingClientRect().height ?? 0),
@@ -178,10 +180,16 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     // 02 sonuç: kontrol bende
     st.faz = "sonuc"; st.kontrol = st.ben; st.yeniAn = Date.now(); st.bitisMs = 3000;
     st.sonHamle = hamle(st, { tip: "notr", sonuc: "kontrol_aldi", kontrol_once: null, kontrol_sonra: st.ben, seri_once: 0, seri_sonra: 0 });
-    await an("02-kontrol-sende", (o) => ok("sonuç: KONTROL SENDE + çekirdek bende", (TR ? /KONTROL SENDE/ : /YOU HAVE CONTROL/).test(o.metin) && /d4-hat--ben/.test(o.cekirdek), o.cekirdek));
+    await an("02-kontrol-sende", (o) => {
+      ok("sonuç: KONTROL SENDE + çekirdek bende", (TR ? /KONTROL SENDE/ : /YOU HAVE CONTROL/).test(o.metin) && /d4-hat--ben/.test(o.cekirdek), o.cekirdek);
+      ok("rehber: kontrol değişince 'Tek bilen kontrolü alır' + Geç ≥ 44 px, ekranda", o.rehber.length === 1 && (TR ? /Tek bilen kontrolü alır Geç/ : /The only correct answer takes control Skip/).test(o.rehber[0].metin) && o.rehber[0].gecH >= 44 && o.rehber[0].sol >= 0 && o.rehber[0].sag <= w, JSON.stringify(o.rehber));
+      ok("zemin: kontrol bende → mavi ton", /d4-zemin--ben/.test(o.zemin), o.zemin);
+    });
     // 03 kart 1/2
     st.faz = "kart"; st.tur = 1; st.adim = 0; st.yeniAn = Date.now(); st.bitisMs = 9000; st.gosterimFark = -500; st.sonHamle = null; st.cevapladim = false;
     await an("03-kart-gonder", (o) => ok("kart 1/2: 4 kart + 'Rakibe gönderilecek kategoriyi seç', '?' veri yok", (TR ? /Rakibe gönderilecek kategoriyi seç/ : /Pick a category to send your opponent/).test(o.metin) && /\?/.test(o.metin), o.metin));
+    ok("rehber: kart seçerken 'Kategoriyi sen seçersin'", sonuc[`03-kart-gonder-${etiket}`].rehber.some((x) => (TR ? /Kategoriyi sen seçersin/ : /You pick the category/).test(x.metin)), JSON.stringify(sonuc[`03-kart-gonder-${etiket}`].rehber));
+    ok("rehber açıkken sayaç işliyor (balon akışı durdurmaz)", await s.locator(".d4-sayac").count() === 1);
     ok("1034: onay düğmesi yok", await s.locator(".d4-dugme").count() === 0);
     const istekOnce = istekler.length;
     await s.locator(".d4-kart").first().dblclick();
@@ -201,6 +209,7 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     // 05 bekleyen
     st.kontrol = RAKIP; st.adim = 1; st.gonderilen = null; st.seri = 1;
     await an("05-bekleyen", (o) => ok("bekleyen: RAKİP SEÇİYOR, rakip avatarı aktif, kartlar izleme", (TR ? /RAKİP SEÇİYOR/ : /OPPONENT IS PICKING/).test(o.metin)));
+    ok("zemin: kontrol rakipte → kırmızı ton", /d4-zemin--rakip/.test(sonuc[`05-bekleyen-${etiket}`].zemin), sonuc[`05-bekleyen-${etiket}`].zemin);
     ok("rakip avatarı aktif + kartlar dokunulamaz", await s.locator(".d4-oy--rakip.d4-oy--aktif").count() === 1 && await s.locator(".d4-kart:not(:disabled)").count() === 0);
     // 06 açılış (otomatik seçim)
     st.faz = "cevap"; st.benimKat = "tarih"; st.rakipKat = "muzik"; st.oto = true; st.gosterimFark = 30000; st.yeniAn = Date.now(); st.bitisMs = 47000;
@@ -216,7 +225,16 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     st.faz = "sonuc"; st.kontrol = st.ben; st.seri = 2; st.yeniAn = Date.now(); st.bitisMs = 3000;
     st.sonHamle = hamle(st, { sonuc: "basarili", kontrol_once: st.ben, kontrol_sonra: st.ben, seri_once: 1, seri_sonra: 2 });
     await an("08-son-baski", (o) => ok("2/3: BAŞARILI SALDIRI + SON BASKI", (TR ? /BAŞARILI SALDIRI.*SON BASKI/ : /SUCCESSFUL ATTACK.*FINAL PUSH/).test(o.metin), o.metin), 1600);
+    ok("zemin: 2/3 → gerilim", /d4-zemin--gerilim/.test(sonuc[`08-son-baski-${etiket}`].zemin), sonuc[`08-son-baski-${etiket}`].zemin);
     ok("avatar tepkisi: ben doğru, rakip yanlış", await s.locator(".d4-oy--ben.d4-oy--dogru").count() === 1 && await s.locator(".d4-oy--rakip.d4-oy--yanlis").count() === 1);
+    // 08c 2/3 seride kart fazı → rehber "Bir doğru daha, kazanırsın"; Geç → rehber kapanır
+    { const yedek = { faz: st.faz, sonHamle: st.sonHamle, adim: st.adim, gonderilen: st.gonderilen, tur: st.tur };
+      st.faz = "kart"; st.adim = 0; st.gonderilen = null; st.sonHamle = null; st.yeniAn = Date.now(); st.bitisMs = 9000; st.gosterimFark = -500; st.tur = 3;
+      await an("08c-rehber-seri", (o) => ok("rehber: 2/3 seride 'Bir doğru daha, kazanırsın'", o.rehber.length === 1 && (TR ? /Bir doğru daha, kazanırsın/ : /One more correct to win/).test(o.rehber[0].metin), JSON.stringify(o.rehber)));
+      await s.locator(".d4-rehber-gec").first().click({ timeout: 2000 }).catch(() => {});
+      await s.waitForTimeout(200);
+      ok("Geç → balon kapandı", await s.locator(".d4-rehber").count() === 0);
+      Object.assign(st, yedek); }
     // 09 el değişti (çekirdek rakibe uçar)
     st.soruNo++; st.kontrol = RAKIP; st.seri = 1; st.yeniAn = Date.now();
     st.sonHamle = hamle(st, { sonuc: "el_degisti", kontrol_once: st.ben, kontrol_sonra: RAKIP, seri_once: 2, seri_sonra: 1,
@@ -255,6 +273,8 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     st.yeniAn = Date.now(); st.bitisMs = 14000; st.gosterimFark = -500; st.sonHamle = null;
     await an("11-son-duello", (o) => ok("SON DÜELLO: aynı soru, joker şeridi yok", (TR ? /SON DÜELLO/ : /LAST DUEL/).test(o.metin), o.metin));
     ok("Son Düello'da joker şeridi yok", await s.locator(".d4-arena .m2-skill").count() === 0);
+    ok("zemin: Son Düello final sahnesi", /d4-arena--sonduello/.test(sonuc[`11-son-duello-${etiket}`].zemin), sonuc[`11-son-duello-${etiket}`].zemin);
+    ok("Geç sonrası rehber bir daha çıkmadı", sonuc[`09-el-degisti-${etiket}`].rehber.length === 0 && sonuc[`15-kontrolu-aldin-${etiket}`].rehber.length === 0);
     // 16 maç sonu: Düello özeti (taklit gecmis; ek istek yok)
     const G = (tip, tur, sonuc, k, seri) => ({ tip, tur, sonuc, kontrol_sonra: k, seri_sonra: seri, kategori: "tarih", soru: "Soru", ben_dogru: true, rakip_dogru: false });
     st.gecmis = [G("notr", 0, "kontrol_aldi", st.ben, 0), G("saldiri", 1, "basarili", st.ben, 1), G("saldiri", 2, "basarili", st.ben, 2),

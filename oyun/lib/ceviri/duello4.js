@@ -58,4 +58,8 @@ export default {
   "Kontrol {n} kez el değiştirdi": "Control changed hands {n} times",
   "Son Düello'da bitti": "Ended in the Last Duel",
   "{n}. turda bitti": "Ended in round {n}",
+  // İlk Düello rehberi (1093)
+  "Kategoriyi sen seçersin": "You pick the category",
+  "Tek bilen kontrolü alır": "The only correct answer takes control",
+  "Bir doğru daha, kazanırsın": "One more correct to win",
 };
