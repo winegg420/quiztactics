@@ -72,7 +72,8 @@ const V4_ADIMLAR = [
   { ikon: "duello", baslik: "Nötr soru, tek bilen kontrolü alır", metin: "İkinize aynı soru gelir. Yalnız biriniz bilirse kontrol onda olur." },
   { ikon: "liste", baslik: "Kartlar: rakibe gönder, kendine seç", metin: "Kontrol sende: 4 karttan birini rakibe gönderir, birini kendine seçersin. Her biriniz kendi kategorinizin sorusunu cevaplarsınız." },
   { ikon: "bayrak", baslik: "Üst üste 3 doğru", metin: "Kontrolü al, üst üste 3 doğru yap, düelloyu kazan." },
-  { ikon: "terazi", baslik: "Son Düello", metin: "Nötr ve saldırı soruları birlikte sayılır; 20. soru Son Düello: aynı soru, joker yok, tek bilen kazanır." },
+  { ikon: "terazi", baslik: "Son Düello", metin: "Nötr ve saldırı soruları birlikte sayılır; 20. soru Son Düello: aynı soru, joker yok, tek bilen kazanır.",
+    not: "Son Düello en çok 10 tur sürer; kazanan çıkmazsa maç berabere biter ve iki oyuncu ödülün yarısını alır." },   // 1102
   { ikon: "yariyari", baslik: "Jokerler", metin: "50:50, Ek Süre, İkinci Şans, Zaman Baskısı ve Soru Değiştir. Soru başına en çok 1 joker; Son Düello'da joker yok." },
 ];
 

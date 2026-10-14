@@ -680,5 +680,7 @@ export function d4AltYazi(d, c) {
   if (d.durum !== "bitti" || !h || h.surum !== 4) return null;
   const kazandim = d.kazanan === d.ben;
   if (h.sonuc === "son_kazandi") return kazandim ? c("Son Düello'yu sen bildin") : c("Son Düello'yu rakip bildi");
+  // 1102: Son Düello sınırında tek bilen çıkmadı → berabere, iki taraf ödülün yarısını alır
+  if (!d.kazanan && d.v4?.berabere) return c("Son Düello'da kazanan çıkmadı — ödülün yarısı ikinize");
   return kazandim ? c("3/3 seri — düello senin") : c("Rakip 3/3 seriye ulaştı");
 }

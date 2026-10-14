@@ -48,6 +48,8 @@ export default {
   "Sorular": "Questions",
   "Son Düello'yu sen bildin": "You won the Last Duel",
   "Son Düello'yu rakip bildi": "Your opponent won the Last Duel",
+  "Son Düello'da kazanan çıkmadı — ödülün yarısı ikinize": "No winner in the Last Duel — you both get half the reward",
+  "Son Düello en çok 10 tur sürer; kazanan çıkmazsa maç berabere biter ve iki oyuncu ödülün yarısını alır.": "The Last Duel lasts at most 10 rounds; if there is no winner, the match ends in a draw and both players get half the reward.",
   "3/3 seri — düello senin": "3/3 streak — the duel is yours",
   "Rakip 3/3 seriye ulaştı": "Your opponent reached a 3/3 streak",
   // Maç sonu Düello özeti (11 Eki 2026)
