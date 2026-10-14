@@ -24,6 +24,9 @@ export function iosSekmesi() {
 
 export async function pushDurumu() {
   if (!pushDestekleniyor()) return "desteklenmiyor";
+  // Yalnız uygulama (Aşama 5): izin yalnız kurulu uygulamada istenir; tarayıcı sekmesinde (geliştirici
+  // geçişi dahil) açılmaz. Service worker beklenmeden döner.
+  if (!uygulamaIcindeMi()) return "uygulama-disi";
   if (Notification.permission === "denied") return "engelli";
   const kayit = await navigator.serviceWorker.ready;
   const abone = await kayit.pushManager.getSubscription();
@@ -31,6 +34,8 @@ export async function pushDurumu() {
 }
 
 export async function bildirimleriAc() {
+  // Yalnız uygulama (Aşama 5): tarayıcı sekmesinde izin İSTENMEZ (iOS 16.4+ zaten yalnız ana ekran uygulamasına verir).
+  if (!uygulamaIcindeMi()) throw new Error(tt("Bildirimler yalnız uygulamada açılır."));
   if (!pushDestekleniyor()) throw new Error(tt("Bu tarayıcı bildirimleri desteklemiyor."));
   const izin = await Notification.requestPermission();
   if (izin !== "granted") throw new Error(tt("Bildirim izni verilmedi."));

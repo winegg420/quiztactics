@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { QtKart, QtIkon, QtDugme } from "../tasarim/index.js";
 import "../tasarim/ekranlar/l-kart.css";
 import { pushDestekleniyor, bildirimleriAc, iosSekmesi } from "../lib/push.js";
+import { uygulamaIcindeMi } from "../../src/lib/uygulamaKipi.js";
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
 
@@ -29,7 +30,8 @@ export default function BildirimIzniSor({ serit = false }) {   // serit: ana say
   const [hata, setHata] = useState(null);
 
   useEffect(() => {
-    if (!pushDestekleniyor()) {
+    // Yalnız uygulama (Aşama 5): tarayıcı sekmesinde izin kartı çıkmaz (yalnız iPhone'da ana ekran ipucu).
+    if (!pushDestekleniyor() || !uygulamaIcindeMi()) {
       if (iosSekmesi() && !oku(DEPO_IOS)) setDurum("ios");
       return;
     }

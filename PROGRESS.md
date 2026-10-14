@@ -12282,3 +12282,12 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **İstemci:** `KurulumSayfasi` iOS/macOS Safari/uygulama içi tarayıcıda daveti sunucuya bırakır (Android Chrome ve masaüstü Chromium'da gerekmez — ortak depo), sekme başına bir kez; `/davet/:kod`'da kod kartı + "Kodu kopyala" + "Arkadaşlar › Davet koduyla ekle" ipucu (katman iii mevcut alan). `oyun/components/DavetEslestirme.jsx` (Layout, kurulum bitince): uygulama içinde + hesap ≤48 sa + yerel kod yoksa + oturumda bir kez → bul → QtModal "X seni davet etti, doğru mu?" Evet/Hayır → cevapla → bildirim. `uygulamaKipi.js › cihazTipi()`. EN `ceviri/kurulum.js`.
 - Test: build temiz · `araclar/davet-eslestirme-testi.mjs` (taklit) 22/22: iOS kod/referans kaydı ve gövdesi, kod kartı, yenilemede tekrar yok, Android'de sunucuya yazmama + yerel saklama, Evet/Hayır akışı (bul gövdesi ios, düğmeler ≥44 px, cevapla gövdesi, soru kapanır, bildirim), eski hesap / yerel kod var → bul çağrılmaz, boş cevap → soru yok; konsol temiz.
 - Açık: gerçek iPhone'da kurulum → giriş → soru akışı (aynı Wi-Fi'de); mobil veride IP değişebilir → elle kod.
+
+## 2026-10-14 — Yalnız uygulama: Aşama 5 — push yalnız uygulamada
+**Araç:** Claude Code
+**Neden:** Bildirim izni tarayıcı sekmesinde istenmesin; iOS 16.4+ web push'u zaten yalnız ana ekran uygulamasına veriyor.
+- `oyun/lib/push.js`: `pushDurumu` uygulama dışında SW'yi beklemeden "uygulama-disi" döner; `bildirimleriAc` uygulama dışında `Notification.requestPermission` ÇAĞIRMADAN hata fırlatır ("Bildirimler yalnız uygulamada açılır."). Geliştirici geçişi (?dev/localhost) izni açmaz.
+- `BildirimIzniSor`: tarayıcıda izin kartı/şeridi yok (iPhone sekmesinde yalnız "ana ekrana ekle" ipucu, eskisi gibi).
+- `ProfilePage`: "uygulama-disi" → anahtar pasif + açıklama; iOS ana ekran uygulamasında PushManager yoksa (iOS < 16.4) "Bildirimler için iOS 16.4 veya üstü gerekir." EN `ceviri/kurulum.js`.
+- Test: build temiz · `araclar/push-kapisi-testi.mjs` (taklit Notification/PushManager + Supabase; qt.test güvenli köken sayılır) 13/13: tarayıcıda (?dev) ana sayfa izin şeridi yok, Profil "yalnız uygulamada" + anahtar pasif, zorla tıklamada bile requestPermission 0 · Android ve iOS uygulamasında şerit var, Profil "izin isteyecek", anahtar → requestPermission 1; konsol temiz. Gerileme: uygulama-kapisi 41/41, davet-eslestirme 22/22, eposta-kod 25/25.
+- Not: kapı varken tarayıcıda oyun zaten açılmıyor; bu koruma geliştirici geçişi ve ileride kapıyı aşabilecek her yol için ikinci katman.

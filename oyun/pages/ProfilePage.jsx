@@ -44,6 +44,7 @@ import {
 import { DILLER, tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
 import { HesapGuvenceKarti, misafirMi } from "../components/HesapGuvence.jsx";
+import { iosMu } from "../../src/lib/uygulamaKipi.js";
 import CikisOnayi from "../components/CikisOnayi.jsx";
 import {
   QtAnahtar,
@@ -206,12 +207,16 @@ export default function ProfilePage() {
   // Paket 19 §F: kapalıysa NEDEN kapalı olduğunu söyler (engelli / iPhone ana ekran / henüz sorulmadı).
   const bildirimAciklama = bildirim === "acik"
     ? tt("Maç sırası ve davetler için haber veririz.")
+    : bildirim === "uygulama-disi"
+      ? tt("Kapalı. Bildirimler yalnız uygulamada açılır.")
     : bildirim === "engelli"
       ? tt("Kapalı. Tarayıcı bildirimleri engellemiş; site ayarlarından izin ver.")
       : bildirim === "desteklenmiyor"
         ? (iosSekmesi()
           ? tt("Kapalı. iPhone'da önce Paylaş → Ana Ekrana Ekle, sonra uygulamayı oradan aç.")
-          : tt("Kapalı. Bu tarayıcı bildirimleri desteklemiyor."))
+          : iosMu()   // ana ekran uygulaması ama iOS 16.4 öncesi: Apple web push vermiyor
+            ? tt("Kapalı. Bildirimler için iOS 16.4 veya üstü gerekir.")
+            : tt("Kapalı. Bu tarayıcı bildirimleri desteklemiyor."))
         : pushDestekleniyor() && Notification.permission === "granted"
           ? tt("Kapalı. Açmak için dokun.")
           : tt("Kapalı. Açınca tarayıcı izin isteyecek.");
@@ -386,7 +391,7 @@ export default function ProfilePage() {
               acik={bildirim === "acik"}
               etiket={tt("Bildirimler")}
               aciklama={bildirimAciklama}
-              devreDisi={bildirimCalisiyor || bildirim === "engelli" || bildirim === "desteklenmiyor"}
+              devreDisi={bildirimCalisiyor || bildirim === "engelli" || bildirim === "desteklenmiyor" || bildirim === "uygulama-disi"}
               onDegis={bildirimDegistir}
             />
             {bildirimHata && <p className="qt-pf-hata" role="alert">{bildirimHata}</p>}

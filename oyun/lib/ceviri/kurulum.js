@@ -65,5 +65,10 @@ export default {
   "{ad} kişisine arkadaşlık isteği gönderildi.": "Friend request sent to {ad}.",
   "{ad} adlı oyuncunun daveti hesabına bağlandı.": "{ad}'s invite is now linked to your account.",
   "Davet bu hesaba bağlanamadı.": "The invite couldn't be linked to this account.",
-  "Davet işlenemedi. Arkadaşlar sayfasından davet koduyla ekleyebilirsin.": "The invite couldn't be processed. You can add them with the invite code on the Friends page.",
+  // ——— Aşama 5: push yalnız uygulamada (push.js, ProfilePage) ———
+  "Bildirimler yalnız uygulamada açılır.": "Notifications can only be turned on in the app.",
+  "Kapalı. Bildirimler yalnız uygulamada açılır.": "Off. Notifications can only be turned on in the app.",
+  "Kapalı. Bildirimler için iOS 16.4 veya üstü gerekir.": "Off. Notifications need iOS 16.4 or later.",
+
+  "Davet işlenemedi. Arkadaşlar sayfasından davet koduyla ekleyebilirsin.":"The invite couldn't be processed. You can add them with the invite code on the Friends page.",
 };
