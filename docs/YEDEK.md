@@ -41,3 +41,6 @@ node araclar/yedek-al.mjs
   - Policy 130/133: 3 storage policy'si `storage.foldername` olmadığı için yerelde kurulamadı. Gerçek Supabase yığınında (`supabase start`) bu fark beklenmez.
   - Auth/storage verisi test iskeletine (text kolonlu) yüklendi; satır sayıları eşleşti, tür/kısıt doğrulaması yapılmadı.
 - Sonuç: yedek içeriği eksiksiz ve yüklenebilir; tam birebir şema doğrulaması Supabase yığını (Docker) gerektirir.
+
+### 14 Eki 2026 notu
+Şifre döndürüldükten sonra yerel yedek ve pg-mini bağlantısı doğrulandı. Actions iş akışı, `SUPABASE_DB_URL` secret'ı güncellenene kadar kimlik doğrulama hatasıyla kırılır; secret güncellenince `gh workflow run veritabani-yedek.yml` ile yeniden doğrula.

@@ -12201,3 +12201,8 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - Eski sızmış sır (9 Eyl öncesi) 8 migration dosyasında ve git geçmişinde duruyor (8 commit, depo herkese açık); bu proje için artık geçersiz. Eski hub projesinde (zfpnxzybcpkxsotwdsey) hâlâ geçerli olabilir.
 - Karar: DB parolası değişti → `.env.local`'deki `SUPABASE_DB_PASSWORD` geçersiz; araçlar yeni parolayla çalışır (bkz. rapor). `pg-mini`: yanlış parolada sonsuz asılma düzeltildi (bağlantı kapanınca hata verir).
 - Açık: GitHub Actions `SUPABASE_DB_URL` secret'ı (veritabani-yedek.yml, testler.yml) yeni parolayla güncellenmeli; 14 Eki yedeği (`sunucu_gizli.ndjson`) eski sırları içerir (artık ölü).
+
+## 2026-10-14 — DB şifresi değişimi sonrası doğrulama + yedek
+- `.env.local` yeni şifreyle pg-mini üzerinden bağlandı (SELECT 1 başarılı).
+- Yeni yedek alındı (210 tablo, 269 storage dosyası, 82,2 MB); OneDrive `quiztactics-yedek/2026-10-14-2` kopyası dosya sayısı/boyut birebir eşit (481 dosya).
+- GitHub Actions `veritabani-yedek.yml` elle tetiklendi: "password authentication failed for user postgres" ile BAŞARISIZ → `SUPABASE_DB_URL` secret'ı hâlâ eski/yanlış şifreyle. Secret yeniden girilmeli (özel karakterler URL-kodlu olmalı).
