@@ -1580,7 +1580,8 @@ function KasaMac({ id }) {
         <KasaSkor d={d} ben={ben} rakip={rakip} c={c}
                   puanGoster={anAc && !anAc.varis ? { [anAc.kim]: anAc.eskiPuan } : rk?.ac ? { rakip: rk.eskiPuan } : {}}
                   parla={anAc?.varis ? anAc.kim : null}
-                  orta={d.faz === "cevap" || d.faz === "sonuc" ? miniKadran : (
+                  // 14 Eki (Paket A): giriş sahnesi (opak) sürerken ortada HEDEF kalır — mini sandık 3-2-1 ortasında değil, sahne kalkınca çizilir
+                  orta={!girisAktif && (d.faz === "cevap" || d.faz === "sonuc") ? miniKadran : (
                     <span className="ks-skor-hedef">{c("HEDEF")}<b className="qt-sayi">{Number(d.hedef ?? 80)}</b></span>
                   )} />
         {/* 957: maç içi tepki (kapalı modda hiçbir şey çizmez) */}
