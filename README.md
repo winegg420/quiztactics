@@ -5,7 +5,7 @@ Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık
 ## Oyun
 
 - ⚡ **Klasik** — 1v1 bilgi maçı. Süre içinde doğru cevaplayan herkes aynı puanı alır (hız bonusu yok); jokerlerle desteklenir. **Dereceli** (lig puanı + tam coin) ya da **Serbest** (lig puanı yok, coin %50).
-- 🥊 **Düello v4** — Taktik maçı. Kimin doğru bildiği kontrolü belirler; kontrol sahibi rakibe kategori gönderir, ardışık doğrularla seriyi 3/3'e çıkaran kazanır. Toplam 20. soru (nötr ve saldırı birlikte) jokersiz **Son Düello**. İlk Düello'da kısa rehber balonları.
+- 🥊 **Düello v4** — Taktik maçı. Kimin doğru bildiği kontrolü belirler; kontrol sahibi rakibe kategori gönderir, ardışık doğrularla seriyi 3/3'e çıkaran kazanır. Toplam 20. soru (nötr ve saldırı birlikte) jokersiz **Son Düello**; en çok 10 soru sürer, kazanan çıkmazsa maç berabere biter ve iki oyuncu ödülün yarısını alır. İlk Düello'da kısa rehber balonları.
 - 💰 **Ortak Hazine** — İki oyuncu ortak hazineyi büyütür; tek başına bilen **AÇ** (puanı al) ya da **DEVAM** (hazine ×2) der. Hedef 80 puan; DEVAM ile kazanılan Savunma Hakkı. Karar anında hazine büyüdükçe kalp atışı hızlanır; ilk Hazine maçında kısa rehber balonları.
 - 🌙 **Turnuva** — Günde 5 seans, TSİ **10:00 · 14:00 · 18:00 · 20:00 · 24:00**; eleme usulü, eşitlikte Altın Soru.
 - 🏅 **Lig** — Bronz → Gümüş → Altın → Elmas → Efsane; 25 kişilik gruplar, ilk 5 yükselir, son 5 düşer, pazartesi 00:00 (TSİ) sıfırlanır.
@@ -18,6 +18,7 @@ Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık
 - 👀 **Rakibin şıkkı ve ortalama cevap süren** — Klasik, Saf Bilgi ve Ortak Hazine'de soru kapanınca rakibin hangi şıkkı seçtiği küçük avatarıyla görünür; maç sonunda "Ort. cevap 6,2 sn · rakip 8,1 sn".
 - 👥 Arkadaşlar, meydan okuma, rövanş, grup maçı, saf bilgi, hatalarım, görevler, dükkân ve koleksiyon.
 - 🤖 **Claude API ile soru üretimi** — Sorular Edge Function ile üretilir ve veritabanına kaydedilir.
+- 📤 **Paylaş** — Maç sonu (Klasik, Düello, Ortak Hazine) ve Arkadaşlar › davet bölümünde sistem paylaşım menüsü (Instagram, TikTok, WhatsApp …): 1080×1920 maç sonucu ya da davet kartı + davet kodu/bağlantısı; paylaşım yoksa bağlantı panoya kopyalanır.
 - 📲 **Yalnız uygulama** — Oyun kurulu uygulamada oynanır (iPhone: Safari › Paylaş › Ana Ekrana Ekle · Android/masaüstü Chrome-Edge: Uygulamayı yükle · macOS Safari: Dock'a Ekle). quiztactics.com tarayıcıda tanıtım + kurulum sayfasıdır; Firefox gibi kurulum desteklemeyen tarayıcılara telefon için QR gösterilir. Tarayıcıda açılan davet linki kurulumdan sonra uygulamada "X seni davet etti, doğru mu?" diye sorulur; bildirim izni yalnız uygulamada istenir (iPhone: iOS 16.4+).
 - 🔐 Google / Facebook / X ile giriş, e-posta kodu (uygulama içinde girilir) ve misafir oyun.
 
