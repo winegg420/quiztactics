@@ -320,6 +320,9 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
             const ucretsiz = (tur === "elli" && durum.ucretsiz_elli_kaldi) || bedavaMi;
             const engel = neden(tur);
             const adet = envanter[tur] ?? 0;
+            // Rozet kuralı bütün jokerlerde aynı: kullanılabilir adet (stok; serbest Klasik'te ücretsiz 50:50 hakkı +1).
+            // Eskiden ücretsiz 50:50 rozeti gizliyordu (site testi 3. tur, madde 3).
+            const rozetAdedi = adet + (tur === "elli" && durum.ucretsiz_elli_kaldi ? 1 : 0);
             const satilik = satinAlinabilir(tur);
             const fiyat = Number(fiyatlar?.[tur] ?? 0);
             const kullanildi = (turDoldu(tur) && !bedavaMi) || soruIcindeKullanildi(tur);
@@ -344,7 +347,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
                 rozet={<SkillRozeti tur={tur} boyut={34} />}
                 ad={bilgi.ad}
                 alt={bilgi.etkiDegeri != null ? tt(tur === "sure" ? "+{0} sn" : "-{0} sn", { 0: bilgi.etkiDegeri }) : undefined}
-                adet={serbestMod || ucretsiz || fiyatRozeti ? undefined : adet}
+                adet={serbestMod || bedavaMi || fiyatRozeti ? undefined : rozetAdedi}
                 fiyat={fiyatRozeti ? fiyat : undefined}
                 durum={durumAdi}
                 className={`${parlayan === tur ? "m1-skill--parla" : ""} ${calisan === tur ? "qt-skill--calisiyor" : ""}${bedavaMi ? " m1-skill--bedava" : ""}`}

@@ -656,7 +656,7 @@ const tonTurnuva = () => {
 };
 
 /** Yeni soru ekrana geldi — soru kartı görünür olduğu karede çağır. */
-export function sesSoruGeldi() { kanca("soru"); cal("soru_geldi", tonSoruGeldi); }
+export function sesSoruGeldi() { rakipCevapBekleyeniIptal(); kanca("soru"); cal("soru_geldi", tonSoruGeldi); }
 
 /** Soru/tur geçişi — geçiş animasyonu BAŞLARKEN çağır (whoosh ~0.37 sn). */
 export function sesTurGecis() { cal("tur_gecis", tonTurGecis); }
@@ -746,7 +746,18 @@ export function sesVsAni() { cal("vs_ani", tonTurnuva); }
 export function sesKategoriSecildi() { cal("kategori_secildi", kisaTon(880)); }
 
 /** Rakip cevabını verdi (sen hâlâ düşünürken) — soru başına bir kez. */
-export function sesRakipCevapladi() { cal("rakip_cevapladi", kisaTon(1046, "sine")); }
+// Rakip son cevabı verdiyse soru hemen ilerler: rakip_cevapladi ile soru_geldi üst üste çalmasın (site testi 3. tur, madde 2).
+// Ses RAKIP_SES_BEKLE_MS bekler; bu sürede soru_geldi gelirse (yeni soru) bekleyen rakip sesi hiç çalmaz. Bütün modlarda ortak.
+const RAKIP_SES_BEKLE_MS = 300;
+let rakipSesZamanlayici = null;
+function rakipCevapBekleyeniIptal() { if (rakipSesZamanlayici) { clearTimeout(rakipSesZamanlayici); rakipSesZamanlayici = null; } }
+export function sesRakipCevapladi() {
+  rakipCevapBekleyeniIptal();
+  rakipSesZamanlayici = setTimeout(() => {
+    rakipSesZamanlayici = null;
+    cal("rakip_cevapladi", kisaTon(1046, "sine"));
+  }, RAKIP_SES_BEKLE_MS);
+}
 
 /** Dükkânda satın alma başarılı. */
 export function sesSatinAlma() { cal("satin_alma", tonCoin); }

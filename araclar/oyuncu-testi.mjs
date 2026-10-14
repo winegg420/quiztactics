@@ -126,6 +126,14 @@ await baglam.addInitScript(() => {
 // Test tarayıcısı ?dev=1 ile aynı geliştirici geçişini alır (localhost zaten serbest).
 await baglam.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } });
 if (DIL) await baglam.addInitScript((dil) => { try { localStorage.setItem("bildim_dil", dil); } catch { /* yok */ } }, DIL);
+// Ses tanısı (site testi 3. tur): bd_ses_tani=1 → sayfa __sesKayit'ını düzenli olarak buraya iletir; sonda
+// rakip_cevapladi ile soru_geldi aralığı ölçülür (300 ms içinde üst üste çalmamalı).
+let sesKayitSon = [];
+await baglam.exposeFunction("__sesIlet", (j) => { try { sesKayitSon = JSON.parse(j); } catch { /* tanı kritik değil */ } });
+await baglam.addInitScript(() => {
+  try { sessionStorage.setItem("bd_ses_tani", "1"); } catch { /* yok */ }
+  setInterval(() => { try { window.__sesIlet(JSON.stringify(window.__sesKayit || [])); } catch { /* yok */ } }, 400);
+});
 const s = await baglam.newPage();
 
 // Sayaç kaydını fazlara ayırıp çözümler: gecikme = ilk görünüş (sunucu saatine çevrilmiş) −
@@ -1106,6 +1114,14 @@ try {
   if (ULKE) await sorgu(`update profiles set ulke = ${alintila(eskiUlke)} where id = ${alintila(BEN)}`).catch((e) => console.log("profil ülkesi geri alınamadı:", e.message));
   if (DIL) await sorgu(`update profiles set dil = ${alintila(eskiDil)} where id = ${alintila(BEN)}`).catch((e) => console.log("profil dili geri alınamadı:", e.message));
   await db.kapat();
+}
+
+{
+  const rakip = sesKayitSon.filter((x) => x.rol === "rakip_cevapladi");
+  const soru = sesKayitSon.filter((x) => x.rol === "soru_geldi");
+  const ustuste = rakip.filter((r) => soru.some((q) => Math.abs(q.t - r.t) <= 300));
+  console.log(`\n[ses tanısı] rakip_cevapladi: ${rakip.length} · soru_geldi: ${soru.length} · 300 ms içinde üst üste: ${ustuste.length}`);
+  if (ustuste.length) hatalar.push(`rakip_cevapladi ${ustuste.length} kez soru_geldi ile 300 ms içinde çaldı`);
 }
 
 console.log("\n==== SONUÇ ====");
