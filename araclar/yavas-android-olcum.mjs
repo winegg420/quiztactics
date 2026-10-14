@@ -135,7 +135,8 @@ async function olc(s, bayt, yol) {
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
 const sonuc = { tarih: new Date().toISOString(), adres: ADRES, ag: AG, cpu: 6, ekranlar: {}, maclar: {} };
 try {
-  for (const e of ARG.yalniz_mac ? [] : EKRANLAR) {
+  const SECILI = typeof ARG.sayfa === "string" ? ARG.sayfa.split(",") : null;   // --sayfa=ana,modlar
+  for (const e of ARG.yalniz_mac ? [] : EKRANLAR.filter((x) => !SECILI || SECILI.includes(x.kod))) {
     const b = await baglamAc(tarayici);
     const { s, bayt } = await sayfaAc(b);
     const soguk = await olc(s, bayt, e.yol);
