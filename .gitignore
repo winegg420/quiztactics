@@ -84,3 +84,16 @@ android/app/release/
 *.aab
 *.apk
 *.idsig
+
+# Gizli anahtar envanteri (14 Eki 2026): imza/servis kimlik dosyaları ve özel anahtarlar repoya girmez
+key.properties
+keystore.properties
+android/key.properties
+google-services.json
+service-account*.json
+*-service-account*.json
+*.pem
+*.p8
+*.p12
+*.pfx
+.npmrc
