@@ -473,6 +473,7 @@ export default function ProfilePage() {
             <QtListe etiket={tt("Hesap")}>
               <QtListeSatiri as={Link} to="/gizlilik" ikon="kalkan" baslik={tt("Gizlilik politikası")} ok />
               <QtListeSatiri as={Link} to="/kosullar" ikon="liste" baslik={tt("Kullanım koşulları")} ok />
+              <QtListeSatiri as={Link} to="/hesap-sil" ikon="cop" baslik={tt("Hesap silme")} ok />
             </QtListe>
             {/* Paket 42 A: çıkış geri alınabilir — ikincil */}
             <QtDugme tur="ikincil" ikon="cikis" tamGenislik onClick={() => setCikisOnay(true)}>

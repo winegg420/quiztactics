@@ -90,6 +90,7 @@ const GorunumPage = tembelYukle(() => import("../oyun/pages/GorunumPage.jsx"));
 // Yasal metinler giriş duvarının ÖNÜNDE olmalı (Play Store + reklam ağları).
 const GizlilikPage = tembelYukle(() => import("../oyun/pages/GizlilikPage.jsx"));
 const KosullarPage = tembelYukle(() => import("../oyun/pages/KosullarPage.jsx"));
+const HesapSilPage = tembelYukle(() => import("../oyun/pages/HesapSilPage.jsx"));
 // Üretim akışından bağımsız, menüde görünmeyen avatar görsel laboratuvarı.
 const AvatarLabPage = tembelYukle(() => import("../oyun/pages/AvatarLabPage.jsx"));
 const AvatarLabV2Page = tembelYukle(() => import("../oyun/pages/AvatarLabV2Page.jsx"));
@@ -167,7 +168,7 @@ export default function BildimApp() {
       pathname.startsWith("/premium-onizleme") || pathname.startsWith("/tasarim-onizleme") || pathname.startsWith("/gorsel-revizyon") || pathname.startsWith("/lig-sahne-onizleme") || pathname.startsWith("/duello-onizleme") ||
       pathname.startsWith("/insan-prototip") || pathname.startsWith("/preview/") || pathname.startsWith("/tasarim-yonleri") ||
       pathname.startsWith("/tasarim-sistemi") || pathname.startsWith("/kozmetik-onizleme") || pathname.startsWith("/mac-sonu-onizleme") || pathname.startsWith("/ekran-revizyon-onizleme"))) ||
-    pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar");
+    pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar") || pathname.startsWith("/hesap-sil");
 
   if (!supabaseHazir && !bagimsizModul) {
     return (
@@ -204,6 +205,7 @@ export default function BildimApp() {
       <Routes>
         <Route path="/gizlilik" element={<GizlilikPage />} />
         <Route path="/kosullar" element={<KosullarPage />} />
+        <Route path="/hesap-sil" element={<HesapSilPage />} />
         {/* Dondurulmuş (22 Eyl 2026): meydan prototipi; varlıkları varliklar-dondurulmus/meydan/. Geri açma: MEYDAN_ACIK + klasörü public/meydan/ olarak geri taşı. */}
         <Route path="/insan-prototip" element={<SahipKapisi>{MEYDAN_ACIK ? <HazirInsanPrototipi /> : <BulunamadiPage kapaliMod kapaliOzellik />}</SahipKapisi>} />
         <Route path="/preview/avatar-lab" element={<SahipKapisi><AvatarLabPage /></SahipKapisi>} />

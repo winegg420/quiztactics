@@ -113,3 +113,9 @@
   .g-yasal-ust .qt-marka-yazi { display: none; }
   .g-yasal-ust .qt-marka { min-width: var(--qt-dokunma); justify-content: center; }
 }
+
+/* Yasal sayfalar: numaralı adımlar ve TR/EN seçici (giriş yapmadan da görünür). */
+.g-yasal-metin ol { margin: 0 0 var(--qt-b-3); padding-left: var(--qt-b-5); }
+.g-yasal-metin ol li { margin-bottom: var(--qt-b-2); }
+.g-yasal-dil { display: flex; align-items: center; gap: var(--qt-b-2); }
+.g-yasal-ust { flex-wrap: wrap; }

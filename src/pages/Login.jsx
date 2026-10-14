@@ -419,6 +419,8 @@ export default function Login() {
               <a href="/gizlilik">{ceviri("Gizlilik politikası")}</a>
               <span aria-hidden="true">·</span>
               <a href="/kosullar">{ceviri("Kullanım koşulları")}</a>
+              <span aria-hidden="true">·</span>
+              <a href="/hesap-sil">{ceviri("Hesap silme")}</a>
             </nav>
           </section>
         </main>

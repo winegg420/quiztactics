@@ -25,6 +25,7 @@ const SAYFA_ADI = {
   calisma: "Hatalarım",
   gizlilik: "Gizlilik Politikası",
   kosullar: "Kullanım Koşulları",
+  "hesap-sil": "Hesap silme",
 };
 
 // Kendi başlığını kendisi koyan geliştirici/önizleme sayfaları: dokunulmaz.

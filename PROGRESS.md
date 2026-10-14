@@ -12152,3 +12152,12 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - `Login.jsx › girisHatasi`: geçersiz e-posta, e-posta gönderilemedi, kayıt kapalı eşlemeleri eklendi (ham İngilizce mesaj sızmasın); EN çeviri `ceviri/temel.js`.
 - Auth e-posta şablonları ve Redirect URL listesi repoda YOK (`supabase/config.toml` yönetmiyor) → panelden elle bakılacak.
 - Doğrulama: build temiz, localhost'ta giriş ekranında e-posta alanı görünüyor. Gerçek kayıt/mail testi Ida'da.
+
+## 2026-10-14 — Gizlilik politikası güncellendi + /hesap-sil sayfası (Google Play / Meta için)
+- **Yeni sayfa `/hesap-sil`** (`oyun/pages/HesapSilPage.jsx`): girişsiz açılır (`BildimApp › bagimsizModul`), TR/EN. Üç bölüm: uygulama içi (Profil › Ayarlar › "Hesabımı sil" → takma adı yaz → onay; RPC `hesabimi_sil`), e-posta ile (kayıtlı adresten info@quiztactics.com, konu "Hesap silme", 30 gün), silinen/saklanan veri (migration 046/117/620/630'a göre).
+- **`/gizlilik` güncellendi** (adres aynı): veri sorumlusu satırı, Google/Facebook/misafir girişi, Sentry (hata izleme; IP/çerez yok, e-posta/UUID temizlenir, replay kapalı), hizmet sağlayıcı listesi (Supabase Frankfurt, Vercel, Resend, Cloudflare, Sentry, Google/Facebook, ödeme açılınca Google Play), "Hakların" (KVKK m.11 + GDPR). Tarih 14 Ekim 2026. **Olay kaydı/analitik YOK → o cümle eklenmedi**; eklenince ayrıca güncellenecek.
+- **Dil seçici:** `oyun/components/YasalDilSecici.jsx` (TR/EN, iki yasal sayfada; localStorage + sayfa yenileme). Çeviri eki `oyun/lib/ceviri/yasal.js` (dil-en.js'e bağlı).
+- **Bağlantılar:** giriş ekranı alt yasal şeridi, Profil › Hesap listesi, Gizlilik sayfası içi; `girisHedefi` BILINEN, `sayfaBasligi`, sitemap (`vite.config.js`). robots.txt'de engel yok.
+- **Uygulama içi hesap silme VAR** (yeni işlev yazılmadı).
+- Doğrulama: build temiz; oturumsuz Chrome'da 390 px, TR ve EN: `/gizlilik` + `/hesap-sil` açılıyor, yatay taşma 0, konsol hatası yok, TR→EN geçişi çalışıyor. Test hesabı açılmadı.
+- **Ida'nın kararı bekleyenler:** veri sorumlusu unvanı/adresi (şahıs mı şirket mi), Sentry/Supabase/Vercel saklama süreleri metne yazılsın mı, e-posta silme talebinin 30 günlük taahhüdü, "ücretli satın alma kapalı" cümlesi (açılınca güncelle), Facebook girişi Meta panelinde bu adresleri ister: `https://quiztactics.com/gizlilik` ve `https://quiztactics.com/hesap-sil`.

@@ -66,7 +66,7 @@ function yayinDosyalari(siteUrl) {
 
       // sitemap.xml — yalnız giriş gerektirmeyen adresler
       if (siteUrl) {
-        const yollar = [["/", "1.0"], ["/gizlilik", "0.3"], ["/kosullar", "0.3"]];
+        const yollar = [["/", "1.0"], ["/gizlilik", "0.3"], ["/kosullar", "0.3"], ["/hesap-sil", "0.3"]];
         yaz(
           "sitemap.xml",
           '<?xml version="1.0" encoding="UTF-8"?>\n' +
