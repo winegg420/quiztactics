@@ -58,6 +58,7 @@ const SARSINTI_MS = varsayilanSure("duello4_sarsinti");   // geçerli: sure() �
 // false → eski akış (kart seç + alt eylem düğmesiyle onayla); sunucu tarafı için docs/duello-v4-kart-akisi-geri-al.sql.
 const KART_TEK_DOKUNUS = true;
 const GEC_SES_MS = 500;   // olay anı bundan çok geride kaldıysa (yenileme/geç katılım) sesi çalınmaz
+const KATEGORI_SES_MIN_MS = 300;   // cevap paneli bundan kısa süre kalacaksa kategori sesi atlanır (soru sesiyle çakışmasın)
 // İlk Düello rehberi (1093): ortak mantık lib/ilkMacRehberi.js + components/RehberBalonu.jsx (Hazine 1094 ile paylaşılır).
 const yuzde = (v) => (v === null || v === undefined ? "?" : aktifDil() === "en" ? `${v}%` : `%${v}`);
 
@@ -280,10 +281,13 @@ export default function Duello4Arena({
       // çizim zorlanır, panel 200 ms'lik saat tikini beklemez. Çok geride kaldıysa (yenileme/geç katılım) çalmaz.
       if (!gosterimBas) { sesKategoriSecildi(); sonra(sure("duello4_acilis"), () => sesSoruGeldi()); return; }
       const bekle = acilisBasMs + sure("duello4_acilis") - (Date.now() + farkMs);
-      if (bekle > 0) {
+      // 15 Eki 2026 (tam tur): faz geç gelip panelin kalkmasına çok az kaldıysa kategori sesi soru sesiyle <100 ms arayla
+      // üst üste çalıyordu → panel en az KATEGORI_SES_MIN_MS daha ekrandaysa kategori sesi, yoksa yalnız soru sesi.
+      if (bekle > KATEGORI_SES_MIN_MS) {
         sesKategoriSecildi();   // panel hâlâ ekranda
         sonra(Math.ceil(bekle) + 1, () => { setAcilisBitti(Date.now()); sesSoruGeldi(); });
-      } else if (bekle > -GEC_SES_MS) sesSoruGeldi();
+      } else if (bekle > 0) sonra(Math.ceil(bekle) + 1, () => { setAcilisBitti(Date.now()); sesSoruGeldi(); });
+      else if (bekle > -GEC_SES_MS) sesSoruGeldi();
     });
     if ((d.faz === "notr" || d.faz === "son") && soruMetni && !sayimSurer) birKez(`soru:${v.soru_no}`, () => sesSoruGeldi());
     if (h && sm) {

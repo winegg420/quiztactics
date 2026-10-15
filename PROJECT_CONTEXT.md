@@ -892,6 +892,8 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   birden yok). **Faz iptali:** maç sayfası her yeni fazda `sesFazDegisti()` çağırır (Hazine her faz, Düello v4 faz/soru, her modda
   `sesSoruGeldi`): önceki fazın bekleyen sesleri (inmekte olan dosya, yedek tonu, ertelenen xp, 300 ms rakip sesi) düşer;
   sonraya kurulan ses `fazdaCal(f)` ile sarılır. AudioContext askıdaysa ses birikmez: 250 ms içinde açılırsa çalar, yoksa atlanır.
+  Oyuncunun dokunuşu (`sesDokunus`) da bekleyen 300 ms rakip sesini düşürür (cevap verdiyse artık düşünmüyor). Düello v4 cevap
+  paneli: panelin kalkmasına ≥ 300 ms (`KATEGORI_SES_MIN_MS`) varsa kategori_secildi + panel kalkınca soru_geldi; daha az kaldıysa yalnız soru_geldi.
   **Hazine tur çizelgesi:** karar → tur_gecis, kalp atışı 600 ms sonra başlar ve son 3 sn'de susar (o süre sayım tiki) · AÇ/DEVAM
   anı → kendi sesi, soru sesi AN BİTİNCE (sayaç o an görünür) · sonuç → doğru/yanlış, rakip yanlışsa 480 ms sonra kısık
   `sesCanKaybi(false)` (faz biterse düşer), altın varışı, büyük artışta XP, anahtar. Sonuç anı KALAN sonuç fazına sığacak kadar
