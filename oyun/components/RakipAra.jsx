@@ -9,6 +9,8 @@ import { sesRakipBulundu } from "../lib/ses.js";
 import { rpcDene } from "../lib/rpcDene.js";
 import { ayar } from "../lib/ayarlar.js";
 import { islemHatasi } from "../lib/hata.js";
+import { onYukleAdla } from "../../src/lib/tembelYukle.js";
+import { macSatiriOnYukle } from "../lib/macOnYukleme.js";
 
 // 370: gizli botun geliş süresi SUNUCUDA, aramaya özgü rastgele (üçgen, eslesme_bot_*_sn).
 // İstemci süreyi bilmez; yalnız en fazla "max + pay" kadar kuyruğu yoklar, sonra son çareye geçer.
@@ -55,6 +57,8 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
   const yoklamaRef = useRef(null);
   // Paket 41 F: "Tekrar dene" aramayı baştan başlatır (effect bu sayaca bağlı)
   const [deneme, setDeneme] = useState(0);
+  // 15 Eki 2026 (perf 2): Klasik/Saf Bilgi maç sayfası paketi arama başlarken iner (Modlar / Meydan girişleri de) — bir kez
+  useEffect(() => { onYukleAdla("mac"); }, []);
   // Ebeveyn her çizimde yeni onBulundu verir (satır içi ok fonksiyonu). Etkiye bağımlılık
   // olursa arama her çizimde baştan başlar, kuyruk kaydı silinip yeniden yazılır ve sunucunun
   // aramaya özgü süresi (migration 370) sıfırlanırdı. Ref ile sabit tutulur.
@@ -77,6 +81,8 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
       if (bittiRef.current) return;
       bittiRef.current = true;
       clearInterval(zamanlayiciRef.current);
+      // 15 Eki 2026 (perf 2): maç sayfasının ilk okuması VS anı sürerken (lib/macOnYukleme.js)
+      macSatiriOnYukle(macId);
       try {
         const { data, error } = await supabase
           .from("matches")

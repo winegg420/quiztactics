@@ -68,6 +68,17 @@ export function tembelYukle(yukleyici) {
 
 let sessizOnYukleme = 0;   // süren önceden indirme sayısı — onların parça hatası sayfayı yenilemez
 
+// 15 Eki 2026 (perf 2): adla önceden indirme — kabuğun tembel sayfası (ör. Klasik maç sayfası) oyun modülünden de
+// (ana sayfa "Oyna" / rakip arama) aynı korumalı yolla (sessiz, parça hatası sayfayı yenilemez) istenebilsin.
+const adliSayfalar = new Map();
+export function onYuklemeKaydet(ad, sayfa) { if (sayfa?.onYukle) adliSayfalar.set(ad, sayfa); }
+export function onYukleAdla(ad) {
+  const sayfa = adliSayfalar.get(ad);
+  if (!sayfa || sayfa.__indi) return;
+  sayfa.__indi = true;   // bir kez yeter (modül bellekte kalır); hata olursa sayfa açılınca normal yol işler
+  sayfa.onYukle();
+}
+
 /**
  * Tembel sayfaları açılıştan sonra BOŞTA önceden indirir (8 Eki 2026). Soğuk açılışın kritik
  * yolunda değiller, ama oyuncu maça girdiği anda ağa muhtaç da kalmazlar: Klasik maç sayfası 7 Eki'de

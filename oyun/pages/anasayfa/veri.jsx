@@ -38,7 +38,7 @@ import "../../tasarim/ekranlar/a-modlar.css";
 import "../../tasarim/ekranlar/a-ortak.css";
 import "../../tasarim/ekranlar/a-kategori-secici.css";
 import "../../tasarim/ekranlar/skill-rozet.css";
-import { tembelYukle, bostaOnYukle } from "../../../src/lib/tembelYukle.js";
+import { tembelYukle, bostaOnYukle, onYukleAdla } from "../../../src/lib/tembelYukle.js";
 import { gorunenAd } from "../../lib/oyuncu.js";
 import { sonModuYaz, sonModuOku } from "../../lib/sonMod.js";
 import { sonBilinenOku, sonBilinenYaz } from "../../lib/sonBilinen.js";
@@ -418,10 +418,12 @@ export function useOyunBaslat() {
     </Suspense>
   );
 
+  // 15 Eki 2026 (perf 2): Klasik/Saf Bilgi maç sayfası paketi mod penceresi açılır açılmaz iner (boşta indirme henüz
+  // başlamadıysa) — eşleşme anında ağ beklenmez. Sessiz/korumalı yol: src/lib/tembelYukle.js › onYukleAdla.
   return {
-    oyna: () => setModAcik("hepsi"),
+    oyna: () => { onYukleAdla("mac"); setModAcik("hepsi"); },
     // Saf Bilgi kısayolu da aynı pencereden geçer: tür her seferinde görünür, sessizce başlamaz.
-    safBilgi: () => setModAcik("saf"),
+    safBilgi: () => { onYukleAdla("mac"); setModAcik("saf"); },
     git: (yol) => navigate(y(yol)),
     katmanlar,
   };

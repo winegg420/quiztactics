@@ -45,6 +45,7 @@ import { tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import { MAC_SECIMI, macSatiriOnYuklemeAl } from "../lib/macOnYukleme.js";
 import PaylasDugmesi from "../components/PaylasDugmesi.jsx";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
 
@@ -63,9 +64,7 @@ const MAC_KAPALI = ["bitti", "iptal", "reddedildi"];
 // aynı his, gizlilik bozulmaz.
 // (bota doğrudan yeni maç, gerçek oyuncuya istek). Ekstra sorgu açmamak için
 // zaten çekilen profil satırına eklendi.
-const MAC_SECIMI = `*,
-  p1:profiles!matches_oyuncu1_fkey(id, gorunen_ad, gorunen_avatar, gorunum, acik_bot),
-  p2:profiles!matches_oyuncu2_fkey(id, gorunen_ad, gorunen_avatar, gorunum, acik_bot)`;
+// Maç satırı seçimi tek kaynak: lib/macOnYukleme.js (eşleşme anındaki ön yükleme aynı satırı okur)
 
 // Tepkiler artık yerel Noto görselleri (bkz. lib/tepkiler.js). Sunucuya giden metin aynı.
 // Balonda gösterim: mesaj bir tepki emojisiyse ikonu, değilse metni çiz.
@@ -246,7 +245,10 @@ export default function MatchPage() {
   const macYukle = useCallback(async () => {
     let data = null;
     try {
-      const sonuc = await supabase
+      // 15 Eki 2026 (perf 2): ilk okuma eşleşme anında başlamış olabilir (lib/macOnYukleme.js; bir kez, hatalıysa ağdan)
+      const onceden = macSatiriOnYuklemeAl(id);
+      const hazir = onceden ? await onceden : null;
+      const sonuc = hazir && !hazir.error && hazir.data ? hazir : await supabase
         .from("matches")
         .select(MAC_SECIMI)
         .eq("id", id)

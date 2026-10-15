@@ -347,7 +347,11 @@ try {
         const { s, bayt, cdp } = await sayfaAc(b);
         s.on("console", (x) => { if (x.type() === "error") konsol.push(x.text().slice(0, 200)); });
         s.on("pageerror", (e) => konsol.push("pageerror: " + String(e.message).slice(0, 200)));
-        const lobi = await olc(s, bayt, m.yol);
+        // --erken (15 Eki 2026, perf 2): lobi tamamen yüklenmeden, mod kartı görünür görünmez maça gir (acele eden oyuncu —
+        // maç sayfası paketi henüz önceden inmemiş olabilir). Lobi ölçümü yapılmaz.
+        const lobi = ARG.erken
+          ? (await s.goto(ADRES + m.yol, { waitUntil: "commit", timeout: 60000 }), await s.locator(".qt-mod--klasik, button").first().waitFor({ timeout: 30000 }).catch(() => {}), { hazir: -1, etkilesim: -1 })
+          : await olc(s, bayt, m.yol);
         await gec(s);
         for (let i = 0; i < 120 && !m.desen.test(s.url()); i++) { if (i % 8 === 0) await m.tetik(s).catch(() => {}); await s.waitForTimeout(600); }
         id = s.url().match(m.desen)?.[1] ?? null;
@@ -360,7 +364,12 @@ try {
         sonuc.maclar[kod] = { lobi, mac_acilis: Math.round((o.ilkMac ?? NaN) - (o.macAdres ?? NaN)), en_uzun_gorev: Math.round(Math.max(0, ...pencere.map((x) => x[1]))),
           tbt: Math.round(pencere.reduce((a, x) => a + Math.max(0, x[1] - 50), 0)), supabase_istek: ist.length,
           istekler: ist.map((k) => `${Math.round(k.bas - o.macAdres)}-${Math.round((k.bit ?? 0) - o.macAdres)} ${k.yol.replace("/rest/v1/rpc/", "rpc:")}`) };
+        // 15 Eki 2026 (perf 2): maç sayfası paketinin indiği an (maç adresine göre; negatif = gezinmeden önce inmiş)
+        sonuc.maclar[kod].paket = await s.evaluate((m0) => performance.getEntriesByType("resource")
+          .filter((e) => /\/assets\/(MatchPage|KasaPage|DuelloPage)-/.test(e.name))
+          .map((e) => `${e.name.split("/").pop().split("-")[0]} ${Math.round(e.startTime - m0)}…${Math.round(e.responseEnd - m0)}`), o.macAdres ?? 0).catch(() => []);
         const r = sonuc.maclar[kod];
+        console.log(`  paket: ${(r.paket ?? []).join(" · ") || "—"}`);
         console.log(`Maç ${kod.padEnd(7)} lobi hazır ${lobi.hazir} (etkileşim ${lobi.etkilesim}) · maç adresi → ilk kare ${r.mac_acilis} ms · en uzun ${r.en_uzun_gorev} · TBT ${r.tbt} · SB ${r.supabase_istek}`);
         // ---- maçın tamamı: oto oyuncu (rastgele şık · Hazine'de etkin ilk karar düğmesi = AÇ) → maç sonu + 10 sn
         // --profil: 3-2-1 penceresinin JS profili (CDP, 1 ms örnek) → .tmp/yavas-mac/<etiket>/<mod>-sayim.cpuprofile
