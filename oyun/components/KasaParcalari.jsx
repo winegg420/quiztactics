@@ -17,6 +17,7 @@ import SayanSayi from "./SayanSayi.jsx";
 import { KasaKasasi, kasaSeviye } from "./KasaEfekt.jsx";
 import SkillRozeti from "./SkillRozeti.jsx";
 import { jokerBilgi } from "../lib/jokerler.js";
+import { aktifDil } from "../lib/dil.js";
 import { QtDugme, QtIkon, sinif } from "../tasarim/index.js";
 
 /** Kasanın sahibi bu ekrana göre: "ben" | "rakip" | "yok". */
@@ -132,7 +133,9 @@ export function KasaSkor({ d, ben, rakip, c, puanGoster = {}, parla = null, orta
     const hayalet = sahip === kim ? Math.min(hedef, puan + Number(d.kasa || 0)) : puan;
     return (
       <div className={sinif("ks-skor-satir", `ks-skor-satir--${kim}`, parla === kim && "ks-skor-satir--parla")}>
-        <span className="ks-skor-ad">{kim === "ben" ? c("SEN") : c("RAKİP")}</span>
+        {/* 15 Eki (Codex taraması): orta şeritte yan sütun ~95–110 px; EN "OPPONENT" + skor sığmayıp "OPPO…" oluyordu → yalnız
+            bu şeritte TR "RAKİP" ile aynı boyda EN "RIVAL" (iki satırlı eski şerit ve diğer ekranlar "OPPONENT" kalır). */}
+        <span className="ks-skor-ad">{kim === "ben" ? c("SEN") : orta && aktifDil() === "en" ? "RIVAL" : c("RAKİP")}</span>
         <span className="ks-skor-cubuk" aria-hidden="true" data-ks-hedef={`skor-${kim}`}>
           <i className="ks-skor-hayalet" style={{ width: `${(100 * hayalet) / hedef}%` }} />
           <i className="ks-skor-dolu" style={{ width: `${(100 * Math.min(hedef, puan)) / hedef}%` }} />
