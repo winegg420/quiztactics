@@ -182,7 +182,7 @@
   min-height: 28px;
   font-size: var(--qt-y-s);
 }
-.qt-dk-kprofil-ad { font-weight: var(--qt-a-siyah); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.qt-dk-kprofil-ad { font-weight: var(--qt-a-siyah); overflow: hidden; overflow-wrap: break-word; line-height: 1.15; }   /* uzun kategori adı (General Knowledge) kesilmez, iki satıra iner */
 .qt-dk-kprofil-yok { grid-column: 3 / -1; justify-self: end; color: var(--qt-metin-soluk); font-weight: var(--qt-a-kalin); }
 .qt-dk-kprofil-yuzde { text-align: right; font-weight: var(--qt-a-siyah); }
 .qt-dk-kprofil--kucuk .qt-dk-kprofil-satir { font-size: var(--qt-y-xs); }

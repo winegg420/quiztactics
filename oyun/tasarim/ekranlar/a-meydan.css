@@ -414,6 +414,8 @@ button.a-meydan-kisi--arkadas:disabled { cursor: default; opacity: 0.75; }
 .a-meydan-izgara-kart:disabled { cursor: default; opacity: 0.45; }
 .a-meydan-izgara-kart--secili { box-shadow: 0 0 0 4px var(--qt-ikinci), 0 4px 0 var(--qt-mod-yazi); }
 .a-meydan-izgara-ad { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1.2; }
+/* 360 px: dört sütunda "RookieBot/LegendBot" kesiliyordu — yazı bir kademe küçülür, kart iç boşluğu daralır */
+@media (max-width: 380px) { .a-meydan-izgara-kart { padding-inline: 2px; } .a-meydan-izgara-ad { font-size: 11px; letter-spacing: -0.02em; } }
 .a-meydan-izgara-bot { position: absolute; top: 4px; left: 4px; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--qt-ikinci-acik); color: var(--qt-ikinci-koyu); }
 
 /* Bitenler satırı (1072, 12 Eki 2026): mod etiketi · sonuç ölçütü · tarih */

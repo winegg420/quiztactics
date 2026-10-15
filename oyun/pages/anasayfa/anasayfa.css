@@ -1210,7 +1210,7 @@ html.as-kaydirmasiz { --qt-zemin: var(--as-s-zemin); }
 .as-a2[data-s4] .as-mod-serit--klasik { height: 96px; min-height: 96px; }
 .as-a2[data-s4] .as-mod-serit--klasik .as-mod-serit-metin b { font-size: 24px; }
 .as-a2[data-s4] .as-mod-serit--klasik .as-figur { width: 84px; height: 84px; }
-.as-a2[data-s3] .as-lk { padding-block: 4px; gap: 0; }
+.as-a2[data-s3] .as-lk { padding-block: 4px; gap: 0; min-height: 44px; box-sizing: border-box; }   /* kart tek dokunma hedefi: 44 px altına inmez */
 .as-a2[data-s3] :is(.as-lk-liste, .as-lk-alt) { display: none; }
 .as-a2[data-s3] .as-lk-alt-kisa {
   display: block; flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right;
@@ -1246,8 +1246,11 @@ html.as-kaydirmasiz { --qt-zemin: var(--as-s-zemin); }
 .as-a2[data-s7] .as-mod-serit--klasik .as-mod-serit-metin b { font-size: 20px; }
 .as-a2[data-s7] .as-mod-serit--klasik .as-mod-serit-metin small { font-size: 12px; }
 .as-a2[data-s7] .as-mod-serit--klasik .as-figur { width: 52px; height: 52px; }
-.as-a2[data-s7] .as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) { height: 46px; min-height: 46px; padding-top: 3px; }
-.as-a2[data-s7] .as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-mod-serit-metin small { -webkit-line-clamp: 1; line-clamp: 1; }
+/* 15 Eki 2026 (tam tur): 360×640'ta kısa satır "…" ile kesiliyordu ("Take control, get …") — 7. kademede iki satır kalır,
+   kart 52 px; tek satıra yalnız 8. kademe (birkaç bant birden açıkken) iner */
+.as-a2[data-s7] .as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) { height: 52px; min-height: 52px; padding-top: 3px; }
+.as-a2[data-s7] .as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-mod-serit-metin small { font-size: 11px; line-height: 1.12; }
+.as-a2[data-s8] .as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-mod-serit-metin small { -webkit-line-clamp: 1; line-clamp: 1; }
 .as-a2[data-s7] .as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-figur { width: 34px; height: 34px; margin-bottom: 3px; }
 .as-a2[data-s6] .as-kisayol-ikon { display: none; }
 .as-a2[data-s6] .as-kisayol-ad { font-size: 12px; text-align: center; }
@@ -1333,6 +1336,8 @@ html.as-kaydirmasiz { --qt-zemin: var(--as-s-zemin); }
 @media (max-width: 1023px) and (max-height: 700px) {
   .as-a2-seritlar .oc { row-gap: 2px; padding: 4px 7px 6px; }
   .oc-gorsel { width: 32px; height: 32px; --oc-olcek: .65; }
+  /* 360×640: küçültülen çerçeve kutunun 8 px altına iniyor, kurdelesi "Sezon · Sv" başlığının üstüne biniyordu */
+  .oc--sezon .oc-gorsel > * { translate: 0 -7px; }
   .sz-ser-tac, .oc-sandik { width: 30px; height: 30px; }
   .oc-cubuk, .oc-parcalar { height: 6px; }
   .oc-durum { min-height: 18px; }

@@ -29,7 +29,7 @@ export default {
   "Herkes": "Everyone",
   "Lige göre": "By league",
   "{0} ligi": "{0} league",
-  "Takma adla ara": "Search by nickname",
+  "Takma adla ara": "Find a player",   // arkadaş arama kutusu: "Search by nickname" 390 px kutuya sığmıyordu
   "En az 2 harf": "At least 2 letters",
   "Seçili: {0}": "Selected: {0}",
   "Arama yapılamadı.": "Search failed.",
