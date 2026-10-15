@@ -351,8 +351,8 @@ try {
           },
         } : null;
         const bitti = await otoOyna(s, Number(ARG.sinir_sn ?? 480) * 1000, profil);
-        const t = await s.evaluate(() => ({ o: window.__olc, ses: window.__sesKayit ?? [], olay: window.__sesOlay ?? [], ctx: window.__sesCtx ?? [] }));
-        Object.assign(r, macOzeti(t, bitti), { konsol });
+        const t = await s.evaluate(() => ({ o: window.__olc, ses: window.__sesKayit ?? [], olay: window.__sesOlay ?? [], ctx: window.__sesCtx ?? [], akis: window.__akis ?? [] }));
+        Object.assign(r, macOzeti(t, bitti), { konsol, akis: t.akis });
         r.video = path.relative(process.cwd(), await s.video()?.path().catch(() => null) ?? "") || null;
         yazdir(kod, r);
       } catch (e) { console.log(`Maç ${kod}: ${e.message}`); sonuc.maclar[kod] = { hata: e.message, konsol }; }
