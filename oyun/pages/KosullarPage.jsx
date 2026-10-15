@@ -7,11 +7,13 @@ import { tt } from "../lib/dil.js";
 import { QtDugme, QtMarka } from "../tasarim/index.js";
 import "../tasarim/ekranlar/g-yasal.css";
 
-// Google Play, reklam ağları ve uygulama içi satın alma için zorunlu:
-// Kullanım Koşulları. Gizlilik politikasıyla aynı biçimde, girişsiz erişilir.
-// Bu bir TASLAKTIR; yayına almadan önce hizmet sağlayıcı kimliği (şahıs mı
-// şirket mi, unvan, adres) ve uygulanacak hukuk maddesi doldurulmalıdır.
-const GUNCELLEME = tt("10 Ekim 2026");
+// Google Play ve uygulama içi satın alma için zorunlu: Kullanım Koşulları.
+// Gizlilik politikasıyla aynı biçimde, girişsiz erişilir. İngilizce karşılıklar
+// oyun/lib/ceviri/kosullar.js içindedir (anahtar = Türkçe metnin kendisi).
+// Hizmet sağlayıcı: şahıs (Ida), şirket yok; kimlik/iletişim Gizlilik'teki
+// veri sorumlusu bilgisiyle aynıdır. Tam ad ve adres Ida'dan gelince burada
+// ve GizlilikPage.jsx'te birlikte eklenir.
+const GUNCELLEME = tt("15 Ekim 2026");
 const ILETISIM = "info@quiztactics.com";
 
 export default function KosullarPage() {
@@ -33,24 +35,25 @@ export default function KosullarPage() {
 
       <h2>{tt("Kısaca")}</h2>
       <p>
-        <b>Quiz Tactics</b> {tt("bilgi yarışması ücretsiz olarak sunulur. Oyun hem kendi adresinde hem de Quiz Tactics oyun portalı içinde oynanabilir; bu koşullar ikisi için de geçerlidir. Oyunu kullanarak bu koşulları kabul etmiş olursun. Kurallara uyduğun sürece hesabın senindir; hile, taciz veya kötüye kullanım durumunda hesabın kısıtlanabilir.")}
+        <b>Quiz Tactics</b> {tt("bilgi yarışması ücretsiz olarak sunulur ve reklam içermez. Oyun yalnızca yüklü uygulamada (Android uygulaması veya ana ekrana eklenen PWA) oynanır; quiztactics.com tanıtım, indirme ve yasal metinler sitesidir. Oyunu kullanarak bu koşulları kabul etmiş olursun. Kurallara uyduğun sürece hesabın senindir; hile, taciz veya kötüye kullanım durumunda hesabın kısıtlanabilir.")}
       </p>
 
       <h2>{tt("1. Taraflar ve kapsam")}</h2>
       <p>
-        {tt("Bu koşullar, hizmeti işleten (bundan sonra \"biz\") ile hizmeti kullanan kişi (bundan sonra \"sen\") arasındaki sözleşmedir. Kapsam, Quiz Tactics sitesi ve portalı ile içindeki tüm oyunlardır.")}
+        {tt("Bu koşullar, hizmeti sunan Quiz Tactics (bundan sonra \"biz\") ile hizmeti kullanan kişi (bundan sonra \"sen\") arasındaki sözleşmedir. Hizmet sağlayıcı bir şirket değil, Ida adlı gerçek kişidir; iletişim:")} <b>{ILETISIM}</b>{tt(". Kapsam, Quiz Tactics uygulaması, quiztactics.com sitesi ve içindeki tüm oyun modlarıdır.")}
       </p>
 
       <h2>{tt("2. Hesap")}</h2>
       <ul>
-        <li>{tt("Hesap açmak için geçerli bir e-posta adresi veya desteklenen bir sosyal hesap gerekir.")}</li>
-        <li>{tt("Hesap açmadan misafir olarak da oynayabilirsin. Misafir hesap yalnız açtığın cihazda ve tarayıcıda durur; profil sayfasından e-posta ya da Google hesabına bağlamazsan çıkış yaptığında, tarayıcı verilerini sildiğinde veya cihaz değiştirdiğinde kaybolur ve geri getirilemez.")}</li>
+        <li>{tt("Hesap açmak için geçerli bir e-posta adresi (giriş kodu e-postayla gelir) veya bir Google hesabı gerekir.")}</li>
+        <li>{tt("Hesap açmadan misafir olarak da oynayabilirsin. Misafir hesap yalnız açtığın cihazda durur; profil sayfasından e-posta ya da Google hesabına bağlamazsan çıkış yaptığında, uygulama verilerini sildiğinde veya cihaz değiştirdiğinde kaybolur ve geri getirilemez.")}</li>
         <li>
           {tt("Hesabının güvenliğinden sen sorumlusun. Hesabını başkasıyla paylaşma; paylaşırsan doğacak sonuçlardan sen sorumlu olursun.")}
         </li>
         <li>{tt("Bir kişinin birden çok hesap açarak sıralamayı etkilemesi yasaktır.")}</li>
         <li>
-          {tt("Hesabını istediğin an profil sayfasından silebilirsin. Silme işlemi geri alınamaz.")}
+          {tt("Hesabını istediğin an Profil › Ayarlar'daki \"Hesabımı sil\" düğmesiyle ya da")}{" "}
+          <Link to="/hesap-sil">{tt("Hesap silme")}</Link> {tt("sayfasındaki adımlarla silebilirsin. Silme işlemi geri alınamaz; hesabındaki coin, elmas ve diğer sanal öğeler de silinir.")}
         </li>
       </ul>
 
@@ -72,7 +75,8 @@ export default function KosullarPage() {
         <li>
           <b>{tt("Sesli sohbette izinsiz kayıt:")}</b> {tt("karşı tarafın rızası olmadan görüşmeyi kaydetmek, yayınlamak veya başkalarına dinletmek yasaktır ve ayrıca hukuki sorumluluk doğurabilir.")}
         </li>
-        <li>{tt("Başkasının kimliğine bürünmek; yanıltıcı takma ad kullanmak.")}</li>
+        <li>{tt("Başkasının kimliğine bürünmek; yanıltıcı veya hakaret içeren takma ad ve avatar kullanmak.")}</li>
+        <li>{tt("Başkasının hesabını izinsiz kullanmak; hesabını satmak, kiralamak veya devretmek.")}</li>
         <li>{tt("Hizmete aşırı yük bindirmek, güvenlik önlemlerini aşmaya çalışmak.")}</li>
         <li>{tt("İçeriği izinsiz kopyalayıp başka bir yerde yayımlamak.")}</li>
       </ul>
@@ -104,13 +108,16 @@ export default function KosullarPage() {
       <h2>{tt("6. Sanal öğeler, skiller ve satın almalar")}</h2>
       <ul>
         <li>
-          {tt("Puan, rütbe, rozet ve skiller")} <b>{tt("sanal öğelerdir")}</b>{tt("; gerçek para değeri taşımaz, nakde çevrilemez, devredilemez ve hesap dışında kullanılamaz.")}
+          {tt("Coin, elmas, puan, rütbe, rozet, skiller ve kozmetikler")} <b>{tt("oyun içi sanal öğelerdir")}</b>{tt("; gerçek para değeri taşımaz, gerçek parayla geri alınamaz, nakde çevrilemez, devredilemez ve hesap dışında kullanılamaz. Bunlar üzerinde mülkiyet değil, oyun içinde kullanma hakkı edinirsin.")}
         </li>
         <li>
-          {tt("Uygulama içi satın alma yalnızca Android uygulamasında ve Google Play faturalandırması üzerinden yapılır. İade talepleri Google Play'in iade politikasına tabidir.")}
+          {tt("Ücretli satın alma şu an kapalıdır. Açıldığında elmas paketleri ve Battle Pass gibi ücretli ürünler yalnızca Google Play üzerinden satılır; fiyat, ödeme, vergi ve iade süreçleri Google Play'in kurallarına tabidir ve ödeme bilgilerin bize ulaşmaz. İade talepleri Google Play'in iade politikasına göre değerlendirilir; tüketici mevzuatından doğan yasal haklarına halel gelmez.")}
         </li>
         <li>
-          {tt("Hizmeti sonlandırmamız hâlinde sanal öğeler için bedel iadesi yapılmaz.")}
+          {tt("Battle Pass sezon süresiyle sınırlıdır; sezon bitince kazanılmamış ödüller alınamaz.")}
+        </li>
+        <li>
+          {tt("Oyunla kazanılan sanal öğeler için bedel iadesi yapılmaz. Hizmeti tamamen sonlandırmamız hâlinde, ücretli satın alınmış ve kullanılmamış öğeler için yasal haklarına ve Google Play kurallarına uygun çözüm sunarız.")}
         </li>
       </ul>
 
@@ -126,7 +133,7 @@ export default function KosullarPage() {
 
       <h2>{tt("9. Askıya alma ve fesih")}</h2>
       <p>
-        {tt("Bu koşulları ihlal etmen hâlinde hesabını uyarı yaparak veya ağır durumlarda doğrudan askıya alabilir ya da kapatabiliriz. Kararı haksız buluyorsan aşağıdaki adresten itiraz edebilirsin.")}
+        {tt("Bu koşulları ihlal etmen hâlinde hesabını uyarı yaparak veya ağır durumlarda doğrudan askıya alabilir, mesajlaşmanı kapatabilir ya da hesabını kapatabiliriz; kapatılan hesaptaki sanal öğeler iade edilmez. Kararı haksız buluyorsan aşağıdaki adresten itiraz edebilirsin.")}
       </p>
 
       <h2>{tt("10. Garanti reddi")}</h2>
@@ -136,7 +143,7 @@ export default function KosullarPage() {
 
       <h2>{tt("11. Sorumluluk sınırı")}</h2>
       <p>
-        {tt("Yürürlükteki hukukun izin verdiği ölçüde; dolaylı zararlardan, veri kaybından veya kâr kaybından sorumlu değiliz. Hizmet ücretsiz olduğundan, doğrudan zararlara ilişkin toplam sorumluluğumuz son 12 ayda bize ödediğin tutarla (yoksa sıfırla) sınırlıdır.")}
+        {tt("Yürürlükteki hukukun izin verdiği ölçüde; dolaylı zararlardan, veri kaybından veya kâr kaybından sorumlu değiliz. Hizmet ücretsiz olduğundan, doğrudan zararlara ilişkin toplam sorumluluğumuz son 12 ayda bize ödediğin tutarla (yoksa sıfırla) sınırlıdır. Kasıt ve ağır kusurumuzdan doğan zararlar ile hukukun sınırlanmasına izin vermediği diğer haller bu sınırın dışındadır.")}
       </p>
 
       <h2>{tt("12. Fikri mülkiyet")}</h2>

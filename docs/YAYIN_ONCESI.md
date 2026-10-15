@@ -2,6 +2,7 @@
 
 Yayından (Play Store'a çıkış) önce elle yapılacak işler. Her madde yapıldığında tarihiyle işaretlenir.
 Satın alma altyapısının ayrıntılı denetimi: `docs/SATIN_ALMA_DENETIMI.md`.
+Yayın günü bir şey bozulursa adım adım geri alma: `docs/GERI-ALMA-PLANI.md`.
 
 ## Play Console — ELMAS paketleri (24 Eyl 2026, migration 480 — coin paketlerinin yerine)
 

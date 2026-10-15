@@ -12489,3 +12489,22 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **Sonuçlar (CPU 6x · yavaş 4G · 390×844 · Ida bota karşı; özet `tasarim/yavas-android/mac-15eki.json`):** Hazine — maç adresinden ilk soruya 11,7 → 6,7 sn; "Hazır ol!" donuk 7,4 sn → 0,8 sn (bekleme canlı 1,6 sn); rakamlar 1,0/1,0/1,1 sn; ses 113/119 → 130/133 çalındı (kaybettin önce yutuldu, sonra çaldı; kalan: aramadaki rakip_bulundu/vs_ani — test her seferinde soğuk açılış, seçim önbelleği boş). Klasik — "3" 2,9 → 1,0 sn, ikinci sayım yok, 3-2-1 penceresi ort 42 → 51 kare/sn (en uzun kare 184 → 117 ms), ses 67/74 → 69/70 (kaybettin + XP çaldı). Taklit bekleme (`mac-duzeltme-ekran.mjs G1/G2`, rakip 0 ve 7 sn geç): önce 15–17/24, sonra 24/24 (beklerken rakam yok, yazı görünür, ortanca 60 kare/sn, rakamlar ~1 sn).
 - **Testler:** `npm run build` temiz; ses-rakip-soru 3/3, ses-zamanlama 6/6, ses-hazine-grup-taklit 6/6, mac-duzeltme-ekran K1–D4 + G 45/45 (son koşu 24/24 G), senkron-testi --taklit Turnuva geçti. Canlıda yalnız tek tek bot maçları (Hazine ×5, Klasik ×4; Ida hesabı).
 - **Açık:** Hazine sonuç anlarında (büyük artış + altın uçuşu) CPU 6x'te 7–9 kare/sn dilimler (bu işin dışında); Klasik 3-2-1 ışını (`m1-sayim-isin`, maskeli dev konik gradyan) telefonda yeniden boyanıyorsa Hazine'deki gibi önceden çizilmiş görsele çevrilebilir.
+
+## 15 Eki 2026 — Kullanım Koşulları taslaktan çıktı + yayın günü geri alma planı
+- **Koşullar (`oyun/pages/KosullarPage.jsx`, güncelleme 15 Ekim 2026):** TASLAK notu kalktı. "Oyun portalı içinde oynanır" ifadesi
+  çıkarıldı; oyun yalnız yüklü uygulamada (Android / PWA), quiztactics.com tanıtım-indirme sitesi. Reklam yok. Coin + elmas sanal öğe,
+  gerçek parayla geri alınamaz, mülkiyet değil kullanım hakkı. Ücretli satın alma şu an kapalı; açılınca yalnız Google Play (elmas
+  paketleri, Battle Pass), iade Play politikası + yasal haklar saklı. Hesap silme: Profil › Ayarlar + `/hesap-sil`. Yasaklara
+  "başkasının hesabı / hakaret içeren ad" eklendi; askıya alma/kapatma hakkı; sorumluluk sınırına kasıt/ağır kusur istisnası.
+  Hukuk: T.C. hukuku, tüketici hakları saklı. EN metin `oyun/lib/ceviri/kosullar.js` (dil-en.js'e bağlandı).
+- **Karar:** hizmet sağlayıcı "Ida adlı gerçek kişi" (şirket yok); kimlik/iletişim Gizlilik'teki veri sorumlusu bilgisiyle aynı
+  (Quiz Tactics + info@quiztactics.com). Tam ad ve adres Gizlilik'te de yok → boş bırakılmadı, uydurulmadı; Ida'dan gerekli.
+- **Doğrulama:** 85 `tt()` anahtarının hepsinin EN karşılığı var; `/kosullar` 390 ve 1440 px, TR ve EN: yatay taşma yok,
+  konsol hatası yok, bozuk bağlantı yok (18 içindekiler çapası + /hesap-sil + /gizlilik). Görüntüler `tasarim/kosullar-15eki/`.
+- **Geri alma planı:** `docs/GERI-ALMA-PLANI.md` (Vercel Instant Rollback, git revert, geri-al SQL tablosu, yedek, Edge Function
+  `--no-verify-jwt`, duyuru, kontrol listesi, kim ne yapar). `docs/YAYIN_ONCESI.md`'ye bağlantı satırı eklendi.
+- **Gözlemler:** (1) `araclar/geri-yukle.mjs` yalnız yerel Postgres'e yükler, canlıya yazmayı reddeder — canlı felaket
+  yüklemesi tek komut değil. (2) Geri alma dosyası olmayan şema/fonksiyon migration'ları: 1041, 1049, 1050, 1052, 1054, 1055, 1057,
+  1060–1067, 1069, 1070, 1072, 1073, 1075–1079, 1082–1089, 1091, 1092, 1105 (soru verisi partileri ayrı). (3) Gece yedeği
+  `SUPABASE_DB_URL` secret'ı güncellenene kadar kırık. (4) Reklam kodu (`oyun/lib/h5ads.js`, `VITE_H5_ADS_CLIENT` boş) uykuda;
+  açılırsa Koşullar + Gizlilik değişmeli.
