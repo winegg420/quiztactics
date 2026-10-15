@@ -344,12 +344,26 @@ try {
         for (let i = Number(k?.n ?? 0); i < 5 && bot; i++) await sorgu(`insert into matches (oyuncu1, oyuncu2, durum, kazanan, bitis, basladi, dereceli) values (${alintila(BEN)}, ${alintila(bot.id)}, 'bitti', ${alintila(bot.id)}, now(), true, false)`);
       }, async tetik(s) { await gec(s); const a = s.getByRole("button", { name: /Rakip ara/i }); if (await a.count()) await a.first().click({ timeout: 2000 }); } },
       hazine: { yol: "/kasa", desen: /\/kasa\/([0-9a-f-]{36})/, tablo: "kasa_maclari", async tetik(s) { await gec(s); const a = s.getByRole("button", { name: /Rakip ara/i }); if (await a.count()) await a.first().click({ timeout: 2000 }); } },
+      // --mod=hazine_antrenman (15 Eki 2026): AÇIK bota karşı Ortak Hazine (Meydan Oku › Antrenman ile aynı RPC: kasa_davet_et,
+      // serbest) — Bin Galibiyet sayımı (açık bot hariç) ve maç sonu XP sesi doğrulaması. Tek maç; tetik bir kez çağrı yapar.
+      hazine_antrenman: { yol: "/kasa", desen: /\/kasa\/([0-9a-f-]{36})/, tablo: "kasa_maclari", async tetik(s) {
+        if (this.basladi) return; this.basladi = true;
+        const E = {}; for (const d of [".env.local", ".env"]) { try { for (const x of fs.readFileSync(d, "utf8").matchAll(/^([A-Z_]+)=(.*)$/gm)) if (!(x[1] in E)) E[x[1]] = x[2].trim(); } catch { /* yok */ } }
+        const URL_ = E.SUPABASE_YENI_URL || E.VITE_SUPABASE_URL, ANON = E.VITE_SUPABASE_ANON_KEY;
+        const [bot] = await sorgu(`select id from profiles where is_bot and coalesce(bot_turu, 'acik') = 'acik' order by id limit 1`);
+        const tok = JSON.parse(jeton.value).access_token;
+        const r = await fetch(`${URL_}/rest/v1/rpc/kasa_davet_et`, { method: "POST", headers: { apikey: ANON, Authorization: `Bearer ${tok}`, "Content-Type": "application/json" }, body: JSON.stringify({ p_rakip: bot.id, p_dereceli: false }) });
+        const j = await r.json().catch(() => null);
+        if (!r.ok || !j?.kasa_id) throw new Error(`kasa_davet_et → ${r.status} ${JSON.stringify(j).slice(0, 120)}`);
+        console.log(`  antrenman: açık bot ${bot.id} · kasa ${j.kasa_id}`);
+        await s.goto(`${ADRES}/kasa/${j.kasa_id}`, { waitUntil: "commit" });
+      } },
     };
     const MODSEC = typeof ARG.mod === "string" ? ARG.mod.split(",") : null;
     const ETIKET = typeof ARG.etiket === "string" ? ARG.etiket : "olcum";
     const VIDEO = path.resolve(".tmp/yavas-mac", ETIKET);
     fs.mkdirSync(VIDEO, { recursive: true });
-    for (const [kod, m] of Object.entries(MAC).filter(([k]) => !MODSEC || MODSEC.includes(k))) {
+    for (const [kod, m] of Object.entries(MAC).filter(([k]) => (MODSEC ? MODSEC.includes(k) : k !== "hazine_antrenman"))) {
       let id = null;
       const b = await baglamAc(tarayici, { video: VIDEO });
       const konsol = [];

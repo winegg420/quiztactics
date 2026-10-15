@@ -44,7 +44,10 @@ const JWT = `${b64({ alg: "HS256", typ: "JWT" })}.${b64({ sub: BEN, role: "authe
 const KULLANICI = { id: BEN, aud: "authenticated", role: "authenticated", email: "olcum@ornek.invalid", phone: "", is_anonymous: false,
   app_metadata: { provider: "email", providers: ["email"] }, user_metadata: {}, created_at: "2026-10-01T10:00:00Z" };
 const OTURUM = { access_token: JWT, token_type: "bearer", expires_in: 36000, expires_at: Math.floor(Date.now() / 1000) + 36000, refresh_token: "sahte", user: KULLANICI };
-const PROFIL = { id: BEN, xp: 1240, dil: "tr", lig: "gumus", coin: 1480, puan: 320, seri: 3, ulke: "TR", elmas: 40, level: 7, askida: false, is_bot: false,
+// --dil=en · --genislik=360: arayüz dili / ekran genişliği (15 Eki, skor şeridi ölçümü) · --skor_cekim=<ad>: ilk soru
+// ekranında skor şeridi etiketlerini ölçer (kesik mi) ve ekran görüntüsünü tasarim/duzeltme-codex-15eki/<ad>.png'ye alır
+const DIL = ARG.dil === "en" ? "en" : "tr", GENISLIK = Number(ARG.genislik) || 390, YUKSEKLIK = GENISLIK < 390 ? 740 : 844;
+const PROFIL = { id: BEN, xp: 1240, dil: DIL, lig: "gumus", coin: 1480, puan: 320, seri: 3, ulke: "TR", elmas: 40, level: 7, askida: false, is_bot: false,
   gorunum: null, acik_bot: false, level_xp: 140, seri_gun: 3, takma_ad: "Deniz", username: "olcum", lig_gizli: false,
   avatar_url: "/avatars/pro/tilki-k04.svg", gorunen_avatar: "/avatars/pro/tilki-k04.svg", gorunen_ad: "Deniz", created_at: "2026-10-01T10:00:00Z",
   davet_kodu: "QT7K2M", toplam_mac: 42, arac_hesabi: true, hile_yetkisi: false, mesaj_kapali: false, avatar_onayli: true, rahatsiz_etme: false,
@@ -479,6 +482,8 @@ function perfOzet({ olc, timeOrigin, sunucuLog }) {
   };
   return { giris: girisBas != null ? olcPencere(girisBas - 300, girisSon ?? girisBas + 5000) : null, rakam,
     sonuc: topla(sonuc), ac: topla(ac), devam: topla(devam), soru: topla(soru), sonuc_liste: sonuc, ac_liste: ac,
+    // 15 Eki (Codex taraması): maç sonu — sunucu bitişinden ölçümün sonuna (final sahnesi + maç sonu ekranı + Paylaş kartı)
+    mac_sonu: (() => { const b = log.find((x) => x.olay === "bitti")?.t; return b ? { ...olcPencere(b, kare.at(-1)), uzun_liste: uzun.filter(([t]) => t >= b).map(([t, d]) => [Math.round(t - b), d]) } : null; })(),
     mac: olcPencere(kare[0], kare.at(-1)) };
 }
 
@@ -506,13 +511,15 @@ try {
     const sunucu = new Sunucu(tohum, senaryo);
     const ID = `0e0e1100-0000-4000-8000-${String(tohum).padStart(12, "0")}`;
     sunucu.id = ID;
-    const ls = [{ name: `sb-${REF}-auth-token`, value: JSON.stringify(OTURUM) }, { name: "bildim_dil", value: "tr" }, { name: "bildim_tanitim", value: "1" }];
+    const ls = [{ name: `sb-${REF}-auth-token`, value: JSON.stringify(OTURUM) }, { name: "bildim_dil", value: DIL }, { name: "bildim_tanitim", value: "1" }];
     if (SECIMLER) ls.push({ name: "bildim_ses_secim", value: JSON.stringify(SECIMLER) });
     const b = await tarayici.newContext({ storageState: { cookies: [], origins: [{ origin: kok, localStorage: ls }] },
-      viewport: { width: 390, height: 844 }, hasTouch: true, serviceWorkers: "block", isMobile: true, deviceScaleFactor: 2,
+      viewport: { width: GENISLIK, height: YUKSEKLIK }, locale: DIL === "en" ? "en-US" : "tr-TR", hasTouch: true, serviceWorkers: "block", isMobile: true, deviceScaleFactor: 2,
       userAgent: "Mozilla/5.0 (Linux; Android 11; SM-A125F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36",
       recordVideo: ARG.video ? { dir: path.join(CIKTI, "video"), size: { width: 390, height: 844 } } : undefined });
     await b.addInitScript(enjekte);
+    // --paylas_yok: tanı deneyi — navigator.share yokmuş gibi (Paylaş kartı tuvali hiç hazırlanmaz); ürün koduna dokunmaz
+    if (ARG.paylas_yok) await b.addInitScript(() => { try { delete Navigator.prototype.share; } catch { /* yok */ } });
     // --css="<kural>": tanı deneyi — sayfaya ek stil (ör. bir katmanı kapatıp maliyetini ölçmek); ürün koduna dokunmaz
     if (typeof ARG.css === "string") await b.addInitScript((css) => { addEventListener("DOMContentLoaded", () => { const st = document.createElement("style"); st.textContent = css; document.head.appendChild(st); }); }, ARG.css);
     const s = await b.newPage();
@@ -589,7 +596,7 @@ try {
     await s.waitForSelector("#root *", { timeout: 60000 }).catch(() => {});
     await s.mouse.click(195, 300).catch(() => {});
     await s.waitForSelector(".m2-mac", { timeout: 60000 }).catch(() => {});
-    let bitisT = null, sonEylem = "";
+    let bitisT = null, sonEylem = "", skorCekildi = false;
     const bas = Date.now();
     while (Date.now() - bas < 6 * 60 * 1000) {
       const k = sunucu.k;
@@ -615,6 +622,13 @@ try {
           const ok = await dugme.click({ timeout: 1500 }).then(() => true).catch(() => false);
           if (ok) sonEylem = an;
         }
+      }
+      if (ARG.skor_cekim && !skorCekildi && k.faz === "cevap" && k.gosterim_bas && now > k.gosterim_bas + 2500) {
+        skorCekildi = true;
+        const olc = await s.evaluate(() => [...document.querySelectorAll(".ks-skor-ad")].map((e) => ({ t: e.innerText, kesik: e.scrollWidth > e.clientWidth + 0.5, w: Math.round(e.clientWidth), sw: e.scrollWidth })).concat([{ tasma: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1, serit: Math.round(document.querySelector(".ks-serit")?.getBoundingClientRect().width ?? 0) }])).catch((e) => String(e));
+        const d = path.resolve("tasarim/duzeltme-codex-15eki"); fs.mkdirSync(d, { recursive: true });
+        await s.screenshot({ path: path.join(d, `${ARG.skor_cekim}.png`) }).catch(() => {});
+        console.log("SKOR", ARG.skor_cekim, JSON.stringify(olc));
       }
       sunucu.ilerlet();
       if (IZ && izDurum < 2) {
@@ -646,6 +660,7 @@ try {
     if (c.perf) {
       const f = (x) => (x ? `ort ${x.ort} · en kötü dilim ${x.en_kotu_dilim} kare/sn · en uzun kare ${x.en_uzun_kare} ms · ≥100 ms kare ${x.kare_100} · uzun görev ${x.uzun_gorev}` : "—");
       console.log(`   kare: giriş ${f(c.perf.giris)} · rakamlar ${JSON.stringify(c.perf.rakam.map((x) => `${x.v}:${x.ms}`))}`);
+      console.log(`   maç sonu: ${f(c.perf.mac_sonu)} · uzun görevler (bitişten ms, süre) ${JSON.stringify(c.perf.mac_sonu?.uzun_liste ?? [])}`);
       console.log(`         sonuç ${f(c.perf.sonuc)} · AÇ anı ${f(c.perf.ac)} · DEVAM anı ${f(c.perf.devam)} · soru ${f(c.perf.soru)}`);
     }
     console.log(`${ETIKET} · ${senaryo} #${m}: tur ${sunucu.k.tur}, ses ${c.calan} (istek ${c.istek}) · taşma ${c.tasma.length} · geç ${c.gec.length} · eşzamanlı ${c.eszaman.length} · kesik anim ${c.kesik.length}/${c.kesik.length + c.bitenAnim} · 3-2-1 ${JSON.stringify(c.tikAralik)} · soru↔ses ${JSON.stringify(c.soruSes.map((x) => x.farkMs))} · sayaç ilk ${JSON.stringify(c.sayacIlk.map((x) => x.ilk))} · hata ${hatalar.length}`);
