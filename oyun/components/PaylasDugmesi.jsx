@@ -62,6 +62,8 @@ export default function PaylasDugmesi({ tur = "davet", sonuc, className, tamGeni
   useEffect(() => {
     let aktif = true;
     hazir.current = null;
+    // Davet kodu baştan (modülde bir kez): dokunuşta beklenecek ağ isteği kalmasın (pano yolu da etkileşim ister)
+    davetBilgisi().catch(() => {});
     if (!navigator.share) return undefined;   // paylaşım yoksa kart gerekmez (pano yolu)
     const t = setTimeout(() => {
       hazirla().then((h) => { if (aktif) hazir.current = h; }).catch(() => {});
@@ -80,7 +82,10 @@ export default function PaylasDugmesi({ tur = "davet", sonuc, className, tamGeni
     if (calisiyor) return;
     setCalisiyor(true);
     try {
-      const h = hazir.current ?? (navigator.share ? await hazirla() : { bilgi: await davetBilgisi(), dosya: null });
+      // 15 Eki (Codex taraması): kart henüz hazır değilse (ilk 2,5 sn ya da çizim sürüyor) kart BEKLENMEZ — eskiden
+      // await hazirla() (tuval + avatar indirme) navigator.share'i dokunuş etkileşiminin dışına itiyordu (Safari/yavaş
+      // telefonda NotAllowedError → "Paylaşılamadı"). Bu durumda metin + bağlantı paylaşılır; kart sonraki dokunuşta hazır.
+      const h = hazir.current ?? { bilgi: await davetBilgisi(), dosya: null };
       const { kod, baglanti } = h.bilgi;
       const metin = tur === "sonuc"
         ? tt("Quiz Tactics'te beni yenebilir misin? Davet kodum: {kod}", { kod: kod ?? "—" })
