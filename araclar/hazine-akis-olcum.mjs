@@ -48,8 +48,12 @@ const PROFIL = { id: BEN, xp: 1240, dil: "tr", lig: "gumus", coin: 1480, puan: 3
   gorunum: null, acik_bot: false, level_xp: 140, seri_gun: 3, takma_ad: "Deniz", username: "olcum", lig_gizli: false,
   avatar_url: "/avatars/pro/tilki-k04.svg", gorunen_avatar: "/avatars/pro/tilki-k04.svg", gorunen_ad: "Deniz", created_at: "2026-10-01T10:00:00Z",
   davet_kodu: "QT7K2M", toplam_mac: 42, arac_hesabi: true, hile_yetkisi: false, mesaj_kapali: false, avatar_onayli: true, rahatsiz_etme: false,
-  dereceli_tercih: true, takma_ad_secildi: true, vitrin_rozetleri: [], kosullar_kabul_at: "2026-10-01T10:00:00Z", level_gereken: 400 };
-const HEDEF = 24, SORU_SN = 15, SONUC_MS = 3000, KARAR_MS = 5000, PAY_MS = 1500, KARAR_AN_MS = 1500, BASLANGIC_MS = 4500, CARPAN = 1.25;
+  dereceli_tercih: true, takma_ad_secildi: true, vitrin_rozetleri: [], kosullar_kabul_at: "2026-10-01T10:00:00Z", level_gereken: 400,
+  // 15 Eki 2026 (perf): Ida'nın hesabındaki gibi takılı Cevap İmzası (canvas Bilgi Ampulü) — doğru cevapta oynar; --imza=yok kapatır
+  takili_cevap_imzasi: ARG.imza === "yok" ? null : String(typeof ARG.imza === "string" ? ARG.imza : "imza_ampul") };
+// --canli_sure (15 Eki 2026 perf): canlıdaki ayarlar — gösterim payı 2000 ms, giriş faz_bitis = kasa_giris + 4000 (1105) → ilk soru
+// verisi tam "2" anında gelir (madde 4: rakam uzaması). Varsayılan eski taklit değerleri (1500 / 4500).
+const HEDEF = 24, SORU_SN = 15, SONUC_MS = 3000, KARAR_MS = 5000, PAY_MS = ARG.canli_sure ? 2000 : 1500, KARAR_AN_MS = 1500, BASLANGIC_MS = ARG.canli_sure ? 4000 : 4500, CARPAN = 1.25;
 const AYAR = { kasa_modu_acik: 1, kasa_odul_acik: 1, kasa_odul_carpani: 1, kasa_artis: 2, kasa_ikisi_dogru_artis: 6, kasa_hedef_puan: HEDEF,
   kasa_max_tur: 36, kasa_soru_sn: SORU_SN, kasa_karar_sn: 5, kasa_sonuc_sn: 3, kasa_tavan: 60, kasa_devam_carpan: CARPAN, kasa_acma_min: 0,
   kasa_giris_sahne_ms: 4000, kasa_gosterim_payi_ms: PAY_MS, kasa_karar_an_ms: KARAR_AN_MS };
@@ -124,7 +128,8 @@ class Sunucu {
     else if (bd || rd) { artis = 2; k.sahip = bd ? BEN : RAKIP; }
     k.kasa = once + artis;
     k.sonuc = { tur: k.tur, altin: false, dogru_cevap: 1, artis, kasa_once: once, kasa_sonra: k.kasa, sahip_once: sahipOnce, sahip_sonra: k.sahip,
-      benim_cevabim: k.cevaplar[BEN]?.cevap ?? null, ben_dogru: bd, rakip_dogru: k.cevaplar[RAKIP] ? rd : false };
+      benim_cevabim: k.cevaplar[BEN]?.cevap ?? null, ben_dogru: bd, rakip_dogru: k.cevaplar[RAKIP] ? rd : false,
+      rakip_cevabi: k.cevaplar[RAKIP]?.cevap ?? null };   // 1062: rakibin seçtiği şık (canlıdaki gibi avatar çizilir)
     k.faz = "sonuc"; k.faz_bitis = now + SONUC_MS;
     this.kaydet("sonuc", { faz_bitis: k.faz_bitis, artis });
   }
@@ -224,8 +229,17 @@ const uyu = (ms) => new Promise((c) => setTimeout(c, Math.max(0, ms)));
 
 // ---------------- sayfaya enjekte edilen ölçüm ----------------
 function enjekte() {
-  const O = (window.__olc = { faz: [], ses: [], ton: [], ctx: [], kesik: [], ui: [], bitenAnim: 0 });
+  const O = (window.__olc = { faz: [], ses: [], ton: [], ctx: [], kesik: [], ui: [], bitenAnim: 0, kare: [], uzun: [], sayi: [] });
   try { sessionStorage.setItem("bd_ses_tani", "1"); } catch { /* */ }
+  // 15 Eki 2026 (perf paketi): her karenin zamanı (rAF, performance.now) + uzun görevler + giriş 3-2-1 rakamının değiştiği an
+  // (MutationObserver — 100 ms örneklemeden kesin). Çözümleme faz pencerelerine göre kare hızı / en uzun kare verir.
+  const kareYaz = (t) => { O.kare.push(Math.round(t * 10) / 10); requestAnimationFrame(kareYaz); };
+  requestAnimationFrame(kareYaz);
+  try { new PerformanceObserver((l) => { for (const e of l.getEntries()) O.uzun.push([Math.round(e.startTime), Math.round(e.duration)]); }).observe({ type: "longtask", buffered: true }); } catch { /* yok */ }
+  let sonSayi = null;
+  const sayiBak = () => { const v = document.querySelector(".ks-giris-sayi, .m1-sayim-sayi")?.textContent?.trim() ?? null; if (v !== sonSayi) { sonSayi = v; O.sayi.push([Math.round(performance.now()), v]); } };
+  const sayiIzle = () => new MutationObserver(sayiBak).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+  if (document.documentElement) sayiIzle(); else addEventListener("DOMContentLoaded", sayiIzle);
   const urlTampon = new WeakMap(), tamponUrl = new WeakMap();
   const of = window.fetch;
   window.fetch = async function (...a) {
@@ -238,7 +252,7 @@ function enjekte() {
       }
       if (u.includes("/rpc/kasa_durum")) {
         const t = Date.now();
-        r.clone().json().then((j) => { if (j) O.faz.push({ t, faz: j.faz, tur: j.tur, durum: j.durum, faz_bitis: j.faz_bitis, gb: j.sureler?.gosterim_bas ?? null }); }).catch(() => {});
+        r.clone().json().then((j) => { if (j) { O.faz.push({ t, faz: j.faz, tur: j.tur, durum: j.durum, faz_bitis: j.faz_bitis, gb: j.sureler?.gosterim_bas ?? null }); try { console.timeStamp(`faz:${j.tur}-${j.faz}`); } catch { /* */ } } }).catch(() => {});
       }
     } catch { /* ölçüm */ }
     return r;
@@ -320,7 +334,7 @@ function enjekte() {
       efekt: q(".ks-efekt") ? [...q(".ks-efekt").querySelectorAll("[class*='ks-']")].slice(0, 1).map((e) => e.className.split(" ")[0]).join() || "efekt" : null,
       sonu: Boolean(q(".msk-baslik, .mac-sonu, .bd-mac-sonu")),
     };
-    for (const k of Object.keys(simdi)) if (simdi[k] !== onceki[k]) O.ui.push({ t: Date.now(), k, v: simdi[k] });
+    for (const k of Object.keys(simdi)) if (simdi[k] !== onceki[k]) { O.ui.push({ t: Date.now(), k, v: simdi[k] }); try { console.timeStamp(`ui:${k}=${simdi[k]}`); } catch { /* */ } }
     onceki = simdi;
   }, 100);
 }
@@ -411,6 +425,7 @@ function cozumle(veri) {
     soruSes.push({ faz: pencere(u.t), farkMs: ses ? ses.t - u.t : null });
   }
   return {
+    perf: perfOzet(veri),
     soruSes, kesikEtkilesim, sayacTiki,
     pencere: pencereler.length, calan: calanlar.length, istek: istekler.length,
     tasma, gec, eszaman, kesik, bitenAnim: olc.bitenAnim, tikAralik, sayacIlk,
@@ -418,6 +433,53 @@ function cozumle(veri) {
     calanlar: calanlar.map((c) => ({ t: c.t - sunucuLog[0].t, rol: c.rol, faz: c.faz, istekFaz: c.istekFaz, gecMs: c.istek ? c.t - c.istek : null })),
     akis: akis ?? null,
   };
+}
+
+// ---------------- kare hızı (15 Eki 2026 perf paketi) ----------------
+// Pencere: giriş sahnesi (ekranda sahne → kalkış) · her sonuç fazı · AÇ anı (karar:ac → sonraki sorunun gösterimi) ·
+// DEVAM anı · soru fazları. Her pencere: ort kare/sn, en kötü 500 ms dilimin kare/sn'si, en uzun kare, ≥ 100 ms kare, uzun görev.
+function perfOzet({ olc, timeOrigin, sunucuLog }) {
+  if (!olc?.kare?.length) return null;
+  const kare = olc.kare.map((t) => timeOrigin + t);
+  const uzun = (olc.uzun ?? []).map(([s, d]) => [timeOrigin + s, d]);
+  const olcPencere = (a, b) => {
+    if (!(b > a)) return null;
+    const k = kare.filter((t) => t >= a && t <= b);
+    if (k.length < 2) return { sure: Math.round(b - a), kare: k.length, ort: 0, en_kotu_dilim: 0, en_uzun_kare: Math.round(b - a), kare_100: 1, uzun_gorev: 0 };
+    const dt = k.slice(1).map((t, i) => t - k[i]);
+    dt.push(k[0] - a, b - k.at(-1));
+    let enKotu = Infinity;
+    for (let s = a; s + 500 <= b; s += 250) enKotu = Math.min(enKotu, k.filter((t) => t >= s && t < s + 500).length * 2);
+    return { sure: Math.round(b - a), kare: k.length, ort: Math.round((k.length / (b - a)) * 1000), en_kotu_dilim: Number.isFinite(enKotu) ? enKotu : null,
+      en_uzun_kare: Math.round(Math.max(...dt)), kare_100: dt.filter((x) => x >= 100).length,
+      uzun_gorev: uzun.filter(([s]) => s >= a && s < b).length, en_uzun_gorev: Math.max(0, ...uzun.filter(([s]) => s >= a && s < b).map((x) => x[1])) };
+  };
+  const ui = olc.ui ?? [];
+  const girisBas = ui.find((u) => u.k === "giris" && u.v && u.v !== "bekle")?.t ?? null;
+  const girisSon = girisBas != null ? ui.find((u) => u.k === "giris" && u.v == null && u.t > girisBas)?.t ?? null : null;
+  const log = sunucuLog ?? [];
+  const sonraki = (i) => log.slice(i + 1).find((x) => ["cevap", "sonuc", "karar", "karar:ac", "karar:devam", "bitti"].includes(x.olay))?.t ?? null;
+  const sonuc = [], ac = [], devam = [], soru = [];
+  log.forEach((x, i) => {
+    if (x.olay === "sonuc") sonuc.push({ tur: x.tur, artis: x.artis, ...olcPencere(x.t, sonraki(i)) });
+    if (x.olay === "karar:ac" || x.olay === "karar:devam") {
+      const c = log.slice(i + 1).find((y) => y.olay === "cevap");
+      (x.olay === "karar:ac" ? ac : devam).push({ tur: x.tur, ...olcPencere(x.t, c?.gosterim_bas ?? sonraki(i)) });
+    }
+    if (x.olay === "cevap") soru.push({ tur: x.tur, ...olcPencere(x.gosterim_bas, log.slice(i + 1).find((y) => y.olay === "sonuc")?.t ?? null) });
+  });
+  // giriş 3-2-1: rakamların ekranda kalma süresi (MutationObserver)
+  const sayi = (olc.sayi ?? []).map(([t, v]) => [timeOrigin + t, v]);
+  const rakam = sayi.map(([t, v], i) => (/^\d$/.test(v ?? "") ? { v, ms: Math.round((sayi[i + 1]?.[0] ?? t) - t) } : null)).filter(Boolean);
+  const topla = (l) => {
+    const g = l.filter((x) => x && x.kare != null);
+    if (!g.length) return null;
+    return { adet: g.length, ort: Math.round(g.reduce((a, x) => a + x.ort, 0) / g.length), en_kotu_dilim: Math.min(...g.map((x) => x.en_kotu_dilim ?? 999)),
+      en_uzun_kare: Math.max(...g.map((x) => x.en_uzun_kare)), kare_100: g.reduce((a, x) => a + x.kare_100, 0), uzun_gorev: g.reduce((a, x) => a + x.uzun_gorev, 0) };
+  };
+  return { giris: girisBas != null ? olcPencere(girisBas - 300, girisSon ?? girisBas + 5000) : null, rakam,
+    sonuc: topla(sonuc), ac: topla(ac), devam: topla(devam), soru: topla(soru), sonuc_liste: sonuc, ac_liste: ac,
+    mac: olcPencere(kare[0], kare.at(-1)) };
 }
 
 // ---------------- yeniden çözümleme (--yeniden=<etiket>: kayıtlı ham veriden, tarayıcısız) ----------------
@@ -451,6 +513,8 @@ try {
       userAgent: "Mozilla/5.0 (Linux; Android 11; SM-A125F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36",
       recordVideo: ARG.video ? { dir: path.join(CIKTI, "video"), size: { width: 390, height: 844 } } : undefined });
     await b.addInitScript(enjekte);
+    // --css="<kural>": tanı deneyi — sayfaya ek stil (ör. bir katmanı kapatıp maliyetini ölçmek); ürün koduna dokunmaz
+    if (typeof ARG.css === "string") await b.addInitScript((css) => { addEventListener("DOMContentLoaded", () => { const st = document.createElement("style"); st.textContent = css; document.head.appendChild(st); }); }, ARG.css);
     const s = await b.newPage();
     const hatalar = [];
     s.on("pageerror", (e) => hatalar.push(String(e).slice(0, 200)));
@@ -502,15 +566,35 @@ try {
       return json({});
     });
     await s.route(/\/realtime\//, (r) => r.abort());
+    // --iz=giris | ac | sonuc:N | mac (bütün maç) — o pencerenin Chrome izi (ana iş parçacığı + boyama/raster/GPU) → .tmp/hazine-iz/<etiket>-<senaryo><maç>-<iz>.json
+    const IZ = typeof ARG.iz === "string" ? ARG.iz : null;
+    let izDurum = 0;
+    const izBas = async () => { izDurum = 1; await tarayici.startTracing(s, { categories: ["devtools.timeline", "disabled-by-default-devtools.timeline", "disabled-by-default-devtools.timeline.frame", "toplevel", "cc", "gpu", "viz", "blink", "loading", "benchmark", "disabled-by-default-v8.cpu_profiler", ...(ARG.gecersiz ? ["disabled-by-default-devtools.timeline.invalidationTracking"] : [])] }).catch((e) => { console.log("iz başlamadı", e.message); }); };
+    const izBitir = async () => {
+      izDurum = 2;
+      const iz = await tarayici.stopTracing().catch(() => null);
+      if (iz) { const d = path.resolve(".tmp/hazine-iz"); fs.mkdirSync(d, { recursive: true }); fs.writeFileSync(path.join(d, `${ETIKET}-${senaryo}${m}-${IZ.replace(":", "")}.json`), iz); }
+    };
+    if (IZ === "giris" || IZ === "mac") await izBas();
+    // --profil: bütün maçın JS profili (CDP, 1 ms örnek; izden hafif) → .tmp/hazine-iz/<etiket>-<senaryo><maç>.cpuprofile
+    if (ARG.profil) { await cdp.send("Profiler.enable"); await cdp.send("Profiler.setSamplingInterval", { interval: 1000 }); }
     await s.goto(`${ADRES}/kasa/${ID}?dev=1`, { waitUntil: "domcontentloaded", timeout: 60000 });
-    // ilk dokunuş: AudioContext açılsın (gerçekte oyuncu "Rakip ara"ya basmıştı) — maç ekranı çizilince
-    await s.waitForSelector(".m2-mac", { timeout: 60000 }).catch(() => {});
+    // profil zamanı ↔ sayfa saati eşlemesi (performance.now, ms): örnek ts (µs) − startTime → + perfBas
+    let perfBas = null;
+    if (ARG.profil) { await cdp.send("Profiler.start"); perfBas = await s.evaluate(() => performance.now()).catch(() => null); }
+    // ilk dokunuş: AudioContext açılsın. Gerçekte oyuncu "Rakip ara"ya lobide basmıştı (bağlam maçtan çok önce kurulur) —
+    // 15 Eki 2026: dokunuş sayfa çizilir çizilmez (eskiden .m2-mac'ten sonra: new AudioContext() ~180 ms, CPU 6x, giriş sahnesine
+    // denk gelip taklitte olmayan bir takılma üretiyordu)
+    await s.waitForSelector("#root *", { timeout: 60000 }).catch(() => {});
     await s.mouse.click(195, 300).catch(() => {});
+    await s.waitForSelector(".m2-mac", { timeout: 60000 }).catch(() => {});
     let bitisT = null, sonEylem = "";
     const bas = Date.now();
     while (Date.now() - bas < 6 * 60 * 1000) {
       const k = sunucu.k;
       if (k.durum === "bitti") { bitisT = bitisT ?? Date.now(); if (Date.now() - bitisT > 9000) break; await uyu(300); continue; }
+      // --sadece_giris: giriş sahnesi + ilk sorunun 2 sn'si ölçülür, maç orada bırakılır (giriş deneyleri için)
+      if (ARG.sadece_giris && k.tur >= 1 && k.gosterim_bas && Date.now() > k.gosterim_bas + 2000) break;
       const now = Date.now();
       if (k.faz === "cevap" && !k.cevaplar[BEN]) {
         const p = sunucu.turPlani(k.tur);
@@ -532,11 +616,37 @@ try {
         }
       }
       sunucu.ilerlet();
+      if (IZ && izDurum < 2) {
+        const L = sunucu.log;
+        if (IZ === "giris" && k.tur >= 1 && k.gosterim_bas && now > k.gosterim_bas + 1000) await izBitir();
+        if (IZ === "ac") {
+          const i = L.findIndex((x) => x.olay === "karar:ac");
+          if (izDurum === 0 && k.faz === "karar") await izBas();
+          if (izDurum === 1 && i < 0 && k.faz === "cevap" && L.at(-2)?.olay === "karar:devam" && now > k.gosterim_bas + 500) { await tarayici.stopTracing().catch(() => null); izDurum = 0; }
+          if (izDurum === 1 && i >= 0 && now > (L.slice(i).find((x) => x.olay === "cevap")?.gosterim_bas ?? Infinity) + 500) await izBitir();
+        }
+        if (IZ.startsWith("sonuc:")) {
+          const n = Number(IZ.split(":")[1]);
+          if (izDurum === 0 && k.tur === n && k.faz === "cevap") await izBas();
+          if (izDurum === 1 && (k.tur > n || k.faz === "karar" || k.durum === "bitti")) await izBitir();
+        }
+      }
       await uyu(120);
+    }
+    if (izDurum === 1) await izBitir();
+    if (ARG.profil) {
+      const { profile } = await cdp.send("Profiler.stop");
+      const d = path.resolve(".tmp/hazine-iz"); fs.mkdirSync(d, { recursive: true });
+      fs.writeFileSync(path.join(d, `${ETIKET}-${senaryo}${m}.cpuprofile`), JSON.stringify({ ...profile, perfBas }));
     }
     const veri = await s.evaluate(() => ({ olc: window.__olc, sesKayit: window.__sesKayit ?? [], akis: window.__akis ?? null, timeOrigin: performance.timeOrigin }));
     const c = cozumle({ ...veri, sunucuLog: sunucu.log, bitisT: sunucu.log.find((x) => x.olay === "bitti")?.t ?? Infinity });
     sonuclar.push({ senaryo, mac: m, tur: sunucu.k.tur, kazanan: sunucu.k.kazanan === BEN ? "ben" : "rakip", hatalar, sunucu: sunucu.log, ...c, ham: veri });
+    if (c.perf) {
+      const f = (x) => (x ? `ort ${x.ort} · en kötü dilim ${x.en_kotu_dilim} kare/sn · en uzun kare ${x.en_uzun_kare} ms · ≥100 ms kare ${x.kare_100} · uzun görev ${x.uzun_gorev}` : "—");
+      console.log(`   kare: giriş ${f(c.perf.giris)} · rakamlar ${JSON.stringify(c.perf.rakam.map((x) => `${x.v}:${x.ms}`))}`);
+      console.log(`         sonuç ${f(c.perf.sonuc)} · AÇ anı ${f(c.perf.ac)} · DEVAM anı ${f(c.perf.devam)} · soru ${f(c.perf.soru)}`);
+    }
     console.log(`${ETIKET} · ${senaryo} #${m}: tur ${sunucu.k.tur}, ses ${c.calan} (istek ${c.istek}) · taşma ${c.tasma.length} · geç ${c.gec.length} · eşzamanlı ${c.eszaman.length} · kesik anim ${c.kesik.length}/${c.kesik.length + c.bitenAnim} · 3-2-1 ${JSON.stringify(c.tikAralik)} · soru↔ses ${JSON.stringify(c.soruSes.map((x) => x.farkMs))} · sayaç ilk ${JSON.stringify(c.sayacIlk.map((x) => x.ilk))} · hata ${hatalar.length}`);
     await b.close();
   }

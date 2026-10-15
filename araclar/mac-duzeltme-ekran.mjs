@@ -99,7 +99,9 @@ async function senaryo(ad, { genislik = 390, yukseklik = 844, rpc, yol, adimlar,
   console.log(`\n== ${ad} (${ETIKET})`);
   // G senaryoları ekran videosu da kaydeder (.tmp/bekleme-video/<etiket>/<senaryo>.webm; git'e girmez)
   const video = ad.startsWith("G") ? path.resolve(".tmp/bekleme-video", ETIKET) : null;
-  const b = await tarayici.newContext({ storageState: durumDosya, viewport: { width: genislik, height: yukseklik }, hasTouch: true, serviceWorkers: "block",
+  // --dpr2 (15 Eki 2026 perf): G senaryoları telefon gibi 2x piksel yoğunluğu + mobil (büyük katmanların boyama/GPU maliyeti görünsün)
+  const tel = ARG.dpr2 && ad.startsWith("G") ? { deviceScaleFactor: 2, isMobile: true } : {};
+  const b = await tarayici.newContext({ storageState: durumDosya, viewport: { width: genislik, height: yukseklik }, hasTouch: true, serviceWorkers: "block", ...tel,
     ...(video ? { recordVideo: { dir: video, size: { width: genislik, height: yukseklik } } } : {}) });
   if (izci) await b.addInitScript(izci);
   // canlı adreste uygulama kapısı (kurulum sayfası) yerine oyun — ?dev=1 ile aynı geçiş
@@ -117,8 +119,12 @@ async function senaryo(ad, { genislik = 390, yukseklik = 844, rpc, yol, adimlar,
       if (sonuc === undefined) { const y = await r.fetch(); await r.fulfill({ response: y }); }
     } catch { try { await r.abort(); } catch { /* kapandı */ } }
   });
+  // --iz (15 Eki 2026 perf): G senaryosunun Chrome izi → .tmp/mac-iz/<etiket>-<senaryo>.json (uzun görev kök nedeni için)
+  const iz = ARG.iz && ad.startsWith("G");
+  if (iz) await tarayici.startTracing(s, { categories: ["devtools.timeline", "disabled-by-default-devtools.timeline", "disabled-by-default-devtools.timeline.frame", "blink", "disabled-by-default-v8.cpu_profiler"] });
   await s.goto(ADRES + yol, { waitUntil: "domcontentloaded" });
   const sonuclar = await adimlar(s, ctx);
+  if (iz) { const v = await tarayici.stopTracing(); fs.mkdirSync(".tmp/mac-iz", { recursive: true }); fs.writeFileSync(`.tmp/mac-iz/${ETIKET}-${ad}.json`, v); }
   rapor[ad] = sonuclar ?? true;
   const vYol = video ? await s.video()?.path().catch(() => null) : null;
   await b.close();
@@ -329,8 +335,9 @@ await senaryo("D4", { yol: `/duello/${DUELLO_ID}`,
 // Sayfa içi: ekran durumu (rakam / bekleme yazısı / soru) değişimleri + saniyelik rAF kare sayısı.
 const BASLANGIC_IZ = () => {
   const o = (window.__bas = { durum: [], kare: [] });
-  let kb = performance.now(), kn = 0;
-  const raf = (t) => { kn++; if (t - kb >= 500) { o.kare.push([Math.round(kb), Math.round(kn * 1000 / (t - kb))]); kb = t; kn = 0; } requestAnimationFrame(raf); };
+  // [dilim başı, kare/sn, dilimdeki en uzun kare arası ms] (15 Eki 2026 perf: en uzun kare eklendi)
+  let kb = performance.now(), kn = 0, ks = kb, km = 0;
+  const raf = (t) => { kn++; km = Math.max(km, t - ks); ks = t; if (t - kb >= 500) { o.kare.push([Math.round(kb), Math.round(kn * 1000 / (t - kb)), Math.round(km)]); kb = t; kn = 0; km = 0; } requestAnimationFrame(raf); };
   requestAnimationFrame(raf);
   const oku = () => {
     const sayi = document.querySelector(".m1-sayim-sayi, .ks-giris-sayi");
@@ -362,7 +369,12 @@ function baslangicDenetle(ad, iz, { hazir = null, sayimBas }) {
   ok(`${ad} beklerken ekran donmuyor (ortanca ≥ 50, < 30 en çok 1 dilim)`, bekleKare.length > 0 && sirali[Math.floor(sirali.length / 2)] >= 50 && dusuk <= 1,
     `ortanca ${sirali[Math.floor(sirali.length / 2)]} · en düşük ${sirali[0]} · <30 dilim ${dusuk} · ${bekleKare.join(",")}`);
   ok(`${ad} soru göründü`, durum.some(([, d]) => d === "soru"));
-  return { durum, rakamlar, bekleKare };
+  // 15 Eki 2026 (perf): 3-2-1 penceresi kare hızı — ilk rakamdan soruya (yarım saniyelik dilimler)
+  const sBas = ilkRakam?.[0], sSon = durum.find(([t, d]) => d === "soru" && t > (sBas ?? Infinity))?.[0];
+  const sk = iz.kare.filter(([t]) => sBas != null && sSon != null && t >= sBas && t < sSon);
+  const sayimKare = sk.length ? { ort: Math.round(sk.reduce((a, x) => a + x[1], 0) / sk.length), en_dusuk: Math.min(...sk.map((x) => x[1])), en_uzun_kare: Math.max(...sk.map((x) => x[2] ?? 0)) } : null;
+  if (sayimKare) console.log(`  3-2-1 kare: ort ${sayimKare.ort} · en düşük dilim ${sayimKare.en_dusuk} kare/sn · en uzun kare ${sayimKare.en_uzun_kare} ms`);
+  return { durum, rakamlar, bekleKare, sayimKare, sayimDilim: sk };
 }
 for (const gec of GECLER) {
   // G1 — Hazine: faz_bitis rakip gelene dek boş; gelince o an + 4 sn (1105); soru faz_bitis'te, gösterim payı 2 sn

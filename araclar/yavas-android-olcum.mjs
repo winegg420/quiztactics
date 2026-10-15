@@ -177,7 +177,7 @@ async function baglamAc(tarayici, { video = null } = {}) {
   const hedef = new URL(ADRES).origin;
   oturum.origins = (oturum.origins ?? []).map((x) => ({ ...x, origin: hedef }));
   const b = await tarayici.newContext({ storageState: oturum, viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true,
-    userAgent: UA, locale: "tr-TR", serviceWorkers: "block", ...(video ? { recordVideo: { dir: video, size: { width: 390, height: 844 } } } : {}) });
+    userAgent: UA, locale: "tr-TR", serviceWorkers: ARG.sw ? "allow" : "block", ...(video ? { recordVideo: { dir: video, size: { width: 390, height: 844 } } } : {}) });
   await b.addInitScript(IZCI);
   // ses çizelgesi (ses.js tanısı) + uygulama kapısı geçişi (canlı adreste kurulum sayfası yerine oyun)
   await b.addInitScript(() => { try { sessionStorage.setItem("bd_ses_tani", "1"); sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } });
@@ -299,7 +299,11 @@ try {
     const { s, bayt } = await sayfaAc(b);
     const soguk = await olc(s, bayt, e.yol);
     const sicak = await olc(s, bayt, e.yol);
-    sonuc.ekranlar[e.kod] = { ad: e.ad, soguk, sicak };
+    // --sw (15 Eki 2026 perf): kurulu uygulama gibi service worker açık — üçüncü açılış SW önbelleğinden (ikinci açılış SW'yi
+    // etkinleştirir/önbelleği doldurur). Ölçülen "kurulu uygulamada ikinci açılış" budur.
+    const kurulu = ARG.sw ? (await s.waitForTimeout(4000), await olc(s, bayt, e.yol)) : null;
+    sonuc.ekranlar[e.kod] = { ad: e.ad, soguk, sicak, ...(kurulu ? { kurulu } : {}) };
+    if (kurulu) console.log(`${"".padEnd(10)} kurulu FCP ${kurulu.fcp} · içerik ${kurulu.icerik} · hazır ${kurulu.hazir} · LCP ${kurulu.lcp} · SB ${kurulu.supabase_istek}/${kurulu.sira_turu} tur · ağ JS ${kurulu.bayt.js} KB · CSS ${kurulu.bayt.css} · font ${kurulu.bayt.font} · diğer ${kurulu.bayt.diger}`);
     console.log(`${e.ad.padEnd(10)} soğuk FCP ${soguk.fcp} · içerik ${soguk.icerik} · hazır ${soguk.hazir} · etkileşim ${soguk.etkilesim} · en uzun ${soguk.en_uzun_gorev} · TBT ${soguk.tbt} · SB ${soguk.supabase_istek}/${soguk.sira_turu} tur · JS ${soguk.bayt.js} KB`);
     console.log(`${"".padEnd(10)} sıcak FCP ${sicak.fcp} · içerik ${sicak.icerik} · hazır ${sicak.hazir} · etkileşim ${sicak.etkilesim} · en uzun ${sicak.en_uzun_gorev} · TBT ${sicak.tbt} · SB ${sicak.supabase_istek}/${sicak.sira_turu} tur`);
     await b.close();
