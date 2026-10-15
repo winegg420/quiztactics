@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Tasarım A: renkler token'dan (coin, doğru, vurgu, bilgi, ikinci).
 const RENKLER = ["var(--qt-coin)", "var(--qt-dogru)", "var(--qt-vurgu)", "var(--qt-bilgi)", "var(--qt-ikinci)"];
@@ -11,6 +11,7 @@ const RENKLER = ["var(--qt-coin)", "var(--qt-dogru)", "var(--qt-vurgu)", "var(--
  */
 export default function Konfeti({ aktif, adet = 14, tur = "dusus" }) {
   const [parcaciklar, setParcaciklar] = useState([]);
+  const kalanRef = useRef(0);   // animasyonu bitmemiş parçacık sayısı
 
   useEffect(() => {
     if (!aktif) {
@@ -33,14 +34,18 @@ export default function Konfeti({ aktif, adet = 14, tur = "dusus" }) {
       boyut: 6 + Math.random() * 6,
     }));
     setParcaciklar(yeni);
-    const t = setTimeout(() => setParcaciklar([]), 1100);
+    kalanRef.current = yeni.length;
+    // 15 Eki 2026 (senkron): parçacıklar animasyonları BİTİNCE kalkar (onAnimationEnd). Eskiden sabit 1100 ms vardı; yavaş
+    // telefonda animasyon çizimden geç başladığı için parçacıklar yolun ~%70'inde ekrandan siliniyordu. Sigorta: 3 sn.
+    const t = setTimeout(() => setParcaciklar([]), 3000);
     return () => clearTimeout(t);
   }, [aktif, adet]);
 
   if (parcaciklar.length === 0) return null;
 
   return (
-    <div className={`qt-konfeti${tur === "patlama" ? " qt-konfeti--patlama" : ""}`} aria-hidden="true">
+    <div className={`qt-konfeti${tur === "patlama" ? " qt-konfeti--patlama" : ""}`} aria-hidden="true"
+         onAnimationEnd={(e) => { if (e.target !== e.currentTarget && --kalanRef.current <= 0) setParcaciklar([]); }}>
       {parcaciklar.map((p) => (
         <span
           key={p.id}

@@ -146,12 +146,17 @@ function taniKaydi(rol, dosya, olay) {
   try {
     if (!sesTaniAcik()) return null;
     const k = { rol, dosya, t: Math.round(performance.now()) };
-    if (olay) { k.sonuc = olay; (window.__sesOlay ||= []).push(k); return k; }
+    if (olay) { k.sonuc = olay; (window.__sesOlay ||= []).push(k); (window.__akis ||= []).push({ t: Date.now(), olay: `ses:${olay}`, rol }); return k; }
     (window.__sesKayit ||= []).push(k);
+    (window.__akis ||= []).push({ t: Date.now(), olay: "ses:istendi", rol });
     return k;
   } catch { return null; /* tanı kritik değil */ }
 }
-const taniSonuc = (k, sonuc, ek) => { if (k) { k.sonuc = sonuc; if (ek) Object.assign(k, ek); } };
+const taniSonuc = (k, sonuc, ek) => {
+  if (!k) return;
+  k.sonuc = sonuc; if (ek) Object.assign(k, ek);
+  try { (window.__akis ||= []).push({ t: Date.now(), olay: sonuc === "calindi" ? "ses:caldi" : `ses:${sonuc}`, rol: k.rol }); } catch { /* tanı */ }
+};
 /** Bir rolün aynı anda çalabilecek kopya sayısı (varsayılan 2). */
 const ES_ZAMANLI = { kazandin: 1, kaybettin: 1, beraberlik: 1, vs_ani: 1, rozet: 1, level: 1, rutbe: 1, turnuva: 1, sure_doldu: 1, soru_geldi: 1, tur_gecis: 1 };
 /** Ön yükleme grupları — `sesOnYukle("duello")` gibi. */
@@ -166,9 +171,11 @@ const ARKA_ARKAYA_MS = 40;         // aynı rol bu süreden sık tetiklenirse at
 const ILK_CALMA_SINIRI_MS = 250;   // ilk indirme bundan uzun sürerse o çalış atlanır
 // 15 Eki 2026 (yavaş telefon ölçümü: maç sonu "kaybettin" 0,9–1 sn'de iniyordu → 250 ms kuralı sesi YUTUYORDU): maç sonu
 // sesleri ekran durduğu sürece geç de olsa çalar (en çok bu kadar geç).
-// Geçiş/ödül sesleri biraz geç de yerine oturur (ölçüm: Hazine giriş düşüşünün tur_gecis'i 258 ms'de iniyordu).
+// 15 Eki 2026 (Hazine senkron, kök düzeltme): geç çalma izni YALNIZ maç sonu ekranının sesinde (sesMacSonu); maç içi hiçbir
+// ses geç çalmaz (tur_gecis/rozet 600 ms izni kalktı — geç inen ses sonraki fazın sesine biniyordu). Ekran kapanınca
+// (MacSonuKutlama söker) bekleyen geç ses de düşer (sesFazDegisti).
 const GEC_KABUL_MS = { kazandin: 3000, kaybettin: 3000, beraberlik: 3000, xp_dolma: 3000, level: 3000, rutbe: 3000, turnuva: 3000,
-  tur_gecis: 600, rozet: 600 };
+  rozet: 3000, coin: 3000 };
 // Cevap geri bildirimi sessiz kalmasın: dosya 250 ms'de inmediyse o an yedek ton çalar (dosya sonraki sefere hazır olur).
 const YEDEK_TONLU = new Set(["dogru", "yanlis", "sure_doldu"]);
 const SES_KLASORU = `${import.meta.env?.BASE_URL ?? "/"}ses/`;
@@ -260,8 +267,8 @@ function ton({ frekans = 880, sure = 0.09, hacim = 0.16, tip = "sine", gecikme =
   if (typeof navigator !== "undefined" && navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
   const c = context();
   if (!c) return;
+  if (c.state !== "running") { calisirkenCal(c, () => ton({ frekans, sure, hacim, tip, gecikme }), null); return; }
   try {
-    if (c.state === "suspended") c.resume();
     const t0 = c.currentTime + gecikme;
     const osc = c.createOscillator();
     const kazanc = c.createGain();
@@ -420,6 +427,39 @@ function yukleDosya(c, dosya) {
   return s;
 }
 
+// 15 Eki 2026 (Hazine senkron, kök düzeltme) — FAZ İPTALİ. Maç sayfası her yeni fazda (yeni soru / sonuç / karar / maç
+// sonu) sesFazDegisti() çağırır: önceki fazda istenip HENÜZ çalmamış her ses düşer — dosyası inmekte olan, yedek tonu
+// bekleyen, ertelenen xp_dolma, 300 ms bekleyen rakip sesi, askıdaki AudioContext'in açılmasını bekleyen. Geç inen ses
+// sonraki faza ASLA taşmaz. Zamanlayıcıyla sonraya kurulan ses fazdaCal(f) ile sarılır: yalnız kurulduğu fazda çalar.
+let fazNo = 0;
+const bekleyenZamanlar = new Set();
+const fazZamani = (f, ms) => { const z = setTimeout(() => { bekleyenZamanlar.delete(z); f(); }, ms); bekleyenZamanlar.add(z); return z; };
+const fazZamaniIptal = (z) => { if (z == null) return; clearTimeout(z); bekleyenZamanlar.delete(z); };
+export function sesFazDegisti() {
+  fazNo += 1;
+  rakipCevapBekleyeniIptal();
+  for (const z of bekleyenZamanlar) clearTimeout(z);
+  bekleyenZamanlar.clear();
+}
+/** Sonraya kurulan ses: kurulduğu faz sürüyorsa çalar, faz değiştiyse sessizce düşer. */
+export function fazdaCal(f) {
+  const n = fazNo;
+  return (...a) => { if (n === fazNo) f(...a); else taniKaydi("faz", null, "iptal (faz değişti, zamanlayıcı)"); };
+}
+const simdiMs = () => (typeof performance !== "undefined" ? performance.now() : Date.now());
+// AudioContext askıdaysa (arka plandan dönüş, Android ses odağı) başlatılan kaynaklar askıdayken BİRİKİR ve açılınca hepsi
+// AYNI ANDA çalar. Kural: askıdaysa açmayı dene; ILK_CALMA_SINIRI_MS içinde ve aynı fazda açılırsa çal, yoksa atla.
+function calisirkenCal(c, f, tani) {
+  if (!c || c.state === "running") { f(); return; }
+  const n = fazNo, bas = simdiMs();
+  try {
+    Promise.resolve(c.resume?.()).then(() => {
+      if (c.state === "running" && n === fazNo && simdiMs() - bas <= ILK_CALMA_SINIRI_MS) f();
+      else taniSonuc(tani, "atlandı (AudioContext askıdaydı)");
+    }, () => taniSonuc(tani, "atlandı (AudioContext açılmadı)"));
+  } catch { taniSonuc(tani, "atlandı (AudioContext açılmadı)"); }
+}
+
 // Maç sonu sonuç sesleri: xp_dolma bunlar bitince başlar (B3).
 const SONUC_ROLLERI = ["kazandin", "kaybettin", "beraberlik"];
 let sonucBitisAni = 0;   // AudioContext saati (sn)
@@ -440,9 +480,9 @@ function kisVeDurdur(c, rol) {
 }
 
 function tamponCal(c, tampon, hacim, hiz, rol, tani = null) {
+  if (c.state !== "running") { calisirkenCal(c, () => tamponCal(c, tampon, hacim, hiz, rol, tani), tani); return; }
   try {
     taniSonuc(tani, "calindi", { basladi: Math.round(performance.now()), ctx: c.state });
-    if (c.state === "suspended") c.resume();
     const kaynak = c.createBufferSource();
     kaynak.buffer = tampon;
     if (hiz !== 1) kaynak.playbackRate.value = hiz;
@@ -485,7 +525,7 @@ function tamponCal(c, tampon, hacim, hiz, rol, tani = null) {
  * @param {{carpan?:number, hiz?:number}} [secenek]
  */
 let xpErtelendi = false;   // ertelenen xp_dolma çağrısı ikinci kez ertelenmesin
-function cal(rol, yedek, { carpan = 1, hiz = 1 } = {}) {
+function cal(rol, yedek, { carpan = 1, hiz = 1, gecKabul = false } = {}) {
   // 980: gizli sekmede ses yok (bütün modlar) — arka planda faz/an sesleri çalıyor, kısılmış zamanlayıcılar dönüşte
   // birikmiş sesleri arka arkaya patlatıyordu (ölçüm: kasa-canli-testi --dondur, 6 Eki 2026)
   if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
@@ -494,7 +534,7 @@ function cal(rol, yedek, { carpan = 1, hiz = 1 } = {}) {
     const kalanMs = (sonucBitisAni - ctx.currentTime) * 1000;
     if (kalanMs > 0 && kalanMs < 6000) {
       taniKaydi(rol, null, `ertelendi ${Math.round(kalanMs)} ms`);
-      setTimeout(() => { xpErtelendi = true; try { cal(rol, yedek, { carpan, hiz }); } finally { xpErtelendi = false; } }, kalanMs + 40);
+      fazZamani(() => { xpErtelendi = true; try { cal(rol, yedek, { carpan, hiz, gecKabul }); } finally { xpErtelendi = false; } }, kalanMs + 40);
       return;
     }
   }
@@ -514,21 +554,26 @@ function cal(rol, yedek, { carpan = 1, hiz = 1 } = {}) {
   if (hazir) { tamponCal(c, hazir, hacim, hiz, rol, tani); return; }
 
   taniSonuc(tani, "yukleniyor");
-  const sinir = GEC_KABUL_MS[rol] ?? ILK_CALMA_SINIRI_MS;
+  // geç çalma izni yalnız maç sonu ekranının sesinde (sesMacSonu → gecKabul); maç içinde her ses 250 ms kuralında
+  const sinir = gecKabul ? GEC_KABUL_MS[rol] ?? ILK_CALMA_SINIRI_MS : ILK_CALMA_SINIRI_MS;
+  const istekFazi = fazNo;
+  // yedek ton ya da dosya — İKİSİ BİRDEN ÇALMAZ: yedek çaldıysa dosya bu sefer çalmaz (sonraki sefere hazır olur)
   let yedekCaldi = false;
-  const yedekZamani = YEDEK_TONLU.has(rol) ? setTimeout(() => { yedekCaldi = true; taniSonuc(tani, "yedek-ton (dosya 250 ms'de inmedi)"); yedek(); }, ILK_CALMA_SINIRI_MS) : null;
+  const yedekZamani = YEDEK_TONLU.has(rol) ? fazZamani(() => { yedekCaldi = true; taniSonuc(tani, "yedek-ton (dosya 250 ms'de inmedi)"); yedek(); }, ILK_CALMA_SINIRI_MS) : null;
   yukleDosya(c, dosya).then(
     (tampon) => {
-      const gecen = (typeof performance !== "undefined" ? performance.now() : Date.now()) - simdi;
+      const gecen = simdiMs() - simdi;
       if (yedekCaldi) return;
-      clearTimeout(yedekZamani);
+      fazZamaniIptal(yedekZamani);
+      if (istekFazi !== fazNo) { taniSonuc(tani, "iptal (faz değişti)"); return; }
       if (gecen <= sinir) tamponCal(c, tampon, hacim, hiz, rol, tani);
       else taniSonuc(tani, `gec-yuklendi ${Math.round(gecen)} ms`);
     },
     () => {
-      const gecen = (typeof performance !== "undefined" ? performance.now() : Date.now()) - simdi;
+      const gecen = simdiMs() - simdi;
       if (yedekCaldi) return;
-      clearTimeout(yedekZamani);
+      fazZamaniIptal(yedekZamani);
+      if (istekFazi !== fazNo) { taniSonuc(tani, "iptal (faz değişti)"); return; }
       taniSonuc(tani, gecen <= sinir ? "yedek-ton (yüklenemedi)" : `yuklenemedi ${Math.round(gecen)} ms`);
       if (gecen <= sinir) yedek();
     }
@@ -560,13 +605,13 @@ export function sesKalpAtisi(kademe = 1) {
 }
 
 /** Süre doldu. */
-export function sesSureDoldu() { kanca("cevap"); cal("sure_doldu", tonSureDoldu); }
+export function sesSureDoldu() { rakipCevapBekleyeniIptal(); kanca("cevap"); cal("sure_doldu", tonSureDoldu); }
 
 /** Doğru cevap. */
-export function sesDogru() { kanca("cevap"); cal("dogru", tonDogru); }
+export function sesDogru() { rakipCevapBekleyeniIptal(); kanca("cevap"); cal("dogru", tonDogru); }
 
 /** Yanlış cevap. */
-export function sesYanlis() { kanca("cevap"); cal("yanlis", tonYanlis); }
+export function sesYanlis() { rakipCevapBekleyeniIptal(); kanca("cevap"); cal("yanlis", tonYanlis); }
 
 /** Buton dokunuşu — kısık. */
 export function sesDokunus() { cal("dokunus", tonDokunus); }
@@ -691,7 +736,8 @@ const tonTurnuva = () => {
 };
 
 /** Yeni soru ekrana geldi — soru kartı görünür olduğu karede çağır. */
-export function sesSoruGeldi() { rakipCevapBekleyeniIptal(); kanca("soru"); cal("soru_geldi", tonSoruGeldi); }
+// 15 Eki 2026: yeni soru = yeni faz (bütün modlar) — önceki fazın bekleyen sesleri düşer (sesFazDegisti; rakip sesi dahil)
+export function sesSoruGeldi() { sesFazDegisti(); kanca("soru"); cal("soru_geldi", tonSoruGeldi); }
 
 /** Soru/tur geçişi — geçiş animasyonu BAŞLARKEN çağır (whoosh ~0.37 sn). */
 export function sesTurGecis() { cal("tur_gecis", tonTurGecis); }
@@ -758,7 +804,7 @@ export function sesCoin() { cal("coin", tonCoin); }
  */
 export function sesMacSonu(rol) {
   if (rol === "kazandin" || rol === "kaybettin" || rol === "beraberlik") kanca("cevap");
-  cal(rol, () => {});
+  cal(rol, () => {}, { gecKabul: true });
 }
 
 /** Maç sonu sahnesi açıkken müzik kısık (sahne kapanınca eski seviyeye döner). */
@@ -782,7 +828,8 @@ export function sesKategoriSecildi() { cal("kategori_secildi", kisaTon(880)); }
 
 /** Rakip cevabını verdi (sen hâlâ düşünürken) — soru başına bir kez. */
 // Rakip son cevabı verdiyse soru hemen ilerler: rakip_cevapladi ile soru_geldi üst üste çalmasın (site testi 3. tur, madde 2).
-// Ses RAKIP_SES_BEKLE_MS bekler; bu sürede soru_geldi gelirse (yeni soru) bekleyen rakip sesi hiç çalmaz. Bütün modlarda ortak.
+// Ses RAKIP_SES_BEKLE_MS bekler; bu sürede soru_geldi / doğru / yanlış / süre doldu gelirse ya da faz değişirse
+// (sesFazDegisti) bekleyen rakip sesi hiç çalmaz. Bütün modlarda ortak.
 const RAKIP_SES_BEKLE_MS = 300;
 let rakipSesZamanlayici = null;
 function rakipCevapBekleyeniIptal() {

@@ -22,7 +22,7 @@ import { BasiliTut } from "../../lib/useBasiliTut.js";
 import { useDonukSayac } from "../../lib/useDonukSayac.js";
 import { QtDugme, QtIkon, QtSayac, QtSik, QtSikler, QtSoruKarti, sinif } from "../../tasarim/index.js";
 import { sesDogru, sesYanlis, sesTik, sesKategoriGeriSayim, sesTurGecis, sesCanKaybi, sesSoruGeldi,
-  sesKategoriSecildi, sesRakipCevapladi, sesSonSaniyeler } from "../../lib/ses.js";
+  sesKategoriSecildi, sesRakipCevapladi, sesSonSaniyeler, sesFazDegisti, fazdaCal } from "../../lib/ses.js";
 import { sure, sureOlcek, varsayilanSure } from "../../lib/sureler.js";
 import { titret } from "../../lib/geriBildirim.js";
 import { GeriSayim, useGeriSayim } from "../MacHazirlik.jsx";
@@ -265,7 +265,11 @@ export default function Duello4Arena({
   const birKez = (anahtar, f) => { if (sesRef.current.has(anahtar)) return; sesRef.current.add(anahtar); f(); };
   const zamanRef = useRef([]);
   useEffect(() => () => zamanRef.current.forEach(clearTimeout), []);
-  const sonra = (ms, f) => { zamanRef.current.push(setTimeout(f, ms)); };
+  // 15 Eki 2026 (Hazine senkron kuralı, bütün modlar): sonraya kurulan ses yalnız kurulduğu fazda çalar; yeni faz/soru gelince
+  // önceki fazın bekleyen sesleri (zamanlayıcı + ses.js'te inmekte olan dosya) düşer — geç ses sonraki faza taşmaz.
+  const sonra = (ms, f) => { zamanRef.current.push(setTimeout(fazdaCal(f), ms)); };
+  const sesFaz = `${d.durum}|${d.faz}|${v.soru_no ?? ""}|${v.tur ?? ""}`;
+  useEffect(() => { sesFazDegisti(); }, [sesFaz]);
   const [, setAcilisBitti] = useState(0);
   const soruMetni = d.soru?.soru ?? null;
   useEffect(() => {

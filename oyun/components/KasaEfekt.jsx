@@ -365,9 +365,10 @@ export function KasaFinalSahnesi({ kazandim, puanOnce, puanSonra, hedef, deger, 
 }
 
 /** İkisi de bilince "ÇİFTE" patlama bandı (sonuç fazının başında, ~1,3 sn). */
-export function KasaCifteBandi({ artis, c }) {
+export function KasaCifteBandi({ artis, c, onBitti }) {
+  // 15 Eki 2026 (senkron): bant kendi animasyonu (ks-cifte-kat) BİTİNCE kalkar — sabit zamanlayıcı yavaş telefonda bandı yarıda siliyordu
   return (
-    <div className="ks-cifte" aria-hidden="true">
+    <div className="ks-cifte" aria-hidden="true" onAnimationEnd={(e) => { if (e.target === e.currentTarget) onBitti?.(); }}>
       <span className="ks-cifte-isin" />
       <b className="ks-cifte-yazi">{c("ÇİFTE!")} <span className="qt-sayi">+{artis}</span></b>
       <Patlama adet={12} menzil={120} className="ks-cifte-patlama" />

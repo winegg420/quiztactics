@@ -91,9 +91,11 @@
 .ks-kadran--vardi .ks-kasa { animation: qt-h-zipla 380ms var(--qt-egri-cikis); }
 .ks-kadran--vardi::after, .ks-kadran--patla::before {
   content: ""; position: absolute; inset: -4px; border-radius: inherit; pointer-events: none;
-  border: 3px solid var(--qt-coin); opacity: 0; animation: qt-h-halka 520ms ease-out;
+  border: 3px solid var(--qt-coin); opacity: 0; animation: qt-h-halka calc(520ms * var(--ks-sonuc-olcek, 1)) ease-out;
 }
-.ks-kadran--patla::before { inset: -10px; border-width: 4px; animation: ks-patla 760ms ease-out 60ms; }
+.ks-kadran--patla::before { inset: -10px; border-width: 4px; animation: ks-patla calc(760ms * var(--ks-sonuc-olcek, 1)) ease-out 60ms; }
+/* 15 Eki 2026 (senkron): --ks-sonuc-olcek = sonuç anının ölçeği (KasaPage; an kalan sonuç fazına sığar) — anın CSS parçaları
+   (halka, patlama, +N etiketi, anahtar halkası) aynı oranda kısalır, yeni faz gelmeden biter. Sonuç anı yokken 1. */
 @keyframes ks-patla { from { opacity: 1; transform: scale(.85); } to { opacity: 0; transform: scale(1.7); } }
 .ks-kadran--patla .ks-kasa-kadran, .ks-kadran--don .ks-kasa-kadran { animation: ks-kadran-don 760ms var(--qt-egri-cikis); }
 @keyframes ks-kadran-don { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-18deg) scale(1.1); } 55% { transform: rotate(12deg); } 80% { transform: rotate(-5deg); } }
@@ -101,7 +103,7 @@
 .ks-artis-etiket {
   position: absolute; left: 50%; top: -6px; z-index: 3; margin-left: -22px; width: 44px; text-align: center; pointer-events: none;
   font: var(--qt-a-siyah) 18px/1 var(--qt-f-baslik); color: var(--qt-coin); text-shadow: 0 2px 0 #5c3a05, 0 0 6px rgba(58, 38, 0, .6);
-  animation: qt-h-uc 1100ms var(--qt-egri-cikis) both;
+  animation: qt-h-uc calc(1100ms * var(--ks-sonuc-olcek, 1)) var(--qt-egri-cikis) both;
 }
 .ks-artis-etiket--buyuk { font-size: 24px; }
 /* 955: DEVAM ×1,25 anı — mini sandık sarsılır, kapak zıplar, çarpan patlar */
@@ -152,7 +154,7 @@
 /* ---------- sahiplik: yeni sahibin avatarında halka ---------- */
 .ks-avatar--anahtar::after {
   content: ""; position: absolute; inset: -5px; border-radius: 50%; pointer-events: none;
-  border: 3px solid var(--qt-coin); opacity: 0; animation: ks-patla 700ms ease-out 2;
+  border: 3px solid var(--qt-coin); opacity: 0; animation: ks-patla calc(700ms * var(--ks-sonuc-olcek, 1)) ease-out 2;
 }
 
 /* ---------- AÇ anı ---------- */
@@ -350,7 +352,9 @@
 }
 /* kapak ara ara sarsılır (kilit tıkırdar) */
 /* 980: bir kez (sonsuz döngü sandığı sahne boyunca tekrar tekrar oynatıyordu; 3-2-1'de her rakamda ayrıca zıplar) */
-.ks-giris-an .ks-kasa-kapi { animation: ks-kapak-tikir 1500ms ease-in-out calc(var(--ks-gec, 0ms) + 1000ms) 1 both; }
+/* 15 Eki 2026 (senkron): kapak tıkırtısı düşüşün oturmasıyla 3-2-1 arasına sığar (3-2-1 1000 ms'de kapağın zıplamasını başlatır;
+   eskiden tıkırtı 1000 ms'de başlayıp hemen kesiliyordu) */
+.ks-giris-an .ks-kasa-kapi { animation: ks-kapak-tikir 520ms ease-in-out calc(var(--ks-gec, 0ms) + 420ms) 1 both; }
 @keyframes ks-kapak-tikir { 0%, 55%, 100% { transform: rotate(-3deg); } 62% { transform: rotate(-9deg) translateY(-3%); } 70% { transform: rotate(-2deg); } 78% { transform: rotate(-6deg); } 86% { transform: rotate(-3deg); } }
 .ks-giris-an .ks-kasa-kadran { animation: ks-kadran-don 900ms ease-in-out calc(var(--ks-gec, 0ms) + 700ms) both; }
 .ks-giris-an .ks-kasa-cerceve { stroke: var(--qt-coin); }
@@ -390,7 +394,9 @@
 .ks-giris-hazir {
   padding: 6px 14px; border-radius: var(--qt-r-hap); background: var(--qt-coin-yazi); color: #fff4cf; box-shadow: 0 3px 0 var(--qt-coin-dudak);
   font: var(--qt-a-siyah) 15px/1 var(--qt-f-govde); letter-spacing: .06em;
-  animation: ks-giris-alt 600ms var(--qt-egri-cikis) calc(var(--ks-gec, 0ms) + 900ms) both;
+  /* 15 Eki 2026 (senkron): 3-2-1 sahnenin 1. sn'sinde başlar ve bu yazının yerini alır — yazı ondan ÖNCE tam görünür (eskiden 900 ms'de
+     başlayıp 1000 ms'de yarıda siliniyordu) */
+  animation: ks-giris-alt 500ms var(--qt-egri-cikis) calc(var(--ks-gec, 0ms) + 400ms) both;
 }
 .ks-giris-hedef {
   position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: var(--qt-r-hap);
