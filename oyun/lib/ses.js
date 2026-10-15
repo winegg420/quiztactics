@@ -613,8 +613,9 @@ export function sesDogru() { rakipCevapBekleyeniIptal(); kanca("cevap"); cal("do
 /** Yanlış cevap. */
 export function sesYanlis() { rakipCevapBekleyeniIptal(); kanca("cevap"); cal("yanlis", tonYanlis); }
 
-/** Buton dokunuşu — kısık. */
-export function sesDokunus() { cal("dokunus", tonDokunus); }
+/** Buton dokunuşu — kısık. Bekleyen "rakip cevapladı" sesi düşer: oyuncu cevabına dokunduysa artık düşünmüyor
+ *  (15 Eki 2026 tam tur: 300 ms bekleme içinde cevap verilince iki ses <100 ms arayla üst üste çalıyordu). */
+export function sesDokunus() { rakipCevapBekleyeniIptal(); cal("dokunus", tonDokunus); }
 
 /** Maç kazandın. */
 export function sesKazandin() { kanca("cevap"); cal("kazandin", tonKazandin); }

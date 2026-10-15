@@ -135,6 +135,8 @@
 .a-modlar .a-mod-ana:is(.a-mod-ana--duello, .a-mod-ana--kasa) .a-mod-ana-figur.as-figur { position: absolute; right: 8px; bottom: 10px; width: 48px; height: 48px; z-index: 0; }
 .a-modlar .a-mod-ana:is(.a-mod-ana--duello, .a-mod-ana--kasa) .a-mod-ana-metin { padding-right: 4px; }
 .a-modlar .a-mod-ana:is(.a-mod-ana--duello, .a-mod-ana--kasa) .qt-mod-rozet { margin-right: 52px; }
+/* Yarım kartta hap metni ("5 joker türünden 3'ünü seç") 2–3 satıra iner: tam yuvarlak hap bozuk görünüyordu → yumuşak köşeli etiket */
+.a-modlar .a-mod-ana:is(.a-mod-ana--duello, .a-mod-ana--kasa) .qt-mod-rozet { border-radius: 10px; line-height: 1.2; padding: 4px 8px; }
 /* Kapalı Ortak Hazine: kilitli kart aynı yuvada, ışınsız */
 .qt-mod.qt-mod--kilitli.a-mod-ana { min-height: 132px; }
 
