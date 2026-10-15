@@ -9,6 +9,9 @@
 //   D2 Düello kart: 1. adım → 2. adım kartların yeri değişmez (EN 360: başlık 2 satır → 1 satır); süre doldu notu kartları itmez
 //   D3 Düello tur geçişi beklemesi: bant çıkmamalı
 //   D4 Düello maç sonu: özet 2,5 sn gecikmeli → boş sayfa anı olmamalı
+//   G1 Hazine maç başı (15 Eki 2026) · G2 Düello maç başı — CPU 6x; --gec=0,7: rakip 0 (bot) / 7 sn geç ekrana gelir.
+//      Beklerken rakam YOK, "Rakip bekleniyor…"/"Rakip bağlanıyor…" görünür, kare hızı ≥ 30 (donmuyor), ilk rakam 3, rakamlar
+//      ~1 sn, sonra soru. (Klasik/Saf Bilgi/Grup/Turnuva aynı GeriSayim bileşenini kullanır — G2 onu ölçer.)
 // Kullanım: node araclar/mac-duzeltme-ekran.mjs --adres=http://localhost:5231 --etiket=sonra [--dil=tr] [--yalniz=K1,D2]
 //   "önce" için eski kodun yayında olduğu adres: --adres=https://quiztactics.com --etiket=once
 // Oturum: .arayuz-denetim-oturum.json (arayuz-denetim.mjs yazar). Çıktı: tasarim/mac-duzeltme-10eki/<etiket>-*.png + <etiket>.json
@@ -23,7 +26,7 @@ const DIL = ARG.dil || "tr";
 const YALNIZ = ARG.yalniz ? String(ARG.yalniz).split(",") : null;
 const CIKTI = path.resolve("tasarim/mac-duzeltme-10eki");
 fs.mkdirSync(CIKTI, { recursive: true });
-const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
+const OTURUM = path.resolve(String(ARG.oturum || ".arayuz-denetim-oturum.json"));
 const KASA_ID = "0b6f6800-0000-4000-8000-00000000c0de";
 const DUELLO_ID = "0d4e1100-0000-4000-8000-00000000d4d4";
 const RAKIP = "0b6f6800-0000-4000-8000-0000000000aa";
@@ -91,11 +94,16 @@ const rapor = {};
 let gecti = 0, kaldi = 0;
 const ok = (ad, kosul, ek = "") => { if (kosul) gecti++; else kaldi++; console.log(`  ${kosul ? "✓" : "✗"} ${ad}${ek ? " — " + ek : ""}`); };
 
-async function senaryo(ad, { genislik = 390, yukseklik = 844, rpc, yol, adimlar }) {
+async function senaryo(ad, { genislik = 390, yukseklik = 844, rpc, yol, adimlar, cpu = 1, izci = null }) {
   if (YALNIZ && !YALNIZ.includes(ad)) return;
   console.log(`\n== ${ad} (${ETIKET})`);
-  const b = await tarayici.newContext({ storageState: durumDosya, viewport: { width: genislik, height: yukseklik }, hasTouch: true, serviceWorkers: "block" });
+  // G senaryoları ekran videosu da kaydeder (.tmp/bekleme-video/<etiket>/<senaryo>.webm; git'e girmez)
+  const video = ad.startsWith("G") ? path.resolve(".tmp/bekleme-video", ETIKET) : null;
+  const b = await tarayici.newContext({ storageState: durumDosya, viewport: { width: genislik, height: yukseklik }, hasTouch: true, serviceWorkers: "block",
+    ...(video ? { recordVideo: { dir: video, size: { width: genislik, height: yukseklik } } } : {}) });
+  if (izci) await b.addInitScript(izci);
   const s = await b.newPage();
+  if (cpu > 1) await (await b.newCDPSession(s)).send("Emulation.setCPUThrottlingRate", { rate: cpu });
   const ctx = { ben: null, istekler: [], s };
   s.on("pageerror", (e) => console.log("  sayfa hatası:", String(e).slice(0, 160)));
   await s.route(/\/rest\/v1\/rpc\//, async (r) => {
@@ -110,7 +118,9 @@ async function senaryo(ad, { genislik = 390, yukseklik = 844, rpc, yol, adimlar 
   await s.goto(ADRES + yol, { waitUntil: "domcontentloaded" });
   const sonuclar = await adimlar(s, ctx);
   rapor[ad] = sonuclar ?? true;
+  const vYol = video ? await s.video()?.path().catch(() => null) : null;
   await b.close();
+  if (vYol && fs.existsSync(vYol)) fs.renameSync(vYol, path.join(video, `${ad}.webm`));
 }
 const ornekle = async (s, ms, aralik = 200) => { const o = []; const bit = Date.now() + ms; while (Date.now() < bit) { o.push(await s.evaluate(ORNEK)); await s.waitForTimeout(aralik); } return o; };
 const foto = (s, ad) => s.screenshot({ path: path.join(CIKTI, `${ETIKET}-${ad}.png` ) });
@@ -312,6 +322,85 @@ await senaryo("D4", { yol: `/duello/${DUELLO_ID}`,
     ok("D4 maç sonunda boş sayfa anı yok", bos.length === 0, `${bos.length} örnek (~${bos.length * 100} ms) boş`);
     return { bosMs: bos.length * 100 };
   } });
+
+// ---------------------------------------------------------------- G1/G2 — maç başı bekleme + 3-2-1 (15 Eki 2026)
+// Sayfa içi: ekran durumu (rakam / bekleme yazısı / soru) değişimleri + saniyelik rAF kare sayısı.
+const BASLANGIC_IZ = () => {
+  const o = (window.__bas = { durum: [], kare: [] });
+  let kb = performance.now(), kn = 0;
+  const raf = (t) => { kn++; if (t - kb >= 500) { o.kare.push([Math.round(kb), Math.round(kn * 1000 / (t - kb))]); kb = t; kn = 0; } requestAnimationFrame(raf); };
+  requestAnimationFrame(raf);
+  const oku = () => {
+    const sayi = document.querySelector(".m1-sayim-sayi, .ks-giris-sayi");
+    const metin = [...document.querySelectorAll(".m1-sayim-not, .ks-giris-sayac, .m2-bant, .d4-bekle, [role=status]")].map((e) => e.textContent).join(" ");
+    const bekle = /Rakip bekleniyor|Rakip bağlanıyor/.test(metin);
+    const soru = document.querySelector(".qt-soru-metin") && !document.querySelector(".m1-sayim, .ks-giris-an");
+    const d = sayi ? "sayım " + sayi.textContent.trim() : bekle ? "bekle" : soru ? "soru" : "diğer";
+    if (o.durum.at(-1)?.[1] !== d) o.durum.push([Math.round(performance.now()), d]);
+  };
+  setInterval(oku, 50);
+};
+const GECLER = String(ARG.gec ?? "0,7").split(",").map(Number);
+function baslangicDenetle(ad, iz, { hazir = null, sayimBas }) {
+  // hazir: rakibin geldiği an (sayfa saatiyle) · sayimBas: "3"ün gerçek başlaması gereken an
+  const durum = iz.durum, ilkRakam = durum.find(([, d]) => d.startsWith("sayım"));
+  const erken = durum.filter(([t, d]) => d.startsWith("sayım") && t < sayimBas - 250);
+  // bekleme penceresi: ilk bekleme yazısından 0,5 sn sonra → sayım başlangıcı (sayfa açılış çizimi dahil edilmez)
+  const bekleBas = (durum.find(([, d]) => d === "bekle")?.[0] ?? 1500) + 500;
+  // rakibin geldiği andaki tek seferlik çizim (yeni durum + soru verisi, ~1 sn) bekleme donması sayılmaz
+  const bekleKare = iz.kare.filter(([t]) => t > bekleBas && t < sayimBas - 600 && !(hazir != null && t > hazir - 250 && t < hazir + 1250)).map((x) => x[1]);
+  const rakamlar = durum.map(([t, d], i) => [d, (durum[i + 1]?.[0] ?? t) - t]).filter(([d]) => d.startsWith("sayım"));
+  ok(`${ad} beklerken rakam yok`, erken.length === 0, erken.length ? `ilk rakam ${erken[0][1]} @${erken[0][0]} ms (sayım ${Math.round(sayimBas)} ms'de başlamalı)` : "");
+  ok(`${ad} bekleme yazısı göründü`, durum.some(([t, d]) => d === "bekle" && t < sayimBas), durum.map(([t, d]) => `${t} ${d}`).join(" → "));
+  ok(`${ad} ilk rakam 3`, ilkRakam?.[1] === "sayım 3", ilkRakam?.[1] ?? "yok");
+  ok(`${ad} rakamlar ~1 sn`, rakamlar.length >= 3 && rakamlar.slice(0, 3).every(([, ms]) => ms >= 750 && ms <= 1400), rakamlar.map(([d, ms]) => `${d.slice(-1)}:${ms}`).join(" "));
+  // donmuyor: yarım saniyelik dilimlerin ortancası ≥ 50 kare/sn ve 30'un altına en çok BİR dilim düşer (rakip gelince yeni
+  // durumun çizimi — tek seferlik)
+  const sirali = [...bekleKare].sort((a, b) => a - b), dusuk = bekleKare.filter((x) => x < 30).length;
+  ok(`${ad} beklerken ekran donmuyor (ortanca ≥ 50, < 30 en çok 1 dilim)`, bekleKare.length > 0 && sirali[Math.floor(sirali.length / 2)] >= 50 && dusuk <= 1,
+    `ortanca ${sirali[Math.floor(sirali.length / 2)]} · en düşük ${sirali[0]} · <30 dilim ${dusuk} · ${bekleKare.join(",")}`);
+  ok(`${ad} soru göründü`, durum.some(([, d]) => d === "soru"));
+  return { durum, rakamlar, bekleKare };
+}
+for (const gec of GECLER) {
+  // G1 — Hazine: faz_bitis rakip gelene dek boş; gelince o an + 4 sn (1105); soru faz_bitis'te, gösterim payı 2 sn
+  await senaryo(`G1-${gec}`, { yol: `/kasa/${KASA_ID}`, cpu: 6, izci: BASLANGIC_IZ,
+    rpc: async (fn, r, c) => {
+      if (fn === "kasa_durum") {
+        c.t0 ??= Date.now();
+        const hazir = c.t0 + gec * 1000, fb = hazir + 4000, simdi = Date.now();
+        if (simdi < hazir) return json(r, kasa(c.ben, { faz: "baslangic", tur: 0, faz_bitis: null, soru: null, cevap: null, kasa: 0, sureler: { ...kasa(c.ben).sureler, gosterim_bas: null } }));
+        if (simdi < fb) return json(r, kasa(c.ben, { faz: "baslangic", tur: 0, faz_bitis: new Date(fb).toISOString(), soru: null, cevap: null, kasa: 0, sureler: { ...kasa(c.ben).sureler, gosterim_bas: null } }));
+        return json(r, kasa(c.ben, { tur: 1, kasa: 0, faz_bitis: new Date(fb + 17000).toISOString(), cevap: { ben_cevapladim: false, benim_cevabim: null, rakip_cevapladi: false },
+          sureler: { ...kasa(c.ben).sureler, gosterim_bas: new Date(fb + 2000).toISOString() } }));
+      }
+      if (/^kasa_|^kalp_at|^mac_sonu_ozet|^tepki/.test(fn)) return json(r, fn === "kasa_giris" ? { durum: "aktif", rakip_geldi: gec === 0, kalan_sn: 10 } : null);
+    },
+    adimlar: async (s, c) => {
+      await s.waitForSelector(".ks-mac", { timeout: 30000 });
+      await s.waitForTimeout(gec * 1000 + 9000);
+      const iz = await s.evaluate(() => window.__bas);
+      const fark = await s.evaluate((t0) => performance.now() - (Date.now() - t0), c.t0);   // sayfa saati ↔ t0
+      await foto(s, `G1-${gec}-son`);
+      return baslangicDenetle(`G1 Hazine (rakip +${gec} sn)`, iz, { hazir: gec > 0 ? fark + gec * 1000 : null, sayimBas: fark + gec * 1000 + 4000 + 2000 - 3000 });
+    } });
+  // G2 — Düello: giriş beklemesi (giris_bekle), rakip gelince ilk soru o an + 3 + 2 (gösterim payı 2 sn)
+  await senaryo(`G2-${gec}`, { yol: `/duello/${DUELLO_ID}`, cpu: 6, izci: BASLANGIC_IZ,
+    rpc: duelloRpc((c) => {
+      c.t0 ??= Date.now();
+      const hazir = c.t0 + gec * 1000, bas = hazir + 5000;
+      if (Date.now() < hazir) return duello(c.ben, { faz: "notr", soru: null, cevap: null, _bitis: iso(15000) }, { soru_no: 0, giris_bekle: true, tur: 0 });
+      return duello(c.ben, { faz: "notr", _bitis: new Date(bas + 15000).toISOString(), _gb: new Date(bas + 2000).toISOString() }, { soru_no: 1, tur: 1, ilk_mac: false });
+    }),
+    adimlar: async (s, c) => {
+      await s.waitForSelector(".d4-arena", { timeout: 30000 });
+      await s.waitForTimeout(gec * 1000 + 8000);
+      const iz = await s.evaluate(() => window.__bas);
+      const fark = await s.evaluate((t0) => performance.now() - (Date.now() - t0), c.t0);
+      await foto(s, `G2-${gec}-son`);
+      return baslangicDenetle(`G2 Düello (rakip +${gec} sn)`, iz, { hazir: gec > 0 ? fark + gec * 1000 : null, sayimBas: fark + gec * 1000 + 5000 - 3000 });
+    } });
+}
 
 await tarayici.close();
 const raporDosya = path.join(CIKTI, `${ETIKET}.json`);

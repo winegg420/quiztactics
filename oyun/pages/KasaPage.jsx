@@ -50,7 +50,7 @@ import { useDonukSayac } from "../lib/useDonukSayac.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesDokunus, sesRakipBulundu, sesSoruGeldi,
-  sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill, sesOnYukle, sesKalpAtisi, macSesleriniOnYukle } from "../lib/ses.js";
+  sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill, sesOnYukle, sesKalpAtisi, macSesleriniOnYukle, sesCanKaybi } from "../lib/ses.js";
 import { KasaAcAni, KasaAltinYagmuru, UcanParcalar, kasaSeviye, KasaGirisSahnesi, KasaFinalSahnesi,
   KasaCifteBandi, KasaRakipKarar, KasaSavunmaAni } from "../components/KasaEfekt.jsx";
 import Konfeti from "../components/Konfeti.jsx";
@@ -477,7 +477,9 @@ function KasaMac({ id }) {
   useEffect(() => {
     sesKilidiAc();
     // maç sesleri önceden insin (ilk soru/tik sessiz kalmasın) — Paket B/13: gerisi ilk soru görününce
-    const sesErtele = macSesleriniOnYukle(["skill", ["coin", "rozet", "xp_dolma"]]);
+    // 15 Eki: giriş sahnesinin düşüş sesleri (tur_gecis + rozet) ilk listede — rozet ertelenince 7,8 sn'de iniyor, çalmıyordu
+    sesOnYukle(["rozet"]);
+    const sesErtele = macSesleriniOnYukle(["skill", ["coin", "xp_dolma", "can_kaybi"]]);
     // Giriş sahnesinin önceden çizilmiş ışık görseli (kasa-efekt.css › .ks-giris-isik) sahne açılmadan insin
     try { new Image().src = "/hazine/giris-isik.webp"; } catch { /* görsel yoksa sahne ışıksız açılır */ }
     yukle();
@@ -522,6 +524,9 @@ function KasaMac({ id }) {
     const saat = setInterval(() => {
       const bitis = girisBitisRef.current;
       if (girisAktifRef.current && bitis != null && Date.now() + farkRef.current < bitis) return;
+      // 15 Eki: sahne öncesi bekleme katmanında da saat durur (katman kendi CSS animasyonuyla canlı); sahne zamanına
+      // ~60 ms kala yeniden işler. Başlangıç bilinmiyorsa (rakip gelmedi) yeni durum verisi zaten yeniden çizer.
+      if (girisBekleRef.current && (bitis == null || Date.now() + farkRef.current < bitis - girisSureRef.current - 60)) return;
       setSimdi(Date.now());
     }, 200);
     return () => {
@@ -764,10 +769,17 @@ function KasaMac({ id }) {
   const girisBitis = gd.bitti ? null : gd.bitis;
   const girisGecen = girisBitis != null ? sunucuSimdiMs - (girisBitis - GIRIS_SAHNE_MS) : null;
   // Sahne erken açılırsa (arama geçişi) bitişe kadar ekranda kalır (gecikme 0'dan başlar)
-  const girisAktif = girisGecen != null && girisGecen < GIRIS_SAHNE_MS && !d?.kopuk;
+  // 15 Eki 2026: sahne YALNIZ kendi zamanında açılır (girisGecen ≥ 0). Eskiden erken açılıp (arama geçişi / gösterim payı)
+  // animasyonları bitince "Hazır ol!"da donuk kalıyordu; o süre artık sahnenin canlı bekleme hâli (KasaGirisSahnesi bekle).
+  const girisAktif = girisGecen != null && girisGecen >= 0 && girisGecen < GIRIS_SAHNE_MS && !d?.kopuk;
   if (girisAktif) gd.basladi = true;
   else if (gd.basladi) gd.bitti = true;
+  // Sahne öncesi bekleme: rakip maç ekranına gelmedi (faz_bitis yok) ya da sahne zamanı henüz gelmedi (gösterim payı)
+  const girisBekle = !girisAktif && !gd.basladi && d?.durum === "aktif" && !d.altin && Number(d.tur) <= 1
+    && d.faz === "baslangic" && !d?.kopuk && (girisGecen == null || girisGecen < 0);
   const girisAktifRef = useRef(false);
+  const girisBekleRef = useRef(false);
+  girisBekleRef.current = girisBekle;
   girisAktifRef.current = girisAktif;
   const girisBitisRef = useRef(null);   // sunucu saatiyle sahne bitişi (200 ms saatinin sigortası)
   girisBitisRef.current = girisBitis;
@@ -951,6 +963,11 @@ function KasaMac({ id }) {
         const iyi = svSonuc ? (sv.sahip === d.ben) === (sv.durum === "basarili") : Boolean(s.ben_dogru);
         if (iyi) sesDogru(); else sesYanlis();
         titret(iyi ? 12 : 30);
+        // 15 Eki 2026 (Ida): rakip yanlış bildiyse (ya da cevapsız kaldıysa) kendi sesimden sonra kısık "rakip kaybetti" sesi —
+        // Düello'nun rakip can sesi (sesCanKaybi(false)); Altın Soru ve Savunma sonucunda kendi anları var, çalmaz.
+        if (!s.altin && !sv && s.rakip_dogru === false && birKez(`rakip-yanlis:${turAnahtari(d)}`)) {
+          setTimeout(() => { if (!gorunurDegil()) sesCanKaybi(false); }, 480);
+        }
         if (sv) {
           // tetik (bekliyor) ya da sonuç — olay anahtarı faz olayının kendisi (tek sefer); dokunarak geçilir
           const sa = { tip: svSonuc ? sv.durum : "tetik", benim: sv.sahip === d.ben, anahtar: Date.now() };
@@ -1106,7 +1123,7 @@ function KasaMac({ id }) {
     const t = setTimeout(() => setAcRehber(true), 400);
     return () => clearTimeout(t);
   }, [acRehberHam]);
-  const rehberAday = !d?.rehber || d?.durum !== "aktif" || girisAktif ? null
+  const rehberAday = !d?.rehber || d?.durum !== "aktif" || girisAktif || girisBekle ? null
     : d.faz === "karar" && d.karar?.veren === d.ben && an?.tip !== "ac" && !calisan && !kararSureDoldu ? "karar"
     : acRehber && acRehberHam ? "ac"
     : d.faz === "sonuc" && d.sonuc && !d.altin && !d.sonuc.savunma ? "hazine" : null;
@@ -1641,10 +1658,11 @@ function KasaMac({ id }) {
         {rakipJokerAn && d.faz === "cevap" && <KasaRakipJokerAn key={rakipJokerAn.anahtar} an={rakipJokerAn} c={c} />}
       </div>
       {jokerYuva}
-      {girisAktif && (
-        <KasaGirisSahnesi hedef={Number(d.hedef ?? 50)} acmaMin={Number(d.acma_min ?? 0)} gecenMs={girisGecen}
+      {/* 15 Eki: bekleme → sahne AYNI öğe (anahtarsız, aynı yerde) — ışık/sandık katmanları sahne başında yeniden kurulmaz */}
+      {(girisBekle || girisAktif) && (
+        <KasaGirisSahnesi bekle={girisBekle} hedef={Number(d.hedef ?? 50)} acmaMin={Number(d.acma_min ?? 0)} gecenMs={girisGecen ?? 0}
                           tavan={Number(d.tavan ?? 0)} carpanYazi={carpanYazisi(d.devam_carpan, dil)}
-                          bitisMs={girisBitis - sayimFarkiMs(farkRef.current)} onSayi={girisSayi} onBitti={girisBitti} c={c} />
+                          bitisMs={girisBitis != null ? girisBitis - sayimFarkiMs(farkRef.current) : NaN} onSayi={girisSayi} onBitti={girisBitti} c={c} />
       )}
       {an && (
         <div className="ks-efekt" aria-hidden="true" key={an.id}>

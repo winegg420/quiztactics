@@ -4,11 +4,18 @@
 // Ölçer: ilk boyama (FCP), en büyük boyama (LCP), içerik hazır (yükleniyor göstergesi yok + ertelenmeyen Supabase istekleri bitmiş,
 // 300 ms sabit), tam hazır (bütün istekler dahil),
 // etkileşime hazır (son uzun görevden sonra 2 sn sessizlik), en uzun görev, toplam engelleme (TBT), Supabase istek sayısı/şelalesi, indirilen bayt.
-// Maç açılışı (--mac): Klasik, Düello, Ortak Hazine — bota karşı TEK maç; maç adresine geçişten ilk oynanabilir kareye kadar.
+// Maç (--mac): Klasik, Düello, Ortak Hazine — bota karşı TEK maç, MAÇIN TAMAMI (15 Eki 2026): bekleme ekranı + 3-2-1 + sorular
+// (oto oyuncu: rastgele şık, Hazine'de AÇ) + maç sonu (sonuç/XP sesleri için 10 sn). Kaydedilen: ekran videosu (.tmp/yavas-mac/),
+// saniyelik kare hızı (rAF) + uzun görevler, ekran durumu çizelgesi ("bekle · Rakip bekleniyor…" / "sayım 3" / "soru" …),
+// ses çizelgesi (bd_ses_tani=1: istenen ses → çalındı mı, AudioContext durumu, atlama nedeni; tarayıcı sessiz — hoparlöre
+// ses gitmez), konsol hataları. Maç açılışı ölçümü (maç adresi → ilk oynanabilir kare) aynen durur.
 // Kullanım: npm run build && npx vite preview --port 5199 --strictPort
 //           node araclar/test-oturumu.mjs --ac --adres=http://localhost:5199 --oturum=<dosya>
 //           node araclar/yavas-android-olcum.mjs --adres=http://localhost:5199 --oturum=<dosya> [--mac] [--cikti=...json]
 //           node araclar/test-oturumu.mjs --sil --oturum=<dosya>
+//   --ida            : test hesabı yerine Ida'nın hesabıyla (idaGG) — oturum bellekte kurulur (admin magic link), diske yazılmaz,
+//                      hesap SİLİNMEZ. test-oturumu.mjs --sil ile birlikte KULLANILMAZ.
+//   --mod=hazine,klasik : yalnız bu maçlar · --etiket=once : çıktı/video adı · --yalniz_mac : ekran ölçümü yok
 import { chromium } from "playwright-core";
 import fs from "node:fs";
 import path from "node:path";
@@ -53,6 +60,8 @@ const IZCI = () => {
   const gorunur = (el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== "hidden"; };
   let aday = null, adayI = null;
   const bak = () => {
+    // ölçülecek bir şey kalmadıysa sayfaya dokunma (innerText her 50 ms'de yerleşim zorlar — maç ölçümünü bozardı)
+    if (o.icerik != null && o.hazir != null && (o.macAdres == null || o.ilkMac != null)) return;
     const kok = document.getElementById("root");
     const icerik = kok && kok.innerText.trim().length > 20;
     const yuk = [...document.querySelectorAll(YUKLENIYOR)].some(gorunur);
@@ -69,6 +78,39 @@ const IZCI = () => {
     }
   };
   setInterval(bak, 50);
+  // --mac (maçın tamamı): saniyelik kare hızı (rAF; [saniye başı, kare, en uzun kare arası ms]) + ekran durumu çizelgesi
+  // (yalnız değişimler: [t, durum]) — "3"te takılma / donan bekleme ekranı burada görünür.
+  o.kare = []; o.durum = [];
+  let kb = performance.now(), kn = 0, kmax = 0, kson = kb;
+  const raf = (t) => {
+    kn++; kmax = Math.max(kmax, t - kson); kson = t;
+    if (t - kb >= 1000) { o.kare.push([Math.round(kb), kn, Math.round(kmax)]); kb = t; kn = 0; kmax = 0; }
+    requestAnimationFrame(raf);
+  };
+  requestAnimationFrame(raf);
+  const ilk = (sel) => { for (const e of document.querySelectorAll(sel)) if (gorunur(e)) return e; return null; };
+  const BEKLE = /Rakip bekleniyor|Rakip bağlanıyor|Hazır mısın\?|Maç başlıyor|Hazırsın — diğerleri bekleniyor|Rakip aranıyor|Rakip bulundu/;
+  const durumOku = () => {
+    if (o.macAdres == null) return null;
+    const say = ilk(".m1-sayim-sayi, .ks-giris-sayi");
+    if (say) return "sayım " + say.textContent.trim();
+    if (ilk(".msk-icerik")) return "maç sonu";
+    const bekle = [...document.querySelectorAll("[role=status], h1, .m1-bekle, .m2-bant")].filter(gorunur)
+      .map((e) => e.textContent.match(BEKLE)?.[0]).find(Boolean);
+    if (ilk(".ks-giris-an")) return "giriş sahnesi" + (bekle ? " · " + bekle : ilk(".ks-giris-hazir") ? " · Hazır ol!" : "");
+    if (bekle) return "bekle · " + bekle;
+    if (ilk(".m1-sayim")) return "sayım katmanı (rakamsız)";
+    if (ilk(".qt-soru-metin")) return "soru";
+    return "diğer";
+  };
+  // Durum yalnız DOM değişince okunur (MutationObserver; CSS animasyonu tetiklemez) + 1 sn'lik yedek — sürekli yoklama
+  // stil/yerleşim zorlayıp ölçülen kare hızını düşürüyordu.
+  let bekleyen = false;
+  const yaz = () => { bekleyen = false; const d = durumOku(); if (d != null && o.durum.at(-1)?.[1] !== d) o.durum.push([Math.round(performance.now()), d]); };
+  const planla = () => { if (!bekleyen) { bekleyen = true; setTimeout(yaz, 30); } };
+  const izle = () => new MutationObserver(planla).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+  if (document.documentElement) izle(); else addEventListener("DOMContentLoaded", izle);
+  setInterval(planla, 1000);
 };
 
 function ozet(o, bayt) {
@@ -91,13 +133,40 @@ function ozet(o, bayt) {
   };
 }
 
-async function baglamAc(tarayici) {
-  const oturum = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
+// --ida: Ida'nın hesabı için oturum (Auth admin magic link → verify; test-oturumu.mjs ile aynı yol, hesap açılmaz/silinmez)
+async function idaOturumu() {
+  const E = {};
+  for (const d of [".env.local", ".env"]) {
+    try { for (const m of fs.readFileSync(d, "utf8").matchAll(/^([A-Z_]+)=(.*)$/gm)) if (!(m[1] in E)) E[m[1]] = m[2].trim(); } catch { /* yok */ }
+  }
+  const URL_ = E.SUPABASE_YENI_URL || E.VITE_SUPABASE_URL, SERVIS = E.SUPABASE_YENI_SERVICE_ROLE_KEY, ANON = E.VITE_SUPABASE_ANON_KEY;
+  if (!URL_ || !SERVIS || !ANON) throw new Error(".env.local: SUPABASE_YENI_URL / SUPABASE_YENI_SERVICE_ROLE_KEY / VITE_SUPABASE_ANON_KEY gerekli");
+  const istek = async (yol, govde, anahtar) => {
+    const r = await fetch(URL_ + yol, { method: "POST", headers: { apikey: anahtar, Authorization: `Bearer ${anahtar}`, "Content-Type": "application/json" }, body: JSON.stringify(govde) });
+    const m = await r.text();
+    if (!r.ok) throw new Error(`${yol} → ${r.status} ${m.slice(0, 120)}`);
+    return JSON.parse(m);
+  };
+  const link = await istek("/auth/v1/admin/generate_link", { type: "magiclink", email: String(ARG.eposta || "idagureli@gmail.com") }, SERVIS);
+  const o = await istek("/auth/v1/verify", { type: "magiclink", token_hash: link?.properties?.hashed_token ?? link?.hashed_token }, ANON);
+  if (!o?.access_token) throw new Error("verify oturum döndürmedi");
+  const kayit = { access_token: o.access_token, refresh_token: o.refresh_token, expires_in: o.expires_in,
+    expires_at: o.expires_at ?? Math.floor(Date.now() / 1000) + Number(o.expires_in ?? 3600), token_type: "bearer", user: o.user };
+  const ref = new URL(URL_).hostname.split(".")[0];
+  return { cookies: [], origins: [{ origin: new URL(ADRES).origin, localStorage: [{ name: `sb-${ref}-auth-token`, value: JSON.stringify(kayit) }, { name: "bildim_tanitim", value: "1" }] }] };
+}
+let IDA_OTURUM = null;
+const oturumOku = () => IDA_OTURUM ? structuredClone(IDA_OTURUM) : JSON.parse(fs.readFileSync(OTURUM, "utf8"));
+
+async function baglamAc(tarayici, { video = null } = {}) {
+  const oturum = oturumOku();
   const hedef = new URL(ADRES).origin;
   oturum.origins = (oturum.origins ?? []).map((x) => ({ ...x, origin: hedef }));
   const b = await tarayici.newContext({ storageState: oturum, viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true,
-    userAgent: UA, locale: "tr-TR", serviceWorkers: "block" });
+    userAgent: UA, locale: "tr-TR", serviceWorkers: "block", ...(video ? { recordVideo: { dir: video, size: { width: 390, height: 844 } } } : {}) });
   await b.addInitScript(IZCI);
+  // ses çizelgesi (ses.js tanısı) + uygulama kapısı geçişi (canlı adreste kurulum sayfası yerine oyun)
+  await b.addInitScript(() => { try { sessionStorage.setItem("bd_ses_tani", "1"); sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } });
   return b;
 }
 
@@ -114,7 +183,7 @@ async function sayfaAc(b) {
     const m = e.response.mimeType || "";
     turlar.set(e.requestId, /javascript/.test(m) ? "js" : /css/.test(m) ? "css" : /font|woff/.test(m) ? "font" : /image|svg/.test(m) ? "gorsel" : "diger");
   });
-  return { s, bayt };
+  return { s, bayt, cdp };
 }
 
 async function olc(s, bayt, yol) {
@@ -132,7 +201,81 @@ async function olc(s, bayt, yol) {
   return ozet(o, kb);
 }
 
-const tarayici = await chromium.launch({ channel: "chrome", headless: true });
+// Oto oyuncu: yalnız sayfaya bakar (sunucu yoklaması yok). Maç sonu görülünce 10 sn daha (sonuç + XP sesleri) kayıt sürer.
+async function otoOyna(s, sinirMs, profil = null) {
+  const bas = Date.now();
+  let son = null;
+  let pDurum = 0;   // --profil: 0 bekliyor · 1 kayıtta (giriş sahnesi / sayım) · 2 bitti
+  // Sayfaya tek, hafif bakış (Playwright rol sorguları sayfanın ana iş parçacığını yorup ölçümü bozuyordu — 3-2-1 profilinde
+  // getAriaRole/innerText): dokunulacak hedefin merkezi döner, dokunuş koordinatla yapılır.
+  const bak = () => s.evaluate(() => {
+    const gor = (e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < innerHeight ? r : null; };
+    const merkez = (r) => ({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
+    const d = window.__olc.durum.at(-1)?.[1] ?? null;
+    if (d === "maç sonu") return { d };
+    for (const b of document.querySelectorAll("button:not([disabled])")) {
+      if (/^(Hazırım|Geç|Anladım|Tamam)$/.test(b.textContent.trim())) { const r = gor(b); if (r) return { d, hedef: merkez(r), tur: "dugme" }; }
+    }
+    const siklar = [...document.querySelectorAll(".qt-sik:not([disabled]):not(.qt-sik--elendi)")].map(gor).filter(Boolean);
+    if (siklar.length >= 2) return { d, hedef: merkez(siklar[Math.floor(Math.random() * siklar.length)]), tur: "sik" };
+    const k = document.querySelector(".ks-karar-dugme:not([disabled])"); const r = k && gor(k);
+    return r ? { d, hedef: merkez(r), tur: "karar" } : { d };
+  }).catch(() => null);
+  let sonSik = 0;
+  while (Date.now() - bas < sinirMs) {
+    const b = await bak();
+    const d = b?.d ?? null;
+    if (profil && pDurum === 0 && /^sayım|^giriş sahnesi|^bekle · Rakip bekleniyor/.test(d ?? "")) { pDurum = 1; await profil.bas(); }
+    if (profil && pDurum === 1 && d === "soru") { pDurum = 2; await profil.bitir(); }
+    if (d === "maç sonu") { son ??= Date.now(); if (Date.now() - son > 10000) return true; await s.waitForTimeout(500); continue; }
+    if (b?.hedef) {
+      // şık: insan gibi 0,7–1,9 sn düşün (aynı soruda ikinci dokunuş 1,5 sn sonra)
+      if (b.tur === "sik") { if (Date.now() - sonSik < 1500) { await s.waitForTimeout(300); continue; } await s.waitForTimeout(700 + Math.random() * 1200); sonSik = Date.now(); }
+      await s.touchscreen.tap(b.hedef.x, b.hedef.y).catch(() => {});
+    }
+    await s.waitForTimeout(400);
+  }
+  return false;
+}
+
+// Maç özeti: saniyelik kare hızı, durum çizelgesi (maç adresinden itibaren ms), sayım ve bekleme süreleri, ses çizelgesi
+function macOzeti({ o, ses, olay, ctx }, bitti) {
+  const t0 = o.macAdres ?? 0;
+  const g = (t) => Math.round(t - t0);
+  const kare = o.kare.filter(([t]) => t >= t0).map(([t, n, m]) => [g(t), n, m]);
+  const durum = o.durum.map(([t, d]) => [g(t), d]);
+  const sure = (desen) => { let top = 0; durum.forEach(([t, d], i) => { if (desen.test(d)) top += (durum[i + 1]?.[0] ?? t) - t; }); return top; };
+  // 3-2-1 penceresi: ilk "sayım"/"giriş sahnesi" → ilk "soru"
+  const sayBas = durum.find(([, d]) => /^sayım|^giriş sahnesi/.test(d))?.[0] ?? null;
+  const soruBas = durum.find(([, d]) => d === "soru")?.[0] ?? null;
+  const pencere = (a, b) => kare.filter(([t]) => a != null && b != null && t >= a - 1000 && t < b);
+  const fpsOzet = (k) => k.length ? { ort: Math.round(k.reduce((x, y) => x + y[1], 0) / k.length), en_dusuk: Math.min(...k.map((x) => x[1])), en_uzun_kare: Math.max(...k.map((x) => x[2])) } : null;
+  const uzun = o.uzun.filter(([st]) => st >= t0).map(([st, d]) => [g(st), Math.round(d)]);
+  return {
+    bitti, durum, kare,
+    fps: { mac: fpsOzet(kare), sayim: fpsOzet(pencere(sayBas, soruBas)), bekleme: fpsOzet(kare.filter(([t]) => durum.some(([a, d], i) => /^bekle/.test(d) && t >= a && t < (durum[i + 1]?.[0] ?? a)))) },
+    sure_ms: { bekle: sure(/^bekle/), sayim_3: sure(/^sayım 3$/), sayim_2: sure(/^sayım 2$/), sayim_1: sure(/^sayım 1$/), giris_hazir_ol: sure(/^giriş sahnesi · Hazır ol!$/) },
+    uzun_gorev: uzun, uzun_gorev_sayim: uzun.filter(([st]) => sayBas != null && soruBas != null && st >= sayBas - 1000 && st < soruBas),
+    ses: ses.map((x) => ({ t: g(x.t), rol: x.rol, sonuc: x.sonuc ?? "?", ...(x.basladi != null ? { gecikme: x.basladi - x.t, ctx: x.ctx } : {}), dosya: String(x.dosya ?? "").split("/").at(-1) })),
+    ses_olay: olay.map((x) => ({ t: g(x.t), rol: x.rol, sonuc: x.sonuc })),
+    audio_ctx: ctx.map(([t, d]) => [g(t), d]),
+  };
+}
+
+function yazdir(kod, r) {
+  const f = (x) => x ? `ort ${x.ort} · en düşük ${x.en_dusuk} fps · en uzun kare ${x.en_uzun_kare} ms` : "—";
+  console.log(`  ${kod}: maç ${r.bitti ? "bitti" : "BİTMEDİ (süre sınırı)"} · fps maç ${f(r.fps.mac)}`);
+  console.log(`    3-2-1 penceresi: ${f(r.fps.sayim)} · uzun görev ${r.uzun_gorev_sayim.length} (en uzun ${Math.max(0, ...r.uzun_gorev_sayim.map((x) => x[1]))} ms)`);
+  console.log(`    bekleme: ${r.sure_ms.bekle} ms (${f(r.fps.bekleme)}) · "3" ${r.sure_ms.sayim_3} · "2" ${r.sure_ms.sayim_2} · "1" ${r.sure_ms.sayim_1} ms · Hazır ol! ${r.sure_ms.giris_hazir_ol} ms`);
+  console.log(`    durum: ${r.durum.slice(0, 14).map(([t, d]) => `${t} ${d}`).join(" → ")}`);
+  const atlanan = r.ses.filter((x) => x.sonuc !== "calindi");
+  console.log(`    ses: ${r.ses.length} istek · çalındı ${r.ses.length - atlanan.length} · çalınmadı ${atlanan.length}${atlanan.length ? ": " + atlanan.map((x) => `${x.rol}@${x.t} (${x.sonuc})`).join(", ") : ""}`);
+  if (r.ses_olay.length) console.log(`    ses olayları: ${r.ses_olay.map((x) => `${x.rol}@${x.t} ${x.sonuc}`).join(", ")}`);
+  console.log(`    AudioContext: ${r.audio_ctx.map(([t, d]) => `${t} ${d}`).join(" → ") || "—"} · konsol hatası ${r.konsol.length}`);
+}
+
+if (ARG.ida) IDA_OTURUM = await idaOturumu();
+const tarayici = await chromium.launch({ channel: "chrome", headless: true, args: ["--mute-audio"] });
 const sonuc = { tarih: new Date().toISOString(), adres: ADRES, ag: AG, cpu: 6, ekranlar: {}, maclar: {} };
 try {
   const SECILI = typeof ARG.sayfa === "string" ? ARG.sayfa.split(",") : null;   // --sayfa=ana,modlar
@@ -150,7 +293,7 @@ try {
   if (ARG.mac) {
     const db = await new PgIstemci(await baglantiDizgisi()).baglan();
     const sorgu = async (q) => { const r = await db.sorgu(q); return r.rows ?? r; };
-    const oturum = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
+    const oturum = oturumOku();
     const jeton = (oturum.origins ?? []).flatMap((x) => x.localStorage ?? []).find((x) => x.name.includes("-auth-token"));
     const BEN = JSON.parse(Buffer.from(JSON.parse(jeton.value).access_token.split(".")[1], "base64url").toString()).sub;
     const gec = async (s) => { for (let i = 0; i < 3; i++) { const g = s.getByRole("button", { name: /^(Geç|Atla|Anladım|Tamam|Kapat)$/ }); if (!(await g.count())) break; await g.first().click({ timeout: 1500 }).catch(() => {}); await s.waitForTimeout(400); } };
@@ -166,12 +309,19 @@ try {
       }, async tetik(s) { await gec(s); const a = s.getByRole("button", { name: /Rakip ara/i }); if (await a.count()) await a.first().click({ timeout: 2000 }); } },
       hazine: { yol: "/kasa", desen: /\/kasa\/([0-9a-f-]{36})/, tablo: "kasa_maclari", async tetik(s) { await gec(s); const a = s.getByRole("button", { name: /Rakip ara/i }); if (await a.count()) await a.first().click({ timeout: 2000 }); } },
     };
-    for (const [kod, m] of Object.entries(MAC)) {
+    const MODSEC = typeof ARG.mod === "string" ? ARG.mod.split(",") : null;
+    const ETIKET = typeof ARG.etiket === "string" ? ARG.etiket : "olcum";
+    const VIDEO = path.resolve(".tmp/yavas-mac", ETIKET);
+    fs.mkdirSync(VIDEO, { recursive: true });
+    for (const [kod, m] of Object.entries(MAC).filter(([k]) => !MODSEC || MODSEC.includes(k))) {
       let id = null;
-      const b = await baglamAc(tarayici);
+      const b = await baglamAc(tarayici, { video: VIDEO });
+      const konsol = [];
       try {
-        await m.hazirla?.();
-        const { s, bayt } = await sayfaAc(b);
+        if (!IDA_OTURUM) await m.hazirla?.();
+        const { s, bayt, cdp } = await sayfaAc(b);
+        s.on("console", (x) => { if (x.type() === "error") konsol.push(x.text().slice(0, 200)); });
+        s.on("pageerror", (e) => konsol.push("pageerror: " + String(e.message).slice(0, 200)));
         const lobi = await olc(s, bayt, m.yol);
         await gec(s);
         for (let i = 0; i < 120 && !m.desen.test(s.url()); i++) { if (i % 8 === 0) await m.tetik(s).catch(() => {}); await s.waitForTimeout(600); }
@@ -187,16 +337,38 @@ try {
           istekler: ist.map((k) => `${Math.round(k.bas - o.macAdres)}-${Math.round((k.bit ?? 0) - o.macAdres)} ${k.yol.replace("/rest/v1/rpc/", "rpc:")}`) };
         const r = sonuc.maclar[kod];
         console.log(`Maç ${kod.padEnd(7)} lobi hazır ${lobi.hazir} (etkileşim ${lobi.etkilesim}) · maç adresi → ilk kare ${r.mac_acilis} ms · en uzun ${r.en_uzun_gorev} · TBT ${r.tbt} · SB ${r.supabase_istek}`);
-      } catch (e) { console.log(`Maç ${kod}: ${e.message}`); sonuc.maclar[kod] = { hata: e.message }; }
+        // ---- maçın tamamı: oto oyuncu (rastgele şık · Hazine'de etkin ilk karar düğmesi = AÇ) → maç sonu + 10 sn
+        // --profil: 3-2-1 penceresinin JS profili (CDP, 1 ms örnek) → .tmp/yavas-mac/<etiket>/<mod>-sayim.cpuprofile
+        const profil = ARG.profil ? {
+          // JS profili + Chrome izi (stil/yerleşim/boyama ana iş parçacığında ne kadar — profilde "(program)" görünen kısım)
+          bas: async () => {
+            await cdp.send("Profiler.enable"); await cdp.send("Profiler.setSamplingInterval", { interval: 1000 }); await cdp.send("Profiler.start");
+            await tarayici.startTracing(s, { categories: ["devtools.timeline", "disabled-by-default-devtools.timeline"] }).catch(() => {});
+          },
+          bitir: async () => {
+            const { profile } = await cdp.send("Profiler.stop"); fs.writeFileSync(path.join(VIDEO, `${kod}-sayim.cpuprofile`), JSON.stringify(profile));
+            const iz = await tarayici.stopTracing().catch(() => null); if (iz) fs.writeFileSync(path.join(VIDEO, `${kod}-sayim.trace.json`), iz);
+          },
+        } : null;
+        const bitti = await otoOyna(s, Number(ARG.sinir_sn ?? 480) * 1000, profil);
+        const t = await s.evaluate(() => ({ o: window.__olc, ses: window.__sesKayit ?? [], olay: window.__sesOlay ?? [], ctx: window.__sesCtx ?? [] }));
+        Object.assign(r, macOzeti(t, bitti), { konsol });
+        r.video = path.relative(process.cwd(), await s.video()?.path().catch(() => null) ?? "") || null;
+        yazdir(kod, r);
+      } catch (e) { console.log(`Maç ${kod}: ${e.message}`); sonuc.maclar[kod] = { hata: e.message, konsol }; }
       finally {
         if (id) await sorgu(`update ${m.tablo} set durum = 'iptal', bitis = now() where id = ${alintila(id)} and durum = 'aktif'`).catch((e) => console.log("  kapatılamadı:", e.message));
         await b.close();
+        // video bağlam kapanınca yazılır → okunur adla
+        const v = sonuc.maclar[kod]?.video;
+        if (v && fs.existsSync(v)) { const yeni = path.join(VIDEO, `${kod}.webm`); fs.renameSync(v, yeni); sonuc.maclar[kod].video = path.relative(process.cwd(), yeni); }
       }
     }
     await db.kapat?.();
   }
 } finally {
   await tarayici.close();
+  fs.mkdirSync(path.dirname(CIKTI), { recursive: true });
   fs.writeFileSync(CIKTI, JSON.stringify(sonuc, null, 2));
   console.log("→", CIKTI);
 }

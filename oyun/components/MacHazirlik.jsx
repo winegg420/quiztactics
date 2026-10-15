@@ -184,6 +184,20 @@ export function HazirKapisi({
  */
 export function GeriSayim({ kalan, altYazi = null }) {
   const n = Math.max(1, Math.ceil(kalan));
+  // 15 Eki 2026 (Ida): kalan > 3 = sunucunun gösterim payı (iki istemci de başlangıcı alsın) — eskiden bu sürede "3" donuk
+  // duruyordu (yavaş telefonda 3 sn'ye kadar). Artık rakam yok: aynı sahnede "Rakip bekleniyor…" + dönen ışın + nokta
+  // animasyonu; rakamlar ancak kalan 3'e inince 3'ten başlar (her rakam ~1 sn).
+  if (kalan > 3) {
+    return (
+      <div className="m1-sayim m1-sayim--bekle" role="status" aria-live="polite">
+        <span className="m1-sayim-isin" aria-hidden="true" />
+        <div className="m1-sayim-kutu">
+          <span className="m1-sayim-bekle" aria-hidden="true"><i /><i /><i /></span>
+          <span className="m1-sayim-not">{tt("Rakip bekleniyor…")}</span>
+        </div>
+      </div>
+    );
+  }
   // 8 Eki 2026: donuk gri perde yerine açık gök + ışın sahnesi; her rakam kendi renginde (3 kırmızı · 2 sarı · 1 yeşil)
   return (
     <div className="m1-sayim" data-n={Math.min(n, 3)} role="status" aria-live="assertive">
@@ -209,7 +223,8 @@ export function GeriSayim({ kalan, altYazi = null }) {
  * @param {boolean} aktif  yalnız ilk soru/tur için true
  * @param {string|number|null} baslangic  sunucudaki soru başlangıcı (ISO ya da ms)
  * @param {number|null} [saatFarkMs]  sunucu - istemci saat farkı; verilmezse ortak sunucu saati (lib/sunucuSaati.js)
- * @returns {number|null}  gösterilecek kalan sn (en çok 3) ya da null
+ * @returns {number|null}  gösterilecek kalan sn ya da null. 15 Eki 2026: > 3 olabilir (gösterim payı) — GeriSayim o sürede
+ *   rakam değil "Rakip bekleniyor…" çizer; eskiden en çok 3'e kırpılıyor, pay boyunca "3" donuk duruyordu.
  */
 export function useGeriSayim(aktif, baslangic, saatFarkMs) {
   const [kalan, setKalan] = useState(null);
@@ -231,7 +246,10 @@ export function useGeriSayim(aktif, baslangic, saatFarkMs) {
       if (farkRef.current == null && saatFarkiMs() == null && son.kilit == null) { setKalan(null); return; }
       // çekirdek lib/sunucuSaati.js › sayimKalani (belirsiz örnekte "geç biten" taraf; 2'de yerel saate kilit)
       const k = sayimKalani(son, bitis, performance.now(), Date.now(), farkRef.current);
-      if (k > 0.05) { setKalan(Math.min(k, 3)); return; }
+      // 15 Eki: kırpılmaz (> 3 iken GeriSayim "Rakip bekleniyor…" çizer) ve TAM SANİYEYE yuvarlanır — kesirli değer her
+      // 100 ms'de sayfayı (Klasik: bütün MatchPage) yeniden çizdiriyordu (CPU 6x ölçümünde 3-2-1 ~20 kare/sn); artık
+      // yeniden çizim yalnız rakam değişince. Rakam anları aynı (ceil, 100 ms tik).
+      if (k > 0.05) { setKalan(Math.ceil(k)); return; }
       bittiRef.current = baslangic;
       setKalan(null);
       clearInterval(id);
@@ -245,7 +263,7 @@ export function useGeriSayim(aktif, baslangic, saatFarkMs) {
   if (kalan === null && aktif && basMs != null && Number.isFinite(basMs) && bittiRef.current !== basMs
       && sonRef.current.baslangic !== basMs && (farkRef.current != null || saatFarkiMs() != null)) {
     const k = sayimKalani({ kilit: null }, basMs, performance.now(), Date.now(), farkRef.current);
-    if (k > 0.05) return Math.min(k, 3);
+    if (k > 0.05) return Math.ceil(k);
   }
   return kalan;
 }

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import SureDolduGecis from "../components/SureDolduGecis.jsx";
-import { sesRakipCevapladi } from "../lib/ses.js";
+import { sesRakipCevapladi, macSesleriniOnYukle } from "../lib/ses.js";
 import { hataMesaji } from "../lib/hata.js";
 import { useParams, useNavigate } from "react-router-dom";
 import { beklemeJokerUstunde } from "../lib/beklemeKonum.js";
@@ -549,6 +549,9 @@ export default function MatchPage() {
   const duraklatildi = Boolean(nabiz?.duraklatildi) && mac?.durum === "aktif";
   const duraklamaSn = nabiz?.duraklama_sn ?? 0;
   const kopukToplamSn = useKopukToplamSn();   // 1059: kopma anından toplam bekleme (60)
+  // 15 Eki 2026: maç sesleri "Hazır mısın?" kapısında inmeye başlasın (soru kartı ancak başlangıç belli olunca kurulur —
+  // ölçümde ilk soru sesi 1,4 sn'de iniyor, çalmıyordu). Kademeli liste ses.js › macSesleriniOnYukle (Düello/Hazine ile aynı).
+  useEffect(() => macSesleriniOnYukle(["skill"]), []);
 
   // 3-2-1: maç başladı ama soru saati henüz gelmedi (sunucu 3 sn ileri kurdu).
   // Sunucu saatiyle kendi saatimiz arasındaki farkı nabızdan öğreniyoruz;
@@ -559,9 +562,15 @@ export default function MatchPage() {
   // görür. Pay boyunca "3" bekler (kalan en çok 3 gösterilir), sonra gerçek zamanla akar.
   // 1092: ortak sayım (MacHazirlik › useGeriSayim; bu dosyadaki eski kopyayla aynı mantık — kalan yalnız azalır,
   // bir başlangıç için bir kez biter). Saat farkı nabızdan (ortak sunucu saati modülünün en kısa gidiş-dönüşlü örneği).
+  // 15 Eki 2026 (yavaş telefon ölçümü): nabzın `baslangic`ı GÜNCEL sorunun başlangıcıdır. Bot ilk soruyu insanla aynı anda
+  // cevaplayınca sunucu 2. soruyu (başlangıç + pay) kurar; maç satırı henüz eski (aktif_soru 0) olduğundan bu başlangıç
+  // "ilk soru" sanılıyor, 1. sorunun geri bildirimi üstünde ikinci bir "2-1" sayımı çıkıyordu. Grup'taki kural (1092):
+  // satır başladıysa başlangıç ile soru sırası BİRLİKTE satırdan; satır başlamadıysa nabızdan.
+  const satirBasladi = Boolean(mac?.basladi);
   const geriSayim = useGeriSayim(
-    ilkSoruMu && Boolean(nabiz?.basladi && nabiz?.baslangic && nabiz?.sunucu_zamani),
-    nabiz?.baslangic ?? null, nabizSaatFarki(nabiz));
+    satirBasladi ? senkron && ilkSoruMu && Boolean(nabiz?.basladi && mac?.soru_baslangic)
+      : Boolean(nabiz?.basladi && nabiz?.baslangic && nabiz?.sunucu_zamani),
+    satirBasladi ? (mac?.soru_baslangic ?? null) : (nabiz?.baslangic ?? null), nabizSaatFarki(nabiz));
 
   /** Rakip gelmiyor: maçı sıra tabanlı (asenkron) bırak. */
   const asenkronaGec = async () => {

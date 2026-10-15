@@ -256,9 +256,15 @@ function Patlama({ adet = 18, menzil = 150, className }) {
  * bitisMs (yerel saat) = ilk sorunun gösterim başlangıcı — sahne biter bitmez soru açılır, sayaç o an başlar (kayıp süre yok).
  * gecenMs: sahnenin başından bu yana — geç gelen istemci düşüşü ortasından görür. onSayi(n): 3/2/1 (ses sayfada).
  */
-export function KasaGirisSahnesi({ hedef, acmaMin, tavan = 0, carpanYazi = null, gecenMs = 0, bitisMs, onSayi, onBitti, c }) {
-  // Gecikme YALNIZ ilk çizimde alınır: animasyon zaten akıyor, her karede güncellenirse iki kat hızlı biter
-  const [gecikme] = useState(() => `-${Math.max(0, Math.round(gecenMs))}ms`);
+export function KasaGirisSahnesi({ hedef, acmaMin, tavan = 0, carpanYazi = null, gecenMs = 0, bitisMs, onSayi, onBitti, c, bekle = false }) {
+  // 15 Eki 2026 (Ida): bekle = sahneden ÖNCEKİ bekleme (rakip maç ekranına gelmedi / sunucunun gösterim payı sürüyor). Eskiden
+  // sahne bu sürede erken açılıp 4 sn'lik animasyonları bitince "Hazır ol!"da DONUK kalıyordu (yavaş telefonda ~3 sn). Artık
+  // aynı öğe bekleme hâlinde: ışık döner, sandık salınır, "Rakip bekleniyor…" + noktalar (yalnız transform/opacity). Sahne
+  // zamanı gelince AYNI öğe sahneye geçer (ışık/sandık katmanları yeniden kurulup boyanmaz) ve animasyonlar baştan akar.
+  // Gecikme YALNIZ sahnenin ilk çiziminde alınır: animasyon zaten akıyor, her karede güncellenirse iki kat hızlı biter
+  const gecikmeRef = useRef(null);
+  if (!bekle && gecikmeRef.current == null) gecikmeRef.current = `-${Math.max(0, Math.round(gecenMs))}ms`;
+  const gecikme = gecikmeRef.current ?? "0ms";
   const [n, setN] = useState(null);
   // bitisMs her yoklamada (saat farkı / faz değişimi) birkaç ms oynar: zamanlayıcı yeniden kurulmaz, ref'ten okunur;
   // her sayı (3/2/1) bileşen ömründe YALNIZ bir kez bildirilir (ses iki kez çalmasın)
@@ -266,6 +272,7 @@ export function KasaGirisSahnesi({ hedef, acmaMin, tavan = 0, carpanYazi = null,
   geriRef.current = { onSayi, onBitti, bitisMs };
   const bildirilenRef = useRef(new Set());
   useEffect(() => {
+    if (bekle) return undefined;   // beklemede sayım yok (bitiş henüz bilinmeyebilir)
     let bitti = false;
     // 1092: ortak sayım kuralı (MacHazirlik › useGeriSayim ile aynı): kalan 2'ye inince bitiş yerel saate kilitlenir —
     // sonradan gelen saat örneği rakamı kısaltamaz/uzatamaz; 2 ve 1 tam birer saniye.
@@ -297,18 +304,22 @@ export function KasaGirisSahnesi({ hedef, acmaMin, tavan = 0, carpanYazi = null,
     tik();
     kur();
     return () => clearTimeout(z);
-  }, []);
+  }, [bekle]);
   return (
-    <div className={sinif("ks-giris-an", n && "ks-giris-an--sayim")} role="status" aria-live="polite" style={{ "--ks-gec": gecikme }}>
+    <div className={sinif("ks-giris-an", bekle && "ks-giris-bekle", n && "ks-giris-an--sayim")} role="status" aria-live="polite" style={{ "--ks-gec": gecikme }}>
       <span className="ks-giris-isik" aria-hidden="true" />
       <b className="ks-giris-baslik">{c("HAZİNE")}</b>
       <span className="ks-giris-sayac" aria-live="assertive">
-        {n ? <b key={n} className="ks-giris-sayi qt-sayi">{n}</b> : <span className="ks-giris-hazir">{c("Hazır ol!")}</span>}
+        {bekle
+          ? <span className="ks-giris-bekle-yazi">{c("Rakip bekleniyor…")}<span className="ks-giris-bekle-nokta" aria-hidden="true"><i /><i /><i /></span></span>
+          : n ? <b key={n} className="ks-giris-sayi qt-sayi">{n}</b> : <span className="ks-giris-hazir">{c("Hazır ol!")}</span>}
       </span>
       <div className="ks-giris-kasa" aria-hidden="true">
         <span className="ks-giris-halka" />
-        {/* her sayıda kapak zıplar (anahtar değişince içteki animasyon yeniden başlar) */}
-        <span className="ks-giris-zipla" key={n ?? 0}><KasaKasasi seviye="orta" /></span>
+        {/* her sayıda kapak zıplar. 15 Eki 2026: sandık artık YENİDEN KURULMAZ (eskiden key={n} — her rakamda gradyanlı SVG
+            baştan oluşup yerleşim + boyama yapıyordu, CPU 6x'te rakam anında takılma); animasyon tek/çift rakamda eş iki
+            keyframe adına geçerek yeniden başlar (kasa-efekt.css › ks-giris-zipla--b) */}
+        <span className={sinif("ks-giris-zipla", n && n % 2 === 0 && "ks-giris-zipla--b")}><KasaKasasi seviye="orta" /></span>
       </div>
       <span className="ks-giris-hedef">
         <QtIkon ad="hedef" boyut={18} />

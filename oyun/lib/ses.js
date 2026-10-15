@@ -135,16 +135,23 @@ let muzikKancasi = null;
 export function sesMuzikKancasi(f) { muzikKancasi = f; }
 const kanca = (olay) => { try { muzikKancasi?.(olay); } catch { /* müzik kritik değil */ } };
 // Tanı (yalnız ?tani=1 oturumunda ya da test bayrağı sessionStorage.bd_ses_tani=1 iken — ikincisi
-// tanı panelini açmaz): window.__sesKayit = [{rol, dosya, t}] — test için.
+// tanı panelini açmaz): window.__sesKayit = [{rol, dosya, t, sonuc, basladi, ctx}] — test için. sonuc: "calindi" (kaynak
+// başladı; basladi = an, ctx = AudioContext durumu), "yedek-ton" ya da atlama nedeni (araclar/yavas-android-olcum.mjs --mac).
 export const sesTaniAcik = () => {
   try { return sessionStorage.getItem("bd_ses_tani") === "1" || sessionStorage.getItem("bd_tani") === "1" || /[?&]tani=1/.test(location.search); } catch { return false; }
 };
-function taniKaydi(rol, dosya) {
+// `olay` verilirse (iptal edilen bekleyen ses, ertelenen ses) kayıt ayrı listeye (window.__sesOlay) gider — __sesKayit'ı
+// sayan eski testler değişmesin.
+function taniKaydi(rol, dosya, olay) {
   try {
-    if (!sesTaniAcik()) return;
-    (window.__sesKayit ||= []).push({ rol, dosya, t: Math.round(performance.now()) });
-  } catch { /* tanı kritik değil */ }
+    if (!sesTaniAcik()) return null;
+    const k = { rol, dosya, t: Math.round(performance.now()) };
+    if (olay) { k.sonuc = olay; (window.__sesOlay ||= []).push(k); return k; }
+    (window.__sesKayit ||= []).push(k);
+    return k;
+  } catch { return null; /* tanı kritik değil */ }
 }
+const taniSonuc = (k, sonuc, ek) => { if (k) { k.sonuc = sonuc; if (ek) Object.assign(k, ek); } };
 /** Bir rolün aynı anda çalabilecek kopya sayısı (varsayılan 2). */
 const ES_ZAMANLI = { kazandin: 1, kaybettin: 1, beraberlik: 1, vs_ani: 1, rozet: 1, level: 1, rutbe: 1, turnuva: 1, sure_doldu: 1, soru_geldi: 1, tur_gecis: 1 };
 /** Ön yükleme grupları — `sesOnYukle("duello")` gibi. */
@@ -157,6 +164,13 @@ const GRUPLAR = {
 };
 const ARKA_ARKAYA_MS = 40;         // aynı rol bu süreden sık tetiklenirse atlanır
 const ILK_CALMA_SINIRI_MS = 250;   // ilk indirme bundan uzun sürerse o çalış atlanır
+// 15 Eki 2026 (yavaş telefon ölçümü: maç sonu "kaybettin" 0,9–1 sn'de iniyordu → 250 ms kuralı sesi YUTUYORDU): maç sonu
+// sesleri ekran durduğu sürece geç de olsa çalar (en çok bu kadar geç).
+// Geçiş/ödül sesleri biraz geç de yerine oturur (ölçüm: Hazine giriş düşüşünün tur_gecis'i 258 ms'de iniyordu).
+const GEC_KABUL_MS = { kazandin: 3000, kaybettin: 3000, beraberlik: 3000, xp_dolma: 3000, level: 3000, rutbe: 3000, turnuva: 3000,
+  tur_gecis: 600, rozet: 600 };
+// Cevap geri bildirimi sessiz kalmasın: dosya 250 ms'de inmediyse o an yedek ton çalar (dosya sonraki sefere hazır olur).
+const YEDEK_TONLU = new Set(["dogru", "yanlis", "sure_doldu"]);
 const SES_KLASORU = `${import.meta.env?.BASE_URL ?? "/"}ses/`;
 
 let ctx = null;
@@ -201,6 +215,12 @@ function context() {
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return null;
     ctx = new AC();
+    if (sesTaniAcik()) {
+      // tanı: AudioContext durum çizelgesi (askıda / çalışıyor) — window.__sesCtx = [[t, durum]]
+      const yaz = () => { try { (window.__sesCtx ||= []).push([Math.round(performance.now()), ctx.state]); } catch { /* tanı */ } };
+      yaz();
+      ctx.addEventListener?.("statechange", yaz);
+    }
     return ctx;
   } catch {
     return null; // ses donanımı yok / tarayıcı engelledi
@@ -419,8 +439,9 @@ function kisVeDurdur(c, rol) {
   }
 }
 
-function tamponCal(c, tampon, hacim, hiz, rol) {
+function tamponCal(c, tampon, hacim, hiz, rol, tani = null) {
   try {
+    taniSonuc(tani, "calindi", { basladi: Math.round(performance.now()), ctx: c.state });
     if (c.state === "suspended") c.resume();
     const kaynak = c.createBufferSource();
     kaynak.buffer = tampon;
@@ -445,10 +466,7 @@ function tamponCal(c, tampon, hacim, hiz, rol) {
     if (rol === "soru_geldi") for (const r of ["dogru", "yanlis"]) kisVeDurdur(c, r);
     // B3: maç sonu sonucu sesinin bitiş anı — xp_dolma bundan sonra başlar.
     if (SONUC_ROLLERI.includes(rol)) sonucBitisAni = c.currentTime + (tampon.duration || 0) / (hiz || 1);
-    if (sesTaniAcik()) {
-      const k = (window.__sesKayit || []).slice().reverse().find((x) => x.rol === rol);
-      if (k) k.sureMs = Math.round(((tampon.duration || 0) / (hiz || 1)) * 1000);
-    }
+    if (tani) tani.sureMs = Math.round(((tampon.duration || 0) / (hiz || 1)) * 1000);
     kaynak.onended = () => {
       const l = calanlar.get(rol);
       const i = l ? l.indexOf(kayit) : -1;
@@ -475,33 +493,44 @@ function cal(rol, yedek, { carpan = 1, hiz = 1 } = {}) {
   if (rol === "xp_dolma" && !xpErtelendi && ctx) {
     const kalanMs = (sonucBitisAni - ctx.currentTime) * 1000;
     if (kalanMs > 0 && kalanMs < 6000) {
+      taniKaydi(rol, null, `ertelendi ${Math.round(kalanMs)} ms`);
       setTimeout(() => { xpErtelendi = true; try { cal(rol, yedek, { carpan, hiz }); } finally { xpErtelendi = false; } }, kalanMs + 40);
       return;
     }
   }
   const dosya = dosyaAdi(rol);
-  taniKaydi(rol, sesAcikMi() ? dosya : "efekt-kapali");
-  if (!dosya || !calabilir()) return;     // sessiz seçildi / ses kapalı → indirme de yok
+  const tani = taniKaydi(rol, sesAcikMi() ? dosya : "efekt-kapali");
+  if (!dosya || !calabilir()) { taniSonuc(tani, !dosya ? "sessiz" : "calinamaz (ses kapalı / dokunuş yok)"); return; }
   const simdi = typeof performance !== "undefined" ? performance.now() : Date.now();
-  if (simdi - (sonCalma.get(rol) ?? -Infinity) < ARKA_ARKAYA_MS) return;
+  if (simdi - (sonCalma.get(rol) ?? -Infinity) < ARKA_ARKAYA_MS) { taniSonuc(tani, "arka-arkaya"); return; }
   sonCalma.set(rol, simdi);
 
-  if (dosya === ADAY_YOK || bozuk.has(dosya)) { yedek(); return; }
+  if (dosya === ADAY_YOK || bozuk.has(dosya)) { taniSonuc(tani, "yedek-ton"); yedek(); return; }
   const c = context();
-  if (!c) return;
+  if (!c) { taniSonuc(tani, "audiocontext-yok"); return; }
   const hacim = (adayMi(dosya) ? HACIM_ADAY[rol] ?? 0.8 : HACIM[rol] ?? 0.8) * carpan;
 
   const hazir = tamponlar.get(dosya);
-  if (hazir) { tamponCal(c, hazir, hacim, hiz, rol); return; }
+  if (hazir) { tamponCal(c, hazir, hacim, hiz, rol, tani); return; }
 
+  taniSonuc(tani, "yukleniyor");
+  const sinir = GEC_KABUL_MS[rol] ?? ILK_CALMA_SINIRI_MS;
+  let yedekCaldi = false;
+  const yedekZamani = YEDEK_TONLU.has(rol) ? setTimeout(() => { yedekCaldi = true; taniSonuc(tani, "yedek-ton (dosya 250 ms'de inmedi)"); yedek(); }, ILK_CALMA_SINIRI_MS) : null;
   yukleDosya(c, dosya).then(
     (tampon) => {
       const gecen = (typeof performance !== "undefined" ? performance.now() : Date.now()) - simdi;
-      if (gecen <= ILK_CALMA_SINIRI_MS) tamponCal(c, tampon, hacim, hiz, rol);
+      if (yedekCaldi) return;
+      clearTimeout(yedekZamani);
+      if (gecen <= sinir) tamponCal(c, tampon, hacim, hiz, rol, tani);
+      else taniSonuc(tani, `gec-yuklendi ${Math.round(gecen)} ms`);
     },
     () => {
       const gecen = (typeof performance !== "undefined" ? performance.now() : Date.now()) - simdi;
-      if (gecen <= ILK_CALMA_SINIRI_MS) yedek();
+      if (yedekCaldi) return;
+      clearTimeout(yedekZamani);
+      taniSonuc(tani, gecen <= sinir ? "yedek-ton (yüklenemedi)" : `yuklenemedi ${Math.round(gecen)} ms`);
+      if (gecen <= sinir) yedek();
     }
   );
 }
@@ -616,17 +645,23 @@ export function sesOnYukle(grup = "mac") {
 // ve maç ekranı parçalarıyla bant genişliği için yarışıyordu (yavaş 4G). Açılışta yalnız ilk soruya kadar çalacaklar
 // (dokunuş, 3-2-1, soru geldi, tur geçişi, son saniyeler) iner; gerisi (doğru/yanlış, jokerler, mod sesleri) ilk soru
 // ekranda görününce (.qt-soru-metin; en geç 20 sn) ve ilk çizim bittikten sonra iner. İnmeden çalınırsa yedek ton çalar.
-export const MAC_ILK_SESLER = ["dokunus", "tik", "sayim_son", "soru_geldi", "tur_gecis", "son_saniyeler"];
+// 15 Eki 2026: doğru/yanlış/rakip cevapladı da ilk listede — ölçümde ilk cevabın sesi (dosya 2,5–4,3 sn'de iniyordu) ve
+// ilk rakip sesi (7,4 sn) yutuluyordu.
+export const MAC_ILK_SESLER = ["dokunus", "tik", "sayim_son", "soru_geldi", "tur_gecis", "son_saniyeler", "dogru", "yanlis", "rakip_cevapladi"];
 export function macSesleriniOnYukle(sonraGruplar = []) {
   sesOnYukle(MAC_ILK_SESLER);
   const kalan = [...(GRUPLAR.mac ?? []).filter((r) => !MAC_ILK_SESLER.includes(r))];
-  const indir = () => { sesOnYukle(kalan); for (const g of sonraGruplar) sesOnYukle(g); };
+  // 15 Eki: maç sonu sesleri (kazandın/kaybettin/XP) her modda ertelenen listede — önceden hiçbir mod indirmiyordu, maç
+  // sonunda istenince 0,9–1 sn'de iniyor ve 250 ms kuralı yüzünden hiç çalmıyordu.
+  const indir = () => { sesOnYukle(kalan); for (const g of sonraGruplar) sesOnYukle(g); sesOnYukle("sonuc"); };
   if (typeof document === "undefined") { indir(); return () => {}; }
   let bitti = false;
   const bas = Date.now();
   const z = setInterval(() => {
     if (bitti) return;
-    if (document.querySelector(".qt-soru-metin") || Date.now() - bas > 20000) {
+    // 15 Eki: sayım/giriş sahnesi altında çizilen soru kartı (Klasik) "soru göründü" sayılmaz — 3-2-1 sırasında bant
+    // ilk seslere kalsın
+    if ((document.querySelector(".qt-soru-metin") && !document.querySelector(".m1-sayim, .ks-giris-an")) || Date.now() - bas > 20000) {
       bitti = true; clearInterval(z);
       const sonra = () => { if (typeof requestAnimationFrame === "function") requestAnimationFrame(() => setTimeout(indir, 300)); else setTimeout(indir, 300); };
       sonra();
@@ -750,7 +785,11 @@ export function sesKategoriSecildi() { cal("kategori_secildi", kisaTon(880)); }
 // Ses RAKIP_SES_BEKLE_MS bekler; bu sürede soru_geldi gelirse (yeni soru) bekleyen rakip sesi hiç çalmaz. Bütün modlarda ortak.
 const RAKIP_SES_BEKLE_MS = 300;
 let rakipSesZamanlayici = null;
-function rakipCevapBekleyeniIptal() { if (rakipSesZamanlayici) { clearTimeout(rakipSesZamanlayici); rakipSesZamanlayici = null; } }
+function rakipCevapBekleyeniIptal() {
+  if (!rakipSesZamanlayici) return;
+  clearTimeout(rakipSesZamanlayici); rakipSesZamanlayici = null;
+  taniKaydi("rakip_cevapladi", null, "iptal (300 ms içinde yeni soru/ses)");
+}
 export function sesRakipCevapladi() {
   rakipCevapBekleyeniIptal();
   rakipSesZamanlayici = setTimeout(() => {

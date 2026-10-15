@@ -1,0 +1,850 @@
+{
+ "tarih": "2026-10-15",
+ "kosul": "CPU 6x · yavaş 4G (150 ms, 1,6/0,75 Mbit) · 390×844 · Ida (idaGG) bota karşı · yerel üretim derlemesi + canlı Supabase",
+ "maclar": {
+  "hazine": {
+   "once": {
+    "mac_acilis_ms": 894,
+    "fps": {
+     "mac": {
+      "ort": 53,
+      "en_dusuk": 24,
+      "en_uzun_kare": 1085
+     },
+     "sayim": {
+      "ort": 50,
+      "en_dusuk": 24,
+      "en_uzun_kare": 1085
+     },
+     "bekleme": {
+      "ort": 52,
+      "en_dusuk": 52,
+      "en_uzun_kare": 67
+     }
+    },
+    "sure_ms": {
+     "bekle": 256,
+     "sayim_3": 1010,
+     "sayim_2": 1004,
+     "sayim_1": 1154,
+     "giris_hazir_ol": 7364
+    },
+    "ilk_soru_ms": 11717,
+    "durum_ilk": [
+     [
+      333,
+      "diğer"
+     ],
+     [
+      929,
+      "bekle · Rakip bağlanıyor"
+     ],
+     [
+      1185,
+      "giriş sahnesi · Hazır ol!"
+     ],
+     [
+      8549,
+      "sayım 3"
+     ],
+     [
+      9559,
+      "sayım 2"
+     ],
+     [
+      10563,
+      "sayım 1"
+     ],
+     [
+      11717,
+      "soru"
+     ],
+     [
+      22737,
+      "diğer"
+     ],
+     [
+      27176,
+      "soru"
+     ],
+     [
+      34380,
+      "diğer"
+     ]
+    ],
+    "uzun_gorev_sayim": [
+     [
+      244,
+      61
+     ],
+     [
+      647,
+      59
+     ],
+     [
+      712,
+      121
+     ],
+     [
+      1066,
+      68
+     ],
+     [
+      7512,
+      78
+     ],
+     [
+      9961,
+      81
+     ],
+     [
+      11483,
+      54
+     ],
+     [
+      11537,
+      109
+     ],
+     [
+      11648,
+      54
+     ]
+    ],
+    "ses": {
+     "istek": 119,
+     "calindi": 113,
+     "calinmadi": [
+      "rakip_bulundu@-2875 gec-yuklendi 7557 ms",
+      "vs_ani@-2074 gec-yuklendi 7219 ms",
+      "tur_gecis@1161 gec-yuklendi 3518 ms",
+      "rozet@2470 gec-yuklendi 4866 ms",
+      "yanlis@15207 gec-yuklendi 4255 ms",
+      "kaybettin@186211 gec-yuklendi 919 ms"
+     ]
+    },
+    "mac_sonu_sesleri": [
+     "kaybettin gec-yuklendi 919 ms",
+     "xp_dolma calindi"
+    ],
+    "konsol_hatasi": 0
+   },
+   "sonra": {
+    "mac_acilis_ms": 942,
+    "fps": {
+     "mac": {
+      "ort": 52,
+      "en_dusuk": 22,
+      "en_uzun_kare": 334
+     },
+     "sayim": {
+      "ort": 49,
+      "en_dusuk": 24,
+      "en_uzun_kare": 334
+     },
+     "bekleme": null
+    },
+    "sure_ms": {
+     "bekle": 248,
+     "sayim_3": 981,
+     "sayim_2": 1009,
+     "sayim_1": 1136,
+     "giris_hazir_ol": 826
+    },
+    "ilk_soru_ms": 6713,
+    "durum_ilk": [
+     [
+      100,
+      "bekle · Rakip bulundu"
+     ],
+     [
+      348,
+      "diğer"
+     ],
+     [
+      983,
+      "giriş sahnesi · Rakip bağlanıyor"
+     ],
+     [
+      1140,
+      "giriş sahnesi · Rakip bekleniyor"
+     ],
+     [
+      2761,
+      "giriş sahnesi · Hazır ol!"
+     ],
+     [
+      3587,
+      "sayım 3"
+     ],
+     [
+      4568,
+      "sayım 2"
+     ],
+     [
+      5577,
+      "sayım 1"
+     ],
+     [
+      6713,
+      "soru"
+     ],
+     [
+      12410,
+      "diğer"
+     ]
+    ],
+    "uzun_gorev_sayim": [
+     [
+      255,
+      50
+     ],
+     [
+      582,
+      74
+     ],
+     [
+      669,
+      177
+     ],
+     [
+      879,
+      56
+     ],
+     [
+      2691,
+      50
+     ],
+     [
+      4968,
+      76
+     ],
+     [
+      6555,
+      99
+     ]
+    ],
+    "ses": {
+     "istek": 133,
+     "calindi": 130,
+     "calinmadi": [
+      "dokunus@-10131 gec-yuklendi 300 ms",
+      "rakip_bulundu@-2865 gec-yuklendi 3423 ms",
+      "vs_ani@-2190 gec-yuklendi 3217 ms"
+     ]
+    },
+    "mac_sonu_sesleri": [
+     "xp_dolma calindi",
+     "xp_dolma calindi",
+     "xp_dolma calindi",
+     "xp_dolma calindi",
+     "kaybettin calindi",
+     "xp_dolma calindi"
+    ],
+    "konsol_hatasi": 0
+   }
+  },
+  "klasik": {
+   "once": {
+    "mac_acilis_ms": 950,
+    "fps": {
+     "mac": {
+      "ort": 44,
+      "en_dusuk": 11,
+      "en_uzun_kare": 384
+     },
+     "sayim": {
+      "ort": 42,
+      "en_dusuk": 37,
+      "en_uzun_kare": 184
+     },
+     "bekleme": {
+      "ort": 51,
+      "en_dusuk": 38,
+      "en_uzun_kare": 150
+     }
+    },
+    "sure_ms": {
+     "bekle": 2947,
+     "sayim_3": 2872,
+     "sayim_2": 1519,
+     "sayim_1": 1634,
+     "giris_hazir_ol": 0
+    },
+    "ilk_soru_ms": 8844,
+    "durum_ilk": [
+     [
+      101,
+      "diğer"
+     ],
+     [
+      981,
+      "bekle · Hazır mısın?"
+     ],
+     [
+      3928,
+      "sayım 3"
+     ],
+     [
+      6800,
+      "sayım 2"
+     ],
+     [
+      7791,
+      "sayım 1"
+     ],
+     [
+      8844,
+      "soru"
+     ],
+     [
+      10555,
+      "sayım 2"
+     ],
+     [
+      11083,
+      "sayım 1"
+     ],
+     [
+      11664,
+      "soru"
+     ],
+     [
+      73171,
+      "diğer"
+     ]
+    ],
+    "uzun_gorev_sayim": [
+     [
+      3779,
+      67
+     ],
+     [
+      3850,
+      53
+     ],
+     [
+      4179,
+      64
+     ],
+     [
+      4249,
+      68
+     ],
+     [
+      4626,
+      109
+     ],
+     [
+      4737,
+      133
+     ],
+     [
+      5545,
+      68
+     ],
+     [
+      8748,
+      62
+     ]
+    ],
+    "ses": {
+     "istek": 74,
+     "calindi": 67,
+     "calinmadi": [
+      "dokunus@-10378 gec-yuklendi 388 ms",
+      "rakip_bulundu@-2869 gec-yuklendi 3050 ms",
+      "vs_ani@-2114 gec-yuklendi 3279 ms",
+      "soru_geldi@4750 gec-yuklendi 2799 ms",
+      "yanlis@10256 gec-yuklendi 2564 ms",
+      "kaybettin@75062 gec-yuklendi 1032 ms",
+      "xp_dolma@75973 gec-yuklendi 673 ms"
+     ]
+    },
+    "mac_sonu_sesleri": [
+     "kaybettin gec-yuklendi 1032 ms",
+     "xp_dolma gec-yuklendi 673 ms"
+    ],
+    "konsol_hatasi": 0
+   },
+   "sonra": {
+    "mac_acilis_ms": 1169,
+    "fps": {
+     "mac": {
+      "ort": 43,
+      "en_dusuk": 15,
+      "en_uzun_kare": 300
+     },
+     "sayim": {
+      "ort": 51,
+      "en_dusuk": 38,
+      "en_uzun_kare": 117
+     },
+     "bekleme": {
+      "ort": 48,
+      "en_dusuk": 37,
+      "en_uzun_kare": 167
+     }
+    },
+    "sure_ms": {
+     "bekle": 5013,
+     "sayim_3": 1008,
+     "sayim_2": 1004,
+     "sayim_1": 1002,
+     "giris_hazir_ol": 0
+    },
+    "ilk_soru_ms": 9227,
+    "durum_ilk": [
+     [
+      102,
+      "diğer"
+     ],
+     [
+      1200,
+      "bekle · Hazır mısın?"
+     ],
+     [
+      4345,
+      "bekle · Rakip bekleniyor"
+     ],
+     [
+      6213,
+      "sayım 3"
+     ],
+     [
+      7221,
+      "sayım 2"
+     ],
+     [
+      8225,
+      "sayım 1"
+     ],
+     [
+      9227,
+      "soru"
+     ],
+     [
+      78884,
+      "diğer"
+     ],
+     [
+      80506,
+      "maç sonu"
+     ]
+    ],
+    "uzun_gorev_sayim": [
+     [
+      5603,
+      65
+     ],
+     [
+      5725,
+      80
+     ],
+     [
+      8156,
+      53
+     ],
+     [
+      9140,
+      64
+     ]
+    ],
+    "ses": {
+     "istek": 70,
+     "calindi": 69,
+     "calinmadi": [
+      "dokunus@-10532 gec-yuklendi 460 ms"
+     ]
+    },
+    "mac_sonu_sesleri": [
+     "kaybettin calindi",
+     "xp_dolma calindi"
+    ],
+    "konsol_hatasi": 0
+   }
+  }
+ },
+ "bekleme_taklit": {
+  "not": "G1 Hazine, G2 Düello (Klasik/Saf Bilgi/Grup/Turnuva aynı GeriSayim) · -0 bot · -7 rakip 7 sn geç · CPU 6x",
+  "once": {
+   "G1-0": {
+    "durum": [
+     [
+      182,
+      "diğer"
+     ],
+     [
+      4883,
+      "sayım 3"
+     ],
+     [
+      5875,
+      "sayım 2"
+     ],
+     [
+      6998,
+      "sayım 1"
+     ],
+     [
+      7968,
+      "soru"
+     ]
+    ],
+    "rakamlar": [
+     [
+      "sayım 3",
+      992
+     ],
+     [
+      "sayım 2",
+      1123
+     ],
+     [
+      "sayım 1",
+      970
+     ]
+    ]
+   },
+   "G1-7": {
+    "durum": [
+     [
+      191,
+      "diğer"
+     ],
+     [
+      2071,
+      "bekle"
+     ],
+     [
+      10342,
+      "diğer"
+     ],
+     [
+      11903,
+      "sayım 3"
+     ],
+     [
+      12843,
+      "sayım 2"
+     ],
+     [
+      13876,
+      "sayım 1"
+     ],
+     [
+      14974,
+      "soru"
+     ]
+    ],
+    "rakamlar": [
+     [
+      "sayım 3",
+      940
+     ],
+     [
+      "sayım 2",
+      1033
+     ],
+     [
+      "sayım 1",
+      1098
+     ]
+    ]
+   },
+   "G2-0": {
+    "durum": [
+     [
+      172,
+      "diğer"
+     ],
+     [
+      2001,
+      "sayım 3"
+     ],
+     [
+      4810,
+      "sayım 2"
+     ],
+     [
+      5711,
+      "sayım 1"
+     ],
+     [
+      7067,
+      "soru"
+     ]
+    ],
+    "rakamlar": [
+     [
+      "sayım 3",
+      2809
+     ],
+     [
+      "sayım 2",
+      901
+     ],
+     [
+      "sayım 1",
+      1356
+     ]
+    ]
+   },
+   "G2-7": {
+    "durum": [
+     [
+      180,
+      "diğer"
+     ],
+     [
+      1890,
+      "bekle"
+     ],
+     [
+      8934,
+      "sayım 3"
+     ],
+     [
+      11773,
+      "sayım 2"
+     ],
+     [
+      12770,
+      "sayım 1"
+     ],
+     [
+      13664,
+      "soru"
+     ]
+    ],
+    "rakamlar": [
+     [
+      "sayım 3",
+      2839
+     ],
+     [
+      "sayım 2",
+      997
+     ],
+     [
+      "sayım 1",
+      894
+     ]
+    ]
+   }
+  },
+  "sonra": {
+   "G1-0": {
+    "durum": [
+     [
+      213,
+      "diğer"
+     ],
+     [
+      2194,
+      "bekle"
+     ],
+     [
+      3933,
+      "diğer"
+     ],
+     [
+      4918,
+      "sayım 3"
+     ],
+     [
+      5946,
+      "sayım 2"
+     ],
+     [
+      7097,
+      "sayım 1"
+     ],
+     [
+      8030,
+      "soru"
+     ]
+    ],
+    "rakamlar": [
+     [
+      "sayım 3",
+      1028
+     ],
+     [
+      "sayım 2",
+      1151
+     ],
+     [
+      "sayım 1",
+      933
+     ]
+    ]
+   },
+   "G1-7": {
+    "durum": [
+     [
+      165,
+      "diğer"
+     ],
+     [
+      2006,
+      "bekle"
+     ],
+     [
+      10954,
+      "diğer"
+     ],
+     [
+      11719,
+      "sayım 3"
+     ],
+     [
+      12705,
+      "sayım 2"
+     ],
+     [
+      13706,
+      "sayım 1"
+     ],
+     [
+      14735,
+      "soru"
+     ]
+    ],
+    "rakamlar": [
+     [
+      "sayım 3",
+      986
+     ],
+     [
+      "sayım 2",
+      1001
+     ],
+     [
+      "sayım 1",
+      1029
+     ]
+    ]
+   },
+   "G2-0": {
+    "durum": [
+     [
+      177,
+      "diğer"
+     ],
+     [
+      2054,
+      "bekle"
+     ],
+     [
+      3739,
+      "sayım 3"
+     ],
+     [
+      4710,
+      "sayım 2"
+     ],
+     [
+      5714,
+      "sayım 1"
+     ],
+     [
+      6905,
+      "soru"
+     ]
+    ],
+    "rakamlar": [
+     [
+      "sayım 3",
+      971
+     ],
+     [
+      "sayım 2",
+      1004
+     ],
+     [
+      "sayım 1",
+      1191
+     ]
+    ]
+   },
+   "G2-7": {
+    "durum": [
+     [
+      166,
+      "diğer"
+     ],
+     [
+      1886,
+      "bekle"
+     ],
+     [
+      10771,
+      "sayım 3"
+     ],
+     [
+      11754,
+      "sayım 2"
+     ],
+     [
+      12770,
+      "sayım 1"
+     ],
+     [
+      13756,
+      "soru"
+     ]
+    ],
+    "rakamlar": [
+     [
+      "sayım 3",
+      983
+     ],
+     [
+      "sayım 2",
+      1016
+     ],
+     [
+      "sayım 1",
+      986
+     ]
+    ]
+   }
+  }
+ },
+ "hazine_giris_taklit_ab": {
+  "once": {
+   "sayim_takilma_toplam": 6,
+   "sayim_en_kotu_kare": [
+    84,
+    83,
+    84,
+    84,
+    67
+   ],
+   "sayim_takilan_ms": [
+    151,
+    83,
+    84,
+    84,
+    67
+   ]
+  },
+  "sonra": {
+   "sayim_takilma_toplam": 5,
+   "sayim_en_kotu_kare": [
+    83,
+    67,
+    84,
+    83,
+    84
+   ],
+   "sayim_takilan_ms": [
+    83,
+    67,
+    84,
+    83,
+    84
+   ]
+  }
+ }
+}

@@ -359,6 +359,13 @@
 @keyframes ks-giris-zipla { 0% { transform: scale(1); } 22% { transform: translateY(-14px) scale(1.06, .97); } 50% { transform: translateY(2px) scale(.98, 1.03); } 100% { transform: none; } }
 .ks-giris-an--sayim .ks-kasa-kapi { animation: ks-kapak-hop 520ms var(--qt-egri-cikis); }
 .ks-giris-an--sayim .ks-kasa-isik { animation: ks-ac-isik 520ms ease-out both; }
+/* 15 Eki 2026: sandık her rakamda yeniden kurulmaz — çift rakamda (2) eş keyframe adı, animasyon yeniden başlar */
+.ks-giris-an--sayim .ks-giris-zipla--b { animation-name: ks-giris-zipla-b; }
+.ks-giris-an--sayim .ks-giris-zipla--b .ks-kasa-kapi { animation-name: ks-kapak-hop-b; }
+.ks-giris-an--sayim .ks-giris-zipla--b .ks-kasa-isik { animation-name: ks-ac-isik-b; }
+@keyframes ks-giris-zipla-b { 0% { transform: scale(1); } 22% { transform: translateY(-14px) scale(1.06, .97); } 50% { transform: translateY(2px) scale(.98, 1.03); } 100% { transform: none; } }
+@keyframes ks-kapak-hop-b { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-22deg) translateY(-4%); } 60% { transform: rotate(-6deg); } }
+@keyframes ks-ac-isik-b { from { opacity: .3; transform: scale(.7); } 40% { opacity: 1; transform: scale(1.25); } to { opacity: .9; transform: scale(1.1); } }
 .ks-giris-halka {
   position: absolute; left: 50%; top: 46%; width: 76%; aspect-ratio: 1; margin: -38% 0 0 -38%; border-radius: 50%;
   box-shadow: 0 0 0 4px rgba(255, 228, 143, .95), 0 0 32px 10px rgba(255, 201, 51, .8); opacity: 0; z-index: 3; pointer-events: none;
@@ -397,6 +404,22 @@
   animation: ks-giris-alt 600ms var(--qt-egri-cikis) calc(var(--ks-gec, 0ms) + 1100ms) both;
 }
 @keyframes ks-giris-alt { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+/* 15 Eki 2026: sahne öncesi bekleme (KasaGirisSahnesi bekle) —ışık durmadan döner, sandık salınır, noktalar zıplar (yalnız transform/opacity) */
+.ks-giris-bekle .ks-giris-isik { opacity: .55; animation: ks-giris-bekle-isik 9s linear infinite; }
+@keyframes ks-giris-bekle-isik { from { transform: scale(.8) rotate(0); } to { transform: scale(.8) rotate(360deg); } }
+/* beklemede sahne animasyonları DURUR ki sahne başında baştan aksın (bekleme ↔ sahne aynı öğe; ad değişince yeniden başlar) */
+.ks-giris-bekle .ks-giris-baslik, .ks-giris-bekle .ks-giris-halka, .ks-giris-bekle .ks-kasa-kapi, .ks-giris-bekle .ks-kasa-kadran { animation: none; }
+.ks-giris-bekle .ks-giris-kasa { animation: ks-giris-bekle-salin 1.6s ease-in-out infinite alternate; }
+@keyframes ks-giris-bekle-salin { from { transform: translateY(0) rotate(-2deg); } to { transform: translateY(-8px) rotate(2deg); } }
+.ks-giris-bekle-yazi {
+  position: relative; z-index: 3; display: inline-flex; align-items: baseline; gap: 6px;
+  font: var(--qt-a-siyah) 20px/1.2 var(--qt-f-baslik); color: var(--qt-mod-kasa-yazi);
+}
+.ks-giris-bekle-nokta { display: inline-flex; gap: 4px; }
+.ks-giris-bekle-nokta i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: ks-giris-bekle-nokta 1.1s ease-in-out infinite; }
+.ks-giris-bekle-nokta i:nth-child(2) { animation-delay: .18s; }
+.ks-giris-bekle-nokta i:nth-child(3) { animation-delay: .36s; }
+@keyframes ks-giris-bekle-nokta { 0%, 60%, 100% { transform: translateY(0); opacity: .45; } 30% { transform: translateY(-6px); opacity: 1; } }
 @media (max-height: 640px) {
   .ks-giris-an { gap: 5px; }
   .ks-giris-baslik { font-size: 36px; }

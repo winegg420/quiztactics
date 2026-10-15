@@ -10,7 +10,7 @@ import Konfeti from "./Konfeti.jsx";
 import CevapEfekti from "./CevapEfekti.jsx";
 import CevapImzasi from "./CevapImzasi.jsx";
 import { useTakiliImza } from "../lib/cevapImzasi.js";
-import { sesTik, sesSureDoldu, sesDogru, sesYanlis, sesDokunus, sesKilidiAc, sesOnYukle, sesSoruGeldi, sesSonSaniyeler } from "../lib/ses.js";
+import { sesTik, sesSureDoldu, sesDogru, sesYanlis, sesDokunus, sesKilidiAc, sesSoruGeldi, sesSonSaniyeler, macSesleriniOnYukle } from "../lib/ses.js";
 import { titret, macPuani } from "../lib/geriBildirim.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { useGorunurlukTazele } from "../lib/gorunurluk.js";
@@ -197,10 +197,11 @@ export default function QuestionCard({
   }, [soru?.question_id, soru?.soru_index]);
 
   // İlk kullanıcı hareketinde ses motoru açılsın (mobil tarayıcı kuralı); maç sesleri önceden insin.
+  // 15 Eki 2026: Düello/Hazine'deki kademeli yükleme (ses.js › macSesleriniOnYukle): önce ilk soruya kadar çalacaklar +
+  // doğru/yanlış, sayım bitip soru görününce jokerler + maç sonu sesleri (önceden maç sonu sesleri hiç önceden inmiyordu).
   useEffect(() => {
     sesKilidiAc();
-    sesOnYukle("mac");
-    sesOnYukle("skill");
+    return macSesleriniOnYukle(["skill"]);
   }, []);
 
   useEffect(() => () => {

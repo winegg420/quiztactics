@@ -32,7 +32,7 @@ import { adKisalt } from "../lib/adKisalt.js";
 import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
 import { kozmetikTemasi } from "../lib/kozmetik.js";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
-import { sesVsAni } from "../lib/ses.js";
+import { sesVsAni, sesOnYukle, MAC_ILK_SESLER } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
 import { QtDugme, QtRozet, sinif } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-arama-sahnesi.css";
@@ -154,6 +154,16 @@ export default function AramaSahnesi({
     window.addEventListener("keydown", tus);
     return () => window.removeEventListener("keydown", tus);
   }, [iptalEdilebilir]);
+
+  // 15 Eki 2026: arama başlarken "rakip bulundu" + VS sesleri ve maçın ilk sesleri (3-2-1, soru, doğru/yanlış; Hazine giriş
+  // düşüşünün tur_gecis + rozet'i) insin — arama sürerken bant boş. Ölçümde bunlar istenince inmeye başlıyor, 1,4–7 sn sonra
+  // hazır oluyor ve 250 ms kuralı yüzünden hiç çalmıyordu (bütün modlar bu sahneyi kullanır).
+  // Sıra: önce bu sahnenin iki sesi (bot eşleşmesi ~3 sn sürer), maç sesleri 1,5 sn sonra (bant onlarla paylaşılmasın).
+  useEffect(() => {
+    sesOnYukle(["rakip_bulundu", "vs_ani"]);
+    const z = window.setTimeout(() => sesOnYukle([...MAC_ILK_SESLER, "rozet"]), 1500);
+    return () => window.clearTimeout(z);
+  }, []);
 
   // VS anı sesi: rakip kartı yerine oturunca bir kez
   useEffect(() => {

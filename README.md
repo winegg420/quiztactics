@@ -90,6 +90,6 @@ vercel --prod
 
 - **Sorular istemciden okunamaz** (doğru cevap sızmasın diye); soru çekme ve cevap kontrolü tamamen `security definer` RPC'lerle yapılır.
 - **Zamanlama sunucu taraflıdır**: cevap süresi ve geç varış payı sunucuda doğrulanır; istemci saat sapması telafi edilir.
-- **Maç başı senkronu (tüm modlar)**: ilk soru, bütün oyuncular maç ekranına geldikten sonra "o an + 3 sn sayım + gösterim payı" olarak kurulur (rakip gelene dek "Rakip bağlanıyor…"); herkes 3-2-1'i baştan görür. İstemcide tek sunucu saati (`oyun/lib/sunucuSaati.js`) ve tek sayım (`MacHazirlik › useGeriSayim`). Doğrulama: `araclar/senkron-testi.mjs`.
+- **Maç başı senkronu (tüm modlar)**: ilk soru, bütün oyuncular maç ekranına geldikten sonra "o an + 3 sn sayım + gösterim payı" olarak kurulur (rakip gelene dek "Rakip bağlanıyor…"); herkes 3-2-1'i baştan görür; başlangıç belli olup gösterim payı sürerken rakam yerine canlı "Rakip bekleniyor…" çizilir, rakamlar ancak son 3 sn'de ve her biri 1 sn (Hazine'de 3-2-1 giriş sahnesinin içinde, sahne öncesi aynı bekleme). İstemcide tek sunucu saati (`oyun/lib/sunucuSaati.js`) ve tek sayım (`MacHazirlik › useGeriSayim`). Doğrulama: `araclar/senkron-testi.mjs`.
 - **Turnuva ilerleyişi** dakikalık pg_cron zamanlayıcısıyla (`turnuva_zamanlayici_tik`) yürür; saatler `oyun_ayarlari.turnuva_saatleri` tablosundan okunur.
 - **Puanlar** yalnızca sunucu tarafında değişir (kolon bazlı yetkilerle istemci güncellemesi engellidir).
