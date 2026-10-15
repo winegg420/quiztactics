@@ -212,6 +212,10 @@ API anahtarı doğruluğu, ürün kararı) sor.
   hatırlanır, sekme kapanınca biter). Bu adres arayüz metinlerinde geçmez.
 - **Robot doğrulaması (Cloudflare Turnstile) çıkarsa dur** ve Ida'ya bırak; aşmaya, tekrar tekrar denemeye çalışma.
 - Test **Ida'nın hesabıyla** yapılır (yeni hesap/misafir açılmaz, başka oyuncuya işlem yapılmaz).
+- **Arayüz denetim aracına (`araclar/arayuz-denetim.mjs`) Ida oturumu VERİLMEZ** (16 Eki 2026: `--oturum` ile verilen Ida
+  oturumu iş sonunda `hesabimi_sil` ile silindi, hesap yedekten geri yüklendi). Araç yalnız kendi açtığı misafir
+  hesabını siler; başka oturumda silmeyi reddeder. Hesap silen herhangi bir araca (`hesabimi_sil`, `--sil`, admin
+  users DELETE) Ida oturumu verilmeden önce aracın tamamı okunur.
 - **Oyunun ses/müzik ayarına dokunma:** ayar o cihazdaki uygulamayla ortaktır (`bildim_muzik` / `bildim_ses`); açıp
   kapatmak telefondaki oyuncunun deneyimini de değiştirir.
 - **Telefon hızındaki kasmaları masaüstü tarayıcı göstermez.** Bunun için `araclar/yavas-android-olcum.mjs`

@@ -106,8 +106,13 @@ async function sil() {
     const k = (st.origins ?? []).flatMap((o) => o.localStorage ?? []).find((x) => /^sb-.+-auth-token$/.test(x.name));
     belirtec = k ? JSON.parse(k.value) : null;
   } catch { /* yok */ }
-  const id = meta?.id ?? belirtec?.user?.id;
-  if (!id) { console.log("· Silinecek test hesabı yok."); return; }
+  // 16 Eki 2026 (arayuz-denetim olayı): yalnız --ac ile BU aracın açtığı test hesabı silinir — işaret (META) şart,
+  // oturumdaki kullanıcı işaretle aynı olmalı, Ida'nın kimliği asla. Yoksa silmeden hata koduyla çıkar.
+  const id = meta?.id ?? null;
+  if (!id) { console.error("✗ Silinmedi: işaret dosyası yok (bu hesabı test-oturumu --ac açmadı)."); process.exitCode = belirtec ? 1 : 0; return; }
+  if (id === "e4f6006f-d6bb-4ca8-be67-3bdf9efc9708" || (belirtec?.user?.id && belirtec.user.id !== id)) {
+    console.error("✗ Silinmedi: oturum işaretteki test hesabı değil (Ida'nın hesabı asla silinmez)."); process.exitCode = 1; return;
+  }
   // 1) Uygulamanın kendi silme yolu (profil + oyun verisi temizliği): taze belirteçle hesabimi_sil
   let uygulama = "atlandı";
   try {

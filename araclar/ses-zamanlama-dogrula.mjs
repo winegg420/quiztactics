@@ -77,6 +77,23 @@ try {
   await bekle(120);
   const b3b = await sayfa.evaluate(() => window.__sesKayit);
   sonuc("B3 sonuç sesi yokken xp_dolma anında çalar", b3b.some((k) => k.rol === "xp_dolma"));
+
+  // ---- B4 (15 Eki 2026): maç sonu ekranının sesi KENDİ penceresinde — ertelenen xp_dolma, maç sayfasının faz değişiminde
+  // (sesFazDegisti) düşmez; ekran kapanınca (sesMacSonuKapat) düşer. Maç içi ses (sesXpDolma) eski kuralda: faz değişince düşer.
+  const b4 = async (ad, xp, araIslem) => {
+    await bekle(1900);
+    await sayfa.evaluate(() => { window.__sesKayit = []; });
+    await sayfa.evaluate((s) => s.sesMacSonu("kazandin"), ses);
+    await bekle(150);
+    await sayfa.evaluate(([s, xp]) => (xp === "mac_sonu" ? s.sesMacSonu("xp_dolma") : s.sesXpDolma()), [ses, xp]);
+    await bekle(300);
+    await sayfa.evaluate(([s, f]) => s[f](), [ses, araIslem]);
+    await bekle(2200);
+    return (await sayfa.evaluate(() => window.__sesKayit)).some((k) => k.rol === "xp_dolma");
+  };
+  sonuc("B4 maç sonu xp_dolma (ertelenmiş) faz değişince ÇALAR", await b4("faz", "mac_sonu", "sesFazDegisti"));
+  sonuc("B4 maç sonu xp_dolma (ertelenmiş) ekran kapanınca DÜŞER", !(await b4("kapat", "mac_sonu", "sesMacSonuKapat")));
+  sonuc("B4 maç içi xp_dolma (ertelenmiş) faz değişince DÜŞER", !(await b4("ic", "mac_ici", "sesFazDegisti")));
   await baglam.close();
 } finally {
   await tarayici.close();

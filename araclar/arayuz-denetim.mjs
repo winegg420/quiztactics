@@ -217,9 +217,44 @@ function anonAnahtar() {
   return null;
 }
 
-/** Kayıtlı oturumun hesabını sunucuda siler (hesabimi_sil) ve oturum dosyasını kaldırır. */
+// 16 Eki 2026 (kök neden): --oturum ile Ida'nın oturumu verildi ve iş sonunda hesabı SİLİNDİ. Artık araç yalnız KENDİ
+// açtığı misafir hesabını siler: açarken yanına işaret dosyası yazar (<oturum>.arac.json: kullanıcı kimliği); silmeden önce
+// işaret var mı, kimlik aynı mı, hesap anonim (misafir) mi, sahip listesinde değil mi diye bakar. Biri tutmazsa
+// hesabimi_sil ÇAĞRILMAZ ve araç hata koduyla çıkar. Kural: arayüz denetim aracına Ida oturumu VERİLMEZ (CLAUDE.md, AGENTS.md).
+const ISARET = OTURUM + ".arac.json";
+const IDA_KIMLIK = "e4f6006f-d6bb-4ca8-be67-3bdf9efc9708";
+function oturumKullanicisi() {
+  try {
+    const durum = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
+    const kayit = (durum.origins || []).flatMap((o) => o.localStorage || []).find((x) => /^sb-.+-auth-token$/.test(x.name));
+    return kayit ? JSON.parse(kayit.value)?.user ?? null : null;
+  } catch { return null; }
+}
+function aracHesabiIsaretle() {
+  const u = oturumKullanicisi();
+  if (u?.id) fs.writeFileSync(ISARET, JSON.stringify({ kullanici: u.id, anonim: u.is_anonymous === true, olusturan: "arayuz-denetim", zaman: new Date().toISOString() }));
+}
+/** Silme kapısı: yalnız bu aracın açtığı misafir hesabı. Değilse sebebi döner. */
+function silmeEngeli() {
+  const u = oturumKullanicisi();
+  if (!u?.id) return "oturumda kullanıcı yok";
+  if (u.id === IDA_KIMLIK) return "Ida'nın hesabı — asla silinmez";
+  if (u.is_anonymous !== true) return "hesap misafir (anonim) değil";
+  let isaret = null;
+  try { isaret = JSON.parse(fs.readFileSync(ISARET, "utf8")); } catch { /* yok */ }
+  if (!isaret || isaret.olusturan !== "arayuz-denetim" || isaret.kullanici !== u.id) return "bu oturumu araç açmadı (işaret dosyası yok ya da kimlik farklı)";
+  return null;
+}
+
+/** Kayıtlı oturumun hesabını sunucuda siler (hesabimi_sil) ve oturum dosyasını kaldırır — YALNIZ aracın kendi misafir hesabı. */
 async function hesabiSil() {
   if (!fs.existsSync(OTURUM)) { console.log("· Silinecek oturum yok."); return; }
+  const engel = silmeEngeli();
+  if (engel) {
+    console.error(`✗ Hesap SİLİNMEDİ: ${engel}. arayuz-denetim yalnız kendi açtığı misafir hesabını siler; başka oturum verildiyse --sakla kullan.`);
+    process.exitCode = 1;
+    return;
+  }
   try {
     const durum = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
     const kayit = (durum.origins || []).flatMap((o) => o.localStorage || []).find((x) => /^sb-.+-auth-token$/.test(x.name));
@@ -234,6 +269,7 @@ async function hesabiSil() {
     });
     if (!r.ok) { console.log("! Hesap silinemedi:", r.status, (await r.text()).slice(0, 120)); return; }
     fs.rmSync(OTURUM, { force: true });
+    fs.rmSync(ISARET, { force: true });
     console.log("· Araç hesabı silindi, oturum dosyası kaldırıldı.");
   } catch (e) {
     console.log("! Hesap silinemedi:", String(e?.message || e).slice(0, 120));
@@ -259,6 +295,7 @@ async function hesabiSil() {
     console.log("· Oturum yok — misafir hesabı açılıyor…");
     await misafirGiris(sayfa);
     await baglam.storageState({ path: OTURUM });
+    aracHesabiIsaretle();   // yalnız bu hesap sonradan silinebilir
     console.log("· Oturum kaydedildi:", OTURUM);
   } else {
     // Kayıtlı oturumda kurulum yarım kalmış olabilir: modal açıksa ölçüm
