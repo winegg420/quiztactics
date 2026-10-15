@@ -11,11 +11,15 @@ import { tt, aktifDil } from "../lib/dil.js";
 /** Sınıf adlarını birleştirir: sinif("a", kosul && "b") */
 export const sinif = (...a) => a.filter(Boolean).join(" ");
 
+// 15 Eki 2026 (perf): biçimleyici dil başına bir kez kurulur — her çağrıda new Intl.NumberFormat yavaş telefonda
+// (CPU 6x) açılışta tek görevde ~50 ms tutuyordu. Çıktı aynı.
+const BICIMLEYICI = {};
 /** Sayıyı dile göre biçimler: 12450 → "12.450" (tr) / "12,450" (en) */
 export function sayiBicim(n) {
   if (typeof n !== "number" || !Number.isFinite(n)) return n ?? "";
   try {
-    return new Intl.NumberFormat(aktifDil() === "tr" ? "tr-TR" : "en-US").format(n);
+    const yerel = aktifDil() === "tr" ? "tr-TR" : "en-US";
+    return (BICIMLEYICI[yerel] ??= new Intl.NumberFormat(yerel)).format(n);
   } catch {
     return String(n);
   }

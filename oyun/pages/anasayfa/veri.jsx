@@ -446,8 +446,11 @@ export function useDevamEdenMaclar() {
 
     // KASA (deneysel, 950): ayar satırı yoksa (migration uygulanmamış) ya da mod kapalıysa sorulmaz.
     bolum(async (sonuc) => { try {
+      // 15 Eki 2026 (perf): ayar ve kasa_aktif_benim AYNI turda başlar (eskiden ayar inince ikinci bir ağ turu açılıyordu —
+      // yavaş 4G'de ana sayfanın son isteği ~0,5 sn geç bitiyordu). Mod kapalıysa sonuç kullanılmaz (dar okuma, boş liste).
+      const kasaIstek = supabase.rpc("kasa_aktif_benim").then((y) => y, (e) => ({ data: null, error: e }));
       if (Number(await ayar("kasa_modu_acik", 0)) >= 1) {
-        const { data: kasalar, error } = await supabase.rpc("kasa_aktif_benim");
+        const { data: kasalar, error } = await kasaIstek;
         if (error) throw error;
         const rakipIdler = (kasalar ?? []).map((k) => (k.oyuncu1 === uid ? k.oyuncu2 : k.oyuncu1));
         let adlar = new Map();
