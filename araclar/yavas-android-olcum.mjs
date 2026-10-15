@@ -35,6 +35,11 @@ const EKRANLAR = [
   { kod: "lig", ad: "Lig", yol: "/siralama" },
   { kod: "dukkan", ad: "Dükkân", yol: "/joker" },
   { kod: "profil", ad: "Profil", yol: "/profil" },
+  // 15 Eki 2026 (perf genel tarama): yalnız --sayfa ile seçilince ölçülür (varsayılan beş ekran aynı)
+  { kod: "gorevler", ad: "Görevler", yol: "/gorevler", ek: true },
+  { kod: "sezon", ad: "Sezon Yolu", yol: "/sezon-yolu", ek: true },
+  { kod: "arkadaslar", ad: "Arkadaşlar", yol: "/arkadaslar", ek: true },
+  { kod: "mesajlar", ad: "Mesajlar", yol: "/mesajlar", ek: true },
 ];
 
 // Sayfa içi ölçüm: uzun görevler, boyamalar, Supabase fetch sayacı, "hazır" anı.
@@ -294,7 +299,7 @@ const tarayici = await chromium.launch({ channel: "chrome", headless: true, args
 const sonuc = { tarih: new Date().toISOString(), adres: ADRES, ag: AG, cpu: 6, ekranlar: {}, maclar: {} };
 try {
   const SECILI = typeof ARG.sayfa === "string" ? ARG.sayfa.split(",") : null;   // --sayfa=ana,modlar
-  for (const e of ARG.yalniz_mac ? [] : EKRANLAR.filter((x) => !SECILI || SECILI.includes(x.kod))) {
+  for (const e of ARG.yalniz_mac ? [] : EKRANLAR.filter((x) => (SECILI ? SECILI.includes(x.kod) : !x.ek))) {
     const b = await baglamAc(tarayici);
     const { s, bayt } = await sayfaAc(b);
     const soguk = await olc(s, bayt, e.yol);

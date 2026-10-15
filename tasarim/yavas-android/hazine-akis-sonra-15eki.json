@@ -1,0 +1,437 @@
+[
+ {
+  "senaryo": "bot",
+  "mac": 1,
+  "tur": 7,
+  "tasma": 0,
+  "gec": 0,
+  "eszaman": 0,
+  "kesik": 0,
+  "tik": [
+   998,
+   1002
+  ],
+  "sayac": [
+   15,
+   15,
+   15,
+   15,
+   15,
+   15
+  ],
+  "perf": {
+   "giris": {
+    "sure": 4132,
+    "kare": 241,
+    "ort": 58,
+    "en_kotu_dilim": 54,
+    "en_uzun_kare": 50,
+    "kare_100": 0,
+    "uzun_gorev": 0,
+    "en_uzun_gorev": 0
+   },
+   "rakam": [
+    {
+     "v": "3",
+     "ms": 997
+    },
+    {
+     "v": "2",
+     "ms": 1003
+    },
+    {
+     "v": "1",
+     "ms": 1017
+    }
+   ],
+   "sonuc": {
+    "adet": 6,
+    "ort": 56,
+    "en_kotu_dilim": 34,
+    "en_uzun_kare": 117,
+    "kare_100": 1,
+    "uzun_gorev": 5
+   },
+   "ac": {
+    "adet": 1,
+    "ort": 58,
+    "en_kotu_dilim": 54,
+    "en_uzun_kare": 34,
+    "kare_100": 0,
+    "uzun_gorev": 0
+   },
+   "soru": {
+    "adet": 6,
+    "ort": 60,
+    "en_kotu_dilim": 54,
+    "en_uzun_kare": 49,
+    "kare_100": 0,
+    "uzun_gorev": 1
+   }
+  }
+ },
+ {
+  "senaryo": "bot",
+  "mac": 2,
+  "tur": 8,
+  "tasma": 0,
+  "gec": 0,
+  "eszaman": 0,
+  "kesik": 0,
+  "tik": [
+   998,
+   1002
+  ],
+  "sayac": [
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15
+  ],
+  "perf": {
+   "giris": {
+    "sure": 4160,
+    "kare": 239,
+    "ort": 57,
+    "en_kotu_dilim": 54,
+    "en_uzun_kare": 67,
+    "kare_100": 0,
+    "uzun_gorev": 1,
+    "en_uzun_gorev": 58
+   },
+   "rakam": [
+    {
+     "v": "3",
+     "ms": 997
+    },
+    {
+     "v": "2",
+     "ms": 1002
+    },
+    {
+     "v": "1",
+     "ms": 1046
+    }
+   ],
+   "sonuc": {
+    "adet": 7,
+    "ort": 56,
+    "en_kotu_dilim": 36,
+    "en_uzun_kare": 84,
+    "kare_100": 0,
+    "uzun_gorev": 5
+   },
+   "ac": {
+    "adet": 3,
+    "ort": 59,
+    "en_kotu_dilim": 56,
+    "en_uzun_kare": 50,
+    "kare_100": 0,
+    "uzun_gorev": 1
+   },
+   "soru": {
+    "adet": 7,
+    "ort": 60,
+    "en_kotu_dilim": 54,
+    "en_uzun_kare": 67,
+    "kare_100": 0,
+    "uzun_gorev": 2
+   }
+  }
+ },
+ {
+  "senaryo": "bot",
+  "mac": 3,
+  "tur": 9,
+  "tasma": 0,
+  "gec": 0,
+  "eszaman": 0,
+  "kesik": 0,
+  "tik": [
+   997,
+   1003
+  ],
+  "sayac": [
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15
+  ],
+  "perf": {
+   "giris": {
+    "sure": 4135,
+    "kare": 237,
+    "ort": 57,
+    "en_kotu_dilim": 54,
+    "en_uzun_kare": 83,
+    "kare_100": 0,
+    "uzun_gorev": 1,
+    "en_uzun_gorev": 53
+   },
+   "rakam": [
+    {
+     "v": "3",
+     "ms": 995
+    },
+    {
+     "v": "2",
+     "ms": 1003
+    },
+    {
+     "v": "1",
+     "ms": 1044
+    }
+   ],
+   "sonuc": {
+    "adet": 8,
+    "ort": 57,
+    "en_kotu_dilim": 36,
+    "en_uzun_kare": 84,
+    "kare_100": 0,
+    "uzun_gorev": 3
+   },
+   "ac": {
+    "adet": 2,
+    "ort": 59,
+    "en_kotu_dilim": 50,
+    "en_uzun_kare": 50,
+    "kare_100": 0,
+    "uzun_gorev": 0
+   },
+   "soru": {
+    "adet": 8,
+    "ort": 60,
+    "en_kotu_dilim": 52,
+    "en_uzun_kare": 83,
+    "kare_100": 0,
+    "uzun_gorev": 1
+   }
+  }
+ },
+ {
+  "senaryo": "gecikmeli",
+  "mac": 1,
+  "tur": 6,
+  "tasma": 0,
+  "gec": 0,
+  "eszaman": 0,
+  "kesik": 0,
+  "tik": [
+   998,
+   1002
+  ],
+  "sayac": [
+   15,
+   15,
+   15,
+   15,
+   15
+  ],
+  "perf": {
+   "giris": {
+    "sure": 4199,
+    "kare": 237,
+    "ort": 56,
+    "en_kotu_dilim": 46,
+    "en_uzun_kare": 67,
+    "kare_100": 0,
+    "uzun_gorev": 1,
+    "en_uzun_gorev": 53
+   },
+   "rakam": [
+    {
+     "v": "3",
+     "ms": 997
+    },
+    {
+     "v": "2",
+     "ms": 1002
+    },
+    {
+     "v": "1",
+     "ms": 1057
+    }
+   ],
+   "sonuc": {
+    "adet": 5,
+    "ort": 52,
+    "en_kotu_dilim": 12,
+    "en_uzun_kare": 200,
+    "kare_100": 3,
+    "uzun_gorev": 12
+   },
+   "ac": {
+    "adet": 1,
+    "ort": 44,
+    "en_kotu_dilim": 22,
+    "en_uzun_kare": 67,
+    "kare_100": 0,
+    "uzun_gorev": 3
+   },
+   "soru": {
+    "adet": 5,
+    "ort": 59,
+    "en_kotu_dilim": 42,
+    "en_uzun_kare": 84,
+    "kare_100": 0,
+    "uzun_gorev": 2
+   }
+  }
+ },
+ {
+  "senaryo": "gecikmeli",
+  "mac": 2,
+  "tur": 11,
+  "tasma": 0,
+  "gec": 0,
+  "eszaman": 0,
+  "kesik": 0,
+  "tik": [
+   995,
+   1004
+  ],
+  "sayac": [
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15
+  ],
+  "perf": {
+   "giris": {
+    "sure": 4153,
+    "kare": 239,
+    "ort": 58,
+    "en_kotu_dilim": 50,
+    "en_uzun_kare": 67,
+    "kare_100": 0,
+    "uzun_gorev": 1,
+    "en_uzun_gorev": 54
+   },
+   "rakam": [
+    {
+     "v": "3",
+     "ms": 997
+    },
+    {
+     "v": "2",
+     "ms": 1001
+    },
+    {
+     "v": "1",
+     "ms": 1049
+    }
+   ],
+   "sonuc": {
+    "adet": 10,
+    "ort": 53,
+    "en_kotu_dilim": 16,
+    "en_uzun_kare": 167,
+    "kare_100": 3,
+    "uzun_gorev": 10
+   },
+   "ac": {
+    "adet": 4,
+    "ort": 54,
+    "en_kotu_dilim": 22,
+    "en_uzun_kare": 167,
+    "kare_100": 2,
+    "uzun_gorev": 2
+   },
+   "soru": {
+    "adet": 10,
+    "ort": 60,
+    "en_kotu_dilim": 54,
+    "en_uzun_kare": 67,
+    "kare_100": 0,
+    "uzun_gorev": 1
+   }
+  }
+ },
+ {
+  "senaryo": "gecikmeli",
+  "mac": 3,
+  "tur": 10,
+  "tasma": 0,
+  "gec": 0,
+  "eszaman": 0,
+  "kesik": 0,
+  "tik": [
+   998,
+   1002
+  ],
+  "sayac": [
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15,
+   15
+  ],
+  "perf": {
+   "giris": {
+    "sure": 4308,
+    "kare": 224,
+    "ort": 52,
+    "en_kotu_dilim": 32,
+    "en_uzun_kare": 117,
+    "kare_100": 1,
+    "uzun_gorev": 2,
+    "en_uzun_gorev": 88
+   },
+   "rakam": [
+    {
+     "v": "3",
+     "ms": 998
+    },
+    {
+     "v": "2",
+     "ms": 1001
+    },
+    {
+     "v": "1",
+     "ms": 1105
+    }
+   ],
+   "sonuc": {
+    "adet": 9,
+    "ort": 49,
+    "en_kotu_dilim": 18,
+    "en_uzun_kare": 184,
+    "kare_100": 4,
+    "uzun_gorev": 16
+   },
+   "ac": {
+    "adet": 5,
+    "ort": 53,
+    "en_kotu_dilim": 34,
+    "en_uzun_kare": 117,
+    "kare_100": 3,
+    "uzun_gorev": 6
+   },
+   "soru": {
+    "adet": 9,
+    "ort": 59,
+    "en_kotu_dilim": 48,
+    "en_uzun_kare": 117,
+    "kare_100": 1,
+    "uzun_gorev": 3
+   }
+  }
+ }
+]

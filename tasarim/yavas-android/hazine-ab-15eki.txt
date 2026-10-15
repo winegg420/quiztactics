@@ -1,0 +1,17 @@
+once (6 maç)
+  giriş: ort 48 · en kötü dilim med 32 · en uzun kare med 134 / en kötü 551 · ≥100 ms kare 18 · rakamlar ["993/1038/982","988/1030/1171","994/1007/1097","995/1010/993","993/1010/1064","1000/1016/992"]
+  sonuç: ort 47 · en kötü dilim med 10 · en uzun kare med 334 / en kötü 351 · ≥100 ms kare 30 · sonuç anı ≥100 ms olan pencere 23/33 · pencere ort kare/sn med 43
+  AÇ: ort 48 · en kötü dilim med 30 · en uzun kare med 100 / en kötü 117 · ≥100 ms kare 7 · soru: ort 59 · en kötü dilim med 46 · en uzun kare med 117 / en kötü 412 · ≥100 ms kare 8
+sonra (6 maç)
+  giriş: ort 51 · en kötü dilim med 38 · en uzun kare med 117 / en kötü 167 · ≥100 ms kare 12 · rakamlar ["1003/1012/1049","994/990/1033","992/1019/1066","995/1038/988","1007/1009/1028","994/1014/1017"]
+  sonuç: ort 47 · en kötü dilim med 18 · en uzun kare med 134 / en kötü 167 · ≥100 ms kare 30 · sonuç anı ≥100 ms olan pencere 24/33 · pencere ort kare/sn med 43
+  AÇ: ort 48 · en kötü dilim med 30 · en uzun kare med 117 / en kötü 134 · ≥100 ms kare 5 · soru: ort 59 · en kötü dilim med 42 · en uzun kare med 117 / en kötü 134 · ≥100 ms kare 6
+--- giriş (canlı süreler, --canli_sure --sadece_giris) ---
+once (8 maç)
+  giriş: ort 49 · en kötü dilim med 32 · en uzun kare med 117 / en kötü 251 · ≥100 ms kare 23 · rakamlar ["1004/992/1023","1000/980/1001","992/1020/1038","996/1027/1032","996/987/1027","996/896/1008","991/997/1020","982/1052/974"]
+  sonuç: — · sonuç anı ≥100 ms olan pencere 0/0 · pencere ort kare/sn med null
+  AÇ: — · soru: —
+sonra (8 maç)
+  giriş: ort 51 · en kötü dilim med 38 · en uzun kare med 117 / en kötü 167 · ≥100 ms kare 12 · rakamlar ["998/984/1041","999/1113/877","995/1026/999","974/1005/1019","1005/1024/1014","999/1003/1087","998/998/1027","993/1011/1070"]
+  sonuç: — · sonuç anı ≥100 ms olan pencere 0/0 · pencere ort kare/sn med null
+  AÇ: — · soru: —
