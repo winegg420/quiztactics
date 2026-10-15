@@ -267,13 +267,16 @@
   position: absolute;
   left: 50%;
   top: 46%;
-  width: 180vmax;
-  height: 180vmax;
-  margin: -90vmax 0 0 -90vmax;
+  /* 15 Eki 2026 (perf): ışınlar + yumuşak kenar ÖNCEDEN ÇİZİLMİŞ görsel (araclar/hazine-isik-uret.mjs --m1; Hazine giriş ışığıyla
+     aynı yol). Eskiden 180vmax canlı repeating-conic-gradient + radial mask idi: maskeli dev katman telefonda her karede
+     birleştirmede maskeleniyordu. Görsel maskenin görünür kısmı (yarıçapın %70'i) → öğe 126vmax (= 180 × 0,7), aynı merkez,
+     aynı açılar; katman yalnız transform döner. */
+  width: 126vmax;
+  height: 126vmax;
+  margin: -63vmax 0 0 -63vmax;
   border-radius: 50%;
-  background: repeating-conic-gradient(from 0deg, rgb(255 255 255 / 0.55) 0deg 9deg, rgb(255 255 255 / 0) 9deg 22.5deg);
-  -webkit-mask-image: radial-gradient(closest-side, #000 8%, transparent 70%);
-  mask-image: radial-gradient(closest-side, #000 8%, transparent 70%);
+  background: url("/mac/sayim-isin.webp") center / 100% 100% no-repeat;
+  will-change: transform;
   animation: qt-h-donen 24s linear infinite;
   pointer-events: none;
 }

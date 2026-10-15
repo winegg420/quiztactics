@@ -12,6 +12,16 @@ import { sunucuOffsetMs } from "../lib/zaman.js";
 import { saatFarkiMs, sayimKalani } from "../lib/sunucuSaati.js";
 import SkillSeti from "./SkillSeti.jsx";
 
+// 15 Eki 2026 (perf): 3-2-1 ışınının önceden çizilmiş görseli (m1-mac.css › .m1-sayim-isin). useGeriSayim'i çağıran maç sayfası
+// (Klasik/Saf Bilgi, Grup, Düello, Turnuva) açılınca bir kez iner — "Hazır mısın?" / bekleme sırasında hazır olur, sayımın ilk
+// karesinde ışınsız görünmez. Modül yüklenirken değil (Hazine de bu modülü yükler; orada ses dosyalarıyla hattı paylaşmasın).
+let isinIndi = false;
+function sayimIsiniOnYukle() {
+  if (isinIndi) return;
+  isinIndi = true;
+  try { new Image().src = "/mac/sayim-isin.webp"; } catch { /* görsel yoksa sayım ışınsız açılır */ }
+}
+
 /** Rakip dönmezse maçın hükmen biteceği süre — Grup/Hızlı (sunucudaki değerle aynı). */
 export const TERK_SN = 45;
 
@@ -228,6 +238,7 @@ export function GeriSayim({ kalan, altYazi = null }) {
  */
 export function useGeriSayim(aktif, baslangic, saatFarkMs) {
   const [kalan, setKalan] = useState(null);
+  useEffect(sayimIsiniOnYukle, []);
   const sonRef = useRef({ baslangic: null, kilit: null });   // kilit: yerel bitiş (performance.now, ms)
   const bittiRef = useRef(null);
   const farkRef = useRef(saatFarkMs);
