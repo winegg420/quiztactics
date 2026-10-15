@@ -95,7 +95,7 @@ function tsiEtiketi() {
 
 /** Tek seans: TR → "20:00"; yabancı → "1:00 PM (TSİ 20:00)". */
 /** Ekranda "24:00" geri sayım gibi okunuyordu (15 Eki 2026): gösterimde gece yarısı "00:00". Hesap/liste değeri "24:00" kalır. */
-const saatYazi = (saat) => (saat === "24:00" ? "00:00" : saat);
+export const saatYazi = (saat) => (saat === "24:00" ? "00:00" : saat);
 
 export function turnuvaSaatiGoster(saat) {
   const yerel = yerelSaatGoster() ? yerelSaatMetni(saat) : null;

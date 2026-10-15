@@ -11,7 +11,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import Countdown from "../components/Countdown.jsx";
 import { BugunKalanTurnuvalar } from "../components/TurnuvaSaatleri.jsx";
-import { sonrakiTurnuvaSaati, siradakiLobi, kalanSure, gosterimTavani, tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
+import { sonrakiTurnuvaSaati, saatYazi, siradakiLobi, kalanSure, gosterimTavani, tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
 import YanlisSatiri from "../components/YanlisSatiri.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
@@ -1023,7 +1023,8 @@ export default function TournamentPage() {
 // Turnuva sahnesi (11 Eki 2026): kupa dairesi + "HH:MM Turnuvası" başlığı.
 // Saat: lobi satırının seansı ("20:00"); yoksa sıradaki turnuvanın saati (geri sayımla aynı kaynak).
 function TurnuvaSahneUst({ saat }) {
-  const s = typeof saat === "string" && /^d{1,2}:d{2}$/.test(saat) ? saat : sonrakiTurnuvaSaati();
+  // Gösterimde gece yarısı "00:00" (zaman.js › saatYazi); seans/liste değeri "24:00" kalır.
+  const s = saatYazi(typeof saat === "string" && /^\d{1,2}:\d{2}$/.test(saat) ? saat : sonrakiTurnuvaSaati());
   return (
     <>
       <span className="m1-tv-kupa" aria-hidden="true"><QtIkon ad="kupa" boyut={36} /></span>
