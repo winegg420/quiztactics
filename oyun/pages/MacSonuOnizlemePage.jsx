@@ -85,7 +85,7 @@ function OrnekEk() {
 }
 const derece = (sira, toplam, ek) => (
   <div className="msk-derece">
-    <CerceveliAvatar profile={BEN} cerceve="dukkan_anka" boyut={88} />
+    <CerceveliAvatar profile={BEN} cerceve={CERCEVE_ONIZLEME || "dukkan_anka"} boyut={88} />
     {sira ? <span className="msk-derece-sayi qt-sayi">{tt("{n}.", { n: sira })}</span> : null}
     {ek ? <span className="msk-derece-etiket">{tt("{t} oyuncu arasında · {d} doğru", { t: toplam, d: ek })}</span> : null}
   </div>
@@ -228,6 +228,15 @@ const HALLER = [
       durum: "kaybetti", mod: "grup", baslik: "Maç bitti", altYazi: "Arkadaş maçı — ödül ve puan yok.", karsilasma: derece(2, 4, 11), rovans: null,
       gorevler: GOREVLER.slice(1), rozetler: [{ id: "grup_1", ad: "Takım Oyuncusu", ikon: "users", grup: "grup", kademe: "bronz" }],
     },
+  },
+  // 15 Eki (Codex taraması): derece yazısı ↔ çerçeve alt süsü ölçümü için 1. ve son sıra (?cerceve= ile çerçeve değişir)
+  {
+    kod: "grup-1", ad: "Grup — 1. oldun",
+    veri: { durum: "kazandi", mod: "grup", baslik: "ZAFER!", altYazi: "Arkadaş maçı — ödül ve puan yok.", karsilasma: derece(1, 4, 15), rovans: null },
+  },
+  {
+    kod: "grup-son", ad: "Grup — 4. oldun (son)",
+    veri: { durum: "kaybetti", mod: "grup", baslik: "4. oldun", altYazi: "Arkadaş maçı — ödül ve puan yok.", karsilasma: derece(4, 4, 6), rovans: null },
   },
   {
     kod: "grup-terk", ad: "Grup — ayrıldın",
