@@ -569,7 +569,8 @@ try {
     // --iz=giris | ac | sonuc:N | mac (bütün maç) — o pencerenin Chrome izi (ana iş parçacığı + boyama/raster/GPU) → .tmp/hazine-iz/<etiket>-<senaryo><maç>-<iz>.json
     const IZ = typeof ARG.iz === "string" ? ARG.iz : null;
     let izDurum = 0;
-    const izBas = async () => { izDurum = 1; await tarayici.startTracing(s, { categories: ["devtools.timeline", "disabled-by-default-devtools.timeline", "disabled-by-default-devtools.timeline.frame", "toplevel", "cc", "gpu", "viz", "blink", "loading", "benchmark", "disabled-by-default-v8.cpu_profiler", ...(ARG.gecersiz ? ["disabled-by-default-devtools.timeline.invalidationTracking"] : [])] }).catch((e) => { console.log("iz başlamadı", e.message); }); };
+    // --hafif (15 Eki 2026, perf 2): yalnız zaman çizelgesi (JS profilcisi/GPU yok) — iz yükü JS sürelerini şişirmesin
+    const izBas = async () => { izDurum = 1; await tarayici.startTracing(s, { categories: ARG.hafif ? ["devtools.timeline", "disabled-by-default-devtools.timeline", "disabled-by-default-devtools.timeline.frame", "toplevel", ...(ARG.gecersiz ? ["disabled-by-default-devtools.timeline.invalidationTracking"] : [])] : ["devtools.timeline", "disabled-by-default-devtools.timeline", "disabled-by-default-devtools.timeline.frame", "toplevel", "cc", "gpu", "viz", "blink", "loading", "benchmark", "disabled-by-default-v8.cpu_profiler", ...(ARG.gecersiz ? ["disabled-by-default-devtools.timeline.invalidationTracking"] : [])] }).catch((e) => { console.log("iz başlamadı", e.message); }); };
     const izBitir = async () => {
       izDurum = 2;
       const iz = await tarayici.stopTracing().catch(() => null);

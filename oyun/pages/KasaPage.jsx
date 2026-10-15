@@ -1517,7 +1517,8 @@ function KasaMac({ id }) {
                 /* 13 Eki 2026: sahip etiketi sonuç bandıyla aynı kaynaktan (d.sahip) okunur — eskiden anahtar uçuşu
                    bitene kadar (~1,9 sn) eski sahip (çoğu kez SAHİPSİZ) yazıyor, bant "hazine rakipte" derken çelişiyordu */
                 hareket={miniHareket}
-                artis={anSonuc?.varis && !anSonuc.bitti ? { anahtar: anSonuc.id, n: anSonuc.artis, buyuk: anSonuc.buyuk } : null} />
+                artis={anSonuc?.varis && !anSonuc.bitti ? { anahtar: anSonuc.id, n: anSonuc.artis, buyuk: anSonuc.buyuk } : null}
+                sonucOlcek={anSonuc?.olcek ?? null} />
   );
 
   // 1094 · ilk Hazine rehberi metinleri (kurallar sunucudan: kasa_cozumle her soruda artis / ikisi_artis ekler, tek bilen
@@ -1663,7 +1664,8 @@ function KasaMac({ id }) {
          data-kat={d.soru?.kategori || undefined}
          // 980: tekrarlayan anlar dokunarak geçilir (dokunuş alttaki düğmeye de gider: şık seçimi engellenmez)
          onPointerDown={an || cifteAn || rakipKarar || savunmaAn ? anlariBitir : undefined}
-         style={anSonuc?.olcek ? { "--ks-sonuc-olcek": anSonuc.olcek } : undefined}
+         // 15 Eki 2026 (perf 2): --ks-sonuc-olcek artık kökte DEĞİL, okuyan öğelerde (KasaKadran / KasaUst sonucOlcek) — kökteki
+         // kalıtılan değişken her sonuçta maçın bütün öğelerini yeniden stil hesabına sokuyordu
          className={sinif("m2-mac ks-mac qt-sahne-mac qt-sahne-gok", `ks-mac--${d.faz}`, (gerilim || kararGerilim) && "qt-h-gerilim", d.altin && "ks-mac--altin",
                           anAc?.sars && "ks-mac--sars", girisAktif && "ks-mac--giris", sav?.izliyorum && "ks-mac--izle")}>
       {/* 15 Eki 2026 (perf): uçan anahtarın emojisi maç ekranı açılırken görünmez kopyayla bir kez şekillendirilir — ilk
@@ -1673,7 +1675,7 @@ function KasaMac({ id }) {
                    rozet={c("Ortak Hazine")} />
       <KasaUst d={d} ben={ben} rakip={rakip} c={c} seviyeler={seviyeler} tepkiBalonlar={tepki.balonlar}
                sayac={anOrtu ? <span className="ks-sayac ks-sayac--yok ks-sayac--bekle" aria-hidden="true">·</span> : sayac}
-               anahtar={anSonuc?.anahtarVaris && !anSonuc.bitti ? anSonuc.anahtarA : null}
+               anahtar={anSonuc?.anahtarVaris && !anSonuc.bitti ? anSonuc.anahtarA : null} sonucOlcek={anSonuc?.olcek ?? null}
                rakipJoker={["cevap", "sonuc"].includes(d.faz) && Array.isArray(d.rakip_joker) ? d.rakip_joker : []}
                onay={d.faz === "cevap" ? { [ben.id]: kilitli, [rakip.id]: Boolean(d.cevap?.rakip_cevapladi) } : {}} />
       <div className={sinif("ks-serit", (rehber === "hazine" || rehber === "ac") && "ks-serit--rehber")}>

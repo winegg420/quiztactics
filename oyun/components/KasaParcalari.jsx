@@ -73,7 +73,9 @@ export function carpanYazisi(carpan, dil = "tr") {
   return `×${String(Math.round(x * 100) / 100).replace(".", dil === "en" ? "." : ",")}`;
 }
 
-export function KasaKadran({ d, c, kucuk = false, goster, sahipGoster, hareket = [], artis = null, carpan = null, sayiSure = 520 }) {
+// sonucOlcek (15 Eki 2026, perf 2): --ks-sonuc-olcek yalnız bu öğede (kadran halkası/patlaması + artış etiketi okur). Eskiden maç
+// kökündeydi: kalıtılan değişken her sonuç anında maçın BÜTÜN öğelerini (~415) yeniden stil hesabına sokuyordu (CPU 6x: 40–50 ms).
+export function KasaKadran({ d, c, kucuk = false, goster, sahipGoster, hareket = [], artis = null, carpan = null, sayiSure = 520, sonucOlcek = null }) {
   const sahip = kasaSahibi(sahipGoster === undefined ? d : { ...d, sahip: sahipGoster });
   const kasa = Math.max(0, Number(goster ?? d.kasa) || 0);
   // 955: tavan (> 0) göstergede belli: "12/30", tavana varınca DOLU; kademe ve ışık tavana oranla
@@ -87,7 +89,7 @@ export function KasaKadran({ d, c, kucuk = false, goster, sahipGoster, hareket =
                           isikli && "ks-kadran--isikli", alevli && "ks-kadran--alevli",
                           ...hareket.map((h) => `ks-kadran--${h}`))}
          role="img" aria-label={tavan > 0 ? c("Hazine {k}/{t} · {s}", { k: kasa, t: tavan, s: etiket }) : c("Hazine {k} · {s}", { k: kasa, s: etiket })}
-         data-ks-hedef={kucuk ? "kasa" : "kasa-buyuk"}>
+         data-ks-hedef={kucuk ? "kasa" : "kasa-buyuk"} style={sonucOlcek ? { "--ks-sonuc-olcek": sonucOlcek } : undefined}>
       {kucuk ? (
         <span className="ks-kadran-mini">{alevli && <Alev />}<KasaKasasi seviye={seviye} kucuk /></span>
       ) : (
@@ -160,11 +162,13 @@ export function KasaSkor({ d, ben, rakip, c, puanGoster = {}, parla = null, orta
 }
 
 /** Üst başlık: sen · Tur N/T + sayaç · rakip (avatar, ad, seviye; cevapladı işareti). */
-export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {}, anahtar = null, rakipJoker = [], tepkiBalonlar = {} }) {
+// sonucOlcek: anahtar halkası (.ks-avatar--anahtar::after) --ks-sonuc-olcek okur — değişken yalnız o avatarda (KasaKadran notu)
+export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {}, anahtar = null, rakipJoker = [], tepkiBalonlar = {}, sonucOlcek = null }) {
   const taraf = (o, rakipMi) => (
     <div className={sinif("qt-oyuncu ks-oyuncu", rakipMi && "qt-oyuncu--rakip")}>
       <span className={sinif("ks-avatar", anahtar === (rakipMi ? "rakip" : "ben") && "ks-avatar--anahtar")}
-            data-ks-hedef={rakipMi ? "avatar-rakip" : "avatar-ben"}>
+            data-ks-hedef={rakipMi ? "avatar-rakip" : "avatar-ben"}
+            style={sonucOlcek && anahtar === (rakipMi ? "rakip" : "ben") ? { "--ks-sonuc-olcek": sonucOlcek } : undefined}>
         {/* 957: maç içi tepki balonu avatarın yanında (Düello V2Ust ile aynı) */}
         <TepkiAvatar balon={tepkiBalonlar[o.id]} yan={rakipMi ? "rakip" : "sen"}>
           <CerceveliAvatar profile={o} userId={o.id} boyut={32} hareketli kart={seviyeler[o.id]} />
