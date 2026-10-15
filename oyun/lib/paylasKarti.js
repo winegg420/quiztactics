@@ -213,10 +213,14 @@ export async function paylasKartiCiz(v) {
     v.tur === "davet" ? gorselYukle(Q_IKON) : Promise.resolve(null),
   ]);
 
-  const ciz = (avatarGorsel) => {
+  // 15 Eki (Codex taraması): çizim bölümler arasında ana iş parçacığını bırakır (metin ölçümü — sigdir/satirla — CPU 6x'te
+  // maç sonu sahnesinde 130 ms'lik görevdi). Komutlar ve sıraları aynı → piksel aynı.
+  const ara = () => new Promise((r) => setTimeout(r, 0));
+  const ciz = async (avatarGorsel) => {
     c.clearRect(0, 0, KART_EN, KART_BOY);
     zemin(c);
     logoCiz(c, logo, 120, 720);
+    await ara();
     c.textAlign = "center";
     c.textBaseline = "alphabetic";
 
@@ -224,6 +228,7 @@ export async function paylasKartiCiz(v) {
       avatarCiz(c, avatarGorsel, v.ad, KART_EN / 2, 560, 180);
       c.fillStyle = RENK.lac;
       c.fillText(sigdir(c, v.ad ?? "", KART_EN - 160, 92, 56, 800, BASLIK), KART_EN / 2, 845);
+      await ara();
       // Skor kutusu: sonuç afişi + "7 – 5" + "doğru · Rakip adına karşı"
       const x = 120, w = KART_EN - 240, y = 885, h = 330;
       const afis = v.durum === "kazandi" ? RENK.altin : v.durum === "berabere" ? "#C9F2DD" : RENK.beyaz;
@@ -238,6 +243,7 @@ export async function paylasKartiCiz(v) {
       c.fillStyle = RENK.metin;
       const alt = v.rakipAd ? tt("{ad} karşısında", { ad: v.rakipAd }) : (v.skorEtiket ?? "");
       c.fillText(sigdir(c, alt, w - 80, 44, 30, 700, GOVDE), KART_EN / 2, y + 298);
+      await ara();
       // Çağrı
       c.fillStyle = RENK.turuncu;
       c.font = `800 104px ${BASLIK}`;
@@ -269,20 +275,56 @@ export async function paylasKartiCiz(v) {
           KART_EN / 2, 1040 + satirlar.length * 118 + 40);
       }
     }
+    await ara();
     davetKutusu(c, v.kod, v.baglanti);
   };
 
-  ciz(avatar);
+  await ciz(avatar);
   try {
     return await tuvaldenPng(tuval);
   } catch {
     // Avatar başka kaynaktan gelip tuvali kirlettiyse: avatarsız (baş harf) yeniden çiz
-    ciz(null);
+    await ciz(null);
     return tuvaldenPng(tuval);
   }
 }
 
-function tuvaldenPng(tuval) {
+// 15 Eki (Codex taraması): toBlob'un eşzamanlı geri okuması maç sonu sahnesinde kareyi kesiyordu → PNG kodlama bir
+// Worker'da (paylasKartiIsci.js). Destek yoksa / hata olursa (ör. kirli tuval) eski toBlob yolu — sonuç aynı.
+let isci = null, isciNo = 0;
+const isciBekleyen = new Map();
+function isciAl() {
+  if (isci === false) return null;
+  if (isci) return isci;
+  try {
+    if (typeof Worker !== "function" || typeof OffscreenCanvas !== "function" || typeof createImageBitmap !== "function") throw new Error("destek yok");
+    isci = new Worker(new URL("./paylasKartiIsci.js", import.meta.url), { type: "module" });
+    isci.onmessage = (e) => {
+      const b = isciBekleyen.get(e.data?.no);
+      if (!b) return;
+      isciBekleyen.delete(e.data.no);
+      if (e.data.blob) b.coz(e.data.blob); else b.at(new Error(e.data.hata || "PNG üretilemedi"));
+    };
+    isci.onerror = () => { for (const b of isciBekleyen.values()) b.at(new Error("işçi hatası")); isciBekleyen.clear(); isci = false; };
+    return isci;
+  } catch {
+    isci = false;
+    return null;
+  }
+}
+async function isciPng(tuval) {
+  const w = isciAl();
+  if (!w) throw new Error("işçi yok");
+  const bitmap = await createImageBitmap(tuval);
+  const no = ++isciNo;
+  return new Promise((coz, at) => {
+    isciBekleyen.set(no, { coz, at });
+    w.postMessage({ no, bitmap }, [bitmap]);
+  });
+}
+
+async function tuvaldenPng(tuval) {
+  try { return await isciPng(tuval); } catch { /* eski yol */ }
   return new Promise((coz, at) => {
     try {
       tuval.toBlob((b) => (b ? coz(b) : at(new Error("PNG üretilemedi"))), "image/png");
