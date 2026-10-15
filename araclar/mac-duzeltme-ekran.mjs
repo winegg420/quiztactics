@@ -102,6 +102,8 @@ async function senaryo(ad, { genislik = 390, yukseklik = 844, rpc, yol, adimlar,
   const b = await tarayici.newContext({ storageState: durumDosya, viewport: { width: genislik, height: yukseklik }, hasTouch: true, serviceWorkers: "block",
     ...(video ? { recordVideo: { dir: video, size: { width: genislik, height: yukseklik } } } : {}) });
   if (izci) await b.addInitScript(izci);
+  // canlı adreste uygulama kapısı (kurulum sayfası) yerine oyun — ?dev=1 ile aynı geçiş
+  await b.addInitScript(() => { try { sessionStorage.setItem("qt_dev_gecis", "1"); } catch { /* yok */ } });
   const s = await b.newPage();
   if (cpu > 1) await (await b.newCDPSession(s)).send("Emulation.setCPUThrottlingRate", { rate: cpu });
   const ctx = { ben: null, istekler: [], s };
