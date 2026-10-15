@@ -1,0 +1,14 @@
+tur 3 bitti
+tur 4 bitti
+tur 5 bitti
+tur 6 bitti
+once (6 maç)
+  giriş: ort 56 · en kötü dilim med 50 · en uzun kare med 67 / en kötü 134 · ≥100 ms kare 4 · rakamlar ["983/1001/1016","1000/990/1032","983/1000/1012","982/1004/1012","1013/995/1006","982/1029/977"]
+  sonuç: ort 54 · en kötü dilim med 32 · en uzun kare med 100 / en kötü 167 · ≥100 ms kare 7 · sonuç anı ≥100 ms olan pencere 5/33 · pencere ort kare/sn med 54
+  AÇ: ort 58 · en kötü dilim med 54 · en uzun kare med 50 / en kötü 100 · ≥100 ms kare 1 · soru: ort 60 · en kötü dilim med 54 · en uzun kare med 52 / en kötü 67 · ≥100 ms kare 0
+sonra (6 maç)
+  giriş: ort 57 · en kötü dilim med 50 · en uzun kare med 67 / en kötü 67 · ≥100 ms kare 0 · rakamlar ["988/1010/1004","998/992/1014","997/1003/1013","987/1013/1013","999/986/1011","980/996/1009"]
+  sonuç: ort 55 · en kötü dilim med 36 · en uzun kare med 83 / en kötü 234 · ≥100 ms kare 7 · sonuç anı ≥100 ms olan pencere 1/33 · pencere ort kare/sn med 55
+  AÇ: ort 59 · en kötü dilim med 56 · en uzun kare med 50 / en kötü 50 · ≥100 ms kare 0 · soru: ort 60 · en kötü dilim med 56 · en uzun kare med 50 / en kötü 58 · ≥100 ms kare 0
+
+[exited with code 0]

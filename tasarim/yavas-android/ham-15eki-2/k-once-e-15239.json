@@ -1,0 +1,2115 @@
+{
+  "tarih": "2026-10-15T15:44:33.865Z",
+  "adres": "http://localhost:5221",
+  "ag": {
+    "offline": false,
+    "latency": 150,
+    "downloadThroughput": 200000,
+    "uploadThroughput": 93750,
+    "connectionType": "cellular4g"
+  },
+  "cpu": 6,
+  "ekranlar": {},
+  "maclar": {
+    "klasik": {
+      "lobi": {
+        "hazir": -1,
+        "etkilesim": -1
+      },
+      "mac_acilis": 716,
+      "en_uzun_gorev": 65,
+      "tbt": 28,
+      "supabase_istek": 8,
+      "istekler": [
+        "192-780 /rest/v1/match_jokers",
+        "194-499 rpc:sesli_sohbet_izni",
+        "198-510 /rest/v1/matches",
+        "680-1090 rpc:skill_dukkani",
+        "684-1036 rpc:skill_setim",
+        "687-1066 rpc:tepki_durumu",
+        "689-1112 rpc:cift_mac_durumu",
+        "692-1230 rpc:mac_nabiz"
+      ],
+      "bitti": true,
+      "durum": [
+        [
+          66,
+          "diğer"
+        ],
+        [
+          717,
+          "bekle · Hazır mısın?"
+        ],
+        [
+          3769,
+          "bekle · Rakip bekleniyor"
+        ],
+        [
+          5627,
+          "sayım 3"
+        ],
+        [
+          6629,
+          "sayım 2"
+        ],
+        [
+          7615,
+          "sayım 1"
+        ],
+        [
+          8631,
+          "soru"
+        ],
+        [
+          77758,
+          "diğer"
+        ],
+        [
+          79261,
+          "maç sonu"
+        ]
+      ],
+      "kare": [
+        [
+          299,
+          39,
+          158
+        ],
+        [
+          1313,
+          57,
+          23
+        ],
+        [
+          2322,
+          56,
+          29
+        ],
+        [
+          3339,
+          48,
+          88
+        ],
+        [
+          4378,
+          51,
+          53
+        ],
+        [
+          5384,
+          56,
+          36
+        ],
+        [
+          6391,
+          54,
+          35
+        ],
+        [
+          7400,
+          57,
+          18
+        ],
+        [
+          8405,
+          54,
+          36
+        ],
+        [
+          9415,
+          53,
+          70
+        ],
+        [
+          10418,
+          53,
+          70
+        ],
+        [
+          11423,
+          53,
+          53
+        ],
+        [
+          12436,
+          50,
+          70
+        ],
+        [
+          13442,
+          56,
+          35
+        ],
+        [
+          14444,
+          49,
+          72
+        ],
+        [
+          15485,
+          49,
+          52
+        ],
+        [
+          16492,
+          51,
+          54
+        ],
+        [
+          17505,
+          52,
+          53
+        ],
+        [
+          18514,
+          55,
+          36
+        ],
+        [
+          19514,
+          51,
+          53
+        ],
+        [
+          20520,
+          52,
+          53
+        ],
+        [
+          21534,
+          52,
+          71
+        ],
+        [
+          22539,
+          45,
+          53
+        ],
+        [
+          23560,
+          46,
+          53
+        ],
+        [
+          24563,
+          49,
+          70
+        ],
+        [
+          25568,
+          57,
+          19
+        ],
+        [
+          26575,
+          48,
+          54
+        ],
+        [
+          27580,
+          39,
+          71
+        ],
+        [
+          28589,
+          50,
+          71
+        ],
+        [
+          29596,
+          54,
+          71
+        ],
+        [
+          30611,
+          48,
+          70
+        ],
+        [
+          31621,
+          53,
+          69
+        ],
+        [
+          32629,
+          54,
+          53
+        ],
+        [
+          33636,
+          35,
+          71
+        ],
+        [
+          34644,
+          50,
+          53
+        ],
+        [
+          35652,
+          52,
+          53
+        ],
+        [
+          36656,
+          53,
+          36
+        ],
+        [
+          37680,
+          53,
+          70
+        ],
+        [
+          38687,
+          52,
+          52
+        ],
+        [
+          39697,
+          32,
+          89
+        ],
+        [
+          40705,
+          49,
+          70
+        ],
+        [
+          41726,
+          57,
+          19
+        ],
+        [
+          42732,
+          47,
+          71
+        ],
+        [
+          43736,
+          53,
+          53
+        ],
+        [
+          44743,
+          55,
+          35
+        ],
+        [
+          45749,
+          53,
+          72
+        ],
+        [
+          46763,
+          50,
+          55
+        ],
+        [
+          47773,
+          52,
+          72
+        ],
+        [
+          48781,
+          56,
+          36
+        ],
+        [
+          49786,
+          51,
+          54
+        ],
+        [
+          50797,
+          53,
+          53
+        ],
+        [
+          51810,
+          55,
+          36
+        ],
+        [
+          52821,
+          55,
+          53
+        ],
+        [
+          53829,
+          49,
+          54
+        ],
+        [
+          54834,
+          49,
+          71
+        ],
+        [
+          55845,
+          49,
+          71
+        ],
+        [
+          56848,
+          47,
+          71
+        ],
+        [
+          57855,
+          50,
+          54
+        ],
+        [
+          58864,
+          57,
+          19
+        ],
+        [
+          59878,
+          42,
+          70
+        ],
+        [
+          60890,
+          43,
+          71
+        ],
+        [
+          61894,
+          54,
+          35
+        ],
+        [
+          62898,
+          57,
+          19
+        ],
+        [
+          63902,
+          37,
+          107
+        ],
+        [
+          64905,
+          49,
+          53
+        ],
+        [
+          65922,
+          55,
+          35
+        ],
+        [
+          66925,
+          50,
+          71
+        ],
+        [
+          67928,
+          52,
+          69
+        ],
+        [
+          68936,
+          55,
+          36
+        ],
+        [
+          69945,
+          47,
+          70
+        ],
+        [
+          70953,
+          54,
+          71
+        ],
+        [
+          71956,
+          55,
+          54
+        ],
+        [
+          72965,
+          49,
+          54
+        ],
+        [
+          73973,
+          54,
+          53
+        ],
+        [
+          74982,
+          56,
+          36
+        ],
+        [
+          75987,
+          54,
+          53
+        ],
+        [
+          76993,
+          47,
+          54
+        ],
+        [
+          78001,
+          57,
+          20
+        ],
+        [
+          79008,
+          27,
+          193
+        ],
+        [
+          80020,
+          57,
+          26
+        ],
+        [
+          81037,
+          56,
+          30
+        ],
+        [
+          82037,
+          46,
+          211
+        ],
+        [
+          83053,
+          57,
+          19
+        ],
+        [
+          84061,
+          57,
+          19
+        ],
+        [
+          85071,
+          57,
+          19
+        ],
+        [
+          86078,
+          57,
+          19
+        ],
+        [
+          87083,
+          57,
+          19
+        ],
+        [
+          88091,
+          56,
+          36
+        ]
+      ],
+      "sik_secili_ms": [
+        [
+          87,
+          133
+        ],
+        [
+          72,
+          120
+        ],
+        [
+          66,
+          109
+        ],
+        [
+          77,
+          118
+        ],
+        [
+          71,
+          111
+        ],
+        [
+          76,
+          119
+        ],
+        [
+          77,
+          121
+        ],
+        [
+          79,
+          119
+        ],
+        [
+          74,
+          114
+        ],
+        [
+          77,
+          124
+        ],
+        [
+          77,
+          132
+        ],
+        [
+          81,
+          118
+        ],
+        [
+          69,
+          109
+        ],
+        [
+          78,
+          118
+        ],
+        [
+          83,
+          123
+        ],
+        [
+          81,
+          116
+        ],
+        [
+          71,
+          120
+        ],
+        [
+          75,
+          121
+        ],
+        [
+          75,
+          121
+        ],
+        [
+          78,
+          119
+        ]
+      ],
+      "fps": {
+        "mac": {
+          "ort": 51,
+          "en_dusuk": 27,
+          "en_uzun_kare": 211
+        },
+        "sayim": {
+          "ort": 55,
+          "en_dusuk": 54,
+          "en_uzun_kare": 36
+        },
+        "bekleme": {
+          "ort": 54,
+          "en_dusuk": 48,
+          "en_uzun_kare": 88
+        }
+      },
+      "sure_ms": {
+        "bekle": 4910,
+        "sayim_3": 1002,
+        "sayim_2": 986,
+        "sayim_1": 1016,
+        "giris_hazir_ol": 0
+      },
+      "uzun_gorev": [
+        [
+          577,
+          65
+        ],
+        [
+          1156,
+          63
+        ],
+        [
+          4308,
+          70
+        ],
+        [
+          4882,
+          54
+        ],
+        [
+          10024,
+          53
+        ],
+        [
+          10665,
+          52
+        ],
+        [
+          13222,
+          52
+        ],
+        [
+          28898,
+          50
+        ],
+        [
+          30610,
+          51
+        ],
+        [
+          33770,
+          58
+        ],
+        [
+          40032,
+          54
+        ],
+        [
+          40211,
+          50
+        ],
+        [
+          40342,
+          50
+        ],
+        [
+          46553,
+          57
+        ],
+        [
+          48212,
+          53
+        ],
+        [
+          56774,
+          60
+        ],
+        [
+          57162,
+          50
+        ],
+        [
+          60312,
+          51
+        ],
+        [
+          61742,
+          50
+        ],
+        [
+          64439,
+          54
+        ],
+        [
+          64572,
+          56
+        ],
+        [
+          64665,
+          50
+        ],
+        [
+          66935,
+          53
+        ],
+        [
+          71617,
+          53
+        ],
+        [
+          79176,
+          57
+        ],
+        [
+          79349,
+          82
+        ],
+        [
+          79434,
+          116
+        ],
+        [
+          79560,
+          65
+        ],
+        [
+          79643,
+          54
+        ],
+        [
+          79847,
+          56
+        ],
+        [
+          79936,
+          52
+        ],
+        [
+          82399,
+          211
+        ]
+      ],
+      "uzun_gorev_sayim": [
+        [
+          4882,
+          54
+        ]
+      ],
+      "ses": [
+        {
+          "t": -11392,
+          "rol": "dokunus",
+          "sonuc": "gec-yuklendi 316 ms",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": -2862,
+          "rol": "rakip_bulundu",
+          "sonuc": "gec-yuklendi 2426 ms",
+          "dosya": "rakip_bulundu-n1-511e6e03c7.wav"
+        },
+        {
+          "t": -2274,
+          "rol": "vs_ani",
+          "sonuc": "gec-yuklendi 1828 ms",
+          "dosya": "vs_ani-n1-3f93f5f731.wav"
+        },
+        {
+          "t": 4388,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 10046,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 10664,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 13254,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 14838,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 15305,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 17850,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 19698,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 20098,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 21595,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 22668,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 23187,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 24919,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 26862,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 27219,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 28929,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 30388,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 30609,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 32117,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 33428,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 33654,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 35402,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 36610,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 36886,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 38577,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 39617,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 39820,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 41384,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 42806,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 43033,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 44625,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 46571,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 46832,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 48246,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 50059,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 50384,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 51680,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 53636,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 53935,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 55322,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 56415,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 56666,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 58089,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 59973,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 60197,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 61771,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 64034,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 64336,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 65864,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 66953,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 67152,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 68913,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 70039,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 70242,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 71650,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 73179,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 73386,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 74826,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 76790,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 77271,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 79637,
+          "rol": "kaybettin",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "maglubiyet-n1-1315bab798.wav"
+        },
+        {
+          "t": 81007,
+          "rol": "xp_dolma",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "xp_dolma-n1-2023187980.wav"
+        }
+      ],
+      "ses_olay": [
+        {
+          "t": 24918,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 28928,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 32116,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 35402,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 38576,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 41384,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 44625,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 48246,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 55322,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 58089,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 61771,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 65863,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 68913,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 71650,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 74826,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 80617,
+          "rol": "xp_dolma",
+          "sonuc": "ertelendi 341 ms"
+        }
+      ],
+      "audio_ctx": [
+        [
+          -12070,
+          "running"
+        ],
+        [
+          -12037,
+          "running"
+        ]
+      ],
+      "konsol": [],
+      "akis": [
+        {
+          "t": 1792079079848,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079079850,
+          "olay": "ses:yukleniyor",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079080164,
+          "olay": "ses:gec-yuklendi 316 ms",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079088379,
+          "olay": "ses:istendi",
+          "rol": "rakip_bulundu"
+        },
+        {
+          "t": 1792079088379,
+          "olay": "ses:yukleniyor",
+          "rol": "rakip_bulundu"
+        },
+        {
+          "t": 1792079088967,
+          "olay": "ses:istendi",
+          "rol": "vs_ani"
+        },
+        {
+          "t": 1792079088967,
+          "olay": "ses:yukleniyor",
+          "rol": "vs_ani"
+        },
+        {
+          "t": 1792079090795,
+          "olay": "ses:gec-yuklendi 1828 ms",
+          "rol": "vs_ani"
+        },
+        {
+          "t": 1792079090806,
+          "olay": "ses:gec-yuklendi 2426 ms",
+          "rol": "rakip_bulundu"
+        },
+        {
+          "t": 1792079095629,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079095630,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079101287,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079101287,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079101904,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079101905,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079104494,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079104494,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079106079,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079106079,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079106546,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079106546,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079109091,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079109091,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079110938,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079110939,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079111339,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079111339,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079112835,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079112835,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079113908,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079113909,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079114428,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079114428,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079116159,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079116160,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079116160,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079118103,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079118103,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079118459,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079118460,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079120169,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079120169,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079120170,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079121629,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079121629,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079121850,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079121850,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079123357,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079123357,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079123358,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079124669,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079124669,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079124895,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079124895,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079126643,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079126643,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079126643,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079127850,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079127850,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079128126,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079128126,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079129817,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079129817,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079129817,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079130857,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079130857,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079131061,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079131061,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079132624,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079132625,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079132625,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079134047,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079134047,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079134274,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079134274,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079135866,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079135866,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079135866,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079137812,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079137812,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079138072,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079138073,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079139486,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079139487,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079139487,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079141300,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079141300,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079141625,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079141625,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079142920,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079142920,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079144877,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079144877,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079145176,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079145176,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079146563,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079146563,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079146563,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079147656,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079147656,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079147907,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079147907,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079149329,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079149330,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079149330,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079151214,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079151214,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079151438,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079151438,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079153012,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079153012,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079153012,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079155274,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079155274,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079155576,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079155576,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792079157104,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079157104,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079157105,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079158194,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079158194,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079158392,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079158392,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079160153,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079160154,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079160154,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079161279,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079161279,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079161482,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079161482,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079162891,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079162891,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079162891,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079164420,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079164420,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079164626,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079164627,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079166067,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792079166067,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079166067,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792079168030,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079168031,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792079168511,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079168511,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792079170878,
+          "olay": "ses:istendi",
+          "rol": "kaybettin"
+        },
+        {
+          "t": 1792079170878,
+          "olay": "ses:caldi",
+          "rol": "kaybettin"
+        },
+        {
+          "t": 1792079171858,
+          "olay": "ses:ertelendi 341 ms",
+          "rol": "xp_dolma"
+        },
+        {
+          "t": 1792079172248,
+          "olay": "ses:istendi",
+          "rol": "xp_dolma"
+        },
+        {
+          "t": 1792079172248,
+          "olay": "ses:caldi",
+          "rol": "xp_dolma"
+        }
+      ],
+      "video": ".tmp\\yavas-mac\\k-once-e\\klasik.webm"
+    }
+  }
+}

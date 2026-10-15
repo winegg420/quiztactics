@@ -1,0 +1,105 @@
+{
+  "tarih": "2026-10-15T14:55:58.902Z",
+  "adres": "http://localhost:5223",
+  "ag": {
+    "offline": false,
+    "latency": 150,
+    "downloadThroughput": 200000,
+    "uploadThroughput": 93750,
+    "connectionType": "cellular4g"
+  },
+  "cpu": 6,
+  "ekranlar": {
+    "ana": {
+      "ad": "Ana sayfa",
+      "soguk": {
+        "fcp": 2088,
+        "icerik": 4554,
+        "lcp": 5008,
+        "hazir": 5872,
+        "etkilesim": 7390,
+        "en_uzun_gorev": 281,
+        "tbt": 851,
+        "uzun_gorev_sayisi": 11,
+        "supabase_istek": 10,
+        "sira_turu": 2,
+        "ilk_supabase": 259,
+        "son_supabase_bitis": 5833,
+        "istekler": [
+          "259-923 rpc:profilim",
+          "264-973 rpc:ana_sayfa_ozet",
+          "265-1056 rpc:ana_sayfa_ozet",
+          "268-890 rpc:ana_sayfa_ozet",
+          "4331-5149 rpc:ses_secimleri_oyun",
+          "4853-5447 rpc:yanlis_bankam",
+          "5054-5653 rpc:cihaz_bildir",
+          "5075-5665 rpc:kalp_at",
+          "5133-5681 rpc:gonderdigim_davetler",
+          "5139-5833 rpc:rozet_bildirimlerim"
+        ],
+        "bayt": {
+          "js": 252,
+          "css": 111,
+          "font": 106,
+          "gorsel": 35,
+          "diger": 27
+        }
+      },
+      "sicak": {
+        "fcp": 252,
+        "icerik": 1164,
+        "lcp": 1488,
+        "hazir": 1164,
+        "etkilesim": 1164,
+        "en_uzun_gorev": 313,
+        "tbt": 266,
+        "uzun_gorev_sayisi": 5,
+        "supabase_istek": 4,
+        "sira_turu": 1,
+        "ilk_supabase": 167,
+        "son_supabase_bitis": 1028,
+        "istekler": [
+          "167-832 rpc:profilim",
+          "170-834 rpc:ana_sayfa_ozet",
+          "173-1028 rpc:ana_sayfa_ozet",
+          "175-837 rpc:ana_sayfa_ozet"
+        ],
+        "bayt": {
+          "js": 0,
+          "css": 0,
+          "font": 0,
+          "gorsel": 0,
+          "diger": 21
+        }
+      },
+      "kurulu": {
+        "fcp": 348,
+        "icerik": 1520,
+        "lcp": 2184,
+        "hazir": 1520,
+        "etkilesim": 2010,
+        "en_uzun_gorev": 500,
+        "tbt": 629,
+        "uzun_gorev_sayisi": 10,
+        "supabase_istek": 4,
+        "sira_turu": 1,
+        "ilk_supabase": 222,
+        "son_supabase_bitis": 1271,
+        "istekler": [
+          "222-1257 rpc:profilim",
+          "226-1266 rpc:ana_sayfa_ozet",
+          "229-1271 rpc:ana_sayfa_ozet",
+          "234-1262 rpc:ana_sayfa_ozet"
+        ],
+        "bayt": {
+          "js": 0,
+          "css": 0,
+          "font": 0,
+          "gorsel": 0,
+          "diger": 21
+        }
+      }
+    }
+  },
+  "maclar": {}
+}
