@@ -1197,7 +1197,8 @@ export default function MatchPage() {
       <>
         {/* 3-2-1: iki oyuncuda da AYNI ANDA biter, ilk soru gecikmesiz açılır. */}
         {geriSayim !== null && <GeriSayim kalan={geriSayim} />}
-        <RakipCevapSesi anahtar={rakipCevapladi ? `${mac.id}:${kendiIndeks}` : null} />
+        {/* 15 Eki 2026: yalnız ben hâlâ düşünürken — cevapladıktan sonra (bot hemen ardından cevaplar) ses yeni sorunun sesine biniyordu */}
+        <RakipCevapSesi anahtar={rakipCevapladi && !cevapladim ? `${mac.id}:${kendiIndeks}` : null} />
 
         {/* Rakip oyundan çıktı / ekran değiştirdi: ekran kilitlenir, maç durur.
             Süre işlemediği için burada bekleyen oyuncu bir şey kaybetmez. */}

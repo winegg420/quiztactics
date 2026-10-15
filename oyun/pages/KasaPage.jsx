@@ -1131,7 +1131,8 @@ function KasaMac({ id }) {
         if (kapaliMs) kararZaman(basla, kapaliMs); else basla();
       }
     }
-    if (d.faz === "cevap" && d.cevap?.rakip_cevapladi && !anRef.current.rakip) {
+    // 15 Eki 2026: yalnız ben hâlâ düşünürken (cevabım yoldayken / verdikten sonra çalmaz — Klasik ile aynı kural)
+    if (d.faz === "cevap" && d.cevap?.rakip_cevapladi && !anRef.current.rakip && !d.cevap?.ben_cevapladim && secim == null) {
       anRef.current.rakip = true;
       if (birKez(`rakip-cevap:${turAnahtari(d)}`) && !gorunurDegil()) sesRakipCevapladi();
     }

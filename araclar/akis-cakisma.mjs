@@ -17,6 +17,8 @@ for (const dosya of process.argv.slice(2)) {
     const calan = [], tasma = [], gec = [];
     for (const a of akis) {
       if (a.olay === "ses:istendi") { (bekleyen.get(a.rol) ?? bekleyen.set(a.rol, []).get(a.rol)).push(a.t); continue; }
+      // çalmadan biten istek (iptal / geç indi / sessiz / atlandı …) kuyruktan düşer — sonraki eşleşmeler kaymasın
+      if (/^ses:(iptal \(faz değişti\)$|gec-yuklendi|yuklenemedi|sessiz|calinamaz|arka-arkaya|atland|audiocontext)/.test(a.olay)) { bekleyen.get(a.rol)?.shift(); continue; }
       if (a.olay !== "ses:caldi" && !String(a.olay).startsWith("ses:yedek-ton")) continue;
       const ist = bekleyen.get(a.rol)?.shift();
       calan.push({ t: a.t, rol: a.rol });

@@ -886,10 +886,18 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   (`adaylar.js › DEGISTIRILMESI_ONERILEN`). **Zamanlama (ses.js):** soru_geldi çalarken süren doğru/yanlış 120 ms fade ile kısılır;
   xp_dolma, kazandin/kaybettin/beraberlik sesi bitince başlar (`sonucBitisAni`); cevap verildikten sonra son_saniyeler ve
   sayim_son (son 3 sn) çalmaz — Düello v4 `cevapVerdim`, Düello eski `secim`, Hazine `secim`, Klasik `cevapVerildiRef`.
-  **Geç inen ses (15 Eki):** dosya istenince hazır değilse 250 ms kuralı (geç ses yanlış ana denk gelmesin) — ama maç sonu sesleri
-  (kazandin/kaybettin/beraberlik/xp_dolma/level/rutbe/turnuva) 3 sn'ye, tur_gecis/rozet 600 ms'ye kadar geç de çalar; doğru/yanlış/süre
-  doldu 250 ms'de inmediyse o an yedek ton çalar (sessiz kalmaz). Hazine'de rakip yanlış bildiyse (Altın Soru/Savunma hariç) kendi
-  sesinden ~0,5 sn sonra kısık `sesCanKaybi(false)`. Tanı: bd_ses_tani=1 → `__sesKayit[].sonuc` (calindi + ctx durumu / atlama
+  **Geç inen ses + faz iptali (15 Eki, Hazine senkron kök düzeltmesi — bütün modlar):** maç içinde HİÇBİR ses geç çalmaz — dosya
+  istenince hazır değilse 250 ms kuralı; geç çalma izni (3 sn) yalnız maç sonu ekranının sesinde (`sesMacSonu`), ekran kapanınca
+  bekleyen geç ses düşer. Doğru/yanlış/süre doldu 250 ms'de inmediyse yedek ton çalar; yedek çaldıysa dosya o sefer ÇALMAZ (ikisi
+  birden yok). **Faz iptali:** maç sayfası her yeni fazda `sesFazDegisti()` çağırır (Hazine her faz, Düello v4 faz/soru, her modda
+  `sesSoruGeldi`): önceki fazın bekleyen sesleri (inmekte olan dosya, yedek tonu, ertelenen xp, 300 ms rakip sesi) düşer;
+  sonraya kurulan ses `fazdaCal(f)` ile sarılır. AudioContext askıdaysa ses birikmez: 250 ms içinde açılırsa çalar, yoksa atlanır.
+  **Hazine tur çizelgesi:** karar → tur_gecis, kalp atışı 600 ms sonra başlar ve son 3 sn'de susar (o süre sayım tiki) · AÇ/DEVAM
+  anı → kendi sesi, soru sesi AN BİTİNCE (sayaç o an görünür) · sonuç → doğru/yanlış, rakip yanlışsa 480 ms sonra kısık
+  `sesCanKaybi(false)` (faz biterse düşer), altın varışı, büyük artışta XP, anahtar. Sonuç anı KALAN sonuç fazına sığacak kadar
+  kısalır (`SONUC_AN_PAY_MS` 150; CSS `--ks-sonuc-olcek`), çok az kaldıysa çizilmez — yeni faz geldiğinde yarıda sökülmez.
+  Konfeti parçacıkları animasyonları bitince kalkar. Akış tanısı: `lib/akisGunlugu.js` (`?tani=1` → `window.__akis`); ölçüm
+  `araclar/hazine-akis-olcum.mjs` (taklit sunucu, CPU 6x + yavaş 4G, canlıya yük yok). Tanı: bd_ses_tani=1 → `__sesKayit[].sonuc` (calindi + ctx durumu / atlama
   nedeni), `__sesOlay` (iptal/erteleme), `__sesCtx` (AudioContext durumu); ölçüm `araclar/yavas-android-olcum.mjs --mac --ida`.
   Doğrulama `araclar/ses-zamanlama-dogrula.mjs` (gerçek ses.js + dosyalar, oturumsuz sayfa).
 
