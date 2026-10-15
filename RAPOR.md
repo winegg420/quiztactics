@@ -70,6 +70,14 @@
   değişiklik yapılmadı.
 - **Klasik açılış/bekleme:** bu pakette Klasik koduna dokunulmadı; ayrı canlı ölçüm yapılmadı (canlıda yalnız tek Hazine maçı).
 
+## Canlı test (16 Eki, Ida, açık bota karşı tek Hazine maçı — Antrenman, serbest)
+- Yerel üretim derlemesi + canlı Supabase, CPU 6x + yavaş 4G, 390×844. Maç bitti; açık bot kazandı (80–0). `toplam_galibiyet` 68 → 68.
+  Açık bot galibiyetinin hariç tutulduğu 1112 provasında ölçüldü (Ida'nın 21 Hazine galibiyetinden 2'si açık bota karşı, sayılan 19).
+- Ses: 104 istek, 101 çaldı. **xp_dolma: maç içinde 5/5 çaldı; maç sonunda `kaybettin` bitene dek 224 ms ertelendi ve ÇALDI.** can_kaybi 1/1.
+  Çakışma 0, konsol hatası 0. Çalınmayan 3 ses giriş sahnesinde (tur_gecis geç indi 1,9 sn, sayim_son 338 ms, rozet faz değişince):
+  maç lobisiz, doğrudan adresle soğuk açıldı. Taklitte tur_gecis geç inişi önce/sonra aynı (1–4) — bu paketten gerileme değil.
+- Şık basış → seçildi: DOM ort 61 ms, boyama ort 105 ms. Canlı paket doğrulandı (canlı kasa paketinde `RIVAL`, Worker varlığı 200).
+
 ## Testler
 - `npm run build` TEMİZ · ses-rakip-soru ✓ · ses-zamanlama (B2/B3/B4) ✓ · ses-hazine-grup-taklit 6/6 · senkron-testi --taklit
   Turnuva ✓ · hazine-akis-olcum taşma/geç/askıda 0 · arayüz denetimi TEMİZ (yatay taşma 0, konsol temiz).
