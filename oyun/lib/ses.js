@@ -441,6 +441,17 @@ export function sesFazDegisti() {
   for (const z of bekleyenZamanlar) clearTimeout(z);
   bekleyenZamanlar.clear();
 }
+// Maç sonu ekranının KENDİ penceresi (15 Eki 2026, Codex taraması): sesMacSonu sesleri (geç çalma izinli) maç sayfasının faz
+// değişiminden etkilenmez — ekran açıkken maç satırı güncellenince (ör. Düello v4 durum/faz) ertelenen xp_dolma düşüyordu.
+// Bu sesler yalnız ekran kapanınca (sesMacSonuKapat) düşer. Maç içi sesler eskisi gibi sesFazDegisti kuralında.
+let macSonuNo = 0;
+const macSonuZamanlar = new Set();
+const macSonuZamani = (f, ms) => { const z = setTimeout(() => { macSonuZamanlar.delete(z); f(); }, ms); macSonuZamanlar.add(z); return z; };
+export function sesMacSonuKapat() {
+  macSonuNo += 1;
+  for (const z of macSonuZamanlar) clearTimeout(z);
+  macSonuZamanlar.clear();
+}
 /** Sonraya kurulan ses: kurulduğu faz sürüyorsa çalar, faz değiştiyse sessizce düşer. */
 export function fazdaCal(f) {
   const n = fazNo;
@@ -534,7 +545,7 @@ function cal(rol, yedek, { carpan = 1, hiz = 1, gecKabul = false } = {}) {
     const kalanMs = (sonucBitisAni - ctx.currentTime) * 1000;
     if (kalanMs > 0 && kalanMs < 6000) {
       taniKaydi(rol, null, `ertelendi ${Math.round(kalanMs)} ms`);
-      fazZamani(() => { xpErtelendi = true; try { cal(rol, yedek, { carpan, hiz, gecKabul }); } finally { xpErtelendi = false; } }, kalanMs + 40);
+      (gecKabul ? macSonuZamani : fazZamani)(() => { xpErtelendi = true; try { cal(rol, yedek, { carpan, hiz, gecKabul }); } finally { xpErtelendi = false; } }, kalanMs + 40);
       return;
     }
   }
@@ -556,7 +567,9 @@ function cal(rol, yedek, { carpan = 1, hiz = 1, gecKabul = false } = {}) {
   taniSonuc(tani, "yukleniyor");
   // geç çalma izni yalnız maç sonu ekranının sesinde (sesMacSonu → gecKabul); maç içinde her ses 250 ms kuralında
   const sinir = gecKabul ? GEC_KABUL_MS[rol] ?? ILK_CALMA_SINIRI_MS : ILK_CALMA_SINIRI_MS;
-  const istekFazi = fazNo;
+  // maç sonu sesi kendi penceresinde (macSonuNo), maç içi ses fazında (fazNo)
+  const pencere = gecKabul ? () => macSonuNo : () => fazNo;
+  const istekFazi = pencere();
   // yedek ton ya da dosya — İKİSİ BİRDEN ÇALMAZ: yedek çaldıysa dosya bu sefer çalmaz (sonraki sefere hazır olur)
   let yedekCaldi = false;
   const yedekZamani = YEDEK_TONLU.has(rol) ? fazZamani(() => { yedekCaldi = true; taniSonuc(tani, "yedek-ton (dosya 250 ms'de inmedi)"); yedek(); }, ILK_CALMA_SINIRI_MS) : null;
@@ -565,7 +578,7 @@ function cal(rol, yedek, { carpan = 1, hiz = 1, gecKabul = false } = {}) {
       const gecen = simdiMs() - simdi;
       if (yedekCaldi) return;
       fazZamaniIptal(yedekZamani);
-      if (istekFazi !== fazNo) { taniSonuc(tani, "iptal (faz değişti)"); return; }
+      if (istekFazi !== pencere()) { taniSonuc(tani, gecKabul ? "iptal (maç sonu ekranı kapandı)" : "iptal (faz değişti)"); return; }
       if (gecen <= sinir) tamponCal(c, tampon, hacim, hiz, rol, tani);
       else taniSonuc(tani, `gec-yuklendi ${Math.round(gecen)} ms`);
     },
@@ -573,7 +586,7 @@ function cal(rol, yedek, { carpan = 1, hiz = 1, gecKabul = false } = {}) {
       const gecen = simdiMs() - simdi;
       if (yedekCaldi) return;
       fazZamaniIptal(yedekZamani);
-      if (istekFazi !== fazNo) { taniSonuc(tani, "iptal (faz değişti)"); return; }
+      if (istekFazi !== pencere()) { taniSonuc(tani, gecKabul ? "iptal (maç sonu ekranı kapandı)" : "iptal (faz değişti)"); return; }
       taniSonuc(tani, gecen <= sinir ? "yedek-ton (yüklenemedi)" : `yuklenemedi ${Math.round(gecen)} ms`);
       if (gecen <= sinir) yedek();
     }

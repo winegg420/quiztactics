@@ -50,7 +50,7 @@ import { hareketAzaltildiMi } from "../tasarim/hareket.js";
 import { yumusakHareketKur } from "../tasarim/yumusakHareket.js";
 
 yumusakHareketKur();
-import { sesMacSonu, sesMuzikSahne, sesFazDegisti } from "../lib/ses.js";
+import { sesMacSonu, sesMuzikSahne, sesFazDegisti, sesMacSonuKapat } from "../lib/ses.js";
 import { coinTazele } from "../lib/coin.js";
 import { elmasTazele } from "../lib/elmas.js";
 import { sezonTazele, useSezonOzeti } from "../lib/sezonYolu.js";
@@ -400,7 +400,8 @@ function MacSonuKutlama({
       odakIptal();
       liste.forEach(clearTimeout);
       cancelAnimationFrame(rafRef.current);
-      sesFazDegisti();   // 15 Eki 2026: ekran kapanınca geç inmekte olan maç sonu sesi de düşer (geç çalma izni yalnız ekran açıkken)
+      sesMacSonuKapat();   // ekran kapanınca geç inmekte olan / ertelenen maç sonu sesi düşer (geç çalma izni yalnız ekran açıkken)
+      sesFazDegisti();
     };
     // Sahne yalnız takılınca kurulur; "Tekrar oynat" key ile yeniden takar.
     // eslint-disable-next-line react-hooks/exhaustive-deps

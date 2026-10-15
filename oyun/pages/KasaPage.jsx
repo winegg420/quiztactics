@@ -51,7 +51,7 @@ import { kategoriAdi } from "../lib/kategoriler.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesDokunus, sesRakipBulundu, sesSoruGeldi,
   sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill, sesOnYukle, sesKalpAtisi, macSesleriniOnYukle, sesCanKaybi,
-  sesFazDegisti, fazdaCal, sesMacSonu } from "../lib/ses.js";
+  sesFazDegisti, fazdaCal, sesMacSonu, sesMacSonuKapat } from "../lib/ses.js";
 import { akis } from "../lib/akisGunlugu.js";
 import { KasaAcAni, KasaAltinYagmuru, UcanParcalar, kasaSeviye, KasaGirisSahnesi, KasaFinalSahnesi,
   KasaCifteBandi, KasaRakipKarar, KasaSavunmaAni } from "../components/KasaEfekt.jsx";
@@ -491,8 +491,11 @@ function KasaMac({ id }) {
     sesKilidiAc();
     // maç sesleri önceden insin (ilk soru/tik sessiz kalmasın) — Paket B/13: gerisi ilk soru görününce
     // 15 Eki: giriş sahnesinin düşüş sesleri (tur_gecis + rozet) ilk listede — rozet ertelenince 7,8 sn'de iniyor, çalmıyordu
-    sesOnYukle(["rozet"]);
-    const sesErtele = macSesleriniOnYukle(["skill", ["coin", "xp_dolma", "can_kaybi"]]);
+    // 15 Eki (Codex taraması): ilk sonuç anının sesleri (büyük artış xp_dolma, rakip yanlış can_kaybi) de ilk listede —
+    // ertelenen grup soru görününce iniyordu, yavaş 4G'de ilk sonuç (~3 sn sonra) gelince xp_dolma hâlâ inmekteydi ve faz
+    // değişince (doğru olarak) düşüyordu. İkisi küçük (92 + 24 KB); giriş sahnesi süresince iner.
+    sesOnYukle(["rozet", "xp_dolma", "can_kaybi"]);
+    const sesErtele = macSesleriniOnYukle(["skill", ["coin"]]);
     // Giriş sahnesinin önceden çizilmiş ışık görseli (kasa-efekt.css › .ks-giris-isik) sahne açılmadan insin
     try { new Image().src = "/hazine/giris-isik.webp"; } catch { /* görsel yoksa sahne ışıksız açılır */ }
     yukle();
@@ -839,7 +842,8 @@ function KasaMac({ id }) {
   const [finalAn, setFinalAn] = useState(null);
   const oncekiDurumRef = useRef(null);
   const finalZamanRef = useRef([]);
-  useEffect(() => () => finalZamanRef.current.forEach(clearTimeout), []);
+  // Sayfa kapanınca final sahnesinin zamanlayıcıları ve bekleyen maç sonu sesi düşer (sesMacSonu kendi penceresinde)
+  useEffect(() => () => { finalZamanRef.current.forEach(clearTimeout); sesMacSonuKapat(); }, []);
   useEffect(() => {
     if (!d) return;
     const once = oncekiDurumRef.current;
