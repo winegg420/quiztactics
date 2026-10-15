@@ -54,6 +54,20 @@ const IZCI = () => {
     o.istek.push(k); o.ucus++; if (ana) o.ucusAna++;
     return f0.apply(this, a).finally(() => { o.ucus--; if (ana) o.ucusAna--; k.bit = performance.now(); });
   };
+  // 15 Eki 2026 şık geri bildirimi: dokunuş (click) → şıkta "qt-sik--secili" sınıfı (DOM) → sonraki boyama (rAF). Sunucu yanıtı beklenmez.
+  o.sik = [];
+  try {
+    let bekleyen = null;
+    document.addEventListener("click", (e) => { if (e.target?.closest?.(".qt-sik")) bekleyen = { t0: e.timeStamp, dom: null }; }, true);
+    new MutationObserver((ms) => {
+      if (!bekleyen || bekleyen.dom != null) return;
+      for (const m of ms) if (m.type === "attributes" && m.target.classList?.contains("qt-sik--secili")) {
+        bekleyen.dom = performance.now(); const b = bekleyen; bekleyen = null;
+        requestAnimationFrame(() => requestAnimationFrame(() => o.sik.push([Math.round(b.dom - b.t0), Math.round(performance.now() - b.t0)])));
+        return;
+      }
+    }).observe(document, { subtree: true, attributes: true, attributeFilter: ["class"] });
+  } catch { /* yok */ }
   const ps = history.pushState;
   history.pushState = function (...a) { const r = ps.apply(this, a); if (/\/(mac|duello|kasa)\/[0-9a-f-]{36}/.test(location.pathname) && o.macAdres == null) o.macAdres = performance.now(); return r; };
   const YUKLENIYOR = "#qt-ilk-yukleme, [aria-busy=true], [class*=iskelet], [class*=yukleniyor], [class*=skeleton], .qt-durum--yukleniyor";
@@ -252,7 +266,7 @@ function macOzeti({ o, ses, olay, ctx }, bitti) {
   const fpsOzet = (k) => k.length ? { ort: Math.round(k.reduce((x, y) => x + y[1], 0) / k.length), en_dusuk: Math.min(...k.map((x) => x[1])), en_uzun_kare: Math.max(...k.map((x) => x[2])) } : null;
   const uzun = o.uzun.filter(([st]) => st >= t0).map(([st, d]) => [g(st), Math.round(d)]);
   return {
-    bitti, durum, kare,
+    bitti, durum, kare, sik_secili_ms: o.sik ?? [],
     fps: { mac: fpsOzet(kare), sayim: fpsOzet(pencere(sayBas, soruBas)), bekleme: fpsOzet(kare.filter(([t]) => durum.some(([a, d], i) => /^bekle/.test(d) && t >= a && t < (durum[i + 1]?.[0] ?? a)))) },
     sure_ms: { bekle: sure(/^bekle/), sayim_3: sure(/^sayım 3$/), sayim_2: sure(/^sayım 2$/), sayim_1: sure(/^sayım 1$/), giris_hazir_ol: sure(/^giriş sahnesi · Hazır ol!$/) },
     uzun_gorev: uzun, uzun_gorev_sayim: uzun.filter(([st]) => sayBas != null && soruBas != null && st >= sayBas - 1000 && st < soruBas),
@@ -268,6 +282,7 @@ function yazdir(kod, r) {
   console.log(`    3-2-1 penceresi: ${f(r.fps.sayim)} · uzun görev ${r.uzun_gorev_sayim.length} (en uzun ${Math.max(0, ...r.uzun_gorev_sayim.map((x) => x[1]))} ms)`);
   console.log(`    bekleme: ${r.sure_ms.bekle} ms (${f(r.fps.bekleme)}) · "3" ${r.sure_ms.sayim_3} · "2" ${r.sure_ms.sayim_2} · "1" ${r.sure_ms.sayim_1} ms · Hazır ol! ${r.sure_ms.giris_hazir_ol} ms`);
   console.log(`    durum: ${r.durum.slice(0, 14).map(([t, d]) => `${t} ${d}`).join(" → ")}`);
+  if (r.sik_secili_ms?.length) { const d = r.sik_secili_ms.map((x) => x[0]).sort((a, b) => a - b), b = r.sik_secili_ms.map((x) => x[1]).sort((a, b) => a - b); console.log(`    şık basış → seçildi: ${d.length} dokunuş · DOM ort ${Math.round(d.reduce((x, y) => x + y, 0) / d.length)} ms (en kötü ${d.at(-1)}) · boyama ort ${Math.round(b.reduce((x, y) => x + y, 0) / b.length)} ms (en kötü ${b.at(-1)})`); }
   const atlanan = r.ses.filter((x) => x.sonuc !== "calindi");
   console.log(`    ses: ${r.ses.length} istek · çalındı ${r.ses.length - atlanan.length} · çalınmadı ${atlanan.length}${atlanan.length ? ": " + atlanan.map((x) => `${x.rol}@${x.t} (${x.sonuc})`).join(", ") : ""}`);
   if (r.ses_olay.length) console.log(`    ses olayları: ${r.ses_olay.map((x) => `${x.rol}@${x.t} ${x.sonuc}`).join(", ")}`);

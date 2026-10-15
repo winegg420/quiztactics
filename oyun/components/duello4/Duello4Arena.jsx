@@ -300,6 +300,13 @@ export default function Duello4Arena({
   useEffect(() => {
     if (soruFazi && cv.rakip_cevapladi && !kilitli) birKez(`rakip:${v.soru_no}`, () => sesRakipCevapladi());
   }, [soruFazi, cv.rakip_cevapladi, kilitli, v.soru_no]);   // eslint-disable-line react-hooks/exhaustive-deps
+  // Rakip kart seçerken (15 Eki 2026): rakibin 1. seçimi (kart bana gönderildi → adım 1) sessiz geçiyordu; kendi seçimimde
+  // dokunuş sesi çalıyor. Tur başına bir kez; faza bağlı (faz değişince düşer). 2. seçim zaten cevap panelinin
+  // kategori_secildi sesiyle duyulur — ikinci kez çalınmaz.
+  useEffect(() => {
+    if (d.durum !== "aktif" || d.faz !== "kart" || benKontrol || adim < 1 || adim >= 2) return;
+    birKez(`rakipkart:${v.tur}`, () => sonra(0, () => sesKategoriSecildi()));
+  }, [d.faz, d.durum, benKontrol, adim, v.tur]);   // eslint-disable-line react-hooks/exhaustive-deps
   // Son 3 sn: cevapta tik (cevaplamadıysam), kartta geri sayım (sıra bendeyse).
   const sn = Math.ceil(gosterSn ?? 0);
   useEffect(() => {

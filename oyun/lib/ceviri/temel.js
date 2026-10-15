@@ -1425,6 +1425,7 @@ export default {
     "adresine yazarak da silme talebinde bulunabilirsin.": ".",
     "Çocuklar": "Children",
     "Quiz Tactics 13 yaş altındaki çocuklara yönelik değildir ve bilerek 13 yaş altından veri toplamayız.": "Quiz Tactics isn't intended for children under 13, and we don't knowingly collect data from anyone under 13.",
+    "13-18 yaş arasındaysan veli veya vasinin izniyle kullanabilirsin.": "If you're between 13 and 18, you may use it with the permission of a parent or guardian.",
     "Çerezler ve yerel depolama": "Cookies and local storage",
     "Oturumunu açık tutmak ve bazı tercihlerini (ör. kapattığın bilgilendirme şeritleri) hatırlamak için tarayıcının yerel depolamasını kullanırız. Reklam veya izleme çerezi kullanmıyoruz.": "We use your browser's local storage to keep you signed in and to remember some preferences (e.g. info banners you've closed). We don't use advertising or tracking cookies.",
     "Değişiklikler": "Changes",

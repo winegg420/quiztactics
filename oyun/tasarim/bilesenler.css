@@ -1156,6 +1156,9 @@ html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))
 .qt-sikler--iki .qt-sik-isaret { position: absolute; top: 6px; right: 6px; }
 
 .qt-sik--secili { --_z: var(--qt-ikinci); --_y: var(--qt-ikinci-yazi); --_d: var(--qt-ikinci-dudak); --_hz: var(--qt-ikinci-yazi); --_hy: var(--qt-ikinci-koyu); }
+/* 15 Eki 2026: basıldığı anda (sunucu yanıtından ÖNCE) belirgin "seçildi": şık çökük kalır + beyaz iç çerçeve.
+   Doğru/yanlış sınıfı gelince bu kural devre dışı (aşağıdaki durumlar kendi gölgesini verir). */
+.qt-sik--secili { transform: translateY(var(--qt-dudak)); box-shadow: 0 0 0 var(--_d), inset 0 0 0 3px rgba(255, 255, 255, 0.9); }
 .qt-sik--dogru, .qt-sik--dogrusu { --_z: var(--qt-dogru); --_y: var(--qt-dogru-yazi); --_d: var(--qt-dogru-dudak); --_hz: var(--qt-dogru-yazi); --_hy: var(--qt-dogru); }
 .qt-sik--yanlis { --_z: var(--qt-yanlis); --_y: var(--qt-yanlis-yazi); --_d: var(--qt-yanlis-dudak); --_hz: var(--qt-yanlis-yazi); --_hy: var(--qt-yanlis); }
 .qt-sik--kilitli { transform: translateY(var(--qt-dudak)); box-shadow: 0 0 0 var(--_d); opacity: 0.8; }

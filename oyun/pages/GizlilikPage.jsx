@@ -10,7 +10,7 @@ import "../tasarim/ekranlar/g-yasal.css";
 // Google Play zorunluluğu: mağaza kaydında gösterilecek gizlilik politikası.
 // Veri sorumlusu için şahıs/şirket unvanı ve adres henüz yok (Ida kararı bekliyor): "Quiz Tactics" + e-posta.
 // Veri akışı değişince (ör. olay kaydı/analitik, ödeme) bu metin AYRICA güncellenir.
-const GUNCELLEME = tt("14 Ekim 2026");
+const GUNCELLEME = tt("15 Ekim 2026");
 const ILETISIM = "info@quiztactics.com";
 
 export default function GizlilikPage() {
@@ -138,7 +138,7 @@ export default function GizlilikPage() {
 
       <h2>{tt("Çocuklar")}</h2>
       <p>
-        {tt("Quiz Tactics 13 yaş altındaki çocuklara yönelik değildir ve bilerek 13 yaş altından veri toplamayız.")}
+        {tt("Quiz Tactics 13 yaş altındaki çocuklara yönelik değildir ve bilerek 13 yaş altından veri toplamayız.")} {tt("13-18 yaş arasındaysan veli veya vasinin izniyle kullanabilirsin.")}
       </p>
 
       <h2>{tt("Çerezler ve yerel depolama")}</h2>
