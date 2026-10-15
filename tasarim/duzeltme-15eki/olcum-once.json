@@ -1,0 +1,642 @@
+{
+ "hesap_sil-390-tr": {
+  "olcum": [
+   {
+    "s": "qt-dugme qt-dugme--ikinc",
+    "top": 12,
+    "w": 91
+   },
+   {
+    "s": "g-yasal-dil",
+    "top": 12,
+    "w": 112
+   },
+   {
+    "s": "qt-marka qt-marka--o",
+    "top": 12,
+    "w": 120
+   }
+  ],
+  "tasma": false,
+  "konsol": 0
+ },
+ "arkadaslar-390-tr": {
+  "olcum": [
+   {
+    "t": "Facebook'ta paylaş",
+    "h": 44
+   },
+   {
+    "t": "Paylaş",
+    "h": 44
+   }
+  ],
+  "tasma": false,
+  "konsol": 0
+ },
+ "meydan-390-tr": {
+  "olcum": {
+   "baslik": "Meydan Okumalar — Quiz Tactics",
+   "adlar": [
+    {
+     "t": "",
+     "w": 56,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 40,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 55,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 61,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 76,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 83,
+     "h": 44
+    }
+   ]
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "turnuva-390-tr": {
+  "olcum": {
+   "kalan": "Bugün kalan turnuvalar: 24:00\nTurnuva nasıl işler?",
+   "yirmidort": true
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "ana-390-tr": {
+  "olcum": {
+   "kalan": "",
+   "yirmidort": true,
+   "meydan": true
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "profil-390-tr": {
+  "olcum": {
+   "bankada": [
+    {
+     "t": "Hatalarım | Öğrenilen soru: 0 · Bankada: 1530",
+     "h": 64
+    }
+   ],
+   "baskin": true
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "calisma-390-tr": {
+  "olcum": {
+   "h": 132,
+   "baslik": 20,
+   "kural": 41
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "joker-390-tr": {
+  "olcum": {
+   "rozetler": [
+    "Yalnız Klasik|22",
+    "Yalnız Düello|22",
+    "Klasik · Düello · Ortak Hazine|31",
+    "Klasik · Düello|22"
+   ],
+   "ikiNokta": 10
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "efekt-390-tr": {
+  "olcum": {
+   "tak": [
+    {
+     "t": "Tak",
+     "svg": 1
+    },
+    {
+     "t": "Tak",
+     "svg": 1
+    },
+    {
+     "t": "Tak",
+     "svg": 1
+    }
+   ]
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "koleksiyon-390-tr": {
+  "olcum": {
+   "sutun": 3
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "modlar-390-tr": {
+  "olcum": {
+   "saf": "Saf Bilgi için |  | Karışık | Genel Kültür | Teknoloji | Sanat | Müzik | Coğrafya | S"
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "hesap_sil-390-en": {
+  "olcum": [
+   {
+    "s": "qt-dugme qt-dugme--ikinc",
+    "top": 12,
+    "w": 95
+   },
+   {
+    "s": "g-yasal-dil",
+    "top": 12,
+    "w": 112
+   },
+   {
+    "s": "qt-marka qt-marka--o",
+    "top": 12,
+    "w": 120
+   }
+  ],
+  "tasma": false,
+  "konsol": 0
+ },
+ "arkadaslar-390-en": {
+  "olcum": [
+   {
+    "t": "Share on Facebook",
+    "h": 44
+   },
+   {
+    "t": "Share",
+    "h": 44
+   }
+  ],
+  "tasma": false,
+  "konsol": 0
+ },
+ "meydan-390-en": {
+  "olcum": {
+   "baslik": "Challenges — Quiz Tactics",
+   "adlar": [
+    {
+     "t": "",
+     "w": 56,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 40,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 55,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 61,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 76,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 83,
+     "h": 44
+    }
+   ]
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "turnuva-390-en": {
+  "olcum": {
+   "kalan": "Tournaments left today: 24:00\nHow does the tournament work?",
+   "yirmidort": true
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "ana-390-en": {
+  "olcum": {
+   "kalan": "",
+   "yirmidort": true,
+   "meydan": true
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "profil-390-en": {
+  "olcum": {
+   "bankada": [
+    {
+     "t": "My Mistakes | Learned: 0 · In your bank: 1530",
+     "h": 64
+    }
+   ],
+   "baskin": true
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "calisma-390-en": {
+  "olcum": {
+   "h": 132,
+   "baslik": 20,
+   "kural": 41
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "joker-390-en": {
+  "olcum": {
+   "rozetler": [
+    "Classic only|22",
+    "Duel only|22",
+    "Classic · Duel · Shared Treasure|31",
+    "Classic · Duel|22"
+   ],
+   "ikiNokta": 10
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "efekt-390-en": {
+  "olcum": {
+   "tak": [
+    {
+     "t": "Equip",
+     "svg": 1
+    },
+    {
+     "t": "Equip",
+     "svg": 1
+    },
+    {
+     "t": "Equip",
+     "svg": 1
+    }
+   ]
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "koleksiyon-390-en": {
+  "olcum": {
+   "sutun": 3
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "modlar-390-en": {
+  "olcum": {
+   "saf": ""
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "hesap_sil-360-tr": {
+  "olcum": [
+   {
+    "s": "qt-dugme qt-dugme--ikinc",
+    "top": 12,
+    "w": 91
+   },
+   {
+    "s": "g-yasal-dil",
+    "top": 12,
+    "w": 112
+   },
+   {
+    "s": "qt-marka qt-marka--o",
+    "top": 68,
+    "w": 120
+   }
+  ],
+  "tasma": false,
+  "konsol": 0
+ },
+ "arkadaslar-360-tr": {
+  "olcum": [
+   {
+    "t": "Facebook'ta paylaş",
+    "h": 44
+   },
+   {
+    "t": "Paylaş",
+    "h": 44
+   }
+  ],
+  "tasma": false,
+  "konsol": 0
+ },
+ "meydan-360-tr": {
+  "olcum": {
+   "baslik": "Meydan Okumalar — Quiz Tactics",
+   "adlar": [
+    {
+     "t": "",
+     "w": 56,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 40,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 55,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 61,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 76,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 83,
+     "h": 44
+    }
+   ]
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "turnuva-360-tr": {
+  "olcum": {
+   "kalan": "Bugün kalan turnuvalar: 24:00\nTurnuva nasıl işler?",
+   "yirmidort": true
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "ana-360-tr": {
+  "olcum": {
+   "kalan": "",
+   "yirmidort": true,
+   "meydan": true
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "profil-360-tr": {
+  "olcum": {
+   "bankada": [
+    {
+     "t": "Hatalarım | Öğrenilen soru: 0 · Bankada: 1530",
+     "h": 78
+    }
+   ],
+   "baskin": true
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "calisma-360-tr": {
+  "olcum": {
+   "h": 132,
+   "baslik": 20,
+   "kural": 41
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "joker-360-tr": {
+  "olcum": {
+   "rozetler": [
+    "Yalnız Klasik|22",
+    "Yalnız Düello|22",
+    "Klasik · Düello · Ortak Hazine|31",
+    "Klasik · Düello|22"
+   ],
+   "ikiNokta": 10
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "efekt-360-tr": {
+  "olcum": {
+   "tak": [
+    {
+     "t": "Tak",
+     "svg": 1
+    },
+    {
+     "t": "Tak",
+     "svg": 1
+    },
+    {
+     "t": "Tak",
+     "svg": 1
+    }
+   ]
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "koleksiyon-360-tr": {
+  "olcum": {
+   "sutun": 2
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "modlar-360-tr": {
+  "olcum": {
+   "saf": "Saf Bilgi için |  | Karışık | Genel Kültür | Teknoloji | Sanat | Müzik | Coğrafya | S"
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "hesap_sil-360-en": {
+  "olcum": [
+   {
+    "s": "qt-dugme qt-dugme--ikinc",
+    "top": 12,
+    "w": 95
+   },
+   {
+    "s": "g-yasal-dil",
+    "top": 12,
+    "w": 112
+   },
+   {
+    "s": "qt-marka qt-marka--o",
+    "top": 68,
+    "w": 120
+   }
+  ],
+  "tasma": false,
+  "konsol": 0
+ },
+ "arkadaslar-360-en": {
+  "olcum": [
+   {
+    "t": "Share on Facebook",
+    "h": 44
+   },
+   {
+    "t": "Share",
+    "h": 44
+   }
+  ],
+  "tasma": false,
+  "konsol": 0
+ },
+ "meydan-360-en": {
+  "olcum": {
+   "baslik": "Challenges — Quiz Tactics",
+   "adlar": [
+    {
+     "t": "",
+     "w": 56,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 40,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 55,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 61,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 76,
+     "h": 44
+    },
+    {
+     "t": "",
+     "w": 83,
+     "h": 44
+    }
+   ]
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "turnuva-360-en": {
+  "olcum": {
+   "kalan": "Tournaments left today: 24:00\nHow does the tournament work?",
+   "yirmidort": true
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "ana-360-en": {
+  "olcum": {
+   "kalan": "",
+   "yirmidort": true,
+   "meydan": true
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "profil-360-en": {
+  "olcum": {
+   "bankada": [
+    {
+     "t": "My Mistakes | Learned: 0 · In your bank: 1530",
+     "h": 64
+    }
+   ],
+   "baskin": true
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "calisma-360-en": {
+  "olcum": {
+   "h": 172,
+   "baslik": 40,
+   "kural": 61
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "joker-360-en": {
+  "olcum": {
+   "rozetler": [
+    "Classic only|22",
+    "Duel only|22",
+    "Classic · Duel · Shared Treasure|31",
+    "Classic · Duel|22"
+   ],
+   "ikiNokta": 10
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "efekt-360-en": {
+  "olcum": {
+   "tak": [
+    {
+     "t": "Equip",
+     "svg": 1
+    },
+    {
+     "t": "Equip",
+     "svg": 1
+    },
+    {
+     "t": "Equip",
+     "svg": 1
+    }
+   ]
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "koleksiyon-360-en": {
+  "olcum": {
+   "sutun": 2
+  },
+  "tasma": false,
+  "konsol": 0
+ },
+ "modlar-360-en": {
+  "olcum": {
+   "saf": ""
+  },
+  "tasma": false,
+  "konsol": 0
+ }
+}

@@ -123,6 +123,10 @@
 /* 15 Eki 2026 · 360 px: logo Geri / TR-EN satırının altına tek başına düşüyordu — telefonda üçü aynı satırda */
 @media (max-width: 420px) {
   .g-yasal-ust { flex-wrap: nowrap; gap: var(--qt-b-2); }
-  .g-yasal-ust > * { min-width: 0; }
+  .g-yasal-ust > * { flex: none; }
   .g-yasal-ust .g-yasal-dil { margin-inline: auto; }
+}
+/* ≤ 380 px: Geri yalnız ok (adı ekran okuyucuya kalır) — üç öğe aynı satıra sığar, "Geri" "G…" diye kırpılmaz */
+@media (max-width: 380px) {
+  .g-yasal-ust .bd-geri-dugmesi .qt-dugme-yazi { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }

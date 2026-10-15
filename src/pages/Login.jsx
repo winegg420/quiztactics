@@ -290,8 +290,8 @@ export default function Login() {
                     : ceviri("Her gün {n} turnuva: ilki {ilk}, sonuncusu {son}.", { n: s.length, ilk: turnuvaSaatiGoster(s[0]), son: turnuvaSaatiGoster(s[s.length - 1]) });
                 }
                 return s.length === 1
-                  ? ceviri("Her gün {saat}'de (Türkiye saati) turnuva.", { saat: s[0] })
-                  : ceviri("Her gün {n} turnuva: ilki {ilk}, sonuncusu {son} (Türkiye saati).", { n: s.length, ilk: s[0], son: s[s.length - 1] });
+                  ? ceviri("Her gün {saat}'de (Türkiye saati) turnuva.", { saat: turnuvaSaatiGoster(s[0]) })
+                  : ceviri("Her gün {n} turnuva: ilki {ilk}, sonuncusu {son} (Türkiye saati).", { n: s.length, ilk: turnuvaSaatiGoster(s[0]), son: turnuvaSaatiGoster(s[s.length - 1]) });
               })()}{" "}
               {ceviri("7/24 meydan okumalar. Sen de yerini al.")}
             </p>

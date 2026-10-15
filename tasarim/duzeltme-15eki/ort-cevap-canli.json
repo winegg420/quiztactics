@@ -1,0 +1,6431 @@
+{
+  "tarih": "2026-10-15T19:15:19.535Z",
+  "adres": "http://localhost:5199",
+  "ag": {
+    "offline": false,
+    "latency": 150,
+    "downloadThroughput": 200000,
+    "uploadThroughput": 93750,
+    "connectionType": "cellular4g"
+  },
+  "cpu": 6,
+  "ekranlar": {},
+  "maclar": {
+    "klasik": {
+      "lobi": {
+        "fcp": 2000,
+        "icerik": 5237,
+        "lcp": 4436,
+        "hazir": 5237,
+        "etkilesim": 5237,
+        "en_uzun_gorev": 271,
+        "tbt": 628,
+        "uzun_gorev_sayisi": 7,
+        "supabase_istek": 9,
+        "sira_turu": 3,
+        "ilk_supabase": 257,
+        "son_supabase_bitis": 5203,
+        "istekler": [
+          "257-1171 rpc:profilim",
+          "261-1303 rpc:ana_sayfa_ozet",
+          "3414-3759 tab:oyun_ayarlari",
+          "4025-5203 rpc:get_categories",
+          "4029-4420 rpc:kategori_mac_uygunlar",
+          "4351-4843 rpc:ses_secimleri_oyun",
+          "4443-4826 rpc:cihaz_bildir",
+          "4449-4907 rpc:kalp_at",
+          "4453-4846 rpc:rozet_bildirimlerim"
+        ],
+        "bayt": {
+          "js": 396,
+          "css": 126,
+          "font": 133,
+          "gorsel": 40,
+          "diger": 41
+        }
+      },
+      "mac_acilis": 283,
+      "en_uzun_gorev": 65,
+      "tbt": 16,
+      "supabase_istek": 2,
+      "istekler": [
+        "181-509 /rest/v1/match_jokers",
+        "183-538 rpc:sesli_sohbet_izni"
+      ],
+      "paket": [
+        "MatchPage -14207…-13792"
+      ],
+      "bitti": true,
+      "durum": [
+        [
+          67,
+          "diğer"
+        ],
+        [
+          280,
+          "bekle · Hazır mısın?"
+        ],
+        [
+          3347,
+          "bekle · Rakip bekleniyor"
+        ],
+        [
+          8572,
+          "sayım 3"
+        ],
+        [
+          9565,
+          "sayım 2"
+        ],
+        [
+          10566,
+          "sayım 1"
+        ],
+        [
+          11475,
+          "soru"
+        ],
+        [
+          77966,
+          "diğer"
+        ],
+        [
+          79242,
+          "maç sonu"
+        ]
+      ],
+      "kare": [
+        [
+          654,
+          51,
+          84
+        ],
+        [
+          1656,
+          60,
+          17
+        ],
+        [
+          2657,
+          58,
+          50
+        ],
+        [
+          3659,
+          60,
+          17
+        ],
+        [
+          4660,
+          60,
+          17
+        ],
+        [
+          5662,
+          56,
+          50
+        ],
+        [
+          6663,
+          46,
+          100
+        ],
+        [
+          7665,
+          56,
+          50
+        ],
+        [
+          8666,
+          58,
+          33
+        ],
+        [
+          9668,
+          58,
+          33
+        ],
+        [
+          10669,
+          55,
+          67
+        ],
+        [
+          11687,
+          56,
+          83
+        ],
+        [
+          12689,
+          47,
+          67
+        ],
+        [
+          13690,
+          51,
+          67
+        ],
+        [
+          14692,
+          53,
+          67
+        ],
+        [
+          15693,
+          59,
+          34
+        ],
+        [
+          16695,
+          48,
+          67
+        ],
+        [
+          17696,
+          55,
+          33
+        ],
+        [
+          18698,
+          48,
+          67
+        ],
+        [
+          19700,
+          55,
+          50
+        ],
+        [
+          20701,
+          54,
+          50
+        ],
+        [
+          21703,
+          47,
+          67
+        ],
+        [
+          22704,
+          43,
+          117
+        ],
+        [
+          23706,
+          52,
+          84
+        ],
+        [
+          24707,
+          57,
+          67
+        ],
+        [
+          25709,
+          54,
+          67
+        ],
+        [
+          26710,
+          54,
+          67
+        ],
+        [
+          27712,
+          59,
+          33
+        ],
+        [
+          28713,
+          51,
+          67
+        ],
+        [
+          29715,
+          53,
+          50
+        ],
+        [
+          30716,
+          56,
+          67
+        ],
+        [
+          31718,
+          52,
+          67
+        ],
+        [
+          32719,
+          51,
+          50
+        ],
+        [
+          33737,
+          53,
+          68
+        ],
+        [
+          34739,
+          57,
+          67
+        ],
+        [
+          35741,
+          50,
+          50
+        ],
+        [
+          36742,
+          51,
+          67
+        ],
+        [
+          37743,
+          60,
+          17
+        ],
+        [
+          38745,
+          51,
+          83
+        ],
+        [
+          39763,
+          43,
+          67
+        ],
+        [
+          40765,
+          48,
+          67
+        ],
+        [
+          41766,
+          50,
+          50
+        ],
+        [
+          42768,
+          52,
+          67
+        ],
+        [
+          43769,
+          59,
+          33
+        ],
+        [
+          44771,
+          56,
+          51
+        ],
+        [
+          45772,
+          55,
+          50
+        ],
+        [
+          46774,
+          57,
+          67
+        ],
+        [
+          47776,
+          54,
+          50
+        ],
+        [
+          48777,
+          53,
+          50
+        ],
+        [
+          49778,
+          55,
+          67
+        ],
+        [
+          50780,
+          55,
+          67
+        ],
+        [
+          51781,
+          54,
+          50
+        ],
+        [
+          52783,
+          52,
+          84
+        ],
+        [
+          53801,
+          54,
+          67
+        ],
+        [
+          54803,
+          53,
+          50
+        ],
+        [
+          55804,
+          53,
+          83
+        ],
+        [
+          56806,
+          44,
+          67
+        ],
+        [
+          57841,
+          47,
+          100
+        ],
+        [
+          58842,
+          51,
+          67
+        ],
+        [
+          59844,
+          55,
+          50
+        ],
+        [
+          60845,
+          51,
+          50
+        ],
+        [
+          61847,
+          54,
+          67
+        ],
+        [
+          62848,
+          55,
+          50
+        ],
+        [
+          63850,
+          54,
+          50
+        ],
+        [
+          64851,
+          54,
+          67
+        ],
+        [
+          65853,
+          57,
+          67
+        ],
+        [
+          66854,
+          54,
+          50
+        ],
+        [
+          67856,
+          55,
+          67
+        ],
+        [
+          68857,
+          56,
+          50
+        ],
+        [
+          69859,
+          55,
+          50
+        ],
+        [
+          70860,
+          55,
+          50
+        ],
+        [
+          71862,
+          52,
+          50
+        ],
+        [
+          72864,
+          60,
+          17
+        ],
+        [
+          73865,
+          48,
+          67
+        ],
+        [
+          74866,
+          55,
+          50
+        ],
+        [
+          75868,
+          60,
+          17
+        ],
+        [
+          76869,
+          51,
+          67
+        ],
+        [
+          77871,
+          58,
+          50
+        ],
+        [
+          78872,
+          32,
+          200
+        ],
+        [
+          79874,
+          53,
+          67
+        ],
+        [
+          80876,
+          60,
+          18
+        ],
+        [
+          81877,
+          48,
+          217
+        ],
+        [
+          82878,
+          60,
+          18
+        ],
+        [
+          83880,
+          60,
+          17
+        ],
+        [
+          84882,
+          60,
+          17
+        ],
+        [
+          85884,
+          60,
+          18
+        ],
+        [
+          86885,
+          60,
+          17
+        ],
+        [
+          87886,
+          60,
+          17
+        ]
+      ],
+      "sik_secili_ms": [
+        [
+          85,
+          132
+        ],
+        [
+          80,
+          119
+        ],
+        [
+          76,
+          114
+        ],
+        [
+          79,
+          124
+        ],
+        [
+          82,
+          123
+        ],
+        [
+          85,
+          135
+        ],
+        [
+          71,
+          119
+        ],
+        [
+          76,
+          125
+        ],
+        [
+          81,
+          115
+        ],
+        [
+          73,
+          105
+        ],
+        [
+          79,
+          116
+        ],
+        [
+          76,
+          119
+        ],
+        [
+          76,
+          118
+        ],
+        [
+          75,
+          113
+        ],
+        [
+          61,
+          95
+        ],
+        [
+          72,
+          109
+        ],
+        [
+          68,
+          110
+        ],
+        [
+          78,
+          116
+        ],
+        [
+          72,
+          116
+        ],
+        [
+          84,
+          127
+        ]
+      ],
+      "tik_gecikme_ms": [
+        5090,
+        1347,
+        1366,
+        1684,
+        1345,
+        1540,
+        1526,
+        1991,
+        841,
+        1776,
+        1305,
+        1240,
+        1043,
+        837,
+        1203,
+        1237,
+        1279,
+        1755,
+        1527,
+        1368
+      ],
+      "fps": {
+        "mac": {
+          "ort": 54,
+          "en_dusuk": 32,
+          "en_uzun_kare": 217
+        },
+        "sayim": {
+          "ort": 57,
+          "en_dusuk": 55,
+          "en_uzun_kare": 67
+        },
+        "bekleme": {
+          "ort": 56,
+          "en_dusuk": 46,
+          "en_uzun_kare": 100
+        }
+      },
+      "sure_ms": {
+        "bekle": 8292,
+        "sayim_3": 993,
+        "sayim_2": 1001,
+        "sayim_1": 909,
+        "giris_hazir_ol": 0
+      },
+      "uzun_gorev": [
+        [
+          230,
+          51
+        ],
+        [
+          869,
+          65
+        ],
+        [
+          6793,
+          54
+        ],
+        [
+          6850,
+          50
+        ],
+        [
+          7210,
+          85
+        ],
+        [
+          12354,
+          73
+        ],
+        [
+          12890,
+          51
+        ],
+        [
+          15565,
+          53
+        ],
+        [
+          23787,
+          56
+        ],
+        [
+          28925,
+          59
+        ],
+        [
+          33683,
+          50
+        ],
+        [
+          39393,
+          55
+        ],
+        [
+          40027,
+          52
+        ],
+        [
+          40284,
+          50
+        ],
+        [
+          41145,
+          54
+        ],
+        [
+          53413,
+          62
+        ],
+        [
+          57407,
+          51
+        ],
+        [
+          57804,
+          54
+        ],
+        [
+          58057,
+          53
+        ],
+        [
+          65365,
+          51
+        ],
+        [
+          68638,
+          51
+        ],
+        [
+          76911,
+          52
+        ],
+        [
+          79158,
+          61
+        ],
+        [
+          79332,
+          86
+        ],
+        [
+          79423,
+          113
+        ],
+        [
+          79552,
+          59
+        ],
+        [
+          79626,
+          52
+        ],
+        [
+          79817,
+          60
+        ],
+        [
+          79884,
+          68
+        ],
+        [
+          82430,
+          207
+        ]
+      ],
+      "uzun_gorev_sayim": [],
+      "ses": [
+        {
+          "t": -9877,
+          "rol": "dokunus",
+          "sonuc": "gec-yuklendi 278 ms",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": -2869,
+          "rol": "rakip_bulundu",
+          "sonuc": "gec-yuklendi 3412 ms",
+          "dosya": "rakip_bulundu-n1-511e6e03c7.wav"
+        },
+        {
+          "t": -2269,
+          "rol": "vs_ani",
+          "sonuc": "gec-yuklendi 2765 ms",
+          "dosya": "vs_ani-n1-3f93f5f731.wav"
+        },
+        {
+          "t": 7304,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 2,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 12374,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 12888,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 15596,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 16956,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 17291,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 19842,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 21224,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 21601,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 23820,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 25498,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 25759,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 27583,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 28941,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 29165,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 30757,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 32313,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 32551,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 34018,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 35550,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 35773,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 37416,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 39413,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 39647,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 41178,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 42026,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 42232,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 43714,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 45511,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 45762,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 46933,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 47363,
+          "rol": "rakip_cevapladi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "rakip_cevapladi-n1-c0302b6172.wav"
+        },
+        {
+          "t": 48267,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 48476,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 50307,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 51573,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 51798,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 53452,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 54493,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 54702,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 56228,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 57078,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 57275,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 58988,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 60184,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 60390,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 62223,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 63469,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 63700,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 65398,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 66678,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 66890,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 68670,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 70433,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 70644,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 72476,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 74022,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 74231,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 75547,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 76932,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 77333,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 79622,
+          "rol": "kaybettin",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "maglubiyet-n1-1315bab798.wav"
+        },
+        {
+          "t": 80998,
+          "rol": "xp_dolma",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "xp_dolma-n1-2023187980.wav"
+        }
+      ],
+      "ses_olay": [
+        {
+          "t": 23819,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 30757,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 34017,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 37416,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 41177,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 43714,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 50307,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 53451,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 56228,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 58988,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 62223,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 65397,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 68670,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 72476,
+          "rol": "rakip_cevapladi",
+          "sonuc": "iptal (300 ms içinde yeni soru/ses)"
+        },
+        {
+          "t": 80613,
+          "rol": "xp_dolma",
+          "sonuc": "ertelendi 333 ms"
+        }
+      ],
+      "audio_ctx": [
+        [
+          -14442,
+          "running"
+        ],
+        [
+          -14404,
+          "running"
+        ]
+      ],
+      "konsol": [],
+      "akis": [
+        {
+          "t": 1792091729602,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091729603,
+          "olay": "ses:yukleniyor",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091729881,
+          "olay": "ses:gec-yuklendi 278 ms",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091736610,
+          "olay": "ses:istendi",
+          "rol": "rakip_bulundu"
+        },
+        {
+          "t": 1792091736610,
+          "olay": "ses:yukleniyor",
+          "rol": "rakip_bulundu"
+        },
+        {
+          "t": 1792091737210,
+          "olay": "ses:istendi",
+          "rol": "vs_ani"
+        },
+        {
+          "t": 1792091737210,
+          "olay": "ses:yukleniyor",
+          "rol": "vs_ani"
+        },
+        {
+          "t": 1792091739975,
+          "olay": "ses:gec-yuklendi 2765 ms",
+          "rol": "vs_ani"
+        },
+        {
+          "t": 1792091740022,
+          "olay": "ses:gec-yuklendi 3412 ms",
+          "rol": "rakip_bulundu"
+        },
+        {
+          "t": 1792091746784,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091746785,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091751853,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091751853,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091752367,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091752367,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091755075,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091755075,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091756435,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091756435,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091756770,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091756770,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091759321,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091759322,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091760703,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091760703,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091761080,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091761081,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091763298,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091763299,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091763299,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091764977,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091764978,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091765237,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091765238,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091767062,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091767062,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091768420,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091768420,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091768644,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091768645,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091770236,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091770236,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091770236,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091771792,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091771792,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091772030,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091772031,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091773496,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091773496,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091773497,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091775029,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091775029,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091775252,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091775252,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091776895,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091776895,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091776896,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091778891,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091778892,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091779126,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091779126,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091780656,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091780657,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091780657,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091781505,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091781505,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091781711,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091781711,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091783193,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091783193,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091783193,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091784990,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091784990,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091785241,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091785241,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091786412,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091786412,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091786842,
+          "olay": "ses:istendi",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091786842,
+          "olay": "ses:caldi",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091787746,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091787746,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091787955,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091787955,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091789786,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091789786,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091789786,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091791052,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091791052,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091791277,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091791277,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091792930,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091792931,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091792931,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091793972,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091793972,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091794181,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091794181,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091795707,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091795707,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091795707,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091796556,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091796557,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091796754,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091796754,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091798467,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091798467,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091798467,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091799663,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091799663,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091799869,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091799869,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091801702,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091801702,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091801702,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091802948,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091802948,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091803179,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091803179,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091804876,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091804877,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091804877,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091806157,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091806157,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091806369,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091806369,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091808148,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091808149,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091808149,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091809912,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091809913,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091810123,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091810123,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091811955,
+          "olay": "ses:iptal (300 ms içinde yeni soru/ses)",
+          "rol": "rakip_cevapladi"
+        },
+        {
+          "t": 1792091811955,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091811955,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091813501,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091813501,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091813709,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091813710,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091815026,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091815026,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091816411,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091816411,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091816812,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091816812,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091819101,
+          "olay": "ses:istendi",
+          "rol": "kaybettin"
+        },
+        {
+          "t": 1792091819101,
+          "olay": "ses:caldi",
+          "rol": "kaybettin"
+        },
+        {
+          "t": 1792091820092,
+          "olay": "ses:ertelendi 333 ms",
+          "rol": "xp_dolma"
+        },
+        {
+          "t": 1792091820478,
+          "olay": "ses:istendi",
+          "rol": "xp_dolma"
+        },
+        {
+          "t": 1792091820478,
+          "olay": "ses:caldi",
+          "rol": "xp_dolma"
+        }
+      ],
+      "video": ".tmp\\yavas-mac\\olcum\\klasik.webm"
+    },
+    "hazine": {
+      "lobi": {
+        "fcp": 2008,
+        "icerik": 5563,
+        "lcp": 5260,
+        "hazir": 5662,
+        "etkilesim": 5662,
+        "en_uzun_gorev": 222,
+        "tbt": 404,
+        "uzun_gorev_sayisi": 6,
+        "supabase_istek": 8,
+        "sira_turu": 3,
+        "ilk_supabase": 244,
+        "son_supabase_bitis": 5629,
+        "istekler": [
+          "244-860 rpc:profilim",
+          "250-1026 rpc:ana_sayfa_ozet",
+          "3452-3880 tab:oyun_ayarlari",
+          "3781-4165 rpc:cihaz_bildir",
+          "3787-4081 rpc:kalp_at",
+          "3794-4114 rpc:rozet_bildirimlerim",
+          "5242-5531 rpc:kasa_aktif_benim",
+          "5306-5629 rpc:ses_secimleri_oyun"
+        ],
+        "bayt": {
+          "js": 426,
+          "css": 146,
+          "font": 106,
+          "gorsel": 7,
+          "diger": 24
+        }
+      },
+      "mac_acilis": 781,
+      "en_uzun_gorev": 225,
+      "tbt": 181,
+      "supabase_istek": 7,
+      "istekler": [
+        "173-784 rpc:kasa_giris",
+        "176-412 rpc:kasa_durum",
+        "178-388 rpc:kalp_at",
+        "221-419 rpc:rozet_bildirimlerim",
+        "450-791 rpc:kasa_durum",
+        "771-1126 rpc:tepki_durumu",
+        "775-981 rpc:kalp_at"
+      ],
+      "paket": [
+        "KasaPage -23097…-22748",
+        "DuelloPage -23053…-22529",
+        "MatchPage -21823…-20976"
+      ],
+      "bitti": true,
+      "durum": [
+        [
+          208,
+          "diğer"
+        ],
+        [
+          816,
+          "giriş sahnesi · Rakip bağlanıyor"
+        ],
+        [
+          961,
+          "giriş sahnesi · Rakip bekleniyor"
+        ],
+        [
+          2614,
+          "giriş sahnesi · Hazır ol!"
+        ],
+        [
+          3440,
+          "sayım 3"
+        ],
+        [
+          4435,
+          "sayım 2"
+        ],
+        [
+          5432,
+          "sayım 1"
+        ],
+        [
+          6436,
+          "giriş sahnesi · Hazır ol!"
+        ],
+        [
+          6690,
+          "soru"
+        ],
+        [
+          12587,
+          "diğer"
+        ],
+        [
+          18628,
+          "soru"
+        ],
+        [
+          24952,
+          "diğer"
+        ],
+        [
+          29988,
+          "soru"
+        ],
+        [
+          46954,
+          "diğer"
+        ],
+        [
+          51510,
+          "soru"
+        ],
+        [
+          68196,
+          "diğer"
+        ],
+        [
+          73006,
+          "soru"
+        ],
+        [
+          80460,
+          "diğer"
+        ],
+        [
+          85631,
+          "soru"
+        ],
+        [
+          97446,
+          "diğer"
+        ],
+        [
+          102585,
+          "soru"
+        ],
+        [
+          109889,
+          "diğer"
+        ],
+        [
+          114525,
+          "soru"
+        ],
+        [
+          121985,
+          "diğer"
+        ],
+        [
+          127073,
+          "soru"
+        ],
+        [
+          139432,
+          "diğer"
+        ],
+        [
+          147965,
+          "maç sonu"
+        ]
+      ],
+      "kare": [
+        [
+          105,
+          33,
+          267
+        ],
+        [
+          1106,
+          60,
+          18
+        ],
+        [
+          2108,
+          60,
+          17
+        ],
+        [
+          3110,
+          58,
+          33
+        ],
+        [
+          4111,
+          57,
+          50
+        ],
+        [
+          5112,
+          58,
+          50
+        ],
+        [
+          6114,
+          54,
+          67
+        ],
+        [
+          7132,
+          60,
+          17
+        ],
+        [
+          8134,
+          56,
+          83
+        ],
+        [
+          9135,
+          52,
+          67
+        ],
+        [
+          10136,
+          59,
+          33
+        ],
+        [
+          11138,
+          60,
+          17
+        ],
+        [
+          12140,
+          57,
+          50
+        ],
+        [
+          13141,
+          60,
+          17
+        ],
+        [
+          14142,
+          60,
+          17
+        ],
+        [
+          15144,
+          60,
+          17
+        ],
+        [
+          16146,
+          60,
+          17
+        ],
+        [
+          17147,
+          60,
+          17
+        ],
+        [
+          18149,
+          54,
+          67
+        ],
+        [
+          19150,
+          59,
+          33
+        ],
+        [
+          20152,
+          60,
+          17
+        ],
+        [
+          21153,
+          53,
+          67
+        ],
+        [
+          22155,
+          60,
+          17
+        ],
+        [
+          23156,
+          60,
+          17
+        ],
+        [
+          24158,
+          57,
+          51
+        ],
+        [
+          25159,
+          60,
+          17
+        ],
+        [
+          26161,
+          60,
+          17
+        ],
+        [
+          27162,
+          60,
+          17
+        ],
+        [
+          28164,
+          60,
+          17
+        ],
+        [
+          29165,
+          56,
+          50
+        ],
+        [
+          30167,
+          59,
+          33
+        ],
+        [
+          31168,
+          60,
+          17
+        ],
+        [
+          32170,
+          60,
+          18
+        ],
+        [
+          33171,
+          57,
+          67
+        ],
+        [
+          34173,
+          57,
+          50
+        ],
+        [
+          35175,
+          60,
+          17
+        ],
+        [
+          36176,
+          60,
+          17
+        ],
+        [
+          37178,
+          56,
+          67
+        ],
+        [
+          38179,
+          57,
+          67
+        ],
+        [
+          39180,
+          57,
+          50
+        ],
+        [
+          40182,
+          60,
+          17
+        ],
+        [
+          41183,
+          55,
+          67
+        ],
+        [
+          42185,
+          60,
+          17
+        ],
+        [
+          43186,
+          55,
+          84
+        ],
+        [
+          44205,
+          58,
+          34
+        ],
+        [
+          45206,
+          60,
+          17
+        ],
+        [
+          46208,
+          58,
+          50
+        ],
+        [
+          47209,
+          60,
+          18
+        ],
+        [
+          48211,
+          60,
+          17
+        ],
+        [
+          49212,
+          60,
+          17
+        ],
+        [
+          50214,
+          60,
+          17
+        ],
+        [
+          51215,
+          56,
+          50
+        ],
+        [
+          52217,
+          60,
+          17
+        ],
+        [
+          53218,
+          59,
+          33
+        ],
+        [
+          54220,
+          57,
+          67
+        ],
+        [
+          55221,
+          57,
+          50
+        ],
+        [
+          56223,
+          60,
+          17
+        ],
+        [
+          57224,
+          57,
+          67
+        ],
+        [
+          58226,
+          58,
+          50
+        ],
+        [
+          59227,
+          48,
+          100
+        ],
+        [
+          60262,
+          34,
+          67
+        ],
+        [
+          61264,
+          53,
+          50
+        ],
+        [
+          62265,
+          54,
+          84
+        ],
+        [
+          63267,
+          60,
+          17
+        ],
+        [
+          64268,
+          55,
+          67
+        ],
+        [
+          65270,
+          58,
+          34
+        ],
+        [
+          66271,
+          60,
+          17
+        ],
+        [
+          67273,
+          58,
+          50
+        ],
+        [
+          68274,
+          60,
+          18
+        ],
+        [
+          69276,
+          60,
+          17
+        ],
+        [
+          70278,
+          60,
+          17
+        ],
+        [
+          71279,
+          60,
+          17
+        ],
+        [
+          72280,
+          55,
+          50
+        ],
+        [
+          73282,
+          52,
+          50
+        ],
+        [
+          74283,
+          56,
+          34
+        ],
+        [
+          75302,
+          56,
+          33
+        ],
+        [
+          76303,
+          57,
+          67
+        ],
+        [
+          77305,
+          56,
+          50
+        ],
+        [
+          78306,
+          59,
+          33
+        ],
+        [
+          79309,
+          60,
+          17
+        ],
+        [
+          80309,
+          58,
+          50
+        ],
+        [
+          81311,
+          60,
+          17
+        ],
+        [
+          82312,
+          60,
+          17
+        ],
+        [
+          83314,
+          60,
+          17
+        ],
+        [
+          84315,
+          60,
+          17
+        ],
+        [
+          85317,
+          55,
+          67
+        ],
+        [
+          86318,
+          60,
+          17
+        ],
+        [
+          87320,
+          60,
+          18
+        ],
+        [
+          88321,
+          56,
+          67
+        ],
+        [
+          89323,
+          39,
+          67
+        ],
+        [
+          90325,
+          43,
+          50
+        ],
+        [
+          91326,
+          60,
+          17
+        ],
+        [
+          92328,
+          55,
+          84
+        ],
+        [
+          93329,
+          56,
+          67
+        ],
+        [
+          94347,
+          59,
+          33
+        ],
+        [
+          95349,
+          60,
+          18
+        ],
+        [
+          96350,
+          60,
+          18
+        ],
+        [
+          97352,
+          58,
+          33
+        ],
+        [
+          98353,
+          60,
+          17
+        ],
+        [
+          99355,
+          60,
+          17
+        ],
+        [
+          100357,
+          60,
+          17
+        ],
+        [
+          101358,
+          60,
+          17
+        ],
+        [
+          102359,
+          56,
+          50
+        ],
+        [
+          103361,
+          60,
+          17
+        ],
+        [
+          104362,
+          60,
+          17
+        ],
+        [
+          105364,
+          60,
+          17
+        ],
+        [
+          106365,
+          51,
+          84
+        ],
+        [
+          107367,
+          60,
+          17
+        ],
+        [
+          108368,
+          60,
+          18
+        ],
+        [
+          109370,
+          58,
+          50
+        ],
+        [
+          110372,
+          60,
+          17
+        ],
+        [
+          111373,
+          60,
+          17
+        ],
+        [
+          112375,
+          60,
+          17
+        ],
+        [
+          113376,
+          60,
+          17
+        ],
+        [
+          114378,
+          52,
+          50
+        ],
+        [
+          115379,
+          52,
+          50
+        ],
+        [
+          116381,
+          50,
+          50
+        ],
+        [
+          117382,
+          60,
+          17
+        ],
+        [
+          118384,
+          52,
+          67
+        ],
+        [
+          119385,
+          60,
+          17
+        ],
+        [
+          120387,
+          60,
+          17
+        ],
+        [
+          121388,
+          57,
+          50
+        ],
+        [
+          122390,
+          60,
+          17
+        ],
+        [
+          123391,
+          60,
+          17
+        ],
+        [
+          124393,
+          60,
+          17
+        ],
+        [
+          125394,
+          60,
+          17
+        ],
+        [
+          126396,
+          55,
+          67
+        ],
+        [
+          127397,
+          60,
+          17
+        ],
+        [
+          128399,
+          60,
+          17
+        ],
+        [
+          129400,
+          60,
+          17
+        ],
+        [
+          130402,
+          53,
+          83
+        ],
+        [
+          131403,
+          60,
+          17
+        ],
+        [
+          132405,
+          60,
+          17
+        ],
+        [
+          133407,
+          55,
+          67
+        ],
+        [
+          134408,
+          60,
+          17
+        ],
+        [
+          135410,
+          57,
+          67
+        ],
+        [
+          136411,
+          57,
+          50
+        ],
+        [
+          137412,
+          60,
+          17
+        ],
+        [
+          138414,
+          58,
+          50
+        ],
+        [
+          139415,
+          60,
+          17
+        ],
+        [
+          140417,
+          60,
+          17
+        ],
+        [
+          141418,
+          60,
+          17
+        ],
+        [
+          142420,
+          60,
+          17
+        ],
+        [
+          143422,
+          60,
+          17
+        ],
+        [
+          144423,
+          58,
+          34
+        ],
+        [
+          145424,
+          60,
+          17
+        ],
+        [
+          146426,
+          60,
+          17
+        ],
+        [
+          147428,
+          32,
+          401
+        ],
+        [
+          148679,
+          39,
+          284
+        ],
+        [
+          149681,
+          60,
+          17
+        ],
+        [
+          150683,
+          55,
+          33
+        ],
+        [
+          151684,
+          35,
+          351
+        ],
+        [
+          152686,
+          60,
+          17
+        ],
+        [
+          153687,
+          60,
+          17
+        ],
+        [
+          154689,
+          60,
+          17
+        ],
+        [
+          155690,
+          60,
+          17
+        ],
+        [
+          156692,
+          60,
+          17
+        ]
+      ],
+      "sik_secili_ms": [
+        [
+          81,
+          130
+        ],
+        [
+          34,
+          78
+        ],
+        [
+          71,
+          120
+        ],
+        [
+          65,
+          116
+        ],
+        [
+          63,
+          118
+        ],
+        [
+          71,
+          120
+        ],
+        [
+          70,
+          122
+        ],
+        [
+          59,
+          101
+        ],
+        [
+          81,
+          133
+        ],
+        [
+          66,
+          114
+        ],
+        [
+          48,
+          92
+        ],
+        [
+          88,
+          143
+        ],
+        [
+          46,
+          93
+        ],
+        [
+          73,
+          120
+        ],
+        [
+          41,
+          98
+        ]
+      ],
+      "tik_gecikme_ms": [
+        1915,
+        2943,
+        3808,
+        1315,
+        1701,
+        3240,
+        1398,
+        1810,
+        3997,
+        3431,
+        1383,
+        3821,
+        4044,
+        3753,
+        1693
+      ],
+      "fps": {
+        "mac": {
+          "ort": 57,
+          "en_dusuk": 32,
+          "en_uzun_kare": 401
+        },
+        "sayim": {
+          "ort": 54,
+          "en_dusuk": 33,
+          "en_uzun_kare": 267
+        },
+        "bekleme": null
+      },
+      "sure_ms": {
+        "bekle": 0,
+        "sayim_3": 995,
+        "sayim_2": 997,
+        "sayim_1": 1004,
+        "giris_hazir_ol": 1080
+      },
+      "uzun_gorev": [
+        [
+          453,
+          56
+        ],
+        [
+          512,
+          225
+        ],
+        [
+          5738,
+          50
+        ],
+        [
+          6597,
+          62
+        ],
+        [
+          8562,
+          58
+        ],
+        [
+          9592,
+          57
+        ],
+        [
+          12517,
+          51
+        ],
+        [
+          18545,
+          55
+        ],
+        [
+          21952,
+          53
+        ],
+        [
+          24887,
+          51
+        ],
+        [
+          29909,
+          53
+        ],
+        [
+          33762,
+          54
+        ],
+        [
+          37299,
+          51
+        ],
+        [
+          38653,
+          56
+        ],
+        [
+          41913,
+          69
+        ],
+        [
+          43651,
+          76
+        ],
+        [
+          44164,
+          52
+        ],
+        [
+          54724,
+          57
+        ],
+        [
+          58167,
+          64
+        ],
+        [
+          59605,
+          79
+        ],
+        [
+          60059,
+          54
+        ],
+        [
+          60224,
+          55
+        ],
+        [
+          62911,
+          84
+        ],
+        [
+          64750,
+          56
+        ],
+        [
+          68132,
+          53
+        ],
+        [
+          72926,
+          55
+        ],
+        [
+          76977,
+          58
+        ],
+        [
+          85547,
+          55
+        ],
+        [
+          89017,
+          72
+        ],
+        [
+          92409,
+          73
+        ],
+        [
+          93813,
+          53
+        ],
+        [
+          94307,
+          53
+        ],
+        [
+          106398,
+          61
+        ],
+        [
+          118529,
+          59
+        ],
+        [
+          119062,
+          51
+        ],
+        [
+          121916,
+          53
+        ],
+        [
+          127005,
+          50
+        ],
+        [
+          130801,
+          73
+        ],
+        [
+          134234,
+          59
+        ],
+        [
+          135942,
+          62
+        ],
+        [
+          147854,
+          69
+        ],
+        [
+          147976,
+          67
+        ],
+        [
+          148046,
+          151
+        ],
+        [
+          148296,
+          89
+        ],
+        [
+          148393,
+          290
+        ],
+        [
+          148776,
+          198
+        ],
+        [
+          151883,
+          334
+        ]
+      ],
+      "uzun_gorev_sayim": [
+        [
+          453,
+          56
+        ],
+        [
+          512,
+          225
+        ],
+        [
+          5738,
+          50
+        ],
+        [
+          6597,
+          62
+        ]
+      ],
+      "ses": [
+        {
+          "t": -17044,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 248,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": -2869,
+          "rol": "rakip_bulundu",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "rakip_bulundu-n1-511e6e03c7.wav"
+        },
+        {
+          "t": -2266,
+          "rol": "vs_ani",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "vs_ani-n1-3f93f5f731.wav"
+        },
+        {
+          "t": 2576,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 3389,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 3890,
+          "rol": "rozet",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "rozet-n1-e90645f2da.wav"
+        },
+        {
+          "t": 4387,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 5381,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 6667,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 8578,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 9658,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 10829,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 12573,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 15878,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 16980,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 18115,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 19415,
+          "rol": "rozet",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "rozet-n1-e90645f2da.wav"
+        },
+        {
+          "t": 21092,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 21512,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 22010,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 23440,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 24942,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 28830,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 29814,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 30758,
+          "rol": "rozet",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "rozet-n1-e90645f2da.wav"
+        },
+        {
+          "t": 32459,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 33778,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 34409,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 34899,
+          "rol": "can_kaybi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "can_kaybi-n1-3bf334cd5b.wav"
+        },
+        {
+          "t": 37370,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 38668,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 39341,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 39823,
+          "rol": "can_kaybi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "can_kaybi-n1-3bf334cd5b.wav"
+        },
+        {
+          "t": 41987,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 43661,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 44220,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 45614,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 46947,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 50360,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 52275,
+          "rol": "rozet",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "rozet-n1-e90645f2da.wav"
+        },
+        {
+          "t": 53973,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 54741,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 55373,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 55863,
+          "rol": "can_kaybi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "can_kaybi-n1-3bf334cd5b.wav"
+        },
+        {
+          "t": 58236,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 59623,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 60131,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 61301,
+          "rol": "xp_dolma",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "xp_dolma-n1-2023187980.wav"
+        },
+        {
+          "t": 63001,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 64767,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 65281,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 66690,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 68189,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 71576,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 72745,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 74189,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 75539,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 76994,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 78090,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 79189,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 80477,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 83864,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 85034,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 86411,
+          "rol": "rozet",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "rozet-n1-e90645f2da.wav"
+        },
+        {
+          "t": 88092,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 89032,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 89541,
+          "rol": "dogru",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dogru-n1-7c553b69b7.wav"
+        },
+        {
+          "t": 90708,
+          "rol": "xp_dolma",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "xp_dolma-n1-2023187980.wav"
+        },
+        {
+          "t": 92487,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 93828,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 94364,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 95786,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 97439,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 100812,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 101922,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 103351,
+          "rol": "rozet",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "rozet-n1-e90645f2da.wav"
+        },
+        {
+          "t": 105053,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 106416,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 106972,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 108357,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 109881,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 113281,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 114410,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 115696,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 117054,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 118535,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 119118,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 120493,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 121976,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 125375,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 126535,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 127858,
+          "rol": "rozet",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "rozet-n1-e90645f2da.wav"
+        },
+        {
+          "t": 129553,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 130819,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 131296,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 131796,
+          "rol": "can_kaybi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "can_kaybi-n1-3bf334cd5b.wav"
+        },
+        {
+          "t": 134298,
+          "rol": "soru_geldi",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "soru_geldi-n1-b1d0245114.wav"
+        },
+        {
+          "t": 135957,
+          "rol": "dokunus",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "dokunus-n1-655d3a3022.wav"
+        },
+        {
+          "t": 137067,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 138137,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 139424,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 143285,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 144302,
+          "rol": "sayim_son",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "son_3_saniye-n1-3b22c211e6.wav"
+        },
+        {
+          "t": 144865,
+          "rol": "tur_gecis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "tur_gecis-n1-c191f204e8.wav"
+        },
+        {
+          "t": 146000,
+          "rol": "yanlis",
+          "sonuc": "calindi",
+          "gecikme": 0,
+          "ctx": "running",
+          "dosya": "yanlis-n1-004df2e21a.wav"
+        },
+        {
+          "t": 148722,
+          "rol": "kaybettin",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "maglubiyet-n1-1315bab798.wav"
+        },
+        {
+          "t": 150092,
+          "rol": "xp_dolma",
+          "sonuc": "calindi",
+          "gecikme": 1,
+          "ctx": "running",
+          "dosya": "xp_dolma-n1-2023187980.wav"
+        }
+      ],
+      "ses_olay": [
+        {
+          "t": 149352,
+          "rol": "xp_dolma",
+          "sonuc": "ertelendi 693 ms"
+        }
+      ],
+      "audio_ctx": [
+        [
+          -21085,
+          "running"
+        ],
+        [
+          -21070,
+          "running"
+        ]
+      ],
+      "konsol": [],
+      "akis": [
+        {
+          "t": 1792091839194,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091839194,
+          "olay": "ses:yukleniyor",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091839442,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091853369,
+          "olay": "ses:istendi",
+          "rol": "rakip_bulundu"
+        },
+        {
+          "t": 1792091853369,
+          "olay": "ses:caldi",
+          "rol": "rakip_bulundu"
+        },
+        {
+          "t": 1792091853971,
+          "olay": "ses:istendi",
+          "rol": "vs_ani"
+        },
+        {
+          "t": 1792091853972,
+          "olay": "ses:caldi",
+          "rol": "vs_ani"
+        },
+        {
+          "t": 1792091857007,
+          "olay": "faz",
+          "anahtar": "0-false-baslangic",
+          "faz": "baslangic",
+          "tur": 0,
+          "faz_bitis": null,
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091857937.5
+        },
+        {
+          "t": 1792091858813,
+          "olay": "giris:sahne",
+          "gecenMs": 191
+        },
+        {
+          "t": 1792091858814,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091858814,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091859626,
+          "olay": "giris:sayi",
+          "n": 3
+        },
+        {
+          "t": 1792091859626,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091859627,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091860128,
+          "olay": "ses:istendi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091860128,
+          "olay": "ses:caldi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091860624,
+          "olay": "giris:sayi",
+          "n": 2
+        },
+        {
+          "t": 1792091860624,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091860625,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091861051,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 1,
+          "sn": 15
+        },
+        {
+          "t": 1792091861120,
+          "olay": "faz",
+          "anahtar": "1-false-cevap",
+          "faz": "cevap",
+          "tur": 1,
+          "faz_bitis": "2026-10-15T19:17:58.700726+00:00",
+          "gosterim_bas": "2026-10-15T19:17:43.700726+00:00",
+          "sunucuSimdi": 1792091862032
+        },
+        {
+          "t": 1792091861619,
+          "olay": "giris:sayi",
+          "n": 1
+        },
+        {
+          "t": 1792091861619,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091861619,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091862905,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091862905,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091864816,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091864816,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091865894,
+          "olay": "faz",
+          "anahtar": "1-false-sonuc",
+          "faz": "sonuc",
+          "tur": 1,
+          "faz_bitis": "2026-10-15T19:17:48.979401+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091866806
+        },
+        {
+          "t": 1792091865895,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091865895,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091865898,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.6121212121212121,
+          "bitisMs": 2020
+        },
+        {
+          "t": 1792091866483,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091866483,
+          "olay": "puan:hazinede",
+          "kasa": 2
+        },
+        {
+          "t": 1792091867066,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091867066,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091867922,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091868737,
+          "olay": "sayac:basladi",
+          "faz": "karar",
+          "tur": 2,
+          "sn": 6
+        },
+        {
+          "t": 1792091868810,
+          "olay": "faz",
+          "anahtar": "2-false-karar",
+          "faz": "karar",
+          "tur": 2,
+          "faz_bitis": "2026-10-15T19:17:56.345062+00:00",
+          "gosterim_bas": "2026-10-15T19:17:51.345062+00:00",
+          "sunucuSimdi": 1792091869722
+        },
+        {
+          "t": 1792091868810,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091868811,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091872116,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091872116,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091873218,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091873218,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091874352,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091874353,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091874768,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 2,
+          "sn": 15
+        },
+        {
+          "t": 1792091874842,
+          "olay": "faz",
+          "anahtar": "2-false-cevap",
+          "faz": "cevap",
+          "tur": 2,
+          "faz_bitis": "2026-10-15T19:18:13.912937+00:00",
+          "gosterim_bas": "2026-10-15T19:17:58.912937+00:00",
+          "sunucuSimdi": 1792091875754
+        },
+        {
+          "t": 1792091875554,
+          "olay": "an:basladi",
+          "tip": "devam",
+          "olcek": 1.2642857142857142,
+          "bitisMs": 1770
+        },
+        {
+          "t": 1792091875652,
+          "olay": "ses:istendi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091875652,
+          "olay": "ses:caldi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091876263,
+          "olay": "an:varis",
+          "tip": "devam"
+        },
+        {
+          "t": 1792091877329,
+          "olay": "an:bitti",
+          "tip": "devam"
+        },
+        {
+          "t": 1792091877330,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091877330,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091877749,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091877749,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091878247,
+          "olay": "faz",
+          "anahtar": "2-false-sonuc",
+          "faz": "sonuc",
+          "tur": 2,
+          "faz_bitis": "2026-10-15T19:18:01.765204+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091879154
+        },
+        {
+          "t": 1792091878248,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091878248,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091878250,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.7451515151515151,
+          "bitisMs": 2459
+        },
+        {
+          "t": 1792091878959,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091878959,
+          "olay": "puan:hazinede",
+          "kasa": 6
+        },
+        {
+          "t": 1792091879678,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091879678,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091880718,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091881111,
+          "olay": "sayac:basladi",
+          "faz": "karar",
+          "tur": 3,
+          "sn": 7
+        },
+        {
+          "t": 1792091881180,
+          "olay": "faz",
+          "anahtar": "3-false-karar",
+          "faz": "karar",
+          "tur": 3,
+          "faz_bitis": "2026-10-15T19:18:08.932515+00:00",
+          "gosterim_bas": "2026-10-15T19:18:03.932515+00:00",
+          "sunucuSimdi": 1792091882091
+        },
+        {
+          "t": 1792091881180,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091881180,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091885068,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091885068,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091886052,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091886052,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091886133,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 3,
+          "sn": 15
+        },
+        {
+          "t": 1792091886205,
+          "olay": "faz",
+          "anahtar": "3-false-cevap",
+          "faz": "cevap",
+          "tur": 3,
+          "faz_bitis": "2026-10-15T19:18:25.403166+00:00",
+          "gosterim_bas": "2026-10-15T19:18:10.403166+00:00",
+          "sunucuSimdi": 1792091887116
+        },
+        {
+          "t": 1792091886911,
+          "olay": "an:basladi",
+          "tip": "devam",
+          "olcek": 1.2642857142857142,
+          "bitisMs": 1770
+        },
+        {
+          "t": 1792091886996,
+          "olay": "ses:istendi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091886996,
+          "olay": "ses:caldi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091887621,
+          "olay": "an:varis",
+          "tip": "devam"
+        },
+        {
+          "t": 1792091888695,
+          "olay": "an:bitti",
+          "tip": "devam"
+        },
+        {
+          "t": 1792091888696,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091888696,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091890016,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091890016,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091890646,
+          "olay": "faz",
+          "anahtar": "3-false-sonuc",
+          "faz": "sonuc",
+          "tur": 3,
+          "faz_bitis": "2026-10-15T19:18:14.075508+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091891557
+        },
+        {
+          "t": 1792091890647,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091890647,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091890649,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.91,
+          "bitisMs": 2366
+        },
+        {
+          "t": 1792091891136,
+          "olay": "ses:istendi",
+          "rol": "can_kaybi"
+        },
+        {
+          "t": 1792091891137,
+          "olay": "ses:caldi",
+          "rol": "can_kaybi"
+        },
+        {
+          "t": 1792091891519,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091891519,
+          "olay": "puan:hazinede",
+          "kasa": 14
+        },
+        {
+          "t": 1792091893025,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091893523,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 4,
+          "sn": 15
+        },
+        {
+          "t": 1792091893607,
+          "olay": "faz",
+          "anahtar": "4-false-cevap",
+          "faz": "cevap",
+          "tur": 4,
+          "faz_bitis": "2026-10-15T19:18:31.244627+00:00",
+          "gosterim_bas": "2026-10-15T19:18:16.244627+00:00",
+          "sunucuSimdi": 1792091894518
+        },
+        {
+          "t": 1792091893608,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091893608,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091894906,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091894906,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091895578,
+          "olay": "faz",
+          "anahtar": "4-false-sonuc",
+          "faz": "sonuc",
+          "tur": 4,
+          "faz_bitis": "2026-10-15T19:18:18.914454+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091896489
+        },
+        {
+          "t": 1792091895579,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091895579,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091895580,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.8742307692307693,
+          "bitisMs": 2273
+        },
+        {
+          "t": 1792091896060,
+          "olay": "ses:istendi",
+          "rol": "can_kaybi"
+        },
+        {
+          "t": 1792091896061,
+          "olay": "ses:caldi",
+          "rol": "can_kaybi"
+        },
+        {
+          "t": 1792091896418,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091896418,
+          "olay": "puan:hazinede",
+          "kasa": 16
+        },
+        {
+          "t": 1792091897862,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091898136,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 5,
+          "sn": 15
+        },
+        {
+          "t": 1792091898224,
+          "olay": "faz",
+          "anahtar": "5-false-cevap",
+          "faz": "cevap",
+          "tur": 5,
+          "faz_bitis": "2026-10-15T19:18:35.933165+00:00",
+          "gosterim_bas": "2026-10-15T19:18:20.933165+00:00",
+          "sunucuSimdi": 1792091899135
+        },
+        {
+          "t": 1792091898224,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091898225,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091899899,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091899899,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091900457,
+          "olay": "faz",
+          "anahtar": "5-false-sonuc",
+          "faz": "sonuc",
+          "tur": 5,
+          "faz_bitis": "2026-10-15T19:18:23.923422+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091901368
+        },
+        {
+          "t": 1792091900458,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091900458,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091900460,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.7281818181818182,
+          "bitisMs": 2403
+        },
+        {
+          "t": 1792091901166,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091901166,
+          "olay": "puan:hazinede",
+          "kasa": 18
+        },
+        {
+          "t": 1792091901852,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091901852,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091902866,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091903127,
+          "olay": "sayac:basladi",
+          "faz": "karar",
+          "tur": 6,
+          "sn": 6
+        },
+        {
+          "t": 1792091903184,
+          "olay": "faz",
+          "anahtar": "6-false-karar",
+          "faz": "karar",
+          "tur": 6,
+          "faz_bitis": "2026-10-15T19:18:30.929679+00:00",
+          "gosterim_bas": "2026-10-15T19:18:25.929679+00:00",
+          "sunucuSimdi": 1792091904095
+        },
+        {
+          "t": 1792091903185,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091903185,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091906598,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091906598,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091907666,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 6,
+          "sn": 15
+        },
+        {
+          "t": 1792091907729,
+          "olay": "faz",
+          "anahtar": "6-false-cevap",
+          "faz": "cevap",
+          "tur": 6,
+          "faz_bitis": "2026-10-15T19:18:46.592643+00:00",
+          "gosterim_bas": "2026-10-15T19:18:31.592643+00:00",
+          "sunucuSimdi": 1792091908640
+        },
+        {
+          "t": 1792091908434,
+          "olay": "an:basladi",
+          "tip": "devam",
+          "olcek": 1.2642857142857142,
+          "bitisMs": 1770
+        },
+        {
+          "t": 1792091908512,
+          "olay": "ses:istendi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091908512,
+          "olay": "ses:caldi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091909144,
+          "olay": "an:varis",
+          "tip": "devam"
+        },
+        {
+          "t": 1792091910210,
+          "olay": "an:bitti",
+          "tip": "devam"
+        },
+        {
+          "t": 1792091910211,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091910211,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091910978,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091910978,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091911610,
+          "olay": "faz",
+          "anahtar": "6-false-sonuc",
+          "faz": "sonuc",
+          "tur": 6,
+          "faz_bitis": "2026-10-15T19:18:35.003754+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091912521
+        },
+        {
+          "t": 1792091911610,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091911610,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091911612,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.8965384615384615,
+          "bitisMs": 2331
+        },
+        {
+          "t": 1792091912100,
+          "olay": "ses:istendi",
+          "rol": "can_kaybi"
+        },
+        {
+          "t": 1792091912101,
+          "olay": "ses:caldi",
+          "rol": "can_kaybi"
+        },
+        {
+          "t": 1792091912465,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091912466,
+          "olay": "puan:hazinede",
+          "kasa": 38
+        },
+        {
+          "t": 1792091913947,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091914392,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 7,
+          "sn": 15
+        },
+        {
+          "t": 1792091914473,
+          "olay": "faz",
+          "anahtar": "7-false-cevap",
+          "faz": "cevap",
+          "tur": 7,
+          "faz_bitis": "2026-10-15T19:18:52.17305+00:00",
+          "gosterim_bas": "2026-10-15T19:18:37.17305+00:00",
+          "sunucuSimdi": 1792091915384
+        },
+        {
+          "t": 1792091914473,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091914473,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091915861,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091915861,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091916368,
+          "olay": "faz",
+          "anahtar": "7-false-sonuc",
+          "faz": "sonuc",
+          "tur": 7,
+          "faz_bitis": "2026-10-15T19:18:39.875447+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091917279
+        },
+        {
+          "t": 1792091916369,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091916369,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091916371,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.94,
+          "bitisMs": 2444
+        },
+        {
+          "t": 1792091917301,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091917301,
+          "olay": "puan:hazinede",
+          "kasa": 44
+        },
+        {
+          "t": 1792091917539,
+          "olay": "ses:istendi",
+          "rol": "xp_dolma"
+        },
+        {
+          "t": 1792091917539,
+          "olay": "ses:caldi",
+          "rol": "xp_dolma"
+        },
+        {
+          "t": 1792091918832,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091919133,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 8,
+          "sn": 15
+        },
+        {
+          "t": 1792091919238,
+          "olay": "faz",
+          "anahtar": "8-false-cevap",
+          "faz": "cevap",
+          "tur": 8,
+          "faz_bitis": "2026-10-15T19:18:56.906435+00:00",
+          "gosterim_bas": "2026-10-15T19:18:41.906435+00:00",
+          "sunucuSimdi": 1792091920149
+        },
+        {
+          "t": 1792091919238,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091919239,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091921005,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091921005,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091921519,
+          "olay": "faz",
+          "anahtar": "8-false-sonuc",
+          "faz": "sonuc",
+          "tur": 8,
+          "faz_bitis": "2026-10-15T19:18:45.015051+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091922429
+        },
+        {
+          "t": 1792091921519,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091921519,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091921520,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.7375757575757576,
+          "bitisMs": 2434
+        },
+        {
+          "t": 1792091922224,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091922224,
+          "olay": "puan:hazinede",
+          "kasa": 46
+        },
+        {
+          "t": 1792091922927,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091922928,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091923956,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091924358,
+          "olay": "sayac:basladi",
+          "faz": "karar",
+          "tur": 9,
+          "sn": 6
+        },
+        {
+          "t": 1792091924427,
+          "olay": "faz",
+          "anahtar": "9-false-karar",
+          "faz": "karar",
+          "tur": 9,
+          "faz_bitis": "2026-10-15T19:18:52.16211+00:00",
+          "gosterim_bas": "2026-10-15T19:18:47.16211+00:00",
+          "sunucuSimdi": 1792091925337
+        },
+        {
+          "t": 1792091924427,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091924427,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091927814,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091927814,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091928983,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091928983,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091929148,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 9,
+          "sn": 15
+        },
+        {
+          "t": 1792091929222,
+          "olay": "faz",
+          "anahtar": "9-false-cevap",
+          "faz": "cevap",
+          "tur": 9,
+          "faz_bitis": "2026-10-15T19:19:08.408944+00:00",
+          "gosterim_bas": "2026-10-15T19:18:53.408944+00:00",
+          "sunucuSimdi": 1792091930133
+        },
+        {
+          "t": 1792091929930,
+          "olay": "an:basladi",
+          "tip": "ac",
+          "olcek": 1.421875,
+          "bitisMs": 1820
+        },
+        {
+          "t": 1792091930426,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091930427,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091931333,
+          "olay": "an:varis",
+          "tip": "ac"
+        },
+        {
+          "t": 1792091931776,
+          "olay": "an:bitti",
+          "tip": "ac"
+        },
+        {
+          "t": 1792091931777,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091931777,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091933232,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091933232,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091934327,
+          "olay": "faz",
+          "anahtar": "9-false-sonuc",
+          "faz": "sonuc",
+          "tur": 9,
+          "faz_bitis": "2026-10-15T19:18:57.258911+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091935238
+        },
+        {
+          "t": 1792091934328,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091934328,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091934330,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.566060606060606,
+          "bitisMs": 1868
+        },
+        {
+          "t": 1792091934884,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091934884,
+          "olay": "puan:hazinede",
+          "kasa": 2
+        },
+        {
+          "t": 1792091935426,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091935426,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091936201,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091936641,
+          "olay": "sayac:basladi",
+          "faz": "karar",
+          "tur": 10,
+          "sn": 6
+        },
+        {
+          "t": 1792091936714,
+          "olay": "faz",
+          "anahtar": "10-false-karar",
+          "faz": "karar",
+          "tur": 10,
+          "faz_bitis": "2026-10-15T19:19:04.428068+00:00",
+          "gosterim_bas": "2026-10-15T19:18:59.428068+00:00",
+          "sunucuSimdi": 1792091937625
+        },
+        {
+          "t": 1792091936714,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091936715,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091940102,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091940102,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091941271,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091941271,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091941768,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 10,
+          "sn": 15
+        },
+        {
+          "t": 1792091941843,
+          "olay": "faz",
+          "anahtar": "10-false-cevap",
+          "faz": "cevap",
+          "tur": 10,
+          "faz_bitis": "2026-10-15T19:19:20.934929+00:00",
+          "gosterim_bas": "2026-10-15T19:19:05.934929+00:00",
+          "sunucuSimdi": 1792091942753
+        },
+        {
+          "t": 1792091942549,
+          "olay": "an:basladi",
+          "tip": "devam",
+          "olcek": 1.2642857142857142,
+          "bitisMs": 1770
+        },
+        {
+          "t": 1792091942649,
+          "olay": "ses:istendi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091942649,
+          "olay": "ses:caldi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091943264,
+          "olay": "an:varis",
+          "tip": "devam"
+        },
+        {
+          "t": 1792091944329,
+          "olay": "an:bitti",
+          "tip": "devam"
+        },
+        {
+          "t": 1792091944330,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091944330,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091945270,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091945270,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091945779,
+          "olay": "faz",
+          "anahtar": "10-false-sonuc",
+          "faz": "sonuc",
+          "tur": 10,
+          "faz_bitis": "2026-10-15T19:19:09.301425+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091946689
+        },
+        {
+          "t": 1792091945779,
+          "olay": "ses:istendi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091945779,
+          "olay": "ses:caldi",
+          "rol": "dogru"
+        },
+        {
+          "t": 1792091945781,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.9465384615384616,
+          "bitisMs": 2461
+        },
+        {
+          "t": 1792091946724,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091946724,
+          "olay": "puan:hazinede",
+          "kasa": 10
+        },
+        {
+          "t": 1792091946945,
+          "olay": "ses:istendi",
+          "rol": "xp_dolma"
+        },
+        {
+          "t": 1792091946945,
+          "olay": "ses:caldi",
+          "rol": "xp_dolma"
+        },
+        {
+          "t": 1792091948255,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091948633,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 11,
+          "sn": 15
+        },
+        {
+          "t": 1792091948725,
+          "olay": "faz",
+          "anahtar": "11-false-cevap",
+          "faz": "cevap",
+          "tur": 11,
+          "faz_bitis": "2026-10-15T19:19:26.406745+00:00",
+          "gosterim_bas": "2026-10-15T19:19:11.406745+00:00",
+          "sunucuSimdi": 1792091949635
+        },
+        {
+          "t": 1792091948725,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091948725,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091950066,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091950066,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091950601,
+          "olay": "faz",
+          "anahtar": "11-false-sonuc",
+          "faz": "sonuc",
+          "tur": 11,
+          "faz_bitis": "2026-10-15T19:19:14.092282+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091951511
+        },
+        {
+          "t": 1792091950602,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091950602,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091950603,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.7360606060606061,
+          "bitisMs": 2429
+        },
+        {
+          "t": 1792091951310,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091951310,
+          "olay": "puan:hazinede",
+          "kasa": 12
+        },
+        {
+          "t": 1792091952023,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091952024,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091953044,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091953620,
+          "olay": "sayac:basladi",
+          "faz": "karar",
+          "tur": 12,
+          "sn": 6
+        },
+        {
+          "t": 1792091953676,
+          "olay": "faz",
+          "anahtar": "12-false-karar",
+          "faz": "karar",
+          "tur": 12,
+          "faz_bitis": "2026-10-15T19:19:21.315066+00:00",
+          "gosterim_bas": "2026-10-15T19:19:16.315066+00:00",
+          "sunucuSimdi": 1792091954595.5
+        },
+        {
+          "t": 1792091953676,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091953676,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091957050,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091957050,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091958160,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091958160,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091958741,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 12,
+          "sn": 15
+        },
+        {
+          "t": 1792091958802,
+          "olay": "faz",
+          "anahtar": "12-false-cevap",
+          "faz": "cevap",
+          "tur": 12,
+          "faz_bitis": "2026-10-15T19:19:37.939977+00:00",
+          "gosterim_bas": "2026-10-15T19:19:22.939977+00:00",
+          "sunucuSimdi": 1792091959721.5
+        },
+        {
+          "t": 1792091959505,
+          "olay": "an:basladi",
+          "tip": "devam",
+          "olcek": 1.2642857142857142,
+          "bitisMs": 1770
+        },
+        {
+          "t": 1792091959588,
+          "olay": "ses:istendi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091959588,
+          "olay": "ses:caldi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091960215,
+          "olay": "an:varis",
+          "tip": "devam"
+        },
+        {
+          "t": 1792091961290,
+          "olay": "an:bitti",
+          "tip": "devam"
+        },
+        {
+          "t": 1792091961290,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091961290,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091962654,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091962654,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091963209,
+          "olay": "faz",
+          "anahtar": "12-false-sonuc",
+          "faz": "sonuc",
+          "tur": 12,
+          "faz_bitis": "2026-10-15T19:19:26.665316+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091964128.5
+        },
+        {
+          "t": 1792091963209,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091963209,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091963211,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.7228787878787879,
+          "bitisMs": 2386
+        },
+        {
+          "t": 1792091963912,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091963912,
+          "olay": "puan:hazinede",
+          "kasa": 26
+        },
+        {
+          "t": 1792091964595,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091964595,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091965608,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091966054,
+          "olay": "sayac:basladi",
+          "faz": "karar",
+          "tur": 13,
+          "sn": 6
+        },
+        {
+          "t": 1792091966119,
+          "olay": "faz",
+          "anahtar": "13-false-karar",
+          "faz": "karar",
+          "tur": 13,
+          "faz_bitis": "2026-10-15T19:19:33.827761+00:00",
+          "gosterim_bas": "2026-10-15T19:19:28.827761+00:00",
+          "sunucuSimdi": 1792091967038.5
+        },
+        {
+          "t": 1792091966119,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091966119,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091969519,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091969519,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091970647,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091970648,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091970679,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 13,
+          "sn": 15
+        },
+        {
+          "t": 1792091970743,
+          "olay": "faz",
+          "anahtar": "13-false-cevap",
+          "faz": "cevap",
+          "tur": 13,
+          "faz_bitis": "2026-10-15T19:19:49.914959+00:00",
+          "gosterim_bas": "2026-10-15T19:19:34.914959+00:00",
+          "sunucuSimdi": 1792091971662.5
+        },
+        {
+          "t": 1792091971450,
+          "olay": "an:basladi",
+          "tip": "ac",
+          "olcek": 1.421875,
+          "bitisMs": 1820
+        },
+        {
+          "t": 1792091971933,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091971934,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091972863,
+          "olay": "an:varis",
+          "tip": "ac"
+        },
+        {
+          "t": 1792091973292,
+          "olay": "an:bitti",
+          "tip": "ac"
+        },
+        {
+          "t": 1792091973292,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091973292,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091974772,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091974772,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091975355,
+          "olay": "faz",
+          "anahtar": "13-false-sonuc",
+          "faz": "sonuc",
+          "tur": 13,
+          "faz_bitis": "2026-10-15T19:19:38.79208+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091976274.5
+        },
+        {
+          "t": 1792091975356,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091975356,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091975357,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.7168181818181818,
+          "bitisMs": 2366
+        },
+        {
+          "t": 1792091976041,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091976041,
+          "olay": "puan:hazinede",
+          "kasa": 2
+        },
+        {
+          "t": 1792091976730,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091976731,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091977731,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091978143,
+          "olay": "sayac:basladi",
+          "faz": "karar",
+          "tur": 14,
+          "sn": 6
+        },
+        {
+          "t": 1792091978214,
+          "olay": "faz",
+          "anahtar": "14-false-karar",
+          "faz": "karar",
+          "tur": 14,
+          "faz_bitis": "2026-10-15T19:19:45.950416+00:00",
+          "gosterim_bas": "2026-10-15T19:19:40.950416+00:00",
+          "sunucuSimdi": 1792091979133.5
+        },
+        {
+          "t": 1792091978214,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091978214,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091981612,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091981613,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091982772,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091982773,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091983230,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 14,
+          "sn": 15
+        },
+        {
+          "t": 1792091983296,
+          "olay": "faz",
+          "anahtar": "14-false-cevap",
+          "faz": "cevap",
+          "tur": 14,
+          "faz_bitis": "2026-10-15T19:20:02.415366+00:00",
+          "gosterim_bas": "2026-10-15T19:19:47.415366+00:00",
+          "sunucuSimdi": 1792091984215.5
+        },
+        {
+          "t": 1792091984008,
+          "olay": "an:basladi",
+          "tip": "devam",
+          "olcek": 1.2642857142857142,
+          "bitisMs": 1770
+        },
+        {
+          "t": 1792091984096,
+          "olay": "ses:istendi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091984096,
+          "olay": "ses:caldi",
+          "rol": "rozet"
+        },
+        {
+          "t": 1792091984719,
+          "olay": "an:varis",
+          "tip": "devam"
+        },
+        {
+          "t": 1792091985790,
+          "olay": "an:bitti",
+          "tip": "devam"
+        },
+        {
+          "t": 1792091985790,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091985790,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091987057,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091987057,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091987533,
+          "olay": "faz",
+          "anahtar": "14-false-sonuc",
+          "faz": "sonuc",
+          "tur": 14,
+          "faz_bitis": "2026-10-15T19:19:51.080934+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091988452.5
+        },
+        {
+          "t": 1792091987533,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091987533,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091987535,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.9525,
+          "bitisMs": 2477
+        },
+        {
+          "t": 1792091988033,
+          "olay": "ses:istendi",
+          "rol": "can_kaybi"
+        },
+        {
+          "t": 1792091988034,
+          "olay": "ses:caldi",
+          "rol": "can_kaybi"
+        },
+        {
+          "t": 1792091988466,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091988466,
+          "olay": "puan:hazinede",
+          "kasa": 6
+        },
+        {
+          "t": 1792091990027,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091990458,
+          "olay": "sayac:basladi",
+          "faz": "cevap",
+          "tur": 15,
+          "sn": 15
+        },
+        {
+          "t": 1792091990535,
+          "olay": "faz",
+          "anahtar": "15-false-cevap",
+          "faz": "cevap",
+          "tur": 15,
+          "faz_bitis": "2026-10-15T19:20:08.232158+00:00",
+          "gosterim_bas": "2026-10-15T19:19:53.232158+00:00",
+          "sunucuSimdi": 1792091991454.5
+        },
+        {
+          "t": 1792091990536,
+          "olay": "ses:istendi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091990536,
+          "olay": "ses:caldi",
+          "rol": "soru_geldi"
+        },
+        {
+          "t": 1792091992194,
+          "olay": "ses:istendi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091992195,
+          "olay": "ses:caldi",
+          "rol": "dokunus"
+        },
+        {
+          "t": 1792091993304,
+          "olay": "faz",
+          "anahtar": "15-false-sonuc",
+          "faz": "sonuc",
+          "tur": 15,
+          "faz_bitis": "2026-10-15T19:19:56.216727+00:00",
+          "gosterim_bas": null,
+          "sunucuSimdi": 1792091994218
+        },
+        {
+          "t": 1792091993305,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091993305,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792091993306,
+          "olay": "an:basladi",
+          "tip": "sonuc",
+          "olcek": 0.5593939393939394,
+          "bitisMs": 1846
+        },
+        {
+          "t": 1792091993859,
+          "olay": "an:varis",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091993859,
+          "olay": "puan:hazinede",
+          "kasa": 8
+        },
+        {
+          "t": 1792091994374,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091994374,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091995158,
+          "olay": "an:bitti",
+          "tip": "sonuc"
+        },
+        {
+          "t": 1792091995599,
+          "olay": "sayac:basladi",
+          "faz": "karar",
+          "tur": 16,
+          "sn": 7
+        },
+        {
+          "t": 1792091995662,
+          "olay": "faz",
+          "anahtar": "16-false-karar",
+          "faz": "karar",
+          "tur": 16,
+          "faz_bitis": "2026-10-15T19:20:03.415756+00:00",
+          "gosterim_bas": "2026-10-15T19:19:58.415756+00:00",
+          "sunucuSimdi": 1792091996576
+        },
+        {
+          "t": 1792091995662,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091995662,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792091999523,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792091999523,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792092000540,
+          "olay": "ses:istendi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792092000540,
+          "olay": "ses:caldi",
+          "rol": "sayim_son"
+        },
+        {
+          "t": 1792092000884,
+          "olay": "final",
+          "kazandim": false
+        },
+        {
+          "t": 1792092001103,
+          "olay": "ses:istendi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792092001103,
+          "olay": "ses:caldi",
+          "rol": "tur_gecis"
+        },
+        {
+          "t": 1792092002237,
+          "olay": "ses:istendi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792092002238,
+          "olay": "ses:caldi",
+          "rol": "yanlis"
+        },
+        {
+          "t": 1792092004960,
+          "olay": "ses:istendi",
+          "rol": "kaybettin"
+        },
+        {
+          "t": 1792092004960,
+          "olay": "ses:caldi",
+          "rol": "kaybettin"
+        },
+        {
+          "t": 1792092005590,
+          "olay": "ses:ertelendi 693 ms",
+          "rol": "xp_dolma"
+        },
+        {
+          "t": 1792092006330,
+          "olay": "ses:istendi",
+          "rol": "xp_dolma"
+        },
+        {
+          "t": 1792092006330,
+          "olay": "ses:caldi",
+          "rol": "xp_dolma"
+        }
+      ],
+      "video": ".tmp\\yavas-mac\\olcum\\hazine.webm"
+    }
+  }
+}

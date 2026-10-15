@@ -74,7 +74,7 @@ export default function TurnuvaTanitim() {
               <b>{tt("Lobiye katıl.")}</b>{" "}
               {yerelSaatGoster()
                 ? tt("Her gün {saatler} saatlerinde başlar.", { saatler: turnuvaSaatleriniGoster(turnuvaSaatleri()) })
-                : tt("Her gün {saatler} saatlerinde başlar (Türkiye saati).", { saatler: turnuvaSaatleri().join(", ") })}
+                : tt("Her gün {saatler} saatlerinde başlar (Türkiye saati).", { saatler: turnuvaSaatleriniGoster(turnuvaSaatleri()) })}
             </span>
           </li>
           <li>

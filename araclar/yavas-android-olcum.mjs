@@ -74,6 +74,17 @@ const IZCI = () => {
       }
     }).observe(document, { subtree: true, attributes: true, attributeFilter: ["class"] });
   } catch { /* yok */ }
+  // 15 Eki 2026 "Ort. cevap" doğrulaması: şıklar (yeni soru imzası) ekranda göründüğü andan dokunuşa geçen süre (istemci tarafı).
+  o.tik = [];
+  try {
+    let imza = "", gorT = null;
+    const imzaBak = () => {
+      const s = [...document.querySelectorAll(".qt-sik")].map((x) => x.textContent).join("|");
+      if (s !== imza && s.split("|").length >= 2) { imza = s; gorT = performance.now(); }
+    };
+    new MutationObserver(imzaBak).observe(document, { subtree: true, childList: true, characterData: true });
+    document.addEventListener("click", (e) => { if (e.target?.closest?.(".qt-sik") && gorT != null) o.tik.push(Math.round(e.timeStamp - gorT)); }, true);
+  } catch { /* yok */ }
   const ps = history.pushState;
   history.pushState = function (...a) { const r = ps.apply(this, a); if (/\/(mac|duello|kasa)\/[0-9a-f-]{36}/.test(location.pathname) && o.macAdres == null) o.macAdres = performance.now(); return r; };
   const YUKLENIYOR = "#qt-ilk-yukleme, [aria-busy=true], [class*=iskelet], [class*=yukleniyor], [class*=skeleton], .qt-durum--yukleniyor";
@@ -272,7 +283,7 @@ function macOzeti({ o, ses, olay, ctx }, bitti) {
   const fpsOzet = (k) => k.length ? { ort: Math.round(k.reduce((x, y) => x + y[1], 0) / k.length), en_dusuk: Math.min(...k.map((x) => x[1])), en_uzun_kare: Math.max(...k.map((x) => x[2])) } : null;
   const uzun = o.uzun.filter(([st]) => st >= t0).map(([st, d]) => [g(st), Math.round(d)]);
   return {
-    bitti, durum, kare, sik_secili_ms: o.sik ?? [],
+    bitti, durum, kare, sik_secili_ms: o.sik ?? [], tik_gecikme_ms: o.tik ?? [],
     fps: { mac: fpsOzet(kare), sayim: fpsOzet(pencere(sayBas, soruBas)), bekleme: fpsOzet(kare.filter(([t]) => durum.some(([a, d], i) => /^bekle/.test(d) && t >= a && t < (durum[i + 1]?.[0] ?? a)))) },
     sure_ms: { bekle: sure(/^bekle/), sayim_3: sure(/^sayım 3$/), sayim_2: sure(/^sayım 2$/), sayim_1: sure(/^sayım 1$/), giris_hazir_ol: sure(/^giriş sahnesi · Hazır ol!$/) },
     uzun_gorev: uzun, uzun_gorev_sayim: uzun.filter(([st]) => sayBas != null && soruBas != null && st >= sayBas - 1000 && st < soruBas),
