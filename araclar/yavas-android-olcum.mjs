@@ -46,7 +46,8 @@ const EKRANLAR = [
 const IZCI = () => {
   const o = (window.__olc = { uzun: [], fcp: null, lcp: null, hazir: null, icerik: null, ilkMac: null, macAdres: null, ucus: 0, ucusAna: 0, istek: [] });
   // Ertelenen (ilk çizimden sonra, boşta) istekler "içerik hazır"ı bekletmez — Paket A/2 ile ertelenenlerin listesi
-  const ERTELENEN = /rpc\/(yanlis_bankam|gonderdigim_davetler|ses_secimleri_oyun)|durum=eq\.bekliyor/;
+  // 15 Eki 2026 (perf 2): rozet_bildirimlerim / kalp_at / cihaz_bildir de ilk çizimden sonra, boşta çalışır
+  const ERTELENEN = /rpc\/(yanlis_bankam|gonderdigim_davetler|ses_secimleri_oyun|rozet_bildirimlerim|kalp_at|cihaz_bildir|istemci_kayit_yaz)|durum=eq\.bekliyor/;
   try { new PerformanceObserver((l) => { for (const e of l.getEntries()) o.uzun.push([e.startTime, e.duration]); }).observe({ type: "longtask", buffered: true }); } catch { /* yok */ }
   try { new PerformanceObserver((l) => { for (const e of l.getEntries()) if (e.name === "first-contentful-paint") o.fcp = e.startTime; }).observe({ type: "paint", buffered: true }); } catch { /* yok */ }
   try { new PerformanceObserver((l) => { const e = l.getEntries().at(-1); if (e) o.lcp = e.startTime; }).observe({ type: "largest-contentful-paint", buffered: true }); } catch { /* yok */ }

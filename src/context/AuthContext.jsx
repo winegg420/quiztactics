@@ -3,6 +3,7 @@ import { tt } from "../../oyun/lib/dil.js";
 import { supabase, supabaseHazir } from "../lib/supabase.js";
 import { olayKaydet, oturumKimligi } from "../lib/izlemeKaydi.js";
 import { fbBelirteciSakla, fbKimligiKaydet, facebookOturumuMu } from "../../oyun/lib/facebookArkadas.js";
+import { ilkCizimdenSonra } from "../../oyun/lib/ilkCizimdenSonra.js";
 
 const AuthContext = createContext(null);
 
@@ -229,7 +230,8 @@ export function AuthProvider({ children }) {
         /* RPC yoksa (migration bekliyor) veya ağ hatası — sessiz geç */
       }
     };
-    at();
+    // 15 Eki 2026 (perf 2): ilk nabız ilk çizimden sonra, boşta (açılışın ilk istek turunda yer kaplamasın; ~1 sn fark)
+    const ilkIptal = ilkCizimdenSonra(at);
     const id = setInterval(at, 60000);
     document.addEventListener("visibilitychange", at);
     // Uzun açık kalan sekme/PWA'da avatar/kozmetik eski kalmasın (maç ekranı profili taze okur, kabuk
@@ -244,6 +246,7 @@ export function AuthProvider({ children }) {
     document.addEventListener("visibilitychange", gorununce);
     return () => {
       durdu = true;
+      ilkIptal();
       clearInterval(id);
       document.removeEventListener("visibilitychange", at);
       document.removeEventListener("visibilitychange", gorununce);

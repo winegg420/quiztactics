@@ -76,6 +76,22 @@ function ozettenYanit(adres, ayar) {
   }, () => null);
 }
 
+/**
+ * 1109 (15 Eki 2026): ön yüklenen özetin bir kapsamı ('ana' | 'devam') — RPC adıyla eşleşmeyen okumalar (tablo
+ * okumaları, argümanlı RPC) için. `uid` verilirse özet o kullanıcınınsa döner (kişisel veri); null = genel veri.
+ * Özet yok / hatalı / 30 sn'den eski → undefined (çağıran ağdan okur). Bir kez tüketme kuralı ÇAĞIRANDADIR
+ * (yenilemeler ağa gitmeli): aynı anahtarı ikinci kez özetten kullanma.
+ */
+export function onYuklemeOzeti(kapsam, uid = null) {
+  const o = typeof window !== "undefined" ? window.__qtOnYukleme : null;
+  const bekle = o?.ozet?.[kapsam];
+  if (!bekle || (uid !== null && o.kimlik !== uid)) return Promise.resolve(undefined);
+  return Promise.race([bekle, new Promise((coz) => setTimeout(() => coz(null), 9000))]).then((v) => {
+    if (!v || typeof v !== "object" || Array.isArray(v) || Date.now() - o.ozet.an > OZET_OMUR_MS) return undefined;
+    return v;
+  }, () => undefined);
+}
+
 function dilliFetch(girdi, ayar = {}) {
   try {
     const adres = typeof girdi === "string" ? girdi : girdi instanceof URL ? girdi.href : girdi?.url ?? "";

@@ -116,6 +116,12 @@
                 ? oturum.then(function (b) { return b ? istek("/rest/v1/rpc/ana_sayfa_ozet", { p_kapsam: "ana" }, b) : null; })
                   .then(null, function () { return null; })
                 : null,
+              // 1109 (15 Eki 2026): devam eden maçlar, turnuva, gelen davet sayıları, oyun ayarları — ana sayfanın
+              // ikinci/üçüncü istek turu. Okuyanlar: anasayfa/veri.jsx, lib/ayarlar.js (src/lib/supabase.js › onYuklemeOzeti).
+              devam: location.pathname === "/"
+                ? oturum.then(function (b) { return b ? istek("/rest/v1/rpc/ana_sayfa_ozet", { p_kapsam: "devam" }, b) : null; })
+                  .then(null, function () { return null; })
+                : null,
             },
           };
         } catch (e) { /* depolama kapalı / bozuk kayıt: uygulama normal yoldan açılır */ }

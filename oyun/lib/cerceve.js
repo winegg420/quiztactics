@@ -13,7 +13,7 @@
 // okumayan mevcut kullananlar etkilenmez. Önbellek oturumluktur: Pazartesi kapanışını
 // aşan açık oturumda eski değer kalabilir (oyuncuKartiUnut ile tazelenir).
 // ============================================================
-import { supabase } from "../../src/lib/supabase.js";
+import { supabase, onYuklemeOzeti } from "../../src/lib/supabase.js";
 import { ligCerceveUnut } from "./ligCerceve.js";
 import { benKimlik, sonBilinenOku, sonBilinenYaz } from "./sonBilinen.js";
 
@@ -63,6 +63,8 @@ let kuyruk = new Map();       // user_id → [coz, ...]
 // istenirse ikinci bir oyuncu_kartlari çağrısı açılmaz, bu listeye eklenir (açılışta ×2 idi).
 let ucusta = new Map();
 let zamanlayici = null;
+let ozetDenendi = false;          // 1109: ön yükleme özetindeki kartlar tükendi / özet yok
+const ozettenKullanilan = new Set();
 const dinleyiciler = new Set();
 
 async function kuyrugaBak() {
@@ -73,9 +75,23 @@ async function kuyrugaBak() {
   for (const [id, cozucler] of istekler) ucusta.set(id, cozucler);
   const sonuc = new Map();
   try {
-    const { data, error } = await supabase.rpc("oyuncu_kartlari", { p_idler: [...istekler.keys()] });
-    if (error) throw error;
-    for (const k of data ?? []) sonuc.set(k.id, k);
+    // 1109 (15 Eki 2026): ana sayfa açılışında lig satırlarının kartları ön yükleme özetinde ('ana' › lig_kartlari) gelir.
+    // Her kimlik özetten YALNIZ BİR KEZ (oyuncuKartiUnut sonrası yeniden okuma ağa gider); kalanlar tek RPC'de.
+    const kalan = [...istekler.keys()];
+    if (!ozetDenendi) {
+      const ozet = await onYuklemeOzeti("ana");
+      const kartlar = Array.isArray(ozet?.lig_kartlari) ? ozet.lig_kartlari : null;
+      if (kartlar) {
+        for (const k of kartlar) if (k?.id && !ozettenKullanilan.has(k.id) && istekler.has(k.id)) { sonuc.set(k.id, k); ozettenKullanilan.add(k.id); }
+        if (kartlar.every((k) => ozettenKullanilan.has(k?.id))) ozetDenendi = true;
+      } else ozetDenendi = true;
+    }
+    const ag = kalan.filter((id) => !sonuc.has(id));
+    if (ag.length) {
+      const { data, error } = await supabase.rpc("oyuncu_kartlari", { p_idler: ag });
+      if (error) throw error;
+      for (const k of data ?? []) sonuc.set(k.id, k);
+    }
   } catch (e) {
     console.error("[Bildim] oyuncu_kartlari başarısız:", e?.message ?? e);
     // Önbelleğe yazılmaz: bir sonraki istek yeniden dener.

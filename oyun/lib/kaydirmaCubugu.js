@@ -12,10 +12,14 @@
 // ============================================================
 
 /** Çubuk genişliğini ölçer ve <html> üzerine `--bd-cubuk` olarak yazar. */
+let sonDeger = null;
 export function cubukOlc() {
   try {
     const kok = document.documentElement;
     const genislik = Math.max(0, window.innerWidth - kok.clientWidth);
+    // 15 Eki 2026 (perf 2): kökteki değişken her yazımda BÜTÜN sayfanın stilini yeniden hesaplatır — yalnız değişince yaz.
+    if (sonDeger === genislik) return;
+    sonDeger = genislik;
     kok.style.setProperty("--bd-cubuk", `${genislik}px`);
   } catch {
     /* belge yok (SSR) — değişken tanımsız kalır, CSS 0px varsayar */

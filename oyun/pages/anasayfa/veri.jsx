@@ -13,7 +13,7 @@
 // ============================================================
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { supabase } from "../../../src/lib/supabase.js";
+import { supabase, onYuklemeOzeti } from "../../../src/lib/supabase.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import { rutbeBul } from "../../lib/ranks.js";
 import { siradakiLobi, turnuvaAniMs } from "../../lib/zaman.js";
@@ -63,15 +63,35 @@ function paylasimliOku(anahtar, sorgu) {
   paylasim.set(anahtar, yeni);
   return yeni.soz;
 }
+// 1109 (15 Eki 2026, yavaş telefon paketi 2): ilk açılışta bu okumalar index.html ön yüklemesinin 'devam' özetinden
+// gelir (JS inerken, ilk istek turunda; satırlar istemcinin RLS altında okuduğuyla aynı). Her anahtar YALNIZ ilk okumada
+// kullanılır — Realtime/odak yenilemeleri ağa gider. Özet yoksa/eskiyse/hatalıysa undefined → eski ağ okuması.
+const ozetKullanilan = new Set();
+async function ozettenAl(uid, ad, anahtar = ad) {
+  if (!uid || ozetKullanilan.has(ad)) return undefined;
+  ozetKullanilan.add(ad);
+  const o = await onYuklemeOzeti("devam", uid);
+  return o && o[anahtar] != null ? o[anahtar] : undefined;
+}
+
 /** Aktif Klasik/Saf Bilgi maçlarım: maç listesi (sıra sende / kabuller) ve "Devam et" kartı aynı satırları kullanır. */
-const aktifMaclarim = (uid) => paylasimliOku(`maclar:${uid}`, () => supabase.from("matches")
-  .select(`id, oyuncu1, oyuncu2, oyuncu1_soru, oyuncu2_soru, soru_ids, kabul_at, aktif_soru, jokersiz,
-           p1:profiles!matches_oyuncu1_fkey(gorunen_ad, gorunen_avatar, acik_bot),
-           p2:profiles!matches_oyuncu2_fkey(gorunen_ad, gorunen_avatar, acik_bot)`)
-  .eq("durum", "aktif").or(`oyuncu1.eq.${uid},oyuncu2.eq.${uid}`).limit(20));
-/** Canlı + lobi turnuvaları: turnuva şeridi ve "Devam et" kartı (yalnız aktif olanlar) aynı okumayı kullanır. */
-const aktifTurnuvalar = () => paylasimliOku("turnuvalar", () => supabase.from("tournaments")
-  .select("id, durum, tarih, seans").in("durum", ["aktif", "lobi"]).limit(20));
+const aktifMaclarim = (uid) => paylasimliOku(`maclar:${uid}`, async () => {
+  const on = await ozettenAl(uid, "maclar");
+  if (Array.isArray(on)) return { data: on, error: null };
+  return supabase.from("matches")
+    .select(`id, oyuncu1, oyuncu2, oyuncu1_soru, oyuncu2_soru, soru_ids, kabul_at, aktif_soru, jokersiz,
+             p1:profiles!matches_oyuncu1_fkey(gorunen_ad, gorunen_avatar, acik_bot),
+             p2:profiles!matches_oyuncu2_fkey(gorunen_ad, gorunen_avatar, acik_bot)`)
+    .eq("durum", "aktif").or(`oyuncu1.eq.${uid},oyuncu2.eq.${uid}`).limit(20);
+});
+/** Canlı + lobi turnuvaları: turnuva şeridi ve "Devam et" kartı (yalnız aktif olanlar) aynı okumayı kullanır.
+ *  `ozet: true` → satırlar ön yükleme özetinden; o zaman aynı özetin turnuva_benim / lobi_sayilari'si de tutarlıdır. */
+const aktifTurnuvalar = (uid) => paylasimliOku("turnuvalar", async () => {
+  const on = await ozettenAl(uid, "turnuvalar");
+  if (Array.isArray(on)) return { data: on, error: null, ozet: true };
+  return supabase.from("tournaments")
+    .select("id, durum, tarih, seans").in("durum", ["aktif", "lobi"]).limit(20);
+});
 
 // gorevYukle=false: eski get_daily_quests okunmaz (AnaSayfaA görevleri /gorevler'den alır).
 // bakiye: coin bakiyesini gösteren seçenek (B/C) kendi useCoin'inden verir; A bakiyeyi göstermez (üst çubuk hapı
@@ -167,10 +187,12 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
   const turnuvaYukle = useCallback(async () => {
     if (!uid) return;
     let tlar = [];
+    let ozettenTur = false;
     try {
-      const { data, error } = await aktifTurnuvalar();
+      const { data, error, ozet } = await aktifTurnuvalar(uid);
       if (error) throw error;
       tlar = data ?? [];
+      ozettenTur = ozet === true;
     } catch (e) {
       console.warn("[Ana sayfa seçenek] turnuvalar:", e?.message ?? e);
     }
@@ -178,7 +200,13 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
     const lobi = siradakiLobi(tlar);
     let lobiSayisi = 0;
     let lobide = false;
-    if (lobi) {
+    // 1109: lobi sayısı + "ben lobide miyim" aynı özetten (turnuvalar da özetten geldiyse — aynı an)
+    const sayilar = lobi && ozettenTur ? await ozettenAl(uid, "lobi_sayilari") : undefined;
+    const benim = lobi && ozettenTur ? await ozettenAl(uid, "turnuva_benim:lobi", "turnuva_benim") : undefined;
+    if (lobi && sayilar && Array.isArray(benim) && lobi.id in sayilar) {
+      lobiSayisi = Number(sayilar[lobi.id]) || 0;
+      lobide = benim.some((o) => o.tournament_id === lobi.id);
+    } else if (lobi) {
       try {
         const { data, count, error } = await supabase.from("tournament_players")
           .select("user_id", { count: "exact" }).eq("tournament_id", lobi.id);
@@ -237,6 +265,12 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
       console.warn("[Ana sayfa seçenek] gonderdigim_davetler:", e?.message ?? e);
     }
     // Gelen davetler: Meydan Okumalar sayfasındaki "Sana gelen davetler" ile aynı kaynak.
+    // 1109: ilk açılışta üç sayım ön yükleme özetinden (aynı süzgeç: bekliyor, Hazine'de son 24 saat, en çok 50'şer).
+    const gd = await ozettenAl(uid, "gelen_davet");
+    if (gd && typeof gd === "object") {
+      setDavetSayisi((Number(gd.mac) || 0) + (Number(gd.duello) || 0) + (Number(gd.kasa) || 0));
+      return;
+    }
     try {
       const [mac, duello, kasa] = await Promise.all([
         supabase.from("matches").select("id").eq("oyuncu2", uid).eq("durum", "bekliyor").limit(50),
@@ -426,11 +460,16 @@ export function useDevamEdenMaclar() {
     } });
 
     bolum(async (sonuc) => { try {
-      const { data: duellolar, error } = await supabase.rpc("duello_aktif_benim");
+      // 1109: ilk açılışta satırlar + rakip adları ön yükleme özetinden (aynı dar RPC; adlar aynı profiles okuması)
+      const on = await ozettenAl(uid, "duellolar");
+      const onAd = Array.isArray(on) ? await ozettenAl(uid, "rakip_adlar:duello", "rakip_adlar") : undefined;
+      const { data: duellolar, error } = Array.isArray(on) ? { data: on, error: null } : await supabase.rpc("duello_aktif_benim");
       if (error) throw error;
       const rakipIdler = (duellolar ?? []).map((d) => (d.oyuncu1 === uid ? d.oyuncu2 : d.oyuncu1));
       let adlar = new Map();
-      if (rakipIdler.length) {
+      if (onAd && typeof onAd === "object") {
+        adlar = new Map(Object.entries(onAd));
+      } else if (rakipIdler.length) {
         const { data: profiller } = await supabase.from("profiles").select("id, gorunen_ad").in("id", rakipIdler);
         adlar = new Map((profiller ?? []).map((p) => [p.id, p.gorunen_ad]));
       }
@@ -448,13 +487,19 @@ export function useDevamEdenMaclar() {
     bolum(async (sonuc) => { try {
       // 15 Eki 2026 (perf): ayar ve kasa_aktif_benim AYNI turda başlar (eskiden ayar inince ikinci bir ağ turu açılıyordu —
       // yavaş 4G'de ana sayfanın son isteği ~0,5 sn geç bitiyordu). Mod kapalıysa sonuç kullanılmaz (dar okuma, boş liste).
-      const kasaIstek = supabase.rpc("kasa_aktif_benim").then((y) => y, (e) => ({ data: null, error: e }));
+      // 1109: ilk açılışta satırlar + rakip adları ön yükleme özetinden.
+      const kasaIstek = ozettenAl(uid, "kasalar").then((on) => (Array.isArray(on)
+        ? { data: on, error: null, ozet: true }
+        : supabase.rpc("kasa_aktif_benim").then((y) => y, (e) => ({ data: null, error: e }))));
       if (Number(await ayar("kasa_modu_acik", 0)) >= 1) {
-        const { data: kasalar, error } = await kasaIstek;
+        const { data: kasalar, error, ozet } = await kasaIstek;
         if (error) throw error;
         const rakipIdler = (kasalar ?? []).map((k) => (k.oyuncu1 === uid ? k.oyuncu2 : k.oyuncu1));
         let adlar = new Map();
-        if (rakipIdler.length) {
+        const onAd = ozet ? await ozettenAl(uid, "rakip_adlar:kasa", "rakip_adlar") : undefined;
+        if (onAd && typeof onAd === "object") {
+          adlar = new Map(Object.entries(onAd));
+        } else if (rakipIdler.length) {
           const { data: profiller } = await supabase.from("profiles").select("id, gorunen_ad").in("id", rakipIdler);
           adlar = new Map((profiller ?? []).map((p) => [p.id, p.gorunen_ad]));
         }
@@ -470,7 +515,8 @@ export function useDevamEdenMaclar() {
     } });
 
     bolum(async (sonuc) => { try {
-      const { data, error } = await supabase.from("group_matches")
+      const on = await ozettenAl(uid, "gruplar");   // 1109: ilk açılışta özetten (aynı süzgeç: üyesi olduğum aktif maçlar)
+      const { data, error } = Array.isArray(on) ? { data: on, error: null } : await supabase.from("group_matches")
         .select("id, aktif_soru, soru_ids, oyuncu_sayisi").eq("durum", "aktif").limit(20);
       if (error) throw error;
       for (const g of data ?? []) {
@@ -484,12 +530,16 @@ export function useDevamEdenMaclar() {
     } });
 
     bolum(async (sonuc) => { try {
-      const { data: turnuvalar, error } = await aktifTurnuvalar();
+      const { data: turnuvalar, error, ozet } = await aktifTurnuvalar(uid);
       if (error) throw error;
       const ids = (turnuvalar ?? []).filter((t) => t.durum === "aktif").slice(0, 5).map((t) => t.id);
       if (ids.length) {
-        const { data: oyuncular, error: e2 } = await supabase.from("tournament_players")
-          .select("tournament_id, dogru_sayisi").eq("user_id", uid).eq("elendi", false).in("tournament_id", ids);
+        // 1109: turnuvalar özetten geldiyse kendi satırlarım da aynı özetten (aynı süzgeç: elenmemiş, bu turnuvalar)
+        const on = ozet ? await ozettenAl(uid, "turnuva_benim:aktif", "turnuva_benim") : undefined;
+        const { data: oyuncular, error: e2 } = Array.isArray(on)
+          ? { data: on.filter((o) => o.elendi === false && ids.includes(o.tournament_id)), error: null }
+          : await supabase.from("tournament_players")
+            .select("tournament_id, dogru_sayisi").eq("user_id", uid).eq("elendi", false).in("tournament_id", ids);
         if (e2) throw e2;
         for (const o of oyuncular ?? []) {
           sonuc.push({ id: `turnuva-${o.tournament_id}`, mod: "turnuva", rakipAd: null,

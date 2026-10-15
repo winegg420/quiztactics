@@ -6,12 +6,13 @@
 // açık okunabilir (RLS: select true).
 
 import { useEffect, useState } from "react";
-import { supabase } from "../../src/lib/supabase.js";
+import { supabase, onYuklemeOzeti } from "../../src/lib/supabase.js";
 import { sonBilinenOku, sonBilinenYaz } from "./sonBilinen.js";
 
 let onbellek = null;
 let istek = null;
 let ayarlarOkundu = false;
+let ozetDenendi = false;
 // 12 Eki 2026: son okunan tablo (tarayıcıda) — yalnız ilk çizimde (useAyar başlangıcı); sunucu yine okunur.
 const kalici = sonBilinenOku("ayarlar", { genel: true }) ?? null;
 const hazirDinleyici = new Set();
@@ -22,8 +23,18 @@ export async function ayarlar() {
   if (istek) return istek;
   istek = (async () => {
     try {
-      const { data, error } = await supabase.from("oyun_ayarlari").select("anahtar, deger");
-      if (error) throw error;
+      // 1109 (15 Eki 2026): ana sayfa açılışında tablo ön yükleme özetinde gelir (JS inerken, ilk turda) — yalnız ilk okuma.
+      let data = null;
+      if (!ozetDenendi) {
+        ozetDenendi = true;
+        const o = await onYuklemeOzeti("devam");
+        if (Array.isArray(o?.oyun_ayarlari)) data = o.oyun_ayarlari;
+      }
+      if (!data) {
+        const y = await supabase.from("oyun_ayarlari").select("anahtar, deger");
+        if (y.error) throw y.error;
+        data = y.data;
+      }
       const o = {};
       for (const s of data ?? []) o[s.anahtar] = s.deger;
       onbellek = o;

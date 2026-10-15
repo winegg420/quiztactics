@@ -28,23 +28,48 @@ import { modAciklama } from "../../lib/modAciklamalari.js";   // 12 Eki 2026: mo
  * değişince yeniden ölçülür (ResizeObserver + alt ağaç değişimi, kare başına bir ölçüm).
  */
 const SIK_EN_COK = 8;
+// Son bulunan kademe (oturumda bellek, açılışlar arası cihazda): ilk ölçüm oradan başlar — yalnız başlangıç noktası,
+// sonuç her seferinde yeniden ölçülür. Anahtar ekran yüksekliğine bağlı (döndürme/başka cihaz eski değeri kullanmaz).
+const SIK_ANAHTAR = `qt:v1:as-sik:${typeof window !== "undefined" ? window.innerHeight : 0}`;
+let sonKademe = (() => { try { return Number(localStorage.getItem(SIK_ANAHTAR)) || 0; } catch { return 0; } })();
 function useSigdir(ref, etkin) {
   useLayoutEffect(() => {
     const kok = ref.current;
     if (!etkin || !kok || typeof window.matchMedia !== "function") return undefined;
     const telefon = window.matchMedia("(max-width: 767px)");
     let kare = 0;
+    let olcum = null;   // { k, h, c }: k kademesinde sığdığı son ölçüm (içerik yüksekliği, kap yüksekliği)
     const olc = () => {
       kare = 0;
       // Birikimli öznitelikler: k. kademede data-s1 … data-sk (className React'e ait; sınıf eklenirse ilk çizimde silinirdi)
+      // 15 Eki 2026 (perf 2): yalnız DEĞİŞEN öznitelik yazılır — her yazım bütün ana sayfanın stilini geçersiz kılar.
       const kur = (k) => {
-        kok.dataset.sik = String(k);
-        for (let i = 1; i <= SIK_EN_COK; i += 1) kok.toggleAttribute(`data-s${i}`, i <= k);
+        if (kok.dataset.sik !== String(k)) kok.dataset.sik = String(k);
+        for (let i = 1; i <= SIK_EN_COK; i += 1) if (kok.hasAttribute(`data-s${i}`) !== (i <= k)) kok.toggleAttribute(`data-s${i}`, i <= k);
       };
-      if (!telefon.matches) { kur(0); delete kok.dataset.sik; return; }
-      for (let k = 0; k <= SIK_EN_COK; k += 1) {
-        kur(k);
-        if (kok.scrollHeight <= kok.clientHeight + 1) break;   // okuma düzeni zorlar: kademe hemen ölçülür
+      if (!telefon.matches) { if (kok.dataset.sik !== undefined) { kur(0); delete kok.dataset.sik; } olcum = null; return; }
+      // Sonuç aynı: sığan EN KÜÇÜK kademe (yoksa 8). Eskiden her alt ağaç değişiminde 0'dan 8'e kadar her kademe zorunlu
+      // yerleşimle ölçülüyordu (yavaş telefonda açılışta ~0,8 sn); artık bilinen kademeden başlanır, ±1 adımla aranır.
+      // Sığma kademe arttıkça bozulmaz (her kademe yalnız küçültür) → aşağı inerken ilk sığmayan kademede durulur.
+      const sigar = () => kok.scrollHeight <= kok.clientHeight + 1;   // okuma düzeni zorlar: kademe hemen ölçülür
+      let k = Math.min(SIK_EN_COK, Math.max(0, Number(kok.dataset.sik ?? sonKademe) || 0));
+      kur(k);
+      if (sigar()) {
+        // Bir alt kademe yalnız içerik kısaldıysa ya da kap büyüdüyse sığabilir: aynı kademede son ölçümden beri ikisi
+        // de olmadıysa alt kademe yine taşar (deneme atlanır — her deneme bütün sayfanın yeniden yerleşimi).
+        const k0 = k, h = kok.scrollHeight, c = kok.clientHeight;   // yerleşim az önce ölçüldü: ek maliyet yok
+        const ayni = olcum && olcum.k === k && h >= olcum.h && c <= olcum.c;
+        if (!ayni) while (k > 0) { kur(k - 1); if (!sigar()) { kur(k); break; } k -= 1; }
+        olcum = k === k0 ? { k, h, c } : null;
+      } else {
+        olcum = null;
+        while (k < SIK_EN_COK) { k += 1; kur(k); if (sigar()) break; }
+        // k-1 az önce taştı → bu ölçüm, sonraki çağrıda alt kademe denemesini atlatır (yerleşim temiz: ek maliyet yok)
+        if (k < SIK_EN_COK || sigar()) olcum = { k, h: kok.scrollHeight, c: kok.clientHeight };
+      }
+      if (sonKademe !== k) {
+        sonKademe = k;
+        try { localStorage.setItem(SIK_ANAHTAR, String(k)); } catch { /* depolama kapalı */ }
       }
     };
     const iste = () => { if (!kare) kare = requestAnimationFrame(olc); };

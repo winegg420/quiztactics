@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import RozetMadalyonu from "./RozetMadalyonu.jsx";
 import { rozetBildirimlerim } from "../lib/rozet.js";
+import { ilkCizimdenSonra } from "../lib/ilkCizimdenSonra.js";
 import { oyuncuKartiUnut } from "../lib/cerceve.js";
 import { tt } from "../lib/dil.js";
 import { sesRozet } from "../lib/ses.js";
@@ -24,10 +25,12 @@ export default function RozetBildirimi() {
 
   useEffect(() => {
     if (typeof document !== "undefined" && document.body.classList.contains("bd-oyun-modu")) return undefined;
-    const simdi = Date.now();
-    if (simdi - sonSorgu.current < ARALIK_MS) return undefined;
-    sonSorgu.current = simdi;
-
+    if (Date.now() - sonSorgu.current < ARALIK_MS) return undefined;
+    // 15 Eki 2026 (perf 2): ilk çizimden sonra, boşta — açılışın ilk istek turunu ve ana iş parçacığını paylaşmasın
+    // (bildirim bir tosttur, içerik değil). Sayfa hemen değişirse iptal edilir, yeni sayfada yeniden denenir.
+    return ilkCizimdenSonra(() => {
+    if (document.body.classList.contains("bd-oyun-modu")) return;
+    sonSorgu.current = Date.now();
     rozetBildirimlerim()
       .then((liste) => {
         // Sunucu bunları "görüldü" işaretledi: sayfa değişse de kuyruğa alınır (kaybolmasın).
@@ -45,7 +48,7 @@ export default function RozetBildirimi() {
         console.warn("[Bildim] rozet bildirimi alınamadı:", e?.message ?? e);
         sonSorgu.current = 0;
       });
-    return undefined;
+    });
   }, [pathname]);
 
   const ilk = kuyruk[0];

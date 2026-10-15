@@ -56,6 +56,7 @@ import { y } from "../lib/yol.js";
 // Meydan/gardirop dondurma bayraklari (Arayuz Yenileme, 20 Eyl 2026)
 import { GARDIROP_ACIK } from "../lib/ozellikBayraklari.js";
 import { cihazBildir } from "../lib/cihaz.js";
+import { ilkCizimdenSonra } from "../lib/ilkCizimdenSonra.js";
 import { ayarlar } from "../lib/ayarlar.js";
 import { turnuvaSaatleriniAyarla, turnuvaListesiniAyarla, oyuncuUlkesiniAyarla } from "../lib/zaman.js";
 import { tt } from "../lib/dil.js";
@@ -103,8 +104,8 @@ export default function Layout() {
 
   // Cihaz kimliği oturum başına bir kez bildirilir (sıralı maç koruması).
   useEffect(() => {
-    if (!user) return;
-    cihazBildir();
+    if (!user) return undefined;
+    return ilkCizimdenSonra(() => { cihazBildir(); });   // 15 Eki 2026 (perf 2): içerik değil — ilk çizimden sonra, boşta
   }, [user?.id]);
 
   // İLK GİRİŞ: karakterini henüz seçmemiş oyuncu bir kez Görünüm
