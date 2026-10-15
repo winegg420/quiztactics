@@ -23,7 +23,7 @@ export function modAciklama(mod) {
   switch (mod) {
     case "klasik": return tt("Aynı sorular, en çok bilen kazanır.");
     case "duello": return tt("Kontrolü al, üst üste 3 doğru yap.");
-    case "saf": return tt("Jokersiz, yalnız bilgiyle yarış.");
+    case "saf": return tt("Yalnız bilgiyle yarış.");
     case "kasa": return tt("Tek bilen hazineyi alır, doğru anda aç.");
     default: return "";
   }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import KategoriIkon, { KATEGORI_RENK } from "./KategoriIkon.jsx";
-import { JOKER_BILGI } from "../lib/jokerler.js";
+import { JOKER_BILGI, jokerGosterilir } from "../lib/jokerler.js";
 import SkillRozeti from "./SkillRozeti.jsx";
 import { tt, ttSunucu } from "../lib/dil.js";
 import { QtIkon, QtIlerleme, QtKart, QtRozet, sayiBicim, sinif, siraStili } from "../tasarim/index.js";
@@ -98,9 +98,9 @@ export default function UstalikIzgarasi({ sirali = "", sira = null, kategoriYok 
             </li>
           ))}
         </ul>
-        {envanter.length > 0 && (
+        {envanter.some((e) => jokerGosterilir(e.tur)) && (
           <ul className="qt-dk-envanter qt-dk-envanter--liste" aria-label={tt("Envanterin")}>
-            {envanter.map((e) => (
+            {envanter.filter((e) => jokerGosterilir(e.tur)).map((e) => (
               <li key={e.tur} className="qt-dk-envanter-cip">
                 <SkillRozeti tur={e.tur} boyut={22} />
                 <span className="qt-dk-envanter-ad">{JOKER_BILGI[e.tur]?.ad ?? e.tur}</span>

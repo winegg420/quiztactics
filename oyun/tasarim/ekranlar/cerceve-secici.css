@@ -67,3 +67,8 @@
   .qt-ks ul.qt-ks-avatarlar .qt-ks-avatar img { width: 42px; height: 42px; }
   .qt-ks ul.qt-ks-avatarlar .qt-cs-ad { font-size: 11px; line-height: 1.15; letter-spacing: -0.01em; overflow-wrap: normal; word-break: normal; }
 }
+
+/* 15 Eki 2026 · telefonda Çerçeve ızgarası 2 sütun (390 px'te 3 sütunda açıklama 5 satıra uzuyordu) */
+@media (max-width: 479px) {
+  .qt-cs-izgara.qt-cs-izgara--cerceve { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

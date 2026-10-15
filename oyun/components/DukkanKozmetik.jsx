@@ -313,7 +313,7 @@ function KozmetikEylemDugmesi({ c, sahipHesap, eylem }) {
           {takilir && c.takili ? (
             <QtDugme tur="ikincil" tamGenislik yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(null); }}>{tt("Çıkar")}</QtDugme>
           ) : takilir && (c.sahip || testModu) ? (
-            <QtDugme tamGenislik ikon="onay" yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(c.anahtar); }}>
+            <QtDugme tamGenislik yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(c.anahtar); }}>
               {tt("Tak")}
             </QtDugme>
           ) : !takilir && (c.sahip || sahipHesap) ? (
@@ -583,7 +583,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
           {takili ? (
             <QtDugme tur="ikincil" tamGenislik devreDisi ikon="onay">{tt("Takılı")}</QtDugme>
           ) : c.kullanabilir ? (
-            <QtDugme tamGenislik ikon="onay" yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(); }}>
+            <QtDugme tamGenislik yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(); }}>
               {tt("Tak")}
             </QtDugme>
           ) : !c.kapali && c.fiyat_elmas != null ? (
@@ -625,7 +625,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
                      {takili ? (
                        <QtDugme tur="ikincil" devreDisi ikon="onay">{tt("Takılı")}</QtDugme>
                      ) : c.kullanabilir ? (
-                       <QtDugme ikon="onay" yukleniyor={islem === "tak"} devreDisi={Boolean(islem)} onClick={() => { dokunus(); tak(); }} data-qt-ilk-odak>{tt("Tak")}</QtDugme>
+                       <QtDugme yukleniyor={islem === "tak"} devreDisi={Boolean(islem)} onClick={() => { dokunus(); tak(); }} data-qt-ilk-odak>{tt("Tak")}</QtDugme>
                      ) : (
                        <QtDugme tur="ikincil" devreDisi ikon="kilit">{tt("Satılmıyor")}</QtDugme>
                      )}

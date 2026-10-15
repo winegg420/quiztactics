@@ -47,6 +47,7 @@ export default {
   "Maç oyna, serin başlasın": "Play a match to start your streak",
   "Kategori başarın": "Your category record",
   "Öğrenilen soru: {0} · Bankada: {1}": "Learned: {0} · In your bank: {1}",
+  "Öğrenilen: {0} · Bankada: {1}": "Learned: {0} · In bank: {1}",   // 15 Eki 2026: 360 px'te tek satır
   "{0} rütbesine ilerleme": "Progress to {0}",
   "Oyun ayarları": "Game settings",
   "Sayaç, doğru/yanlış ve maç sonu sesleri": "Timer, right/wrong and match-end sounds",
@@ -108,6 +109,7 @@ export default {
   "Klasik + Düello": "Classic + Duel",
   "Klasik · Düello": "Classic · Duel",
   "Klasik · Düello · Ortak Hazine": "Classic · Duel · Shared Treasure",
+  "Tüm modlar": "All modes",   // 15 Eki 2026: joker kartı mod rozeti (bütün modlarda geçerli)
   "Bu joker yalnız Düello'da çalışır.": "This joker only works in Duel.",
   "Bu joker yalnız Klasik'te çalışır.": "This joker only works in Classic.",
   "Klasik paketleri": "Classic bundles",

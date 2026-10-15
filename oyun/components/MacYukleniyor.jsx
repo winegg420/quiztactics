@@ -68,7 +68,7 @@ export default function MacYukleniyor({ hata, onTekrarDene, onIptal, donusYolu, 
             </QtDugme>
           )}
           <QtDugme tur="ikincil" tamGenislik onClick={() => navigate(donusYolu ?? y("/meydan"))}>
-            {donusMetni ?? tt("Meydan okumalara dön")}
+            {donusMetni ?? tt("Meydan Oku'ya dön")}
           </QtDugme>
         </div>
       }

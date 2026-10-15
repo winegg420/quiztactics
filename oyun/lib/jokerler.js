@@ -196,6 +196,12 @@ export const DUELLO_JOKERLER = AKTIF_MAC_SKILLERI.filter((id) => SKILL_TANIMLARI
 export const DUELLO_V4_JOKERLER = DUELLO_JOKERLER.filter((id) => !SKILL_TANIMLARI[id].yalnizDuello);
 export const KLASIK_BILGI =Object.fromEntries(KLASIK_JOKERLER.map((id) => [id, SKILL_TANIMLARI[id]]));
 export const sisAyari = () => ({ sn: 0, esik: 0 });
+/** İstatistik/geçmiş listelerinde gösterilsin mi: oyunda ve dükkânda artık olmayan (pasif ya da yalnız eski Düello'ya ait:
+ *  Baskın, Kalkan, Sis…) jokerler gizlenir. Veri silinmez, yalnız listeden süzülür. */
+export const jokerGosterilir = (tur) => {
+  const t = SKILL_TANIMLARI[tur];
+  return Boolean(t) && t.aktif !== false && !t.yalnizDuello;
+};
 export const jokerAdi = (tur) => SKILL_TANIMLARI[tur]?.ad ?? tur;
 export const jokerIkon = (tur) => SKILL_TANIMLARI[tur]?.ikon ?? "soru";
 

@@ -4,6 +4,7 @@ export default {
   // Mod açıklamaları (tek kaynak)
   "Kontrolü al, üst üste 3 doğru yap.": "Take control, get 3 right in a row.",
   "Jokersiz, yalnız bilgiyle yarış.": "No jokers, just knowledge.",
+  "Yalnız bilgiyle yarış.": "Just knowledge.",   // 15 Eki 2026: "Jokersiz" rozette tek kez (alt yazıda tekrar etmez)
   "{n} joker türünden {s}'ünü seç": "Pick {s} of {n} joker types",
   // Ana sayfa mod kartında 2 satıra sığsın diye kısaltıldı (eski: kisa-metin.js; bu dosya sonra yüklenir, onu ezer)
   "Tek bilen hazineyi alır, doğru anda aç.": "Answer alone, grab the treasure.",

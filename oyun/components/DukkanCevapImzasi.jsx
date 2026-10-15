@@ -139,7 +139,7 @@ export default function DukkanCevapImzasi({ katalog, sahipHesap = false, yenile,
                     <QtDugme tur="ikincil" tamGenislik yukleniyor={islem === "tak:yok"} devreDisi={Boolean(islem)}
                              onClick={() => { dokunus(); tak(null); }}>{tt("Çıkar")}</QtDugme>
                   ) : c.sahip || testModu ? (
-                    <QtDugme tamGenislik ikon="onay" yukleniyor={islem === `tak:${c.anahtar}`} devreDisi={Boolean(islem)}
+                    <QtDugme tamGenislik yukleniyor={islem === `tak:${c.anahtar}`} devreDisi={Boolean(islem)}
                              onClick={() => { dokunus(); tak(c.anahtar); }}>{testModu ? tt("Test için tak") : tt("Tak")}</QtDugme>
                   ) : c.satilik && c.fiyat != null ? (
                     <QtDugme tur="dogru" tamGenislik aria-haspopup="dialog" onClick={() => { dokunus(); setOnay(c); }}

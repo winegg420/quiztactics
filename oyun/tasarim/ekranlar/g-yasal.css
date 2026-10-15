@@ -119,3 +119,10 @@
 .g-yasal-metin ol li { margin-bottom: var(--qt-b-2); }
 .g-yasal-dil { display: flex; align-items: center; gap: var(--qt-b-2); }
 .g-yasal-ust { flex-wrap: wrap; }
+
+/* 15 Eki 2026 · 360 px: logo Geri / TR-EN satırının altına tek başına düşüyordu — telefonda üçü aynı satırda */
+@media (max-width: 420px) {
+  .g-yasal-ust { flex-wrap: nowrap; gap: var(--qt-b-2); }
+  .g-yasal-ust > * { min-width: 0; }
+  .g-yasal-ust .g-yasal-dil { margin-inline: auto; }
+}

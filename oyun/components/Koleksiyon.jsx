@@ -235,7 +235,7 @@ export default function Koleksiyon() {
       <QtKart as="section" className={sinif("qt-cs", sirali)} style={siraStili(2)} aria-labelledby="qt-ks-cerceve">
         <h2 id="qt-ks-cerceve" className="qt-baslik-3">{tt("Kazanılan Çerçeveler")}</h2>
         <p className="qt-kucuk qt-soluk">{tt("Çerçeve satılmaz, kazanılır: lig, turnuva, level ve etkinliklerle.")}</p>
-        <ul className="qt-cs-izgara">
+        <ul className="qt-cs-izgara qt-cs-izgara--cerceve">
           <li>
             <button type="button" className="qt-cs-oge" aria-pressed={takiliCerceve === null} disabled={Boolean(mesgul)}
                     onClick={() => cerceveSec(null)}>

@@ -118,7 +118,7 @@ const rozetSayi = (n) => (n > 0 ? (n > 99 ? "99+" : String(n)) : null);
  */
 export function modListesi(v, b) {
   return [
-    { anahtar: "meydan", ad: tt("Meydan Okumalar"), ikon: "kilic",
+    { anahtar: "meydan", ad: tt("Meydan Oku"), ikon: "kilic",
       alt: v.davetSayisi > 0 ? tt("{n} davet bekliyor", { n: v.davetSayisi }) : tt("Arkadaşına meydan oku"),
       rozet: rozetSayi(v.davetSayisi), rozetEtiketi: tt("{n} bekleyen davet", { n: v.davetSayisi }),
       git: () => b.git("/meydan") },
@@ -200,11 +200,11 @@ export function DevamEdenMaclarKarti({ liste }) {
 }
 
 const iki = (n) => String(n).padStart(2, "0");
-/** UTC ms → TSİ "HH:MM" (Türkiye yıl boyu UTC+3; gece yarısı listedeki gibi "24:00"). */
+/** UTC ms → TSİ "HH:MM" (Türkiye yıl boyu UTC+3; gece yarısı "00:00" — "24:00" geri sayım gibi okunuyordu). */
 const tsiSaat = (ms) => {
   const d = new Date(ms + 3 * 3600 * 1000);
   const s = d.getUTCHours(), dk = d.getUTCMinutes();
-  return `${iki(s === 0 && dk === 0 ? 24 : s)}:${iki(dk)}`;
+  return `${iki(s)}:${iki(dk)}`;
 };
 
 /**

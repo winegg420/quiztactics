@@ -89,7 +89,7 @@ export function AvatarEdinmeKarti({ url, ad, s, onKapat, onTak, onElmasAl, onAli
                <div className="m1-sat-dugmeler">
                  <QtDugme tur="ikincil" onClick={onKapat}>{tt("Kapat")}</QtDugme>
                  {sahip ? (
-                   onTak ? <QtDugme ikon="onay" yukleniyor={islem === "tak"} onClick={() => { dokunus(); onTak(url); }} data-qt-ilk-odak>{tt("Tak")}</QtDugme> : null
+                   onTak ? <QtDugme yukleniyor={islem === "tak"} onClick={() => { dokunus(); onTak(url); }} data-qt-ilk-odak>{tt("Tak")}</QtDugme> : null
                  ) : satilik ? (
                    <QtDugme tur="dogru" yukleniyor={islem === "al"} devreDisi={Boolean(islem)} onClick={() => { dokunus(); al(); }} data-qt-ilk-odak>
                      <span className="qt-av-edinme-fiyat"><ParaIkonu boyut={18} />

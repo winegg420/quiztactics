@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { hataMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
-import { JOKER_BILGI } from "../lib/jokerler.js";
+import { JOKER_BILGI, jokerGosterilir } from "../lib/jokerler.js";
 import SkillRozeti from "./SkillRozeti.jsx";
 import YanlisSatiri from "./YanlisSatiri.jsx";
 import { QtDugme, QtIkon, QtKart, QtRozet } from "../tasarim/index.js";
@@ -43,7 +43,7 @@ export default function MacSonuEklentisi({ macTur, macId, kaybettim, rakipBot = 
           .eq("mac_id", macId)
           .order("soru_index");
         if (error) throw error;
-        if (aktif) setJokerler(data ?? []);
+        if (aktif) setJokerler((data ?? []).filter((j) => jokerGosterilir(j.tur)));
       } catch (e) {
         console.warn("[Bildim] maçta kullanılan skill'ler okunamadı:", e?.message ?? e);
       }

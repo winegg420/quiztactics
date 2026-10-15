@@ -385,7 +385,9 @@ button.a-meydan-kisi--arkadas:disabled { cursor: default; opacity: 0.75; }
   .a-meydan-modlar .qt-mod:not(.qt-mod--genis) { padding-top: calc(var(--qt-b-3) + 58px); }
 }
 /* Uzun oyuncu adı tek satırda üç noktayla kırpılır (davet kartı, devam eden, gönderdiğin). Rozet adın yanında/altında kalır. */
-.a-meydan :is(.qt-satir-baslik, .qt-oyk-ad) .ls-ad-dugme { min-width: 0; max-width: 100%; }
+.a-meydan :is(.qt-satir-baslik, .qt-oyk-ad) .ls-ad-dugme { min-width: 44px; max-width: 100%; }
+/* 15 Eki 2026 · dokunma hedefi: kısa adda da en az 44 × 44 px KUTU (satır yüksekliği aynı kalır: negatif dikey boşluk) */
+.a-meydan :is(.qt-satir-baslik, .qt-oyk-ad) .ls-ad-dugme { min-height: 44px; margin-block: calc((1.25em - 44px) / 2); }
 .a-meydan :is(.qt-satir-baslik, .qt-oyk-ad) .ls-ad-dugme > * { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .a-meydan :is(.qt-satir-baslik, .qt-oyk-ad) { min-width: 0; overflow-wrap: normal; }
 .a-meydan-bot-ad { max-width: 100%; min-width: 0; }

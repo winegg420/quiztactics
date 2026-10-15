@@ -97,10 +97,16 @@ function ModRozeti({ tur, kod, modlar: verilenModlar }) {
   const hazine = Boolean(tur && JOKER_BILGI[tur]?.allowedModes?.includes("kasa"));
   if (!yalniz && modlar.length > 1) {
     return (
+      // 15 Eki 2026: bütün modlarda geçerliyse tek kısa "Tüm modlar" (iki dairelik ikon kart logosuna benziyordu);
+      // yalnız Klasik + Düello ise küçük mod ikonları (adı ekran okuyucuya kalır).
       <span className="qt-dk-modrozet qt-dk-modrozet--ortak">
-        <i className="qt-dk-modnokta qt-dk-modnokta--klasik" aria-hidden="true" />
-        <i className="qt-dk-modnokta qt-dk-modnokta--duello" aria-hidden="true" />
-        {hazine ? tt("Klasik · Düello · Ortak Hazine") : tt("Klasik · Düello")}
+        {hazine ? tt("Tüm modlar") : (
+          <>
+            <QtIkon ad="klasik" boyut={14} />
+            <QtIkon ad="duello" boyut={14} />
+            <span className="qt-gizli">{tt("Klasik · Düello")}</span>
+          </>
+        )}
       </span>
     );
   }

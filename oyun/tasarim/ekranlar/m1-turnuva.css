@@ -87,7 +87,9 @@
 }
 .m1-tv-lobi-liste .qt-satir-metin { flex: 1; min-width: 0; }
 .m1-tv-lobi-liste .qt-satir-baslik { display: block; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; overflow-wrap: normal; }
-.m1-tv-lobi-liste .qt-satir-baslik .ls-ad-dugme { display: flex; align-items: center; justify-content: flex-start; min-width: 0; max-width: 100%; text-align: start; }
+.m1-tv-lobi-liste .qt-satir-baslik .ls-ad-dugme { display: flex; align-items: center; justify-content: flex-start; min-width: 44px; max-width: 100%; text-align: start; }
+/* 15 Eki 2026 · dokunma hedefi ≥ 44 px kutu; satır yüksekliği aynı (negatif dikey boşluk) */
+.m1-tv-lobi-liste .qt-satir-baslik .ls-ad-dugme { min-height: 44px; margin-block: calc((1.25em - 44px) / 2); }
 .m1-tv-lobi-liste .qt-satir-baslik .ls-ad-dugme > * { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .m1-tv-lobi-liste .qt-satir-kap--vurgulu { box-shadow: inset 4px 0 0 var(--qt-ikinci); }
 .m1-tv-lobi-liste .qt-satir-kap--vurgulu .m1-tv-sira { color: var(--qt-ikinci-koyu); }

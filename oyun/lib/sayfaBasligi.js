@@ -18,7 +18,7 @@ const SAYFA_ADI = {
   turnuva: "Turnuva",
   arkadaslar: "Arkadaşlar",
   mesajlar: "Mesajlar",
-  meydan: "Meydan Okumalar",
+  meydan: "Meydan Oku",
   modlar: "Modlar",
   duello: "Düello",
   kasa: "Ortak Hazine",

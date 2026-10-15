@@ -296,3 +296,12 @@
   clip-path: inset(0 -100vmax);
 }
 @media (min-width: 850px) { .m1-cal-eylem { bottom: 0; padding-block: var(--qt-b-3); } }
+
+/* 15 Eki 2026 · 360 px: büyük sayı sütunu başlığı ikiye, açıklamayı 5 satıra uzatıyordu — sayı küçülür ve altına "soru" iner */
+@media (max-width: 420px) {
+  .m1-cal-hero-sayi { flex-direction: column; align-items: center; gap: 0; }
+  .m1-cal-hero-sayi b { font-size: 28px; }
+  .m1-cal-hero-sayi small { font-size: 12px; }
+  .m1-cal-hero-baslik { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .m1-cal-hero { gap: var(--qt-b-2); padding: var(--qt-b-2) var(--qt-b-3); }
+}

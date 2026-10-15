@@ -581,6 +581,8 @@ a.qt-dk-elmas-satir * { text-decoration: none; }
 .qt-dk-skill-liste--izgara .qt-dk-skill-metin p { display: none; }
 .qt-dk-skill-liste--izgara .qt-dk-skill-rozetler { justify-content: center; margin-top: 0; gap: 4px; }
 .qt-dk-skill-liste--izgara .qt-dk-modrozet { font-size: 11px; line-height: 1.15; padding-block: 3px; white-space: normal; text-align: center; }
+/* 15 Eki 2026: "Tüm modlar" / mod ikonları tek satır */
+.qt-dk-skill-liste--izgara .qt-dk-modrozet--ortak { white-space: nowrap; }
 .qt-dk-skill-liste--izgara .qt-dk-skill-al {
   grid-column: 1 / -1; align-self: end; width: 100%; min-width: 0;
   grid-template-columns: minmax(0, 1fr); grid-auto-flow: row; gap: 6px;

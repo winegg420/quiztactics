@@ -57,6 +57,7 @@ export default {
   "Rütbe": "Rank",
   "Meydan Okumalar": "Challenges",
   "Meydan okumalar": "Challenges",
+  "Meydan Oku'ya dön": "Back to Challenge",   // 15 Eki 2026: tek ad "Meydan Oku" (EN "Challenge")
   "{n} davet bekliyor": "{n} invites waiting",
   "{n} bekleyen davet": "{n} pending invites",
   "3–5 kişi": "3–5 players",

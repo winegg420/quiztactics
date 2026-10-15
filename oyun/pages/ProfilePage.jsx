@@ -371,7 +371,7 @@ export default function ProfilePage() {
                 ikon="kitap"
                 ikonTon="dogru"
                 baslik={tt("Hatalarım")}
-                alt={tt("Öğrenilen soru: {0} · Bankada: {1}", { 0: banka.ogrenilen, 1: banka.bekleyen })}
+                alt={tt("Öğrenilen: {0} · Bankada: {1}", { 0: banka.ogrenilen, 1: banka.bekleyen })}
                 ok
               />
             </QtListe>

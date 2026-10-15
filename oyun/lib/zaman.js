@@ -94,16 +94,19 @@ function tsiEtiketi() {
 }
 
 /** Tek seans: TR → "20:00"; yabancı → "1:00 PM (TSİ 20:00)". */
+/** Ekranda "24:00" geri sayım gibi okunuyordu (15 Eki 2026): gösterimde gece yarısı "00:00". Hesap/liste değeri "24:00" kalır. */
+const saatYazi = (saat) => (saat === "24:00" ? "00:00" : saat);
+
 export function turnuvaSaatiGoster(saat) {
   const yerel = yerelSaatGoster() ? yerelSaatMetni(saat) : null;
-  return yerel ? `${yerel} (${tsiEtiketi()} ${saat})` : saat;
+  return yerel ? `${yerel} (${tsiEtiketi()} ${saatYazi(saat)})` : saatYazi(saat);
 }
 
 /** Seans listesi: TR → "10:00, 14:00"; yabancı → "3:00 AM, 7:00 AM (TSİ 10:00, 14:00)". */
 export function turnuvaSaatleriniGoster(saatler, ayrac = ", ") {
   const yerel = yerelSaatGoster() ? saatler.map(yerelSaatMetni) : [];
-  if (!yerel.length || yerel.some((x) => !x)) return saatler.join(ayrac);
-  return `${yerel.join(ayrac)} (${tsiEtiketi()} ${saatler.join(ayrac)})`;
+  if (!yerel.length || yerel.some((x) => !x)) return saatler.map(saatYazi).join(ayrac);
+  return `${yerel.join(ayrac)} (${tsiEtiketi()} ${saatler.map(saatYazi).join(ayrac)})`;
 }
 
 /** Günün turnuva saatleri (TSİ metin, sıralı). */
