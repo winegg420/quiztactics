@@ -1,0 +1,386 @@
+{
+ "grup-1-cerceveli-390-tr": {
+  "olcum": {
+   "kutu_alt": 383,
+   "avatar_alt": 392,
+   "sayi_ust": 397,
+   "murekkep_ust": 405,
+   "bosluk": 13,
+   "metin": "1."
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-1-cercevesiz-390-tr": {
+  "olcum": {
+   "kutu_alt": 383,
+   "avatar_alt": 422,
+   "sayi_ust": 397,
+   "murekkep_ust": 405,
+   "bosluk": -17,
+   "metin": "1."
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-cerceveli-390-tr": {
+  "olcum": {
+   "kutu_alt": 291,
+   "avatar_alt": 299,
+   "sayi_ust": 305,
+   "murekkep_ust": 313,
+   "bosluk": 13,
+   "metin": "2."
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-cercevesiz-390-tr": {
+  "olcum": {
+   "kutu_alt": 291,
+   "avatar_alt": 330,
+   "sayi_ust": 305,
+   "murekkep_ust": 313,
+   "bosluk": -17,
+   "metin": "2."
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-son-cerceveli-390-tr": {
+  "olcum": {
+   "kutu_alt": 291,
+   "avatar_alt": 299,
+   "sayi_ust": 305,
+   "murekkep_ust": 313,
+   "bosluk": 13,
+   "metin": "4."
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-son-cercevesiz-390-tr": {
+  "olcum": {
+   "kutu_alt": 291,
+   "avatar_alt": 330,
+   "sayi_ust": 305,
+   "murekkep_ust": 313,
+   "bosluk": -17,
+   "metin": "4."
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-1-cerceveli-390-en": {
+  "olcum": {
+   "kutu_alt": 383,
+   "avatar_alt": 392,
+   "sayi_ust": 397,
+   "murekkep_ust": 405,
+   "bosluk": 13,
+   "metin": "#1"
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-1-cercevesiz-390-en": {
+  "olcum": {
+   "kutu_alt": 383,
+   "avatar_alt": 422,
+   "sayi_ust": 397,
+   "murekkep_ust": 405,
+   "bosluk": -17,
+   "metin": "#1"
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-cerceveli-390-en": {
+  "olcum": {
+   "kutu_alt": 291,
+   "avatar_alt": 299,
+   "sayi_ust": 305,
+   "murekkep_ust": 313,
+   "bosluk": 13,
+   "metin": "#2"
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-cercevesiz-390-en": {
+  "olcum": {
+   "kutu_alt": 291,
+   "avatar_alt": 330,
+   "sayi_ust": 305,
+   "murekkep_ust": 313,
+   "bosluk": -17,
+   "metin": "#2"
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-son-cerceveli-390-en": {
+  "olcum": {
+   "kutu_alt": 291,
+   "avatar_alt": 299,
+   "sayi_ust": 305,
+   "murekkep_ust": 313,
+   "bosluk": 13,
+   "metin": "#4"
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-son-cercevesiz-390-en": {
+  "olcum": {
+   "kutu_alt": 291,
+   "avatar_alt": 330,
+   "sayi_ust": 305,
+   "murekkep_ust": 313,
+   "bosluk": -17,
+   "metin": "#4"
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-1-cerceveli-360-tr": {
+  "olcum": {
+   "kutu_alt": 326,
+   "avatar_alt": 334,
+   "sayi_ust": 341,
+   "murekkep_ust": 349,
+   "bosluk": 15,
+   "metin": "1."
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-1-cercevesiz-360-tr": {
+  "olcum": {
+   "kutu_alt": 326,
+   "avatar_alt": 359,
+   "sayi_ust": 341,
+   "murekkep_ust": 349,
+   "bosluk": -11,
+   "metin": "1."
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-cerceveli-360-tr": {
+  "olcum": {
+   "kutu_alt": 258,
+   "avatar_alt": 265,
+   "sayi_ust": 272,
+   "murekkep_ust": 280,
+   "bosluk": 15,
+   "metin": "2."
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-cercevesiz-360-tr": {
+  "olcum": {
+   "kutu_alt": 258,
+   "avatar_alt": 291,
+   "sayi_ust": 272,
+   "murekkep_ust": 280,
+   "bosluk": -11,
+   "metin": "2."
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-son-cerceveli-360-tr": {
+  "olcum": {
+   "kutu_alt": 258,
+   "avatar_alt": 265,
+   "sayi_ust": 272,
+   "murekkep_ust": 280,
+   "bosluk": 15,
+   "metin": "4."
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-son-cercevesiz-360-tr": {
+  "olcum": {
+   "kutu_alt": 258,
+   "avatar_alt": 291,
+   "sayi_ust": 272,
+   "murekkep_ust": 280,
+   "bosluk": -11,
+   "metin": "4."
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-1-cerceveli-360-en": {
+  "olcum": {
+   "kutu_alt": 326,
+   "avatar_alt": 334,
+   "sayi_ust": 341,
+   "murekkep_ust": 349,
+   "bosluk": 15,
+   "metin": "#1"
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-1-cercevesiz-360-en": {
+  "olcum": {
+   "kutu_alt": 326,
+   "avatar_alt": 359,
+   "sayi_ust": 341,
+   "murekkep_ust": 349,
+   "bosluk": -11,
+   "metin": "#1"
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-cerceveli-360-en": {
+  "olcum": {
+   "kutu_alt": 258,
+   "avatar_alt": 265,
+   "sayi_ust": 272,
+   "murekkep_ust": 280,
+   "bosluk": 15,
+   "metin": "#2"
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-cercevesiz-360-en": {
+  "olcum": {
+   "kutu_alt": 258,
+   "avatar_alt": 291,
+   "sayi_ust": 272,
+   "murekkep_ust": 280,
+   "bosluk": -11,
+   "metin": "#2"
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-son-cerceveli-360-en": {
+  "olcum": {
+   "kutu_alt": 258,
+   "avatar_alt": 265,
+   "sayi_ust": 272,
+   "murekkep_ust": 280,
+   "bosluk": 15,
+   "metin": "#4"
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ },
+ "grup-son-cercevesiz-360-en": {
+  "olcum": {
+   "kutu_alt": 258,
+   "avatar_alt": 291,
+   "sayi_ust": 272,
+   "murekkep_ust": 280,
+   "bosluk": -11,
+   "metin": "#4"
+  },
+  "tasma": false,
+  "konsol": 2,
+  "hatalar": [
+   "Failed to load resource: the server responded with a status of 400 ()",
+   "[Bildim] oyuncu_kartlari başarısız: invalid input syntax for type uuid: \"onizleme-ben\""
+  ]
+ }
+}

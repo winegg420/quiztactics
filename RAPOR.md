@@ -1,3 +1,145 @@
+# Codex maçlı tarama + Hazine/Bin Galibiyet paketi — rapor (15–16 Eki 2026)
+
+## Olay: Ida hesabı silindi ve geri yüklendi (16 Eki 00:50 TSİ)
+- **Ne oldu:** arayüz denetimini Ida hesabıyla koşmak için `araclar/arayuz-denetim.mjs --oturum=<Ida oturumu>` verildi. Araç
+  kendi misafir hesabı için yazılmıştı: `--sakla` yoksa iş sonunda oturumdaki hesabı `hesabimi_sil` ile siliyor →
+  auth.users + kaskadla bütün oyun verisi gitti.
+- **Geri yükleme (Ida kararı):** önce canlının yeni yedeği (`yedek-al.mjs` → `quiztactics-yedek/2026-10-15`), sonra 15 Eki
+  04:10 UTC gece yedeğinden YALNIZ Ida'nın satırları, tek işlemde, aynı kullanıcı kimliğiyle: 77 tablo, 12.713 satır
+  (auth.users + auth.identities + profil + bağlı tablolar; Ida'nın maçlarında kaskadla giden rakip cevapları dahil);
+  oturum/yenileme belirteci ve rpc_sayac geri yüklenmedi; 3 oyuncunun NULL'a düşen `davet_eden`i eski değerine döndü.
+  Önce ROLLBACK provası; FK ihlali 0; yetki/RLS değişikliği yok.
+- **Doğrulandı:** `sahip_mi()` Ida belirteciyle true (/yonetim), `profilim` (Lv 34, 2.641 coin, 3.305 XP, Altın lig, 12 seri),
+  6 arkadaşlık, Google kimliği + onaylı e-posta, 109 Klasik + 67 Hazine maçı, magic link oturumu aynı kimlikle açılıyor.
+- **Kayıp:** 15 Eki 04:10 UTC sonrası Ida verisi (o günkü test maçları; `toplam_galibiyet` 69 → 68).
+- **Kök neden kapatıldı:** `arayuz-denetim.mjs` yalnız kendi açtığı misafir hesabını siler (işaret dosyası + anonim + kimlik
+  eşleşmesi + Ida kimliği asla); `test-oturumu.mjs --sil` aynı kapı. Kural CLAUDE.md + AGENTS.md'de. Betikler
+  `araclar/hesap-geri-yukle/`.
+
+## 1 · Bin Galibiyet'e Hazine (migration 1112 — canlıda)
+- `toplam_galibiyet` + `kasa_maclari` (durum 'bitti', kazanan = oyuncu; beraberlikte `kasa_bitir` kazanan'ı NULL yazar).
+  Rakibi **açık bot** olan maç hariç (`acik_bot_mu`, Klasik/Düello ile aynı). Yetki aynı (yalnız service_role).
+- Saf Bilgi = `matches.jokersiz` → zaten sayılıyordu; açıklama "1.000 maç kazan (Klasik, Saf Bilgi, Düello, Grup, Turnuva,
+  Hazine)" / "Win 1,000 matches (Classic, Pure Knowledge, Duel, Group, Tournament, Treasure)" (oyundaki EN adlar).
+- **(c) maddesi uygulanmadı — gerekçe:** hiçbir modun maç bitirme fonksiyonu `unvan_galibiyet_kontrol` çağırmıyor (canlı
+  katalogda ölçüldü: yalnız `unvanlarim()` ve `unvan_lig_kapanis`). Hazine aynı kalıba girer; maç bitişine çağrı eklemek
+  Hazine'yi diğer modlardan ayırırdı.
+- **Not (karar gerekebilir):** Hazine'de arama yedeği botları **gizli** bot (65 maç); mevcut kural gizli bot galibiyetini
+  Klasik/Düello'da da sayıyor, Hazine'de de sayılıyor. Yalnız açık bot (Antrenman) hariç.
+- Prova `araclar/bin-galibiyet-1112-prova.mjs` (ROLLBACK): Ida 50 → 69 (Hazine 19; açık bot dahil olsaydı 21), yetki aynı.
+  Geri alma `docs/bin-galibiyet-1112-geri-al.sql`.
+
+## 2 · Hazine XP sesi
+- **Kök neden (ölçümle):** 15 Eki yavaş telefon ölçümünde düşen `xp_dolma` maç SONU değil, maç içi ilk sonuç anının "büyük
+  artış" sesiydi (t=10 sn); maç sonu `xp_dolma` aynı ölçümde çalmıştı. Dosya ertelenen ön yükleme grubundaydı, ilk sonuçta
+  hâlâ iniyordu, faz değişince (kurala uygun) düştü. Aynı kök `can_kaybi`'de de (taklitte 2 kez).
+- Düzeltme: Hazine'nin ilk sonuç anı sesleri (xp_dolma 92 KB, can_kaybi 24 KB) ilk ön yüklemede. Ayrıca maç sonu sesleri
+  kendi penceresinde: `sesMacSonu` sesleri (ertelenen xp_dolma dahil) maç sayfasının faz değişiminden etkilenmez, yalnız
+  ekran/sayfa kapanınca (`sesMacSonuKapat`) düşer — Düello v4 `sesFaz` durum değişimi ertelenen xp'yi düşürebiliyordu
+  (B4 testi eski kodda ✗, yeni kodda ✓). Maç içi sesler eskisi gibi faz değişince düşer (B4 ✓).
+- Önce/sonra (hazine-akis-olcum, CPU 6x + yavaş 4G, 7'şer maç): çalınmayan xp_dolma 0 → 0, can_kaybi 2 → 0; faz taşması,
+  geç çalma 0; eşzamanlı yalnız EN/360 koşularında 3–7 (önce sürümde de aynı: 5–7).
+
+## 3 · Hazine maç sonu kare süresi
+- Profil + `--paylas_yok` deneyi: 184/323 ms'lik görev Paylaş kartı (`toBlob`'un eşzamanlı 1080×1920 geri okuması 69–153 ms +
+  metin ölçümü `sigdir/satirla`). Düzeltme: PNG kodlama Worker'da (`paylasKartiIsci.js`), çizim bölümler arasında ana iş
+  parçacığını bırakır; piksel özeti ve PNG boyutu aynı (715.447 B). Paylaş görevi **172–323 → ≤57 ms**.
+- **Hedef <100 ms TUTMADI:** maç sonu en uzun kare 167–334 → 150–200 ms. Kalan iki görev Paylaş'tan bağımsız: maç sonu
+  ekranının ilk React çizimi (133–177 ms) ve kupa Lottie kurulumu + konfeti (116–140 ms), bitişten ~4,1 sn sonra. Görsel
+  akışı değiştirmeden küçültmek ayrı iş (öneri: MacSonuKutlama'yı final sahnesi sırasında gizli kurmak, kupa Lottie'yi
+  önceden oluşturmak).
+
+## 4–7 · Codex bulguları
+- **4 Turnuva lobisi:** `/^d{1,2}:d{2}$/` → `/^\d{1,2}:\d{2}$/`, başlıkta `saatYazi` (24:00 → 00:00; liste değeri 24:00).
+  Başka dosyada ters bölü kaybı yok (Modal.jsx'teki eski düzeltilmiş). Birim: seans "24:00" → "00:00 Turnuvası".
+- **5 Hazine skor şeridi EN:** orta şeritte EN rakip etiketi "RIVAL" (TR "RAKİP" boyunda). Ölçüm: 360 EN yan sütun 66 px,
+  "OPPONENT" 0/24 skorla tam sınırda (66/66), gerçek hedef 80 ve iki haneli skorda kesiliyordu. TR ve iki satırlı eski
+  şerit değişmedi; yatay taşma yok.
+- **6 Grup sonucu:** lig çerçevesinin alt şerit/yıldız süsü kutudan ~12 px taşıp "1."e değiyordu → avatara alt pay (sıkışık
+  kademelerde orantılı). 390/360 × TR/EN × 1./2./son × süslü/lig çerçevesi ekran görüntüsü: değme yok. Turnuva derece
+  ekranı aynı sınıfı kullanıyor, o da düzeldi.
+- **7 Paylaş "Couldn't share":** gerçek kod hatası bulundu — kart hazır değilken (ilk 2,5 sn ya da çizim sürerken) dokunuşta
+  `await hazirla()` (tuval + avatar indirme) `navigator.share`'i dokunuş etkileşiminin dışına itiyordu → Safari/yavaş
+  cihazda NotAllowedError. Artık hazır kart yoksa beklemeden metin + bağlantı paylaşılır; davet bilgisi baştan alınır. Hata
+  mesajı davranışı aynı. Codex'in masaüstü otomasyonu da bu yolu ya da tarayıcının paylaşım iznini görmüş olabilir.
+
+## 8 · Ölçüm teyitleri
+- **Statement timeout:** son kayıt 15 Eki 05:52 UTC (sabah test oturumları); sonrasında yok. pg_stat_statements (14 Eki 14:18'den
+  beri, 1099/1100 öncesini de içerir): get_categories ort 278 ms / en çok 4,7 sn, kuyruga_gir 239 / 5,6 sn,
+  submit_group_match_answer 66 / 2,4 sn — en yükseklerin 1099/1100 öncesi kilit dönemine ait olması muhtemel. Riskli
+  değişiklik yapılmadı.
+- **Klasik açılış/bekleme:** bu pakette Klasik koduna dokunulmadı; ayrı canlı ölçüm yapılmadı (canlıda yalnız tek Hazine maçı).
+
+## Testler
+- `npm run build` TEMİZ · ses-rakip-soru ✓ · ses-zamanlama (B2/B3/B4) ✓ · ses-hazine-grup-taklit 6/6 · senkron-testi --taklit
+  Turnuva ✓ · hazine-akis-olcum taşma/geç/askıda 0 · arayüz denetimi TEMİZ (yatay taşma 0, konsol temiz).
+- Görüntüler `tasarim/duzeltme-codex-15eki/` (önce/sonra: Hazine skor şeridi, Grup derece, Turnuva lobisi).
+
+---
+
+# Tam tur sonrası düzeltme paketi — rapor (15 Eki 2026)
+
+Commit'ler: 0dfd0132 (migration 1110 + 1111) · 51965eff (arayüz) · 21d7ed25 (kalan + ölçümler + PROGRESS/PROJECT_CONTEXT). `main`'e push edildi, Vercel "success", canlıda doğrulandı (`/hesap-sil` 360 px: üç öğe aynı satırda, top 12/12/12).
+
+## A) Hatalar
+
+| # | Sonuç | Kök neden / not | Dosyalar |
+|---|---|---|---|
+| 1 | "Bin Galibiyet" açıklaması TR "1.000 maç kazan (Klasik, Düello, Grup, Turnuva)" · EN "Win 1,000 matches (Classic, Duel, Group, Tournament)". Sayım kuralı DEĞİŞMEDİ. | `toplam_galibiyet` Klasik/Saf Bilgi + Düello + Grup + Turnuva sayıyor (Hazine yok). **Dikkat:** görev "oyunda Antrenman yolu yok" diyordu; kodda Meydan Oku › Antrenman (açık bot) duruyor (canlıda 5 açık bot, 38 açık botlu maç) ve bu maçlar hâlâ sayılmıyor. Yeni metin bunu söylemiyor. İstenirse "(Antrenman maçları sayılmaz)" eklenir. | migration `1110_bin_galibiyet_aciklama.sql` |
+| 2 | Ortak Hazine "Ort. cevap" artık şıkların göründüğü andan cevaba ölçülüyor. | **Kök neden sunucu:** `kasa_cozumle` süreyi `at − soru_baslangic − kasa_gosterim_payi (2 sn)` yazıyordu. Şıklar gösterim payında zaten görünür ve dokunulabilir (istemci yalnız sayacı gizler; yalnız AÇ/rakip kararında örtülü) → payda dokunuş 0'a kıstırılıyor, sonrası 2 sn eksik çıkıyordu (0,7–2,2 sn → "0,3 sn"). 1104/`bot_cevap_gercek` ve istemci suçsuz. Klasik/Saf Bilgi `now() − soru_baslangic` (istemcide ayrı pay yok) → hata YOK, dokunulmadı. Bot süresi de aynı çıpada (pay + planlı gecikme). Eski satırlar olduğu gibi kaldı. | migration `1111_hazine_ort_cevap_sure.sql` |
+| 3 | Profil › "Seri ve skiller" envanterinde ve maç sonu "Bu maçta kullandığın jokerler"de Baskın/Kalkan (ve pasif Sis vb.) gösterilmiyor; veri silinmedi. | `jokerler.js › jokerGosterilir` (aktif değil ya da `yalnizDuello` → gizli). Başka liste yok (Dükkân/SkillSeti zaten satılık listeden). | `jokerler.js`, `UstalikIzgarasi.jsx`, `MacSonuEklentisi.jsx` |
+
+## B) Küçük düzeltmeler
+
+4. Ad düğmesi (Meydan Oku / Turnuva lobisi): kutu en az 44 × 44 px; satır yüksekliği aynı (negatif dikey boşluk). `a-meydan.css`, `m1-turnuva.css`. Ölçüm: 40 → 44 px genişlik, yükseklik 44.
+5. Profil › Hatalarım: "Öğrenilen: {0} · Bankada: {1}" (EN "Learned · In bank"). 360 TR satır 78 → 64 px (tek satır). `ProfilePage.jsx`, `ceviri/dukkan.js`.
+6. Turnuva "24:00" → "00:00" (Turnuva sayfası, ana sayfa lobi saati, Turnuva tanıtımı, Giriş; EN aynı). Liste değeri "24:00" kalır. `zaman.js › saatYazi`, `parcalar.jsx`, `TurnuvaTanitim.jsx`, `Login.jsx`.
+7. Arkadaşlar: "Facebook'ta paylaş" / "Paylaş" eşit yükseklik (`paylas.css`; ölçümde ikisi de 44 px).
+8. /hesap-sil 360 px: Geri / TR-EN / logo aynı satırda (top 68 → 12); ≤380 px Geri yalnız ok (ad ekran okuyucuda). `g-yasal.css`.
+
+## C) Tasarım
+
+9. Dükkân joker kartı: tümünde geçerliyse "Tüm modlar" (EN "All modes"), yalnız Klasik+Düello ise iki küçük mod ikonu; iki daireli nokta kalktı. Rozet 31 → 22–23 px (tek satır). `JokerDukkani.jsx`, `dukkan-magaza.css`.
+10. "Tak" düğmelerinde ✓ yok (Dükkân Efekt/Çerçeve/Arka plan/İmza + AvatarEdinme); ✓ yalnız "Takılı"da. Ölçüm: Tak düğmesinde svg 1 → 0.
+11. Tek ad "Meydan Oku" (sayfa başlığı, ana sayfa kısayolu, "Meydan Oku'ya dön"; EN "Challenge"). `sayfaBasligi.js`, `parcalar.jsx`, `MacYukleniyor.jsx`, `ceviri/ana.js`.
+12. Koleksiyon › Çerçeve ≤479 px 2 sütun (390 px: 3 → 2). `cerceve-secici.css`, `Koleksiyon.jsx`.
+13. Hatalarım üst kart ≤420 px: sayı küçük, "soru" altına; başlık tek satır. 360 EN kart 172 → 124 px. `m1-calisma.css`.
+14. Saf Bilgi açıklaması "Yalnız bilgiyle yarış." ("Jokersiz" yalnız rozette). `modAciklamalari.js`, `ceviri/telefon-meydan.js`.
+
+## Migration ve geri alma
+- 1110 → `docs/bin-galibiyet-1110-geri-al.sql`
+- 1111 → `docs/ort-cevap-1111-geri-al.sql` (eski `kasa_cozumle` gövdesi)
+- Prova: `araclar/duzeltme-1110-1111-prova.mjs` (tek işlem + ROLLBACK; metin, ifade, yetki/security definer aynı: 3/3 ✓). İkisi `migration-uygula.mjs` ile canlıya uygulandı. Yeni GRANT/RLS/politika yok; oyun kuralı/değeri değişmedi.
+
+## Testler
+- `npm run build` TEMİZ (eski iPhone denetimi temiz).
+- ses-rakip-soru ✓ · ses-zamanlama ✓ · ses-hazine-grup-taklit 6/6 · senkron-testi --taklit Turnuva GEÇTİ.
+- hazine-akis-olcum (bota karşı 4 maç): faz taşması 0 · geç çalma 0 · eşzamanlı 0 · askıda 0 · kesilen animasyon 1/603 (gecikmeli #2). Aynı senaryo tekrarında 0/578 → tek seferlik; ilgili kod değişmedi.
+- Önce/sonra (Ida hesabı, 390 + 360 × TR + EN, 11 sayfa): `tasarim/duzeltme-15eki/{once,sonra}-*.png` + `olcum-{once,sonra}.json`; yatay taşma 0, konsol hatası 0. (`araclar/duzeltme-15eki-ekran.mjs`; "önce" = canlı eski sürüm, "sonra" = yerel dev, canlı Supabase, yalnız okuma.)
+
+## Canlı Ort. cevap doğrulaması (1111 sonrası, Ida, bota karşı tek maç)
+| Mod | DB `sure_ms` (ben) | İstemci: şıklar göründü → dokunuş | Yorum |
+|---|---|---|---|
+| Klasik | 1379 ms (rakip bot 3792) | 1380 ms (ilk soru aykırısı 5090 hariç; dahil 1565) | tutarlı |
+| Hazine | 2389 ms (rakip bot 4796) | 2683 ms | +0,3 sn: yavaş telefonda şıklar sunucu başlangıcından ~0,3 sn sonra görünüyor. Eski formülle ~0,4 sn çıkardı. Soru başına eşleştirme yapılmadı. |
+
+Otomatik oyuncunun dokunma gecikmesi 0,7–1,9 sn aralığındadır (+ ölçüm döngüsü); ortalamalar buna uyuyor.
+
+## D) Hazine yavaş telefon ölçümü (CPU 6x + yavaş 4G, Ida, bota karşı tek maç, üretim derlemesi)
+- 3-2-1: **"3" 924 · "2" 979 · "1" 1078 ms**, "Hazır ol!" 1051 ms; penceredeki en uzun kare 83 ms, ort 57 fps (en düşük 54).
+- Sonuç/maç sonu anı en uzun kare: **184 ms** (maç sonu +2,5 sn; bir önceki saniye 167 ms). Maç ortası en kötü kare 133 ms (26 fps'lik tek saniye). Maç ort 57 fps.
+- Maç açılışı: maç adresi → ilk kare 856 ms; en uzun görev 240 ms.
+- Şık basış → seçildi: DOM ort 64 (en kötü 87) · boyama ort 112 (en kötü 139) ms.
+- Ses: 160 istek, 158 çalındı; çalınmayan 2: lobide ilk dokunuş sesi geç yüklendi (382 ms), `xp_dolma` faz değişince iptal. Çakışma (<100 ms) 0. Konsol hatası 0.
+- Ham: `tasarim/duzeltme-15eki/hazine-yavas-olcum.json` (+ Klasik/Hazine canlı `ort-cevap-canli.json`).
+
+## Açık / öneri
+- Hazine maç sonu karesi (184 ms) 100 ms hedefinin üstünde; sorumlu paylaş kartı tuvali/lottie (bir önceki turdaki bulgu aynen).
+- Bin Galibiyet metninde Antrenman konusu: yukarıda #1 — karar Ida'nın.
+- Testlerin yeniden yazdığı `tasarim/ses-tani/*`, `tasarim/duello-v4/*` dosyaları commit'e alınmadı.
+
+---
+
 # Basılı tut (3 sn) → doğru şık — bütün modlar (10 Eki 2026)
 
 Ida'nın isteği: özellik Klasik/Turnuva/Grup dışındaki modlara da (Düello dahil) yayılsın, yalnız yetkili hesapta.
