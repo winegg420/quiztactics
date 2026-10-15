@@ -12,7 +12,7 @@
 //      KasaCifteBandi (ikisi de bildi). Hepsi kök .ks-mac / .ks-bitti içinde mutlak katman.
 // Kural yok: yalnız sunum. prefers-reduced-motion → parçacık/yağmur çizilmez, kapı/kadran durağan (kasa-efekt.css).
 // ============================================================
-import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { hareketAzaltildiMi } from "../tasarim/hareket.js";
 import { QtIkon, sinif } from "../tasarim/index.js";
@@ -76,7 +76,9 @@ function Para({ x, y, r = 13 }) {
  * önde dökülen paralar (.ks-kasa-yigin). Seviye (bos/az/orta/dolu/tavan) kapak aralığını, taşan altını ve ışığı belirler.
  * kucuk: üst şerit (dökülen paralar çizilmez).
  */
-export function KasaKasasi({ seviye = "bos", kucuk = false, className }) {
+// 15 Eki 2026 (perf): memo — sandık SVG'si (gradyanlı ~40 öğe, ekranda 2–3 kopya) yalnız seviye/boyut/sınıf değişince yeniden
+// çizilir; maç sayfasının her faz/an güncellemesinde baştan uzlaştırılmıyordu (sonuç anı commit'i).
+export const KasaKasasi = memo(function KasaKasasi({ seviye = "bos", kucuk = false, className }) {
   const k = useId().replace(/:/g, "");
   const paralar = yiginParalari(seviye);
   const tepe = TEPE[seviye] ?? [];
@@ -142,7 +144,7 @@ export function KasaKasasi({ seviye = "bos", kucuk = false, className }) {
       {!kucuk && <g className="ks-kasa-yigin">{paralar.map(([x, y], i) => <Para key={i} x={x} y={y} />)}</g>}
     </svg>
   );
-}
+});
 
 /**
  * Ortak efekt yardımcısı: kaynak öğeden hedef öğeye uçan parçalar.
@@ -151,7 +153,12 @@ export function KasaKasasi({ seviye = "bos", kucuk = false, className }) {
  */
 export function UcanParcalar({ kokRef, kaynak, hedef, adet = 6, tur = "coin", gecikme = 0, sure = 760, dagilim = 36 }) {
   const [p, setP] = useState(null);
-  useLayoutEffect(() => {
+  // 15 Eki 2026 (perf): ölçüm bir sonraki karede (rAF) — eskiden useLayoutEffect'te, sonuç anının commit'i içinde zorunlu
+  // stil/yerleşim + eşzamanlı yeniden çizim yaptırıyor, bekleyen efektleri de aynı göreve çekiyordu (CPU 6x'te ~200 ms'lik
+  // tek kare). rAF'ta yerleşim temiz → ölçüm ucuz; parçalar bir kare (~16 ms) sonra doğar, gecikmeler/süreler aynı.
+  useEffect(() => {
+    let r = requestAnimationFrame(() => {
+    r = null;
     try {
       const kok = kokRef?.current;
       if (!kok || hareketAzaltildiMi()) return;
@@ -175,6 +182,8 @@ export function UcanParcalar({ kokRef, kaynak, hedef, adet = 6, tur = "coin", ge
     } catch (e) {
       console.warn("[Bildim] kasa efekti ölçülemedi:", e?.message ?? e);
     }
+    });
+    return () => { if (r != null) cancelAnimationFrame(r); };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   if (!p) return null;
   return p.liste.map((q) => (

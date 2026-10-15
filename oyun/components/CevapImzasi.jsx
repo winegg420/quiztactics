@@ -58,13 +58,13 @@ function koseYaricapi(hedef) {
   }
 }
 function sikTuval(hedef, pay) {
-  var w = hedef.offsetWidth, hh = hedef.offsetHeight, d = Math.min(2, window.devicePixelRatio || 1), c = document.createElement("canvas");
+  var w = hedef.offsetWidth, hh = hedef.offsetHeight, d = Math.min(2, window.devicePixelRatio || 1), kr = koseYaricapi(hedef), c = document.createElement("canvas");
   c.width = (w + pay * 2) * d; c.height = (hh + pay * 2) * d;
   c.style.cssText = "position:absolute;left:" + (-pay) + "px;top:" + (-pay) + "px;width:" + (w + pay * 2) + "px;height:" + (hh + pay * 2) + "px;pointer-events:none;z-index:4";
   c.className = "ci-tuval";
   c.setAttribute("aria-hidden", "true");
   hedef.appendChild(c); var x = c.getContext("2d"); x.scale(d, d);
-  return { x: x, c: c, w: w, h: hh, p: pay, r: koseYaricapi(hedef), d: d };
+  return { x: x, c: c, w: w, h: hh, p: pay, r: kr, d: d };   // 15 Eki: köşe yarıçapı canvas eklenmeden önce okunur (tek yerleşim)
 }
 function oynatTuval(t, ms, f) {
   var bas = performance.now();
@@ -227,15 +227,17 @@ function v3Tuval(hedef, pay) {
   const sol = Math.max(0, Math.min(pay.yan, Math.floor(hr.left - s.l))), sag = Math.max(0, Math.min(pay.yan, Math.floor(s.r - hr.right)));
   const ust = Math.max(0, Math.min(pay.ust, Math.floor(hr.top - s.t))), alt = Math.max(0, Math.min(pay.alt, Math.floor(s.b - hr.bottom)));
   const w = hedef.offsetWidth + sol + sag, h = hedef.offsetHeight + ust + alt;
+  // 15 Eki 2026 (perf): bütün ölçümler canvas eklenmeden ÖNCE (eskiden ekledikten sonra okunuyordu → ikinci zorunlu
+  // stil/yerleşim; mutlak konumlu canvas şıkkın boyutunu değiştirmez, değerler aynı)
+  const sw = sik.offsetWidth || sr.width, sh = sik.offsetHeight || sr.height, kr = koseYaricapi(hedef);
   const c = document.createElement("canvas");
   c.width = Math.round(w * d); c.height = Math.round(h * d);
   c.style.cssText = "position:absolute;left:" + (-sol) + "px;top:" + (-ust) + "px;width:" + w + "px;height:" + h + "px;pointer-events:none;z-index:4";
   c.className = "ci-tuval";
   c.setAttribute("aria-hidden", "true");
   hedef.appendChild(c);
-  const sw = sik.offsetWidth || sr.width, sh = sik.offsetHeight || sr.height;
   // şıkkın konumu (giriş "pop" ölçeğinden bağımsız: merkezden, ölçeksiz boyutla)
-  const R = { x: sol + (sr.left + sr.width / 2 - hr.left) - sw / 2, y: ust + (sr.top + sr.height / 2 - hr.top) - sh / 2, w: sw, h: sh, r: koseYaricapi(hedef) };
+  const R = { x: sol + (sr.left + sr.width / 2 - hr.left) - sw / 2, y: ust + (sr.top + sr.height / 2 - hr.top) - sh / 2, w: sw, h: sh, r: kr };
   return { c: c, x: c.getContext("2d"), w: w, h: h, d: d, R: R };
 }
 /** Maketteki calistir (hiz = 1): kare süresi 50 ms'de kırpılır, dt 60 fps'e göre ölçeklenir. Bitince canvas kalkar. */

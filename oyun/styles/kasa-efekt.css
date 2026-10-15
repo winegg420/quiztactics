@@ -138,6 +138,8 @@
 .ks-ucan--anahtar { width: 30px; height: 30px; margin: -15px 0 0 -15px; background: none; box-shadow: none;
   display: grid; place-items: center; font-size: 26px; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .35));
   animation-name: ks-ucus-anahtar; }
+/* 15 Eki 2026 (perf): emoji ön ısıtma kopyası (KasaPage) — yerleşime girer, görünmez, oynamaz, dokunuşu almaz */
+.ks-ucan.ks-isit { left: 0; top: 0; animation: none; opacity: 0; visibility: hidden; pointer-events: none; }
 @keyframes ks-ucus {
   0% { opacity: 0; transform: translate(0, 0) scale(.5); }
   18% { opacity: 1; transform: translate(var(--sx), var(--sy)) scale(1.15); }

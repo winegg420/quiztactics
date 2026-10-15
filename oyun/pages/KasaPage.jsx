@@ -10,7 +10,7 @@
 // Kapalıyken (oyun_ayarlari.kasa_modu_acik = 0) giriş ekranı kapalı-mod notunu gösterir; süren maç sürer.
 // iOS: position:fixed + transform aynı öğede YOK (kasa.css).
 // ============================================================
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
@@ -447,7 +447,10 @@ function KasaMac({ id }) {
         // 1092: örnek penceresi ortak sunucu saati modülünde (lib/sunucuSaati.js; yöntem aynı).
         farkRef.current = saatOrnegiEkle(gonderildi, alindi, data.sunucu_zamani) ?? farkRef.current;
         const imza = JSON.stringify({ ...data, sunucu_zamani: null });
-        if (imza !== dImzaRef.current) { dImzaRef.current = imza; setD(data); }
+        // 15 Eki 2026 (perf, madde 4): giriş sahnesi sürerken gelen durum (ilk soru verisi tam "2" anında gelir) GEÇİŞ olarak
+        // işlenir — sayfanın yeniden çizimi bölünebilir olur, sahnenin rakam güncellemesi (3-2-1) onu bekleyip uzamaz
+        // (CPU 6x'te "2" bir kez 1,35 sn sürüyordu). Sahne dışında eskisi gibi hemen.
+        if (imza !== dImzaRef.current) { dImzaRef.current = imza; if (girisAktifRef.current) startTransition(() => setD(data)); else setD(data); }
         setYuklemeHatasi(null);
       }
       if (hataSayisiRef.current) {
@@ -1663,6 +1666,9 @@ function KasaMac({ id }) {
          style={anSonuc?.olcek ? { "--ks-sonuc-olcek": anSonuc.olcek } : undefined}
          className={sinif("m2-mac ks-mac qt-sahne-mac qt-sahne-gok", `ks-mac--${d.faz}`, (gerilim || kararGerilim) && "qt-h-gerilim", d.altin && "ks-mac--altin",
                           anAc?.sars && "ks-mac--sars", girisAktif && "ks-mac--giris", sav?.izliyorum && "ks-mac--izle")}>
+      {/* 15 Eki 2026 (perf): uçan anahtarın emojisi maç ekranı açılırken görünmez kopyayla bir kez şekillendirilir — ilk
+          şekillendirme (renkli emoji yazı tipi) CPU 6x'te ~80–130 ms; eskiden ilk sonuç anının ortasına düşüp kareyi kesiyordu */}
+      <span className="ks-ucan ks-ucan--anahtar ks-isit" aria-hidden="true">🔑</span>
       <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={c("Maçtan çık")}
                    rozet={c("Ortak Hazine")} />
       <KasaUst d={d} ben={ben} rakip={rakip} c={c} seviyeler={seviyeler} tepkiBalonlar={tepki.balonlar}
