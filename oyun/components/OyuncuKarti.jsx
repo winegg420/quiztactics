@@ -33,7 +33,7 @@ const ALANLAR =
   // `is_bot` BİLEREK YOK: gizli botlar gerçek oyuncudan ayırt edilmemeli
   // (kolon `authenticated` rolüne kapalı, bkz. migration 155). İstemci
   // yalnız `acik_bot` görür — adında "Bot" geçen, zaten belli olan botlar.
-  "id, gorunen_ad, gorunen_avatar, gorunum, puan, sampiyonluk, toplam_mac, sehir, ulke, acik_bot, last_seen, seri_gun";
+  "id, gorunen_ad, gorunen_avatar, gorunum, puan, sampiyonluk, toplam_mac, sehir, ulke, acik_bot, seri_gun";   // 1106: last_seen sütunu istemciye kapalı (çevrimiçi → profil_cevrimici RPC)
 
 /**
  * @param {object} o
@@ -103,7 +103,15 @@ export default function OyuncuKarti({
           .eq("id", userId)
           .single();
         if (error) throw error;
-        if (aktif && data) setP(data);
+        // 1106: çevrimiçi noktası sunucudan boolean gelir (last_seen sütunu istemciye kapalı); hata kartı bozmaz.
+        let cevrimici = false;
+        try {
+          const { data: c } = await supabase.rpc("profil_cevrimici", { p_id: userId });
+          cevrimici = c === true;
+        } catch (e) {
+          console.warn("[Bildim] cevrimici durumu alinamadi:", e?.message ?? e);
+        }
+        if (aktif && data) setP({ ...data, cevrimici });
       } catch (e) {
         // Önizleme varsa kart yine de dolu görünür; sessiz kalmıyoruz.
         console.error("[Bildim] oyuncu karti alinamadi:", e);
@@ -115,7 +123,7 @@ export default function OyuncuKarti({
     return () => { aktif = false; };
   }, [userId, onIzleme, deneme]);
 
-  const online = p?.last_seen && Date.now() - new Date(p.last_seen).getTime() < 120000;
+  const online = p?.cevrimici === true;
 
   const sayi = (n) => sayiBicim(Number(n ?? 0));
 

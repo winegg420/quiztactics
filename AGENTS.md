@@ -206,6 +206,17 @@ bitirirsin:
 **İstisna:** yalnızca sahibinin bilebileceği bir şey varsa (gerçek şifre,
 API anahtarı doğruluğu, ürün kararı) sor.
 
+## Siteyi tarama/test
+
+- Oyun masaüstü tarayıcıda **`https://quiztactics.com/?dev=1`** ile açılır (kurulum kapısı geçilir; oturum boyunca
+  hatırlanır, sekme kapanınca biter). Bu adres arayüz metinlerinde geçmez.
+- **Robot doğrulaması (Cloudflare Turnstile) çıkarsa dur** ve Ida'ya bırak; aşmaya, tekrar tekrar denemeye çalışma.
+- Test **Ida'nın hesabıyla** yapılır (yeni hesap/misafir açılmaz, başka oyuncuya işlem yapılmaz).
+- **Oyunun ses/müzik ayarına dokunma:** ayar o cihazdaki uygulamayla ortaktır (`bildim_muzik` / `bildim_ses`); açıp
+  kapatmak telefondaki oyuncunun deneyimini de değiştirir.
+- **Telefon hızındaki kasmaları masaüstü tarayıcı göstermez.** Bunun için `araclar/yavas-android-olcum.mjs`
+  (CPU 6x yavaş + yavaş 4G + 390×844 Android UA, soğuk/sıcak açılış). Canlı veritabanına yük kuralları (yukarıda) aynen geçerli.
+
 ## Jev iş akışı (bütün projeler)
 
 <!-- TEK KAYNAK: C:/Users/ida/.claude/jev/is-akisi.md — bu bölüm oradan birebir kopyalanır

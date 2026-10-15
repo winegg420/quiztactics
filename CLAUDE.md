@@ -194,3 +194,14 @@ API anahtarı doğruluğu, ürün kararı) sor.
 - Gerekçe: 8 Eki 2026 ölçümünde canlı API isteklerinin %96,5'i (24 saatte
   85.576 isteğin ~76 bini) bu bilgisayarın otomatik testlerinden geliyordu ve
   Supabase log kotasını aşırıyordu.
+
+## Siteyi tarama/test
+
+- Oyun masaüstü tarayıcıda **`https://quiztactics.com/?dev=1`** ile açılır (kurulum kapısı geçilir; oturum boyunca
+  hatırlanır, sekme kapanınca biter). Bu adres arayüz metinlerinde geçmez.
+- **Robot doğrulaması (Cloudflare Turnstile) çıkarsa dur** ve Ida'ya bırak; aşmaya, tekrar tekrar denemeye çalışma.
+- Test **Ida'nın hesabıyla** yapılır (yeni hesap/misafir açılmaz, başka oyuncuya işlem yapılmaz).
+- **Oyunun ses/müzik ayarına dokunma:** ayar o cihazdaki uygulamayla ortaktır (`bildim_muzik` / `bildim_ses`); açıp
+  kapatmak telefondaki oyuncunun deneyimini de değiştirir.
+- **Telefon hızındaki kasmaları masaüstü tarayıcı göstermez.** Bunun için `araclar/yavas-android-olcum.mjs`
+  (CPU 6x yavaş + yavaş 4G + 390×844 Android UA, soğuk/sıcak açılış). Canlı veritabanına yük kuralları (yukarıda) aynen geçerli.

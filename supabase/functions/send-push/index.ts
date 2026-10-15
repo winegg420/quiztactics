@@ -52,7 +52,8 @@ Deno.serve(async (req) => {
             endpoint: abone.endpoint,
             keys: { p256dh: abone.p256dh, auth: abone.auth },
           },
-          JSON.stringify({ baslik, govde, url: url ?? "/" }),
+          // Başlık her zaman marka adı (15 Eki 2026); olay metni gövdede. `baslik` girdisi geriye dönük kabul edilir, kullanılmaz.
+          JSON.stringify({ baslik: "Quiz Tactics", govde, url: url ?? "/" }),
         );
         basarili++;
       } catch (hata) {

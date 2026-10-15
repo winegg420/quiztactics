@@ -205,10 +205,12 @@ self.addEventListener("push", (event) => {
     veri = { baslik: "Quiz Tactics", govde: event.data.text() };
   }
   event.waitUntil(
-    self.registration.showNotification(veri.baslik ?? "Quiz Tactics", {
+    // Başlık HER ZAMAN "Quiz Tactics" (15 Eki 2026): olay metni gövdede ("Sanat kategorisinde Kalfa oldun!").
+    // icon = uygulama simgesi (Q), badge = tek renk şeffaf Q (Android durum çubuğu; araclar/bildirim-rozet-uret.mjs).
+    self.registration.showNotification("Quiz Tactics", {
       body: veri.govde ?? "",
-      icon: "/bildim-icon-192.png",
-      badge: "/bildim-icon-192.png",
+      icon: "/quiztactics-q-icon-192.png",
+      badge: "/quiztactics-q-rozet-96.png",
       data: { url: veri.url ?? "/" },
     })
   );

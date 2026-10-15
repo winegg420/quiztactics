@@ -25,6 +25,7 @@ import {
 import "../tasarim/ekranlar/l-sosyal.css";
 // 590: çevrimiçi durumu YALNIZ bu listede (Realtime Presence; oyunun başka yerinde gösterilmez)
 import { useArkadasCevrimici } from "../lib/cevrimici.js";
+import { useArkadasSonGorulme, sonGorulmeMetni } from "../lib/sonGorulme.js";
 import "./arkadasCevrimici.css";
 import { gorunenAd } from "../lib/oyuncu.js";
 import { useArkadasaMacTeklifi } from "../lib/arkadasMaci.js";
@@ -317,6 +318,8 @@ export default function FriendsPage() {
   // 590: kabul edilmiş arkadaşların Presence kanalları dinlenir (ilk DINLEME_UST_SINIR kişi).
   // Çevrimdışı arkadaş haritada yoktur → satırda hiçbir şey çizilmez.
   const cevrimici = useArkadasCevrimici(arkadaslarHam.map((f) => digerProfil(f)?.id));
+  // 1106: çevrimdışı arkadaşta "Son görülme" (sunucu kuralı: yalnız arkadaş, gizleyen görünmez ve görmez)
+  const sonGorulme = useArkadasSonGorulme(arkadaslarHam.map((f) => digerProfil(f)?.id), listeDurum === "hazir");
   // Sıra: puan çoktan aza (Ida, 8 Eki 2026); eşit puanda çevrimiçi → maçta → çevrimdışı, sonra sunucu sırası.
   const DURUM_SIRA = { cevrimici: 0, mac: 1 };
   const arkadaslar = arkadaslarHam
@@ -632,6 +635,7 @@ export default function FriendsPage() {
               const aktifMac = !bekleyen ? aktifMaclar.get(p?.id) : null;
               const durum = cevrimici.get(p?.id) ?? null;   // "cevrimici" | "mac" | null
               const durumEtiket = durum === "mac" ? tt("Maçta") : durum === "cevrimici" ? tt("Çevrimiçi") : null;
+              const sonGorulmeYazi = !durum ? sonGorulmeMetni(sonGorulme.get(p?.id)) : null;
               return (
                 <div key={f.id} role="listitem"
                      className={sinif("qt-satir-kap ar-kap", durum && `ar-kap--${durum}`, yeniArkadas === f.id && "ar-kap--yeni", sirali)}
@@ -643,7 +647,7 @@ export default function FriendsPage() {
                       className="ar-ac"
                       onClick={() => setKartHedef(p)}
                       aria-haspopup="dialog"
-                      aria-label={tt("{ad} profilini aç", { ad: p?.gorunen_ad ?? tt("Arkadaşın") }) + (durumEtiket ? `, ${durumEtiket}` : "")}
+                      aria-label={tt("{ad} profilini aç", { ad: p?.gorunen_ad ?? tt("Arkadaşın") }) + (durumEtiket ? `, ${durumEtiket}` : sonGorulmeYazi ? `, ${tt("Son görülme: {0}", { 0: sonGorulmeYazi })}` : "")}
                     >
                       <span className="ar-avatar-kap">
                         <AvatarCerceve profile={p} boyut={52} />
@@ -661,6 +665,11 @@ export default function FriendsPage() {
                         </span>
                         {durumEtiket && (
                           <span className={`ar-durum-etiket ar-durum-etiket--${durum}`} aria-hidden="true">{durumEtiket}</span>
+                        )}
+                        {sonGorulmeYazi && (
+                          <span className="ar-son-gorulme" title={tt("Son görülme: {0}", { 0: sonGorulmeYazi })}>
+                            <QtIkon ad="saat" boyut={12} /> {sonGorulmeYazi}
+                          </span>
                         )}
                       </span>
                     </button>

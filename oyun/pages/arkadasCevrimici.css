@@ -51,6 +51,19 @@
   background: var(--qt-dogru-acik, #dcf8ea);
   color: var(--qt-dogru-koyu, #137a45);
 }
+/* 1106: çevrimdışı arkadaşta "son görülme" — sönük, tek satır, etiketle aynı hizada */
+.ar-son-gorulme {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--qt-yazi-soluk, #5b6477);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
 .ar-durum-etiket--mac {
   background: var(--qt-uyari-acik, #fff1d6);
   color: #8a4200;

@@ -225,6 +225,23 @@ export default function ProfilePage() {
           : tt("Kapalı. Açınca tarayıcı izin isteyecek.");
 
 
+  const [sonGorulmeKaydediliyor, setSonGorulmeKaydediliyor] = useState(false);
+  const [sonGorulmeHata, setSonGorulmeHata] = useState(null);
+  const sonGorulmeDegistir = async (yeni) => {
+    setSonGorulmeHata(null);
+    setSonGorulmeKaydediliyor(true);
+    try {
+      const { error } = await supabase.rpc("son_gorulme_gizli_ayarla", { p_gizli: yeni });
+      if (error) throw error;
+      await refreshProfile(user?.id);
+    } catch (e) {
+      console.error("[Bildim] son görülme ayarı kaydedilemedi:", e);
+      setSonGorulmeHata(hataMesaji(e, tt("Ayar kaydedilemedi. Tekrar dene.")));
+    } finally {
+      setSonGorulmeKaydediliyor(false);
+    }
+  };
+
   const silKapat = () => { setSilOnay(false); setSilMetin(""); };
   const hesabiSil = async () => {
     setSilHata(null);
@@ -398,6 +415,15 @@ export default function ProfilePage() {
               onDegis={bildirimDegistir}
             />
             {bildirimHata && <p className="qt-pf-hata" role="alert">{bildirimHata}</p>}
+            {/* 1106: arkadaşlara "son görülme" gösterme (sunucu kuralı; gizleyen başkalarınınkini de görmez) */}
+            <QtAnahtar
+              acik={Boolean(profile?.son_gorulme_gizli)}
+              etiket={tt("Son görülmemi gizle")}
+              aciklama={tt("Açıkken arkadaşların son görülme zamanını sen de göremezsin.")}
+              devreDisi={sonGorulmeKaydediliyor}
+              onDegis={sonGorulmeDegistir}
+            />
+            {sonGorulmeHata && <p className="qt-pf-hata" role="alert">{sonGorulmeHata}</p>}
 
             {/* Dil: arayüz + soru dili. Seçim profile yazılır, sayfa bir kez yenilenir. */}
             <div className="qt-pf-ayar-satir">
