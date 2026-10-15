@@ -598,7 +598,9 @@ a.qt-dk-elmas-satir * { text-decoration: none; }
 .qt-dk .qt-dk-kural-oge--coin { background: var(--qt-coin-acik); border-color: var(--qt-coin-dudak); color: var(--qt-coin-yazi); }
 .qt-dk .qt-dk-kural-oge--elmas { background: var(--qt-ikinci-acik); border-color: var(--qt-ikinci); color: var(--qt-ikinci-koyu); }
 .qt-dk .qt-dk-kural-oge > svg { flex: none; width: 16px; height: 16px; }
-.qt-dk .qt-dk-kural-oge b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-xs); }
+/* Yazı kesilmez (İngilizce "With coins: Jokers, Rare" dar hapa sığmıyordu): sığmazsa iki satıra iner, hap köşesi yumuşar */
+.qt-dk .qt-dk-kural-oge { border-radius: 16px; }
+.qt-dk .qt-dk-kural-oge b { min-width: 0; overflow-wrap: break-word; font-size: var(--qt-y-xs); }
 @media (max-width: 380px) {
   .qt-dk .qt-dk-kural { gap: 4px; }
   .qt-dk .qt-dk-kural-oge { padding-inline: 6px; gap: 4px; }

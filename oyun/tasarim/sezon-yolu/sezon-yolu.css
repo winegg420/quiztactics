@@ -877,6 +877,9 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 .sy-sahne .sy-kutu.sy-kutu--alindi[data-tur="tepki_paketi"] .sy-kutu-cerceve { background: var(--sy-tur-tepki); }
 .sy-sahne .sy-kutu--alindi .sy-kutu-cerceve > :not(.sy-kutu-tik) { opacity: 1; }
 .sy-sahne .sy-kutu--alindi .sy-kutu-alindi { color: #7ee2a0; }
+/* 28. seviye satırı açık zeminde (sol yuzey-2, sağ altın şerit): koyu sahnenin açık yazıları burada okunmaz → koyu yazı (≥ 4,5:1) */
+.sy-sahne .sy-satir--final .sy-kutu-not { color: var(--qt-coin-yazi); }
+.sy-sahne .sy-satir--final .sy-kutu--alindi .sy-kutu-alindi { color: var(--qt-dogru-koyu); }
 .sy-sahne .sy-kutu-tik { width: 26px; height: 26px; border-color: #fff; }
 
 /* Battle Pass kolu, BP yokken: renkli ve çekici (soluk gri değil) + altın kilit rozeti */
