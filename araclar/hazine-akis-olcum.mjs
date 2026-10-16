@@ -14,6 +14,11 @@
 //                        telefonun saati 70. sn'de +1,5 sn, 140. sn'de −1 sn atlar; 4. turda sayfa 4 sn arka plana gidip
 //                        döner (görünürlük + yaşam döngüsü dondurma). Eski taklit (1 sn kapanış, hep cevap) bu takılmayı
 //                        hiç üretmiyordu → "çakışma 0".
+//             yavas_sunucu — (16 Eki 2026, canlı 14:04:40–14:05:20 UTC: bütün RPC'ler 1,7–4,2 sn) dalgalı kurallar + maçın
+//                        50.–110. sn'si arasında kasa_durum/cevap/karar satır kilidinde sıraya girer, 1–3,5 sn işlenir,
+//                        sunucu_zamani yanıtın sonunda (saat örneği ileri kayar → erken "süre doldu" bildirimi)
+//   Faz geçişi (bütün senaryolar): sunucunun fazı değiştirdiği an → istemcinin o fazı gördüğü yanıt; erken süre bildirimi
+//   ('Süre dolmadı' reddi) sayısı.
 //   Sayaç ölçüsü (bütün senaryolar): sayaç 0'da (ya da "•••") kalma süresi, ileri/geri sıçrama, rakam süreleri.
 //
 // Sürümden bağımsız ölçüm (sayfaya enjekte edilir; eski sürüm de ölçülebilir):
@@ -95,7 +100,7 @@ class Sunucu {
   turPlani(tur) {
     if (!this.plan[tur]) {
       const g = this.senaryo === "gecikmeli";
-      this.plan[tur] = { benDogru: this.r() < 0.7, rakipDogru: this.r() < 0.6, cevapsiz: this.senaryo === "dalgali" && this.r() < 0.4,
+      this.plan[tur] = { benDogru: this.r() < 0.7, rakipDogru: this.r() < 0.6, cevapsiz: (this.senaryo === "dalgali" || this.senaryo === "yavas_sunucu") && this.r() < 0.4,
         benMs: 1800 + Math.round(this.r() * 3200),
         rakipMs: g ? 3000 + Math.round(this.r() * 6000) : null,
         botKararMs: g ? 2500 + Math.round(this.r() * 1500) : 1000 + Math.round(this.r() * 1000), botAc: this.r() < 0.5 };
@@ -113,6 +118,15 @@ class Sunucu {
     this.kaydet("baslangic", { faz_bitis: this.k.faz_bitis });
   }
   kaydet(olay, ek = {}) { this.log.push({ t: Date.now(), olay, tur: this.k.tur, ...ek }); }
+  // yavas_sunucu (16 Eki 2026, canlı 14:04:40–14:05:20 UTC yavaşlaması): maçın 50.–110. sn'si arasında her kasa_durum /
+  // kasa_cevap / kasa_karar satır kilidinde sıraya girer ve 1–3,5 sn işlenir; sunucu_zamani yanıtın SONUNDA (clock_timestamp)
+  yavasMi() { const g = Date.now() - this.t0; return this.senaryo === "yavas_sunucu" && g > 50000 && g < 110000; }
+  kilitli(f) {
+    const onceki = this.kilit ?? Promise.resolve();
+    let birak;
+    this.kilit = new Promise((c) => { birak = c; });
+    return onceki.then(async () => { try { return await f(); } finally { birak(); } });
+  }
   soruAc(kararSonrasi) {
     const k = this.k, now = Date.now();
     k.faz = "cevap"; k.cevaplar = {}; k.sonuc = null; k.karar = null;
@@ -179,7 +193,7 @@ class Sunucu {
       } else if (k.faz === "cevap") {
         const p = this.turPlani(k.tur);
         if (p.rakipAt != null && now >= p.rakipAt && !k.cevaplar[RAKIP]) this.cevapla(RAKIP, p.rakipDogru ? 1 : 2);
-        const bitti = now > k.faz_bitis + (this.senaryo === "dalgali" ? 5000 : 1000);   // canlı: cevap_gec_varis_sn 5
+        const bitti = now > k.faz_bitis + ((this.senaryo === "dalgali" || this.senaryo === "yavas_sunucu") ? 5000 : 1000);   // canlı: cevap_gec_varis_sn 5
         if (!((k.cevaplar[BEN] || bitti) && (k.cevaplar[RAKIP] || bitti))) return;
         this.cozumle();
       } else if (k.faz === "sonuc") {
@@ -198,7 +212,7 @@ class Sunucu {
       } else if (k.faz === "karar") {
         const p = this.turPlani(k.tur);
         if (k.karar.veren === RAKIP && p.botKararAt != null && now >= p.botKararAt) this.kararUygula(p.botAcKarar);
-        else if (now >= k.faz_bitis + (this.senaryo === "dalgali" ? 3000 : 1000)) this.kararUygula(false, true);   // canlı: secim_gec_varis_sn 3
+        else if (now >= k.faz_bitis + ((this.senaryo === "dalgali" || this.senaryo === "yavas_sunucu") ? 3000 : 1000)) this.kararUygula(false, true);   // canlı: secim_gec_varis_sn 3
         else return;
       } else return;
     }
@@ -391,6 +405,15 @@ function cozumle(veri) {
     }
   }
   const pencere = (t) => { let p = null; for (const w of pencereler) if (w.t <= t) p = w; return p?.anahtar ?? "önce"; };
+  // 16 Eki 2026: faz geçiş gecikmesi — sunucunun fazı değiştirdiği an → istemcinin o fazı ilk gördüğü kasa_durum yanıtı;
+  // erken "süre doldu" bildirimi ('Süre dolmadı' reddi) sayısı
+  const fazGec = [];
+  for (const x of sunucuLog) if (["cevap", "sonuc", "karar", "bitti"].includes(x.olay)) {
+    const an = x.olay === "bitti" ? "bitti" : `${x.tur}-${x.olay}`;
+    const p = pencereler.find((w) => w.anahtar === an);
+    if (p && p.t >= x.t - 50) fazGec.push({ olay: x.olay, tur: x.tur, ms: p.t - x.t });
+  }
+  const erkenBildirim = sunucuLog.filter((x) => /^erken:/.test(x.olay)).map((x) => ({ olay: x.olay, tur: x.tur }));
   // istek kayıtları (epoch)
   const istekler = sesKayit.map((k) => ({ ...k, te: Math.round(timeOrigin + k.t) }));
   const dosyaRol = new Map();
@@ -490,6 +513,7 @@ function cozumle(veri) {
   return {
     sesOmru,
     sayac: sayacOlcu,
+    fazGec, erkenBildirim,
     perf: perfOzet(veri),
     soruSes, kesikEtkilesim, sayacTiki,
     pencere: pencereler.length, calan: calanlar.length, istek: istekler.length,
@@ -693,6 +717,11 @@ try {
       if (u.includes("/rpc/ses_secimleri_oyun")) return json(SECIMLER ?? {});
       if (u.includes("/rpc/mac_sonu_ozet")) return json(OZET(sunucu.k.kazanan === BEN));
       if (u.includes("/rpc/kasa_durum")) {
+        if (sunucu.yavasMi()) {
+          await uyu(RTT / 2);
+          const d = await sunucu.kilitli(async () => { const v = sunucu.durumJson(); await uyu(1000 + Math.random() * 2500); v.sunucu_zamani = new Date().toISOString(); return v; });
+          return json(d, RTT / 2);
+        }
         if (senaryo === "dalgali") { await uyu(30 + Math.random() * 120); const d = sunucu.durumJson(); return json(d, 60 + Math.random() * 1340); }
         const ms = gecikme(); await uyu(ms / 2); const d = sunucu.durumJson(); return json(d, ms / 2);
       }
@@ -701,23 +730,29 @@ try {
       if (u.includes("/rpc/kasa_cevap")) {
         await uyu(RTT / 2);
         let red = null;
-        try {
+        const isle = () => { try {
           const p = JSON.parse(req.postData() || "{}"); sunucu.ilerlet();
           // 1114: "cevabım yok" yalnız süre gerçekten dolduysa (erken → 'Süre dolmadı', istemci yeniden dener)
-          if (Number(p.p_cevap) === -1 && sunucu.k.faz === "cevap" && Date.now() < sunucu.k.faz_bitis) red = "Süre dolmadı";
+          if (Number(p.p_cevap) === -1 && sunucu.k.faz === "cevap" && Date.now() < sunucu.k.faz_bitis) { red = "Süre dolmadı"; sunucu.kaydet("erken:cevap"); }
           else { sunucu.cevapla(BEN, Number(p.p_cevap)); if (Number(p.p_cevap) === -1) sunucu.kaydet("cevap:ben-suredoldu"); }
           sunucu.ilerlet();
-        } catch { /* */ }
+        } catch { /* */ } };
+        if (sunucu.yavasMi()) await sunucu.kilitli(async () => { isle(); await uyu(1000 + Math.random() * 2500); }); else isle();
         if (red) return uyu(RTT / 2).then(() => r.fulfill({ status: 400, contentType: "application/json", body: JSON.stringify({ code: "P0001", message: red }) })).catch(() => {});
         return json(null, RTT / 2);
       }
       if (u.includes("/rpc/kasa_karar")) {
         await uyu(RTT / 2);
-        try {
+        let red = null;
+        const isle = () => { try {
           const p = JSON.parse(req.postData() || "{}");
           sunucu.ilerlet();
-          if (sunucu.k.faz === "karar" && sunucu.k.karar?.veren === BEN) sunucu.kararUygula(p.p_ac === true, p.p_ac == null);
-        } catch { /* */ }
+          // 1063: "karar vermedim" (p_ac null) yalnız süre gerçekten dolduysa (erken → 'Süre dolmadı')
+          if (p.p_ac == null && sunucu.k.faz === "karar" && Date.now() < sunucu.k.faz_bitis) { red = "Süre dolmadı"; sunucu.kaydet("erken:karar"); }
+          else if (sunucu.k.faz === "karar" && sunucu.k.karar?.veren === BEN) sunucu.kararUygula(p.p_ac === true, p.p_ac == null);
+        } catch { /* */ } };
+        if (sunucu.yavasMi()) await sunucu.kilitli(async () => { isle(); await uyu(1000 + Math.random() * 2500); }); else isle();
+        if (red) return uyu(RTT / 2).then(() => r.fulfill({ status: 400, contentType: "application/json", body: JSON.stringify({ code: "P0001", message: red }) })).catch(() => {});
         return json(null, RTT / 2);
       }
       if (u.includes("/rpc/kasa_joker_durumu")) return json([{ sinir: null, kullanilan: 0, ucretsiz_elli_kaldi: false, kilitli: false, soruda_kullanildi: false, kullanim_sayilari: {}, tur_basi_sinir: 1 }]);
@@ -857,6 +892,8 @@ try {
       console.log(`   maç sonu: ${f(c.perf.mac_sonu)} · uzun görevler (bitişten ms, süre) ${JSON.stringify(c.perf.mac_sonu?.uzun_liste ?? [])}`);
       console.log(`         sonuç ${f(c.perf.sonuc)} · AÇ anı ${f(c.perf.ac)} · DEVAM anı ${f(c.perf.devam)} · soru ${f(c.perf.soru)}`);
     }
+    { const g = (o) => { const v = c.fazGec.filter((x) => x.olay === o).map((x) => x.ms); return v.length ? `${o} ort ${Math.round(v.reduce((a, b) => a + b, 0) / v.length)} / en kötü ${Math.max(...v)} ms` : `${o} —`; };
+      console.log(`   faz geçişi (sunucu → istemci): ${["sonuc", "karar", "cevap", "bitti"].map(g).join(" · ")} · erken süre bildirimi ${c.erkenBildirim.length} ${JSON.stringify(c.erkenBildirim)}`); }
     { const so = c.sayac; console.log(`   sayaç: 0'da bekleme ${so.sifir_bekleme.length} kez, > 1 sn ${so.sifir_uzun.length} (en uzun ${Math.max(0, ...so.sifir_bekleme.map((x) => x.ms))} ms) · sıçrama ${so.sicrama.length} ${JSON.stringify(so.sicrama.slice(0, 4))} · rakam ${JSON.stringify(so.rakam_ms)}`); }
     console.log(`${ETIKET} · ${senaryo} #${m}: tur ${sunucu.k.tur}, ses ${c.calan} (istek ${c.istek}) · taşma ${c.tasma.length} · geç ${c.gec.length} · eşzamanlı ${c.eszaman.length} · kesik anim ${c.kesik.length}/${c.kesik.length + c.bitenAnim} · 3-2-1 ${JSON.stringify(c.tikAralik)} · soru↔ses ${JSON.stringify(c.soruSes.map((x) => x.farkMs))} · sayaç ilk ${JSON.stringify(c.sayacIlk.map((x) => x.ilk))} · hata ${hatalar.length}`);
     { const so = c.sesOmru; console.log(`   ses ömrü: anlamlı ${so.anlamli} · ANİ kesilen ${so.ani_kesilen} · yumuşak biten ${so.yumusak_biten} · çalarken yeni ekran (>150 ms kaldı) ${so.calarken_yeni_ekran} · pencereye kısaltılan ${so.kisaltilan}`);
@@ -887,6 +924,9 @@ try {
   fs.writeFileSync(path.join(CIKTI, `tablo-${ETIKET}.md`), `# Hazine akış ölçümü — ${ETIKET}\n\n| maç | tür | ses / animasyon | an | ölçü |\n|---|---|---|---|---|\n${satir.join("\n")}\n`);
   const top = (f) => sonuclar.reduce((n, x) => n + f(x), 0);
   console.log(`\nSAYAÇ ${ETIKET}: 0'da > 1 sn ${top((x) => x.sayac?.sifir_uzun.length ?? 0)} kez (en uzun ${Math.max(0, ...sonuclar.flatMap((x) => (x.sayac?.sifir_bekleme ?? []).map((y) => y.ms)))} ms) · ileri/geri sıçrama ${top((x) => x.sayac?.sicrama.length ?? 0)} · rakam en kısa/uzun ${Math.min(...sonuclar.map((x) => x.sayac?.rakam_ms?.en_kisa ?? 9999))}/${Math.max(0, ...sonuclar.map((x) => x.sayac?.rakam_ms?.en_uzun ?? 0))} ms`);
+  { const v = (o) => sonuclar.flatMap((x) => (x.fazGec ?? []).filter((y) => y.olay === o).map((y) => y.ms));
+    const oz = (o) => { const a = v(o); return a.length ? `${o} ort ${Math.round(a.reduce((p, q) => p + q, 0) / a.length)} · en kötü ${Math.max(...a)} · > 1 sn ${a.filter((x) => x > 1000).length}/${a.length}` : `${o} —`; };
+    console.log(`\nFAZ GEÇİŞİ ${ETIKET} (sunucu → istemci, ms): ${["sonuc", "karar", "cevap", "bitti"].map(oz).join(" | ")} · erken süre bildirimi ${top((x) => x.erkenBildirim?.length ?? 0)}`); }
   console.log(`\nSES ÖMRÜ ${ETIKET}: anlamlı ${top((x) => x.sesOmru?.anlamli ?? 0)} · ANİ kesilen ${top((x) => x.sesOmru?.ani_kesilen ?? 0)} · yumuşak biten ${top((x) => x.sesOmru?.yumusak_biten ?? 0)} · çalarken yeni ekran (>150 ms kaldı) ${top((x) => x.sesOmru?.calarken_yeni_ekran ?? 0)} · pencereye kısaltılan ${top((x) => x.sesOmru?.kisaltilan ?? 0)}`);
   console.log(`\nTOPLAM ${ETIKET}: maç ${sonuclar.length} · faz taşması ${top((x) => x.tasma.length)} · geç çalma ${top((x) => x.gec.length)} · eşzamanlı ${top((x) => x.eszaman.length)} · kesilen animasyon ${top((x) => x.kesik.length)} · askıda başlayan ${top((x) => x.askidaCalan)}`);
 }
