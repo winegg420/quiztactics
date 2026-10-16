@@ -3,6 +3,8 @@
 // Menüde yok; adres: /yonetim/izleme. Son 24 saat: hata sayısı + en sık 10 hata, olaylar,
 // maçlar (mod başına başladı/bitti), aktif kullanıcı, veritabanı sağlığı, uyarı kontrolü.
 // Tek RPC + tek ping; otomatik yenileme YOK (nano DB) — "Yenile" düğmesiyle.
+// 1113 (16 Eki 2026): "Akış bozulmaları" (son 24 saat / 7 gün: mod × olay, en kötü 20, etkilenen oyuncu) + günlük özet
+// e-postasının durumu ve elle test gönderimi (izleme_gunluk_ozet_elle — sahip, 10 dakikada en çok 1).
 // ============================================================
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
@@ -13,7 +15,69 @@ import { QtDugme, QtIskelet, QtKart } from "../tasarim/index.js";
 import "../tasarim/ekranlar/izleme.css";
 
 const OLAY_AD = { kayit: "Kayıt", giris: "Giriş (oturum)", kurulum: "Kurulum", davet_eslesti: "Davet eşleşti" };
-const MOD_AD = { klasik: "Klasik", duello: "Düello", kasa: "Kasa", grup: "Grup", turnuva: "Turnuva", saf_bilgi: "Saf Bilgi" };
+const MOD_AD = { klasik: "Klasik", duello: "Düello", kasa: "Kasa", grup: "Grup", turnuva: "Turnuva", saf_bilgi: "Saf Bilgi", hazine: "Hazine" };
+// 1113 akış bozulması türleri (eşikler oyun/lib/akisIzleme.js)
+const AKIS_AD = { sayac_sapma: "Sayaç saptı (> 700 ms)", sayac_sifir: "Sayaç 0'da kaldı (> 1 sn)", faz_gec: "Geçiş geç / atlama (> 1 sn)",
+  donma: "Donma (> 500 ms)", ses_gec: "Ses geç (> 300 ms)", ses_yok: "Ses çalmadı" };
+
+function AkisBolumu({ akis }) {
+  const [donem, setDonem] = useState("s24");
+  const a = akis?.[donem];
+  return (
+    <QtKart className="yi-bolum">
+      <div className="yi-ust">
+        <h2 className="qt-baslik-3">{tt("Akış bozulmaları")}</h2>
+        <div className="yi-gun" role="group" aria-label={tt("Dönem")}>
+          {[["s24", "Son 24 saat"], ["g7", "Son 7 gün"]].map(([k, ad]) => (
+            <button key={k} type="button" className="yi-gun-dugme" aria-pressed={donem === k} onClick={() => setDonem(k)}>{tt(ad)}</button>
+          ))}
+        </div>
+      </div>
+      {!a ? <p className="yi-alt">{tt("Veri yok (1113 uygulanmamış olabilir).")}</p> : (
+        <>
+          <dl className="yi-sayilar">
+            <Sayi ad={tt("Kayıt")} deger={a.toplam} ton={a.toplam > 0 ? "yanlis" : undefined} />
+            <Sayi ad={tt("Etkilenen oyuncu")} deger={a.kisi} />
+            <Sayi ad={tt("Maç")} deger={a.mac} />
+          </dl>
+          {a.mod_olay.length === 0 ? <p className="yi-alt">{tt("Bu dönemde akış bozulması yok.")}</p> : (
+            <>
+              <table className="yi-tablo">
+                <thead><tr><th>{tt("Mod")}</th><th>{tt("Olay")}</th><th className="yi-sag">{tt("Adet")}</th><th className="yi-sag">{tt("Kişi")}</th><th className="yi-sag">{tt("Ort / en kötü")}</th></tr></thead>
+                <tbody>
+                  {a.mod_olay.map((m) => (
+                    <tr key={`${m.mod}-${m.olay}`}>
+                      <td>{tt(MOD_AD[m.mod] ?? m.mod)}</td><td>{tt(AKIS_AD[m.olay] ?? m.olay)}</td>
+                      <td className="yi-sag">{m.sayi}</td><td className="yi-sag">{m.kisi}</td>
+                      <td className="yi-sag">{m.ort_ms} / {m.en_kotu_ms} ms</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <h3 className="yi-huni-alt-baslik">{tt("En kötü 20 kayıt")}</h3>
+              <table className="yi-tablo">
+                <thead><tr><th className="yi-sag">{tt("ms")}</th><th>{tt("Olay")}</th><th>{tt("Cihaz")}</th></tr></thead>
+                <tbody>
+                  {a.en_kotu.map((k, i) => (
+                    <tr key={i}>
+                      <td className="yi-sag">{k.gecikme_ms}</td>
+                      <td>
+                        <div className="yi-mesaj">{tt(MOD_AD[k.mod] ?? k.mod)} · {tt(AKIS_AD[k.olay] ?? k.olay)}{k.an ? ` · ${k.an}` : ""}</div>
+                        <div className="yi-alt">{tarih(k.zaman)} · {k.surum || "—"}</div>
+                      </td>
+                      <td>{k.cihaz ?? "—"}/{k.kip ?? "?"}{k.ag ? ` · ${k.ag}` : ""}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
+          <p className="yi-alt">{tt("Oyun kendi zamanlamasını ölçer; maçta aynı tür en çok 3 kez, oturumda en çok 40 kayıt. Arka planda geçen fazlar sayılmaz.")}</p>
+        </>
+      )}
+    </QtKart>
+  );
+}
 // 1107 Huni: adım etiketleri (hesap = kohort tabanı; D1/D7 kayda göre — tutundurma)
 const HUNI_AD = { kurulum: "Kurulum", hesap: "Hesap / misafir", mac1: "İlk maçı bitirdi", mac2: "İkinci maçı bitirdi", d1: "Ertesi gün döndü (D1)", d7: "7. gün döndü (D7)" };
 
@@ -153,6 +217,19 @@ export default function YonetimIzlemePage() {
   useEffect(() => { yukle(); }, [yukle]);
 
   const esikAsildi = ozet && ozet.hata_10dk >= ozet.esik;
+  // 1113: günlük özet e-postasını elle (test) gönder — sunucu 10 dakikada en çok 1 kez kabul eder
+  const [testDurum, setTestDurum] = useState(null);
+  const testGonder = async () => {
+    setTestDurum("gonderiliyor");
+    try {
+      const { data, error } = await supabase.rpc("izleme_gunluk_ozet_elle");
+      if (error) throw error;
+      setTestDurum(data?.gonderildi ? "gonderildi" : data?.neden === "sinir" ? "sinir" : "olmadi");
+    } catch (e) {
+      console.error("[İzleme] test e-postası:", e?.message ?? e);
+      setTestDurum("olmadi");
+    }
+  };
 
   return (
     <div className="yi">
@@ -198,6 +275,8 @@ export default function YonetimIzlemePage() {
             )}
           </QtKart>
 
+          <AkisBolumu akis={ozet.akis} />
+
           <QtKart className="yi-bolum">
             <h2 className="qt-baslik-3">{tt("Olaylar")}</h2>
             <dl className="yi-sayilar">
@@ -227,6 +306,17 @@ export default function YonetimIzlemePage() {
               {tt("Son uyarı e-postası")}: <strong>{tarih(ozet.son_uyari)}</strong>
               {ozet.son_uyari && <> · {ozet.son_uyari_sayi} {tt("hata")} · {tt("yanıt")} {ozet.son_uyari_kod ?? "—"}</>}
             </p>
+            <p className="yi-alt">
+              {tt("Son günlük özet (08:00 TSİ)")}: <strong>{tarih(ozet.gunluk_son)}</strong>
+              {" · "}{tt("yanıt")} {ozet.gunluk_kod ?? "—"}
+            </p>
+            <QtDugme tur="ikincil" onClick={testGonder} disabled={testDurum === "gonderiliyor"}>{tt("Test e-postası gönder")}</QtDugme>
+            {testDurum && testDurum !== "gonderiliyor" && (
+              <p className="yi-alt" role="status">
+                {testDurum === "gonderildi" ? tt("Gönderildi: idagureli@gmail.com ve info@quiztactics.com ([TEST] konulu).")
+                  : testDurum === "sinir" ? tt("10 dakikada en çok bir test e-postası gönderilir.") : tt("Gönderilemedi.")}
+              </p>
+            )}
           </QtKart>
         </>
       )}

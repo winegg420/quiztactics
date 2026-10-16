@@ -48,6 +48,7 @@ import { rpcDene } from "../lib/rpcDene.js";
 import { MAC_SECIMI, macSatiriOnYuklemeAl } from "../lib/macOnYukleme.js";
 import PaylasDugmesi from "../components/PaylasDugmesi.jsx";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
+import { akisMacBaslat, akisMacBitir } from "../lib/akisIzleme.js";
 
 // Sunucu her doğru cevaba 10 puan yazar (cevap_ver, migration 250). Yalnız
 // sonuç ekranındaki "n soru farkla" metni için; puanlama sunucuda kalır.
@@ -127,6 +128,13 @@ export default function MatchPage() {
   const navigate = useNavigate();
   const [mac, setMac] = useState(null);
   const seviyeler = useOyuncuSeviyeleri([mac?.oyuncu1, mac?.oyuncu2]);
+  // 1113: akış izlemesi — maç sürerken (Klasik / Saf Bilgi)
+  const akisMod = mac && mac.durum !== "bitti" && mac.durum !== "iptal" && mac.durum !== "reddedildi" ? (mac.jokersiz ? "saf_bilgi" : "klasik") : null;
+  useEffect(() => {
+    if (!akisMod) return undefined;
+    akisMacBaslat(akisMod, id);
+    return () => akisMacBitir(id);
+  }, [akisMod, id]);
   const [soru, setSoru] = useState(null);
   const [cevapladim, setCevapladim] = useState(false);
   // 1062: benim için kapanan soru (cevap/süre dolumu) + o sorudaki rakip şıkkı { idx, cevap }

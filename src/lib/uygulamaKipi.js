@@ -63,6 +63,16 @@ export function uygulamaIcindeMi() {
   }
 }
 
+/** İzleme için açılış kipi (16 Eki 2026, 1113): "twa" (Play Store uygulaması) · "pwa" (ana ekran) · "tarayici". */
+export function acilisKipi() {
+  try {
+    if (String(document.referrer || "").startsWith("android-app://") || oturumOku(TWA_ANAHTAR) === "1") return "twa";
+    return uygulamaIcindeMi() ? "pwa" : "tarayici";
+  } catch {
+    return "tarayici";
+  }
+}
+
 /** Yerel geliştirme ya da ?dev=1 ile açılmış oturum. */
 export function gelistiriciGecisi() {
   try {

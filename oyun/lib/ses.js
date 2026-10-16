@@ -24,6 +24,7 @@
 // çalışır. Bu yüzden ilk dokunuş/tıklama/tuşta context açılır (sesKilidiAc).
 
 import { sesAdayUrl } from "./sesAdayKova.js";
+import { akisMacAcik, akisSesSonuc } from "./akisIzleme.js";
 
 const DEPO_ANAHTARI = "bildim_ses";
 
@@ -144,7 +145,8 @@ export const sesTaniAcik = () => {
 // sayan eski testler değişmesin.
 function taniKaydi(rol, dosya, olay) {
   try {
-    if (!sesTaniAcik()) return null;
+    // 1113: tanı kapalıyken de maç sayfasında hafif kayıt (yalnız akış izlemesi okur: geç başlayan / hiç başlamayan ses)
+    if (!sesTaniAcik()) return !olay && akisMacAcik() ? { rol, dosya, t: Math.round(performance.now()), iz: true } : null;
     const k = { rol, dosya, t: Math.round(performance.now()) };
     if (olay) { k.sonuc = olay; (window.__sesOlay ||= []).push(k); (window.__akis ||= []).push({ t: Date.now(), olay: `ses:${olay}`, rol }); return k; }
     (window.__sesKayit ||= []).push(k);
@@ -155,6 +157,8 @@ function taniKaydi(rol, dosya, olay) {
 const taniSonuc = (k, sonuc, ek) => {
   if (!k) return;
   k.sonuc = sonuc; if (ek) Object.assign(k, ek);
+  akisSesSonuc(k, sonuc);
+  if (k.iz) return;
   try { (window.__akis ||= []).push({ t: Date.now(), olay: sonuc === "calindi" ? "ses:caldi" : `ses:${sonuc}`, rol: k.rol }); } catch { /* tanı */ }
 };
 /** Bir rolün aynı anda çalabilecek kopya sayısı (varsayılan 2). */
@@ -551,6 +555,7 @@ function cal(rol, yedek, { carpan = 1, hiz = 1, gecKabul = false } = {}) {
   }
   const dosya = dosyaAdi(rol);
   const tani = taniKaydi(rol, sesAcikMi() ? dosya : "efekt-kapali");
+  if (tani) tani.gecKabul = gecKabul;   // 1113: maç sonu sesinin geç çalma izni akış kaydında "geç" sayılmaz
   if (!dosya || !calabilir()) { taniSonuc(tani, !dosya ? "sessiz" : "calinamaz (ses kapalı / dokunuş yok)"); return; }
   const simdi = typeof performance !== "undefined" ? performance.now() : Date.now();
   if (simdi - (sonCalma.get(rol) ?? -Infinity) < ARKA_ARKAYA_MS) { taniSonuc(tani, "arka-arkaya"); return; }

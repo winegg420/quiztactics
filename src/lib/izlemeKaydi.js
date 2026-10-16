@@ -28,6 +28,7 @@ export const KAYIT_RPC = "istemci_kayit_yaz";
 
 let hatalar = [];
 let olaylar = [];
+let akislar = [];
 const gorulenHata = new Set();
 const gorulenOlay = new Set();
 let dakikaBasi = 0;
@@ -101,15 +102,28 @@ export function olayKaydet(olay, anahtar = "") {
   } catch { /* sessiz */ }
 }
 
+/**
+ * 1113 (16 Eki 2026): akış bozulması kaydı (oyun/lib/akisIzleme.js süzer ve sınırlar). Aynı kuyruk ve aynı RPC —
+ * p_olaylar içinde `olay: "akis"` öğesi olarak gider; sunucu ayrı tabloya (akis_bozulma) yazar. Çağrı başına en çok 10.
+ */
+export function akisKaydet(k) {
+  try {
+    if (!supabaseHazir || !k?.tur) return;
+    akislar.push({ olay: "akis", ...k });
+    if (akislar.length > PAKET) akislar = akislar.slice(-PAKET);
+    planla();
+  } catch { /* sessiz */ }
+}
+
 /** Kuyruğu tek çağrıyla gönderir. Oturum yoksa hatalar atılır, olaylar oturum gelene kadar bekler. */
 export async function gonder() {
-  if (gonderiliyor || !supabaseHazir || (!hatalar.length && !olaylar.length)) return;
+  if (gonderiliyor || !supabaseHazir || (!hatalar.length && !olaylar.length && !akislar.length)) return;
   gonderiliyor = true;
   try {
     const { data } = await supabase.auth.getSession();
-    if (!data?.session) { hatalar = []; return; }
-    const h = hatalar; const o = olaylar;
-    hatalar = []; olaylar = [];
+    if (!data?.session) { hatalar = []; akislar = []; return; }
+    const h = hatalar; const o = [...olaylar, ...akislar];
+    hatalar = []; olaylar = []; akislar = [];
     const { error } = await supabase.rpc(KAYIT_RPC, {
       p_oturum: oturumKimligi(), p_surum: surum(), p_cihaz: cihazTipi(), p_hatalar: h, p_olaylar: o,
     });
@@ -192,7 +206,7 @@ export function izlemeKur() {
 
 /** Test için: iç durumu sıfırlar. */
 export function _sifirla() {
-  hatalar = []; olaylar = []; gorulenHata.clear(); gorulenOlay.clear(); dakikaBasi = 0; dakikaSayi = 0;
+  hatalar = []; olaylar = []; akislar = []; gorulenHata.clear(); gorulenOlay.clear(); dakikaBasi = 0; dakikaSayi = 0;
   if (zamanlayici) { clearTimeout(zamanlayici); zamanlayici = null; }
 }
-export function _kuyruk() { return { hatalar: [...hatalar], olaylar: [...olaylar] }; }
+export function _kuyruk() { return { hatalar: [...hatalar], olaylar: [...olaylar], akislar: [...akislar] }; }
