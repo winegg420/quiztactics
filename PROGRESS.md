@@ -12724,3 +12724,23 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **Ölçüm:** ana iş parçacığı taklitte kasmıyor (Hazine CPU 6x, Ida kartıyla en uzun kare 83–100 ms); A/B bot/dalgalı gerileme yok. Yeni araç seçenekleri: hazine-akis-olcum `--senaryo=aski`, `--kozmetik=ida`, `--anim_dokum`; klasik-mac-ekran `butce` + kaydırmalı şerit; izleme-istemci-testi gizlenince/dondurulunca gönderim.
 - **Yarın:** 08:00 e-postası ve /yonetim/izleme'de yalnız `kip = twa`: `kasma` gelmeli; `faz_gec` ≤ 4000 ms, `sayac_sifir` ≤ 2000 ms beklenir.
 - BAKILAMADI: arayuz-denetim, duello-v4-ekran (test hesabı oturumu yok), senkron-testi (canlı maç açar), gerçek iOS/telefon. Jev kullanılmadı (kapalı).
+
+## 2026-10-16 — Turnuva 360×640 taşması · Hazine maç sonu karesi · kesik CSS animasyonları (gece)
+**Araç:** Claude Code
+**Neden:** dünkü paketten kalan üç iş (Ida): Turnuva kısa ekranda 54 px taşma, Hazine maç sonu dalgalı ağda 134 ms kare, telefonda kesik animasyonlar.
+
+- **Turnuva 360×640 (Ida kararı: "Canlı · N oyuncu hayatta" ve oyuncu kartı aynen):** boş sonuç yuvası (44 + 8 px) ≤ 700 px yükseklikte akışta 0 px
+  kaplar, sonuç soluk joker çubuğunun üstüne düşer (dokunuş geçirir, bant varken hak satırı görünmez); kart ↔ "Canlı" satırı arası 8 → 6 px.
+  Taşma 54 → 0 (TR+EN), joker çubuğu tam görünür, CLS 0; 390×844 / 1440×900 konumları birebir aynı. `m1-mac.css`.
+- **Hazine maç sonu — kök nedenler (iz `--iz=son`, `--gecersiz`, `--profil`):** (A) KasaPage 200 ms saati maç bitince de işliyordu → sahne
+  saniyede 5 kez yeniden çiziliyordu (Düello'da da aynı; ikisinde de bitti/iptal'de durur, rövanş bekleme hariç); (B) coin/level/yıldız Lottie'leri
+  sahne açılınca kuruluyordu → maç sürerken boşta önceden kurulur; (C) aşama 1/2 takılması `startTransition`; (D) Paylaş/Detay satırının gecikmesi
+  takılışa göre kaydırılmıyordu → kaydırıldı. Dalgalı A/B: 125–167 → 100–117, son derleme 100 ms (hedef < 100 sınırda); bot 201 → 67 ms.
+- **Kesik animasyonlar:** giriş sahnesi saat farkıyla erken sökülüyordu (sahne kendi bitişini bildirene dek ≤ +600 ms açık); rakip joker rozeti
+  faz anahtarıyla yeniden takılıyordu (kaldığı andan sürer); anahtar halkası sınıfı yarıda kalkıyordu (süresince tutulur). Kalanlar "ekran değişti"
+  (ağ gecikmesiyle geç görünen ekran) ve tasarımdaki devralma — dokunulmadı. Dalgalı 1–7 → 0–1/maç, bot 8 → 0.
+- **Araçlar:** `klasik-mac-ekran` CLS; `hazine-akis-olcum` `--iz=son`, kesik nedeni (sınıf kaldırıldı / yeniden bağlandı / ekran değişti / devam /
+  devralındı), `--mac_sonu_ms`. `yavas-android-olcum --iz_mac` canlı maç açtığı için koşulmadı (canlı DB yazma yasağı) — taklitle iz alındı.
+- **Test:** build, test:kurallar, test:dans, maç ekran turu 30/30, ses-kesilme 6 mod, sure-bildirim, senkron Turnuva taklidi, izleme-istemci,
+  uygulama-kapısı GEÇTİ. BAKILAMADI: arayuz-denetim, duello-v4-ekran (oturum yok), canlı duman, gerçek iOS. Taklit — gerçek telefonda doğrulanmadı;
+  17 Eki 08:20 izlemesinde `kip = twa` `kasma` (macsonu, baslangic). Sunucu/yetki/migration yok. Jev kullanılmadı (kapalı).

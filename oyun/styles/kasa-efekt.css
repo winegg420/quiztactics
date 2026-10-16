@@ -589,12 +589,13 @@
   background: var(--qt-mod-duello); color: #fff; box-shadow: 0 3px 0 var(--qt-mod-duello-dudak), 0 6px 18px rgba(0, 0, 0, .25);
   font: var(--qt-a-siyah) 14px/1.15 var(--qt-f-govde);
   animation: ks-rakip-joker calc(2200ms * var(--sr-kasa_rakip_joker, 1)) var(--qt-egri-cikis) both;   /* /sure-ayar (varsayılanda 1) */
+  animation-delay: calc(-1 * var(--ks-rj-gecen, 0ms));   /* 16 Eki: faz geçişinde yeniden takılınca kaldığı yerden (KasaRakipJokerAn devam) */
 }
 @keyframes ks-rakip-joker {
   0% { opacity: 0; transform: translateX(40px) scale(.8); } 12% { opacity: 1; transform: translateX(-4px) scale(1.06); }
   20% { transform: none; } 82% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-8px); }
 }
-.ks-rakip-joker-an .qt-srozet { animation: qt-h-zipla 420ms var(--qt-egri-cikis) 180ms; }
+.ks-rakip-joker-an .qt-srozet { animation: qt-h-zipla 420ms var(--qt-egri-cikis) calc(180ms - var(--ks-rj-gecen, 0ms)); }
 .ks-joker-bilgi {
   position: absolute; left: 8px; right: 8px; top: 4px; z-index: 7; margin: 0 auto; width: fit-content; max-width: calc(100% - 16px);
   padding: 6px 14px; border-radius: var(--qt-r-hap); pointer-events: none; text-align: center;

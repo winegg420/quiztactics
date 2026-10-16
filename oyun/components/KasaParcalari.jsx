@@ -7,6 +7,7 @@
 // Görünüm: oyun/styles/kasa.css (ks- önekli). İngilizcesi: oyun/lib/ceviri/kasa.js.
 // iOS: bu dosyada position:fixed yok.
 // ============================================================
+import { useEffect, useRef, useState } from "react";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import { TepkiAvatar } from "./Tepki.jsx";   // 957
 import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
@@ -166,7 +167,23 @@ export function KasaSkor({ d, ben, rakip, c, puanGoster = {}, parla = null, orta
 
 /** Üst başlık: sen · Tur N/T + sayaç · rakip (avatar, ad, seviye; cevapladı işareti). */
 // sonucOlcek: anahtar halkası (.ks-avatar--anahtar::after) --ks-sonuc-olcek okur — değişken yalnız o avatarda (KasaKadran notu)
-export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {}, anahtar = null, rakipJoker = [], tepkiBalonlar = {}, sonucOlcek = null }) {
+// 16 Eki 2026 (kesik animasyon "ks-patla"): halka sınıfı sonuç anına bağlıydı; an faz değişiminde (karar geldi) temizlenince sınıf
+// iki vuruşun ortasında kalkıyordu. Halka yükselen kenarda başlar ve kendi süresi (2 × 700 ms × ölçek) dolana dek tutulur. Görünüm aynı.
+const HALKA_MS = 1400;
+function useTutulanHalka(anahtar, olcek) {
+  const [tut, setTut] = useState(null);   // { anahtar, olcek }
+  const zRef = useRef(0);
+  useEffect(() => {
+    if (!anahtar) return;
+    setTut({ anahtar, olcek });
+    clearTimeout(zRef.current);
+    zRef.current = setTimeout(() => setTut(null), Math.round(HALKA_MS * (Number(olcek) || 1)) + 100);
+  }, [anahtar, olcek]);
+  useEffect(() => () => clearTimeout(zRef.current), []);
+  return anahtar ? { anahtar, olcek } : tut ?? { anahtar: null, olcek: null };
+}
+export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {}, anahtar: anahtarProp = null, rakipJoker = [], tepkiBalonlar = {}, sonucOlcek: olcekProp = null }) {
+  const { anahtar, olcek: sonucOlcek } = useTutulanHalka(anahtarProp, olcekProp);
   const taraf = (o, rakipMi) => (
     <div className={sinif("qt-oyuncu ks-oyuncu", rakipMi && "qt-oyuncu--rakip")}>
       <span className={sinif("ks-avatar", anahtar === (rakipMi ? "rakip" : "ben") && "ks-avatar--anahtar")}
@@ -394,9 +411,12 @@ export function KasaDevamOdul({ an, c }) {
   );
 }
 /** 951: rakip joker kullandı — ikon + kısa yazı (etkisi gizli). */
-export function KasaRakipJokerAn({ an, c }) {
+// 16 Eki 2026 (kesik animasyon): faz/tur değişince sahne yeniden kurulur; devam=true iken animasyon baştan değil, an başından bu yana
+// geçen süreden sürer (negatif gecikme, takılışta bir kez alınır — her çizimde güncellenirse iki kat hızlı biterdi). Görünüm aynı.
+export function KasaRakipJokerAn({ an, c, devam = false }) {
+  const [gecen] = useState(() => (devam ? Math.max(0, Date.now() - Number(an.anahtar || 0)) : 0));
   return (
-    <p className="ks-rakip-joker-an" role="status" aria-live="polite">
+    <p className="ks-rakip-joker-an" role="status" aria-live="polite" style={gecen ? { "--ks-rj-gecen": `${gecen}ms` } : undefined}>
       <SkillRozeti tur={an.tur} boyut={28} />
       <span>{an.tur === "zaman_baskisi" ? c("Rakip süreni kısalttı!")
         : c("Rakip {j} kullandı", { j: jokerBilgi(an.tur, "kasa").ad })}</span>

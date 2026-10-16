@@ -112,6 +112,8 @@ başlatılamaz — taklitle bakıldı", "WebKit bu makinede çalışmıyor — g
 | `araclar/izleme-istemci-testi.mjs` | 8 — izleme kuyruğu: gizlenince beklemeden (keepalive) gönderim, gizlenip hemen dondurulan sayfa (Android arka plan) |
 | Gerçek telefon izlemesi (`/yonetim/izleme › Akış bozulmaları`, günlük e-posta) | 3, 5 — **yalnız `kip = twa` satırları gerçek telefondur**; `tarayici` satırları ölçüm araçlarından. `kasma` = > 100 ms kareler (aşama:adet) |
 | `araclar/klasik-mac-ekran.mjs` `butce` alanı | 2 — dikey bütçe (maç kökü + soru bölümü çocuk yükseklikleri); kayan şeritteki ekran dışı öğe "kaydırmalı şeritte" yazılır, kırpık sayılmaz |
+| `araclar/klasik-mac-ekran.mjs` `CLS=` sütunu | 2, 3 — dokunuştan sonuç bandına kadar düzen kayması (`layout-shift`); sonuç gelince 0 olmalı (16 Eki 2026) |
+| `araclar/hazine-akis-olcum.mjs --iz=son` · kesik nedeni | 3 — maç bitişinden 9 sn'lik iz (`iz-coz.mjs` ile); her kesik animasyon nedeniyle: `sinif_kaldirildi` · `yeniden_baglandi` (key/yeniden takılma) · `ekran_degisti` · `devam` (kaldığı yerden sürdü — kesik sayılmaz) · `devralindi` (aynı öğede başka animasyon, tasarım). Gerçek hata = ilk ikisi (16 Eki 2026) |
 | `araclar/senkron-testi.mjs [--taklit]` | 5 — 3-2-1 ve sayaçlar, bütün modlar (Turnuva taklit) |
 | `node araclar/oyuncu-testi.mjs --adres=…` | 6, 7, 8 — canlı duman testi |
 | `node araclar/jev.mjs` · `node araclar/jev-test.mjs` · `node araclar/soru_denetim/kapi.mjs › sikIpucuTesti` (yerel örnek soru, `fetch` tuzaklı) | Jev kapalı (`JEV_KAPALI`, 16 Eki 2026): ağ çağrısı yok, `jev_devre_disi` döner; şık ipucu kapısı "Jev yok, atlandı" ile geçer (başarısız sayılmaz), diğer kapılar (`codex-kapi.test.mjs` 13/13) aynen çalışır |

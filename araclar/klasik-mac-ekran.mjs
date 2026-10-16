@@ -332,6 +332,11 @@ async function sayfaCalistir(ctx, mod, [g, h], dil) {
     await sayfa.waitForTimeout(1300);   // giriş animasyonları otursun
     kayit.a = await sayfa.evaluate(OLC);
     await sayfa.screenshot({ path: ad("acik") });
+    // 16 Eki 2026: dokunuştan sonuca kadar düzen kayması (CLS) — yalnız kullanıcı girdisinden bağımsız kaymalar sayılır
+    await sayfa.evaluate(() => { try { window.__clsSonuc = 0; window.__clsListe = [];
+      new PerformanceObserver((l) => { for (const e of l.getEntries()) { window.__clsSonuc += e.value;
+        window.__clsListe.push(`${Math.round(e.startTime)}ms ${e.value.toFixed(4)} ${(e.sources || []).map((x) => x.node?.className?.toString?.().split(" ")[0] || "?").join("+")}`); } })
+        .observe({ type: "layout-shift" }); } catch { /* destek yok */ } });
     // (b) ilk şıka dokun
     try { await sayfa.locator(".m1-soru .qt-sik").first().click({ timeout: 4000 }); }
     catch (e) { kayit.not.push(`şık tıklanamadı: ${String(e.message).split("\n")[0].slice(0, 100)}`); await sayfa.evaluate(() => document.querySelector(".m1-soru .qt-sik")?.click()); }
@@ -343,6 +348,7 @@ async function sayfaCalistir(ctx, mod, [g, h], dil) {
     kayit.c = await sayfa.evaluate(OLC);
     await sayfa.screenshot({ path: ad("sonuc") });
     kayit.kayma = kayma(kayit);
+    kayit.cls = await sayfa.evaluate(() => ({ toplam: Number((window.__clsSonuc ?? -1).toFixed(4)), liste: window.__clsListe ?? [] })).catch(() => null);
     if (!kayit.c.bant) kayit.not.push("sonuç bandı boş (yanıt gelmedi?)");
   } catch (e) {
     kayit.hata = String(e.message || e).split("\n")[0].slice(0, 160);
@@ -394,7 +400,7 @@ for (const s of sonuclar) {
   const ort = [...new Set(A.flatMap((x) => x.binen))].length;
   const tek = A.every((x) => x.alt?.tekSatir !== false);
   const kay = A.some((x) => x.soruKaydirma?.tasar);
-  console.log(`${s.mod.padEnd(8)} ${s.boyut.padEnd(8)} ${s.dil}   ${String(s.kayma.px).padEnd(9)}  ${String(sig).padEnd(7)}  ${String(yatay).padEnd(5)}  ${String(ort).padEnd(7)}  ${String(tek).padEnd(13)}  ${String(kay).padEnd(10)}  ${[...s.not, ...(sig ? [] : [...new Set(A.flatMap((x) => x.disari))].slice(0, 2))].join("; ")}`);
+  console.log(`${s.mod.padEnd(8)} ${s.boyut.padEnd(8)} ${s.dil}   ${String(s.kayma.px).padEnd(9)}  ${String(sig).padEnd(7)}  ${String(yatay).padEnd(5)}  ${String(ort).padEnd(7)}  ${String(tek).padEnd(13)}  ${String(kay).padEnd(10)}  ${[...s.not, ...(sig ? [] : [...new Set(A.flatMap((x) => x.disari))].slice(0, 2))].join("; ")}${s.cls ? `  CLS=${s.cls.toplam}` : ""}`);
 }
 if (taklitsizRpc.size) console.log("\nTaklidi olmayan (null dönen) RPC'ler:", [...taklitsizRpc].join(", "));
 if (kesilenler.size) console.log("Kesilen yazmalar:", [...kesilenler].join(", "));

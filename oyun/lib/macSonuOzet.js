@@ -35,12 +35,23 @@ function bostaIsit() {
 // 16 Eki 2026 (Hazine maç sonu karesi): kupa Lottie örneği HER MAÇTA maç sürerken boşta, sayfa dışında kurulur; maç sonu sahnesi
 // hazır örneği takar (MacSonuLottie.jsx › lottieOnKur — hız MacSonuKutlama'daki kupayla aynı: azaltılmış harekette 0,5). Isınmadan
 // sonra (8 sn) ve giriş sahnesi / 3-2-1 ekrandayken değil.
+// 16 Eki 2026 (Hazine maç sonu karesi, dalgalı ağ 134 ms): coin / level / yıldız örnekleri de aynı yolla, kupadan sonra birer birer
+// (her biri ayrı boşta görevde, 1,5 sn arayla). Eskiden sahne açıldıktan 0,4–0,8 sn sonra ana iş parçacığında kuruluyorlardı
+// (CPU 6x: her biri ~25–35 ms loadAnimation + SVG ağacı) — aşama 2'nin takılması, coin uçuşu ve kupa karesiyle aynı aralıkta.
+// Hızlar MacSonuKutlama'dakilerle aynı olmalı (farklıysa sahne hazır örneği almaz, kendisi kurar).
 function kupaOnKur() {
   if (typeof window === "undefined") return () => {};
   let z = null;
+  const az = hareketAzaltildiMi();
+  const sira = [["kupa", az ? 0.5 : 1], ...(az ? [] : [["coin", 1.5]]), ["level", az ? 0.7 : 1.4], ["yildiz", 0.8]];
+  let i = 0;
   const dene = () => {
     if (document.querySelector(".ks-giris-an, .m1-sayim")) { z = setTimeout(dene, 1000); return; }
-    try { lottieOnKur("kupa", { hiz: hareketAzaltildiMi() ? 0.5 : 1 }); } catch { /* sahne yine kendisi kurar */ }
+    // Sahne açıldıysa kalanı sahne kendisi kurar (açık sahnenin karelerine iş eklenmez)
+    if (document.documentElement.classList.contains("msk-acik")) return;
+    const [ad, hiz] = sira[i++];
+    try { lottieOnKur(ad, { hiz }); } catch { /* sahne yine kendisi kurar */ }
+    if (i < sira.length) z = setTimeout(dene, 1500);
   };
   z = setTimeout(dene, 8000);
   return () => clearTimeout(z);

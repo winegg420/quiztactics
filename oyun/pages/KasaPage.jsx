@@ -115,6 +115,7 @@ const AC_AN_MS = varsayilanSure("kasa_ac_an");         // 980: AÇ anı (1600 �
 const AN_TABAN_MS = varsayilanSure("kasa_an_taban");
 const KAPALI_KARAR_MS = varsayilanSure("kasa_kapali_karar");   // 990: rakibin kararı önce kapalı kart (ne olduğu görünmez)
 const DEVAM_VURUS_MS = varsayilanSure("kasa_devam_vurus");    // 990: DEVAM ETTİ vuruşu (AÇ'ta vuruş AÇ anının kendi yazısıdır)
+const GIRIS_TASMA_MS = 600;   // başlamış giriş sahnesi kendi "1"ini bitirene dek sunucu bitişinden sonra en çok bu kadar açık kalır
 const FINAL_SAHNE_MS = varsayilanSure("kasa_final_sahne");   // maç sonu açılış sahnesi (kazanan) — sonra MacSonuKutlama
 const FINAL_KAPANIS_MS = varsayilanSure("kasa_final_kapanis"); // kaybeden: kasa kapanır/kararır
 const CIFTE_MS = varsayilanSure("kasa_cifte");
@@ -360,6 +361,9 @@ function KasaMac({ id }) {
   const [hata, setHata] = useState(null);
   const [yuklemeHatasi, setYuklemeHatasi] = useState(null);
   const [simdi, setSimdi] = useState(Date.now());
+  // 16 Eki 2026 (Hazine maç sonu karesi): maç bitince 200 ms saati durur — sahne açıkken saniyede 5 kez bütün sayfayı ve
+  // MacSonuKutlama'yı yeniden çiziyordu (CPU 6x her biri 12–30 ms React + stil). Rövanş bekleme sayacı (benim isteğim) saati ister.
+  const saatDurRef = useRef(false);
   const [secim, setSecim] = useState(null);
   const [calisan, setCalisan] = useState(null);
   const [terkOnay, setTerkOnay] = useState(false);
@@ -553,6 +557,7 @@ function KasaMac({ id }) {
       // 15 Eki: sahne öncesi bekleme katmanında da saat durur (katman kendi CSS animasyonuyla canlı); sahne zamanına
       // ~60 ms kala yeniden işler. Başlangıç bilinmiyorsa (rakip gelmedi) yeni durum verisi zaten yeniden çizer.
       if (girisBekleRef.current && (bitis == null || Date.now() + farkRef.current < bitis - girisSureRef.current - 60)) return;
+      if (saatDurRef.current) return;
       setSimdi(Date.now());
     }, 200);
     return () => {
@@ -866,7 +871,13 @@ function KasaMac({ id }) {
   // Sahne erken açılırsa (arama geçişi) bitişe kadar ekranda kalır (gecikme 0'dan başlar)
   // 15 Eki 2026: sahne YALNIZ kendi zamanında açılır (girisGecen ≥ 0). Eskiden erken açılıp (arama geçişi / gösterim payı)
   // animasyonları bitince "Hazır ol!"da donuk kalıyordu; o süre artık sahnenin canlı bekleme hâli (KasaGirisSahnesi bekle).
-  const girisAktif = girisGecen != null && girisGecen >= 0 && girisGecen < GIRIS_SAHNE_MS && !d?.kopuk;
+  // 16 Eki 2026 (kesik animasyon "ks-giris-sayi"): sahnenin 2 ve 1'i yerel saate kilitli (KasaGirisSahnesi); sayfanın bitiş
+  // hesabı ise her yanıtta yenilenen saat farkıyla. Fark ileri kayınca sayfa sahneyi "1"in ortasında (184–361 ms erken) söküyordu.
+  // Başlamış sahne kendi bitişini (onBitti) bildirene kadar en çok GIRIS_TASMA_MS daha açık kalır; erken söküm yok, sorunun süresi
+  // sunucuda (gösterim payı içinde kalır — süre kaybı yok).
+  // Sahne kendi "1"ini bitirdiyse ve ilk soru gelmişse sunucu bitişini beklemez (sona "Hazır ol!" yazısı sızmaz).
+  const girisAktif = girisGecen != null && girisGecen >= 0 && !d?.kopuk && !(gd.sahneBitti && d?.faz === "cevap")
+    && (girisGecen < GIRIS_SAHNE_MS || (gd.basladi && !gd.sahneBitti && girisGecen < GIRIS_SAHNE_MS + GIRIS_TASMA_MS));
   if (girisAktif) gd.basladi = true;
   else if (gd.basladi) gd.bitti = true;
   // Sahne öncesi bekleme: rakip maç ekranına gelmedi (faz_bitis yok) ya da sahne zamanı henüz gelmedi (gösterim payı)
@@ -876,6 +887,7 @@ function KasaMac({ id }) {
   const girisBekleRef = useRef(false);
   girisBekleRef.current = girisBekle;
   girisAktifRef.current = girisAktif;
+  saatDurRef.current = (d?.durum === "bitti" || d?.durum === "iptal") && rovBas == null;
   const girisBitisRef = useRef(null);   // sunucu saatiyle sahne bitişi (200 ms saatinin sigortası)
   girisBitisRef.current = girisBitis;
   useEffect(() => {
@@ -897,7 +909,7 @@ function KasaMac({ id }) {
     akis("giris:sayi", { n });
     sesTik(n); titret(n === 1 ? 24 : 12);
   }, [birKez]);
-  const girisBitti = useCallback(() => setSimdi(Date.now()), []);
+  const girisBitti = useCallback(() => { girisDurumRef.current.sahneBitti = true; setSimdi(Date.now()); }, []);
   // Sahne kalkınca (soru görünür) soru sesi — sahne kendi bitişini görmeden kalksa da bir kez çalar
   const girisOncekiRef = useRef(false);
   useEffect(() => {
@@ -1820,7 +1832,8 @@ function KasaMac({ id }) {
         {/* 953: DEVAM ödülü kazanıldı — altın parıltılı kart (yalnız bende; kazanamayınca karar satırında küçük not) */}
         {devamAn?.kazandi && d.faz === "cevap" && <KasaDevamOdul key={devamAn.anahtar} an={devamAn} c={c} />}
         {/* 951: rakip joker kullandı — ikon + kısa efekt (etkisi gizli; yalnız adı). Sahnenin üstünde, sayacı kapatmaz. */}
-        {rakipJokerAn && d.faz === "cevap" && <KasaRakipJokerAn key={rakipJokerAn.anahtar} an={rakipJokerAn} c={c} />}
+        {/* 16 Eki 2026: iki taraf cevaplayınca (ya da askıda sonraki tura atlanınca) sahne yeniden kurulur — rozet her takılışta kaldığı andan sürer */}
+        {rakipJokerAn && (d.faz === "cevap" || d.faz === "sonuc") && <KasaRakipJokerAn key={`${rakipJokerAn.anahtar}-${d.faz}`} an={rakipJokerAn} devam c={c} />}
       </div>
       {jokerYuva}
       {/* 15 Eki: bekleme → sahne AYNI öğe (anahtarsız, aynı yerde) — ışık/sandık katmanları sahne başında yeniden kurulmaz */}

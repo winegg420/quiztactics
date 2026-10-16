@@ -36,7 +36,7 @@
 // tepkiler) gövdenin üstünde açılan panelde; kaydırma yalnız o panelin içinde.
 // Oyuncu ADINA dokununca da profil kartı açılır (kendi adın → kendi kartın).
 // ============================================================
-import { lazy, memo, Suspense, useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { lazy, memo, startTransition, Suspense, useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
@@ -253,6 +253,7 @@ function MacSonuKutlama({
   const karsilasmaRef = useRef(null);
   const kartRef = useRef(null);
   const rozetRef = useRef(null);
+  const detayRef = useRef(null);
   const coinGosterRef = useRef(0);
   const [ucus, setUcus] = useState(null);   // { x, y, hedef:{x,y} } | null
   const kokRef = useRef(null);
@@ -340,7 +341,8 @@ function MacSonuKutlama({
     // aynı kareye yığılmaz. rAF gelmezse (arka plan sekmesi) yedek zamanlayıcı her şeyi takar.
     let asamaKare2 = 0;
     const asamaKare = requestAnimationFrame(() => {
-      asamaKare2 = requestAnimationFrame(() => setAsama((a) => Math.max(a, 1)));
+      // 16 Eki 2026: aşama 1 de bölünebilir geçiş (karşılaşma t.avatar=300 ms'de görünür; gecikme takılış anına göre kaydırılır)
+      asamaKare2 = requestAnimationFrame(() => startTransition(() => setAsama((a) => Math.max(a, 1))));
     });
     const asamaYedek = setTimeout(() => setAsama(2), 600);   // kart 850 ms'de görünür; öncesinde takılı olsun
     const odakIptal = () => {
@@ -531,7 +533,10 @@ function MacSonuKutlama({
   const [rakipTak, setRakipTak] = useState(false);
   useEffect(() => {
     if (asama !== 1) return undefined;
-    const k = requestAnimationFrame(() => (rakipTak ? setAsama(2) : setRakipTak(true)));
+    // 16 Eki 2026 (Hazine maç sonu karesi): aşama 2 (ödül + rozet kartı, ~140 öğe) bölünebilir geçişle çizilir — sahnenin en uzun
+    // karesi (dalgalı ağ 134–176 ms, CPU 6x) bu takılmaydı; kupa Lottie'si ve karşılaşma girişiyle aynı kareye yığılıyordu. Kart
+    // 850 ms'de görünür, 600 ms'deki yedek (asamaYedek, acil güncelleme) geçişi bekletmeden takar → zaman çizelgesi aynı.
+    const k = requestAnimationFrame(() => startTransition(() => (rakipTak ? setAsama((a) => Math.max(a, 2)) : setRakipTak(true))));
     return () => cancelAnimationFrame(k);
   }, [asama, rakipTak]);
 
@@ -556,6 +561,8 @@ function MacSonuKutlama({
     kaydir(karsilasmaRef.current, ["avatar"]);
     kaydir(kartRef.current, ["coin", "xp", "lig", "gorev", "son"]);
     kaydir(rozetRef.current, ["son"]);
+    // 16 Eki 2026: Paylaş/Detay satırı da aşama 2'de takılır — gecikmesi kaydırılmayınca "takılış + t.son"da çıkıyordu (tasarım: sahne başı + t.son)
+    kaydir(detayRef.current, ["son"]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [asama]);
 
@@ -755,7 +762,7 @@ function MacSonuKutlama({
       {/* A.3: açılır Detay (ödül dökümü, sorular, paylaş) + serbest ek içerik (sohbet, tepkiler).
           A.4: sahnede yalnız düğme; içerik gövdenin üstünde açılan panelde (kaydırma yalnız panelde). */}
       {asama >= 2 && (panelVar || paylas) && (
-        <div className={`msk-detay msk-a${paylas ? " msk-detay--paylas" : ""}${detayAcik ? " msk-detay--acik" : ""}`} onClick={durdur}>
+        <div ref={detayRef} className={`msk-detay msk-a${paylas ? " msk-detay--paylas" : ""}${detayAcik ? " msk-detay--acik" : ""}`} onClick={durdur}>
           {paylas}
           {panelVar && (
             <QtDugme tur="ikincil" boyut="k" className="msk-detay-dugme" ikonSag="asagi" aria-expanded={detayAcik}

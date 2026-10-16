@@ -1,3 +1,102 @@
+# Üç kalan iş: Turnuva 360×640 taşması · Hazine maç sonu karesi · kesik CSS animasyonları (16 Eki 2026, gece)
+
+> Taklit sonuçları (CPU 6x · yavaş 4G · Ida'nın kartı) **gerçek telefonda doğrulanmadı**. Doğrulama 17 Eki 08:20'deki izleme
+> özetinde, **yalnız `kip = twa`** satırlarıyla, `kasma` olayında (aşağıda "Yarın neye bakılacak"). Kural/süre/sunucu/yetki/migration değişmedi;
+> canlı veritabanına test işlemi yapılmadı. Jev kullanılmadı (kapalı).
+
+## Önce / sonra
+| Ölçü | Önce | Sonra | Kaynak |
+|---|---|---|---|
+| Turnuva 360×640 orta bölüm taşması (TR · EN) | 54 · 54 px | **0 · 0 px** | `klasik-mac-ekran` (taklit) |
+| Turnuva 360×640 joker çubuğu kırpık | 48 px (kaydırma alanının altında) | **0** (çubuk 494–574, alt satır 588) | aynı |
+| Turnuva 360×640 sonuç gelince kayma (kart · şık · joker, açık → sonuç) | 0 px | **0 px**, CLS **0** | aynı + yeni `layout-shift` gözlemcisi |
+| Turnuva 390×844 · 1440×900 (TR+EN) | sığıyor | sığıyor — bütün konumlar birebir aynı | aynı |
+| Hazine maç sonu en uzun kare — dalgalı (A/B dönüşümlü) | 158 · 125 · 143 · 150 · 150 · 167 ms | v3: **100 · 117**; son derleme: **100 · 100 · 100 · 100** ms | `hazine-akis-olcum --senaryo=dalgali` |
+| Hazine maç sonu ≥ 100 ms kare — dalgalı | 3–5 | **0–3** | aynı |
+| Hazine maç sonu en uzun kare — bot | 201 ms | **67** (TR 390: 84 · EN 360: 50) | aynı, `--senaryo=bot` |
+| Hazine maç sonu — gecikmeli · askı · yavaş sunucu · EN 360 dalgalı | — | 100 · 83 · 100 · 100 ms | aynı |
+| Kesik CSS animasyonu — dalgalı (maç başına) | 3 · 6 · 3 · 7 · 1 · 3 | **0 · 1 · 1 · 0 · 0 · 0 · 0 · 1** | aynı (yeni neden sınıflaması) |
+| Kesik CSS animasyonu — bot | 8 (giriş sahnesi erken söküldü) | **0** | aynı |
+| Rakip joker rozeti faz geçişinde | baştan başlıyor / yarıda kayboluyor | **kaldığı yerden sürüyor** (maç başına 1–7 kez) | aynı (`devam`) |
+| Ses — ani kesilen anlamlı ses | 0 | 0 (bütün senaryolar + 6 mod çizelgesi) | `hazine-akis-olcum`, `ses-kesilme-olcum` |
+
+Ekran görüntüleri: `tasarim/gorsel-16eki-gece/once|sonra/turnuva-{acik,secili,sonuc}-{360x640,390x844,1440x900}-{tr,en}.png`,
+`tasarim/gorsel-16eki-gece/once|sonra/hazine-macsonu-*.png` (maç sonu, bitişten 7 sn — görünüm aynı).
+
+## 1 · Turnuva 360×640 — kök neden + düzeltme
+- **Ölçü:** orta bölüm (`.m1-soru`) içerik 464 px / alan 410 px. Bütçe: soru 108 + şıklar 202 + **boş sonuç yuvası 44** + joker 80 + 3 × 8 aralık + 6 alt pay.
+- **Düzeltme (yalnız Turnuva, ≤ 700 px yükseklik):** sonuç yuvası akışta 0 px kaplar (negatif alt pay = 44 + 8), sonuç gelince soluk joker
+  çubuğunun üstüne düşer; boş yuva dokunuşu çubuğa geçirir; bant görünürken çubuğun hak satırı görünmez (yer tutar). Kalan 2 px: oyuncu kartı
+  ile "Canlı · N oyuncu hayatta" arası 8 → 6 px. **Satır ve kart boyutu aynı (Ida kararı).** Dosya: `oyun/tasarim/ekranlar/m1-mac.css`.
+
+## 2 · Hazine maç sonu karesi — kök nedenler (iz + JS profili, CPU 6x)
+`--iz=son` (yeni: bitişten 9 sn'lik iz), `--gecersiz` (stil geçersizleştirme nedeni) ve `--profil` (JS) ile:
+
+| # | Kök neden | Kanıt | Düzeltme |
+|---|---|---|---|
+| A | **KasaPage'in 200 ms saati maç bitince de işliyordu** → sahne açıkken saniyede 5 kez bütün sayfa + MacSonuKutlama yeniden çiziliyordu | izde her 100–250 ms'de React görevi 12–30 ms + 25–150 öğe stil hesabı; profilde `KasaMac` maç sonu penceresinde | saat maç bitince (bitti/iptal) durur; rövanş bekleme sayacı (benim isteğim) için işler. **Düello'da aynı hata** → aynı düzeltme. Klasik/Grup/Turnuva'da böyle saat yok |
+| B | **coin / level / yıldız Lottie'leri sahne açılınca ana iş parçacığında kuruluyordu** (yalnız kupa önceden kuruluyordu) | `TimerFire` 32 ms (`MacSonuLottie › kur` → `loadAnimation`) + SVG ağacının stili, aşama 2 ile aynı aralıkta | dördü de maç sürerken boşta, sayfa dışında birer birer kurulur (1,5 sn arayla; sahne açıksa durur) |
+| C | **Aşama 1 (karşılaşma) ve aşama 2 (ödül + rozet kartı, ~140 öğe) takılması** kupa Lottie'si ve giriş animasyonlarıyla aynı karede | tepe kare sahne açılışından ~190 ms ve ~450 ms sonra: React 25–30 ms + stil 79/140 öğe | iki aşama `startTransition` ile bölünebilir çizilir; 600 ms'deki acil yedek aynen (kart 850 ms'de görünür) |
+| D | (C'nin yan bulgusu) **Paylaş/Detay satırının gecikmesi takılış anına göre kaydırılmıyordu** (kart ve rozet kaydırılıyordu) | 7. sn görüntüsünde satır geç | satır da aynı kaydırmaya alındı → tasarımdaki "sahne başı + 2,6 sn" |
+
+Paylaş kartı hazırlığı ve ses bu pencerede sorumlu değil (profil: `davetBilgisi` ~2 ms, `sesMacSonu` ~3 ms; kart Worker'da).
+**Kalan:** dalgalı ağda tepe kare **100 ms** (6 × 16,7 ms kare) — aşama 2'nin tek parça stil + yerleşim hesabı (bölünemez); hedef "< 100" sınırda, tam tutmadı.
+Dosyalar: `oyun/pages/KasaPage.jsx`, `oyun/pages/DuelloPage.jsx`, `oyun/lib/macSonuOzet.js`, `oyun/components/MacSonuKutlama.jsx`.
+
+## 3 · Kesik CSS animasyonları — liste, neden, ne yapıldı
+Ölçüm aracı artık her kesiği nedeniyle yazar: **sınıf kaldırıldı** (öğe yerinde) · **yeniden bağlandı** (aynı öğe yeni baştan — key/yeniden takılma) ·
+**ekran değişti** (öğe ekranıyla gitti) · **devam** (yeniden takıldı ama kaldığı yerden sürüyor → kesik sayılmaz) · **devralındı** (aynı öğede başka animasyon).
+
+| Animasyon | Neden (ölçüldü) | Ne yapıldı |
+|---|---|---|
+| `ks-giris-sayi` ("1"), `ks-giris-alt`, `ks-kapak-tikir`, `ks-giris-isin` (giriş sahnesi) | 2 ve 1 sahnede yerel saate kilitli; sayfa sahneyi her yanıtta yenilenen **saat farkıyla** söküyordu → fark ileri kayınca "1"in ortasında (184–361 ms erken); sona "Hazır ol!" + kapak animasyonu bir an takılıp sökülüyordu | başlamış sahne kendi bitişini bildirene dek (en çok +600 ms) açık kalır; bitirdiyse ve ilk soru geldiyse beklemez. Soru süresi sunucuda (gösterim payı içinde) — süre kaybı yok |
+| `ks-rakip-joker` + `qt-h-zipla` (rakip joker rozeti) | sahnenin **faz anahtarı** (key) cevap → sonuç (askıda doğrudan sonraki tur) değişince rozet yeniden takılıp baştan başlıyor / yarıda kayboluyordu | rozet sonuç fazında da çizilir, her takılışta **kaldığı andan** sürer (negatif gecikme, takılışta bir kez). Görünüm aynı |
+| `ks-patla` (anahtar halkası) | sonuç anı faz değişiminde temizlenince `ks-avatar--anahtar` **sınıfı** iki vuruşun ortasında kalkıyordu | halka yükselen kenarda başlar, kendi süresi (2 × 700 ms × ölçek) dolana dek tutulur |
+| `ks-titre`, `ks-kalp` | son 3 sn'de "gergin" titreme **devralıyor** (tasarım) ya da oyuncu kendi kararını verince karar ekranı kapanıyor | dokunulmadı — kopukluk yok |
+| `ks-karar-yakin/isik`, `qt-h-konfeti`, `ks-dogru-isik`, `ks-ucus`, `m2-gecis`, `ks-cifte-*` | **ekran değişti**: ağ gecikmesiyle geç görünen ekran, sunucu sonraki faza geçince yerini bırakıyor (en çok `yavas_sunucu`da: 21); rozet sonuç → karar'a taşarsa (geç kullanılan joker) 1 | dokunulmadı — tutmak oyun akışını/süreleri geciktirir (kural/süre değişmez) |
+
+Dosyalar: `oyun/pages/KasaPage.jsx`, `oyun/components/KasaParcalari.jsx`, `oyun/styles/kasa-efekt.css`.
+
+## Ölçüm araçları (değişen)
+- `araclar/klasik-mac-ekran.mjs`: dokunuştan sonuca **CLS** (`layout-shift` gözlemcisi) — tabloda `CLS=`.
+- `araclar/hazine-akis-olcum.mjs`: `--iz=son` (maç sonu 9 sn izi), kesiklerin **nedeni** (yukarıdaki 5 sınıf), `--mac_sonu_ms` (maç sonu çekim anı).
+- Not: istenen `yavas-android-olcum --iz_mac` canlı maç açtığı için (canlı DB'ye yazma — bu pakette yasak) koşulmadı; aynı iz taklit sunuculu
+  `hazine-akis-olcum --iz=son|mac` ile alındı, `iz-coz.mjs` ile çözüldü.
+
+## Yarın (17 Eki 08:20 izleme özeti) neye bakılacak — yalnız `kip = twa`
+| Olay | Beklenen |
+|---|---|
+| `kasma` → `macsonu:N` (Hazine/Düello) | N ≤ 2, en uzun < 150 ms (dünkü canlı duman: `macsonu:4`, 273 ms — CPU 6x tarayıcı) |
+| `kasma` → `baslangic` | giriş sahnesinin sonu (3-2-1 → soru) kasmamalı; adet düşmeli |
+| `faz_gec` / `sayac_sifir` | bu paket dokunmadı — dünkü eşikler (≤ 4000 / ≤ 2000 ms) |
+| `ses_kesildi` | 0 (ses kodu değişmedi) |
+
+Telefonda gözle: Turnuva'da (kısa ekran) joker çubuğu kaydırmadan görünüyor mu, sonuç bandı soluk çubuğun üstünde okunuyor mu;
+Hazine'de 3-2-1'in "1"i tam bitiyor mu, rakip joker rozeti sonuç ekranında yarıda kaybolmuyor mu.
+
+## Test tablosu (docs/TEST-KAPSAMI.md)
+| Madde | Kapsam | Sonuç | Not |
+|---|---|---|---|
+| 1 Dokunma — maç ekranları | `klasik-mac-ekran` 5 mod × 360×640/390×844/1440×900 × TR+EN (taklit) | GEÇTİ | boş sonuç yuvası dokunuşu çubuğa geçiriyor (`pointer-events`), şık tıklama turu geçti |
+| 1 Dokunma · 2 Görünüm — 16 sayfa × 4 genişlik | `arayuz-denetim` | BAKILAMADI | misafir/test hesabı açmak canlı DB'ye yazar (yasak); Ida oturumu bu araca verilmez |
+| 2 Görünüm — Klasik/Saf/uzun/Grup/Turnuva | aynı tur | GEÇTİ | 30/30 sığıyor, yatay taşma 0, CLS 0; Turnuva 360×640'taki tek örtüşme tasarlanan (bant soluk çubuğun üstünde) |
+| 2 Görünüm — Düello | `duello-v4-ekran` | BAKILAMADI | oturum dosyası gerekiyor (yok); Düello'da yalnız maç sonu saati değişti |
+| 2 Görünüm — Hazine maç sonu | 390 TR dalgalı/bot · 360 EN bot (7 sn çekim) | GEÇTİ | önceyle aynı (Paylaş/Detay yerinde) |
+| 2 iOS kuralları | derleme taraması (iOS 12.2) | GEÇTİ | eklenen CSS'te fixed/transform yok |
+| 3 Animasyon — kesilen | Hazine 6 senaryo + EN/360 + azalt | GEÇTİ (kalanlar sınıflı) | kalan kesikler yalnız "ekran değişti" / oyuncunun kendi kararı |
+| 3 Animasyon — > 100 ms kare (maç sonu) | Hazine CPU 6x, 6 senaryo | KALDI (sınırda) | dalgalı/gecikmeli/yavaş 100 ms; bot 67 · askı 83 · EN 360 50 |
+| 3 Hareket azaltma | Hazine `--azalt` dalgalı | GEÇTİ | kesik 0, sonsuz döngü yok; maç sonu en uzun kare 134 ms (azalt + dalgalı tek koşu, önce ölçüsü yok) |
+| 4 Ses | Hazine 13 koşu ses ömrü + `ses-kesilme-olcum` 6 mod × CPU 1x/6x | GEÇTİ | ani kesilen 0; "çalarken yeni ekran" 0–2 (sonuna kadar çaldı); askı/EN 360'ta eşzamanlı 1–2 (ses kodu değişmedi) |
+| 5 Zamanlama — sayaç/3-2-1/faz | Hazine taklit | GEÇTİ | 3-2-1 915–1060 ms; sayaç 0'da > 1 sn yalnız dalgalı (1) ve yavaş sunucu (senaryonun DB kilidi); "sayaç ilk 2" = karar sayacı, sunucu cevap fazına geçtiği an ekranda (ölçüm penceresi) |
+| 5 Erken süre bildirimi | `sure-bildirim-olcum` (bellekte) + Hazine | GEÇTİ | 0 |
+| 5 Senkron | `senkron-testi --taklit` (Turnuva) | GEÇTİ | a–d geçti; diğer modlar canlı maç açtığı için BAKILAMADI |
+| 6 Akış · 7 Veri — canlı duman | `oyuncu-testi`, `yavas-android-olcum --mac` | BAKILAMADI | canlı maç = canlı DB'ye yazma (bu pakette yasak) |
+| 7 Veri — Hazine taklit maçları | 13 maç bitti, skor/hazine akışı | GEÇTİ | taklit sunucu |
+| 8 Konsol | bütün taklit koşular | GEÇTİ | JS hatası 0; `ERR_FAILED` = aracın kestiği realtime/ses istekleri |
+| Birim | `test:kurallar` (joker, skill, sayaç saati, kasma), `test:dans`, `npm run build` | GEÇTİ | |
+| İzleme istemcisi · uygulama kapısı | `izleme-istemci-testi`, `uygulama-kapisi-testi` | GEÇTİ | |
+| iOS gerçek cihaz | | BAKILAMADI | WebKit bu makinede çalışmıyor |
+
 # Telefon kasması / donma — kök neden + düzeltme (16 Eki 2026, gece)
 
 > Taklit sonuçları **gerçek telefonda doğrulanmadı**. Doğrulama 17 Eki 08:00'deki günlük izleme e-postasında ve

@@ -479,8 +479,9 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
 - **Maç sonu sahnesi tek ekran:** açıkken sayfa kaydırılmaz, alt menü gizli (`html.msk-acik`); eylem çubuğu sahnenin son
   satırı; içerik yüksekliğe göre sıkışır; Detay ve ek içerik (sohbet, tepki, ses, hesap önerisi) açılır panelde. Lottie ve
   konfeti maç biterken önceden iner, geç gelse de baştan oynar.
-  **Kare (16 Eki 2026):** kupa Lottie örneği maç sürerken boşta, sayfa dışında kurulur (`MacSonuLottie › lottieOnKur`, `macSonuOzet › kupaOnKur`,
-  her maçta; sahne açılınca hazır örnek takılır); karşılaşmanın rakip tarafı ayrı karede, Hazine altın yağmuru iki kare sonra.
+  **Kare (16 Eki 2026):** kupa + coin + level + yıldız Lottie örnekleri maç sürerken boşta, sayfa dışında birer birer kurulur (`MacSonuLottie › lottieOnKur`,
+  `macSonuOzet › kupaOnKur`, her maçta, 1,5 sn arayla, sahne açıksa durur; sahne hazır örneği takar); aşama 1 ve 2 (karşılaşma, ödül/rozet kartı)
+  `startTransition` ile bölünebilir çizilir (600 ms yedeği acil); Hazine + Düello sayfasının 200 ms saati maç bitince durur (rövanş bekleme hariç); karşılaşmanın rakip tarafı ayrı karede, Hazine altın yağmuru iki kare sonra.
   `--msk-ust` `@property` ile kalıtsız (yalnız kökün `top`u); `--msk-sigdir` yalnız ölçek < 1 iken yazılır; üst blok ilk ölçümü ResizeObserver'ın
   ilk gözleminde, gövde sınıfı değişince bir sonraki karede (açılış görevinde zorunlu yerleşim yok). Taklit A/B (CPU 6x): maç sonu açılış görevi
   112–117 → 77–78 ms. Canlıda dolu profille maç sonu görevleri hâlâ 150–160 ms (sahnenin ilk React çizimi; parçalamak beliriş sırasını etkiler).

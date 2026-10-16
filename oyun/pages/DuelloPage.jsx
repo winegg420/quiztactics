@@ -494,6 +494,10 @@ function DuelloMac({ id }) {
   // Rövanş bekleme penceresi ve sunucu tarafındaki geri çekme durumu.
   const [rovBas, setRovBas] = useState(null);          // bekleme başladığı yerel an (ms)
   const [rovVazgec, setRovVazgec] = useState(false);
+  // 16 Eki 2026 (maç sonu karesi, Hazine ile aynı): maç bitince 200 ms saati durur — sahne açıkken saniyede 5 kez bütün sayfayı ve
+  // MacSonuKutlama'yı yeniden çiziyordu. Rövanş bekleme sayacı (benim isteğim) saati ister.
+  const saatDurRef = useRef(false);
+  saatDurRef.current = (d?.durum === "bitti" || d?.durum === "iptal") && rovBas == null;
   const [rovSonuc, setRovSonuc] = useState(null);      // null | "cevapsiz" | "red"
   const [rovSn, setRovSn] = useState(60);              // oyun_ayarlari.duello_rovans_sn
   // Paket 34: jokerler geçici olarak ücretsiz ve sınırsız (oyun_ayarlari.jokerler_ucretsiz)
@@ -751,7 +755,7 @@ function DuelloMac({ id }) {
     document.addEventListener("visibilitychange", gorunur);
     window.addEventListener("pageshow", tazeleHemen);
     window.addEventListener("online", tazeleHemen);
-    const saat = setInterval(() => setSimdi(Date.now()), 200);
+    const saat = setInterval(() => { if (!saatDurRef.current) setSimdi(Date.now()); }, 200);
     return () => {
       clearInterval(yoklama);
       clearInterval(saat);

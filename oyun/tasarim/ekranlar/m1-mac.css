@@ -786,6 +786,20 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt > .m1-tv-hayatta { flex: 1 1 auto; min-width: 0; display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; justify-content: flex-start; }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt > .m1-tv-hayatta > * { flex: none; }
 }
+/* 16 Eki 2026 — Turnuva kısa ekran (≤ 700 px, 360×640): orta bölüm 54 px taşıyordu (joker çubuğu kaydırma alanının altında).
+   Boş sonuç yuvası akışta 0 px kaplar (negatif alt pay = yükseklik + aralık): cevaptan önce yer tutmaz, sonuç gelince
+   pasif (soluk) joker çubuğunun üstüne düşer — kart, şıklar ve çubuk hiç oynamaz (CLS 0). Boş yuva dokunuşu çubuğa geçirir.
+   Kalan 2 px: oyuncu kartı ile "Canlı · N oyuncu hayatta" satırı arası 8 → 6 px (satır ve kart boyutu aynı — Ida). */
+@media (max-height: 700px) {
+  body.bd-oyun-modu .m1-mac:has(> .m1-tv-canli) > .m1-soru > .m1-sonuc-yuva {
+    position: relative; z-index: 2; pointer-events: none;
+    margin-bottom: calc(-44px - var(--qt-b-2));
+  }
+  body.bd-oyun-modu .m1-mac:has(> .m1-tv-canli) > .m1-soru > .m1-sonuc-yuva :is(.qt-sonuc, .m1-oylama) { pointer-events: auto; }
+  /* Bant görünürken soluk hak satırı bandın arkasından okunmasın (yer tutar — kayma yok) */
+  body.bd-oyun-modu .m1-mac:has(> .m1-tv-canli) > .m1-soru:has(> .m1-sonuc-yuva :is(.qt-sonuc, .m1-oylama)) > .m1-joker-yuva .m1-skill-hak { visibility: hidden; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru):has(> .m1-tv-canli) > .m1-tv-canli { margin-top: -2px; }
+}
 @media (min-height: 701px) and (max-width: 560px), (min-height: 701px) and (min-width: 561px) and (max-height: 960px) {
   body.bd-oyun-modu .m1-mac > .m1-soru > .qt-soru { flex: 0 1 auto; }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-kart { flex: 0 1 auto; min-height: 120px; }
