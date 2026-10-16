@@ -178,7 +178,8 @@ const ANLAMLI = new Set(["joker", "skill_elli", "skill_ek_sure", "skill_soru_deg
   "beraberlik", "xp_dolma", "level", "rutbe", "rozet", "coin", "turnuva", "can_kaybi", "rakip_cevapladi"]);
 export const sesAnlamliMi = (rol) => ANLAMLI.has(rol);
 const PENCERE_FADE_MS = 120;     // pencereye kısaltılan sesin sonu
-const EKRAN_FADE_MS = 150;       // yeni ekran geldiğinde hâlâ çalan anlamlı sesin kendiliğinden bitişi
+const PENCERE_FADE_UZUN_MS = 320;   // çok kısaltılan sesin (kesilen ≥ 240 ms) inişi: kesilenin yarısı, en çok bu kadar
+const EKRAN_FADE_MS = 150;      // yeni ekran geldiğinde hâlâ çalan anlamlı sesin kendiliğinden bitişi
 const ES_FADE_MS = 120;          // aynı rolün yeni kopyası eskisini kısarken (eskiden 30 ms — ani)
 const PENCERE_PAY_MS = 40;       // pencerenin bitişinden bu kadar önce susmuş olsun
 const PENCERE_EN_AZ_MS = 180;    // pencere bundan darsa anlamlı ses hiç başlamaz (yarım ses yerine sessizlik)
