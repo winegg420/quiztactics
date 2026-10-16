@@ -40,7 +40,7 @@ export default function KosullarPage() {
 
       <h2>{tt("1. Taraflar ve kapsam")}</h2>
       <p>
-        {tt("Bu koşullar, hizmeti sunan Quiz Tactics (bundan sonra \"biz\") ile hizmeti kullanan kişi (bundan sonra \"sen\") arasındaki sözleşmedir. Hizmet sağlayıcı bir şirket değil, Ida adlı gerçek kişidir; iletişim:")} <b>{ILETISIM}</b>{tt(". Kapsam, Quiz Tactics uygulaması, quiztactics.com sitesi ve içindeki tüm oyun modlarıdır.")}
+        {tt("Bu koşullar, hizmeti sunan Quiz Tactics (bundan sonra \"biz\") ile hizmeti kullanan kişi (bundan sonra \"sen\") arasındaki sözleşmedir. Hizmet sağlayıcı bir şirket değil, Ida Güreli adlı gerçek kişidir; iletişim:")} <b>{ILETISIM}</b>{tt(". Kapsam, Quiz Tactics uygulaması, quiztactics.com sitesi ve içindeki tüm oyun modlarıdır.")}
       </p>
 
       <h2>{tt("2. Hesap")}</h2>

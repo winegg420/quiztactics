@@ -7,8 +7,8 @@ export default {
   "takma ad, avatar veya maç içi yazılı sohbette": "abusive nicknames, avatars or in-match text chat",
   "bilgi yarışması ücretsiz olarak sunulur ve reklam içermez. Oyun yalnızca yüklü uygulamada (Android uygulaması veya ana ekrana eklenen PWA) oynanır; quiztactics.com tanıtım, indirme ve yasal metinler sitesidir. Oyunu kullanarak bu koşulları kabul etmiş olursun. Kurallara uyduğun sürece hesabın senindir; hile, taciz veya kötüye kullanım durumunda hesabın kısıtlanabilir.":
     "is a quiz game that is free to play and contains no advertising. The game is played only in the installed app (the Android app or the PWA added to your home screen); quiztactics.com is the promotional, download and legal-information site. By using the game you accept these terms. As long as you follow the rules, your account is yours; it may be restricted in case of cheating, harassment or abuse.",
-  "Bu koşullar, hizmeti sunan Quiz Tactics (bundan sonra \"biz\") ile hizmeti kullanan kişi (bundan sonra \"sen\") arasındaki sözleşmedir. Hizmet sağlayıcı bir şirket değil, Ida adlı gerçek kişidir; iletişim:":
-    "These terms form the agreement between Quiz Tactics, the provider of the service (\"we\"), and the person using the service (\"you\"). The service provider is an individual, Ida, not a company; contact:",
+  "Bu koşullar, hizmeti sunan Quiz Tactics (bundan sonra \"biz\") ile hizmeti kullanan kişi (bundan sonra \"sen\") arasındaki sözleşmedir. Hizmet sağlayıcı bir şirket değil, Ida Güreli adlı gerçek kişidir; iletişim:":
+    "These terms form the agreement between Quiz Tactics, the provider of the service (\"we\"), and the person using the service (\"you\"). The service provider is an individual, Ida Güreli, not a company; contact:",
   ". Kapsam, Quiz Tactics uygulaması, quiztactics.com sitesi ve içindeki tüm oyun modlarıdır.":
     ". These terms cover the Quiz Tactics app, the quiztactics.com website and every game mode in them.",
   "Hesap açmak için geçerli bir e-posta adresi (giriş kodu e-postayla gelir) veya bir Google hesabı gerekir.":

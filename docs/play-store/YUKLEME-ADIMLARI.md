@@ -117,4 +117,5 @@ sürümü **yükselt** (yeniden AAB gerekmez) → ülkeler: önce Türkiye, iste
   sayfası Play sürümünde kullanılamaz. Ayrıca Veri güvenliği + IARC "dijital satın alma" güncellenir.
 - **Ödüllü reklam açılırsa:** "Reklam içeriyor = Evet" + Veri güvenliği'nde reklam kimliği.
 - **Hesap türü ve geliştirici adı** (mağazada görünen "Quiz Tactics" / kişi adı) — Ida kararı.
-  `/gizlilik`'te veri sorumlusu unvanı/adresi hâlâ eksik; kuruluş hesabında Play bu bilgiyi ister.
+  `/gizlilik`'te veri sorumlusu "Ida Güreli (Quiz Tactics)" + info@quiztactics.com (16 Eki 2026); adres bilerek
+  yazılmadı — kuruluş hesabında Play adres ister.

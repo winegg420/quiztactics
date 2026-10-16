@@ -8,7 +8,8 @@ import { QtDugme, QtMarka } from "../tasarim/index.js";
 import "../tasarim/ekranlar/g-yasal.css";
 
 // Google Play zorunluluğu: mağaza kaydında gösterilecek gizlilik politikası.
-// Veri sorumlusu için şahıs/şirket unvanı ve adres henüz yok (Ida kararı bekliyor): "Quiz Tactics" + e-posta.
+// Veri sorumlusu gerçek kişi: "Ida Güreli (Quiz Tactics)" + iletişim e-postası (16 Eki 2026, Ida kararı). Adres ve kişisel
+// e-posta YAZILMAZ; iletişim yalnız info@quiztactics.com.
 // Veri akışı değişince (ör. olay kaydı/analitik, ödeme) bu metin AYRICA güncellenir.
 const GUNCELLEME = tt("16 Ekim 2026");
 const ILETISIM = "info@quiztactics.com";
@@ -36,7 +37,7 @@ export default function GizlilikPage() {
         <b>{tt("e-posta adresin")}</b>, <b>{tt("seçtiğin takma ad")}</b> {tt("ve")} <b>{tt("avatarın")}</b>{tt(", ayrıca oyun içi")} <b>{tt("puan, sıralama ve şehir/ülke")}</b> {tt("bilgin. Verilerini satmıyoruz, reklam ağlarıyla paylaşmıyoruz.")}
       </p>
       <p>
-        {tt("Veri sorumlusu: Quiz Tactics. İletişim:")} <b>{ILETISIM}</b>. {tt("Hesabını silmek için")} <Link to="/hesap-sil">{tt("Hesap silme")}</Link> {tt("sayfasına bak.")}
+        {tt("Veri sorumlusu: Ida Güreli (Quiz Tactics). İletişim:")} <b>{ILETISIM}</b>. {tt("Hesabını silmek için")} <Link to="/hesap-sil">{tt("Hesap silme")}</Link> {tt("sayfasına bak.")}
       </p>
 
       <h2>{tt("Topladığımız veriler")}</h2>
