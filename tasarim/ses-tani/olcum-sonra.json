@@ -4,54 +4,55 @@
   "zamanlar": [
    {
     "ad": "tur1 cevap",
-    "t": 2409
+    "t": 2452
    },
    {
     "ad": "tur1 sonuç",
-    "t": 4926
+    "t": 4968
    },
    {
     "ad": "tur2 karar (ben)",
-    "t": 8148
+    "t": 8180
    },
    {
     "ad": "tur2 cevap (DEVAM ×2)",
-    "t": 9964
+    "t": 9988
    },
    {
     "ad": "tur2 sonuç (ikisi doğru +6)",
-    "t": 12978
+    "t": 12999
    },
    {
     "ad": "tur3 karar (rakip)",
-    "t": 16192
+    "t": 16204
    },
    {
     "ad": "tur3 cevap (rakip AÇ)",
-    "t": 17995
+    "t": 18005
    },
    {
     "ad": "tur3 sonuç",
-    "t": 22001
+    "t": 22013
    },
    {
     "ad": "tur4 karar (ben → AÇ)",
-    "t": 25203,
+    "t": 25217,
     "tiklandi": true
    },
    {
     "ad": "tur4 cevap (benim AÇ)",
-    "t": 27805
+    "t": 27803
    },
    {
     "ad": "bitti (kazandım)",
-    "t": 31809
+    "t": 31810
    }
   ],
   "macIci": {
    "tik": 1,
    "soru_geldi": 4,
    "dogru": 3,
+   "can_kaybi": 2,
    "tur_gecis": 7,
    "rozet": 2,
    "xp_dolma": 1,
@@ -66,131 +67,254 @@
    {
     "rol": "tik",
     "dosya": "tik.mp3",
-    "t": 2768,
-    "sureMs": 19
+    "t": 2873,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 2873,
+    "ctx": "running",
+    "sureMs": 19,
+    "planMs": 19
    },
    {
     "rol": "soru_geldi",
     "dosya": "soru_geldi.wav",
-    "t": 3683,
-    "sureMs": 328
+    "t": 3831,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 3831,
+    "ctx": "running",
+    "sureMs": 328,
+    "planMs": 328
    },
    {
     "rol": "dogru",
     "dosya": "dogru.mp3",
-    "t": 5769,
-    "sureMs": 295
+    "t": 5867,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 5867,
+    "ctx": "running",
+    "sureMs": 295,
+    "planMs": 295
+   },
+   {
+    "rol": "can_kaybi",
+    "dosya": "can_kaybi.mp3",
+    "t": 6356,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 6356,
+    "ctx": "running",
+    "sureMs": 129,
+    "planMs": 129
    },
    {
     "rol": "tur_gecis",
     "dosya": "tur_gecis.wav",
-    "t": 7903,
-    "sureMs": 369
+    "t": 8004,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 8004,
+    "ctx": "running",
+    "sureMs": 369,
+    "planMs": 369
    },
    {
     "rol": "tur_gecis",
     "dosya": "tur_gecis.wav",
-    "t": 8263,
-    "sureMs": 369
-   },
-   {
-    "rol": "soru_geldi",
-    "dosya": "soru_geldi.wav",
-    "t": 10247,
-    "sureMs": 328
+    "t": 8861,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 8861,
+    "ctx": "running",
+    "sureMs": 369,
+    "planMs": 369
    },
    {
     "rol": "rozet",
     "dosya": null,
-    "t": 10333
+    "t": 10962,
+    "gecKabul": false,
+    "sonuc": "sessiz"
+   },
+   {
+    "rol": "soru_geldi",
+    "dosya": "soru_geldi.wav",
+    "t": 12646,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 12646,
+    "ctx": "running",
+    "sureMs": 328,
+    "planMs": 328
    },
    {
     "rol": "dogru",
     "dosya": "dogru.mp3",
-    "t": 13258,
-    "sureMs": 295
+    "t": 13858,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 13858,
+    "ctx": "running",
+    "sureMs": 295,
+    "planMs": 295
    },
    {
     "rol": "xp_dolma",
     "dosya": null,
-    "t": 14581
+    "t": 15184,
+    "gecKabul": false,
+    "sonuc": "sessiz"
    },
    {
     "rol": "tur_gecis",
     "dosya": "tur_gecis.wav",
-    "t": 15389,
-    "sureMs": 369
+    "t": 15986,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 15986,
+    "ctx": "running",
+    "sureMs": 369,
+    "planMs": 369
    },
    {
     "rol": "tur_gecis",
     "dosya": "tur_gecis.wav",
-    "t": 16254,
-    "sureMs": 369
+    "t": 16861,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 16861,
+    "ctx": "running",
+    "sureMs": 369,
+    "planMs": 369
    },
    {
     "rol": "tur_gecis",
     "dosya": "tur_gecis.wav",
-    "t": 19446,
-    "sureMs": 369
+    "t": 20049,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 20049,
+    "ctx": "running",
+    "sureMs": 369,
+    "planMs": 369
    },
    {
     "rol": "soru_geldi",
     "dosya": "soru_geldi.wav",
-    "t": 20782,
-    "sureMs": 328
+    "t": 21379,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 21379,
+    "ctx": "running",
+    "sureMs": 328,
+    "planMs": 328
    },
    {
     "rol": "dogru",
     "dosya": "dogru.mp3",
-    "t": 22251,
-    "sureMs": 295
+    "t": 22863,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 22863,
+    "ctx": "running",
+    "sureMs": 295,
+    "planMs": 295
+   },
+   {
+    "rol": "can_kaybi",
+    "dosya": "can_kaybi.mp3",
+    "t": 23345,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 23345,
+    "ctx": "running",
+    "sureMs": 129,
+    "planMs": 129
    },
    {
     "rol": "tur_gecis",
     "dosya": "tur_gecis.wav",
-    "t": 24387,
-    "sureMs": 369
+    "t": 24998,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 24998,
+    "ctx": "running",
+    "sureMs": 369,
+    "planMs": 369
    },
    {
     "rol": "tur_gecis",
     "dosya": "tur_gecis.wav",
-    "t": 25247,
-    "sureMs": 369
+    "t": 25857,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 25857,
+    "ctx": "running",
+    "sureMs": 369,
+    "planMs": 369
    },
    {
     "rol": "dokunus",
     "dosya": "dokunus.mp3",
-    "t": 26667,
-    "sureMs": 115
+    "t": 26661,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 26661,
+    "ctx": "running",
+    "sureMs": 115,
+    "planMs": 115
    },
    {
     "rol": "rozet",
     "dosya": null,
-    "t": 27154
+    "t": 27151,
+    "gecKabul": false,
+    "sonuc": "sessiz"
    },
    {
     "rol": "coin",
     "dosya": "coin.wav",
-    "t": 28063,
-    "sureMs": 332
+    "t": 28056,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 28056,
+    "ctx": "running",
+    "sureMs": 332,
+    "planMs": 332
    },
    {
     "rol": "soru_geldi",
     "dosya": "soru_geldi.wav",
-    "t": 28755,
-    "sureMs": 328
+    "t": 28487,
+    "gecKabul": false,
+    "sonuc": "calindi",
+    "basladi": 28487,
+    "ctx": "running",
+    "sureMs": 328,
+    "planMs": 328
    },
    {
     "rol": "kazandin",
     "dosya": "kazandin.wav",
-    "t": 33501,
-    "sureMs": 1387
+    "t": 32610,
+    "gecKabul": true,
+    "sonuc": "calindi",
+    "basladi": 32610,
+    "ctx": "running",
+    "sureMs": 1387,
+    "planMs": 1387
    },
    {
     "rol": "coin",
     "dosya": "coin.wav",
-    "t": 34354,
-    "sureMs": 332
+    "t": 33463,
+    "gecKabul": true,
+    "sonuc": "calindi",
+    "basladi": 33463,
+    "ctx": "running",
+    "sureMs": 332,
+    "planMs": 332
    }
   ],
   "hatalar": []

@@ -539,6 +539,8 @@ export function sesMacSonuKapat() {
   macSonuNo += 1;
   for (const z of macSonuZamanlar) clearTimeout(z);
   macSonuZamanlar.clear();
+  // 17 Eki 2026: ekran kapanırken HÂLÂ çalan XP dolma sesi de (yalnız zamanlayıcı değil) yumuşakça biter — yeni maçın/ekranın sesine taşmaz
+  if (ctx) for (const o of [...calanOmur]) if (o.rol === "xp_dolma" && o.gecKabul && o.kayit) yumusakSustur(ctx, o.kayit, EKRAN_FADE_MS, "maç sonu ekranı kapandı");
 }
 /** Sonraya kurulan ses: kurulduğu faz sürüyorsa çalar, faz değiştiyse sessizce düşer. */
 export function fazdaCal(f) {
