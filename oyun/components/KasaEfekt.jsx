@@ -413,7 +413,16 @@ export function KasaAltinYagmuru({ adet = 26 }) {
     don: Math.round((Math.random() * 2 - 1) * 540),
     boy: Math.round(16 + Math.random() * 14),
   })), [adet]);
-  if (typeof document === "undefined" || hareketAzaltildiMi()) return null;
+  // 16 Eki 2026 (maç sonu karesi): yağmur maç sonu sahnesinin ilk karesine binmesin — iki kare sonra takılır (parçaların en erken
+  // gecikmesi 600 ms; görünüm aynı)
+  const [tak, setTak] = useState(false);
+  useEffect(() => {
+    let k2 = 0;
+    const k1 = requestAnimationFrame(() => { k2 = requestAnimationFrame(() => setTak(true)); });
+    const yedek = setTimeout(() => setTak(true), 300);
+    return () => { cancelAnimationFrame(k1); cancelAnimationFrame(k2); clearTimeout(yedek); };
+  }, []);
+  if (typeof document === "undefined" || hareketAzaltildiMi() || !tak) return null;
   return createPortal(
     <div className="ks-yagmur" aria-hidden="true">
       {parcalar.map((p) => (

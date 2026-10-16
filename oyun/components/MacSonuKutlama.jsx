@@ -512,12 +512,15 @@ function MacSonuKutlama({
     return () => { clearTimeout(zaman); zamanRef.current?.(); };
   }, [benZafer, rakipZafer]);
 
-  // Aşama 1 takıldı → aşama 2 bir sonraki karede.
+  // Aşama 1 takıldı → rakibin tarafı bir sonraki karede → aşama 2 ondan sonraki karede. 16 Eki 2026 (Hazine maç sonu karesi):
+  // karşılaşmanın iki tarafı (çerçeveli avatar + lig amblemi + unvan) aynı karede ~70 ms (CPU 6x) tutuyordu; taraflar ızgarada
+  // sabit sütunlarda (1fr · auto · 1fr — kayma yok) ve t.avatar'a (300 ms) kadar görünmez, ayrı kare görünümü değiştirmez.
+  const [rakipTak, setRakipTak] = useState(false);
   useEffect(() => {
     if (asama !== 1) return undefined;
-    const k = requestAnimationFrame(() => setAsama(2));
+    const k = requestAnimationFrame(() => (rakipTak ? setAsama(2) : setRakipTak(true)));
     return () => cancelAnimationFrame(k);
-  }, [asama]);
+  }, [asama, rakipTak]);
 
   // 13 Eki 2026: maç sonu açılınca üst çubuk bakiyesi tazelenir — coin uçuşu yoksa (maç coini 0; görev/lig ödülü) coin
   // hemen, elmas her durumda. Uçuş varsa coin sayacı uçuşun varışında geçer (coinVardi / bitir).
@@ -621,7 +624,7 @@ function MacSonuKutlama({
                 <span className="msk-skor-etiket">{canToplam ? tt("kalan can") : (skorEtiket ?? tt("doğru"))}</span>
               </div>
             )}
-            {rakip && <Taraf kisi={rakip} rol={rol("rakip")} yan="sag" canToplam={canToplam}
+            {rakip && (rakipTak || asama >= 2) && <Taraf kisi={rakip} rol={rol("rakip")} yan="sag" canToplam={canToplam}
                              zafer={rakipZafer && zaferAn ? <Suspense fallback={null}><ZaferEfekti ef={rakipZafer} boyut="kucuk" etiket /></Suspense> : null} />}
           </div>
         )}

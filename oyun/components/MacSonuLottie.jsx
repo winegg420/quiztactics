@@ -72,6 +72,34 @@ export function lottieOnYukle(adlar) {
   for (const ad of adlar) lottieMetni(ad).catch(() => {});
 }
 
+// 16 Eki 2026 (Hazine maç sonu karesi): kupa örneği MAÇ SÜRERKEN boşta, sayfaya takılmadan (DOM dışı kutuda) kurulur;
+// maç sonu sahnesi açılınca MacSonuLottie hazır örneği kendi kutusuna takar (takma ~0 ms). Eskiden loadAnimation + SVG
+// ağacı sahnenin ikinci karesinde kuruluyordu (CPU 6x: 64–127 ms'lik görev, kutlamanın ilk çizimine bitişik → >100 ms kare).
+const hazirOrnekler = new Map();   // ad → { hiz, oran, kutu, anim }
+const bostaCalis = (f) => (typeof requestIdleCallback === "function" ? requestIdleCallback(f, { timeout: 4000 }) : setTimeout(f, 200));
+/** Animasyon örneğini önceden kurar (bir kez; maç sonu sahnesi aynı ad + hız + oranla açılınca kullanır). Hata atmaz. */
+export function lottieOnKur(ad, { hiz = 1, oran = "xMidYMid meet" } = {}) {
+  if (typeof document === "undefined" || hazirOrnekler.has(ad)) return;
+  hazirOrnekler.set(ad, null);   // kuruluyor
+  Promise.all([lottieOynaticiYukle(), lottieMetni(ad)]).then(([lottie, metin]) => bostaCalis(() => {
+    try {
+      const kutu = document.createElement("div");
+      kutu.style.cssText = "width:100%;height:100%";
+      const anim = lottie.loadAnimation({ container: kutu, renderer: "svg", loop: false, autoplay: false, animationData: JSON.parse(metin),
+        assetsPath: KLASOR, rendererSettings: { preserveAspectRatio: oran, progressiveLoad: false } });
+      anim.setSpeed(hiz);
+      hazirOrnekler.set(ad, { hiz, oran, kutu, anim });
+    } catch { hazirOrnekler.delete(ad); }
+  })).catch(() => hazirOrnekler.delete(ad));
+}
+/** Önceden kurulmuş örneği (varsa ve ayarları aynıysa) bir kez verir. */
+function hazirOrnekAl(ad, hiz, oran) {
+  const h = hazirOrnekler.get(ad);
+  if (!h || h.hiz !== hiz || h.oran !== oran) return null;
+  hazirOrnekler.delete(ad);
+  return h;
+}
+
 /** A.4: maç sonu sahnesinin bütün parçaları (oynatıcı, 4 animasyon, konfeti) — sahne takılmadan ÖNCE ısıtılır. */
 export function macSonuOnYukle() {
   lottieOnYukle(["kupa", "coin", "level", "yildiz"]);
@@ -212,9 +240,12 @@ export default function MacSonuLottie({ ref, ad, kalici = false, sonKare = 1, hi
     let bekleme = null;
     const kur = async () => {
       try {
-        const [lottie, metin] = await Promise.all([lottieOynaticiYukle(), lottieMetni(ad)]);
-        if (!aktif || !kutuRef.current) return;
-        anim = lottie.loadAnimation({
+        // 16 Eki 2026: maç sürerken önceden kurulmuş örnek varsa yalnız takılır (bkz. lottieOnKur)
+        const hazirO = hazirOrnekAl(ad, hiz, oran);
+        const [lottie, metin] = hazirO ? [null, null] : await Promise.all([lottieOynaticiYukle(), lottieMetni(ad)]);
+        if (!aktif || !kutuRef.current) { try { hazirO?.anim.destroy(); } catch { /* */ } return; }
+        if (hazirO) { kutuRef.current.appendChild(hazirO.kutu); anim = hazirO.anim; }
+        else anim = lottie.loadAnimation({
           container: kutuRef.current,
           renderer: "svg",
           loop: false,

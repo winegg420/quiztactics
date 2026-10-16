@@ -9,7 +9,8 @@
 // ============================================================
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
-import { macSonuOnYukle } from "../components/MacSonuLottie.jsx";
+import { macSonuOnYukle, lottieOnKur } from "../components/MacSonuLottie.jsx";
+import { hareketAzaltildiMi } from "../tasarim/hareket.js";
 
 const BEKLE = [0, 1200, 2500, 5000];
 
@@ -31,6 +32,19 @@ function bostaIsit() {
   };
   setTimeout(dene, 5000);
 }
+// 16 Eki 2026 (Hazine maç sonu karesi): kupa Lottie örneği HER MAÇTA maç sürerken boşta, sayfa dışında kurulur; maç sonu sahnesi
+// hazır örneği takar (MacSonuLottie.jsx › lottieOnKur — hız MacSonuKutlama'daki kupayla aynı: azaltılmış harekette 0,5). Isınmadan
+// sonra (8 sn) ve giriş sahnesi / 3-2-1 ekrandayken değil.
+function kupaOnKur() {
+  if (typeof window === "undefined") return () => {};
+  let z = null;
+  const dene = () => {
+    if (document.querySelector(".ks-giris-an, .m1-sayim")) { z = setTimeout(dene, 1000); return; }
+    try { lottieOnKur("kupa", { hiz: hareketAzaltildiMi() ? 0.5 : 1 }); } catch { /* sahne yine kendisi kurar */ }
+  };
+  z = setTimeout(dene, 8000);
+  return () => clearTimeout(z);
+}
 
 /**
  * @param {string|null} kaynak  "mac:<id>" · "duello:<id>" · "turnuva:<id>" · "grup:<id>"
@@ -40,7 +54,7 @@ export function useMacSonuOzet(kaynak) {
   const [ozet, setOzet] = useState(null);
   const [hata, setHata] = useState(null);
 
-  useEffect(() => { bostaIsit(); }, []);
+  useEffect(() => { bostaIsit(); return kupaOnKur(); }, []);
 
   useEffect(() => {
     if (!kaynak) return undefined;
