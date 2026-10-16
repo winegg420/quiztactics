@@ -14,10 +14,12 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import { davetKodum, davetBaglantisi } from "../lib/davet.js";
 import { paylasKartiCiz } from "../lib/paylasKarti.js";
 import { tt } from "../lib/dil.js";
+import { panoyaYaz } from "./DavetKodu.jsx";
 import { QtDugme } from "../tasarim/index.js";
 import "../tasarim/ekranlar/paylas.css";
 
 let davetSozu = null;
+
 /** Davet kodu + tam bağlantı; hata olursa sitenin kökü (kodsuz) döner ve sonraki çağrı yeniden dener. */
 async function davetBilgisi() {
   if (!davetSozu) {
@@ -90,6 +92,7 @@ export default function PaylasDugmesi({ tur = "davet", sonuc, className, tamGeni
       const metin = tur === "sonuc"
         ? tt("Quiz Tactics'te beni yenebilir misin? Davet kodum: {kod}", { kod: kod ?? "—" })
         : tt("Quiz Tactics'te bana meydan oku! Davet kodum: {kod}", { kod: kod ?? "—" });
+      let panoyaDus = !navigator.share;
       if (navigator.share) {
         try {
           if (h.dosya && navigator.canShare?.({ files: [h.dosya] })) {
@@ -99,12 +102,14 @@ export default function PaylasDugmesi({ tur = "davet", sonuc, className, tamGeni
             await navigator.share({ title: "Quiz Tactics", text: metin, url: baglanti });
           }
         } catch (e) {
-          if (e?.name === "AbortError") return;   // oyuncu menüyü kapattı
-          throw e;
+          if (e?.name === "AbortError") return;   // oyuncu menüyü kapattı → hata değil
+          // Menü açılamadı (NotAllowedError / InvalidStateError / TypeError…): hata gösterme, bağlantıyı kopyalamayı dene
+          console.warn("[Bildim] navigator.share reddedildi, panoya düşülüyor:", e?.name ?? e?.message ?? e);
+          panoyaDus = true;
         }
-        return;
+        if (!panoyaDus) return;
       }
-      await navigator.clipboard.writeText(baglanti);
+      if (!(await panoyaYaz(baglanti))) throw new Error("Bağlantı ne paylaşıldı ne kopyalandı");
       goster(tt("Bağlantı kopyalandı"));
     } catch (e) {
       console.error("[Bildim] paylaşım başarısız:", e?.message ?? e);

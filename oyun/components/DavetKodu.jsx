@@ -25,7 +25,7 @@ import "../tasarim/ekranlar/l-sosyal.css";
  */
 const PANO_ZAMAN_ASIMI = 1200;
 
-async function panoyaYaz(metin) {
+export async function panoyaYaz(metin) {
   try {
     if (navigator.clipboard?.writeText) {
       const yazdi = await Promise.race([
