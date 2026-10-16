@@ -29,9 +29,23 @@ ayrı kopya, `DocumentsCodex...` altında klasör **açılmaz**. 13 Eyl
 2026'da ayrık worktree yüzünden 26 commitlik iş görünmez oldu ve
 canlıdaki 3B sayfalar silindi. (Kurtarılan iş: `arsiv/OKU.md`.)
 
-Aynı anda **tek araç** çalışır. Biri işini bitirip push etmeden diğeri
-başlamaz. Oturum başında `git pull`, sonunda commit + `main`'e push (bkz. Dal düzeni).
+**Aynı klasörde** aynı anda tek araç çalışır. Biri işini bitirip push etmeden diğeri
+o klasörde başlamaz. Oturum başında `git pull`, sonunda commit + `main`'e push (bkz. Dal düzeni).
 **Commit edilmemiş iş bırakma** — yarım kalsa bile commit et.
+
+### Paralel çalışma (Ida kararı, 16 Eki 2026) — yukarıdaki "ayrı kopya açılmaz" kuralının İZİNLİ İSTİSNASI
+
+Birden fazla araç/pencere aynı anda çalışabilir; şartlar:
+- Her iş **kendi klasöründe ve kendi dalında** çalışır (git worktree); ana klasöre (`C:\Users\ida\Desktop\quiztactics`) başka iş girmez. Ida ayrı klasör açılmasına izin verdiğinde klasör adı/dal adı işin başında yazılır.
+- İşlerin **dosyaları ayrık** olmalı; aynı dosyaya iki iş dokunacaksa paralel yapılmaz.
+- **Supabase (Nano, ücretsiz) güvenliği:**
+  - Migration yazan / canlı veritabanına dokunan iş aynı anda **tek pencerede** olur.
+  - Migration numarası işin başında **önceden ayrılır** (ör. A işi 1120–1129, B işi 1130–1139); numara başkasının aralığından alınmaz. Sıra bağımlılığı kurulmaz ("984 olmadan 985 uygulanmaz" gibi); `--include-all` kullanılmaz.
+  - Aynı SQL fonksiyonu/ayar iki işte değiştirilmez (`CREATE OR REPLACE` çakışması, 17 Eyl 2026 `bot_oyna` olayı).
+  - Canlı veritabanına test/ölçüm aynı anda **tek pencerede** koşar; toplu/döngülü istek ve simülasyon yine yasak.
+- Birleştirme **sırayla** yapılır; her birleştirmeden önce güncel `main` alınır, çakışma çıkarsa DUR ve raporla.
+- `PROGRESS.md` ve `PROJECT_CONTEXT.md` paralel işlerde **yazılmaz** (commit `[progress-yok]`); işler bitince tek pencere toplu kayıt düşer.
+- Gün içi Vercel dağıtım sınırı için push'lar biriktirilir.
 
 ## Komutlar
 
