@@ -69,8 +69,8 @@ const BILGILER = [
     en: "Stored well, honey never spoils — jars thousands of years old were found in Egyptian tombs." },
   { tr: "Dünya'daki en yüksek sıcaklık kayıtlarından biri Death Valley'de ölçüldü: 56,7 °C.",
     en: "One of the highest temperatures ever recorded was 56.7 °C, in Death Valley." },
-  { ipucu: true, tr: "Dereceli maçlar lig puanı kazandırır; Serbest'te lig puanı yok, coin yarıdır.",
-    en: "Ranked matches earn league points; Casual has no league points and half the coins." },
+  { ipucu: true, tr: "Bütün maçlar dereceli: kazandıkça lig puanın artar.",
+    en: "Every match is ranked: win to climb your league." },
   { ipucu: true, duello: true, tr: "Düello'da rakibin zayıf kategorisini seçersen ve o bilirse, canı giden sen olursun.",
     en: "In a Duel, if you pick your rival's weak category and they still get it right, you lose the life." },
 ];
@@ -204,7 +204,7 @@ export default function AramaGunesHalkasi({
     const havuz = karistir(AVATARLAR.filter((a) => a !== ben?.gorunen_avatar && !kilitliAvatarKumesi().has(a)));
     return { makara: havuz.slice(0, 8), yorunge: havuz.slice(8, 16), ilkBilgi: Math.floor(Math.random() * BILGILER.length) };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  // Grup maçı ödülsüz: Dereceli/Serbest ipucu orada anlamsız (yalnız bilgiler döner)
+  // Grup maçı ödülsüz: lig ipucu orada anlamsız (yalnız bilgiler döner)
   const bilgiler = useMemo(() => BILGILER.filter((b) => (!b.duello || mod === "duello") && (mod !== "grup" || !b.ipucu)), [mod]);
   const bilgiNo = (secim.ilkBilgi + Math.floor(gecen / BILGI_SN)) % bilgiler.length;
   const b = bilgiler[bilgiNo];
@@ -261,7 +261,8 @@ export default function AramaGunesHalkasi({
             <span className="gh-rozet gh-rozet--kisi">{tt("3–5 oyuncu")}</span>
           </>
         ) : (
-          <span className={`gh-rozet gh-rozet--${dereceli ? "dereceli" : "serbest"}`}>{dereceli ? tt("Dereceli") : tt("Serbest")}</span>
+          /* 1115: bütün maçlar dereceli — Serbest rozeti kalktı */
+          <span className="gh-rozet gh-rozet--dereceli">{tt("Dereceli")}</span>
         )}
       </div>
       {bilgi && !bulundu && <p className="gh-not" role="status">{bilgi}</p>}

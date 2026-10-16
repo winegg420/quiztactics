@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { QtModal, QtModKart, QtDugme } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-modlar.css";
 import AvatarCerceve from "./AvatarCerceve.jsx";
-import DereceliAnahtari from "./DereceliAnahtari.jsx";
 import KategoriSecici from "./KategoriSecici.jsx";
 import SkillSeti from "./SkillSeti.jsx";
 import { ayarlar, useAyar } from "../lib/ayarlar.js";
@@ -30,11 +29,10 @@ import { modAciklama, modJoker } from "../lib/modAciklamalari.js";   // 12 Eki 2
  * @param {string}  [props.bekleMetni] Paket 35 B: seçim sürerken kartta (varsayılan "Davet gönderiliyor…")
  * @param {boolean} [props.alttan]     Paket 35 B: pencere alttan açılır (ana sayfa, tek elle erişim)
  *
- * @param {boolean} [props.dereceli]   23 Eyl 2026: verilirse pencerenin EN ÜSTÜNDE "Serbest | Dereceli"
- *        anahtarı çizilir (ana sayfa OYNA / Saf Bilgi) — oyun sessizce kayıtlı tercihle başlamaz.
- * @param {(d: boolean) => void} [props.onDereceli]
+ * @param {boolean} [props.dereceli]   1115 (16 Eki 2026): bütün maçlar dereceli; "Serbest | Dereceli" anahtarı kalktı.
+ *        Prop yalnız ödül satırı içindir (false = puansız satır); `onDereceli` artık kullanılmaz.
  * @param {string|null} [props.kategori]  860: Klasik / Saf Bilgi maç kategorisi (null = Karışık). `onKategori` verilirse
- *        dereceli anahtarının altında kategori seçici çizilir; Düello bu seçimi kullanmaz.
+ *        pencerenin üstünde kategori seçici çizilir; Düello bu seçimi kullanmaz.
  * @param {(k: string|null) => void} [props.onKategori]
  * @param {string[]} [props.modlar]    yalnız bu modlar gösterilir (ör. Saf Bilgi kısayolu: ["saf"])
  * @param {boolean} [props.loadout]    327: Klasik seçilince önce loadout adımı (3 yuva) açılır;
@@ -44,7 +42,7 @@ import { modAciklama, modJoker } from "../lib/modAciklamalari.js";   // 12 Eki 2
  * `profil` null ise (ana sayfa "Hemen oyna") avatar çizilmez, başlık tek satır.
  */
 export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekleMetni, alttan = false,
-                                            dereceli, onDereceli, kategori = null, onKategori, modlar, loadout = false }) {
+                                            dereceli, kategori = null, onKategori, modlar, loadout = false }) {
   // 960: tur, eşik ve akış (sırayla seçim) ayardan — useDuelloKurallari
   const { secim: duelloSecim, puan: duelloPuan, esik: duelloEsik, tur: turSayisi, hedef: duelloHedef, yol: duelloYol, v4: duelloV4, hazir: duelloHazir } = useDuelloKurallari();   // 970: puan modu
   // 957: Kasa da ortak mod listesinde (kapalıyken gösterilmez)
@@ -98,7 +96,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
 
   const ad = profil?.gorunen_ad ?? tt("Arkadaşın");
   // Paket 41 M.3: ayar okunamazsa satır yok olmasın — yüklenirken "…", okunamazsa "—"
-  // Sunucu (mac_sonuclandir / duello_bitir): Serbest'te lig puanı yok, coin × serbest_coin_carpani;
+  // 1115: bütün maçlar dereceli (serbest_coin_carpani kullanılmaz); dereceli=false yalnız eski çağıran için puansız satır.
   // Saf Bilgi'de lig ve coin × saf_bilgi_odul_carpani (indirimler çarpılmaz, en düşüğü uygulanır).
   const serbest = dereceli === false;
   const odulMetni = (o, saf = false) => {
@@ -190,7 +188,6 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
         </QtDugme>
       )}
     >
-      {onDereceli && <DereceliAnahtari dereceli={dereceli} onDegistir={onDereceli} className="a-modsecim-dereceli" />}
       {onKategori && adim !== "klasik" && (
         <KategoriSecici deger={kategori} onDegistir={onKategori} devreDisi={Boolean(calisan)}
                         aciklama={!modlar || modlar.includes("duello") ? tt("Klasik Maç ve Saf Bilgi için") : undefined} />

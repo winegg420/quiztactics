@@ -22,8 +22,6 @@ import { kategoriEtiket, kategorileriSirala } from "../lib/kategoriler.js";
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import BildirimIzniSor from "../components/BildirimIzniSor.jsx";
 import { BILDIRIM_SONRA_ANAHTAR } from "../components/MacSonuSahnesi.jsx";
-import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
-import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt, ttSunucu } from "../lib/dil.js";
 import { gorunenAd } from "../lib/oyuncu.js";
@@ -57,8 +55,8 @@ export default function Home() {
   // ya da normal (puan yok, serbest rakip).
   const [dereceliAra, setDereceliAra] = useState(true);
   const [jokersizAra, setJokersizAra] = useState(false);   // Paket 31 B: Saf Bilgi araması
-  // Paket 14 (3.1): mod seçiminin üstünde tek "Dereceli" anahtarı, son tercih hatırlanır.
-  const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
+  // 1115 (16 Eki 2026, Ida): bütün maçlar dereceli — "Serbest | Dereceli" anahtarı kalktı.
+  const dereceliTercih = true;
   const { ceviri } = useDil();
   const [siraSendeMaclar, setSiraSendeMaclar] = useState([]);
   // Meydan okuman kabul edildi — rakip maçta seni bekliyor (en üstte, vurgulu)
@@ -580,9 +578,7 @@ export default function Home() {
               />
             </div>
 
-            {/* Kategori ve dereceli/serbest — ikisi de mevcut mekanizma:
-                tercih_kategori (tercih_kategori_kaydet) ve dereceli tercihi
-                (localStorage + profiles.dereceli_tercih). */}
+            {/* Kategori: tercih_kategori (tercih_kategori_kaydet). Dereceli anahtarı 1115'te kalktı. */}
             <QtKart dolgu="k" className="a-ana-ayarlar">
               <button
                 type="button"
@@ -598,7 +594,6 @@ export default function Home() {
                 </span>
                 <QtIkon ad="asagi" boyut={20} className="a-ana-kategori-ok" />
               </button>
-              <DereceliAnahtari dereceli={dereceliTercih} onDegistir={setDereceliTercih} className="a-dereceli--gomulu a-ana-dereceli" />
             </QtKart>
 
             <QtDugme boyut="b" tamGenislik ikon="oyna" aria-haspopup="dialog" onClick={() => setModSecimAcik(true)}>

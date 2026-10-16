@@ -12,9 +12,7 @@ import { useAyar } from "../lib/ayarlar.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RakipAra from "../components/RakipAra.jsx";
-import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import KategoriSecici from "../components/KategoriSecici.jsx";
-import { useDereceliTercih } from "../lib/dereceli.js";
 import { useKategoriTercih } from "../lib/kategoriTercih.js";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
@@ -45,7 +43,7 @@ export default function ModlarPage() {
   // KASA (deneysel, 950): ayar satırı yoksa (migration uygulanmamış) ya da 0 ise kart kilitli + kapalı notu
   const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
   const navigate = useNavigate();
-  const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
+  const dereceliTercih = true;   // 1115 (16 Eki 2026, Ida): bütün maçlar dereceli — "Serbest | Dereceli" seçimi kalktı
   // 860: Klasik / Saf Bilgi maç kategorisi (null = Karışık) — ana sayfa OYNA penceresiyle AYNI tercih.
   const [kategoriTercih, setKategoriTercih] = useKategoriTercih();
   // Arama açıkken hangi tür: jokersiz = Saf Bilgi
@@ -71,10 +69,6 @@ export default function ModlarPage() {
       )}
 
       <SayfaBasligi ikon="oyna" baslik={tt("Tarzını seç, bilgini göster")} className="a-modlar-afis" />
-
-      {/* Dereceli/serbest ayrımı tek anahtarla — ana sayfadakiyle AYNI tercih
-          (localStorage + profiles.dereceli_tercih). */}
-      <DereceliAnahtari className="a-dereceli--serit" dereceli={dereceliTercih} onDegistir={setDereceliTercih} />
 
       {/* 860: kategori seçilirse Klasik Maç / Saf Bilgi'nin bütün soruları o kategoriden gelir (Düello hariç). */}
       <KategoriSecici deger={kategoriTercih} onDegistir={setKategoriTercih} aciklama={tt("Klasik Maç ve Saf Bilgi için")} />

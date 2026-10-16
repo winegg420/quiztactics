@@ -22,7 +22,6 @@ import { ligGrubumOzet } from "../../lib/lig.js";
 import { ayar, ayarlar } from "../../lib/ayarlar.js";
 import { duelloKurallari } from "../../lib/duelloKurallari.js";
 import { useKategoriTercih } from "../../lib/kategoriTercih.js";
-import { useDereceliTercih } from "../../lib/dereceli.js";
 import { hataMesaji } from "../../lib/hata.js";
 import { y } from "../../lib/yol.js";
 import { tt } from "../../lib/dil.js";
@@ -345,7 +344,7 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
 export function useOyunBaslat() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
+  const dereceliTercih = true;   // 1115 (16 Eki 2026): bütün maçlar dereceli — seçim kalktı
   // 860: Klasik / Saf Bilgi maç kategorisi (null = Karışık); son seçim hatırlanır.
   const [kategoriTercih, setKategoriTercih] = useKategoriTercih();
   const [modAcik, setModAcik] = useState(false);   // false | "hepsi" | "saf"
@@ -396,7 +395,7 @@ export function useOyunBaslat() {
       )}
       {modAcik && (
         <ModSecimPenceresi profil={null} alttan baslik={tt("Nasıl oynamak istersin?")} bekleMetni={tt("Rakip aranıyor…")}
-          dereceli={dereceliTercih} onDereceli={setDereceliTercih}
+          dereceli={dereceliTercih}
           kategori={kategoriTercih} onKategori={setKategoriTercih}
           modlar={modAcik === "saf" ? ["saf"] : undefined}
           onSec={async (mod) => {

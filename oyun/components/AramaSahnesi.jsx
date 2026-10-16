@@ -14,7 +14,7 @@
 //
 // YALNIZ SUNUM: eşleştirme mantığı (kuyruga_gir / quick_match / duello_ara, E'nin
 // rastgele eşleşme süresi, ~3 sn yoklama) çağıran ekranda (RakipAra, DuelloArama) kalır.
-// Bütün aranan modlar aynı bileşeni kullanır: Klasik (Serbest/Dereceli), Saf Bilgi, Düello.
+// Bütün aranan modlar aynı bileşeni kullanır: Klasik, Saf Bilgi, Düello (1115'ten beri hepsi dereceli).
 //
 // iOS: kök katman `position: fixed` ve body'ye portal; kökte transform YOK, hareket
 // yalnız iç öğelerde (transform/opacity). Yükseklik 100dvh. Azaltılmış harekette durağan.

@@ -320,7 +320,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
             const ucretsiz = (tur === "elli" && durum.ucretsiz_elli_kaldi) || bedavaMi;
             const engel = neden(tur);
             const adet = envanter[tur] ?? 0;
-            // Rozet kuralı bütün jokerlerde aynı: kullanılabilir adet (stok; serbest Klasik'te ücretsiz 50:50 hakkı +1).
+            // Rozet kuralı bütün jokerlerde aynı: kullanılabilir adet (stok; ücretsiz 50:50 hakkı varsa +1 — 1115'ten beri hiçbir maçta yok).
             // Eskiden ücretsiz 50:50 rozeti gizliyordu (site testi 3. tur, madde 3).
             const rozetAdedi = adet + (tur === "elli" && durum.ucretsiz_elli_kaldi ? 1 : 0);
             const satilik = satinAlinabilir(tur);

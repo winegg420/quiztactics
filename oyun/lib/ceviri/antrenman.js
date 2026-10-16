@@ -9,6 +9,7 @@ export default {
   "Mod seç": "Pick a mode",
   "{n} Klasik maç bitirince açılır": "Unlocks after you finish {n} Classic matches",
   "Antrenman maçı başlatılamadı.": "Couldn't start the practice match.",
+  "Antrenman": "Practice",
   // Meydan Oku › "Kime?" bölümü (1 Eki 2026): arkadaş + bot tek şerit, yanında seçim özeti çipi
   "Kime?": "Challenge who?",
   "Seçimin:": "Your pick:",

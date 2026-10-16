@@ -17,7 +17,7 @@ import "../tasarim/ekranlar/m1-sonuc.css";
  * veri: A.3 — döküm elde varsa (mac_sonu_ozet.dokum) sorgu atılmaz, doğrudan çizilir.
  */
 const INDIRIM = {
-  serbest: "serbest maç — coin yarı",
+  serbest: "serbest maç — coin yarı",   // yalnız 1115 öncesi eski maç dökümleri (bütün maçlar artık dereceli)
   cift_yari: "çift koruması — %50",
   cift_odulsuz: "aynı rakiple bugün çok maç — ödülsüz",
   acik_bot: "açık bot — coin yarı",

@@ -880,7 +880,7 @@ export default function MatchPage() {
             { ikon: "saat", metin: tt("Soru başına 15 sn") },
             mac.jokersiz
               ? { ikon: "safBilgi", metin: tt("Jokersiz") }
-              : { ikon: "kupa", metin: mac.dereceli === false ? tt("Serbest") : tt("Dereceli") },
+              : { ikon: "kupa", metin: mac.dereceli === false ? tt("Antrenman") : tt("Dereceli") },   // 1115: false yalnız açık bot (ya da eski maç)
           ]}
           ipucu={mac.jokersiz
             ? tt("Bu maçta joker yok — sadece bilgi ve hız.")
