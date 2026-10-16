@@ -106,3 +106,4 @@ başlatılamaz — taklitle bakıldı", "WebKit bu makinede çalışmıyor — g
 | `araclar/hazine-akis-olcum.mjs --azalt` / `--spa` | 3 — hareket azaltma; maça uygulama içinden (SPA) giriş |
 | `araclar/senkron-testi.mjs [--taklit]` | 5 — 3-2-1 ve sayaçlar, bütün modlar (Turnuva taklit) |
 | `node araclar/oyuncu-testi.mjs --adres=…` | 6, 7, 8 — canlı duman testi |
+| `node araclar/jev.mjs` · `node araclar/jev-test.mjs` · `node araclar/soru_denetim/kapi.mjs › sikIpucuTesti` (yerel örnek soru, `fetch` tuzaklı) | Jev kapalı (`JEV_KAPALI`, 16 Eki 2026): ağ çağrısı yok, `jev_devre_disi` döner; şık ipucu kapısı "Jev yok, atlandı" ile geçer (başarısız sayılmaz), diğer kapılar (`codex-kapi.test.mjs` 13/13) aynen çalışır |

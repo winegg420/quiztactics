@@ -12679,3 +12679,12 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - Migration yok. BAKILAMADI: arayuz-denetim / duello-v4-ekran / senkron-testi (hesap açmadan çalışmıyor), canlı yavaş telefon duman
   testi ve ses-kesilme yeni CPU 6x (sistem bellek darlığında yerel sunucuları durdurdu).
 - Gözlem: `TaskStop` arka plan kabuğunu kapatıyor ama `npx vite` alt süreçleri açık kalıyor — iş sonunda süreç listesinden kapatıldı.
+
+## 2026-10-16 — Jev (TypeSafe) kapatıldı: tek kapatma anahtarı
+**Araç:** Claude Code
+**Neden:** Jev kredisi bitti; hiçbir iş Jev yüzünden beklemesin/hata vermesin.
+
+- Anahtar: `araclar/jev.mjs › JEV_KAPALI` (varsayılan **true**; `JEV_KAPALI=0` ile açılır). Kapalıyken `jevSor` ağsız `{kapali:true, answers:{}, usage.input_tokens:0}` döner; bağımsız betikler (`jev-*.mjs`, `soru-temizlik/jev-ikinci-gecis.mjs`) `jevKapaliysaCik()` ile `{karar:"kendin_karar_ver", sebep:"jev_devre_disi"}` yazıp 0 ile çıkar. Global `~/.claude/jev/jev.mjs` aynı anahtarı taşır (komutlar stdin beklemeden anında döner); `hatirlat.mjs` "Jev kapalı" notu verir.
+- `soru_denetim/kapi.mjs › sikIpucuTesti`: kapalıyken `{takildi:false, atlandi:"Jev yok, atlandı", jevYok:true}`. Çağıranlar (`api-uret`, `codex-kapi`, `sik-ipucu-api/837`, `iceri`) bunu başarısız saymaz; tek-doğru kapısı Jev yokken geçer, raporda `jev_atlandi` işaretlenir. `codex-kalite` ve `soru-parti-1000/jev-kapi` "Jev yok, atlandı" ile çıkar. Diğer kapılar (şık dengesi, benzerlik, uzunluk, hakem) aynen.
+- Tehlikeli komut kapısı (`kapi.mjs`) zaten Jev'i çağırmıyordu (26 Eyl'den beri; yalnız `ESIK` içe aktarır, 3,5 sn tavan, hata → çıkış 0) — değişmedi. "Belirsiz kalıplar" bugün allow+günlük; bunların ask'a çevrilmesi kalıcı onaylarla (silme/deploy/migration) çakıştığı için yapılmadı, karar Ida'da.
+- Skill, AGENTS.md, PROJECT_CONTEXT.md, `~/.codex/AGENTS.md`, `is-akisi.md` Jev bölümlerinin başına "JEV KAPALI" satırı eklendi; içerik silinmedi. `.env › TYPESAFE_API_KEY` yerinde (kapalıyken okunmaz).

@@ -12,6 +12,17 @@
 
 import fs from 'node:fs';
 
+// KAPATMA ANAHTARI (16 Eki 2026, kredi bitti): true iken hiçbir ağ çağrısı yapılmaz; jevSor anında
+// { kapali: true, answers: {}, usage: { input_tokens: 0 } } döner. Yeniden açmak: JEV_KAPALI=0 ya da burayı false yap.
+export const JEV_KAPALI = process.env.JEV_KAPALI ? !/^(0|false|hayir|hayır)$/i.test(process.env.JEV_KAPALI) : true;
+
+/** Tek başına çalışan Jev betikleri başında çağırır: kapalıysa "jev_devre_disi" yazıp çıkış kodu 0 ile biter. */
+export function jevKapaliysaCik(ad = '') {
+  if (!JEV_KAPALI) return;
+  console.log(JSON.stringify({ karar: 'kendin_karar_ver', sebep: 'jev_devre_disi', arac: ad }));
+  process.exit(0);
+}
+
 const UCNOKTA = 'https://api.typesafe.ai/v1/systemone';
 const VARSAYILAN_MODEL = 'jev-latest';
 
@@ -51,6 +62,7 @@ const bekle = (ms) => new Promise((r) => setTimeout(r, ms));
  * @returns {Promise<{answers:object, model:string, usage:object, sureMs:number}>}
  */
 export async function jevSor(state, questions, sec = {}) {
+  if (JEV_KAPALI) return { kapali: true, answers: {}, model: 'jev-kapali', usage: { input_tokens: 0, output_tokens: 0 }, sureMs: 0 };
   const model = sec.model || VARSAYILAN_MODEL;
   const zamanAsimiMs = sec.zamanAsimiMs ?? 60000;
   const enFazlaDeneme = sec.deneme ?? 3;

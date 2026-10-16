@@ -289,7 +289,7 @@ async function kapilar(adaylar, anahtar) {
     try {
       const ip = await sikIpucuTesti(a.tr, a.tr[a.dogru], a.id);
       jev.jeton += ip.jeton;
-      if (ip.pDogru == null) { a.d.geri = `Jev ipucu testi atlandı: ${ip.atlandi ?? '?'}`; return; }
+      if (ip.pDogru == null && !ip.jevYok) { a.d.geri = `Jev ipucu testi atlandı: ${ip.atlandi ?? '?'}`; return; }
       if (ip.pDogru > ESIK_P) { a.d.geri = `Jev ipucu p=${ip.pDogru.toFixed(2)} > ${ESIK_P} (seçim: "${ip.secim}")`; return; }
       const td = await tekDogruKapisi(a);
       jev.jeton += td.jeton;

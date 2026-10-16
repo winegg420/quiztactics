@@ -15,7 +15,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { jevSor, choice, score, noul, maliyetUsd } from '../jev.mjs';
+import { jevSor, choice, score, noul, maliyetUsd, JEV_KAPALI } from '../jev.mjs';
 import { sikIpucuTesti } from '../soru_denetim/kapi.mjs';
 
 const ESZAMANLI = 5;
@@ -124,6 +124,7 @@ export function taslaklariOku(klasor) {
 }
 
 async function main() {
+  if (JEV_KAPALI) { console.log('Jev yok, atlandı (JEV_KAPALI) — bu araç yalnız Jev ile çalışır.'); return; }
   const [klasor, cikti] = process.argv.slice(2);
   if (!klasor || !cikti) throw new Error('Kullanım: jev-kapi.mjs <taslak-klasoru> <cikti.jsonl> [--butce 1.5]');
   const bi = process.argv.indexOf('--butce');

@@ -12,7 +12,8 @@
 
 import fs from 'node:fs';
 import { PgIstemci, baglantiDizgisi } from './pg-mini.mjs';
-import { jevSor, choice, maliyetUsd } from './jev.mjs';
+import { jevSor, choice, maliyetUsd, jevKapaliysaCik } from './jev.mjs';
+jevKapaliysaCik('jev-zorluk-dondurma-ikinci-gecis.mjs');
 
 const ILK_HAM = new URL('./jev-tarama/zorluk-dondurma-ham.jsonl', import.meta.url);
 const HAM = new URL('./jev-tarama/zorluk-dondurma-ikinci-ham.jsonl', import.meta.url);

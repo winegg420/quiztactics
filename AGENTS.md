@@ -158,6 +158,7 @@ push'ta sessizce silinir; 13 Eyl'de tam olarak bu oldu.
   (ör. "rebase yaptım (commit'ini güncel hale getirdim)").
 
 ## Jev (TypeSafe) ne zaman kullanılır
+**JEV KAPALI (kredi bitti, 16 Eki 2026): kullanma, karar adımlarını kendin ver.**
 
 Jev metin üretmez; kapalı uçlu bir soruya güven skoruyla cevap verir.
 Maliyeti LLM'in yüzde biri kadardır. Amaç: toplu değerlendirme işini
@@ -226,6 +227,7 @@ API anahtarı doğruluğu, ürün kararı) sor.
   (CPU 6x yavaş + yavaş 4G + 390×844 Android UA, soğuk/sıcak açılış). Canlı veritabanına yük kuralları (yukarıda) aynen geçerli.
 
 ## Jev iş akışı (bütün projeler)
+**JEV KAPALI (kredi bitti, 16 Eki 2026): kullanma, karar adımlarını kendin ver.**
 
 <!-- TEK KAYNAK: C:/Users/ida/.claude/jev/is-akisi.md — bu bölüm oradan birebir kopyalanır
      (~/.claude/skills/jev-akis/SKILL.md, ~/.codex/AGENTS.md, proje AGENTS.md). Değiştirirken kaynağı değiştir. -->

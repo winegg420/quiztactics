@@ -11,7 +11,8 @@
 
 import fs from 'node:fs';
 import { PgIstemci, baglantiDizgisi } from './pg-mini.mjs';
-import { jevSor, choice, score, maliyetUsd } from './jev.mjs';
+import { jevSor, choice, score, maliyetUsd, jevKapaliysaCik } from './jev.mjs';
+jevKapaliysaCik('jev-test.mjs');
 
 const CIKTI = new URL('./jev-test-ham.json', import.meta.url);
 const TOHUM = 20260921; // sabit tohum → örneklem tekrarlanabilir

@@ -118,7 +118,7 @@ export function sec(st, adaylar) {
   kovalar.sort((a,b)=>(a.a.length/Math.max(1,a.h))-(b.a.length/Math.max(1,b.h)));
   for (const {k,z,h,a} of kovalar) {
     let say=0;
-    for(const t of a.sort((a,b)=>a.jev_p-b.jev_p)){
+    for(const t of a.sort((a,b)=>(a.jev_p??0)-(b.jev_p??0))){
       if(say===h)break;
       if(t.yerel&&(yerel>=Math.floor(st.adet*.1)||(['tarih','edebiyat'].includes(k)&&secilen.filter(x=>x.k===k&&x.yerel).length>=Math.floor(st.plan.kota[k]*.3))))continue;
       const ak=k+':'+t.alt_tur,lim=ALT_SINIR[k];
@@ -217,12 +217,12 @@ export async function main(argv=process.argv) {
     const r=st.kayitlar[t.id];
     try{
       if(r.kapi<4){const ip=await sikIpucuTesti([t.d,...t.y],t.d,t.s);st.jev_jeton+=ip.jeton??0;
-        if(typeof ip.pDogru!=='number'||!Number.isFinite(ip.pDogru)||ip.pDogru<0||ip.pDogru>1)throw new Error('Jev ipucu yanıtı eksik/geçersiz');
-        r.jev_p=ip.pDogru;r.kapi=4;if(!ipucuGecer(ip.pDogru)){r.sonuc='elendi';r.neden='Jev ipucu: p='+ip.pDogru+' > 0.75';}kaydet();
+        if(ip.jevYok){r.jev_p=null;r.jev_atlandi=ip.atlandi;r.kapi=4;kaydet();}else{if(typeof ip.pDogru!=='number'||!Number.isFinite(ip.pDogru)||ip.pDogru<0||ip.pDogru>1)throw new Error('Jev ipucu yanıtı eksik/geçersiz');
+        r.jev_p=ip.pDogru;r.kapi=4;if(!ipucuGecer(ip.pDogru)){r.sonuc='elendi';r.neden='Jev ipucu: p='+ip.pDogru+' > 0.75';}kaydet();}
       }
       if(r.sonuc!=='elendi'&&r.kapi<5){const sorular=Object.fromEntries(t.y.map((s,i)=>['sik_'+i,noul('Soruya "'+s+'" cevabı verilirse bu da doğru sayılabilir mi?')]));
         const y=await jevSor({soru:t.s,siklar:[t.d,...t.y],dogru_cevap:t.d},sorular);st.jev_jeton+=y.usage?.input_tokens??0;kaydet();
-        r.tek_dogru_p=tekDogruOlasilik(y);r.kapi=5;r.sonuc=r.tek_dogru_p>=0.5?'elendi':'gecti';r.neden=r.sonuc==='elendi'?'yanlış şık da doğru: p='+r.tek_dogru_p:'';kaydet();
+        r.tek_dogru_p=y.kapali?null:tekDogruOlasilik(y);if(y.kapali)r.jev_atlandi='Jev yok, atlandı';r.kapi=5;r.sonuc=r.tek_dogru_p>=0.5?'elendi':'gecti';r.neden=r.sonuc==='elendi'?'yanlış şık da doğru: p='+r.tek_dogru_p:'';kaydet();
       }
       Object.assign(t,r);console.log(t.id+' '+r.sonuc);
      }catch(e){st.asama='işlem durdu; '+t.id+' '+(r.kapi>=5?'durum yazımı':'kapı '+(r.kapi+1));st.son_hata={tur:e.name,kod:e.code??null};kaydet();throw new Error(st.asama+' ('+e.name+(e.code?' '+e.code:'')+'); aynı komutla devam edin. Başarısız kapı geçmiş sayılmadı.');}

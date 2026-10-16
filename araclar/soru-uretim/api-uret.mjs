@@ -254,7 +254,8 @@ async function kapilar(adaylar, anahtar) {
       const ip = await sikIpucuTesti([t.d, ...t.y], t.d, t.s);
       jev.jeton += ip.jeton;
       t.jev_p = ip.pDogru;
-      if (ip.pDogru == null) { t.sonuc = 'elendi'; t.neden = `Jev ipucu atlandı: ${ip.atlandi}`; return; }
+      if (ip.pDogru == null && !ip.jevYok) { t.sonuc = 'elendi'; t.neden = `Jev ipucu atlandı: ${ip.atlandi}`; return; }
+      if (ip.jevYok) t.jev_atlandi = ip.atlandi;   // Jev kapalı: başarısız sayılmaz, raporda işaretlenir
       if (ip.pDogru > ESIK_P) { t.sonuc = 'elendi'; t.neden = `Jev ipucu p=${ip.pDogru.toFixed(2)} > ${ESIK_P}`; return; }
       const td = await tekDogru(t);
       if (td >= 0.5) { t.sonuc = 'elendi'; t.neden = `yanlış şık da doğru olabilir (Jev p=${td.toFixed(2)})`; return; }
@@ -299,7 +300,7 @@ function durumYaz(st) {
 function sec(st) {
   const secilen = [];
   for (const k of KATEGORI) {
-    let g = st.taslaklar.filter((t) => t.k === k && t.sonuc === 'gecti').sort((a, b) => a.jev_p - b.jev_p);
+    let g = st.taslaklar.filter((t) => t.k === k && t.sonuc === 'gecti').sort((a, b) => (a.jev_p ?? 0) - (b.jev_p ?? 0));
     if (GLOBAL_AGIRLIK[k]) { // yerel payı tavanı (kategori kotasına göre)
       const yTavan = Math.floor(st.plan.kota[k] * (1 - GLOBAL_AGIRLIK[k]));
       let y = 0;
@@ -325,7 +326,7 @@ function yaz(st, secilen) {
   const sirali = [...secilen].sort((a, b) => KATEGORI.indexOf(a.k) - KATEGORI.indexOf(b.k) || a.zorluk - b.zorluk);
   const cikti = sirali.map((t, i) => ({
     id: `${ON_EK}-${String(i + 1).padStart(2, '0')}`, k: t.k, yerel: t.yerel, s: t.s, d: t.d, y: t.y, zorluk: t.zorluk,
-    en: t.en, ...(t.en ? {} : { en_neden: t.en_neden }), olgu: t.olgu, jev_p: Number(t.jev_p.toFixed(3)), hakem_tahmin: t.hakem.tahmin,
+    en: t.en, ...(t.en ? {} : { en_neden: t.en_neden }), olgu: t.olgu, jev_p: t.jev_p == null ? null : Number(t.jev_p.toFixed(3)), ...(t.jev_atlandi ? { jev_atlandi: t.jev_atlandi } : {}), hakem_tahmin: t.hakem.tahmin,
   }));
   fs.mkdirSync(CIKTI, { recursive: true });
   fs.writeFileSync(path.join(CIKTI, 'sorular.json'), JSON.stringify(cikti, null, 1) + '\n');

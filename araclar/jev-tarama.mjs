@@ -13,7 +13,8 @@
 
 import fs from 'node:fs';
 import { PgIstemci, baglantiDizgisi } from './pg-mini.mjs';
-import { jevSor, choice, score, noul, maliyetUsd } from './jev.mjs';
+import { jevSor, choice, score, noul, maliyetUsd, jevKapaliysaCik } from './jev.mjs';
+jevKapaliysaCik('jev-tarama.mjs');
 
 const KLASOR = new URL('./jev-tarama/', import.meta.url);
 const HAM = new URL('./ham.jsonl', KLASOR);

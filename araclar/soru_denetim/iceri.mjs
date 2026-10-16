@@ -6,7 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { KLASOR, sorgu, jsonSabit } from "./ortak.mjs";
 import { duzeltmeKapiSorgusu, sikIpucuSonHalSorgusu, sikIpucuTesti, SIK_IPUCU_ISARET } from "./kapi.mjs";
-import { maliyetUsd } from "../jev.mjs";
+import { maliyetUsd, JEV_KAPALI } from "../jev.mjs";
 
 const kuru = process.argv.includes("--kuru");
 const arg = process.argv.slice(2).find((a) => !a.startsWith("--"));
@@ -100,7 +100,7 @@ if (ipucuAdaylari.length) {
       }
       console.warn("  Doğru hamle: çeldiricileri doğru şıkla aynı tür/biçimde, eşit inandırıcı yaz ('Yalnız…', 'İkisi aynı' gibi kalıp yok).");
     } else {
-      console.log(`Şık ipucu kapısı (Jev): ${ipucuAdaylari.length} satırın hepsi geçti.`);
+      console.log(JEV_KAPALI ? `Şık ipucu kapısı (Jev): Jev yok, atlandı (${ipucuAdaylari.length} satır).` : `Şık ipucu kapısı (Jev): ${ipucuAdaylari.length} satırın hepsi geçti.`);
     }
     console.log(`  Jev: ${jeton} girdi jetonu ($${maliyetUsd(jeton).toFixed(4)})`);
   } catch (e) {

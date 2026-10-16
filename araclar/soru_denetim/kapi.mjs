@@ -8,7 +8,7 @@
 // Bu yüzden kapı, yazmadan ÖNCE engellemek zorundadır.
 import crypto from "node:crypto";
 import { jsonSabit } from './ortak.mjs';
-import { jevSor, choice } from "../jev.mjs";
+import { jevSor, choice, JEV_KAPALI } from "../jev.mjs";
 
 /**
  * Ham (henüz veritabanında olmayan) sorular için kapı sorgusu.
@@ -86,10 +86,12 @@ function karistir(dizi, tohum) {
  * @param {string[]} secenekler dört şık (sıra önemsiz, karıştırılır)
  * @param {string} dogru doğru şıkkın metni
  * @param {string} [tohum] karıştırma tohumu (aynı içerik → aynı sıra)
- * @returns {Promise<{secim:string|null, pDogru:number|null, takildi:boolean, atlandi?:string, jeton:number}>}
+ * @returns {Promise<{secim:string|null, pDogru:number|null, takildi:boolean, atlandi?:string, jevYok?:boolean, jeton:number}>}
  * Jev hatası fırlatılır — çağıran "kapı çalışmadı" diye ele alır (sessizce geçirmez).
  */
 export async function sikIpucuTesti(secenekler, dogru, tohum = "") {
+  // Jev kapalı (kredi bitti, 16 Eki 2026): bu kapı atlanır, BAŞARISIZ sayılmaz; diğer kapılar aynen çalışır.
+  if (JEV_KAPALI) return { secim: null, pDogru: null, takildi: false, atlandi: "Jev yok, atlandı", jevYok: true, jeton: 0 };
   const siklar = (secenekler ?? []).map((s) => String(s));
   if (siklar.length !== 4 || !siklar.includes(dogru)) return { secim: null, pDogru: null, takildi: false, atlandi: "4 şık / doğru şık yok", jeton: 0 };
   if (new Set(siklar).size !== siklar.length) return { secim: null, pDogru: null, takildi: false, atlandi: "yinelenen şık", jeton: 0 };

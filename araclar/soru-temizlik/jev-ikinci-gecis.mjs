@@ -3,7 +3,8 @@
 // Kullanım: node araclar/soru-temizlik/jev-ikinci-gecis.mjs [--say]  (kaldığı yerden devam eder)
 import fs from 'node:fs';
 import { PgIstemci, baglantiDizgisi } from '../pg-mini.mjs';
-import { jevSor, choice, noul, maliyetUsd } from '../jev.mjs';
+import { jevSor, choice, noul, maliyetUsd, jevKapaliysaCik } from '../jev.mjs';
+jevKapaliysaCik('jev-ikinci-gecis.mjs');
 const HAM = new URL('../jev-tarama/ham.jsonl', import.meta.url);
 const CIKTI = new URL('./jev-ikinci-gecis.jsonl', import.meta.url);
 const BUTCE = 0.3, ESZ = 5;
