@@ -1,8 +1,9 @@
 // DERECELİ KALDIRMA EKRAN DENETİMİ (16 Eki 2026, migration 1115) — "Serbest | Dereceli" anahtarının olduğu ekranlar.
 // Ana sayfa + OYNA penceresi, Modlar, Düello girişi, Meydan Oku, Dükkân › Jokerler: 360×640 ve 390×844, TR ve EN.
 // Her ekranda: "Serbest"/"Casual"/"Dereceli|Serbest" anahtarı metni kalmış mı · yatay taşma · konsol hatası · ekran görüntüsü.
-// Oturum: araclar/arayuz-denetim.mjs'in KENDİ misafir hesabı (.arayuz-denetim-oturum.json, --sakla ile açılmış). Ida oturumu VERİLMEZ.
-// Dil: misafirin profiles.dil'i --dil'e eşitlenir (canlı çekimde dil döngüsü kuralı) — yalnız bu test hesabında.
+// Oturum: --ida → Ida'nın hesabı (admin magic link, bellekte; bu araç HESAP SİLMEZ, yazdığı tek şey profiles.dil — sonda eski değerine
+// döner) · yoksa araclar/arayuz-denetim.mjs'in kendi misafir oturumu (.arayuz-denetim-oturum.json).
+// Dil: hesabın profiles.dil'i --dil'e eşitlenir (canlı çekimde dil döngüsü kuralı), iş bitince eski değer geri yazılır.
 //   node araclar/dereceli-ekran.mjs --adres=http://localhost:5189 [--dil=tr,en]
 import { chromium } from "playwright-core";
 import fs from "node:fs";
@@ -15,13 +16,27 @@ const DILLER = String(ARG.dil || "tr,en").split(",");
 const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
 const CIKTI = path.resolve("tasarim/dereceli-1115");
 fs.mkdirSync(CIKTI, { recursive: true });
-const IDA = "e4f6006f-d6bb-4ca8-be67-3bdf9efc9708";
-const durum = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
+async function idaOturumu() {
+  const E = {};
+  for (const d of [".env.local", ".env"]) { try { for (const m of fs.readFileSync(d, "utf8").matchAll(/^([A-Z_]+)=(.*)$/gm)) if (!(m[1] in E)) E[m[1]] = m[2].trim(); } catch { /* yok */ } }
+  const URL_ = E.SUPABASE_YENI_URL || E.VITE_SUPABASE_URL, SERVIS = E.SUPABASE_YENI_SERVICE_ROLE_KEY, ANON = E.VITE_SUPABASE_ANON_KEY;
+  const istek = async (yol, govde, anahtar) => {
+    const r = await fetch(URL_ + yol, { method: "POST", headers: { apikey: anahtar, Authorization: `Bearer ${anahtar}`, "Content-Type": "application/json" }, body: JSON.stringify(govde) });
+    const m = await r.text(); if (!r.ok) throw new Error(`${yol} → ${r.status}`); return JSON.parse(m);
+  };
+  const link = await istek("/auth/v1/admin/generate_link", { type: "magiclink", email: "idagureli@gmail.com" }, SERVIS);
+  const o = await istek("/auth/v1/verify", { type: "magiclink", token_hash: link?.properties?.hashed_token ?? link?.hashed_token }, ANON);
+  const kayit = { access_token: o.access_token, refresh_token: o.refresh_token, expires_in: o.expires_in, expires_at: o.expires_at ?? Math.floor(Date.now() / 1000) + 3600, token_type: "bearer", user: o.user };
+  const ref = new URL(URL_).hostname.split(".")[0];
+  return { cookies: [], origins: [{ origin: new URL(ADRES).origin, localStorage: [{ name: `sb-${ref}-auth-token`, value: JSON.stringify(kayit) }] }] };
+}
+const durum = ARG.ida ? await idaOturumu() : JSON.parse(fs.readFileSync(OTURUM, "utf8"));
 const jeton = durum.origins.flatMap((o) => o.localStorage ?? []).find((x) => x.name.includes("-auth-token"));
+if (!jeton) throw new Error("oturumda kimlik yok");
 const KIM = JSON.parse(Buffer.from(JSON.parse(jeton.value).access_token.split(".")[1], "base64url").toString()).sub;
-if (KIM === IDA) throw new Error("Bu araç Ida oturumuyla koşmaz");
 const EKRANLAR = [
-  { ad: "ana-oyna", yol: "/", eylem: async (s) => { await s.locator('button[aria-haspopup="dialog"]').filter({ hasText: /OYNA|PLAY/i }).first().click({ timeout: 8000 }); await s.waitForTimeout(900); } },
+  { ad: "ana-oyna", yol: "/", eylem: async (s) => { await s.getByText(/^(Klasik|Classic)$/).first().click({ timeout: 8000 }); await s.waitForTimeout(900); } },
+  { ad: "ana-safbilgi", yol: "/", eylem: async (s) => { await s.getByText(/^(Saf Bilgi|Pure Knowledge)$/).first().click({ timeout: 8000 }); await s.waitForTimeout(900); } },
   { ad: "modlar", yol: "/modlar" },
   { ad: "duello", yol: "/duello" },
   { ad: "meydan", yol: "/meydan" },
@@ -29,6 +44,7 @@ const EKRANLAR = [
 ];
 const BOYUT = [[360, 640], [390, 844]];
 const db = await new PgIstemci(await baglantiDizgisi()).baglan();
+const ESKI_DIL = (((r) => (r.rows ?? r.satirlar ?? r)[0])(await db.sorgu(`select dil from profiles where id = ${alintila(KIM)}`)))?.dil ?? "tr";
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
 const sonuc = [];
 try {
@@ -67,7 +83,8 @@ try {
     }
   }
 } finally {
-  await db.sorgu(`update profiles set dil = 'tr' where id = ${alintila(KIM)}`).catch(() => {});
+  await db.sorgu(`update profiles set dil = ${alintila(ESKI_DIL)} where id = ${alintila(KIM)}`).catch(() => {});
+  console.log("dil geri yazıldı:", ESKI_DIL);
   await tarayici.close(); await db.kapat?.();
   fs.writeFileSync(path.join(CIKTI, "olcum.json"), JSON.stringify(sonuc, null, 1));
 }
