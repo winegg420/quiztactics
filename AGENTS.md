@@ -208,6 +208,10 @@ API anahtarı doğruluğu, ürün kararı) sor.
 
 ## Siteyi tarama/test
 
+- **TAM TEST KAPSAMI (Ida, 16 Eki 2026):** her test `docs/TEST-KAPSAMI.md`'nin **tamamını** koşar (dokunma, görünüm,
+  animasyon, ses — sonuna kadar çaldı mı / kim kesti / kalan ms —, zamanlama, akış, veri, konsol; 360×640 + 390×844, TR + EN,
+  yavaş telefon taklidi; bütün modlar ve sayfalar). Testi o günkü şikâyete göre daraltmak **yasak**; koşulamayan madde raporda
+  **BAKILAMADI + nedeni** yazar.
 - Oyun masaüstü tarayıcıda **`https://quiztactics.com/?dev=1`** ile açılır (kurulum kapısı geçilir; oturum boyunca
   hatırlanır, sekme kapanınca biter). Bu adres arayüz metinlerinde geçmez.
 - **Robot doğrulaması (Cloudflare Turnstile) çıkarsa dur** ve Ida'ya bırak; aşmaya, tekrar tekrar denemeye çalışma.
