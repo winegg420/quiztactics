@@ -16,6 +16,9 @@
 //   --ida            : test hesabı yerine Ida'nın hesabıyla (idaGG) — oturum bellekte kurulur (admin magic link), diske yazılmaz,
 //                      hesap SİLİNMEZ. test-oturumu.mjs --sil ile birlikte KULLANILMAZ.
 //   --mod=hazine,klasik : yalnız bu maçlar · --etiket=once : çıktı/video adı · --yalniz_mac : ekran ölçümü yok
+//   --iz_mac         : (16 Eki 2026, maç içi kasma paketi) maçın tamamının hafif Chrome izi (devtools.timeline + toplevel) →
+//                      .tmp/yavas-mac/<etiket>/<mod>-mac.trace.json — çözümleme: node araclar/iz-coz.mjs <iz> --dist=<kaynak haritalı derleme>
+//   --videosuz       : ekran videosu kaydedilmez (video kodlaması kare ölçümüne ~15–20 ms ekliyor — taklitte ölçüldü)
 //   --cevapsiz=0.4   : (16 Eki 2026) soruların bu oranında oto oyuncu HİÇ dokunmaz (süre dolar) — Ida'nın "sayaç 0'da takıldı"
 //                      durumu; maç sonunda sayfa gizlenir (izleme kuyruğu gönderilir, gerçek telefondaki gibi)
 import { chromium } from "playwright-core";
@@ -406,7 +409,7 @@ try {
     fs.mkdirSync(VIDEO, { recursive: true });
     for (const [kod, m] of Object.entries(MAC).filter(([k]) => (MODSEC ? MODSEC.includes(k) : !k.endsWith("_antrenman")))) {
       let id = null;
-      const b = await baglamAc(tarayici, { video: VIDEO });
+      const b = await baglamAc(tarayici, { video: ARG.videosuz ? null : VIDEO });
       const konsol = [];
       try {
         if (!IDA_OTURUM) await m.hazirla?.();
@@ -450,7 +453,9 @@ try {
             const iz = await tarayici.stopTracing().catch(() => null); if (iz) fs.writeFileSync(path.join(VIDEO, `${kod}-sayim.trace.json`), iz);
           },
         } : null;
+        if (ARG.iz_mac) await tarayici.startTracing(s, { categories: ["devtools.timeline", "toplevel"] }).catch((e) => console.log("  iz başlamadı:", e.message));
         const bitti = await otoOyna(s, Number(ARG.sinir_sn ?? 480) * 1000, profil);
+        if (ARG.iz_mac) { const iz = await tarayici.stopTracing().catch(() => null); if (iz) fs.writeFileSync(path.join(VIDEO, `${kod}-mac.trace.json`), iz); }
         const t = await s.evaluate(() => ({ o: window.__olc, ses: window.__sesKayit ?? [], olay: window.__sesOlay ?? [], ctx: window.__sesCtx ?? [], akis: window.__akis ?? [], omur: window.__sesOmur ?? [] }));
         // 16 Eki 2026: oyuncu uygulamadan çıkar gibi sayfa gizlenir → izleme kuyruğu (istemci hataları + akış kayıtları) gönderilir
         await s.evaluate(() => { Object.defineProperty(document, "visibilityState", { configurable: true, get: () => "hidden" }); document.dispatchEvent(new Event("visibilitychange")); }).catch(() => {});

@@ -1,3 +1,200 @@
+# Sesli sohbet kaldırıldı + Maç içi kasmalar — rapor (16 Eki 2026, akşam)
+
+## Ne yapıldı
+- **A · Sesli sohbet her yerden kalktı** (bütün modlar). Sunucu kapısı kapandı (1117, geri alınabilir, yetkiler aynı).
+- **B · Kasma kök nedeni ölçüldü** (Chrome izi + kaynak haritası, her uzun görev için sorumlu adıyla). Maç sonu sahnesinin açılış
+  görevi küçültüldü; maç içi kalan maliyetler ve ölçüm artefaktları ayrıldı. Görünüm, süreler ve oyun kuralları değişmedi.
+- Yeni/ genişleyen ölçüm araçları: `araclar/iz-coz.mjs` (iz çözümleyici, `--gecersiz` ile stil geçersizleştirme nedeni),
+  `araclar/profil-coz.mjs` (CPU profili → kaynak), `yavas-android-olcum.mjs --iz_mac --videosuz`, `hazine-akis-olcum.mjs --spa --azalt
+  --tani_has --dom_svg`.
+
+## A · Sesli sohbet — kaldırılanlar (kalan referans: **0**)
+| Yer | Ne kalktı |
+|---|---|
+| `oyun/components/SesliSohbet.jsx`, `oyun/lib/sesliSohbet.js` | dosyalar silindi (WebRTC, mikrofon, davet/kabul arayüzü) |
+| `oyun/pages/MatchPage.jsx` | import, `sesYuva` durumu, iki `.bd-ses-yuva` yuvası, `<SesliSohbet …/>` çağrısı, ilgili yorumlar |
+| `oyun/styles/tema.css` | "MAÇ İÇİ SESLİ SOHBET" bloğu (`bd-ses-yanip`), `.bd-ses-yuva:empty` |
+| `oyun/tasarim/ekranlar/m1-mac.css` | `.m1-ses-satir/-metin/-cagri/-nokta/-bilgi`; `.bd-ses-yuva` kuralları (kısa ekranda tepki düğmesinin ortalanması `.m1-alt--1v1` ile aynen korundu). `.m1-ses` kaldı — maç içi ses ayarı düğmesi (`MacUstSerit`) kullanıyor |
+| `oyun/lib/ceviri/temel.js` | 43 anahtar (TR+EN; yalnız başka yerde kullanılmayanlar) |
+| `oyun/pages/GizlilikPage.jsx` | "Sesli sohbet" bölümü (mikrofon, WebRTC, IP adresi paragrafları); son güncelleme 16 Ekim 2026 |
+| `oyun/pages/KosullarPage.jsx` | taciz maddesinde "sesli sohbette", "Sesli sohbette izinsiz kayıt" maddesi, "Sesli sohbet bunun dışındadır" paragrafı; son güncelleme 16 Ekim 2026 (EN: `ceviri/kosullar.js`) |
+| `docs/play-store/*` | veri güvenliği ("uygulama mikrofon kullanmaz"), içerik derecelendirme, mağaza metni TR+EN |
+| Korunan | `Ikon.jsx › mikrofon` ikonu (Görünüm › Dans kullanıyor; yorum düzeltildi) |
+
+Tarama (`sesli|SesliSohbet|webrtc|RTCPeerConnection|getUserMedia|mac_sonu_sesli|sesli_sohbet|bd-ses-yuva`): kaynakta 0, derlemede
+(`dist/assets`) 0. **Migration 1117** (`20260612001117_sesli_sohbet_kaldirildi.sql`, canlıda): `sesli_sohbet_izni` silinmedi; her çağrıda
+`izinli=false, 'Sesli sohbet kaldırıldı'`. ROLLBACK provası (1117 + geri alma dosyası) temiz; uygulandıktan sonra ACL aynı
+(`authenticated`, `service_role`), `security definer` aynı. `mac_sonu_sesli_sn` satırı ve eski veri durur. Geri alma:
+`docs/sesli-sohbet-1117-geri-al.sql` (canlıdan okunan 206 gövdesi). `TEST-KAPSAMI.md`'de sesli sohbet maddesi yoktu.
+
+## B · Kasmalar — kök neden (ölçüldü)
+Ölçüm: CPU 6x · yavaş 4G · 390×844 Android. Canlı: test hesabı (izli) + Ida (duman, videosuz). Yerel: Hazine taklit (bot / gecikmeli /
+dalgalı), A/B dönüşümlü (eski derleme 5198 ↔ yeni 5199).
+| Önceki "en uzun kare" | Gerçek sorumlu | Tür |
+|---|---|---|
+| Klasik 305 · Düello 498 · Hazine 497 ms | **ilk 5 sn**: aracın maça `page.goto` ile girmesi = uygulamanın soğuk açılışı (JS derleme, kabuk çizimi 119 ms, `new AudioContext()` 179 ms, ilk yerleşim 203 ms). Gerçek oyuncu maça uygulama içinden (SPA) girer | ölçüm yolu (soğuk açılış) |
+| maç içi 117–284 ms kareler (31 / 9 / 39 adet) | **ekran videosu kodlaması**: aynı canlı akış videosuz 0–5 adet; taklitte video +15–35 ms ekliyor | ölçüm artefaktı |
+| soru geçişi 95–120 ms görev | yeni sorunun yeniden kurulan DOM'u (Hazine ~690, Klasik ~330 öğe stil hesabı, CPU 6x 30–42 ms) + yerleşim + React; `:has()` kuralları silinince değişmiyor (311 öğe) | gerçek, < 150 |
+| dokunuş 95–148 ms görev | React tıklama işlemesi (30–60 ms) + şıkların sınıf/disabled değişimiyle stil | gerçek, < 150 |
+| maç sonu 125–200 ms | `MacSonuKutlama`: (1) `--msk-ust` / `--msk-sigdir` kalıtsal özel değişkenleri sahnenin 350–500 öğesini 2–3 kez yeniden stilliyordu, (2) açılış görevinde iki zorunlu ölçüm (436: üst blok ölçümü 20–23 ms, 466: sığdırma 26–31 ms) | gerçek → **düzeltildi (kısmen)** |
+| SPA girişinde 168 ms tek yerleşim (taklit Hazine) | avatar SVG görsellerinin (`/avatars/pro*/…svg`) ilk görünüşü (SVG belge kurulumu; `visibility:hidden` ile kayboluyor) | gerçek ama gerçek akışta arama ekranı avatarları önceden gösterdiğinden çoğunlukla orada ödenir |
+
+**Düzeltme (görünüm aynı):** `@property --msk-ust { inherits: false }` (yalnız kökün `top`unda kullanılıyor), `--msk-sigdir` yalnız
+ölçek < 1 iken ve değişince yazılır (CSS yalnız `[data-sikisik]` altında, varsayılan 1), üst blok ilk ölçümü ResizeObserver'ın ilk
+gözleminde (aynı kare, yerleşimden sonra, boyamadan önce), gövde sınıfı değişimi bir sonraki kareye ertelendi. Denenip **geri alınan**:
+sığdırma ölçümünü ResizeObserver'a taşımak (kareyi uzattı), rakip joker rozetini sonuç fazında tutmak (sahne faz anahtarıyla yeniden
+kurulduğu için kesik sayısı arttı).
+
+### Önce / sonra
+| Mod · senaryo | Ölçü | Önce | Sonra |
+|---|---|---|---|
+| Hazine taklit · bot (A/B, 2 çift) | maç sonu açılış görevi | 117 · 112 ms | **78 · 78 ms** |
+| Hazine taklit · dalgalı (A/B, 2 çift) | maç sonu açılış görevi | 117 · 115 ms | **77 · 78 ms** |
+| Hazine taklit · bot / dalgalı | maç sonu en uzun kare (aynı anda koşulan A/B) | 134·117 / 118·117 | 117·117 / 100·117 (makine yükünde iki derleme de 117'de; sakin anda sonra: bot 69 · gecikmeli 70 · EN/360 50 · azalt 50) |
+| Hazine taklit · bot / gecikmeli / dalgalı | maç içi en uzun kare (sonuç · AÇ · DEVAM) | 71 / 54 / 125 | 71 / 71 / 89 — bu paket maç içi koda dokunmadı; fark koşular arası gürültü |
+| Canlı Klasik (Ida, videosuz) | maç içi en uzun kare · > 100 ms kare | 305 · 31 (videolu) | **150 · 15** |
+| Canlı Düello (Ida, videosuz) | aynı | 230 · 9 (videolu) | **134 · 4** |
+| Canlı Hazine (Ida, videosuz) | aynı | 177 · 39 (videolu) | **134 · 23** (bir kez 200 ms, uzun görevsiz) |
+| Canlı test hesabı (izli, videosuz) | maç içi en uzun görev | — | Klasik 79 · Hazine 86 ms |
+| Canlı (Ida) | açılış (ilk 5 sn, soğuk) | 284 / 498 / 497 | 329 / 300 / 467 (soğuk yükleme — aracın yolu) |
+| Canlı (Ida) | maç sonu görevleri | 161 / 200 / 149 | 161 / 160 / 153 |
+| Kesik CSS animasyonu (Hazine taklit, 10 maç) | — | 0–3 / maç | 0–3 / maç (dalgalıda bir koşuda 21: aşağıda) |
+
+**Hedefler:** maç içi < 150 ms — Düello 134 ✓, Hazine 134 ✓ (tek 200 ms kare uzun görev içermiyor; araç yoklaması/GC), Klasik **150 = sınırda,
+tutmadı** (tek kare, soru geçişi 119 ms görev). Hazine maç sonu < 100 ms — taklitte açılış görevi 78 ms ✓, kare sakin makinede 50–70 ✓,
+yüklü makinede 100–117 ✗; canlıda Ida profiliyle maç sonu görevleri 152–161 ms ✗ — kalan, sahnenin ilk React çizimi (Ida'nın çerçeve, lig
+amblemi, XP/level, görev ve rozet içeriğiyle taklitten ~2 kat ağır); ilk çizimi parçalamak sahnenin beliriş sırasını etkiler → karar bekliyor.
+
+### Kesik animasyonlar (3–7) — sınıflama
+| Animasyon | Ne zaman | Sınıf |
+|---|---|---|
+| `qt-h-konfeti`, `ks-dogru-isik` (16+1) | dalgalı ağda sonuç ekranı geç görününce karar ekranı gelir, ekranla birlikte gider | ekran geçişi (ağ gecikmesi) — kod hatası değil |
+| `ks-rakip-joker` rozeti + içindeki `qt-h-zipla` (7+1) | iki taraf cevaplayınca soru ekranı sonuç ekranına geçer, rozet soru ekranıyla sökülür | **gerçek, görünür** (rozet tam görünürken kaybolur) — düzeltmesi tasarım kararı (aşağıda) |
+| `ks-karar-yakin/isik` (2+2) | karar ekranı ağ gecikmesiyle geç görünüp yeni soruyla gider | ekran geçişi |
+| `ks-titre` (2), `ks-kalp` (4) | sandığın 2 px titremesi / kalp atışı, karar/soru ekranı değişince | görünmez (2 px) / ekran geçişi |
+| `ks-giris-sayi` (1) | dalgalı ağda saat atlaması: "1" rakamı 534/1000 ms'de | dalgalı senaryoya özgü (saat atlaması taklidi) |
+
+## Test tablosu (docs/TEST-KAPSAMI.md)
+| Madde | Kapsam | Sonuç | Not |
+|---|---|---|---|
+| A · sesli sohbet düğmesi yok | Klasik, Saf, Grup, Turnuva (`klasik-mac-ekran`, taklit), Düello (`duello-v4-ekran`), Hazine (taklit) · 360/390 · TR+EN; kaynak + derleme taraması | GEÇTİ | arayüzde mikrofon/sesli sohbet yok; derlemede metin/WebRTC 0 |
+| 1 Dokunma | `arayuz-denetim` (16 sayfa × 1440/850/560/390, test hesabı), maç ekran turları | GEÇTİ | 44 px altı 0, kapalı hedef 0 |
+| 2 Görünüm | aynı + `klasik-mac-ekran` (20 kombinasyon), `duello-v4-ekran` (750 denetim) | **KALDI (eski)** | Grup: `ls-ad-dugme` ad kırpık (paket öncesi CSS'le de aynı); Düello `00-giris` tek ekran/sayaç beklentisi 6–10 (paket öncesi kaynakta da aynı). Bu paketin değişikliğiyle ilgisiz |
+| 2 iOS kuralları | `arayuz-denetim` | GEÇTİ | fixed+transform 0, transform'lu ata 0, 100vh 0 |
+| 3 Animasyon — maç içi > 100 ms kare | canlı 3 mod (Ida) + Hazine taklit 3 senaryo, CPU 6x | **KALDI (kısmen)** | yukarıdaki tablo: Klasik 150 sınırda; maç sonu canlıda 152–161 ms görev |
+| 3 Animasyon — kesilen | Hazine taklit 10+ maç | KALDI (sınıflandı) | gerçek görünür olan yalnız rakip joker rozeti; gerisi ekran geçişi |
+| 3 Hareket azaltma | Hazine taklit `--azalt`, Düello 360 TR azalt | GEÇTİ | maç sonu 50 ms, kesik 0, sonsuz döngü yok |
+| 4 Ses | canlı 3 maç (ses ömrü), `ses-kesilme-olcum` 6 mod × CPU 1x/6x, `ses-zamanlama-olcum`, Hazine taklit | GEÇTİ | ani kesilen 0; çalarken yeni ekran (>150 ms) 0 (canlı), 1 (azalt, rozet sonuna kadar çaldı); Hazine çizelgesi CPU 6x: joker + rozet 150 ms fade ile yumuşak bitti (ani değil); canlıda `ses_kesildi` 0 |
+| 5 Zamanlama | Hazine taklit (sayaç 0'da > 1 sn 0, sıçrama 0, 3-2-1 ~1 sn), Turnuva senkron taklidi | GEÇTİ (taklit) | |
+| 5 Zamanlama — canlı izleme | Ida duman sonrası `akis_bozulma` | **KALDI** | Hazine `faz_gec` sonuç 4211 / 4245 ms + karar 1236 ms, `sayac_sifir` karar 1195 ms; Düello nötr `sayac_sapma` 836, `sayac_sifir` 1793, `faz_gec` 1831 ms. Bu paket zamanlama koduna dokunmadı; CPU 6x otomasyonda ayrı inceleme gerekiyor |
+| 6 Akış | canlı Klasik / Düello / Hazine (açık bot) | GEÇTİ | üçü de `bitti` (DB); araç "bitti"yi algılayamadı ve süre sınırına kadar bekledi (aracın durum algısı — ölçümü etkilemedi) |
+| 7 Veri | açık bot maçı (serbest) | GEÇTİ | maçlar `bitti`, ses/XP akışı oynadı; açık bot → Bin Galibiyet sayılmaz kuralı değişmedi |
+| 8 Konsol | bütün koşular | GEÇTİ | JS hatası 0; beklenen 400: `duello_cevap … Süre dolmadı` (1114 yeniden deneme); taklitte kesilen istekler `ERR_FAILED`; arayüz denetiminde `localhost:5199` kökenli 1 CORS (yerel port) |
+| Yerel testler | `test:kurallar` (8 + 7), `test:dans`, build, iOS ayrıştırma | GEÇTİ | joker testinin DB kısmı canlı kilidinde atlandı |
+| `npm test` (sunucu) | | BAKILAMADI | `_test/sunucu` canlı DB'de işlem açıyor — CLAUDE.md canlı DB kuralı |
+| Arayüz denetimi misafir girişi | | BAKILAMADI → test hesabıyla koşuldu | Turnstile denenmedi; geçici test hesabı (admin API, Ida değil) kullanıldı, sonunda silindi |
+| iOS gerçek cihaz | | BAKILAMADI | WebKit bu makinede çalışmıyor |
+
+## Karar bekleyenler
+1. **Rakip joker rozeti** sonuç ekranı gelince yarıda kayboluyor: rozeti faz anahtarlı sahnenin dışına taşımak konumunu etkileyebilir
+   (görünüm değişikliği) — yapılsın mı?
+2. **Maç sonu ilk çizimi** canlıda (dolu profil) 150–160 ms: sahneyi bir kare daha erken iskeletle açıp içeriği 2. karede takmak beliriş
+   sırasını değiştirir — yapılsın mı?
+3. Canlı izlemedeki Hazine sonuç geçişi 4,2 sn / Düello nötr sayaç 0'da 1,8 sn: ayrı paket olarak incelensin mi?
+4. Klasik soru geçişi tek karesi 150 ms (sınırda): yeni sorunun DOM'unu yeniden kurmak yerine yerinde güncellemek (anahtar değişimi) bir
+   sonraki paketin işi olabilir.
+
+## Özet
+Sesli sohbet her moddan kalktı (2 dosya silindi, 8 kaynak dosyası + 3 Play Store belgesi düzenlendi, 43 çeviri anahtarı, kalan referans 0); 1117 canlıda, yetkiler aynı.
+Kasmaların büyük kısmı ölçüm artefaktıydı (video kodlaması + soğuk sayfa yüklemesi); gerçek kalan maliyetler adıyla ölçüldü, maç sonu açılış
+görevi taklitte 115 → 78 ms. Canlı maç içi en uzun kare Klasik 150 · Düello 134 · Hazine 134 ms.
+
+## Telefonda bakılacak 3 şey
+1. Maç sonu sahnesi açılırken üst çubuğun altındaki konum ve içerik sığdırma eskisi gibi mi (kayma/zıplama yok).
+2. Maç ekranında ve maç sonunda mikrofon/sesli sohbet düğmesi hiç görünmüyor; Gizlilik/Koşullar'da sesli sohbet paragrafı yok.
+3. Kısa ekranlı telefonda (≤ 600 px yükseklik) Klasik maçta tepki düğmesi alt satırda ortalı.
+
+---
+
+# Ses kesilmesi + Tam test kapsamı + Dereceli kalktı + Maç sonu karesi — rapor (16 Eki 2026)
+
+## A · Tam test kapsamı (kalıcı kural)
+`docs/TEST-KAPSAMI.md`: her test 8 başlığın tamamını koşar — dokunma, görünüm, animasyon, **ses (sonuna kadar çaldı mı, kim kesti,
+yeni ekran geldiğinde kalan ms, çakışma, hiç çalmadıysa neden)**, zamanlama, akış, veri, konsol; 360×640 + 390×844, TR + EN, yavaş telefon
+taklidi, bütün modlar ve sayfalar. Her madde GEÇTİ / KALDI / BAKILAMADI (+ neden). Kural CLAUDE.md ve AGENTS.md'de.
+
+### Bu paketin test tablosu
+| Madde | Kapsam | Sonuç | Not |
+|---|---|---|---|
+| 4 Ses — ani kesilme | Hazine sayfa (6 maç, 3 senaryo, CPU 1x/6x) + 6 mod çizelgesi (CPU 1x/6x) | **GEÇTİ** | ani kesilen anlamlı ses 0 |
+| 4 Ses — çalarken yeni ekran | aynı | **GEÇTİ (kalan var)** | 30 → 3 (Hazine) · 7 → 4 (çizelge); kalanlar ≤ 290 ms ve sonuna kadar çalıyor |
+| 4 Ses — hiç çalmadı | aynı | GEÇTİ | çalmayan anlamlı ses 0 |
+| 5 Zamanlama — sayaç | Hazine 6 maç | GEÇTİ | 0'da > 1 sn: 0 · sıçrama 0 · rakam 0,89–1,21 sn |
+| 3 Animasyon — maç sonu > 100 ms kare | Hazine 3 senaryo CPU 6x | **KALDI (dalgalı)** | 71 / 55 / **108** ms (önce 87 / 89 / 158) |
+| 3 Animasyon — kesilen | Hazine | KALDI (eski) | 3–7 kesik CSS animasyonu (önce 6–14) — bu paketin konusu değil, ayrı iş |
+| 8 Konsol | Hazine taklit, çizelge | GEÇTİ | sayfa hatası 0 |
+| Derleme + yerel testler | build, joker kuralları, skill, sayaç saati, dans, iOS ayrıştırma | GEÇTİ | |
+| 6/7 Akış + veri — canlı duman (Ida, açık bot, yerel üretim derlemesi + canlı Supabase, yavaş telefon) | Klasik · Düello · Hazine birer maç | **GEÇTİ** | üçü de bitti (açık bot maçı dereceli=false — Antrenman kuralı korunuyor); ses 62/62 · 25/25 · 116/119 çaldı (Hazine'de 3'ü soğuk açılışta geç inen giriş sesi — bilinen); ses ömrü ani 0, çalarken yeni ekran 0; canlı izleme kaydı: ses_kesildi 0, ses_yok 2, faz_gec 1 (Düello 1,0 sn); konsol 0. İlk deneme bellek azlığında durdurulmuştu, Ida onayıyla sırayla yeniden koşuldu |
+| 3 Animasyon — maç içi > 100 ms kare (yavaş telefon) | duman maçları | **KALDI** | en uzun kare Klasik 305 · Düello 498 · Hazine 497 ms (CPU 6x) — bu paketin konusu değil, ayrı iş |
+| 2 Görünüm — Dereceli ekranları | OYNA penceresi, Saf Bilgi penceresi, Modlar, Düello, Meydan Oku, Dükkân · 360×640 + 390×844 · TR + EN (Ida hesabı, salt okuma) | **GEÇTİ** | "Serbest/Casual" 0, anahtar yok, taşma yok, undefined/NaN yok, konsol 0 (`tasarim/dereceli-1115/`) |
+| 1/2 Dokunma + görünüm — arayuz-denetim (18 sayfa) | | **BAKILAMADI** | misafir girişi Cloudflare Turnstile'da tamamlanmadı (oturumda kimlik yok) → sonuç girişsiz sayfalara ait, geçersiz; Turnstile aşılmadı (kural). Hesap açılmadı, silinecek hesap yok |
+| Grup / Turnuva sayfada ses | | BAKILAMADI (sayfada) | canlıda istenince başlatılamıyor; ses çizelgesiyle (gerçek ses.js + dosyalar) bakıldı: GEÇTİ |
+| `npm test` (sunucu) | | BAKILAMADI | canlı DB'de işlem açar — CLAUDE.md canlı DB kuralı |
+| iOS gerçek cihaz | | BAKILAMADI | WebKit bu makinede çalışmıyor; Ida'nın telefonunda |
+
+## B · Kesilen sesler — önce / sonra
+**Kök neden (ölçüldü):** kod hiçbir sesi ani durdurmuyordu; sesler **çalarken yeni ekran geliyordu** ve yeni ekranın sesi (soru geldi /
+doğru-yanlış) üstüne biniyordu — kulakta "yarıda kesildi". Eski testler yalnız başlangıca baktığı için görmedi. Ayrıca aynı ses ikinci kez
+istenince eskisi 30 ms'de (ani) kısılıyordu.
+
+| Ses (Ida'nın örnekleri önce) | Önce | Ne yapıldı | Sonra |
+|---|---|---|---|
+| Hazine rakip 2x/joker işaret sesi (1,41 sn) | sonuç ekranı gelince 0,2–1,1 sn kala doğru/yanlış altında | çalma 0,7 sn'ye kısaldı (sonu 120 ms iniş); yalnız işaret kutusuyla, iki taraf cevaplamamışken | en çok 0,29 sn kala, sonuna kadar çalıyor |
+| Hazine giriş sahnesi sesi (rozet, 1,8 sn) | 3-2-1 sonrası soru geldiğinde 0,9 sn kala soru sesiyle çakışma | sahnenin bitişine sığar (pencere "giriş") | çakışma 0 |
+| Hazine AÇ anı sesi (rozet + coin) | yeni soru geldiğinde 0,3–1,6 sn kala | AÇ/DEVAM anının süresine sığar | çakışma 0 |
+| Düello rakip zaman baskısı sesi (1,2 sn) | sonuçta 0,4 sn kala | maç içi 0,9 sn sınırı | ≤ 0,26 sn kala, sonuna kadar |
+| Rakip bulundu + VS (1,8 sn) | geçişe sığmıyordu (VS 0,45 sn'de başlar) | maç ekranına geçişe kalan süreye sığar | — |
+| Aynı ses tekrar | eskisi 30 ms'de ani | 120 ms iniş | ani 0 |
+| Yeni ekran gelince hâlâ çalan anlamlı ses | üst üste | ≤ 400 ms kaldıysa sonuna kadar, fazlaysa 150 ms'de kendiliğinden biter | — |
+Ses dosyaları ve /ses-secim seçimleri değişmedi (kısaltma çalma süresinde).
+
+**İzlemeye eklenen olay (migration 1116, canlıda):** `ses_kesildi` — anlamlı ses planının %80'inden önce bittiyse ya da çalarken yeni ekran
+geldi ve 150 ms'den fazlası kaldıysa: mod, faz, ses rolü, kalan ms, kesen (ekran / aynı ses / soru sesi), cihaz. Sınırlar aynı (maçta tür
+başına 3). `/yonetim/izleme › Akış bozulmaları` ve 08:00 e-postasında görünür. Prova: geçersiz tür atıldı, yetkiler aynı.
+
+## C · Dereceli / Serbest kalktı (migration 1115, canlıda)
+- Sunucu: 14 fonksiyon — `kuyruga_gir`, `quick_match`, `duello_ara`, `kasa_ara`, `hizli_mod_baslat`, `duello_davet_et`, `kasa_davet_et`,
+  `duello_olustur`, `kasa_olustur`, `create_challenge`, `rovans_iste` (p_dereceli false gelse de dereceli; açık bot hariç), `joker_ucretsiz_elli_hakki`
+  (her zaman yok), `odul_carpani` / `odul_indirim_sebebi` (serbest indirimi çıktı). Ayar satırları, eski maçlar, `dereceli_tercih` silinmedi.
+  Geri alma `docs/dereceli-1115-geri-al.sql`.
+- İstemci: ModSecimPenceresi, Home, anasayfa/veri, ModlarPage, DuelloPage, KasaPage, ChallengesPage, RakipAra, AramaGunesHalkasi,
+  AramaSahnesi, MatchPage (açık bot maçı "Antrenman"), jokerKurallari, JokerCubugu, OdulDokumu, dereceli.js (sabit dereceli), README.
+- **Dikkat:** alt ajanın ilk prova denemesi bir fonksiyonu sorgunun WHERE'ine koyduğu için tek ROLLBACK'li işlemde ~135 çağrı yaptı (veri
+  kalmadı) — canlı DB "döngü yok" kuralına aykırı; betik düzeltildi.
+- Açık soru: Antrenman'da (açık bot) ücretsiz 50:50 de kalktı.
+
+## D · Hazine maç sonu karesi
+Kaynak (profil): kutlamanın ilk çizimi (~58 ms) + kupa Lottie kurulumu (64–127 ms, CPU 6x) art arda. Kupa artık maç sürerken boşta, sayfa
+dışında kuruluyor (bütün modlar); rakip tarafı ayrı karede; altın yağmuru iki kare sonra. Görünüm aynı (önce/sonra görüntüleri
+`tasarim/hazine-akis/ms-once-bot1.png`, `ms-sonra-bot1.png`).
+| CPU 6x | bot | gecikmeli | dalgalı ağ |
+|---|---|---|---|
+| önce | 87 ms | 89 ms | 158 ms |
+| sonra | **71 ms** | **55 ms** | **108 ms** |
+Dalgalıda kalan: sahne açılınca `<html>`'e eklenen sınıf bütün sayfanın stilini yeniden hesaplatıyor (görünümü değiştirmeden ayrılamadı).
+
+## Ida'nın telefonda bakacağı 3 şey
+1. Hazine: rakip 2x işaretlediğinde ses kısa ve tam çalmalı; sonuç geldiğinde yarıda kalmamalı.
+2. Hazine girişi: 3-2-1 bitip soru gelirken önceki ses soru sesinin üstüne binmemeli.
+3. OYNA / Modlar / Düello / Meydan Oku: "Serbest | Dereceli" anahtarı olmamalı.
+
+## Özet
+Ses: ani kesilme 0, çalarken yeni ekran 30 → 3 (kalanlar kısa ve sonuna kadar çalıyor); izlemeye `ses_kesildi` eklendi. Dereceli kalktı
+(1115), ekranlar TR/EN temiz. Maç sonu karesi 3 senaryonun 2'sinde < 100 ms, dalgalıda 108 ms. Canlı duman (Klasik, Düello, Hazine) geçti.
+Push 2f84152b, Vercel canlıda doğrulandı. Bakılamayan: arayüz denetimi (Turnstile). Kalan: maç içi yavaş telefon uzun kareleri (ayrı iş).
+
+---
+
 # Akış izlemesi + günlük e-posta + Hazine "sayaç 0'da takıldı" — rapor (16 Eki 2026)
 
 ## A · Akış bozulması kaydı (migration 1113, canlıda)

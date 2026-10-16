@@ -12635,3 +12635,28 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **D · Maç sonu karesi:** profil: iki görev — kutlamanın ilk React çizimi (~58 ms, CPU 6x) + kupa Lottie kurulumu (64–127 ms). Kupa maç sürerken boşta sayfa dışında kurulur (`lottieOnKur`, `macSonuOzet › kupaOnKur`, bütün modlar), rakip tarafı ayrı kare, altın yağmuru 2 kare sonra. En uzun kare 87/89/158 → **71/55/108 ms** (dalgalıda kalan: `html.msk-acik` tüm sayfa stil hesabı).
 - **Testler:** build temiz; test:kurallar, test:dans, iOS ayrıştırma geçti. `npm test` (sunucu, canlı DB) koşulmadı (canlı DB kuralı). Canlı duman testi (Ida, açık bot) ve arayüz/Dereceli ekran taraması: süreçler bellek azlığında Claude Code tarafından durduruldu — yarıda kaldı, açık maç kalmadı (ölçüldü).
 - **Ek (aynı gün, Ida onayıyla sırayla yeniden):** bellek azlığında durdurulan testler tek tek ön planda koşuldu. Canlı duman (Ida, açık bot, yerel üretim derlemesi): Klasik / Düello / Hazine bitti; ses 62/62 · 25/25 · 116/119 (Hazine'de soğuk açılışta geç inen 3 giriş sesi), ses ömrü ani 0 · çalarken yeni ekran 0; canlı izleme ses_kesildi 0. Dereceli ekranları (`araclar/dereceli-ekran.mjs --ida`, OYNA/Saf Bilgi penceresi, Modlar, Düello, Meydan Oku, Dükkân; 360/390; TR/EN) temiz. arayuz-denetim: misafir girişi Turnstile'da kaldı → BAKILAMADI. Maç içi en uzun kare (CPU 6x) Klasik 305 · Düello 498 · Hazine 497 ms → ayrı iş. "Durduruldu" bildirilen önizleme/dev sunucuları süreç olarak çalışmaya devam ediyordu (bellek) — kapatıldı. Push 2f84152b canlıda doğrulandı.
+
+## 2026-10-16 — Sesli sohbet kaldırıldı + maç içi kasma kök nedenleri
+**Araç:** Claude Code
+**Neden:** Ida: sesli sohbet "gereksiz"; yavaş telefonda maç içi uzun kareler (Klasik 305 · Düello 498 · Hazine 497 ms) giderilsin.
+
+- **Sesli sohbet:** `SesliSohbet.jsx` + `lib/sesliSohbet.js` silindi; MatchPage yuvası/çağrısı, `tema.css` + `m1-mac.css` stilleri, 43 çeviri
+  anahtarı, Gizlilik (bölüm) + Koşullar (3 yer) TR/EN (son güncelleme 16 Ekim 2026), Play Store belgeleri. Kısa ekranda tepki düğmesinin
+  ortalanması boş yuvanın ardılı olmaktan geliyordu → `.m1-alt--1v1` ile aynen korundu (Grup/Turnuva'ya sızmasın diye sınıf). `mikrofon`
+  ikonu Görünüm › Dans kullandığı için kaldı. Migration **1117**: `sesli_sohbet_izni` her çağrıda izinli=false (yetkiler aynı; ACL ölçüldü);
+  geri alma `docs/sesli-sohbet-1117-geri-al.sql` (canlıdan okunan 206 gövdesi). Kalan referans 0 (kaynak + dist).
+- **Kasma kök nedeni (ölçüm):** yeni `araclar/iz-coz.mjs` (Chrome izi → uzun görev başına JS dosya:satır / stil öğe sayısı / yerleşim /
+  geçersizleştirme nedeni), `araclar/profil-coz.mjs`; `yavas-android-olcum --iz_mac --videosuz`; `hazine-akis-olcum --spa --azalt --tani_has
+  --dom_svg`. Bulgular: (1) önceki raporun 497/498 ms kareleri ilk 5 sn = aracın `page.goto` ile soğuk açılışı; (2) maç içi 117–284 ms karelerin
+  çoğu ekran videosu kodlaması (videosuz canlı: Klasik 150 · Düello 134 · Hazine 134); (3) soru geçişi = yeni soru DOM'u (300–690 öğe stil,
+  `:has()` silinse de aynı); (4) maç sonu = `MacSonuKutlama`'nın kalıtsal `--msk-*` değişkenleri (350–500 öğe 2–3 kez) + açılış görevindeki
+  iki zorunlu ölçüm; (5) SPA girişinde 168 ms yerleşim = avatar SVG'lerinin ilk görünüşü.
+- **Düzeltme:** `@property --msk-ust` kalıtsız, `--msk-sigdir` koşullu, üst blok ilk ölçümü ResizeObserver'da, MutationObserver tetiği bir
+  sonraki karede. A/B (eski 5198 ↔ yeni 5199, dönüşümlü, 4 çift): maç sonu açılış görevi 112–117 → 77–78 ms. Geri alınanlar: sığdırma
+  ölçümünü RO'ya taşımak (kareyi uzattı), rakip joker rozetini sonuçta tutmak (faz anahtarlı sahne yeniden kuruyor → kesik arttı).
+- **Ders:** kare ölçüsü 16,7 ms basamaklı ve makine yüküne çok duyarlı (aynı kod 69 → 117 ms); karşılaştırma yalnız dönüşümlü A/B ve görev
+  süresiyle yapılmalı. `--gecersiz` izi zamanları 3–5 kat şişirir; yalnız neden için.
+- **Test:** klasik-mac-ekran 20 kombinasyon (Grup ad kırpık — eski), duello-v4-ekran 740/750 (00-giris — eski, paket öncesi kaynakla doğrulandı),
+  arayuz-denetim (test hesabı, 16 sayfa × 4 genişlik: 1 yerel CORS), ses-kesilme 6 mod × CPU 1/6 (ani 0), ses-zamanlama, Turnuva senkron taklidi,
+  Hazine taklit (bot/gecikmeli/dalgalı/EN-360/azalt), canlı duman Ida × 3 (bitti; ses_kesildi 0; izleme: Hazine faz_gec sonuç ~4,2 sn ×2,
+  Düello nötr sayaç 0'da 1,8 sn — zamanlama koduna dokunulmadı, ayrı inceleme). Test hesabı (PerfTest580) silindi. Rapor: RAPOR.md en üst.

@@ -11,6 +11,11 @@
      Rozet dönüşü perspektifi kendi transform'unun içinde taşır (ataya konmaz).
    ============================================================ */
 
+/* Maç sonu karesi (16 Eki 2026, iz ölçümü): --msk-ust yalnız kökün `top`unda kullanılır. Kalıtsal özel değişken olarak
+   yazılınca sahnenin ~350–500 öğesinin hepsi açılış karesinde yeniden stilleniyordu (CPU 6x 24–29 ms / geçiş); kalıtsız
+   kayıtla yalnız kök yeniden hesaplanır. @property'yi tanımayan tarayıcı eskisi gibi kalıtsal okur — görünüm aynı. */
+@property --msk-ust { syntax: "<length>"; inherits: false; initial-value: 0px; }
+
 .msk {
   /* Brif G.4 süreleri */
   --msk-afis: 450ms;

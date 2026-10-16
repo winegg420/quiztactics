@@ -439,15 +439,25 @@ function MacSonuKutlama({
         if (getComputedStyle(el).display === "none") continue;
         ust = Math.max(ust, el.getBoundingClientRect().bottom);
       }
-      kok.style.setProperty("--msk-ust", `${Math.max(0, Math.round(ust))}px`);
+      // Aynı değer yeniden yazılmaz (yazım kökü yeniden stilletir — maç sonu karesi, 16 Eki 2026)
+      const yeni = `${Math.max(0, Math.round(ust))}px`;
+      if (kok.style.getPropertyValue("--msk-ust") !== yeni) kok.style.setProperty("--msk-ust", yeni);
     };
-    olc();
+    // Maç sonu karesi (16 Eki 2026, iz ölçümü): ilk ölçüm sahne takılırken eşzamanlı yapılınca açılış görevinde ayrı bir
+    // zorunlu stil + yerleşim turu (CPU 6x ~20 ms) doğuyordu. ResizeObserver'ın ilk gözlemi aynı karede, yerleşimden SONRA ve
+    // boyamadan ÖNCE gelir → değer ilk boyamada yine doğru, fazladan tur yok. Gövde sınıfı değişince (oyun modu kalkar) ölçüm
+    // bir sonraki kareye ertelenir (eskiden aynı görevde zorunlu yerleşim). ResizeObserver yoksa eski yol.
+    let kare = 0;
+    const olcSonra = () => { cancelAnimationFrame(kare); kare = requestAnimationFrame(olc); };
     window.addEventListener("resize", olc);
-    const gozcu = typeof MutationObserver === "undefined" ? null : new MutationObserver(olc);
+    const gozcu = typeof MutationObserver === "undefined" ? null : new MutationObserver(olcSonra);
     gozcu?.observe(document.body, { attributes: true, attributeFilter: ["class"] });
     const boyGozcu = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(olc);
-    for (const el of ustler()) boyGozcu?.observe(el);
+    const izlenen = ustler();
+    for (const el of izlenen) boyGozcu?.observe(el);
+    if (!boyGozcu || !izlenen.length) olc();
     return () => {
+      cancelAnimationFrame(kare);
       window.removeEventListener("resize", olc);
       gozcu?.disconnect();
       boyGozcu?.disconnect();
@@ -469,7 +479,10 @@ function MacSonuKutlama({
       // Çok uzunsa önce sıkışık düzen (CSS [data-yogun]) ve aynı anda yeniden ölçülür. Tek yönlü (salınmaz).
       if (h > 0 && n > h * 1.12 && !ic.dataset.yogun) { ic.dataset.yogun = "1"; n = ic.offsetHeight; }
       const o = n > h + 1 && h > 0 ? Math.max(0.4, Math.floor((h / n) * 1000) / 1000) : 1;
-      ic.style.setProperty("--msk-sigdir", String(o));
+      // --msk-sigdir kalıtsaldır (alt düğmeler de okur): yazımı bütün içeriği yeniden stilletir. CSS onu yalnız
+      // [data-sikisik] altında, varsayılan 1 ile kullanır → ölçek 1 iken ve değer değişmemişken yazılmaz (görünüm aynı).
+      const onceki = ic.style.getPropertyValue("--msk-sigdir");
+      if ((o < 1 || onceki) && onceki !== String(o)) ic.style.setProperty("--msk-sigdir", String(o));
       // Sınıf değil veri işareti: React kökün className'ini her çizimde yeniden yazar, bunu bilmez.
       if (o < 1) ic.dataset.sikisik = "1"; else delete ic.dataset.sikisik;
     };

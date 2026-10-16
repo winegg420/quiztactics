@@ -636,6 +636,7 @@ try {
     const ls = [{ name: `sb-${REF}-auth-token`, value: JSON.stringify(OTURUM) }, { name: "bildim_dil", value: DIL }, { name: "bildim_tanitim", value: "1" }];
     if (SECIMLER) ls.push({ name: "bildim_ses_secim", value: JSON.stringify(SECIMLER) });
     const b = await tarayici.newContext({ storageState: { cookies: [], origins: [{ origin: kok, localStorage: ls }] },
+      ...(ARG.azalt ? { reducedMotion: "reduce" } : {}),   // --azalt: prefers-reduced-motion: reduce (TEST-KAPSAMI › 0)
       viewport: { width: GENISLIK, height: YUKSEKLIK }, locale: DIL === "en" ? "en-US" : "tr-TR", hasTouch: true, serviceWorkers: "block", isMobile: true, deviceScaleFactor: 2,
       userAgent: "Mozilla/5.0 (Linux; Android 11; SM-A125F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36",
       recordVideo: ARG.video ? { dir: path.join(CIKTI, "video"), size: { width: 390, height: 844 } } : undefined });
@@ -654,6 +655,16 @@ try {
     if (ARG.paylas_yok) await b.addInitScript(() => { try { delete Navigator.prototype.share; } catch { /* yok */ } });
     // --css="<kural>": tanı deneyi — sayfaya ek stil (ör. bir katmanı kapatıp maliyetini ölçmek); ürün koduna dokunmaz
     if (typeof ARG.css === "string") await b.addInitScript((css) => { addEventListener("DOMContentLoaded", () => { const st = document.createElement("style"); st.textContent = css; document.head.appendChild(st); }); }, ARG.css);
+    // --tani_has=<düzenli ifade>: tanı deneyi — seçicisi :has( içeren VE bu ifadeye uyan CSS kurallarını sayfadan siler
+    // (geç yüklenen parça stilleri için 400 ms'de bir); ürün koduna dokunmaz. ".*" = bütün :has kuralları.
+    if (typeof ARG.tani_has === "string") await b.addInitScript((desen) => {
+      const re = new RegExp(desen);
+      const sil = (liste) => { for (let i = liste.length - 1; i >= 0; i--) { const r = liste[i];
+        if (r.cssRules && !r.selectorText) { try { sil(r.cssRules); } catch { /* */ } continue; }
+        if (r.selectorText && r.selectorText.includes(":has(") && re.test(r.selectorText)) { try { (r.parentRule ?? r.parentStyleSheet).deleteRule(i); window.__hasSilinen = (window.__hasSilinen ?? 0) + 1; } catch { /* */ } } } };
+      const tara = () => { for (const ss of document.styleSheets) { try { sil(ss.cssRules); } catch { /* çapraz köken */ } } };
+      setInterval(tara, 400); addEventListener("DOMContentLoaded", tara);
+    }, ARG.tani_has);
     const s = await b.newPage();
     const hatalar = [];
     s.on("pageerror", (e) => hatalar.push(String(e).slice(0, 200)));
@@ -726,10 +737,23 @@ try {
       const iz = await tarayici.stopTracing().catch(() => null);
       if (iz) { const d = path.resolve(".tmp/hazine-iz"); fs.mkdirSync(d, { recursive: true }); fs.writeFileSync(path.join(d, `${ETIKET}-${senaryo}${m}-${IZ.replace(":", "")}.json`), iz); }
     };
+    // --spa (16 Eki 2026): gerçek oyuncu gibi maça uygulama İÇİNDEN girilir — önce ana sayfa açılır, dokunulur (AudioContext lobide
+    // kurulur), sonra adres history.pushState + popstate ile değişir (React Router SPA geçişi; sayfa yeniden yüklenmez).
+    if (ARG.spa) {
+      await s.goto(`${ADRES}/?dev=1`, { waitUntil: "domcontentloaded", timeout: 60000 });
+      await s.waitForSelector("#root *", { timeout: 60000 }).catch(() => {});
+      await uyu(6000); await s.mouse.click(195, 300).catch(() => {}); await uyu(3000);
+    }
     if (IZ === "giris" || IZ === "mac") await izBas();
     // --profil: bütün maçın JS profili (CDP, 1 ms örnek; izden hafif) → .tmp/hazine-iz/<etiket>-<senaryo><maç>.cpuprofile
     if (ARG.profil) { await cdp.send("Profiler.enable"); await cdp.send("Profiler.setSamplingInterval", { interval: 1000 }); }
-    await s.goto(`${ADRES}/kasa/${ID}?dev=1`, { waitUntil: "domcontentloaded", timeout: 60000 });
+    if (ARG.spa) await s.evaluate((yol) => { history.pushState(null, "", yol); dispatchEvent(new PopStateEvent("popstate")); }, `/kasa/${ID}`);
+    else await s.goto(`${ADRES}/kasa/${ID}?dev=1`, { waitUntil: "domcontentloaded", timeout: 60000 });
+    // --dom_svg=<ms>: gezinmeden bu kadar sonra (giriş sahnesi) satır içi SVG / görsel dökümü
+    if (typeof ARG.dom_svg === "string") { await uyu(Number(ARG.dom_svg)); console.log("SVG", JSON.stringify(await s.evaluate(() => [...document.querySelectorAll("svg, img")].map((v) => {
+      let a = v.parentElement, iz = []; for (let i = 0; i < 4 && a; i++, a = a.parentElement) iz.push((a.className?.baseVal ?? a.className) || a.tagName);
+      return { tag: v.tagName, sinif: v.getAttribute("class"), src: v.getAttribute("src")?.slice(-50), ata: iz.join(" < ").slice(0, 110), oge: v.querySelectorAll("*").length, d: [...v.querySelectorAll("path")].reduce((n, p) => n + (p.getAttribute("d")?.length ?? 0), 0) };
+    }).filter((x) => x.tag === "IMG" || x.d > 0 || x.oge > 5)))); }
     // profil zamanı ↔ sayfa saati eşlemesi (performance.now, ms): örnek ts (µs) − startTime → + perfBas
     let perfBas = null;
     if (ARG.profil) { await cdp.send("Profiler.start"); perfBas = await s.evaluate(() => performance.now()).catch(() => null); }
@@ -818,6 +842,11 @@ try {
       const d = path.resolve(".tmp/hazine-iz"); fs.mkdirSync(d, { recursive: true });
       fs.writeFileSync(path.join(d, `${ETIKET}-${senaryo}${m}.cpuprofile`), JSON.stringify({ ...profile, perfBas }));
     }
+    // --dom_svg: tanı — sayfadaki satır içi SVG'ler (ata sınıfı, öğe sayısı, yol uzunluğu toplamı)
+    if (ARG.dom_svg === true) console.log("SVG", JSON.stringify(await s.evaluate(() => [...document.querySelectorAll("svg")].map((v) => {
+      let a = v.parentElement, iz = []; for (let i = 0; i < 4 && a; i++, a = a.parentElement) iz.push((a.className?.baseVal ?? a.className) || a.tagName);
+      return { sinif: v.getAttribute("class"), ata: iz.join(" < ").slice(0, 120), oge: v.querySelectorAll("*").length, d: [...v.querySelectorAll("path")].reduce((n, p) => n + (p.getAttribute("d")?.length ?? 0), 0), filtre: v.querySelectorAll("filter,mask,clipPath,pattern").length };
+    }).sort((x, y) => y.d - x.d).slice(0, 15))));
     const veri = await s.evaluate(() => ({ olc: window.__olc, sesKayit: window.__sesKayit ?? [], sesOmur: window.__sesOmur ?? null, akis: window.__akis ?? null, timeOrigin: performance.timeOrigin }));
     veri.arkaPlanlar = arkaPlanlar;
     const c = cozumle({ ...veri, sunucuLog: sunucu.log, bitisT: sunucu.log.find((x) => x.olay === "bitti")?.t ?? Infinity });

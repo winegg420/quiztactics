@@ -475,8 +475,12 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   konfeti maç biterken önceden iner, geç gelse de baştan oynar.
   **Kare (16 Eki 2026):** kupa Lottie örneği maç sürerken boşta, sayfa dışında kurulur (`MacSonuLottie › lottieOnKur`, `macSonuOzet › kupaOnKur`,
   her maçta; sahne açılınca hazır örnek takılır); karşılaşmanın rakip tarafı ayrı karede, Hazine altın yağmuru iki kare sonra.
-  CPU 6x ölçüm (taklit): en uzun kare bot 71 · gecikmeli 55 · dalgalı ağ 108 ms (önce 87 / 89 / 158); dalgalıda kalan neden: html.msk-acik sınıfı
-  bütün sayfanın stilini yeniden hesaplatıp ilk çizimde zorunlu yerleşim yapıyor (görünüm değişmeden kaldırılamadı).
+  `--msk-ust` `@property` ile kalıtsız (yalnız kökün `top`u); `--msk-sigdir` yalnız ölçek < 1 iken yazılır; üst blok ilk ölçümü ResizeObserver'ın
+  ilk gözleminde, gövde sınıfı değişince bir sonraki karede (açılış görevinde zorunlu yerleşim yok). Taklit A/B (CPU 6x): maç sonu açılış görevi
+  112–117 → 77–78 ms. Canlıda dolu profille maç sonu görevleri hâlâ 150–160 ms (sahnenin ilk React çizimi; parçalamak beliriş sırasını etkiler).
+  **Kasma ölçümü:** ekran videosu kodlaması kareye 15–35 ms ekler (`yavas-android-olcum --videosuz`); `--mac` maça tam sayfa yüklemesiyle girer →
+  ilk 5 sn soğuk açılıştır, maç içi sayılmaz. Kök neden aracı: `--iz_mac` + `araclar/iz-coz.mjs` (CPU 6x canlı, videosuz: maç içi en uzun kare
+  Klasik 150 · Düello 134 · Hazine 134 ms).
 - **Oyuncu adına dokununca profil kartı** (`OyuncuAdiDugmesi`), avatarla aynı; lig tablosu/arkadaş satırı zaten kartı açar.
   Takılı isim efekti de buradan uygulanır. **Altın isim** (`isim_altin`) = "Işık Şeritli Altın" (Ida, 24 Eyl;
   `IsimEfekti.jsx › AltinIsim` + `ekranlar/altin-isim.css`): parlak sarı harf + lacivert kontur + arkada ince yarı saydam
@@ -622,6 +626,10 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   açılınca DB'ye yazan eski 6 emoji kaldırılacak). Bot tepkisi sunucudan %12 (`tepki_bot_olasilik`),
   yalnız anlamlı anda: doğru serisi (`tepki_bot_seri` 3), maç sonu, rakip hatası. "Rakip tepkilerini
   gizle" cihazda. Tepkinin açık olduğu modda eski DB'ye yazan emojiler gizli.
+- **Sesli sohbet YOK (Ida, 16 Eki 2026: "gereksiz"; 1117):** hiçbir modda mikrofon/sesli görüşme yok; istemci kodu,
+  stilleri, metinleri ve Gizlilik/Koşullar bölümleri kalktı. Sunucu `sesli_sohbet_izni` silinmedi, her çağrıda
+  izinli=false ('Sesli sohbet kaldırıldı') döner, yetkiler aynı; `mac_sonu_sesli_sn` ayarı ve eski veri durur.
+  Geri alma `docs/sesli-sohbet-1117-geri-al.sql` + istemci git geçmişinden (e8de01fd'nin ebeveyni).
 - **Tasarım seçimleri (530/550):** `sahip_tasarim_secimleri` (konu → seçim, yalnız sahip yazar); ilk konu
   `cerceve_tarzi` (cizgi / mucevher / isik) — seçim oyunda `cerceve_tarzi_aktif()` ile okunur: bugün
   yalnız Altın Lig çerçevesi seçilen tarzda (aura takılıysa bugünkü); bütün çerçeveler ayrı pakette

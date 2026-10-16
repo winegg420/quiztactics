@@ -95,6 +95,8 @@ başlatılamaz — taklitle bakıldı", "WebKit bu makinede çalışmıyor — g
 | `araclar/hazine-akis-olcum.mjs --senaryo=bot,gecikmeli,dalgali` | 3, 4, 5 — Hazine tam maç, taklit sunucu, CPU 6x |
 | `araclar/ses-zamanlama-olcum.mjs` | 4 — Düello v4 açılış/soru sesi (taklit) + ses ömrü tablosu |
 | `araclar/ses-kesilme-olcum.mjs` | 4 — bütün modların ses çizelgesi (gerçek ses.js + dosyalar): kesilme, kalan ms, çakışma |
-| `araclar/yavas-android-olcum.mjs --mac [--ida]` | 3, 4, 5, 6, 8 — Klasik/Düello/Hazine bota karşı tek maç (canlı), yavaş telefon |
+| `araclar/yavas-android-olcum.mjs --mac [--ida] [--videosuz] [--iz_mac]` | 3, 4, 5, 6, 8 — Klasik/Düello/Hazine bota karşı tek maç (canlı), yavaş telefon. Kare ölçümünde `--videosuz` (video kodlaması kareye 15–35 ms ekler); ilk 5 sn soğuk sayfa açılışıdır, maç içi sayılmaz |
+| `araclar/iz-coz.mjs <iz> [--dist=…] [--gecersiz]` | 3 — uzun görevin sorumlusu: JS (kaynak haritasıyla dosya:satır) · stil (öğe sayısı) · yerleşim · boyama; `--gecersiz` stil geçersizleştirme nedeni (zamanları şişirir, yalnız neden için) |
+| `araclar/hazine-akis-olcum.mjs --azalt` / `--spa` | 3 — hareket azaltma; maça uygulama içinden (SPA) giriş |
 | `araclar/senkron-testi.mjs [--taklit]` | 5 — 3-2-1 ve sayaçlar, bütün modlar (Turnuva taklit) |
 | `node araclar/oyuncu-testi.mjs --adres=…` | 6, 7, 8 — canlı duman testi |
