@@ -18,7 +18,8 @@ const OLAY_AD = { kayit: "Kayıt", giris: "Giriş (oturum)", kurulum: "Kurulum",
 const MOD_AD = { klasik: "Klasik", duello: "Düello", kasa: "Kasa", grup: "Grup", turnuva: "Turnuva", saf_bilgi: "Saf Bilgi", hazine: "Hazine" };
 // 1113 akış bozulması türleri (eşikler oyun/lib/akisIzleme.js)
 const AKIS_AD = { sayac_sapma: "Sayaç saptı (> 700 ms)", sayac_sifir: "Sayaç 0'da kaldı (> 1 sn)", faz_gec: "Geçiş geç / atlama (> 1 sn)",
-  donma: "Donma (> 500 ms)", ses_gec: "Ses geç (> 300 ms)", ses_yok: "Ses çalmadı" };
+  donma: "Donma (> 500 ms)", ses_gec: "Ses geç (> 300 ms)", ses_yok: "Ses çalmadı",
+  ses_kesildi: "Ses yarıda kaldı (kalan ms; rol|faz|kesen)" };   // 1116
 
 function AkisBolumu({ akis }) {
   const [donem, setDonem] = useState("s24");

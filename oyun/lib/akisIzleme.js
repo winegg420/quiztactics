@@ -8,6 +8,8 @@
 //   faz_gec     — faz/sayfa geçişi sunucunun bitiş zamanından > 1 sn geç uygulandı (ms = gecikme); "atlama:<faz>" ani atlama
 //   donma       — ana iş parçacığı > 500 ms dondu (uzun görev; ms = süre)
 //   ses_gec     — istenen maç sesi > 300 ms geç başladı · ses_yok — hiç başlamadı (inmedi / AudioContext açılmadı)
+//   ses_kesildi — (16 Eki 2026, 1116) anlam taşıyan ses yarıda kaldı: planının %80'inden önce bitti ya da çalarken yeni faz
+//                 geldi ve > 150 ms kaldı (ms = kalan; an = rol|faz|kesen)
 // Yalnız maç sayfası açıkken (akisMacBaslat … akisMacBitir) ve sayfa görünürken ölçülür; arka planda geçen faz kaydedilmez.
 //
 // HAFİFLİK: kayıtlar izlemeKaydi kuyruğuna girer (tek RPC, 15 sn toplu / sayfa gizlenince). Sınırlar: aynı maçta aynı tür
@@ -98,6 +100,21 @@ export function akisSesSonuc(k, sonuc) {
     const ms = simdi() - (k.t ?? simdi());
     if (sonuc === "calindi") { if (ms > AKIS_ESIK.ses && !k.gecKabul) akisOlay("ses_gec", k.rol, ms); return; }
     if (/^(gec-yuklendi|atlandı|audiocontext-yok|yedek-ton \(dosya)/.test(sonuc)) akisOlay("ses_yok", `${k.rol}:${sonuc.split(" ")[0]}`, ms);
+  } catch { /* sessiz */ }
+}
+
+/**
+ * 16 Eki 2026 (1116): anlam taşıyan ses yarıda kaldı — planının %80'inden önce bitti ya da çalarken yeni faz geldi ve > 150 ms
+ * kaldı (lib/ses.js › omurBitti karar verir). Kayıt: an = "rol|faz|kesen" (40 harf), ms = kalan.
+ * kesen: ekran (yeni ekran geldi, yumuşak bitti) · ayni_ses (aynı rolün yeni kopyası) · soru_sesi (soru sesi doğru/yanlışı kıstı) ·
+ * diger.
+ */
+export function akisSesKesildi({ rol, faz: f, kalanMs, kesen }) {
+  try {
+    if (!mac || !rol) return;
+    const k = /^yeni ekran/.test(kesen ?? "") ? "ekran" : /^aynı ses/.test(kesen ?? "") ? "ayni_ses" : /^soru sesi/.test(kesen ?? "") ? "soru_sesi" : "diger";
+    const fazAd = String(f ?? faz?.an ?? "").replace(/[|]/g, "").slice(0, 14);
+    akisOlay("ses_kesildi", `${String(rol).slice(0, 18)}|${fazAd}|${k}`, kalanMs);
   } catch { /* sessiz */ }
 }
 

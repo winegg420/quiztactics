@@ -27,9 +27,7 @@ import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import DuelloTanitim, { duelloTanitimGoruldu } from "../components/DuelloTanitim.jsx";
 import HesapGuvenceOnerisi from "../components/HesapGuvence.jsx";
-import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import JokerSatinAlModal from "../components/JokerSatinAlModal.jsx";
-import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { hataMesaji, islemHatasi } from "../lib/hata.js";
 import { zamanAsimindaYenidenDene } from "../lib/yenidene.js";
@@ -125,7 +123,7 @@ function DuelloGiris() {
   // 970: puan modunda kural metni hedef puan + kategori yolu (ayardan).
   const { secim: secimModu, puan: puanModu, esik, hedef, yol, v4, hazir: kuralHazir } = useDuelloKurallari();
   const bosSaldiran = useAyar("duello_bos_ikisi_dogru_saldiran", 1) >= 1;
-  const [dereceli, setDereceli] = useDereceliTercih();
+  const dereceli = true;   // 1115 (16 Eki 2026, Ida): bütün maçlar dereceli — "Serbest | Dereceli" seçimi kalktı
   // 410 (Ajan I): rakip düelloya bağlanamadı → sunucu cezasız iptal etti, DuelloMac buraya
   // { yenidenAra } ile döndü: arama kısa bilgiyle kendiliğinden başlar (durum bir kez tüketilir).
   const location = useLocation();
@@ -195,7 +193,6 @@ function DuelloGiris() {
         </div>
       ) : (
         <>
-          <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
           <SkillSeti macTur="duello" onHazir={() => setSetHazir(true)} />
         </>
       )}
@@ -210,7 +207,6 @@ function DuelloGiris() {
                 {ceviri("Rakip ara")}
               </QtDugme>
             </div>
-            {/* Serbest/Dereceli açıklaması DereceliAnahtari'nın hemen altında; burada tekrar edilmez (9 Eki 2026) */}
           </>
         )}
         {/* Paket 20 IV.1: kurallar her zaman yeniden açılabilir */}
@@ -311,7 +307,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari: tumIpuclari = ARA
   // rakibin kartı bir kez (duello_durum — oyuncuya süzülmüş görünüm) okunur.
   const karsilas = useCallback(async (duelloId) => {
     setBulundu(true);
-    sesRakipBulundu();
+    sesRakipBulundu(sure("ortak_arama_gecis"));   // 16 Eki: rakip bulundu + VS sesi geçişe sığar
     gecisRef.current = window.setTimeout(() => bulunduRef.current(duelloId), sure("ortak_arama_gecis"));
     try {
       const { data, error } = await supabase.rpc("duello_durum", { p_id: duelloId });

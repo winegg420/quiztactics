@@ -44,7 +44,9 @@ const kategoriHatasi = (e) =>
  */
 // Paket 31 B: jokersiz = Saf Bilgi. Kuyruk ve bot maçı bayrağı taşır; jokerli ile eşleşmez.
 // Ajan I: tam ekran AramaSahnesi. `bilgi` üstte kısa not ("Rakip bağlanamadı, yeni rakip aranıyor").
-export default function RakipAra({ kategori, dereceli = true, jokersiz = false, bilgi = null, onBulundu, onIptal }) {
+export default function RakipAra({ kategori, jokersiz = false, bilgi = null, onBulundu, onIptal }) {
+  // 1115 (16 Eki 2026): bütün maçlar dereceli — eski çağıranın `dereceli` prop'u yok sayılır (sunucu da zorlar).
+  const dereceli = true;
   const { user } = useAuth();
   // Geçen süre (yukarı sayar) — hedef süre sunucuda olduğundan geri sayım gösterilmez
   const [gecen, setGecen] = useState(0);
@@ -103,7 +105,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
         console.error("[Bildim] rakip adı alınamadı:", e);
       }
       setBulundu(true);
-      sesRakipBulundu();   // Paket 29 E.2: "Rakip bulundu" yazısıyla aynı an
+      sesRakipBulundu(sure("ortak_arama_gecis"));   // Paket 29 E.2: "Rakip bulundu" yazısıyla aynı an (16 Eki: sesler geçişe sığar)
       window.setTimeout(() => bulunduRef.current(macId), sure("ortak_arama_gecis"));
     },
     [user?.id]

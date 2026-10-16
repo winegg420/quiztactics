@@ -18,7 +18,6 @@ import MacUstSerit from "../components/MacUstSerit.jsx";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import MacSonuKutlama from "../components/MacSonuKutlama.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
-import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import AramaSahnesi from "../components/AramaSahnesi.jsx";
 import { GeriSayim } from "../components/MacHazirlik.jsx";
 import BulunamadiPage from "./BulunamadiPage.jsx";
@@ -31,7 +30,6 @@ import KategoriIkon from "../components/KategoriIkon.jsx";
 import { TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
-import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { hataMesaji, hataTuru, islemHatasi } from "../lib/hata.js";
 import { zamanAsimindaYenidenDene } from "../lib/yenidene.js";
@@ -52,7 +50,7 @@ import { kategoriAdi } from "../lib/kategoriler.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesDokunus, sesRakipBulundu, sesSoruGeldi,
   sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill, sesOnYukle, sesKalpAtisi, macSesleriniOnYukle, sesCanKaybi,
-  sesFazDegisti, fazdaCal, sesMacSonu, sesMacSonuKapat } from "../lib/ses.js";
+  sesFazDegisti, fazdaCal, sesMacSonu, sesMacSonuKapat, sesPencere } from "../lib/ses.js";
 import { akis } from "../lib/akisGunlugu.js";
 import { KasaAcAni, KasaAltinYagmuru, UcanParcalar, kasaSeviye, KasaGirisSahnesi, KasaFinalSahnesi,
   KasaCifteBandi, KasaRakipKarar, KasaSavunmaAni } from "../components/KasaEfekt.jsx";
@@ -172,7 +170,7 @@ function KasaGiris() {
   const kararPayMs = useAyar("kasa_gosterim_payi_ms", 2000);
   const { dil } = useDil();
   const carpanX = carpanYazisi(carpan, dil);
-  const [dereceli, setDereceli] = useDereceliTercih();
+  const dereceli = true;   // 1115 (16 Eki 2026, Ida): bütün maçlar dereceli — "Serbest | Dereceli" seçimi kalktı
   const location = useLocation();
   const [aramaBilgi] = useState(() => (location.state?.yenidenAra ? ceviri("Rakip bağlanamadı, yeni rakip aranıyor") : null));
   const [arama, setArama] = useState(() => Boolean(location.state?.yenidenAra));
@@ -218,7 +216,6 @@ function KasaGiris() {
       {/* 990: mobilde ilk ekran — 3 maddelik özet + "Rakip ara" görünür; tam kural listesi aşağıda açılır alanda */}
       {/* 12 Eki 2026: ortak bileşen (Düello lobisi de aynı düzen); maddeler lib/modAciklamalari.js */}
       <LobiKurallari mod="kasa" className="ks-ozet" maddeler={modKurallari("kasa", { hedef })} />
-      <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
       {surenMac && (
         <p className="m2-bant ks-suren-mac" role="status">
           <QtIkon ad="oyna" boyut={18} />
@@ -282,7 +279,7 @@ function KasaArama({ dereceli, onBulundu, onIptal, bilgi = null }) {
 
   const karsilas = useCallback(async (kasaId) => {
     setBulundu(true);
-    sesRakipBulundu();
+    sesRakipBulundu(sure("ortak_arama_gecis"));   // 16 Eki: rakip bulundu + VS sesi geçişe sığar
     gecisRef.current = window.setTimeout(() => bulunduRef.current(kasaId), sure("ortak_arama_gecis"));
     try {
       const { data, error } = await supabase.rpc("kasa_durum", { p_id: kasaId });
@@ -796,6 +793,8 @@ function KasaMac({ id }) {
   const anBaslat = useCallback((yeni, adimlar) => {
     anZamanRef.current.forEach(clearTimeout);
     anZamanRef.current = [];
+    // 16 Eki 2026: anın sesleri anın içinde biter (an sonu = yeni ekran; ses yarıda kalmasın — ses.js › sesPencere)
+    sesPencere(Math.max(0, ...adimlar.map(([ms]) => ms)), `an:${yeni.tip}`);
     // 980: gizli sekmede an başlamaz (dönüşte kısılmış zamanlayıcılar sesleri üst üste çalıyordu)
     if (gorunurDegil()) { setAn(null); return; }
     if (hareketAzaltildiMi()) {   // azaltılmış hareket: uçuş yok, yalnız sesler sırayla
@@ -864,6 +863,8 @@ function KasaMac({ id }) {
     // düşüş (kasa-efekt.css ks-giris-in: yere ~%20'de oturur) — geç gelen istemcide / gizli sekmede düşüş sesi atlanır
     akis("giris:sahne", { gecenMs: girisGecen });
     if ((girisGecen != null && girisGecen > 900) || gorunurDegil()) return;
+    // 16 Eki 2026 (Ida: 3-2-1 sonrası giriş sesi yarıda kesiliyordu): sahnenin sesleri sahne bitmeden yumuşakça biter
+    if (girisBitisRef.current != null) sesPencere(girisBitisRef.current - (Date.now() + farkRef.current), "giris");
     sesTurGecis();
     // zamanlayıcılar an listesinde: sekme gizlenince / sayfa kapanınca temizlenir (StrictMode temizliği sesi yutmasın)
     // 14 Eki: coin sesi yalnız oyuncu hazineyi AÇINCA (giriş düşüşünde, tur sonunda, rakibin AÇ'ında çalmaz)
@@ -904,7 +905,7 @@ function KasaMac({ id }) {
   }, [d]);   // eslint-disable-line react-hooks/exhaustive-deps
   // 12 Eki · M3: final sahnesi tek yerden — sunucu bitişi ya da maçı bitiren AÇ'ın iyimser başlangıcı (kararVer)
   function finalOynat(f) {
-    sesFazDegisti();   // 15 Eki: maçın bekleyen sesleri maç sonu sahnesine taşmaz
+    sesFazDegisti("mac_sonu");   // 15 Eki: maçın bekleyen sesleri maç sonu sahnesine taşmaz
     fazZamanRef.current.forEach(clearTimeout); fazZamanRef.current = [];
     akis("final", { kazandim: f.kazandim });
     const kazandim = f.kazandim;
@@ -1013,7 +1014,9 @@ function KasaMac({ id }) {
     const tur = liste[liste.length - 1];
     if (r.tur !== anahtar && d.faz !== "cevap") return;
     setRakipJokerAn({ tur, anahtar: Date.now() });
-    sesJoker(); titret(12);
+    // 16 Eki 2026 (Ida: rakibin 2x işaret sesi yarıda kalıyordu): ses yalnız işaret kutusuyla birlikte (soru açıkken) ve iki taraf
+    // da cevaplamamışken — ikisi de cevapladıysa sonuç ekranı hemen geliyor, ses onun altında kalırdı
+    if (d.faz === "cevap" && !(d.cevap?.ben_cevapladim && d.cevap?.rakip_cevapladi)) { sesJoker(); titret(12); }
     jokerZaman(() => setRakipJokerAn((x) => (x?.tur === tur ? null : x)), sure("kasa_rakip_joker"));
   }, [d]);   // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -1027,7 +1030,12 @@ function KasaMac({ id }) {
       anRef.current = { faz: anahtar, rakip: false, tur: `${turAnahtari(d)}` };
       setSecim(null);
       // 15 Eki: önceki fazın bekleyen sesleri / ses zamanlayıcıları düşer (TUR ÇİZELGESİ, bkz. fazZamanRef)
-      sesFazDegisti();
+      // 16 Eki: giriş sahnesi sürerken ilk sorunun açılması ekranı değiştirmez — sahnenin sesi kısılmaz (ekran: false)
+      // kendi iyimser AÇ anım sürerken sunucunun onayı (karar → cevap) da ekranı değiştirmez — an ve sesi sürer
+      const ekranAyni = girisAktifRef.current || (d.faz === "cevap" && iyimserAcRef.current === `${turAnahtari(d)}`);
+      sesFazDegisti(d.faz, { ekran: !ekranAyni });
+      // bu fazın ses penceresi: sunucunun faz bitişi (AÇ/DEVAM anı başlarsa anBaslat kendi süresini yazar)
+      if (d.faz_bitis && !ekranAyni) sesPencere(new Date(d.faz_bitis).getTime() - (Date.now() + farkRef.current), d.faz);
       fazZamanRef.current.forEach(clearTimeout); fazZamanRef.current = [];
       akis("faz", { anahtar, faz: d.faz, tur: d.tur, faz_bitis: d.faz_bitis, gosterim_bas: d.sureler?.gosterim_bas ?? null,
                     sunucuSimdi: Date.now() + farkRef.current });
