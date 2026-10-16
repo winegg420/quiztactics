@@ -593,7 +593,9 @@ function tamponCal(c, tampon, hacim, hiz, rol, tani = null, gecKabul = false) {
     const kazanc = c.createGain();
     kazanc.gain.value = hacim;
     if (kisaltma) {
-      const fade = Math.min(PENCERE_FADE_MS, Math.round(planMs / 2)) / 1000, son = c.currentTime + planMs / 1000;
+      // 17 Eki 2026 (Hazine rakip DEVAM anı: rozet 1800 ms, an penceresi ~1290 ms → ~500 ms kuyruk kesiliyordu, 120 ms fade yarıda kesme gibi
+      // duyuluyordu): çok kısaltılan ses kesilen süreyle orantılı, uzun (≤ PENCERE_FADE_UZUN_MS) bir iniş yapar — gecikme yok, pencere aynı.
+      const fade = Math.min(Math.max(PENCERE_FADE_MS, Math.min(PENCERE_FADE_UZUN_MS, Math.round((dosyaMs - planMs) / 2))), Math.round(planMs / 2)) / 1000, son = c.currentTime + planMs / 1000;
       kazanc.gain.setValueAtTime(hacim, Math.max(c.currentTime, son - fade));
       kazanc.gain.linearRampToValueAtTime(0, son);
       kayitStop = son + 0.02;   // stop() start()'tan ÖNCE çağrılamaz (InvalidStateError) — başlatınca kurulur
