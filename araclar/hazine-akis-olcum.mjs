@@ -14,6 +14,7 @@
 //                        telefonun saati 70. sn'de +1,5 sn, 140. sn'de −1 sn atlar; 4. turda sayfa 4 sn arka plana gidip
 //                        döner (görünürlük + yaşam döngüsü dondurma). Eski taklit (1 sn kapanış, hep cevap) bu takılmayı
 //                        hiç üretmiyordu → "çakışma 0".
+//             aski     — (16 Eki 2026) bot kuralları + her 15 kasa_durum okumasından biri 9,5 sn yanıtsız (takılan bağlantı)
 //             yavas_sunucu — (16 Eki 2026, canlı 14:04:40–14:05:20 UTC: bütün RPC'ler 1,7–4,2 sn) dalgalı kurallar + maçın
 //                        50.–110. sn'si arasında kasa_durum/cevap/karar satır kilidinde sıraya girer, 1–3,5 sn işlenir,
 //                        sunucu_zamani yanıtın sonunda (saat örneği ileri kayar → erken "süre doldu" bildirimi)
@@ -55,6 +56,16 @@ const b64 = (o) => Buffer.from(JSON.stringify(o)).toString("base64url");
 const JWT = `${b64({ alg: "HS256", typ: "JWT" })}.${b64({ sub: BEN, role: "authenticated", aud: "authenticated", exp: Math.floor(Date.now() / 1000) + 36000, is_anonymous: false })}.sahte`;
 const KULLANICI = { id: BEN, aud: "authenticated", role: "authenticated", email: "olcum@ornek.invalid", phone: "", is_anonymous: false,
   app_metadata: { provider: "email", providers: ["email"] }, user_metadata: {}, created_at: "2026-10-01T10:00:00Z" };
+// --kozmetik=ida: oyuncu_kartlari yanıtları (16 Eki 2026 canlı salt okuma; kimlikler taklit oyunculara takılır)
+const KART_IDA = (id) => ({ id, ad: "idagg", avatar: "/avatars/pro2/balkabagi-adam-y43.svg", level: 34, lig: "altin", cerceve: "lig_altin", cerceve_nadirlik: "nadir",
+  vitrin: [{ grup: "level", ikon: "star", kademe: "bronz", anahtar: "level_5" }, { grup: "ustalik", ikon: "kategori:cografya", kademe: "bronz", anahtar: "ustalik_cografya_25" },
+    { grup: "lig", ikon: "crown", kademe: "altin", anahtar: "lig_sehir_sampiyonu" }], aura: null, vs_karti: null, isim_efekti: "isim_altin", zafer_efekti: null,
+  premium_cerceve: null, premium_aura: null, sehir_sampiyonu: { ulke: "TR", hafta: "2026-10-05", sehir: "Balıkesir" }, unvan: { tur: "sehir", ulke: "TR", sehir: "Balıkesir" },
+  koleksiyon_puani: 250, sezon_bp: true, bp_parlama: true });
+const KART_LUNA = (id) => ({ id, ad: "Luna", avatar: "/avatars/pro2/kizil-y03.svg", level: 30, lig: "gumus", cerceve: "lig_gumus", cerceve_nadirlik: "nadir",
+  vitrin: [{ grup: "level", ikon: "star", kademe: "gumus", anahtar: "level_30" }, { grup: "seri", ikon: "fire", kademe: "bronz", anahtar: "seri_7" },
+    { grup: "turnuva", ikon: "medal", kademe: "bronz", anahtar: "turnuva_ilk10" }], aura: null, vs_karti: null, isim_efekti: null, zafer_efekti: null,
+  premium_cerceve: null, premium_aura: null, sehir_sampiyonu: null, unvan: null, koleksiyon_puani: 22, sezon_bp: false, bp_parlama: false });
 const OTURUM = { access_token: JWT, token_type: "bearer", expires_in: 36000, expires_at: Math.floor(Date.now() / 1000) + 36000, refresh_token: "sahte", user: KULLANICI };
 // --dil=en · --genislik=360: arayüz dili / ekran genişliği (15 Eki, skor şeridi ölçümü) · --skor_cekim=<ad>: ilk soru
 // ekranında skor şeridi etiketlerini ölçer (kesik mi) ve ekran görüntüsünü tasarim/duzeltme-codex-15eki/<ad>.png'ye alır
@@ -220,7 +231,8 @@ class Sunucu {
   durumJson() {
     this.ilerlet();
     const k = this.k, now = Date.now(), iso = (ms) => (ms == null ? null : new Date(ms).toISOString());
-    const oyuncu = (id, ad) => ({ id, gorunen_ad: ad, gorunen_avatar: id === RAKIP ? "/avatars/pro2/basortulu-y04.svg" : "/avatars/pro/tilki-k04.svg",
+    const oyuncu = (id, ad) => ({ id, gorunen_ad: ad, gorunen_avatar: ARG.kozmetik === "ida" ? (id === RAKIP ? "/avatars/pro2/kizil-y03.svg" : "/avatars/pro2/balkabagi-adam-y43.svg")
+      : id === RAKIP ? "/avatars/pro2/basortulu-y04.svg" : "/avatars/pro/tilki-k04.svg",
       gorunum: null, unvan: null, puan: k.puan[id], acma: k.acma[id] });
     const soru = k.faz === "cevap" || k.faz === "sonuc"
       ? { soru: SORULAR[(k.tur - 1) % SORULAR.length], secenekler: ["Birinci şık", "Doğru şık", "Üçüncü şık", "Dördüncü şık"], kategori: "genel" } : null;
@@ -697,6 +709,7 @@ try {
     await cdp.send("Network.enable");
     await cdp.send("Network.emulateNetworkConditions", { offline: false, latency: RTT, downloadThroughput: HAT_BPS, uploadThroughput: 750_000 / 8 });
     hatBos = 0;
+    let askiSayac = 0;
     const gecikme = () => (senaryo === "gecikmeli" ? 150 + Math.round(Math.random() * 750) : RTT);
     await s.route(/supabase\.co\//, async (r) => {
       const req = r.request(); const u = req.url();
@@ -723,6 +736,9 @@ try {
           return json(d, RTT / 2);
         }
         if (senaryo === "dalgali") { await uyu(30 + Math.random() * 120); const d = sunucu.durumJson(); return json(d, 60 + Math.random() * 1340); }
+        // aski (16 Eki 2026, Ida'nın 19:53 maçı: 9,25 sn hiç kasa_durum yok): bot kuralları, ama her 15 okumadan biri yanıtsız kalır
+        // (yanıt ancak 9,5 sn sonra döner — yolda kaybolan yanıt / takılan bağlantı). İstemci yoldaki okuma bitmeden yenisini atmaz.
+        if (senaryo === "aski" && ++askiSayac % 15 === 7) { const d = sunucu.durumJson(); sunucu.kaydet("aski"); return json(d, 9500); }
         const ms = gecikme(); await uyu(ms / 2); const d = sunucu.durumJson(); return json(d, ms / 2);
       }
       if (u.includes("/rpc/kasa_giris")) sunucu.giris();
@@ -755,6 +771,10 @@ try {
         if (red) return uyu(RTT / 2).then(() => r.fulfill({ status: 400, contentType: "application/json", body: JSON.stringify({ code: "P0001", message: red }) })).catch(() => {});
         return json(null, RTT / 2);
       }
+      // --kozmetik=ida (16 Eki 2026): oyuncu kartları Ida'nın gerçek kartıyla (canlıdan salt okuma: lig_altin çerçeve, isim_altin,
+      // sezon_bp + bp_parlama, şehir unvanı) ve 16 Eki 19:53 maçındaki gizli botun kartıyla (Luna, lig_gumus). Taklitte kozmetik yoktu;
+      // canlı Ida koşularında > 100 ms kare 23, taklitte 0–3 idi.
+      if (u.includes("/rpc/oyuncu_kartlari") && ARG.kozmetik === "ida") return json([KART_IDA(BEN), KART_LUNA(RAKIP)]);
       if (u.includes("/rpc/kasa_joker_durumu")) return json([{ sinir: null, kullanilan: 0, ucretsiz_elli_kaldi: false, kilitli: false, soruda_kullanildi: false, kullanim_sayilari: {}, tur_basi_sinir: 1 }]);
       if (u.includes("/rest/v1/oyun_ayarlari")) return json(Object.entries(AYAR).map(([anahtar, deger]) => ({ anahtar, deger })));
       if (u.includes("/rest/v1/rpc/")) return json(null);
@@ -785,6 +805,22 @@ try {
     if (ARG.spa) await s.evaluate((yol) => { history.pushState(null, "", yol); dispatchEvent(new PopStateEvent("popstate")); }, `/kasa/${ID}`);
     else await s.goto(`${ADRES}/kasa/${ID}?dev=1`, { waitUntil: "domcontentloaded", timeout: 60000 });
     // --dom_svg=<ms>: gezinmeden bu kadar sonra (giriş sahnesi) satır içi SVG / görsel dökümü
+    // --anim_dokum=<ms>[,<ms>…] (16 Eki 2026): gezinmeden bu anlarda süren CSS animasyonları/geçişleri — hedef öğe, ad, canlandırılan
+    // özellikler (transform/opacity dışı = her karede stil + boyama), süre, tekrar. Sürekli boyamanın sorumlusunu adıyla bulmak için.
+    if (typeof ARG.anim_dokum === "string") {
+      const anlar = ARG.anim_dokum.split(",").map(Number);
+      (async () => { let gecen = 0; for (const an of anlar) { await uyu(an - gecen); gecen = an;
+        const l = await s.evaluate(() => document.getAnimations().filter((a) => a.playState === "running").map((a) => {
+          const h = a.effect?.target; const k = a.effect?.getKeyframes?.() ?? [];
+          const oz = [...new Set(k.flatMap((f) => Object.keys(f).filter((x) => !["offset", "easing", "composite", "computedOffset"].includes(x))))];
+          const t = a.effect?.getTiming?.() ?? {};
+          const sinif = h ? `${h.tagName?.toLowerCase()}.${String(h.className?.baseVal ?? h.className ?? "").trim().split(/\s+/).slice(0, 3).join(".")}` : "?";
+          return { ad: a.animationName ?? a.transitionProperty ?? a.constructor.name, hedef: sinif.slice(0, 70), oz: oz.join(","), sure: t.duration, tekrar: t.iterations };
+        })).catch(() => []);
+        const grup = new Map(); for (const x of l) { const k = `${x.ad} | ${x.oz} | ${x.hedef} | ${x.sure}ms×${x.tekrar}`; grup.set(k, (grup.get(k) ?? 0) + 1); }
+        console.log(`ANİM @${an}ms: ${l.length} süren`); for (const [k, n] of [...grup].sort((a, b) => b[1] - a[1])) console.log(`   ${n} × ${k}`);
+      } })();
+    }
     if (typeof ARG.dom_svg === "string") { await uyu(Number(ARG.dom_svg)); console.log("SVG", JSON.stringify(await s.evaluate(() => [...document.querySelectorAll("svg, img")].map((v) => {
       let a = v.parentElement, iz = []; for (let i = 0; i < 4 && a; i++, a = a.parentElement) iz.push((a.className?.baseVal ?? a.className) || a.tagName);
       return { tag: v.tagName, sinif: v.getAttribute("class"), src: v.getAttribute("src")?.slice(-50), ata: iz.join(" < ").slice(0, 110), oge: v.querySelectorAll("*").length, d: [...v.querySelectorAll("path")].reduce((n, p) => n + (p.getAttribute("d")?.length ?? 0), 0) };

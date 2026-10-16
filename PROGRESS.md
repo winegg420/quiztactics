@@ -12712,3 +12712,15 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **Gözlem:** kural tetikleyicisi şüphe işaretlerini yeniden hesapladı. Rekabetçi havuz dışı (bekliyor + ağırlık ≥ 2) aktif soru
   2.183'ten 835'e indi; şık uzunluğu ipuçları kalktı.
 - Sunucu fonksiyonu, yetki ve RLS değişmedi. Jev kullanılmadı (kapalı).
+
+## 2026-10-16 — Telefon kasması/donma: gerçek telefon izlemesi (1119) + askı kesici + 360×640 Grup joker satırı
+**Araç:** Claude Code
+**Neden:** Ida, S24 FE (TWA, Wi-Fi) Hazine/Düello/Klasik'te kasma, donma, skor karışması görüyor; taklit yakalamıyor. Önce ölçüm, sonra düzeltme.
+
+- **0. adım (salt okuma):** 19:20–19:54 TSİ Ida'nın tek maçı Hazine 95d80d86 (19:53:36, gizli bot). Sunucu çağrıları 44–141 ms; telefonun 24 saatlik maç çağrıları p95 ≤ 708 ms → sunucu beklemesi YOK. Karar fazında 9,25 sn hiç `kasa_durum` yok (sayfa görünürken), sonra 19:54:01'de telefon sustu (kopuk). Supabase istek kaydı eksik olabiliyor (o maçın kasa_cevap'ı kayıtta yok, DB'de var). **`akis_bozulma`'da gerçek telefondan 0 satır** (40/40 araç, kip tarayici); son 7 gün telefon bozulma dağılımı kayıtta yok.
+- **A · İzleme (1119 canlıda):** kuyruk gizlenince/pagehide'da beklemeden keepalive (`gonderAcil`); yeni `kasma` olayı (maç başına tek özet, aşama:adet, ms = en uzun > 100 ms kare; LoAF; maç sonu 5 sn `macsonu`). Migration yalnız tür listesi + kısıt + e-posta açıklaması, gövdeler canlı tanımdan; yerel PGlite prova 12/12 (yetki aynı, idempotent, geri alma birebir). Geri alma `docs/izleme-1119-geri-al.sql`. Birim testi `oyun/_test/akis-kasma-test.mjs` (test:kurallar). Canlı duman: kasma kaydı yazıldı.
+- **B · Askı kesici:** yoldaki okuma 3 sn'den (nabızda 2,5 sn) uzunsa yeni istek gelince kesilir, hemen yenisi atılır; kesilen yanıt uygulanmaz. KasaPage, DuelloPage, lib/nabiz.js (Klasik/Saf/Grup). Taklit `--senaryo=aski`: geçiş en kötü 9820 → 3576 ms, sayaç 0'da 6235 ms → 0.
+- **C · CSS:** ≤ 700 px yükseklikte joker hak yazısı tek satır → 360×640 Grup taşma 8 → 0 px. Grup "ad kırpık" = kayan şeritteki ekran dışı oyuncu (D-412) — hata değil, araç düzeltildi. **Turnuva 360×640 54 px taşıyor (önce 67) → Ida kararı** (RAPOR'da 3 seçenek).
+- **Ölçüm:** ana iş parçacığı taklitte kasmıyor (Hazine CPU 6x, Ida kartıyla en uzun kare 83–100 ms); A/B bot/dalgalı gerileme yok. Yeni araç seçenekleri: hazine-akis-olcum `--senaryo=aski`, `--kozmetik=ida`, `--anim_dokum`; klasik-mac-ekran `butce` + kaydırmalı şerit; izleme-istemci-testi gizlenince/dondurulunca gönderim.
+- **Yarın:** 08:00 e-postası ve /yonetim/izleme'de yalnız `kip = twa`: `kasma` gelmeli; `faz_gec` ≤ 4000 ms, `sayac_sifir` ≤ 2000 ms beklenir.
+- BAKILAMADI: arayuz-denetim, duello-v4-ekran (test hesabı oturumu yok), senkron-testi (canlı maç açar), gerçek iOS/telefon. Jev kullanılmadı (kapalı).

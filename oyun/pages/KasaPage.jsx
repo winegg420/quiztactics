@@ -90,6 +90,11 @@ const CEVAP_TOLERANS_MS = 1100;   // kasa_cevap_tolerans_sn (1 sn) + pay
 const SINYAL_BIRLESTIR_MS = 30;
 const HATA_GERI_CEKILME_MS = [1000, 2000, 4000, 8000];
 const DURUM_ZAMAN_ASIMI_MS = 10000;   // statement_timeout 8 sn + ağ payı; daha uzun süren kasa_durum kesilir
+// 16 Eki 2026 (Ida'nın 19:53 maçı: 9,25 sn hiç okuma yok, ekran donup birden atladı): yoldaki okuma ASKI_MS'den uzun sürerken
+// yeni okuma isteği gelirse (sinyal, yoklama, faz bitişi) yoldaki kesilir ve hemen yenisi atılır — yanıtı kaybolan tek istek
+// ekranı 10 sn'ye kadar dondurmasın. Yanıtlar yine sırayla işlenir (kesilen yanıt hiç uygulanmaz); kural/süre aynı.
+const ASKI_MS = 3000;
+const ASKI_NEDENI = "aski";
 // 1055: sunucu/ağ yetişemedi mi (iş kuralı hatası değil) — cevap gönderimi yalnız bunda yeniden denenir
 const sunucuYetisemedi = (e) => ["zaman_asimi", "sunucu", "ag"].includes(hataTuru(e));
 const GECIKMIS_YOKLAMA_MS = 2000;
@@ -427,11 +432,13 @@ function KasaMac({ id }) {
     return () => window.clearTimeout(z);
   }, [veriVar, id]);
 
+  const yoldakiRef = useRef(null);   // yoldaki okuma { kes, bas } (askı kesici)
   const yukleTek = useCallback(async () => {
     sonYukleRef.current = Date.now();
     // 1055: yanıtsız kalan istek kesilir. Eskiden askıda kalan tek istek yukleSozRef'i tutuyordu; sonraki bütün
     // yoklamalar ona zincirlendiği için sunucu düzelse de ekran donuyordu (10 Eki, 16:02 UTC'den sonra istek yok).
     const kes = new AbortController();
+    yoldakiRef.current = { kes, bas: Date.now() };
     const kesZamani = window.setTimeout(() => kes.abort(), DURUM_ZAMAN_ASIMI_MS);
     try {
       const gonderildi = Date.now();
@@ -458,6 +465,8 @@ function KasaMac({ id }) {
         setYenidenBaglaniyor(false);
       }
     } catch (e) {
+      // askı kesici kesti: hata değil — sıradaki okuma hemen atılır (geri çekilme / bant yok)
+      if (kes.signal.aborted && kes.signal.reason === ASKI_NEDENI) return;
       console.error("[Bildim] kasa yüklenemedi:", e);
       if (!dImzaRef.current) setYuklemeHatasi(true);
       setYenidenBaglaniyor(true);
@@ -468,11 +477,14 @@ function KasaMac({ id }) {
       }
     } finally {
       window.clearTimeout(kesZamani);
+      if (yoldakiRef.current?.kes === kes) yoldakiRef.current = null;
     }
   }, [id]);
 
   const yukle = useCallback(() => {
     if (yukleSozRef.current) {
+      const y = yoldakiRef.current;
+      if (y && Date.now() - y.bas >= ASKI_MS) y.kes.abort(ASKI_NEDENI);
       if (!tekrarSozRef.current) {
         tekrarSozRef.current = yukleSozRef.current.then(() => { tekrarSozRef.current = null; return yukleRef.current(); });
       }

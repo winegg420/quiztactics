@@ -106,6 +106,12 @@ başlatılamaz — taklitle bakıldı", "WebKit bu makinede çalışmıyor — g
 | `araclar/sure-bildirim-olcum.mjs` | 5 — süre dolumu bildirimi zamanlaması (Düello/Hazine): gerçek `sunucuSaati.js` sanal saatle, bellekte — sayaç 0'da kalma, red oranı, erken gönderim |
 | Supabase edge log (Management API `analytics/endpoints/logs`, salt okuma) | 5 — canlıda geç geçiş görülünce o dakikadaki RPC `response.origin_time` (sunucu mu bekletti, istemci mi) |
 | `araclar/hazine-akis-olcum.mjs --azalt` / `--spa` | 3 — hareket azaltma; maça uygulama içinden (SPA) giriş |
+| `araclar/hazine-akis-olcum.mjs --senaryo=aski` | 5 — yanıtı kaybolan okuma (her 15 `kasa_durum`'dan biri 9,5 sn yanıtsız): ekranın donup birden atlaması, sayaç 0'da kalma (16 Eki 2026) |
+| `araclar/hazine-akis-olcum.mjs --kozmetik=ida` / `--anim_dokum=<ms,…>` | 3 — Ida'nın gerçek oyuncu kartıyla (çerçeve, altın isim, BP parlaması) ölçüm; verilen anlarda süren CSS animasyonları ve canlandırdıkları özellikler (transform/opacity dışı = her karede boyama) |
+| `node --test oyun/_test/akis-kasma-test.mjs` (`npm run test:kurallar`) | 3 — izleme `kasma` özeti: aşama sayımı, maç sonu penceresi, gizlenince gönderim, sınırlar, donma (bellekte) |
+| `araclar/izleme-istemci-testi.mjs` | 8 — izleme kuyruğu: gizlenince beklemeden (keepalive) gönderim, gizlenip hemen dondurulan sayfa (Android arka plan) |
+| Gerçek telefon izlemesi (`/yonetim/izleme › Akış bozulmaları`, günlük e-posta) | 3, 5 — **yalnız `kip = twa` satırları gerçek telefondur**; `tarayici` satırları ölçüm araçlarından. `kasma` = > 100 ms kareler (aşama:adet) |
+| `araclar/klasik-mac-ekran.mjs` `butce` alanı | 2 — dikey bütçe (maç kökü + soru bölümü çocuk yükseklikleri); kayan şeritteki ekran dışı öğe "kaydırmalı şeritte" yazılır, kırpık sayılmaz |
 | `araclar/senkron-testi.mjs [--taklit]` | 5 — 3-2-1 ve sayaçlar, bütün modlar (Turnuva taklit) |
 | `node araclar/oyuncu-testi.mjs --adres=…` | 6, 7, 8 — canlı duman testi |
 | `node araclar/jev.mjs` · `node araclar/jev-test.mjs` · `node araclar/soru_denetim/kapi.mjs › sikIpucuTesti` (yerel örnek soru, `fetch` tuzaklı) | Jev kapalı (`JEV_KAPALI`, 16 Eki 2026): ağ çağrısı yok, `jev_devre_disi` döner; şık ipucu kapısı "Jev yok, atlandı" ile geçer (başarısız sayılmaz), diğer kapılar (`codex-kapi.test.mjs` 13/13) aynen çalışır |

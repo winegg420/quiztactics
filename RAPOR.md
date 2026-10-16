@@ -1,3 +1,112 @@
+# Telefon kasması / donma — kök neden + düzeltme (16 Eki 2026, gece)
+
+> Taklit sonuçları **gerçek telefonda doğrulanmadı**. Doğrulama 17 Eki 08:00'deki günlük izleme e-postasında ve
+> `/yonetim/izleme › Akış bozulmaları`nda, **yalnız `kip = twa` satırlarıyla** yapılacak (aşağıda "Yarın neye bakılacak").
+
+## 0 · Salt okuma analiz (canlı DB + Supabase istek kaydı, hiçbir şey değiştirilmedi)
+O maç: **95d80d86** (idaGG, Hazine, dereceli; rakip gizli bot "oyuncu_e153fbd9", açgözlü). 19:20–19:54 TSİ arasında Ida'nın tek
+maçı bu. Telefon 19:20–19:53 arasında ana sayfa / lig ekranlarında; 19:19'da bir Hazine daveti var (kabul edilmedi).
+
+| Aşama (TSİ) | Sunucu çağrıları (sunucu süresi) | İstemci kare / donma | Akış olayı (1113) | Ses | Hata | Çift / sırasız |
+|---|---|---|---|---|---|---|
+| Arama 19:53:28,7–36,6 | kasa_ara ×5 (55–578 ms) | kayıtta yok | kayıtta yok | kayıtta yok | 0 | yok |
+| Rakip bulundu → maç ekranı (3,7 sn) | kasa_giris 54 ms | kayıtta yok | kayıtta yok | kayıtta yok | 0 | yok |
+| Giriş sahnesi + 3-2-1 (40,39 → 44,54) | kasa_durum ×5 (56–104 ms) | kayıtta yok | kayıtta yok | kayıtta yok | 0 | 44,27 / 44,50 art arda (sıralı zincir) |
+| Soru 1 (44,54 → 48,56) | kasa_durum 49–60 ms; Ida 4,02 sn'de yanlış, bot doğru | kayıtta yok | kayıtta yok | kayıtta yok | 0 | kasa_cevap istek kaydında yok (DB'de var → kayıt eksik) |
+| Sonuç 1 (→ 51,72) | kasa_durum 55–141 ms; hazine 0 → 2, puan 0–0 | kayıtta yok | kayıtta yok | kayıtta yok | 0 | yok |
+| Karar: rakip DEVAM (bot 54,93), 2x: hazine 2 → 4 | kasa_durum 60–65 ms, sonra **9,25 sn hiç kasa_durum yok** (52,10 → 01,35) — sayfa görünür (nabız 54,45, joker paneli 56,53) | kayıtta yok | kayıtta yok | kayıtta yok | 0 | yok |
+| Soru 2 (57,82 →) | kasa_durum 71 ms; son nabız 01,46 → telefon susuyor | kayıtta yok | kayıtta yok | — | 0 | — |
+| Maç sonu | kayıtta yok (uygulama kapandı / arka plana alındı); sunucu 19:55:06 kopuk → bot kazandı | — | — | — | — | — |
+
+- **Sunucu beklemesi yok.** Telefonun son 24 saatteki bütün maç çağrıları: kasa_durum p50 59 / p95 258 ms (358 çağrıda 1'i > 1 sn),
+  duello_durum p50 186 / p95 708, kasa_cevap p50 90; 4xx/5xx 0. Sunucu fonksiyonu / yetki değişikliği gerekmedi.
+- **Skor/sayaç karışması:** sunucu verisi tutarlı (0 → 2 → 4, puan 0–0). Okumalar sıralı zincirde ve imzayla tekilleştiriliyor →
+  sırasız / çift yanıt işlenemez (kod incelendi: Hazine, Düello, Klasik nabız). Karışma görüntüsünün olası nedeni 9,25 sn'lik boşluk:
+  ekran karar fazında kalıp DEVAM/2x anı ile yeni soruya birden atlıyor (aşağıda taklitle üretildi).
+- **Gerçek telefondan HİÇ akış kaydı yoktu:** `akis_bozulma`'daki 40 satırın 40'ı ölçüm araçlarından (kip = tarayici); TWA 0.
+  Nedenler: (a) 1113 16 Eki 11:01'de çıktı, telefon o saatten sonra yalnız bu 25 sn'lik maçı oynadı; (b) gizlenince gönderim önce
+  oturumu bekleyip normal istek atıyordu — 19:54:01'den sonra hiç `istemci_kayit_yaz` yok (geç geçiş kaydedildiyse gitmedi);
+  (c) `donma` eşiği 500 ms — gözle görülen 100–400 ms kasmalar hiç kaydedilmiyordu.
+- **Son 7 gün en sık bozulma:** gerçek telefon için **kayıtta yok** (istek kaydı 1 gün tutuluyor). Araç satırları (taklit, yalnız bilgi):
+  Hazine `ses_yok` 11 · `faz_gec` 9 · `sayac_sifir` 7; Düello `faz_gec` 3 · `sayac_sifir` 2. Telefonun Hazine yoklama boşlukları
+  (24 sa, 6 maç): hepsi ≤ 4,5 sn (yedek yoklama), tek istisna bu maçtaki 9,3 sn (06:29 maçındaki 55,6 sn arka plan); Düello 7–11 sn.
+
+## 1 · Kök nedenler ve düzeltmeler
+| # | Kök neden (ölçüldü) | Düzeltme | Dosya |
+|---|---|---|---|
+| A | Telefon izleme verisi sunucuya varmıyordu + > 100 ms kareler hiç ölçülmüyordu | Kuyruk gizlenince / `pagehide`'da beklemeden `keepalive` istekle; belirteç önceden tutulur. Yeni olay `kasma`: maç başına tek özet, an = `aşama:adet` (en çok kasan önce), ms = en uzun kare (Long Animation Frames; maç sonunun ilk 5 sn'si `macsonu`). **Migration 1119** (tür listesi + kısıt + e-posta açıklaması; yetki/RLS aynı; yerel PGlite provası 12/12, canlıda uygulandı) | `src/lib/izlemeKaydi.js`, `oyun/lib/akisIzleme.js`, `oyun/pages/YonetimIzlemePage.jsx`, `supabase/migrations/20260612001119_izleme_kasma.sql`, `docs/izleme-1119-geri-al.sql` |
+| B | Yanıtı kaybolan TEK okuma, sıralı zincirdeki bütün okumaları 10 sn'ye kadar bekletiyor → ekran donup birden atlıyor, sayaç 0'da kalıyor | **Askı kesici:** yoldaki okuma 3 sn'den uzun sürerken yeni okuma isteği gelirse yoldaki kesilir, yenisi hemen atılır; kesilen yanıt uygulanmaz (sıra korunur). Hazine + Düello + Klasik/Saf Bilgi/Grup nabzı (2,5 sn) | `oyun/pages/KasaPage.jsx`, `oyun/pages/DuelloPage.jsx`, `oyun/lib/nabiz.js` |
+| C | 360×640 Grup: iki satırlık joker hak yazısı orta bölümü 8 px taşırıyor (çubuk 2 px kırpık, soru metni karta sığmıyor) | ≤ 700 px yükseklikte hak yazısı tek satır + üç nokta | `oyun/tasarim/ekranlar/m1-mac.css` |
+
+**Bilinen kalanlar (izle ölçüldü, kod hatası değil / ayrı karar):**
+- Ana iş parçacığı kasması taklitte görünmüyor: Hazine CPU 6x, Ida'nın gerçek kartıyla (lig_altin çerçeve, altın isim, BP parlaması)
+  en uzun kare 83–100 ms, ≥ 100 ms kare 0–1. Süren animasyonlar transform/opacity (birleştirilmiş); boyama gerektiren tek sürekli
+  geçiş sayaç halkası (`stroke-dashoffset`, 1 sn). S24 FE'de bu değerler ~3–4 kat daha kısa olmalı → telefondaki "her ekranda donma"nın
+  ölçülebilen kaynağı B. Kesin dağılım yarın `kasma` kayıtlarından gelecek.
+- SPA girişinde maç sayfasının ilk yerleşimi 184 ms (CPU 6x, 251 nesne) — gerçek akışta arama ekranı aynı avatarları önceden çizdiği için çoğunlukla orada ödeniyor; dokunulmadı.
+- Hazine maç sonu dalgalı ağda en uzun kare 134 ms (iki derlemede aynı; `html.msk-acik` stil hesabı) — dokunulmadı.
+- Kesik animasyon: rakip joker rozeti soru ekranıyla sökülüyor (tasarım kararı, önceki raporda) — dokunulmadı.
+- **Grup "ad düğmesi kırpık" = 4./3. oyuncunun yatay kayan şeritte ekran dışında olması** (D-412, kaydırmayla görünür) — hata değil;
+  ölçüm aracı artık "kaydırmalı şeritte (ekran dışı)" yazıyor, kırpık saymıyor. CSS değişmedi.
+- **Turnuva 360×640: orta bölüm 54 px taşıyor** (önce 67) — joker çubuğunun büyük kısmı kaydırma alanının altında. Kapatmak için bilgi
+  gizlemek / sıkıştırmak gerekiyor (aşağıda seçenekler) → **Ida kararı**.
+
+## Önce / sonra
+| Ölçü | Önce | Sonra | Kaynak |
+|---|---|---|---|
+| Gerçek telefondan akış kaydı (TWA) | 0 (40/40 satır araç) | yarın ölçülecek | canlı `akis_bozulma` |
+| Gizlenince kuyruk gönderimi (taklit, normal / hemen dondurulan sayfa) | 4 ms · gönderildi | 3 ms · gönderildi (keepalive, oturum beklenmez) | `izleme-istemci-testi` — masaüstü dondurma eski kodda da kaybı üretmedi; gerçek telefonda doğrulanmadı |
+| > 100 ms kare kaydı | yok (yalnız > 500 ms donma) | maç başına `kasma` özeti | `akis-kasma-test` 5/5 |
+| Askı taklidi: faz geçişi > 1 sn | 9 / 33 | 7 / 37 | `hazine-akis-olcum --senaryo=aski` (CPU 6x, kozmetik=ida) |
+| Askı taklidi: geçişin en kötüsü | **9820 ms** | **3576 ms** | aynı |
+| Askı taklidi: sayaç 0'da > 1 sn | 3 kez, en uzun 6235 ms | **0** | aynı |
+| Bot taklidi: en uzun kare (sonuç) · ≥ 100 ms kare | 100 ms · 1 | 83 ms · 0 | A/B, tek koşu (gürültü ±17 ms) |
+| Bot taklidi: faz geçişi en kötü (cevap) | 858 ms | 746 ms | A/B |
+| Dalgalı taklidi: maç sonu en uzun kare | 134 ms | 134 ms | A/B (değişmedi) |
+| Dalgalı taklidi: sayaç 0'da en uzun | 1756 ms | 1806 ms | A/B (değişmedi; senaryonun kendi gecikmesi) |
+| Ses ömrü (bot / dalgalı): ani kesilen | 0 / 0 | 0 / 0 | A/B |
+| Çift / sırasız yanıt işlenmesi | 0 (zincir) | 0 (kesilen yanıt uygulanmaz) | kod + taklit |
+| 360×640 Grup: joker çubuğu kırpık · orta bölüm taşması · soru metni taşıyor | 2 px · 8 px · evet | **0 · 0 · hayır** | `klasik-mac-ekran` TR+EN |
+| 360×640 Turnuva: orta bölüm taşması | 67 px | 54 px (KALDI) | aynı |
+| 390×844 / 1440×900 Grup + Turnuva | sığıyor | sığıyor (değişmedi) | aynı |
+
+Ekran görüntüleri: `tasarim/gorsel-16eki/once|sonra/{grup,turnuva}-acik-{360x640,390x844,1440x900}-{tr,en}.png`.
+
+## Turnuva 360×640 — karar seçenekleri (Ida)
+1. "Canlı · N oyuncu hayatta" satırını kısa ekranda yalnız ekran okuyucuya bırakmak (üstteki "N/M oyuncu kaldı" aynı sayıyı gösteriyor) → −28 px.
+2. Üst oyuncu kartını kısa ekranda %80 küçültmek (1v1'deki desen) → ~−13 px.
+3. Boş sonuç yuvasını (44 px) kısa ekranda akış dışına almak (sonuç bandı soluk joker çubuğunun üstüne düşer) → −52 px, tek başına yeter.
+Bugün hiçbiri uygulanmadı; jokerler orta bölüm kaydırılarak erişilebilir.
+
+## Yarın (17 Eki 08:00 e-postası + /yonetim/izleme) neye bakılacak — yalnız `kip = twa`
+| Olay | Beklenen | Eşik |
+|---|---|---|
+| `kasma` | **GELMELİ** (gelmezse telefon izlemesi hâlâ kırık). İlk gerçek dağılım: hangi aşama (`cevap`/`sonuc`/`karar`/`baslangic`/`macsonu`) kaç kare, en uzun kaç ms | kare > 100 ms; hedef maç başına ≤ 3 kare, en uzun < 150 ms |
+| `faz_gec` | askı tipi geç geçişler düşmeli; `gecikme_ms` ~10 000'e varan değer görülmemeli | > 1 sn kaydedilir; hedef ≤ 4000 ms (askı kesici + yedek yoklama) |
+| `sayac_sifir` | 0'da 5–6 sn kalma görülmemeli | > 1 sn kaydedilir; hedef ≤ 2000 ms |
+| `donma` | var mı (500 ms üstü) | > 500 ms; hedef 0 |
+| `ses_gec` / `ses_yok` / `ses_kesildi` | bu paket değiştirmedi — taban çizgisi | 300 ms / — / kalan > 150 ms |
+Not: e-posta son 24 saati sayar; bugünkü ölçüm koşuları `kip = tarayici` görünür, onları sayma.
+
+## Test tablosu (docs/TEST-KAPSAMI.md)
+| Madde | Kapsam | Sonuç | Not |
+|---|---|---|---|
+| 1 Dokunma · 2 Görünüm (16 sayfa × 4 genişlik) · iOS kuralları | `arayuz-denetim` | BAKILAMADI | misafir/test hesabı gerekiyor (yeni hesap açılmaz, Ida oturumu bu araca verilmez); değişen CSS yalnız ≤ 700 px soru ekranı |
+| 2 Görünüm — maç ekranları | `klasik-mac-ekran` Grup + Turnuva × 360×640 / 390×844 / 1440×900 × TR+EN (taklit) | GEÇTİ (Grup) · KALDI (Turnuva 360×640, karar bekliyor) | yatay taşma 0, örtüşme 0 |
+| 2 Görünüm — Düello | `duello-v4-ekran` | BAKILAMADI | araç test hesabı oturum dosyası istiyor (yok) |
+| 3 Animasyon — > 100 ms kare | Hazine taklit A/B bot + dalgalı + askı, CPU 6x, Ida kartı; iz + animasyon dökümü | GEÇTİ (maç içi) · KALDI (dalgalı maç sonu 134, değişmedi) | gerçek telefonda doğrulanmadı |
+| 3 Animasyon — kesilen | Hazine taklit | GEÇTİ / sınıflı | yeni 0–3; rakip joker rozeti eski karar |
+| 3 Hareket azaltma | — | BAKILAMADI (bu pakette yeniden koşulmadı) | animasyon kodu değişmedi |
+| 4 Ses | Hazine taklit ses ömrü A/B | GEÇTİ | ani kesilen 0; ses-kesilme 6 mod yeniden koşulmadı (ses.js değişmedi; yalnız maç sonu penceresinde `akisMacAcik` false — eski davranış) |
+| 5 Zamanlama — faz geçişi / sayaç 0 | askı + bot + dalgalı taklit A/B | GEÇTİ | askı 9,8 → 3,6 sn; sayaç 0'da 6,2 sn → 0 |
+| 5 Erken süre bildirimi | `sure-bildirim-olcum` (bellekte) | GEÇTİ | sonuçlar önceki paketle aynı (kod değişmedi) |
+| 5 3-2-1 | Hazine taklit | GEÇTİ | 981–1048 ms |
+| 5 Senkron (bütün modlar) | `senkron-testi` | BAKILAMADI | her moda canlı maç açıyor (canlı yük kuralı); Turnuva taklidi koşulmadı |
+| 6 Akış · 7 Veri · 8 Konsol | canlı duman: Ida, açık bot, tek Hazine maçı, yerel üretim derlemesi, CPU 6x | GEÇTİ | maç bitti (17 tur, hedef); 3-2-1 999/1006/1077 ms; ses 109/111 (2 arama sesi faz iptali), ani kesilen 0; konsol 0; **canlı `kasma` kaydı yazıldı**: `macsonu:4 cevap:3 baslangic:2 sonuc:2`, en uzun 273 ms (kip tarayici, CPU 6x) |
+| 8 Konsol | `izleme-istemci-testi` + taklit koşular | GEÇTİ | konsol hatası 0 |
+| Birim | `npm run test:kurallar` (+ yeni `akis-kasma-test`), `test:dans` | GEÇTİ | `npm test` sunucu bölümü canlı DB'ye yazdığı için koşulmadı |
+
+
 # Soru düzeltme 2 canlıda — rapor (16 Eki 2026, akşam)
 
 ## Kategori bazında aktif soru — önce / sonra (canlı, salt okuma)

@@ -119,6 +119,7 @@ const OLC = () => {
     }
     return { top: t, bottom: b, left: l, right: ri, bos: b <= t || ri <= l };
   };
+  const kayanAta = (e) => { for (let p = e.parentElement; p && p !== document.documentElement; p = p.parentElement) { const c = getComputedStyle(p); if (/(auto|scroll)/.test(c.overflowX) && p.scrollWidth > p.clientWidth + 1) return true; } return false; };
   const ad = (e) => `${e.tagName.toLowerCase()}.${String(e.className).split(/\s+/).filter(Boolean).slice(0, 2).join(".")}`;
   const q = (s) => document.querySelector(s);
   const kart = q(".m1-soru .qt-soru-kart") || q(".qt-soru-kart");
@@ -142,7 +143,9 @@ const OLC = () => {
     if (r.bottom > enAlt) { enAlt = r.bottom; enAltAd = a; }
     if (r.bottom > vh + 0.5) disari.push(`${a} alt=${r.bottom.toFixed(0)}>${vh}`);
     else if (!k.bos && (k.bottom < r.bottom - 1 || k.top > r.top + 1) && r.height > 0) disari.push(`${a} kırpık ${(r.height - (k.bottom - k.top)).toFixed(0)}px`);
-    else if (k.bos) disari.push(`${a} tümüyle kırpık`);
+    // 16 Eki 2026: yatay kayan şeritteki (overflow-x auto/scroll) görünmeyen öğe kaydırınca görünür — kırpık değil, ayrı yazılır
+    else if (k.bos && kayanAta(e)) disari.push(`${a}[${(e.textContent || "").trim().slice(0, 12)}] kaydırmalı şeritte (ekran dışı)`);
+    else if (k.bos) disari.push(`${a}[${(e.textContent || "").trim().slice(0, 12)}] tümüyle kırpık`);
   }
   // Üst üste binme: görünür düğmeler (çocuk-ebeveyn hariç), kırpılmış dikdörtgenle
   const kut = dugmeler.map((e) => ({ e, k: kirpik(e) })).filter((x) => !x.k.bos);
@@ -168,7 +171,9 @@ const OLC = () => {
     soruSinif: soru ? [...soru.classList].filter((c) => /^m1-soru--/.test(c)).join(" ") : null,
     metin: metin ? { tasar: metin.scrollHeight > metin.clientHeight + 1, dataTasar: metin.hasAttribute("data-tasar"), scrollHeight: metin.scrollHeight, clientHeight: metin.clientHeight } : null,
     yatayTasma: de.scrollWidth - de.clientWidth,
-    enAlt: +enAlt.toFixed(1), enAltOge: enAltAd, sigiyor: disari.length === 0 && enAlt <= vh + 0.5, disari,
+    // 16 Eki 2026: dikey bütçe — maç kökünün ve soru bölümünün çocuk yükseklikleri (sığmayan yerin sorumlusu)
+    butce: [".m1-mac", ".m1-soru"].map((s) => { const k = q(s); return k ? `${s}: ` + [...k.children].filter(gor).map((c) => `${String(c.className?.baseVal ?? c.className).split(" ")[0] || c.tagName}=${Math.round(c.getBoundingClientRect().height)}`).join(" ") : null; }).filter(Boolean),
+    enAlt: +enAlt.toFixed(1), enAltOge: enAltAd, sigiyor: disari.filter((x) => !/kaydırmalı şeritte/.test(x)).length === 0 && enAlt <= vh + 0.5, disari,
     binen,
     jokerVar: Boolean(document.querySelector(".m1-joker-yuva .qt-skill")),
     tepkiVar: Boolean(document.querySelector(".m1-alt .m1-tepki, .m1-alt .qt-ikon-dugme")),

@@ -612,6 +612,10 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--uzun .qt-soru-metin { font-size: 16px; }
   body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--cok-uzun .qt-soru-metin { font-size: 14px; line-height: 1.18; }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-sik { padding-right: 6px; letter-spacing: -0.01em; }
+  /* 16 Eki 2026 (360×640 Grup/Turnuva): iki satıra kırılan joker hak yazısı ("Arkadaş maçı: her jokeri bir kez…") orta bölümü
+     8 px taşırıyordu — joker çubuğu 2 px kırpılıyor, soru metni karta sığmıyordu. Tek satır, sığmayan kısım üç noktayla
+     biter — Klasik'teki tek satırlık "N joker kullanımın kaldı" ile aynı yükseklik. */
+  body.bd-oyun-modu .m1-mac > .m1-soru .m1-skill-hak { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 }
 /* D-404 / D-452 (denetim tur 2, 26 Eyl 2026; iPhone Safari araç çubuklu ≈ 375×553): dostluk bandı (2 satır) +
    tepki düğmesi altta ~150 px yiyor; uzun soruda D şıkkı ve joker çubuğu orta bölümün altında kalıp kaydırma ipucu olmadan

@@ -1106,6 +1106,15 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.com]`.
   `bildim-izleme-gunluk` 05:00 UTC = 08:00 TSİ → `izleme_gunluk_ozet_gonder()` → idagureli@gmail.com + info@quiztactics.com, konu "Quiz Tactics
   günlük izleme — GG.AA", düz metin (sayılar, en sık 10 sorun, mod/cihaz kırılımı, maçlar; sorun yoksa "SORUN YOK"). Elle: sahip
   `izleme_gunluk_ozet_elle()` ([TEST] konulu, 10 dk'da 1; sayfada "Test e-postası gönder"). Geri alma `docs/izleme-1113-geri-al.sql`.
+  **`kasma` (1119, 16 Eki 2026):** maç boyunca > 100 ms kareler (Long Animation Frames; yoksa uzun görev, iOS'ta saat boşluğu) aşamaya göre
+  sayılır, maç başına TEK özet: an = `aşama:adet …` (en çok kasan önce; aşama = sayfanın faz adı, faz yokken `acilis`, maç bitince 5 sn
+  `macsonu`), ms = en uzun kare; sayfa gizlenince hemen yazılır. Kuyruk sayfa gizlenince / `pagehide`'da beklemeden `keepalive` istekle gider
+  (`izlemeKaydi.gonderAcil`, belirteç önceden tutulur). 16 Eki'ye kadar gerçek telefondan (TWA) TEK akış kaydı gelmemişti (40/40 satır
+  ölçüm araçlarının, kip=tarayici) — gerçek telefon verisi `kip = twa` satırlarıdır. Geri alma `docs/izleme-1119-geri-al.sql`.
+- **Askı kesici (16 Eki 2026):** Hazine (`kasa_durum`), Düello (`duello_durum`) ve Klasik/Saf Bilgi/Grup nabzı (`lib/nabiz.js`) okumaları
+  sırayla gider (yanıtlar sırasız/çift işlenmez); yoldaki okuma 3 sn'den (nabızda 2,5 sn) uzun sürerken yeni okuma isteği gelirse yoldaki
+  kesilir, yenisi hemen atılır — kesilen yanıt uygulanmaz. Eskiden yanıtı kaybolan tek istek sonraki bütün okumaları 10 sn'ye kadar
+  bekletiyordu (Ida, 16 Eki 19:53 Hazine: 9,25 sn hiç okuma yok). Taklit: `hazine-akis-olcum --senaryo=aski`.
 - **Sayaç saati (16 Eki 2026):** Hazine ve Düello sayaçları `sunucuSaati.js › sayacSimdiMs` ile akar: fark tekdüze saate göre tutulur (telefonun
   saat ayarı sayacı oynatmaz), yeni örneğe %10 hızla kayar (sıçrama/geri gitme yok), 1,5 sn üstü sapma bir kerede; faz başında
   `sayacSaatiHizala`; telefon saati atlayınca eski ve yoldaki örnek atılır; sayfa görünür olunca ilk taze örnek hizalar. Süre bitince sonuç

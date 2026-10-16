@@ -22,6 +22,8 @@ import { zamanAsimiyla } from "./gorunurluk.js";
 import { saatOrnegiEkle } from "./sunucuSaati.js";
 
 const ARALIK_MS = 3000;
+const ASKI_MS = 2500;   // 16 Eki 2026: bu süreden uzun yoldaki nabız sıradaki tikte kesilir (tik 3 sn — bir tik bekler)
+const ASKI_NEDENI = "aski";
 
 /**
  * @param {string} rpcAdi  "mac_nabiz" | "grup_mac_nabiz" | "hizli_mac_nabiz"
@@ -37,12 +39,20 @@ export function useMacNabiz(rpcAdi, parametreler, aktif = true) {
 
   // 1056: yanıtı gelmeyen nabız varken yenisi atılmaz (DB yavaşken 3 sn'de bir istek aynı maç
   // satırında sıraya giriyordu); takılan istek 10 sn'de gerçekten kesilir (AbortController).
+  // 16 Eki 2026 (Hazine/Düello ile aynı — KasaPage.jsx › ASKI_MS): yoldaki nabız 3 sn'den uzun sürerken sıradaki tik gelirse yoldaki
+  // kesilir ve yenisi atılır — yanıtı kaybolan tek nabız ekranı 10 sn'ye kadar dondurmaz. Kesilen yanıt uygulanmaz.
   const ucustaRef = useRef(false);
+  const yoldakiRef = useRef(null);   // { kes, bas }
   const nabizAt = useCallback(async () => {
     if (typeof document !== "undefined" && document.hidden) return;
-    if (ucustaRef.current) return;
+    if (ucustaRef.current) {
+      const y = yoldakiRef.current;
+      if (!y || Date.now() - y.bas < ASKI_MS) return;
+      y.kes.abort(ASKI_NEDENI);
+    }
     ucustaRef.current = true;
     const kes = new AbortController();
+    yoldakiRef.current = { kes, bas: Date.now() };
     const kesZamani = setTimeout(() => kes.abort(), 10000);
     try {
       const gonderildiMs = Date.now();
@@ -52,6 +62,7 @@ export function useMacNabiz(rpcAdi, parametreler, aktif = true) {
         rpcAdi
       );
       const alindiMs = Date.now();
+      if (kes.signal.aborted) return;   // askı kesici kesti: yanıt (gelse de) uygulanmaz
       if (error) throw error;
       const r = Array.isArray(data) ? data[0] : data;
       if (r) {
@@ -66,12 +77,13 @@ export function useMacNabiz(rpcAdi, parametreler, aktif = true) {
         setNabizHatasi(null);
       }
     } catch (e) {
+      if (kes.signal.aborted && kes.signal.reason === ASKI_NEDENI) return;   // kesildi, yenisi yolda — hata değil
       // Ağ dalgalanması olabilir; ekranı düşürmeyiz, bir sonraki tik dener.
       console.error(`[Bildim] ${rpcAdi}:`, e);
       setNabizHatasi(e);
     } finally {
       clearTimeout(kesZamani);
-      ucustaRef.current = false;
+      if (yoldakiRef.current?.kes === kes) { yoldakiRef.current = null; ucustaRef.current = false; }
     }
   }, [rpcAdi]);
 

@@ -8,6 +8,9 @@
 // HAFİFLİK (nano veritabanı):
 //   • Kuyruk bellekte; ilk kayıttan 15 sn sonra ya da sayfa gizlenince TEK çağrıyla gönderilir.
 //     Sürekli yoklama yok; boş kuyrukta hiç istek yok.
+//   • 16 Eki 2026: sayfa gizlenince / kapanırken kuyruk `keepalive` istekle ve beklemeden gider (gonderAcil). Eskiden önce
+//     oturum beklenip normal istek atılıyordu; Android uygulama arka plana alınınca istek yola çıkmıyordu — gerçek
+//     telefondan (TWA) tek akış kaydı gelmedi (16 Eki 19:54 Hazine maçı: son istek 19:54:01, kuyruk gitmedi).
 //   • Aynı hata aynı oturumda 1 kez (burada + sunucuda unique); dakikada en çok 5 hata.
 //   • Kaydın kendisi başarısız olursa yeniden denenmez ve hata olarak kaydedilmez (döngü yok).
 //   • Oturum yoksa (giriş öncesi tanıtım/kurulum sayfası) hatalar atılır — Ida kararı.
@@ -36,6 +39,9 @@ let dakikaSayi = 0;
 let zamanlayici = null;
 let gonderiliyor = false;
 let kuruldu = false;
+let sonBelirtec = null;   // son bilinen erişim belirteci (gonderAcil beklemeden kullanır)
+const ADRES = import.meta.env?.VITE_SUPABASE_URL;
+const ANAHTAR = import.meta.env?.VITE_SUPABASE_ANON_KEY;
 
 const surum = () => {
   try { return typeof __QT_SURUM__ !== "undefined" ? String(__QT_SURUM__) : "bilinmiyor"; } catch { return "bilinmiyor"; }
@@ -122,6 +128,7 @@ export async function gonder() {
   try {
     const { data } = await supabase.auth.getSession();
     if (!data?.session) { hatalar = []; akislar = []; return; }
+    sonBelirtec = data.session.access_token ?? sonBelirtec;
     const h = hatalar; const o = [...olaylar, ...akislar];
     hatalar = []; olaylar = []; akislar = [];
     const { error } = await supabase.rpc(KAYIT_RPC, {
@@ -132,6 +139,28 @@ export async function gonder() {
     console.warn("[İzleme] kayıt gönderilemedi:", e?.message ?? e);
   } finally {
     gonderiliyor = false;
+  }
+}
+
+/**
+ * Sayfa gizlenirken / kapanırken: kuyruk BEKLEMEDEN tek `keepalive` istekle gider (sayfa dondurulsa da tarayıcı isteği
+ * tamamlar). Belirteç bilinmiyorsa normal gönderime düşer. Hiçbir koşulda fırlatmaz.
+ */
+export function gonderAcil() {
+  try {
+    if (!supabaseHazir || (!hatalar.length && !olaylar.length && !akislar.length)) return;
+    if (!sonBelirtec || !ADRES || !ANAHTAR || typeof fetch !== "function") { gonder(); return; }
+    if (zamanlayici) { clearTimeout(zamanlayici); zamanlayici = null; }
+    const h = hatalar; const o = [...olaylar, ...akislar];
+    hatalar = []; olaylar = []; akislar = [];
+    fetch(`${ADRES}/rest/v1/rpc/${KAYIT_RPC}`, {
+      method: "POST", keepalive: true,
+      headers: { apikey: ANAHTAR, Authorization: `Bearer ${sonBelirtec}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ p_oturum: oturumKimligi(), p_surum: surum(), p_cihaz: cihazTipi(), p_hatalar: h, p_olaylar: o }),
+    }).then((r) => { if (!r.ok) console.warn("[İzleme] kayıt gönderilemedi:", r.status); },
+            (e) => console.warn("[İzleme] kayıt gönderilemedi:", e?.message ?? e));
+  } catch (e) {
+    console.warn("[İzleme] kayıt gönderilemedi:", e?.message ?? e);
   }
 }
 
@@ -184,7 +213,13 @@ export function izlemeKur() {
       if (gurultuMu(mesaj)) return;
       hataKaydet("soz", `${r?.name ? r.name + ": " : ""}${mesaj}`);
     });
-    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") gonder(); });
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") gonderAcil(); });
+    window.addEventListener("pagehide", gonderAcil);
+    // Belirteç önceden tutulur: gizlenme anında oturum beklenirse istek yola çıkmadan sayfa donuyor (16 Eki 2026).
+    try {
+      supabase.auth.getSession().then(({ data }) => { sonBelirtec = data?.session?.access_token ?? sonBelirtec; }, () => {});
+      supabase.auth.onAuthStateChange((_olay, oturum) => { sonBelirtec = oturum?.access_token ?? null; });
+    } catch { /* belirteç yoksa normal gönderim */ }
 
     // Kurulum: tarayıcıda appinstalled genelde girişsiz tanıtım sayfasında olur → bayrak bırakılır;
     // uygulamanın cihazdaki ilk açılışı (iOS dahil) olayı tek kez yazar. Anahtar = cihaz tipi.

@@ -38,7 +38,7 @@ async function kur({ girisli = true, standalone = true, istekler }) {
     const yol = new URL(r.request().url()).pathname;
     let govde = null;
     try { govde = r.request().postDataJSON(); } catch { /* yok */ }
-    istekler.push({ yol, govde });
+    istekler.push({ yol, govde, t: Date.now(), yetki: r.request().headers()["authorization"] ?? null });
     const json = (status, v) => (v === undefined ? r.fulfill({ status: 204, body: "" }) : r.fulfill({ status, contentType: "application/json", body: JSON.stringify(v) }));
     if (yol.endsWith("/rpc/istemci_kayit_yaz")) return json(204);
     if (yol.endsWith("/rpc/kalp_at")) return json(400, { code: "P0001", message: "Deneme hatası a@b.com" });
@@ -73,10 +73,13 @@ try {
     });
     await sayfa.waitForTimeout(500);
     sonuc("15 sn dolmadan kayıt çağrısı yok", kayitlar(istekler).length === 0, `çağrı=${kayitlar(istekler).length}`);
+    const gizlendi = Date.now();
     await gizle(sayfa);
     await sayfa.waitForTimeout(1500);
     const k = kayitlar(istekler);
     sonuc("sayfa gizlenince tek toplu çağrı", k.length === 1, `çağrı=${k.length}`);
+    // 16 Eki 2026: gizlenince beklemeden (oturum sorgusu yok) keepalive istek — Android uygulama arka plana alınınca kaybolmasın
+    sonuc("gizlenince beklemeden gönderildi (< 300 ms, belirteçli)", Boolean(k[0]) && k[0].t - gizlendi < 300 && k[0].yetki === "Bearer sahte.jwt", `${k[0] ? k[0].t - gizlendi : "—"} ms`);
     const g = k[0]?.govde ?? {};
     const js = (g.p_hatalar ?? []).filter((h) => h.tur === "js");
     sonuc("aynı JS hatası bir kez", js.length === 1, JSON.stringify(js));
@@ -84,6 +87,28 @@ try {
     sonuc("oturum/sürüm/cihaz gönderildi", /^[0-9a-f-]{36}$/.test(g.p_oturum ?? "") && Boolean(g.p_surum) && g.p_cihaz === "ios", `${g.p_surum} ${g.p_cihaz}`);
     const olaylar = (g.p_olaylar ?? []).map((o) => o.olay).sort().join(",");
     sonuc("giris + kurulum olayı", olaylar === "giris,kurulum", olaylar);
+    await baglam.close();
+  }
+
+  // 1b) 16 Eki 2026 — Android uygulama arka plana alınınca sayfa hemen dondurulur: gizlenme anında kuyruk yola çıkmış olmalı
+  //     (CDP Page.setWebLifecycleState frozen = Chrome'un arka plan dondurması). Eskiden önce oturum beklendiği için istek çıkmıyordu.
+  {
+    const istekler = [];
+    const { baglam, sayfa } = await kur({ istekler });
+    await sayfa.goto(`${KOK}/`, { waitUntil: "domcontentloaded" });
+    await sayfa.waitForTimeout(3000);
+    await sayfa.evaluate(() => { setTimeout(() => { throw new TypeError("donma öncesi hata"); }, 0); });
+    await sayfa.waitForTimeout(300);
+    const cdp = await baglam.newCDPSession(sayfa);
+    await sayfa.evaluate(() => {
+      Object.defineProperty(document, "visibilityState", { value: "hidden", configurable: true });
+      document.dispatchEvent(new Event("visibilitychange"));
+    });
+    await cdp.send("Page.setWebLifecycleState", { state: "frozen" });
+    await new Promise((c) => setTimeout(c, 2000));
+    const n = kayitlar(istekler).length;
+    await cdp.send("Page.setWebLifecycleState", { state: "active" }).catch(() => {});
+    sonuc("gizlenip hemen dondurulan sayfa: kuyruk gönderildi", n === 1, `çağrı=${n}`);
     await baglam.close();
   }
 
