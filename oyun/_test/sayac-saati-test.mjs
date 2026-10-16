@@ -5,7 +5,8 @@
 // ileri/geri atlasa da sayaç saati etkilenmez · (5) 60 sn'lik pencereden en iyi örnek düşünce de sıçrama yok.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { saatOrnegiEkle, sayacSimdiMs, sayacSaatiHizala, saatSapmaDinle, _saatOrnekleriniSifirla, _sayacSaatiniSifirla } from "../lib/sunucuSaati.js";
+import { saatOrnegiEkle, sayacSimdiMs, sayacSaatiHizala, saatSapmaDinle, _saatOrnekleriniSifirla, _sayacSaatiniSifirla,
+         enIyiSimdiMs, sureBildirimMs, sureBildirimTekrarMs } from "../lib/sunucuSaati.js";
 
 let mono = 0;          // performance.now (ms)
 let duvarKayma = 0;    // Date.now − gerçek zaman (telefonun saat hatası)
@@ -110,4 +111,38 @@ test("saat atladıktan sonra gelen örneklerle de sıçrama yok", () => {
   for (let i = 0; i < 8; i++) { ornek(40, 600); l.push(...ilerle(500)); }
   const h = hizlar(l);
   assert.ok(Math.min(...h) >= 0.899 && Math.max(...h) <= 1.101, `hız ${Math.min(...h).toFixed(3)}–${Math.max(...h).toFixed(3)}`);
+});
+
+// 16 Eki 2026 (Düello nötr "sayaç 0'da ~1,8 sn"): süre dolumu bildirimi sayaç saati ile en iyi saatin GEÇ olanına göre
+test("süre bildirimi: sayaç saati öndeyken sunucu süresi dolmadan gönderilmez", () => {
+  sifirla();
+  ornek(1500, 100);             // kötü örnek (gidiş yolu / sunucu işlemi uzun, damga sonda) → sayaç ~700 ms önde
+  sayacSaatiHizala();
+  ornek(40, 40);                // iyi örnek: en iyi saat doğru, sayaç saati yavaş kayıyor
+  mono += 50;
+  const bitis = gercek() + SUNUCU_ILERI + 3000;   // sunucu saatiyle 3 sn sonra
+  const eskiMs = bitis - sayacSimdiMs() + 150;
+  const yeniMs = sureBildirimMs(bitis);
+  assert.ok(Math.abs(enIyiSimdiMs() - (gercek() + SUNUCU_ILERI)) < 5, "en iyi saat doğru değil");
+  assert.ok(eskiMs < 3000, `eski yöntem erken göndermeliydi (${Math.round(eskiMs)})`);
+  assert.ok(yeniMs >= 3140 && yeniMs <= 3160, `yeni gecikme ${Math.round(yeniMs)}`);
+});
+
+test("süre bildirimi: sayaç saati gerideyken sayaç 0'ı göstermeden gönderilmez", () => {
+  sifirla();
+  ornek(100, 1500);             // kötü örnek (yanıt yolu uzun) → sayaç saati ~700 ms geride
+  sayacSaatiHizala();
+  ornek(40, 40);
+  mono += 50;
+  const bitis = gercek() + SUNUCU_ILERI + 3000;
+  assert.ok(sureBildirimMs(bitis) >= bitis - sayacSimdiMs() + 149, "sayaç 0 olmadan gönderildi");
+});
+
+test("süre bildirimi: 'Süre dolmadı' sonrası bekleme 150–600 ms", () => {
+  sifirla();
+  ornek(40, 40); sayacSaatiHizala();
+  const simdi = gercek() + SUNUCU_ILERI;
+  assert.equal(sureBildirimTekrarMs(simdi - 2000), 150);
+  assert.equal(Math.round(sureBildirimTekrarMs(simdi + 200)), 350);
+  assert.equal(sureBildirimTekrarMs(simdi + 5000), 600);
 });

@@ -65,7 +65,7 @@ import { rpcDene } from "../lib/rpcDene.js";
 import { sure, sureOlcek } from "../lib/sureler.js";
 import { aramaAraligiSn } from "../lib/gorunurluk.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs, tikBasligiEkle } from "../lib/zaman.js";
-import { saatOrnegiEkle, saatFarkiMs, sayacSimdiMs, sayacSaatiHizala } from "../lib/sunucuSaati.js";
+import { saatOrnegiEkle, saatFarkiMs, sayacSimdiMs, sayacSaatiHizala, sureBildirimMs, sureBildirimTekrarMs } from "../lib/sunucuSaati.js";
 import { akisMacBaslat, akisMacBitir, akisFazGozle } from "../lib/akisIzleme.js";
 import PaylasDugmesi from "../components/PaylasDugmesi.jsx";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
@@ -801,6 +801,9 @@ function DuelloMac({ id }) {
     const bildir = async (deneme) => {
       const g = dGuncelRef.current;
       if (iptal || g?.faz !== d.faz || g?.cevap?.ben_cevapladim || document.visibilityState !== "visible") return;
+      // zamanlayıcı faz başında kurulur; saat örnekleri soru boyunca değişir → gönderim anında yeniden bakılır, erkense yeniden kurulur
+      const erken = sureBildirimMs(new Date(bitis).getTime());
+      if (erken > 40) { zamanlar.push(setTimeout(() => bildir(deneme), erken)); return; }
       sureDolduRef.current = anahtar;
       try {
         const { error } = soruda ? await supabase.rpc("duello_cevap", { p_id: id, p_cevap: -1 })
@@ -808,11 +811,13 @@ function DuelloMac({ id }) {
         if (error) throw error;
         await yukle();
       } catch (e) {
-        if (deneme < 3 && /dolmad/i.test(e?.message ?? "")) { sureDolduRef.current = null; zamanlar.push(setTimeout(() => bildir(deneme + 1), 600)); return; }
+        if (deneme < 3 && /dolmad/i.test(e?.message ?? "")) { sureDolduRef.current = null; zamanlar.push(setTimeout(() => bildir(deneme + 1), sureBildirimTekrarMs(new Date(bitis).getTime()))); return; }
         yukle().catch(() => {});
       }
     };
-    const ms = new Date(bitis).getTime() - sayacSimdiMs() + 150;   // sayaç saatiyle (telefon saati atlasa da)
+    // 16 Eki 2026: sayaç saati ile en iyi saatin GEÇ olanına göre (tekdüze — telefon saati atlasa da); yalnız sayaç saatine
+    // göre gidince erken varıp "Süre dolmadı" + 600 ms yeniden deneme → nötr soruda sayaç 0'da ~1,8 sn (lib/sunucuSaati.js)
+    const ms = sureBildirimMs(new Date(bitis).getTime());
     zamanlar.push(setTimeout(() => bildir(0), Math.max(0, ms)));
     return () => { iptal = true; zamanlar.forEach(clearTimeout); };
   }, [d?.surum, d?.durum, d?.faz, d?.kopuk, d?.faz_bitis, d?.cevap?.benim_bitis, d?.cevap?.ben_cevapladim, d?.v4?.kontrol, d?.v4?.soru_no, secim, calisan, id, yukle]);   // eslint-disable-line react-hooks/exhaustive-deps

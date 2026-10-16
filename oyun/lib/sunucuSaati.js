@@ -175,6 +175,26 @@ export function sayacSimdiMs() {
   return m == null ? Date.now() + (fark ?? 0) : tekduzeEpoch() + m;
 }
 
+/** En iyi saat örneğine göre sunucu şimdi (ms; tekdüze saatle — telefonun saati atlasa da). Örnek yoksa sunucuSimdiMs. */
+export function enIyiSimdiMs() {
+  return monoFark == null ? Date.now() + (fark ?? 0) : tekduzeEpoch() + monoFark;
+}
+
+/**
+ * 16 Eki 2026 (Düello nötr "sayaç 0'da ~1,8 sn", canlı izleme): süre dolumu bildiriminin (cevabım yok · karar yok · kart
+ * yok; 1063/1114) gönderilmesine kalan ms. Sayaç saati (düzgün) en iyi örnekten 1,5 sn'ye kadar önde olabilir; yalnız ona
+ * göre giden bildirim sunucuya erken varıp "Süre dolmadı" alıyor, 600 ms sonra yeniden deneniyordu (14:15:25 UTC kaydı).
+ * İki saatin GEÇ olanı + pay: sayaç 0'ı göstermeden (oyuncu hâlâ dokunabilir) ve sunucunun süresi dolmadan gönderilmez.
+ */
+export function sureBildirimMs(bitisMs, payMs = 150) {
+  return Math.max(bitisMs - sayacSimdiMs(), bitisMs - enIyiSimdiMs()) + payMs;
+}
+
+/** "Süre dolmadı" yanıtından sonra yeniden deneme beklemesi: en iyi saate göre kalan + pay (150–600 ms; eskiden hep 600). */
+export function sureBildirimTekrarMs(bitisMs) {
+  return Math.min(600, Math.max(150, bitisMs - enIyiSimdiMs() + 150));
+}
+
 /**
  * Yeni faz/soru başlarken (sayaç henüz akmıyorken) çağrılır: sayaç saati en iyi örneğe bir kerede hizalanır. Sayaç
  * akarken düzeltme yalnız kayarak olur; ilk (yavaş) örnekten kalan büyük hata bir sonraki fazı beklemez.

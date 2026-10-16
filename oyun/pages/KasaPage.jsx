@@ -41,7 +41,7 @@ import { aramaAraligiSn } from "../lib/gorunurluk.js";
 import { useOyunModu, useMacSonuGecisi } from "../lib/oyunModu.js";
 import { sonModuYaz } from "../lib/sonMod.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs, tikBasligiEkle } from "../lib/zaman.js";
-import { saatOrnegiEkle, saatFarkiMs, sayimFarkiMs, sayacSimdiMs, sayacSaatiHizala } from "../lib/sunucuSaati.js";
+import { saatOrnegiEkle, saatFarkiMs, sayimFarkiMs, sayacSimdiMs, sayacSaatiHizala, sureBildirimMs, sureBildirimTekrarMs } from "../lib/sunucuSaati.js";
 import { akisMacBaslat, akisMacBitir, akisFazGozle, akisOlay } from "../lib/akisIzleme.js";
 import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
 import { BasiliTut } from "../lib/useBasiliTut.js";
@@ -699,6 +699,9 @@ function KasaMac({ id }) {
     const zamanlar = [];
     const bildir = async (deneme) => {
       if (iptal || calisanRef.current || dGuncelRef.current?.faz !== "karar") return;
+      // zamanlayıcı faz başında kurulur; saat örnekleri faz boyunca değişir → gönderim anında yeniden bakılır, erkense yeniden kurulur
+      const erken = sureBildirimMs(new Date(d.faz_bitis).getTime());
+      if (erken > 40) { zamanlar.push(setTimeout(() => bildir(deneme), erken)); return; }
       sureDolduRef.current = anahtar;
       try {
         const { error } = await supabase.rpc("kasa_karar", { p_id: id, p_ac: null });
@@ -706,11 +709,11 @@ function KasaMac({ id }) {
         await yukle();
       } catch (e) {
         // Saat farkıyla sunucuya erken vardıysa bir kez daha; faz zaten geçtiyse yalnız tazelenir (hata gösterilmez)
-        if (deneme === 0 && /dolmad/i.test(e?.message ?? "")) { sureDolduRef.current = null; zamanlar.push(setTimeout(() => bildir(1), 600)); return; }
+        if (deneme === 0 && /dolmad/i.test(e?.message ?? "")) { sureDolduRef.current = null; zamanlar.push(setTimeout(() => bildir(1), sureBildirimTekrarMs(new Date(d.faz_bitis).getTime()))); return; }
         yukle().catch(() => {});
       }
     };
-    const ms = new Date(d.faz_bitis).getTime() - sayacSimdiMs() + 150;
+    const ms = sureBildirimMs(new Date(d.faz_bitis).getTime());   // 16 Eki 2026: sayaç saati / en iyi saat — geç olanı (Düello ile aynı)
     zamanlar.push(setTimeout(() => bildir(0), Math.max(0, ms)));
     return () => { iptal = true; zamanlar.forEach(clearTimeout); };
   }, [d?.durum, d?.faz, d?.faz_bitis, d?.tur, d?.karar?.veren, kopukDonukSn, id, yukle]);   // eslint-disable-line react-hooks/exhaustive-deps
@@ -731,6 +734,9 @@ function KasaMac({ id }) {
     const bildir = async (deneme) => {
       const g = dGuncelRef.current;
       if (iptal || calisanRef.current || g?.faz !== "cevap" || g?.cevap?.ben_cevapladim || document.visibilityState !== "visible") return;
+      // zamanlayıcı faz başında kurulur; saat örnekleri soru boyunca değişir → gönderim anında yeniden bakılır, erkense yeniden kurulur
+      const erken = sureBildirimMs(new Date(benimBitis).getTime());
+      if (erken > 40) { zamanlar.push(setTimeout(() => bildir(deneme), erken)); return; }
       cevapsizRef.current = anahtar;
       try {
         const { error } = await supabase.rpc("kasa_cevap", { p_id: id, p_cevap: -1 });
@@ -738,11 +744,13 @@ function KasaMac({ id }) {
         await yukle();
       } catch (e) {
         // saat farkıyla erken vardıysa bir kez daha; faz geçtiyse / eski sunucu reddettiyse yalnız tazelenir (hata gösterilmez)
-        if (deneme < 3 && /dolmad/i.test(e?.message ?? "")) { cevapsizRef.current = null; zamanlar.push(setTimeout(() => bildir(deneme + 1), 600)); return; }
+        if (deneme < 3 && /dolmad/i.test(e?.message ?? "")) { cevapsizRef.current = null; zamanlar.push(setTimeout(() => bildir(deneme + 1), sureBildirimTekrarMs(new Date(benimBitis).getTime()))); return; }
         yukle().catch(() => {});
       }
     };
-    const ms = new Date(benimBitis).getTime() - sayacSimdiMs() + 150;   // sayaç saatiyle (telefon saati atlasa da)
+    // 16 Eki 2026: sayaç saati ile en iyi saatin GEÇ olanına göre (tekdüze — telefon saati atlasa da); erken varıp
+    // "Süre dolmadı" + 600 ms yeniden deneme olmasın (Düello nötr kök nedeni, lib/sunucuSaati.js › sureBildirimMs)
+    const ms = sureBildirimMs(new Date(benimBitis).getTime());
     zamanlar.push(setTimeout(() => bildir(0), Math.max(0, ms)));
     return () => { iptal = true; zamanlar.forEach(clearTimeout); };
   }, [d?.durum, d?.faz, d?.tur, d?.cevap?.ben_cevapladim, d?.savunma?.durum, benimBitis, secim, calisan, kopukDonukSn, id, yukle]);   // eslint-disable-line react-hooks/exhaustive-deps
