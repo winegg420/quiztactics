@@ -1,0 +1,43 @@
+/* Tanıtıma özel ekler. Ortak oyun stillerini değiştirmez. */
+.tn .tn-baslik { font-size: clamp(44px, 6vw, 76px); line-height: 1.04; }
+.tn .tn-baslik-vurgu { display: inline; }
+.tn .tn-qr-gecis { display: inline-flex; align-items: center; gap: 16px; max-width: 360px; margin-top: 24px; padding: 12px; border: 1px solid #59639e; border-radius: 18px; text-decoration: none; }
+.tn-qr-gecis img { flex: 0 0 80px; background: white; border-radius: 8px; }
+.tn-qr-gecis span { font-weight: 800; }
+.tn-qr-gecis small { display: block; margin-top: 4px; font-weight: 600; font-size: 13px; line-height: 1.4; color: var(--tn-soluk); }
+.tn .tn-etiket { color: #ffd269; text-transform: uppercase; letter-spacing: .12em; font-size: 13px; font-weight: 900; margin: 0 0 12px; }
+.tn-taktik-izgara { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.tn-taktik-kart { display: grid; grid-template-columns: minmax(0, 1fr) 142px; align-items: center; gap: 20px; padding: 28px; border: 1px solid #526399; border-radius: 28px; background: linear-gradient(135deg, #202d62, #171c46); }
+.tn-taktik-kart--kasa { border-color: #937541; background: linear-gradient(135deg, #39304e, #231c40); }
+.tn-taktik-metin { min-width: 0; }
+.tn-taktik-sekil { display: block; width: 100px; height: 60px; color: #9ecfff; margin-bottom: 20px; }
+.tn-taktik-kart--kasa .tn-taktik-sekil { color: #ffd269; }
+.tn-taktik-kart h3 { font-family: var(--qt-f-baslik); font-size: 30px; line-height: 1.15; margin: 0 0 14px; }
+.tn-taktik-kart p { margin: 0; color: #d8dff9; font-size: 16px; line-height: 1.6; }
+.tn-taktik-kart .tn-telefon { --tn-tel: 142px; border-radius: 23px; padding: 4px; }
+.tn-taktik-kart .tn-telefon img { border-radius: 19px; }
+.tn .tn-metin-baglanti { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; margin-top: 18px; font-weight: 800; font-size: 14px; }
+.tn-akis { scroll-margin-top: 24px; }
+.tn-adimlar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; list-style: none; margin: 0; padding: 0; }
+.tn-adimlar li { border-top: 1px solid #586397; padding-top: 20px; }
+.tn-adim-no { color: #ffd269; font-family: var(--qt-f-baslik); font-weight: 800; font-size: 32px; }
+.tn-adimlar h3 { margin: 10px 0 8px; font-size: 20px; }
+.tn-adimlar p, .tn-diger-serit p { margin: 0; color: var(--tn-soluk); font-size: 16px; line-height: 1.5; }
+.tn .tn-diger .tn-h2 { font-size: clamp(25px, 3vw, 34px); }
+.tn-diger-serit { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; margin: 24px 0 0; padding: 24px; gap: 24px; background: #1b2057; border: 1px solid #49558c; border-radius: 20px; }
+.tn-diger-serit h3 { font-size: 20px; margin: 0 0 8px; }
+.tn-diger-serit li + li { border-left: 1px solid #49558c; padding-left: 24px; }
+.tn :is(a, button):focus-visible { outline: 3px solid #ffd269; outline-offset: 5px; }
+@media (max-width: 1000px) { .tn-taktik-kart { padding: 22px; grid-template-columns: minmax(0, 1fr); } .tn-taktik-kart .tn-telefon { --tn-tel: 160px; justify-self: center; } }
+@media (max-width: 650px) {
+  .tn-taktik-izgara { grid-template-columns: minmax(0, 1fr); }
+  .tn-taktik-kart { grid-template-columns: minmax(0, 1fr) 112px; gap: 14px; padding: 22px 18px; }
+  .tn-taktik-kart .tn-telefon { --tn-tel: 112px; }
+  .tn-taktik-kart h3 { font-size: 27px; }
+  .tn-taktik-kart p { font-size: 15px; }
+  .tn-taktik-sekil { width: 80px; height: 48px; }
+  .tn-adimlar { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 18px; }
+  .tn-diger-serit { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .tn-diger-serit li + li { border-left: 0; padding-left: 0; padding-top: 18px; border-top: 1px solid #49558c; }
+}
+@media (max-width: 370px) { .tn-taktik-kart { grid-template-columns: minmax(0, 1fr); } }

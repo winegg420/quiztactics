@@ -8,6 +8,8 @@ import { KurulumKarti, DavetKoduKarti, useDavetKodu } from "./KurulumSayfasi.jsx
 import { kurulumDurumu, kurulumuBaslat } from "../lib/uygulamaKipi.js";
 import { useDil } from "../../oyun/lib/dilKanca.js";
 import { DILLER } from "../../oyun/lib/dil.js";
+import { TANITIM_EN } from "./tanitim-metinler.js";
+import "./tanitim-revize.css";
 
 // ============================================================
 // TANITIM SAYFASI — quiztactics.com tarayıcıda: oyunu tanıtır, kurulumu yaptırır.
@@ -20,8 +22,8 @@ import { DILLER } from "../../oyun/lib/dil.js";
 
 const MODLAR = [
   { tur: "klasik", ad: "Klasik", gorsel: "klasik", vaat: "Aynı 20 soru, aynı anda. En çok bilen kazanır." },
-  { tur: "duello", ad: "Düello", gorsel: "duello", vaat: "Tek bilen kontrolü alır. Kontrolü al, üst üste 3 doğru yap." },
-  { tur: "kasa", ad: "Ortak Hazine", gorsel: "hazine", vaat: "Hazine büyür; tek bilen alır. Doğru anda aç." },
+  { tur: "duello", ad: "Düello", gorsel: "duello", vaat: "Kontrolü alıp rakibinin kategorisini seç. Rakibin yanılırken doğru cevap ver; serini 3’e taşı ve kazan." },
+  { tur: "kasa", ad: "Ortak Hazine", gorsel: "hazine", vaat: "Tek bilen hazinenin sahibi olur. AÇ ile puanına yaz ya da DEVAM ile büyütüp yeniden ortaya bırak." },
   { tur: "turnuva", ad: "Turnuva", gorsel: "turnuva", vaat: "Günde beş seans. Lobiye katıl, ilk üçe gir, ödülü kap." },
   { tur: "lig", ad: "Lig", gorsel: "lig", vaat: "Her hafta yeni bir yarış. Bronz'dan Efsane'ye tırman." },
 ];
@@ -71,8 +73,23 @@ function useGirisAnimasyonu(kok) {
   }, [kok]);
 }
 
+/** Oyun ekranı değil: kategori seçimi / hazine kararını simgeleyen çizimler. */
+function TaktikSekli({ tur }) {
+  return <svg className="tn-taktik-sekil" viewBox="0 0 120 72" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="3" strokeLinejoin="round">
+    {tur === "duello" ? <>
+      <rect x="6" y="14" width="32" height="44" rx="7" transform="rotate(-10 22 36)" />
+      <rect x="80" y="14" width="32" height="44" rx="7" transform="rotate(10 96 36)" />
+      <path d="M44 28h26l-7-7m7 7-7 7M76 47H50l7-7m-7 7 7 7" />
+    </> : <>
+      <path d="M22 34h76v28H22zM22 34V23a14 14 0 0 1 14-14h48a14 14 0 0 1 14 14v11M38 10v24m44-24v24" />
+      <rect x="53" y="28" width="14" height="18" rx="3" /><path d="M60 34v6M104 13h12m-6-6v12M5 47h10m-5-5v10" />
+    </>}
+  </svg>;
+}
+
 export default function TanitimSayfasi() {
-  const { dil, ceviri, dilDegistir } = useDil();
+  const { dil, ceviri: ortakCeviri, dilDegistir } = useDil();
+  const ceviri = (metin, degerler) => dil === "en" && TANITIM_EN[metin] ? TANITIM_EN[metin] : ortakCeviri(metin, degerler);
   const davetKodu = useDavetKodu();
   const kok = useRef(null);
   const [bekliyor, setBekliyor] = useState(false);
@@ -82,8 +99,10 @@ export default function TanitimSayfasi() {
   const hemenKur = async () => {
     if (kurulumDurumu().hazir) {
       setBekliyor(true);
-      try { await kurulumuBaslat(); } finally { setBekliyor(false); }
-      return;
+      try {
+        if (await kurulumuBaslat() !== "yok") return;
+      } catch { /* Kurulum açılamazsa platform adımlarını göster. */ }
+      finally { setBekliyor(false); }
     }
     const hedef = document.getElementById("tn-kur");
     if (!hedef) return;
@@ -113,10 +132,10 @@ export default function TanitimSayfasi() {
         <section className="tn-acilis" aria-labelledby="tn-baslik">
           <div className="tn-acilis-metin">
             <h1 id="tn-baslik" className="tn-baslik">
-              {ceviri("Bilgini oyuna")} <span className="tn-baslik-vurgu">{ceviri("dönüştür.")}</span>
+              {ceviri("Bilgini")} <span className="tn-baslik-vurgu">{ceviri("taktiğe dönüştür.")}</span>
             </h1>
             <p className="tn-giris-metni">
-              {ceviri("Canlı 1v1 bilgi yarışması. Aynı soru, aynı an, aynı süre. Bilen kazanır.")}
+              {ceviri("Rakibinin kategorisini seç, hazineyi ne zaman açacağına karar ver. Düello ve Ortak Hazine’de bilgine bir hamle ekle.")}
             </p>
             <div className="tn-eylem">
               <QtDugme tur="birincil" boyut="b" className="tn-kur-dugme" yukleniyor={bekliyor} onClick={hemenKur}>
@@ -124,6 +143,10 @@ export default function TanitimSayfasi() {
               </QtDugme>
               <p className="tn-eylem-not">{ceviri("Ücretsiz · birkaç saniye · ana ekranında")}</p>
             </div>
+            <a className="tn-qr-gecis" href="#tn-kur" aria-label={ceviri("QR kodu ve kurulum adımları")}>
+              <img src="/quiztactics-qr.svg" width="80" height="80" alt={ceviri("quiztactics.com için QR kodu")} />
+              <span>{ceviri("Telefonunda aç")}<small>{ceviri("Kamerayla okut veya kurulum adımlarına geç.")}</small></span>
+            </a>
             {davetKodu && (
               <p className="tn-davet-not">
                 {ceviri("Davet kodun hazır:")} <b>{davetKodu}</b>
@@ -139,19 +162,50 @@ export default function TanitimSayfasi() {
           </div>
         </section>
 
-        {/* 2 · Modlar vitrini */}
-        <section className="tn-bolum tn-modlar" aria-labelledby="tn-modlar-baslik">
+        {/* Taktik modları: gerçek ekranlar ve kararları anlatan basit şekiller. */}
+        <section className="tn-bolum tn-taktik" aria-labelledby="tn-modlar-baslik">
           <div className="tn-bolum-bas" data-tn-gir>
-            <h2 id="tn-modlar-baslik" className="tn-h2">{ceviri("Beş mod, tek hesap")}</h2>
-            <p className="tn-bolum-metin">{ceviri("Hepsi aynı oyunda: bir maç at, düelloya gir, akşam turnuvasına yetiş.")}</p>
+            <p className="tn-etiket">{ceviri("Bilgi + doğru hamle")}</p>
+            <h2 id="tn-modlar-baslik" className="tn-h2">{ceviri("Taktik modları")}</h2>
+            <p className="tn-bolum-metin">{ceviri("İki farklı mücadele. Seçimlerin maçın yönünü değiştirir.")}</p>
           </div>
-          <ul className="tn-mod-ray">
-            {MODLAR.map((m, i) => (
-              <li key={m.tur} className={`tn-mod tn-mod--${m.tur}`} style={{ "--tn-sira": i }} data-tn-gir>
+          <div className="tn-taktik-izgara">
+            {MODLAR.filter(m => ["duello", "kasa"].includes(m.tur)).map(m => (
+              <article key={m.tur} className={"tn-taktik-kart tn-taktik-kart--" + m.tur} data-tn-gir>
+                <div className="tn-taktik-metin">
+                  <TaktikSekli tur={m.tur} />
+                  <h3>{modAdi(m)}</h3>
+                  <p>{ceviri(m.vaat)}</p>
+                  <a className="tn-metin-baglanti" href="#tn-akis">{ceviri("Maçın akışını gör")} <span aria-hidden="true">↗</span></a>
+                </div>
                 <Telefon gorsel={m.gorsel} dil={dil} alt={ceviri("{mod} ekranı", { mod: modAdi(m) })} />
-                <h3 className="tn-mod-ad">{modAdi(m)}</h3>
-                <p className="tn-mod-vaat">{ceviri(m.vaat)}</p>
-              </li>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="tn-akis" className="tn-bolum tn-akis" aria-labelledby="tn-akis-baslik">
+          <div className="tn-bolum-bas" data-tn-gir>
+            <h2 id="tn-akis-baslik" className="tn-h2">{ceviri("Bir maç nasıl geçer?")}</h2>
+            <p className="tn-bolum-metin">{ceviri("Soruyu bil. Fırsatı gör. Hamleni yap.")}</p>
+          </div>
+          <ol className="tn-adimlar">
+            {[
+              ["Modunu seç", "Uygulamada Düello veya Ortak Hazine’ye gir."],
+              ["Soruyu cevapla", "Rakibinle karşılaş, bilgini göster."],
+              ["Hamleni yap", "Düello’da kategori seç; Hazine’de AÇ ya da DEVAM de."],
+              ["Sonucu gör", "Maç sonunda puanlarını ve kazandığın ödülleri gör."],
+            ].map(([ad, metin], i) => (
+              <li key={ad} data-tn-gir><span className="tn-adim-no" aria-hidden="true">0{i + 1}</span><h3>{ceviri(ad)}</h3><p>{ceviri(metin)}</p></li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="tn-bolum tn-diger" aria-labelledby="tn-diger-baslik">
+          <h2 id="tn-diger-baslik" className="tn-h2">{ceviri("Rekabetin başka yolları da var")}</h2>
+          <ul className="tn-diger-serit">
+            {MODLAR.filter(m => !["duello", "kasa"].includes(m.tur)).map(m => (
+              <li key={m.tur}><h3>{modAdi(m)}</h3><p>{ceviri(m.vaat)}</p></li>
             ))}
           </ul>
         </section>
