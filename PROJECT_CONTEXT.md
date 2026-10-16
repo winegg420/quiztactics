@@ -113,7 +113,12 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   RPC imzaları aynı). Sunucu `cevap_gec_kabul`: varış ≤ bitiş + eski tolerans → kabul; değilse tık ≤ bitiş + tolerans
   ve varış ≤ bitiş + pay → kabul. Pay `cevap_gec_varis_sn` 5 (cevaplar), `secim_gec_varis_sn` 3 (Hazine AÇ/DEVAM,
   Düello seçim + kategori). Faz, cevaplamayan oyuncu için bitiş + pay dolunca kapanır; herkes cevapladıysa beklenmez
-  (Klasik'te süresi biten istemcinin `mac_soruyu_atla`sı da "cevap yok" sayılır). Kasa, Düello, Klasik/Saf Bilgi,
+  (Klasik'te süresi biten istemcinin `mac_soruyu_atla`sı da "cevap yok" sayılır). **1114 (16 Eki 2026, Hazine kök neden):** süresi dolan
+  oyuncunun istemcisi dokunmadıysa kişisel bitiş + 150 ms'de "cevabım yok" der → sunucu pay BEKLEMEZ: `kasa_cevap(-1)`, `duello_cevap(-1)`
+  (v4), `duello_kategori_sec(null)` (v4 kart sahibi), `submit_group_match_answer(-1)` / `submit_tournament_answer(-1)` (Grup/Turnuva: doğru
+  şık döner, istatistik/Hatalarım yazılmaz). Yalnız sunucu saatiyle süre dolduysa kabul ("Süre dolmadı" → istemci 600 ms arayla en çok 3 kez
+  yeniden dener); kayıt yanıtsızla aynı. Eskiden sayaç 0'da ~5–6 sn kalıyordu (Ida, 16 Eki, TWA). Rakip hâlâ düşünüyorsa onun payı aynen beklenir.
+  Kasa, Düello, Klasik/Saf Bilgi,
   **Bot bekletmez (1088, 13 Eki 2026):** insan cevapladıktan sonra bot aynı soruyu hemen cevaplar (Klasik/Saf Bilgi/Grup/Hazine anında, Düello v4 ≤ 2 sn); isabet ve zorluk değişmez.
   Grup, Turnuva, Hatalarım. Sahte tık beyanının kazancı en çok pay kadar; puan/hız beyana bağlı değil (`at` =
   least(varış, bitiş)). Testler `araclar/gec-cevap-sql-testi.mjs` (ROLLBACK) + `araclar/gec-cevap-canli-testi.mjs`.
@@ -1047,6 +1052,21 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.com]`.
   İstemci: `src/lib/izlemeKaydi.js` (15 sn toplu / sayfa gizlenince). Sahip sayfası `/yonetim/izleme` (`izleme_ozeti`). Uyarı: cron `bildim-izleme-uyari`
   5 dk'da bir, son 10 dk'da ≥ 50 hata → info@quiztactics.com (Resend API, anahtar Vault `resend_api_key`, saatte en çok 1, gönderen no-reply@).
   Dış bekçi: `GET https://quiztactics.com/api/saglik` (Vercel fonksiyonu → `saglik_ping`, CDN 30 sn). Geri alma `docs/izleme-1097-geri-al.sql`.
+- **Akış bozulması kaydı + günlük e-posta (16 Eki 2026, migration 1113):** oyun kendi zamanlamasını ölçer (`oyun/lib/akisIzleme.js`; maç sayfası
+  açıkken ve görünürken): `sayac_sapma` (sayaç saati sunucudan > 700 ms) · `sayac_sifir` (0'da > 1 sn) · `faz_gec` (geçiş sunucu bitişinden > 1 sn geç,
+  `atlama:<faz>` = ani atlama; Klasik/Grup/Turnuva'da soru sayaç başlangıcından > 1 sn geç gelirse) · `donma` (> 500 ms uzun görev; iOS'ta 250 ms
+  saat boşluğu) · `ses_gec` (> 300 ms) / `ses_yok` (ses.js tanı kaydından). Alanlar: mod, an, ms, cihaz, kip (`acilisKipi`: twa/pwa/tarayici),
+  ağ türü, sürüm, maç kimliği; kişisel veri yok. Aynı kuyruk + aynı RPC (`istemci_kayit_yaz › p_olaylar` içinde `olay:"akis"`) → `akis_bozulma`
+  (RLS açık, politika/GRANT yok). Sınır: istemci maçta tür başına 3 · dakikada 8 · oturumda 40; sunucu dakikada 10 · oturumda 60 · maçta tür
+  başına 3. 30 gün. `/yonetim/izleme › Akış bozulmaları` (24 sa / 7 gün: mod × olay, en kötü 20, etkilenen oyuncu). **Günlük özet:** cron
+  `bildim-izleme-gunluk` 05:00 UTC = 08:00 TSİ → `izleme_gunluk_ozet_gonder()` → idagureli@gmail.com + info@quiztactics.com, konu "Quiz Tactics
+  günlük izleme — GG.AA", düz metin (sayılar, en sık 10 sorun, mod/cihaz kırılımı, maçlar; sorun yoksa "SORUN YOK"). Elle: sahip
+  `izleme_gunluk_ozet_elle()` ([TEST] konulu, 10 dk'da 1; sayfada "Test e-postası gönder"). Geri alma `docs/izleme-1113-geri-al.sql`.
+- **Sayaç saati (16 Eki 2026):** Hazine ve Düello sayaçları `sunucuSaati.js › sayacSimdiMs` ile akar: fark tekdüze saate göre tutulur (telefonun
+  saat ayarı sayacı oynatmaz), yeni örneğe %10 hızla kayar (sıçrama/geri gitme yok), 1,5 sn üstü sapma bir kerede; faz başında
+  `sayacSaatiHizala`; telefon saati atlayınca eski ve yoldaki örnek atılır; sayfa görünür olunca ilk taze örnek hizalar. Süre bitince sonuç
+  gelene dek sayaçta "•••" (`QtSayac bekle`). Test `oyun/_test/sayac-saati-test.mjs` (`npm run test:kurallar`), taklit
+  `araclar/hazine-akis-olcum.mjs --senaryo=dalgali` (canlı kapanış kuralları, cevapsız turlar, asimetrik ağ, saat atlaması, arka plan).
 - **Edge Function’lar (13 Eki 2026):** dört fonksiyon da yeni projede dağıtık (`send-push`, `satin_alma_iade_tara` JWT kapalı; `satin_alma_dogrula` JWT açık). **`generate-questions` DEVRE DIŞI (14 Eki 2026, Paket 4):** JWT açık + `SORU_URET_ACIK` sırrı yoksa 410; silinmedi, geri açma `docs/generate-questions-kapali.md`. Push: yeni VAPID çifti üretildi ve yeni projeye girildi (13 Eki; eski özel anahtar kayıptı), public key `oyun/lib/push.js`’te; eski anahtarlı abonelikler istemcide otomatik yenilenir. Google girişi CANLI ÇALIŞIYOR (15 Eki 2026 ölçümü): Supabase auth ayarı `external_google_enabled = true`, client id + secret dolu; `/auth/v1/authorize?provider=google` Google'a 302 yönlendiriyor (client id geçerli). Eksik gizli anahtar kalmadı.
   `send-push` canlıda `verify_jwt = false` ama `config.toml`'da kaydı yok → dağıtırken `--no-verify-jwt`.
 - **Güvenlik denetimi (10 Eki 2026) A bölümü UYGULANDI (migration 1047, Ida onayı 14:48):** A.1, A.4–A.9, A.11, A.12.

@@ -1,3 +1,56 @@
+# Akış izlemesi + günlük e-posta + Hazine "sayaç 0'da takıldı" — rapor (16 Eki 2026)
+
+## A · Akış bozulması kaydı (migration 1113, canlıda)
+Oyun, maç sayfası açık ve görünürken kendi zamanlamasını ölçer (Klasik, Saf Bilgi, Düello, Hazine, Grup, Turnuva):
+
+| Olay | Eşik | Nasıl ölçülür |
+|---|---|---|
+| `sayac_sapma` | > 700 ms | sayaç saati ile en iyi sunucu saati tahmini arası (arka plandan dönüşün ilk 3 sn'si hariç) |
+| `sayac_sifir` | > 1 sn | sayaç 0'a indi, sonraki faz gelmedi |
+| `faz_gec` | > 1 sn | faz sunucunun bitiş anından geç uygulandı; `atlama:sonuc` = sonuç hiç görünmeden yeni tur; Klasik/Grup/Turnuva'da soru sayaç başlangıcından geç geldi |
+| `donma` | > 500 ms | uzun görev (iOS'ta 250 ms saatin boşluğu) |
+| `ses_gec` / `ses_yok` | > 300 ms / hiç | istenen maç sesi (maç sonu seslerinin geç çalma izni sayılmaz) |
+
+Her kayıtta mod, faz adı, ms, cihaz (android/ios/masaüstü), açılış kipi (twa/pwa/tarayıcı), ağ türü, sürüm, maç kimliği. Kişisel veri yok.
+Hafiflik: aynı kuyruk + aynı RPC (15 sn toplu gönderim), istemci maçta tür başına 3 · dakikada 8 · oturumda 40; sunucu dakikada 10 ·
+oturumda 60 · maçta tür başına 3; 30 gün saklama. `/yonetim/izleme › Akış bozulmaları` (24 sa / 7 gün, mod × olay, en kötü 20, etkilenen oyuncu).
+Eşikler: 700 ms = sayacın kasıtlı ilk-rakam kayması (en çok 0,9 sn, rakamı yavaşlatır, sıçratmaz) ile karışmayacak sınır.
+
+## B · Günlük özet e-postası
+Her sabah 08:00 TSİ (cron 05:00 UTC) → idagureli@gmail.com + info@quiztactics.com, konu "Quiz Tactics günlük izleme — GG.AA", düz metin:
+sayılar, en sık 10 sorun (hata + akış birlikte), mod ve cihaz kırılımı, maçlar; sorun yoksa "SORUN YOK". Elle: sahip sayfasında
+"Test e-postası gönder" ([TEST] konulu, 10 dk'da 1). **Test e-postası gönderildi:** Resend 200, Gmail gelen kutusunda (10:47 TSİ).
+
+## C · Hazine kök neden
+- **Kök neden 1 (asıl takılma):** cevaplamadan süresi dolan oyuncu için sunucu soruyu 5 sn daha açık tutuyordu (`cevap_gec_varis_sn`,
+  geç varan dokunuş payı — `kasa_ilerlet_ic` cevap dalı). İstemci dokunmadığını biliyordu ama söylemiyordu → sayaç 0'da 5–6 sn, sonra sonuç
+  bir anda. Ida'nın 01:46 maçında 1. turda cevap yoktu (kasa `bbed4452`). Düello (soru 5 sn, kart 3 sn), Grup ve Turnuva'da aynı kalıp vardı.
+- **Kök neden 2 (yavaşlayıp hızlanma, geri sayma):** sayaç `Date.now() + saat farkı` ile akıyordu (`KasaPage.jsx` kalanSn); fark "en kısa
+  gidiş-dönüşlü örnek"ten seçildiği için daha iyi yanıt gelince ya da eski örnek 60 sn'lik pencereden düşünce 100–400 ms sıçrıyor, telefonun
+  saati ayarlanınca 60 sn boyunca yanlış kalıyordu (`oyun/lib/sunucuSaati.js › saatOrnegiEkle`).
+- **Neden taklit görmedi:** taklit sunucu cevapsız soruyu 1 sn'de kapatıyor, oto oyuncu her soruyu cevaplıyordu.
+- **Düzeltme:** süre bitince istemci "cevabım yok" der (migration 1114: Hazine, Düello soru + kart, Grup, Turnuva; sunucu yalnız süre gerçekten
+  dolduysa kabul eder). Sayaç tekdüze saate bağlı düzgün saatle akar (en çok %10 kayar, geri gitmez, faz başında hizalanır; saat atlaması ve
+  arka plan dönüşü ele alındı). 0'dan sonra sonuç gelene dek sayaçta kısa "•••". Grup/Turnuva'da "Süre doldu" ekranı artık doğru şıkkı da gösterir.
+- **Önce / sonra — canlı (Ida, açık bot, Antrenman):** önce 2 maç, 13 cevapsız tur → `sayac_sifir` 6 (ort 6,1 sn, en kötü 7,1) + `faz_gec` 6
+  (ort 6,2 sn) (tavan: maçta tür başına 3) · sonra 2 maç, 12 cevapsız tur → **0 + 0**.
+  Not: ikinci "sonra" maçı bilgisayarın belleği azaldığı için 7. turda durduruldu (maç iptal edildi; ilk 4 cevapsız turda kayıt yok).
+- **Önce / sonra — taklit `--senaryo=dalgali`** (canlı kapanış kuralları, %40 cevapsız, dalgalı ağ, saat atlaması, arka plan; 2'şer maç):
+  0'da > 1 sn bekleme en uzun **8,0 → 2,3 sn** (kalan = bu senaryonun 1,4 sn'ye varan yanıt gecikmesi), ileri/geri sıçrama **2 → 0**,
+  rakam süresi 0,90–1,20 sn. Birim testi `oyun/_test/sayac-saati-test.mjs` 7/7.
+
+## D · Maç sonu karesi
+Denenmedi. Bu paketin taklitinde Hazine maç sonu en uzun kare 100–167 ms (15 Eki ölçümüyle aynı aralık; bu paket etkilemedi). Kalan iki görev
+MacSonuKutlama'nın ilk çizimi ve kupa Lottie kurulumu; bellek baskısı ve süre nedeniyle ayrı işe bırakıldı (öneri aynı: kutlamayı final
+sahnesi sırasında gizli kurmak, kupa Lottie'yi önceden oluşturmak).
+
+## Ida'nın telefonda bakacakları
+1. Hazine'de bir soruya hiç dokunma: sayaç 0'a inince kısa "•••", sonuç ~yarım saniyede gelmeli (eskiden 5–6 sn 0'da kalıyordu).
+2. Soru boyunca rakamlar eşit hızda insin; uygulamayı arka plana alıp dön — sayaç sıçramadan sürmeli.
+3. Ertesi sabah 08:00'de "Quiz Tactics günlük izleme" e-postası; `/yonetim/izleme › Akış bozulmaları`nda telefonun kayıtları (android/twa).
+
+---
+
 # Codex maçlı tarama + Hazine/Bin Galibiyet paketi — rapor (15–16 Eki 2026)
 
 ## Olay: Ida hesabı silindi ve geri yüklendi (16 Eki 00:50 TSİ)

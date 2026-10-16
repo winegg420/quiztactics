@@ -16,6 +16,8 @@
 //   --ida            : test hesabı yerine Ida'nın hesabıyla (idaGG) — oturum bellekte kurulur (admin magic link), diske yazılmaz,
 //                      hesap SİLİNMEZ. test-oturumu.mjs --sil ile birlikte KULLANILMAZ.
 //   --mod=hazine,klasik : yalnız bu maçlar · --etiket=once : çıktı/video adı · --yalniz_mac : ekran ölçümü yok
+//   --cevapsiz=0.4   : (16 Eki 2026) soruların bu oranında oto oyuncu HİÇ dokunmaz (süre dolar) — Ida'nın "sayaç 0'da takıldı"
+//                      durumu; maç sonunda sayfa gizlenir (izleme kuyruğu gönderilir, gerçek telefondaki gibi)
 import { chromium } from "playwright-core";
 import fs from "node:fs";
 import path from "node:path";
@@ -244,17 +246,24 @@ async function otoOyna(s, sinirMs, profil = null) {
     const merkez = (r) => ({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
     const d = window.__olc.durum.at(-1)?.[1] ?? null;
     if (d === "maç sonu") return { d };
+    const soru = document.querySelector(".qt-soru-metin")?.textContent?.slice(0, 60) ?? null;
     for (const b of document.querySelectorAll("button:not([disabled])")) {
       if (/^(Hazırım|Geç|Anladım|Tamam)$/.test(b.textContent.trim())) { const r = gor(b); if (r) return { d, hedef: merkez(r), tur: "dugme" }; }
     }
     const siklar = [...document.querySelectorAll(".qt-sik:not([disabled]):not(.qt-sik--elendi)")].map(gor).filter(Boolean);
-    if (siklar.length >= 2) return { d, hedef: merkez(siklar[Math.floor(Math.random() * siklar.length)]), tur: "sik" };
+    if (siklar.length >= 2) return { d, soru, hedef: merkez(siklar[Math.floor(Math.random() * siklar.length)]), tur: "sik" };
     const k = document.querySelector(".ks-karar-dugme:not([disabled])"); const r = k && gor(k);
     return r ? { d, hedef: merkez(r), tur: "karar" } : { d };
   }).catch(() => null);
   let sonSik = 0;
+  const CEVAPSIZ = Number(ARG.cevapsiz) || 0;
+  const atlanan = new Map();   // soru metni → bu soruda dokunulmayacak mı
   while (Date.now() - bas < sinirMs) {
     const b = await bak();
+    if (b?.tur === "sik" && CEVAPSIZ > 0 && b.soru) {
+      if (!atlanan.has(b.soru)) atlanan.set(b.soru, Math.random() < CEVAPSIZ);
+      if (atlanan.get(b.soru)) { await s.waitForTimeout(400); continue; }
+    }
     const d = b?.d ?? null;
     if (profil && pDurum === 0 && /^sayım|^giriş sahnesi|^bekle · Rakip bekleniyor/.test(d ?? "")) { pDurum = 1; await profil.bas(); }
     if (profil && pDurum === 1 && d === "soru") { pDurum = 2; await profil.bitir(); }
@@ -411,6 +420,9 @@ try {
         } : null;
         const bitti = await otoOyna(s, Number(ARG.sinir_sn ?? 480) * 1000, profil);
         const t = await s.evaluate(() => ({ o: window.__olc, ses: window.__sesKayit ?? [], olay: window.__sesOlay ?? [], ctx: window.__sesCtx ?? [], akis: window.__akis ?? [] }));
+        // 16 Eki 2026: oyuncu uygulamadan çıkar gibi sayfa gizlenir → izleme kuyruğu (istemci hataları + akış kayıtları) gönderilir
+        await s.evaluate(() => { Object.defineProperty(document, "visibilityState", { configurable: true, get: () => "hidden" }); document.dispatchEvent(new Event("visibilitychange")); }).catch(() => {});
+        await s.waitForTimeout(3000);
         Object.assign(r, macOzeti(t, bitti), { konsol, akis: t.akis });
         r.video = path.relative(process.cwd(), await s.video()?.path().catch(() => null) ?? "") || null;
         yazdir(kod, r);
