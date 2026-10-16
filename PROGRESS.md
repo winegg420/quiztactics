@@ -12744,3 +12744,8 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - **Test:** build, test:kurallar, test:dans, maç ekran turu 30/30, ses-kesilme 6 mod, sure-bildirim, senkron Turnuva taklidi, izleme-istemci,
   uygulama-kapısı GEÇTİ. BAKILAMADI: arayuz-denetim, duello-v4-ekran (oturum yok), canlı duman, gerçek iOS. Taklit — gerçek telefonda doğrulanmadı;
   17 Eki 08:20 izlemesinde `kip = twa` `kasma` (macsonu, baslangic). Sunucu/yetki/migration yok. Jev kullanılmadı (kapalı).
+
+## 17 Eki 2026 — site-revize main'e alındı (Araç: Claude Code)
+- Neden: tanıtım revizesi (Düello + Ortak Hazine öne çıkarıldı; `TanitimSayfasi.jsx`, `tanitim-metinler.js`, `tanitim-revize.css`, `araclar/tanitim-revize-testi.mjs`) + CLAUDE.md/AGENTS.md "Paralel çalışma" kuralı (ayrı klasör + ayrı dal izinli istisna) birleştirildi. Merge `5949b9f1`, çakışma yok, yalnız beklenen 6 dosya.
+- Build temiz; Vercel success. Canlı (tek seferlik curl): `/` 200, `/tanitim/duello.webp` 200, `/tanitim/hazine.webp` 200, yeni `TanitimSayfasi-BSn6u2xN.css` canlı pakette. Migration yok, canlı DB isteği yok.
+- BAKILAMADI: tarayıcı/ekran görüntüsü (1440/390) alınmadı — canlıya tarayıcı açılmadı, yerel görüntü bu işte istenmedi/yapılmadı.
