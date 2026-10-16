@@ -4,6 +4,7 @@ import "../tasarim/ekranlar/m1-mac.css";
 import { supabase } from "../../src/lib/supabase.js";
 import { kalanSure, sunucuOffsetMs, gosterimTavani, sayacKaymasi, sayacGoster } from "../lib/zaman.js";
 import { saatOrnegiEkle } from "../lib/sunucuSaati.js";
+import { akisFazGozle, akisOlay, AKIS_ESIK } from "../lib/akisIzleme.js";
 import JokerCubugu from "./JokerCubugu.jsx";
 import { SisPerdesi, SisKenar } from "./Sis.jsx";
 import Konfeti from "./Konfeti.jsx";
@@ -273,7 +274,8 @@ export default function QuestionCard({
         setZamanAsimi(true);
         setSeri(0);
         setSecim(-1); // seçili şık yok; yalnız doğru olan işaretlenecek
-        Promise.resolve(onSureDoldu?.())
+        // 1114: { cevapsiz: true } — sayfa sunucuya "cevabım yok" diyebilir (Grup/Turnuva: soru 5 sn açık beklemez)
+        Promise.resolve(onSureDoldu?.({ cevapsiz: true }))
           .then((dc) => {
             // 1v1'de mac_soruyu_atla doğru cevabı döndürür; grup/hızlı/turnuva
             // ortak ilerletme kullandığı için değer gelmez, o zaman yalnız
@@ -297,6 +299,9 @@ export default function QuestionCard({
       }
     };
     tikRef.current = tik;
+    // 1113: soru ekrana sayacın başlangıcından > 1 sn sonra geldiyse (sayaç eksik başlar) — soru başına bir kez
+    const gecGeldi = Date.now() + offset - new Date(soru.baslangic).getTime();
+    if (gecGeldi > AKIS_ESIK.faz && gecGeldi < SURE * 1000 && document.visibilityState === "visible") akisOlay("faz_gec", "soru", gecGeldi);
     tik();
     // Interval KOŞULSUZ kurulur. Eskiden "süre dolmadıysa" koşuluna bağlıydı:
     // soru zaten süresi geçmiş gelirse (sekmeden dönüş) interval hiç kurulmuyor,
@@ -319,6 +324,10 @@ export default function QuestionCard({
   useGorunurlukTazele(() => { tikRef.current?.(); }, Boolean(soru));
 
   if (!soru) return null;
+
+  // 1113: akış izlemesi — soru fazı sonuç/"Süre doldu" görünene kadar sürer (sayaç 0'da > 1 sn kalırsa kaydedilir)
+  akisFazGozle({ anahtar: `${soru.question_id}-${soru.soru_index}-${sonuc || zamanAsimi ? "sonuc" : "soru"}`,
+                 an: sonuc || zamanAsimi ? "sonuc" : "soru", sayacSn: secim === null && !zamanAsimi ? gosterKalan : null });
 
   // Paket 32 A.2: sis sürerken şıkka basılamaz (perde olayları yutar; bu ikinci güvence,
   // sunucu da reddeder). Sis kalkınca kilit kendiliğinden açılır (kalan her tikte yenilenir).

@@ -13,6 +13,23 @@
 const PENCERE_MS = 60000;
 let ornekler = [];
 let fark = null;
+let monoFark = null;
+let sonKaydi = null;   // son örnek anındaki tekdüze − duvar farkı (saat atlaması algısı)   // sunucu − tekdüze epoch (performance.timeOrigin + performance.now)
+// Tekdüze epoch ile duvar saati (Date.now) arasındaki fark — telefonun saati ayarlanınca değişir, tekdüze saat değişmez.
+const tekduzeEpoch = () => (typeof performance !== "undefined" && performance.timeOrigin ? performance.timeOrigin + performance.now() : Date.now());
+const tekduzeKaydi = () => tekduzeEpoch() - Date.now();
+// Telefon uyurken (ekran kapalı, sayfa gizli) tekdüze saat durabilir (Android: askıda sayılmaz) → gizliyken alınmış
+// örneklerin tekdüze farkı bayatlar. Sayfa görünür olunca pencere boşaltılır; ilk TAZE örnek sayaç saatini bir kerede
+// hizalar (sayfaların görünürlük okuması onu hemen getirir). Duvar saatinden kurmak telefonun saati de atladıysa yanlıştı.
+let donusHizala = false;
+if (typeof document !== "undefined" && typeof document.addEventListener === "function") {
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "visible") return;
+    ornekler = [];
+    sonKaydi = null;
+    donusHizala = true;
+  });
+}
 
 /**
  * Bir istek/yanıt çiftinden saat örneği ekler.
@@ -24,10 +41,21 @@ let fark = null;
 export function saatOrnegiEkle(gonderildiMs, alindiMs, sunucuZamani) {
   const sz = sunucuZamani == null ? NaN : new Date(sunucuZamani).getTime();
   if (!Number.isFinite(sz) || !Number.isFinite(gonderildiMs) || !Number.isFinite(alindiMs)) return fark;
-  const liste = ornekler.filter((o) => alindiMs - o.an < PENCERE_MS && o.an <= alindiMs);
-  liste.push({ an: alindiMs, rtt: Math.max(0, alindiMs - gonderildiMs), fark: sz - (gonderildiMs + alindiMs) / 2 });
+  // 16 Eki: telefonun saati (Date.now) atladıysa eski örneklerin farkı bayattır — tekdüze/duvar ilişkisi > 500 ms
+  // değişmiş örnekler atılır (yoksa en iyi eski örnek 60 sn boyunca yanlış farkı tutuyordu).
+  const kaydi = tekduzeKaydi();
+  // Atlama bu istek yoldayken olduysa (son örnekten beri ilişki değişti) bu örnek de bozuktur: pencere boşalır, örnek alınmaz.
+  if (sonKaydi != null && Math.abs(kaydi - sonKaydi) >= 500) { sonKaydi = kaydi; ornekler = []; return fark; }
+  sonKaydi = kaydi;
+  const liste = ornekler.filter((o) => alindiMs - o.an < PENCERE_MS && o.an <= alindiMs && Math.abs((o.kaydi ?? kaydi) - kaydi) < 500);
+  // 16 Eki: aynı örneğin tekdüze saate göre farkı da tutulur (sayaç saati telefonun saat ayarı değişse de kaymaz)
+  liste.push({ an: alindiMs, rtt: Math.max(0, alindiMs - gonderildiMs), fark: sz - (gonderildiMs + alindiMs) / 2,
+               mfark: sz - ((gonderildiMs + alindiMs) / 2 + kaydi), kaydi });
   ornekler = liste;
-  fark = liste.reduce((a, b) => (b.rtt < a.rtt ? b : a)).fark;
+  const enIyi = liste.reduce((a, b) => (b.rtt < a.rtt ? b : a));
+  fark = enIyi.fark;
+  monoFark = enIyi.mfark;
+  if (donusHizala) { donusHizala = false; duzgunFark = monoFark; duzgunAn = tekduze(); }
   return fark;
 }
 
@@ -88,9 +116,75 @@ export function sayimKalani(durum, bitisMs, perfMs, istemciMs, fark) {
 export function _saatOrnekleriniSifirla() {
   ornekler = [];
   fark = null;
+  monoFark = null;
+  sonKaydi = null;
 }
 
 /** Sunucu saatine göre şimdi (ms). Örnek yoksa istemci saati. */
 export function sunucuSimdiMs() {
   return Date.now() + (fark ?? 0);
+}
+
+// ---- SAYAÇ SAATİ (16 Eki 2026, Hazine kök neden) ----
+// En iyi örnek değişince (daha kısa gidiş-dönüşlü yanıt geldi ya da eski örnek 60 sn'lik pencereden düştü) fark bir anda
+// 100–400 ms oynuyordu (Wi-Fi/mobil ağda yanıt yolu gidiş yolundan uzun) → ekrandaki saniye ileri/geri sıçrıyordu. Sayaçlar
+// farkı BURADAN okur: yeni farka en çok %10 hızla kayar (saniyede 100 ms) — gösterilen süre 0,9–1,1 hızla akar, asla geri
+// gitmez, sıçramaz. 1,5 sn'den büyük sapma (telefonun saati değişti, uzun arka plan) bir kerede uygulanır.
+const KAYMA_HIZI = 0.1;
+const KAYMA_ESIK_MS = 1500;
+const SAPMA_ESIK_MS = 700;   // akış izlemesi: gösterilen sayaç sunucudan bu kadar sapınca kaydedilir
+let duzgunFark = null;
+let duzgunAn = 0;
+let sapmaDinleyici = null;
+let sonSapmaBildirim = -Infinity;
+const tekduze = () => (typeof performance !== "undefined" ? performance.now() : Date.now());
+
+/** Akış izlemesi kurar: sayaç saati sunucudan SAPMA_ESIK_MS'den fazla saptığında (ms) çağrılır (en çok 10 sn'de bir). */
+export function saatSapmaDinle(f) { sapmaDinleyici = f; }
+
+/** Düzgün saat farkı (sunucu − TEKDÜZE epoch, ms); örnek yoksa null. */
+function duzgunMonoFark() {
+  const hedef = monoFark;
+  if (hedef == null) return duzgunFark;
+  const t = tekduze();
+  if (duzgunFark == null || Math.abs(hedef - duzgunFark) > KAYMA_ESIK_MS) {
+    if (duzgunFark != null) sapmaBildir(Math.abs(hedef - duzgunFark), t);
+    duzgunFark = hedef; duzgunAn = t;
+    return duzgunFark;
+  }
+  const adim = Math.max(0, t - duzgunAn) * KAYMA_HIZI;
+  duzgunAn = t;
+  duzgunFark += Math.max(-adim, Math.min(adim, hedef - duzgunFark));
+  if (Math.abs(hedef - duzgunFark) > SAPMA_ESIK_MS) sapmaBildir(Math.abs(hedef - duzgunFark), t);
+  return duzgunFark;
+}
+/** Sayaçların kullandığı düzgün saat farkı, Date.now()'a göre (sunucu − istemci, ms); örnek yoksa null. */
+export function sayacFarkiMs() {
+  const m = duzgunMonoFark();
+  return m == null ? null : m + tekduzeKaydi();
+}
+function sapmaBildir(ms, t) {
+  if (!sapmaDinleyici || t - sonSapmaBildirim < 10000) return;
+  sonSapmaBildirim = t;
+  try { sapmaDinleyici(Math.round(ms)); } catch { /* izleme oyunu bozmaz */ }
+}
+
+/** Sayaçlar için sunucu saatine göre şimdi (ms) — düzgün fark (sayacFarkiMs). */
+export function sayacSimdiMs() {
+  const m = duzgunMonoFark();
+  return m == null ? Date.now() + (fark ?? 0) : tekduzeEpoch() + m;
+}
+
+/**
+ * Yeni faz/soru başlarken (sayaç henüz akmıyorken) çağrılır: sayaç saati en iyi örneğe bir kerede hizalanır. Sayaç
+ * akarken düzeltme yalnız kayarak olur; ilk (yavaş) örnekten kalan büyük hata bir sonraki fazı beklemez.
+ */
+export function sayacSaatiHizala() {
+  if (monoFark == null) return;
+  duzgunFark = monoFark; duzgunAn = tekduze();
+}
+
+/** Yalnız testler için: sayaç saatini sıfırlar. */
+export function _sayacSaatiniSifirla() {
+  duzgunFark = null; duzgunAn = 0; sonSapmaBildirim = -Infinity;
 }

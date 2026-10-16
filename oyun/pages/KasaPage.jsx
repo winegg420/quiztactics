@@ -43,7 +43,8 @@ import { aramaAraligiSn } from "../lib/gorunurluk.js";
 import { useOyunModu, useMacSonuGecisi } from "../lib/oyunModu.js";
 import { sonModuYaz } from "../lib/sonMod.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs, tikBasligiEkle } from "../lib/zaman.js";
-import { saatOrnegiEkle, saatFarkiMs, sayimFarkiMs } from "../lib/sunucuSaati.js";
+import { saatOrnegiEkle, saatFarkiMs, sayimFarkiMs, sayacSimdiMs, sayacSaatiHizala } from "../lib/sunucuSaati.js";
+import { akisMacBaslat, akisMacBitir, akisFazGozle, akisOlay } from "../lib/akisIzleme.js";
 import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
 import { BasiliTut } from "../lib/useBasiliTut.js";
 import { useDonukSayac } from "../lib/useDonukSayac.js";
@@ -650,9 +651,15 @@ function KasaMac({ id }) {
   const gosterimBas = d?.sureler?.gosterim_bas && ["karar", "cevap"].includes(d?.faz) ? new Date(d.sureler.gosterim_bas).getTime() : null;
   // Sayaç benim KİŞİSEL bitişime göre işler (Ek Süre uzatır, rakibin Zaman Baskısı kısaltır)
   const benimBitis = d?.faz === "cevap" && d?.sureler?.benim_bitis ? d.sureler.benim_bitis : d?.faz_bitis;
+  // 16 Eki 2026 (kök neden): sayaç düzgün sayaç saatiyle akar (lib/sunucuSaati.js › sayacSimdiMs) — en iyi saat örneği
+  // değişince ekrandaki saniye ileri/geri sıçramaz; yeni faz başında (sayaç henüz akmıyorken) bir kerede hizalanır.
+  const sayacFazRef = useRef(null);
+  const sayacFazAnahtar = d ? `${turAnahtari(d)}-${d.faz}` : null;
+  if (sayacFazAnahtar && sayacFazRef.current !== sayacFazAnahtar) { sayacFazRef.current = sayacFazAnahtar; sayacSaatiHizala(); }
   const kalanSn = useMemo(() => {
     if (!benimBitis) return 0;
-    const sunucuSimdi = Math.max(simdi, Date.now()) + farkRef.current;
+    void simdi;   // simdi: yeniden hesap tetikleyicisi (saat sayaç saatinden okunur)
+    const sunucuSimdi = sayacSimdiMs();
     // Yayın öncesi tarama (11 Eki 2026): KARAR sayacı gösterim payında donmaz — karar sahibi pay boyunca da AÇ/DEVAM
     // diyebilir (sunucu kabul eder), yani gerçek süre karar_sn + pay. Sayaç sunucu faz_bitis'e kalanı sayar (5'te ~2,5 sn
     // bekleyip sonra saymıyordu); 0 = sunucunun süre bitişi. Cevap fazında pay sayacı aynen gizler (soru sahnesi).
@@ -706,10 +713,50 @@ function KasaMac({ id }) {
         yukle().catch(() => {});
       }
     };
-    const ms = new Date(d.faz_bitis).getTime() - (Date.now() + farkRef.current) + 150;
+    const ms = new Date(d.faz_bitis).getTime() - sayacSimdiMs() + 150;
     zamanlar.push(setTimeout(() => bildir(0), Math.max(0, ms)));
     return () => { iptal = true; zamanlar.forEach(clearTimeout); };
   }, [d?.durum, d?.faz, d?.faz_bitis, d?.tur, d?.karar?.veren, kopukDonukSn, id, yukle]);   // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 16 Eki 2026 (KÖK NEDEN, Ida'nın telefondaki "sayaç 0'da takıldı, sonra sayfa bir anda geçti"si): cevaplamadan süresi
+  // dolan oyuncu için sunucu soruyu 5 sn daha açık tutar (cevap_gec_varis_sn — yolda olan geç dokunuşun payı, 991). Bu
+  // istemci dokunmadığını BİLİR: kişisel süresi bitince sunucuya "cevabım yok" der (kasa_cevap p_cevap = -1, 1114) →
+  // sunucu beklemez, sonuç ~bir gidiş-dönüşte gelir (karar fazındaki 1063 deseni). Savunma Sorusunda yalnız hak sahibi.
+  const cevapsizRef = useRef(null);
+  useEffect(() => {
+    if (!d || d.durum !== "aktif" || d.faz !== "cevap" || kopukDonukSn != null || !benimBitis) return undefined;
+    if (d.cevap?.ben_cevapladim || secim !== null || calisan === "cevap") return undefined;
+    if (d.savunma && d.savunma.durum === "soru" && d.savunma.sahip !== d.ben) return undefined;
+    const anahtar = `${turAnahtari(d)}-${benimBitis}`;
+    if (cevapsizRef.current === anahtar) return undefined;
+    let iptal = false;
+    const zamanlar = [];
+    const bildir = async (deneme) => {
+      const g = dGuncelRef.current;
+      if (iptal || calisanRef.current || g?.faz !== "cevap" || g?.cevap?.ben_cevapladim || document.visibilityState !== "visible") return;
+      cevapsizRef.current = anahtar;
+      try {
+        const { error } = await supabase.rpc("kasa_cevap", { p_id: id, p_cevap: -1 });
+        if (error) throw error;
+        await yukle();
+      } catch (e) {
+        // saat farkıyla erken vardıysa bir kez daha; faz geçtiyse / eski sunucu reddettiyse yalnız tazelenir (hata gösterilmez)
+        if (deneme < 3 && /dolmad/i.test(e?.message ?? "")) { cevapsizRef.current = null; zamanlar.push(setTimeout(() => bildir(deneme + 1), 600)); return; }
+        yukle().catch(() => {});
+      }
+    };
+    const ms = new Date(benimBitis).getTime() - sayacSimdiMs() + 150;   // sayaç saatiyle (telefon saati atlasa da)
+    zamanlar.push(setTimeout(() => bildir(0), Math.max(0, ms)));
+    return () => { iptal = true; zamanlar.forEach(clearTimeout); };
+  }, [d?.durum, d?.faz, d?.tur, d?.cevap?.ben_cevapladim, d?.savunma?.durum, benimBitis, secim, calisan, kopukDonukSn, id, yukle]);   // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 1113: akış izlemesi — maç sayfası açıkken (bitti/iptal olunca kapanır)
+  const macAktif = d?.durum === "aktif";
+  useEffect(() => {
+    if (!macAktif) return undefined;
+    akisMacBaslat("hazine", id);
+    return () => akisMacBitir(id);
+  }, [macAktif, id]);
 
   // ---------------- anlar (yalnız sunum): ses + titreşim + efekt ----------------
   // an: { id, tip: "sonuc" | "ac", … , varis, anahtarVaris, sars } — efekt sürerken eski değerler gösterilir,
@@ -984,6 +1031,8 @@ function KasaMac({ id }) {
       fazZamanRef.current.forEach(clearTimeout); fazZamanRef.current = [];
       akis("faz", { anahtar, faz: d.faz, tur: d.tur, faz_bitis: d.faz_bitis, gosterim_bas: d.sureler?.gosterim_bas ?? null,
                     sunucuSimdi: Date.now() + farkRef.current });
+      // 1113: ani atlama — soru fazından sonuç görünmeden yeni tura geçildi (gizli sekme dönüşü hariç)
+      if (onceki?.endsWith("-cevap") && d.faz !== "sonuc" && oncekiTur !== `${turAnahtari(d)}` && !gorunurDegil()) akisOlay("faz_gec", "atlama:sonuc", 0);
       if (!onceki) return;
       // 980: faz olayı (tur-altın-faz) maçta tek sefer; gizli sekmede açılan fazın sesi/anı çalınmaz (dönüşte patlamasın)
       if (!birKez(`faz:${anahtar}`)) return;
@@ -1139,7 +1188,9 @@ function KasaMac({ id }) {
       }
     }
     // 15 Eki 2026: yalnız ben hâlâ düşünürken (cevabım yoldayken / verdikten sonra çalmaz — Klasik ile aynı kural)
-    if (d.faz === "cevap" && d.cevap?.rakip_cevapladi && !anRef.current.rakip && !d.cevap?.ben_cevapladim && secim == null) {
+    // 1114: rakibin süresi dolup "cevabım yok" demesi (rakip_cevapladi) sayaç bitmişken gelir — o zaman çalmaz
+    if (d.faz === "cevap" && d.cevap?.rakip_cevapladi && !anRef.current.rakip && !d.cevap?.ben_cevapladim && secim == null
+        && sayacSimdiMs() < new Date(d.sureler?.benim_bitis ?? d.faz_bitis).getTime() - 300) {
       anRef.current.rakip = true;
       if (birKez(`rakip-cevap:${turAnahtari(d)}`) && !gorunurDegil()) sesRakipCevapladi();
     }
@@ -1461,8 +1512,17 @@ function KasaMac({ id }) {
   // Karar halkası gerçek süreyle dolar: karar_sn + gösterim payı (sayaç pay boyunca da sayar — 11 Eki 2026)
   const toplamSn = d.faz === "karar" ? Number(d.sureler?.karar ?? 8) + Number(d.sureler?.gosterim_payi_ms ?? 0) / 1000 : Number(d.sureler?.soru ?? 15);
   const sayacVar = d.faz === "cevap" || d.faz === "karar";
+  // 1113: akış izlemesi (her çizimde, ucuz) — fazın süreyle biteceği sunucu anı: cevapta iki kişisel bitişin geç olanı
+  if (d.durum === "aktif" && !d.kopuk) {
+    const bitisT = new Date(d.faz === "cevap" ? d.sureler?.faz_son ?? d.faz_bitis : d.faz_bitis).getTime();
+    akisFazGozle({ anahtar: `${turAnahtari(d)}-${d.faz}`, an: d.savunma?.durum === "soru" ? "savunma" : d.faz,
+                   sayacSn: sayacVar && !kilitli ? gosterSn : null, bitisMs: Number.isFinite(bitisT) ? bitisT : null });
+  }
+  // 16 Eki 2026: süre bitti, sonuç gelmedi → sayaç 0'dan sonra kısa "bekleniyor" (sonuç gelince sayaç kalkar)
+  const sayacBekle = d.faz === "cevap" && !kilitli && kopukDonukSn == null && Boolean(benimBitis) && kalanSn <= 0;
   const sayac = sayacVar
     ? <QtSayac kalan={d.faz === "cevap" ? cevapSayacSn : gosterSn} toplam={toplamSn} esik={d.faz === "karar" ? 3 : 5} boyut="k" durdu={kilitli || kopukDonukSn != null}
+               bekle={sayacBekle}
                className={sinif("ks-sayac", d.joker?.kisaltildi && d.faz === "cevap" && "ks-sayac--kisaldi")}
                ekBalon={d.faz === "cevap" ? ekBalon : null} />
     : <span className="ks-sayac ks-sayac--yok" aria-hidden="true">·</span>;

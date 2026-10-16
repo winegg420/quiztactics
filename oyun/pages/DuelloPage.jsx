@@ -67,7 +67,8 @@ import { rpcDene } from "../lib/rpcDene.js";
 import { sure, sureOlcek } from "../lib/sureler.js";
 import { aramaAraligiSn } from "../lib/gorunurluk.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs, tikBasligiEkle } from "../lib/zaman.js";
-import { saatOrnegiEkle, saatFarkiMs } from "../lib/sunucuSaati.js";
+import { saatOrnegiEkle, saatFarkiMs, sayacSimdiMs, sayacSaatiHizala } from "../lib/sunucuSaati.js";
+import { akisMacBaslat, akisMacBitir, akisFazGozle } from "../lib/akisIzleme.js";
 import PaylasDugmesi from "../components/PaylasDugmesi.jsx";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
 
@@ -787,6 +788,47 @@ function DuelloMac({ id }) {
     return () => clearTimeout(zaman);
   }, [bitisAnahtar, yukle]);
 
+  // 16 Eki 2026 (Hazine kök nedeniyle aynı kalıp, 1114): v4'te süresi dolan oyuncu dokunmadıysa sunucuya bildirir —
+  // soru: duello_cevap(-1) (sunucu cevapsız oyuncu için 5 sn geç varış payı bekliyordu) · kart: duello_kategori_sec(null)
+  // (kart sahibi seçmediyse 3 sn bekliyordu). Sayaç 0'da beklemez; sonuç / otomatik kart ~bir gidiş-dönüşte gelir.
+  const sureDolduRef = useRef(null);
+  useEffect(() => {
+    if (!d || d.surum !== 4 || d.durum !== "aktif" || d.kopuk) return undefined;
+    const soruda = ["notr", "cevap", "son"].includes(d.faz) && d.cevap?.benim_bitis && !d.cevap?.ben_cevapladim && secim === null && calisan !== "cevap";
+    const kartta = d.faz === "kart" && d.v4?.kontrol === d.ben && d.faz_bitis && !calisan;
+    if (!soruda && !kartta) return undefined;
+    const bitis = soruda ? d.cevap.benim_bitis : d.faz_bitis;
+    const anahtar = `${d.faz}-${d.v4?.soru_no}-${bitis}`;
+    if (sureDolduRef.current === anahtar) return undefined;
+    let iptal = false;
+    const zamanlar = [];
+    const bildir = async (deneme) => {
+      const g = dGuncelRef.current;
+      if (iptal || g?.faz !== d.faz || g?.cevap?.ben_cevapladim || document.visibilityState !== "visible") return;
+      sureDolduRef.current = anahtar;
+      try {
+        const { error } = soruda ? await supabase.rpc("duello_cevap", { p_id: id, p_cevap: -1 })
+          : await supabase.rpc("duello_kategori_sec", { p_id: id, p_kategori: null });
+        if (error) throw error;
+        await yukle();
+      } catch (e) {
+        if (deneme < 3 && /dolmad/i.test(e?.message ?? "")) { sureDolduRef.current = null; zamanlar.push(setTimeout(() => bildir(deneme + 1), 600)); return; }
+        yukle().catch(() => {});
+      }
+    };
+    const ms = new Date(bitis).getTime() - sayacSimdiMs() + 150;   // sayaç saatiyle (telefon saati atlasa da)
+    zamanlar.push(setTimeout(() => bildir(0), Math.max(0, ms)));
+    return () => { iptal = true; zamanlar.forEach(clearTimeout); };
+  }, [d?.surum, d?.durum, d?.faz, d?.kopuk, d?.faz_bitis, d?.cevap?.benim_bitis, d?.cevap?.ben_cevapladim, d?.v4?.kontrol, d?.v4?.soru_no, secim, calisan, id, yukle]);   // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 1113: akış izlemesi — maç sayfası açıkken
+  const macAktif = d?.durum === "aktif";
+  useEffect(() => {
+    if (!macAktif) return undefined;
+    akisMacBaslat("duello", id);
+    return () => akisMacBitir(id);
+  }, [macAktif, id]);
+
   // ---------------- Paket 28 A: düellonun kendi nabzı ----------------
   //
   // KUSUR: paylaşılan kabuk (AuthContext) `kalp_at()`i 60 SANİYEDE BİR atıyor,
@@ -987,11 +1029,17 @@ function DuelloMac({ id }) {
   // gösterir, sonra gerçek zamanla akar. Ekran fazı geç görse de sayaç yetişmek için hızlanmaz.
   const gosterimBas = d?.sureler?.gosterim_bas && ["kategori", "cevap", "ban", "secim", "notr", "kart", "son"].includes(d?.faz)
     ? new Date(d.sureler.gosterim_bas).getTime() : null;
+  // 16 Eki 2026: sayaç ortak SAYAÇ SAATİYLE akar (lib/sunucuSaati.js › sayacSimdiMs: fark sıçramaz, %10 hızla kayar, telefonun
+  // saat ayarından etkilenmez); yeni faz başında (sayaç henüz akmıyorken) bir kerede hizalanır. Eskiden burada %5 kaydırma
+  // vardı ama 400 ms üstü düzeltme bir kerede uygulanıyordu (sayaç o kadar sıçrıyordu).
+  const sayacFazAnahtar = d ? `${d.tur}-${d.saldiri_sirasi}-${d.uzatma ?? ""}-${d.faz}-${d.v4?.soru_no ?? ""}` : null;
+  const sayacFazRef = useRef(null);
+  if (sayacFazAnahtar && sayacFazRef.current !== sayacFazAnahtar) { sayacFazRef.current = sayacFazAnahtar; sayacSaatiHizala(); }
   const kalanSn = useMemo(() => {
     if (!hedefBitis) return 0;
-    // `simdi` yalnız yeniden hesaplama tetikleyicisi: 200 ms bayat olabilir; rakam sınırı ve ilk-rakam kesri
-    // (gosterSn) render anının gerçek saatine göre hesaplanır.
-    const sunucuSimdi = Math.max(simdi, Date.now()) + farkRef.current;
+    // `simdi` yalnız yeniden hesaplama tetikleyicisi: rakam sınırı ve ilk-rakam kesri (gosterSn) render anının saatine göre.
+    void simdi;
+    const sunucuSimdi = sayacSimdiMs();
     const bas = gosterimBas ? Math.max(sunucuSimdi, gosterimBas) : sunucuSimdi;
     return Math.max(0, (new Date(hedefBitis).getTime() - bas) / 1000);
   }, [hedefBitis, gosterimBas, simdi]);
@@ -1005,23 +1053,9 @@ function DuelloMac({ id }) {
   // denk gelirse 16–900 ms'lik "hızlı" adım). Gösterim için fark en çok %5 hızla (50 ms/sn) yeni değere kaydırılır:
   // rakam süreleri ≥ ~950 ms kalır. Yalnız gösterim: mantık gerçek kalanSn'de. Ek Süre / Zaman Baskısı hedef bitişi
   // değiştirir, saat farkını değil — bunlar anında yansır.
-  const farkGosterRef = useRef(null);
+  // (16 Eki 2026: kaydırma artık sayaç saatinde — kalanSn zaten düzgün; kötü ilk örnek faz başındaki hizalamayla düzelir)
   const fazKaymaRef = useRef({ anahtar: null, k0: 0, kayma: 0 });
-  const kalanGoster = useMemo(() => {
-    if (!(kalanSn > 0)) return 0;
-    const an = Date.now();
-    const fg = farkGosterRef.current;
-    // 1092: büyük düzeltme (> 400 ms) kötü bir ilk örneğin (yavaş açılışta bekleyen istek) düzeltilmesidir — kaydırılmaz,
-    // bir kerede uygulanır; yoksa sayaç saniyeler boyunca gerçeğin gerisinde kalıp rakam atlıyordu (kart sayacı 10 → 8).
-    if (!fg || Math.abs(farkRef.current - fg.fark) > 400) farkGosterRef.current = { fark: farkRef.current, an };
-    else {
-      const izin = 0.05 * Math.max(0, an - fg.an);
-      fg.fark += Math.max(-izin, Math.min(izin, farkRef.current - fg.fark));
-      fg.an = an;
-    }
-    const gosterimPayinda = gosterimBas && an + farkRef.current < gosterimBas;   // pay: sayaç sabit, kaydırma yok
-    return gosterimPayinda ? kalanSn : Math.max(0, kalanSn + (farkRef.current - farkGosterRef.current.fark) / 1000);
-  }, [kalanSn, gosterimBas]);
+  const kalanGoster = kalanSn > 0 ? kalanSn : 0;
   // 760: kopuklukta sunucu kalan süreyi dondurur (kopuk_kalan, en az duello_kopuk_taban_sn) ve dönüşte fazı
   // tam o kalanla sürdürür. Ekran da aynı donuk değeri gösterir: itilen bitiş yüzünden sayaç tekrar tekrar
   // "3"ten başlamaz (30 Eyl gece ~22 kez başlamıştı); dönüşte kaldığı rakamdan akar.
@@ -1553,6 +1587,14 @@ function DuelloMac({ id }) {
     const ekBalon4 = skillEfekt?.tur === "sure"
       ? { anahtar: `s${skillEfekt.deger}${fazAnahtari}`, metin: `+${skillEfekt.deger}` }
       : skillEfekt?.tur === "zaman_baskisi" ? { anahtar: `z${skillEfekt.deger}${fazAnahtari}`, metin: `−${skillEfekt.deger}` } : null;
+    // 1113: akış izlemesi (her çizimde, ucuz) — fazın süreyle biteceği sunucu anı: soruda iki kişisel bitişin geç olanı
+    if (d.durum === "aktif" && !d.kopuk) {
+      const soruF = ["notr", "cevap", "son"].includes(d.faz);
+      const bt = soruF ? Math.max(new Date(d.cevap?.benim_bitis ?? 0).getTime(), new Date(d.cevap?.rakip_bitis ?? 0).getTime())
+        : new Date(d.faz_bitis).getTime();
+      akisFazGozle({ anahtar: `${d.faz}-${d.v4?.soru_no ?? ""}-${d.v4?.kart?.adim ?? ""}`, an: d.faz,
+                     sayacSn: (soruF && !d.cevap?.ben_cevapladim) || d.faz === "kart" ? gosterSn : null, bitisMs: bt > 0 ? bt : null });
+    }
     const toplam4 = d.faz === "kart" ? Number(d.sureler?.kart ?? 10) : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
     return (
       <>

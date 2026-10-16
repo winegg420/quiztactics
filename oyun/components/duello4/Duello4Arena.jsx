@@ -336,7 +336,8 @@ export default function Duello4Arena({
         <div className="d4-orta">
           <span className="d4-tur">{v.son ? c("SON DÜELLO") : <>{kontrol == null ? c("NÖTR") : c("Soru")} <b className="qt-sayi">{soruSirasi}/{maxSoru}</b></>}</span>
           {sayacVar
-            ? <QtSayac kalan={soruFazi ? sayacSn : gosterSn} toplam={toplamSn} esik={d.faz === "kart" ? 3 : 5} boyut="k" durdu={cevapVerdim || d.kopuk != null || (d.faz === "kart" && gosterimBas != null && sunucuSimdi < gosterimBas)} ekBalon={ekBalon} className="d4-sayac" />
+            ? <QtSayac kalan={soruFazi ? sayacSn : gosterSn} toplam={toplamSn} esik={d.faz === "kart" ? 3 : 5} boyut="k" durdu={cevapVerdim || d.kopuk != null || (d.faz === "kart" && gosterimBas != null && sunucuSimdi < gosterimBas)} ekBalon={ekBalon} className="d4-sayac"
+                       bekle={!(gosterSn > 0) && d.kopuk == null && (soruFazi ? !cevapVerdim : d.faz === "kart")} />
             : <span className="d4-sayac d4-sayac--bos" aria-hidden="true" />}
         </div>
         <Oyuncu o={rakip} c={c} rakipMi kontrolde={kontrol === rakip.id} seri={Number(v.seri ?? 0)} hedef={hedef} tepki={tepkiRakip}

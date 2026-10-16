@@ -126,25 +126,27 @@ export function QtSikler({ children, etiket, iki = false, className }) {
  * boyut: k 44 · o 60 · b 76      durdu: cevap verildi, gerilim kapanır
  * Hesap ekranda kalır (sunucu saati: oyun/lib/zaman.js); bu bileşen yalnız çizer.
  */
-export function QtSayac({ kalan = 0, toplam = 20, esik = 5, boyut = "o", durdu = false, ekBalon, className }) {
+// bekle (16 Eki 2026): süre bitti, sonraki faz bekleniyor — rakam yerine kısa "•••" (en çok bir gidiş-dönüş görünür)
+export function QtSayac({ kalan = 0, toplam = 20, esik = 5, boyut = "o", durdu = false, ekBalon, className, bekle = false }) {
   const r = 21;
   const cevre = 2 * Math.PI * r;
   const oran = toplam > 0 ? Math.max(0, Math.min(1, kalan / toplam)) : 0;
   const gerilim = !durdu && kalan > 0 && kalan <= esik;
   const sayi = Math.max(0, Math.ceil(kalan));
+  const bekliyor = bekle && kalan <= 0;
   return (
     <div
-      className={sinif("qt-sayac", `qt-sayac--${boyut}`, gerilim && "qt-sayac--gerilim", kalan <= 0 && "qt-sayac--bitti", className)}
+      className={sinif("qt-sayac", `qt-sayac--${boyut}`, gerilim && "qt-sayac--gerilim", kalan <= 0 && "qt-sayac--bitti", bekliyor && "qt-sayac--bekle", className)}
       role="timer"
       aria-live="off"
-      aria-label={tt("Kalan süre {sn} saniye", { sn: sayi })}
+      aria-label={bekliyor ? tt("Sonuç bekleniyor") : tt("Kalan süre {sn} saniye", { sn: sayi })}
     >
       <svg viewBox="0 0 50 50" aria-hidden="true">
         <circle className="qt-sayac-iz" cx="25" cy="25" r={r} />
         <circle className="qt-sayac-dolu" cx="25" cy="25" r={r} strokeDasharray={cevre} strokeDashoffset={cevre * (1 - oran)} />
       </svg>
-      <span key={gerilim ? sayi : "sabit"} className={sinif("qt-sayac-sayi", gerilim && "qt-h-tik")} aria-hidden="true">
-        {sayi}
+      <span key={gerilim ? sayi : bekliyor ? "bekle" : "sabit"} className={sinif("qt-sayac-sayi", gerilim && "qt-h-tik")} aria-hidden="true">
+        {bekliyor ? "•••" : sayi}
       </span>
       {ekBalon && (
         <span key={ekBalon.anahtar} className="qt-sayac-balon" aria-hidden="true">

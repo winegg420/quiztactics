@@ -1074,6 +1074,11 @@ html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))
 .qt-sayac-sayi { position: relative; font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: calc(var(--_s) * 0.4); line-height: 1; font-variant-numeric: tabular-nums; }
 .qt-sayac--gerilim { --_r: var(--qt-yanlis); color: var(--qt-yanlis-koyu); }
 .qt-sayac--bitti { --_r: var(--qt-yanlis); color: var(--qt-yanlis-koyu); }
+/* 16 Eki 2026: süre bitti, sonraki faz bekleniyor — kısa, sakin nabız (rakam yerine •••) */
+.qt-sayac--bekle { --_r: var(--qt-bilgi); color: var(--qt-metin); }
+.qt-sayac--bekle .qt-sayac-sayi { font-size: calc(var(--_s) * 0.26); letter-spacing: -0.05em; animation: qt-sayac-bekle 0.9s ease-in-out infinite alternate; }
+@keyframes qt-sayac-bekle { from { opacity: 0.45; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .qt-sayac--bekle .qt-sayac-sayi { animation: none; } }
 .qt-sayac-balon {
   position: absolute;
   top: -6px;

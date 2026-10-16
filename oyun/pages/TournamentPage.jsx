@@ -43,6 +43,7 @@ import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
 import { GeriSayim, useGeriSayim } from "../components/MacHazirlik.jsx";
 import { saatFarkiMs, saatOrnegiEkle } from "../lib/sunucuSaati.js";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
+import { akisMacBaslat, akisMacBitir } from "../lib/akisIzleme.js";
 
 // Oyuncu listesi değişimlerinde (katılım, puan) yeniden okuma aralığı — bkz. oyuncuTazele.
 const OYUNCU_TAZELE_MS = 3000;   // Aşama 2: 1,5 → 3 sn (oyuncu listesi değişimleri tek okumada birleşir)
@@ -494,8 +495,25 @@ export default function TournamentPage() {
   // Süre dolunca ilerletme "bekleyen iş" olarak işaretlenir. Rastgele gecikme
   // aynı anda yüzlerce istemcinin sunucuya yüklenmemesi için. setTimeout arka
   // planda donduğundan dönüşte bekleyen iş gecikmesiz çalıştırılır.
-  const sureDoldu = useCallback(() => {
-    if (advanceKilidi.current || !turnuva) return;
+
+  // 1114 (16 Eki 2026): süre doldu ve dokunulmadı → sunucuya "cevabım yok" (-1). Sunucu ortak soruyu bu oyuncu için 5 sn
+  // geç varış payıyla açık tutmaz; dönen doğru şık "Süre doldu" ekranında işaretlenir. Hata ilerlemeyi engellemez.
+  const cevapsizBildir = async (deneme = 0) => {
+    try {
+      const { data, error } = await supabase.rpc("submit_tournament_answer", { p_tournament_id: turnuva?.id, p_cevap: -1, p_soru_index: soru?.soru_index ?? null });
+      if (error) throw error;
+      const dc = Number(data?.[0]?.dogru_cevap);
+      return Number.isInteger(dc) && dc >= 0 ? dc : undefined;
+    } catch (e) {
+      if (deneme === 0 && /dolmad/i.test(e?.message ?? "")) { await new Promise((c) => setTimeout(c, 600)); return cevapsizBildir(1); }
+      console.warn("[Bildim] süre dolumu bildirilemedi:", e?.message ?? e);
+      return undefined;
+    }
+  };
+  const cevapsizBildirRef = useRef(null);   // sureDoldu sabit kalır; soru değişince en güncel bildirim çağrılır
+  cevapsizBildirRef.current = cevapsizBildir;
+  const sureDoldu = useCallback((ne) => {
+    if (advanceKilidi.current || !turnuva) return undefined;
     advanceKilidi.current = true;
     bekleyenIlerletme.current = true;
     const gecikme = Math.random() * 1200 + 1100;
@@ -505,6 +523,7 @@ export default function TournamentPage() {
     // 991: cevaplamayan varsa sunucu soruyu geç varış payı dolunca kapatır — o an bir kez daha dene
     // (herkes cevapladıysa ilk deneme zaten ilerletir; ikincisi zararsız)
     setTimeout(() => ilerletmeyiDene(), gecikme + GEC_VARIS_EK_MS);
+    return ne?.cevapsiz ? cevapsizBildirRef.current?.() : undefined;
   }, [turnuva, ilerletmeyiDene]);
 
   const lobiyeKatil = async () => {
@@ -539,6 +558,13 @@ export default function TournamentPage() {
   useEffect(() => { sesOnYukle("turnuva"); }, []);
   // Müzik (Ajan H): turnuva maçı sürerken maç döngüsü, lobide turnuva teması.
   const turnuvaAktif = turnuva?.durum === "aktif";
+  // 1113: akış izlemesi — turnuva sürerken
+  const akisTurnuvaId = turnuvaAktif ? turnuva.id : null;
+  useEffect(() => {
+    if (!akisTurnuvaId) return undefined;
+    akisMacBaslat("turnuva", akisTurnuvaId);
+    return () => akisMacBitir(akisTurnuvaId);
+  }, [akisTurnuvaId]);
   // 1092: ilk soru sunucuda o an + 3 sn + gösterim payı kurulur; lobidekiler ortak 3-2-1'i görür (yalnız ilk soruda, bir kez).
   const geriSayim = useGeriSayim(turnuvaAktif && Number(turnuva?.aktif_soru ?? 0) === 0, turnuva?.soru_baslangic ?? null);
   useEffect(() => {

@@ -28,6 +28,7 @@ export default {
   "— yanlış": "— wrong",
   "— elendi": "— eliminated",
   "Kalan süre {sn} saniye": "{sn} seconds left",
+  "Sonuç bekleniyor": "Waiting for the result",
   "Can": "Lives",
   "{ad}: {dolu} / {toplam} can": "{ad}: {dolu} / {toplam} lives",
   "Senin canın": "Your lives",

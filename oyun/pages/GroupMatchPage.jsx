@@ -39,6 +39,7 @@ import { GB_MS } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
 import { botAdi } from "../lib/botAdi.js";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";   // Paket B/5: maç sonu stili ana stil paketinden çıktı (yalnız bu ekranlarla iner)
+import { akisMacBaslat, akisMacBitir } from "../lib/akisIzleme.js";
 
 const GRUP_SECIMI = `*,
   katilimcilar:group_match_players(group_match_id, user_id, davet_durumu, skor, joined_at, hazir, terk_at,
@@ -98,6 +99,13 @@ export default function GroupMatchPage() {
   const [terkEttim, setTerkEttim] = useState(false);   // A.1: "Maçtan çık" → grup_mac_terk (anında terk)
   // A.3: yeni maç sonu sahnesinin verisi (tek çağrı: mac_sonu_ozet) — maç bitince bir kez okunur.
   const { ozet: macSonuOzet, hata: macSonuHata } = useMacSonuOzet(mac?.durum === "bitti" ? `grup:${id}` : null);
+  // 1113: akış izlemesi — grup maçı sürerken
+  const akisAcik = Boolean(mac) && mac.durum !== "bitti" && mac.durum !== "iptal";
+  useEffect(() => {
+    if (!akisAcik) return undefined;
+    akisMacBaslat("grup", id);
+    return () => akisMacBitir(id);
+  }, [akisAcik, id]);
   const balonTimer = useRef({});
 
   const balonGoster = useCallback((kimden, mesaj) => {
@@ -396,8 +404,25 @@ export default function GroupMatchPage() {
   // yüzlerce istemcinin sunucuya yüklenmemesi için (mevcut davranış). Ama
   // setTimeout arka planda donduğundan, sekmeden dönüşte bekleyen iş varsa
   // gecikmeyi beklemeden çalıştırılır (bkz. useGorunurlukTazele).
-  const sureDoldu = useCallback(() => {
-    if (advanceKilidi.current) return;
+
+  // 1114 (16 Eki 2026): süre doldu ve dokunulmadı → sunucuya "cevabım yok" (-1). Sunucu ortak soruyu bu oyuncu için 5 sn
+  // geç varış payıyla açık tutmaz; dönen doğru şık "Süre doldu" ekranında işaretlenir. Hata ilerlemeyi engellemez.
+  const cevapsizBildir = async (deneme = 0) => {
+    try {
+      const { data, error } = await supabase.rpc("submit_group_match_answer", { p_group_match_id: id, p_cevap: -1, p_soru_index: soru?.soru_index ?? null });
+      if (error) throw error;
+      const dc = Number(data?.[0]?.dogru_cevap);
+      return Number.isInteger(dc) && dc >= 0 ? dc : undefined;
+    } catch (e) {
+      if (deneme === 0 && /dolmad/i.test(e?.message ?? "")) { await new Promise((c) => setTimeout(c, 600)); return cevapsizBildir(1); }
+      console.warn("[Bildim] süre dolumu bildirilemedi:", e?.message ?? e);
+      return undefined;
+    }
+  };
+  const cevapsizBildirRef = useRef(null);   // sureDoldu sabit kalır; soru değişince en güncel bildirim çağrılır
+  cevapsizBildirRef.current = cevapsizBildir;
+  const sureDoldu = useCallback((ne) => {
+    if (advanceKilidi.current) return undefined;
     advanceKilidi.current = true;
     bekleyenIlerletme.current = true;
     const gecikme = Math.random() * 800 + 1000;
@@ -407,6 +432,7 @@ export default function GroupMatchPage() {
     // 991: cevaplamayan varsa sunucu soruyu geç varış payı dolunca kapatır — o an bir kez daha dene
     // (herkes cevapladıysa ilk deneme zaten ilerletir; ikincisi zararsız)
     setTimeout(() => ilerletmeyiDene(), gecikme + GEC_VARIS_EK_MS);
+    return ne?.cevapsiz ? cevapsizBildirRef.current?.() : undefined;
   }, [ilerletmeyiDene]);
 
   const cevapVer = async (kabul) => {
