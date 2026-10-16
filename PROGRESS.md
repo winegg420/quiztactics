@@ -12688,3 +12688,27 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - `soru_denetim/kapi.mjs › sikIpucuTesti`: kapalıyken `{takildi:false, atlandi:"Jev yok, atlandı", jevYok:true}`. Çağıranlar (`api-uret`, `codex-kapi`, `sik-ipucu-api/837`, `iceri`) bunu başarısız saymaz; tek-doğru kapısı Jev yokken geçer, raporda `jev_atlandi` işaretlenir. `codex-kalite` ve `soru-parti-1000/jev-kapi` "Jev yok, atlandı" ile çıkar. Diğer kapılar (şık dengesi, benzerlik, uzunluk, hakem) aynen.
 - Tehlikeli komut kapısı (`kapi.mjs`) zaten Jev'i çağırmıyordu (26 Eyl'den beri; yalnız `ESIK` içe aktarır, 3,5 sn tavan, hata → çıkış 0) — değişmedi. "Belirsiz kalıplar" bugün allow+günlük; bunların ask'a çevrilmesi kalıcı onaylarla (silme/deploy/migration) çakıştığı için yapılmadı, karar Ida'da.
 - Skill, AGENTS.md, PROJECT_CONTEXT.md, `~/.codex/AGENTS.md`, `is-akisi.md` Jev bölümlerinin başına "JEV KAPALI" satırı eklendi; içerik silinmedi. `.env › TYPESAFE_API_KEY` yerinde (kapalıyken okunmaz).
+
+## 2026-10-16 — Soru düzeltme 2 canlıda (migration 1118, 1.931 soru)
+**Araç:** Claude Code
+**Neden:** Codex'in hazırladığı, Claude'un hakem olarak incelediği soru düzeltmeleri (soru-duzelt-2) canlı havuza alınsın.
+
+- **Migration `20260612001118_soru_duzelt_2.sql` canlıda.** Kaynak `C:\Users\ida\Desktop\soru-duzelt-2\parti-001..010.jsonl`
+  (15 Eki gece yedeği; 1.911 düzeltildi + 19 pasif önerisi + 1 en_eskidi). Yazılan: questions 1.906 (19'u aktif=false),
+  question_translations(en) 1.908. Atlanan 0, kayma 0.
+- **Karar (Ida):** en_eskidi satırı `b5e6ca35…` ("'Nüsha' ne demektir?") — TR'ye dokunulmaz, yalnız EN eski metniyle eskidi=true.
+  Codex verisindeki TR değişikliği uygulanmadı.
+- **Taslak yerine parti dosyalarından üretildi.** Nedenleri: `taslak-migration.sql` idempotent değildi (ikinci çalıştırmada
+  raise ediyordu). İçindeki `begin/commit` migration-uygula'nın tek işlemini bölüyordu. en_eskidi satırında TR'yi değiştiriyordu.
+  Yeni migration'da veri jsonb_to_recordset ile tek temp tabloya alınıyor. Önce kayma koruması çalışıyor (başlangıç ya da hedef
+  dışında bir hâl varsa hata, hiçbir satır yazılmaz). Sonra where korumalı iki UPDATE ve `kategori_havuz_yenile()` geliyor.
+- **Geri al:** `docs/soru-duzelt-2-geri-al.sql`. Uygulamadan hemen önce canlıdan okunan hâli (eskidi_at dahil) geri yükler.
+- **Doğrulama:** kayma (canlı salt okuma) 0. Değişen 453 kökün UNIQUE çakışması 0. Yerel PGlite (repo dışı geçici klasör,
+  canlı tetikleyici fonksiyonlarıyla, 1.931 + 300 hedef dışı soru) 17/17: migration, idempotent tekrar, birebir geri-al, kayma
+  senaryosunda durma. Yedek `quiztactics-yedek\2026-10-16` (93,2 MB). Canlı son kontrol: 1.931/1.931 hedef hâlde, pasif 19,
+  rastgele 20/20 TR+EN. Aktif 14.723 → 14.704, EN kullanılabilir 14.570 → 14.550.
+- **Kategori dengesi:** pasifler cografya 5 · sinema 4 · spor 3 · bilim/sanat/tarih 2 · teknoloji 1. En büyük kayıp %0,32, denge bozulmadı.
+  Tablo RAPOR.md en üstte.
+- **Gözlem:** kural tetikleyicisi şüphe işaretlerini yeniden hesapladı. Rekabetçi havuz dışı (bekliyor + ağırlık ≥ 2) aktif soru
+  2.183'ten 835'e indi; şık uzunluğu ipuçları kalktı.
+- Sunucu fonksiyonu, yetki ve RLS değişmedi. Jev kullanılmadı (kapalı).

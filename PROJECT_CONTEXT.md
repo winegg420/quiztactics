@@ -774,7 +774,7 @@ Ida "kendin doldur" dedi; hepsi test değeridir, yayından önce yeniden bakıla
   hatası, hata kartı `online`). Test: `araclar/dil-yenileme-testi.mjs` (taklit; eski kod 6 sn'de 140 yenileme yapıyordu).
 - **Yeni profil dili (610, D-203):** profil giriş ekranındaki dille doğar (misafir/e-posta kayıt verisi `dil`;
   Google yönlendirmesinde cihazdaki `bildim_giris_dili` yeni hesaba bir kez yazılır). Mevcut profilin kayıtlı
-  dili ezilmez. Soru dili `profiles.dil` → `soru_dilinde` (aktif soru havuzu 14.723, 14.570'inin EN çevirisi var — 15 Eki 2026, 1103 (Codex kalite taraması) sonrası ölçüm; toplam 19.628).
+  dili ezilmez. Soru dili `profiles.dil` → `soru_dilinde` (aktif soru havuzu 14.704, 14.550'sinin kullanılabilir EN çevirisi var — 16 Eki 2026, 1118 (soru-duzelt-2: 1.931 soru düzeltildi, 19 pasif, 1 EN eskidi) sonrası ölçüm; toplam 19.628).
 - **Sigorta 30 · 2X 40 coin; 10'lu paket 255 / 340** (%15 indirim; migration 307,
   `joker_paketleri.skill_sigorta_10` / `skill_cifte_puan_10`). Yalnız Klasik; Düello'ya
   gelmez.

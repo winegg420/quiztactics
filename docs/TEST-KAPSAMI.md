@@ -80,6 +80,7 @@ Turnstile çıkarsa durulur. İş bitince tarayıcı/sunucu süreçleri kapatıl
 - [ ] Puan · coin · XP · SP · lig puanı doğru işlendi
 - [ ] Görev ilerlemesi
 - [ ] Bin Galibiyet sayacı (açık bot hariç; beraberlik sayılmaz)
+- [ ] Toplu soru düzeltmesi (migration): kayma kontrolü (canlı eski metin = kaynak yedek) · yerel PGlite'ta migration → tekrar (idempotent) → geri-al (birebir eski hâl) → kayma senaryosu · canlıda salt okuma son kontrol (hedef hâl sayısı, pasif sayısı, rastgele 20 TR+EN, kategori bazında aktif önce/sonra)
 
 ## 8 · Konsol
 - [ ] JS hatası (`pageerror`, `console.error`)
@@ -101,6 +102,7 @@ başlatılamaz — taklitle bakıldı", "WebKit bu makinede çalışmıyor — g
 | `araclar/yavas-android-olcum.mjs --mac [--ida] [--videosuz] [--iz_mac]` | 3, 4, 5, 6, 8 — Klasik/Düello/Hazine bota karşı tek maç (canlı), yavaş telefon. Kare ölçümünde `--videosuz` (video kodlaması kareye 15–35 ms ekler); ilk 5 sn soğuk sayfa açılışıdır, maç içi sayılmaz |
 | `araclar/iz-coz.mjs <iz> [--dist=…] [--gecersiz]` | 3 — uzun görevin sorumlusu: JS (kaynak haritasıyla dosya:satır) · stil (öğe sayısı) · yerleşim · boyama; `--gecersiz` stil geçersizleştirme nedeni (zamanları şişirir, yalnız neden için) |
 | `araclar/hazine-akis-olcum.mjs --senaryo=yavas_sunucu` | 5 — canlı DB yavaşlaması taklidi (satır kilidi + 1–3,5 sn işlem, saat damgası yanıt sonunda); faz geçişi sunucu → istemci ms, erken süre bildirimi (bütün senaryolar) |
+| Yerel PGlite (`@electric-sql/pglite`, repo DIŞI geçici klasöre kurulur; repoya paket girmez) | 7 — toplu soru migration'ı: canlıdan salt okuma anlık görüntü (hedef satırlar + hedef dışı örnek + tetikleyici fonksiyonları) yüklenir; migration, ikinci çalıştırma, geri-al ve kayma senaryosu yerelde koşar (16 Eki 2026, soru-duzelt-2: 17/17). Canlıda test işlemi açılmaz |
 | `araclar/sure-bildirim-olcum.mjs` | 5 — süre dolumu bildirimi zamanlaması (Düello/Hazine): gerçek `sunucuSaati.js` sanal saatle, bellekte — sayaç 0'da kalma, red oranı, erken gönderim |
 | Supabase edge log (Management API `analytics/endpoints/logs`, salt okuma) | 5 — canlıda geç geçiş görülünce o dakikadaki RPC `response.origin_time` (sunucu mu bekletti, istemci mi) |
 | `araclar/hazine-akis-olcum.mjs --azalt` / `--spa` | 3 — hareket azaltma; maça uygulama içinden (SPA) giriş |

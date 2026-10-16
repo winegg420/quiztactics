@@ -1,3 +1,54 @@
+# Soru düzeltme 2 canlıda — rapor (16 Eki 2026, akşam)
+
+## Kategori bazında aktif soru — önce / sonra (canlı, salt okuma)
+
+| Kategori | Aktif önce | Aktif sonra | Pasif | EN kullanılabilir önce → sonra | Rekabetçi havuz dışı (şüpheli) önce → sonra |
+|---|---:|---:|---:|---:|---:|
+| bilim | 1.184 | 1.182 | 2 | 1.184 → 1.182 | 166 → 53 |
+| cografya | 1.555 | 1.550 | 5 | 1.474 → 1.469 | 289 → 73 |
+| edebiyat | 1.519 | 1.519 | 0 | 1.495 → 1.494 (1 EN eskidi) | 231 → 99 |
+| genel_kultur | 1.160 | 1.160 | 0 | 1.132 → 1.132 | 16 → 7 |
+| muzik | 1.564 | 1.564 | 0 | 1.559 → 1.559 | 252 → 101 |
+| sanat | 1.585 | 1.583 | 2 | 1.583 → 1.581 | 230 → 92 |
+| sinema | 1.528 | 1.524 | 4 | 1.522 → 1.518 | 295 → 129 |
+| spor | 1.435 | 1.432 | 3 | 1.432 → 1.429 | 182 → 49 |
+| tarih | 1.502 | 1.500 | 2 | 1.500 → 1.498 | 190 → 46 |
+| teknoloji | 1.691 | 1.690 | 1 | 1.689 → 1.688 | 332 → 186 |
+| **Toplam** | **14.723** | **14.704** | **19** | **14.570 → 14.550** | **2.183 → 835** |
+
+Pasifler kategori dengesini bozmadı: en çok kayıp coğrafyada (5 soru, %0,32); hiçbir kategori %0,3'ten fazla küçülmedi.
+Yan etki (beklenen): `trg_questions_kural_isaret` yeni şıklar için şüphe işaretlerini yeniden hesapladı. Rekabetçi havuzdan
+dışlanan aktif soru sayısı 2.183'ten 835'e indi. Bunun nedeni, düzeltmenin hedefinin "doğru şık en uzun / çok kelimeli" ipuçlarını kaldırmak olması.
+
+## Özet
+- **Migration `20260612001118_soru_duzelt_2.sql` canlıda** (`araclar/migration-uygula.mjs`, tek işlem + ledger).
+  Kaynak: `C:\Users\ida\Desktop\soru-duzelt-2\parti-001..010.jsonl` (1.931 satır = 1.911 düzeltildi + 19 pasif önerisi + 1 en_eskidi).
+- **Yazılan:** `questions` 1.906 satır (19'u aktif=false), `question_translations` (en) 1.908 satır. 24 satırda yalnız EN değişti
+  (TR aynı). **Atlanan: 0**. Kayma: **0**.
+- **en_eskidi** (`b5e6ca35…`, edebiyat "'Nüsha' ne demektir?"): Ida kararıyla TR'ye dokunulmadı. EN eski metniyle `eskidi=true`.
+  Codex verisi bu satırda TR'yi de değiştiriyordu; o kısım uygulanmadı.
+- **Taslak neden kullanılmadı:** `taslak-migration.sql` ikinci çalıştırmada hata veriyordu (idempotent değil). İçindeki `begin/commit`
+  migration-uygula'nın tek işlemini bölüyordu. en_eskidi satırında TR'yi değiştiriyordu. Migration parti dosyalarından yeniden üretildi.
+  Taslak ve geri-al taslağı yerinde duruyor, dokunulmadı.
+- **Geri alma:** `docs/soru-duzelt-2-geri-al.sql`. Migration'dan hemen önce canlıdan okunan TR+EN hâlini (eskidi_at dahil) geri yükler.
+  Yalnız migration'ın yazdığı hâldeki satırları yazar, başka hâldeki satır varsa durur. Kendi `begin/commit`'i var.
+- **Yedek:** `node araclar/yedek-al.mjs` → `C:\Users\ida\Desktop\quiztactics-yedek\2026-10-16` (93,2 MB, 217 tablo, questions 19.628 satır).
+
+## Koruma (migration içinde)
+- Hedef satır başlangıç ya da hedef hâlinde olmalı. Üçüncü bir hâl varsa (yedekten sonra değişmiş) işlem hata ile durur ve hiçbir satır yazılmaz.
+- `update … where id eşleşir and (soru, secenekler, dogru_cevap, aktif, surum, zorluk) = eski`. EN için `(soru, secenekler, eskidi) = eski`.
+  Hedef hâldeki satır atlanır, bu yüzden migration idempotent.
+- Sonda `kategori_havuz_yenile()` çalışır (taslaktaki gibi).
+
+## Doğrulama
+| Adım | Sonuç |
+|---|---|
+| Parti uyumu | 1.931 satır, 1.931 tekil id. Doğru indeks 1.931/1.931 aynı. 4 farklı şık TR+EN 1.931/1.931. Pasif 19 (taslak da aktif=false yapıyordu) |
+| Kayma (canlı, salt okuma) | 1.931 id'nin TR (soru, şıklar, doğru, aktif, sürüm, zorluk) ve EN (soru, şıklar, eskidi, eskidi_at) hâli yedekle birebir aynı: **0 kayma** |
+| Tekillik (`questions.soru` UNIQUE) | Değişen 453 kökten hiçbiri canlıda başka soruyla çakışmıyor |
+| Yerel PGlite (repo dışı) | 1.931 hedef + 300 hedef dışı soru, canlı tetikleyicilerle: **17/17**. Migration TR 1.906 / EN 1.908 = beklenen, pasif 19, hedef dışı ve başka kolon değişmedi. İkinci çalıştırmada değişiklik yok. Geri-al birebir eski hâli getirdi (supheli_isaretler, eskidi_at dahil). Kayma senaryosunda işlem durdu, hiçbir satır yazılmadı |
+| Canlı son kontrol (salt okuma) | 1.931/1.931 TR ve EN hedef hâlde. 1.911 aktif satır yeni metinde, 1 satır yalnız EN eskidi (TR eski, karar gereği), 19 pasif. Toplam aktif 14.723 → 14.704 (−19). Rastgele 20 soru TR+EN 20/20. kategori/kapsam/denetim kolonları değişmedi. Ledger'da 20260612001118 kayıtlı |
+
 # Hazine / Düello zamanlama gecikmeleri + Gizlilik/Koşullar veri sorumlusu — rapor (16 Eki 2026, gece)
 
 ## Özet
