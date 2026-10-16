@@ -63,7 +63,10 @@ Turnstile çıkarsa durulur. İş bitince tarayıcı/sunucu süreçleri kapatıl
 - [ ] Sayaç sunucu saatine göre düzgün iniyor mu (rakam süreleri 0,9–1,2 sn)
 - [ ] Sıçrama (ileri / geri)
 - [ ] 0'da takılma (> 1 sn)
-- [ ] Faz geçişinin geç gelmesi (sunucu bitişinden > 1 sn)
+- [ ] Faz geçişinin geç gelmesi (sunucu bitişinden > 1 sn) — geç geldiyse **kim bekletti**: sunucu yanıt süresi (edge log
+      `response.origin_time`) · istemci yoklaması / zinciri · erken süre bildirimi
+- [ ] Erken süre bildirimi ("cevabım yok" / "karar yok" süre dolmadan vardı → `Süre dolmadı` reddi) — 0 olmalı; sayaç > 0 iken
+      bildirim gitmemeli (oyuncunun dokunma hakkı kesilmez)
 - [ ] 3-2-1 tam dizi (3 → 2 → 1, her biri ~1 sn, tekrar yok)
 - [ ] Arka plana gidip dönme (sayaç, ses, faz doğru yerden sürüyor)
 
@@ -97,6 +100,9 @@ başlatılamaz — taklitle bakıldı", "WebKit bu makinede çalışmıyor — g
 | `araclar/ses-kesilme-olcum.mjs` | 4 — bütün modların ses çizelgesi (gerçek ses.js + dosyalar): kesilme, kalan ms, çakışma |
 | `araclar/yavas-android-olcum.mjs --mac [--ida] [--videosuz] [--iz_mac]` | 3, 4, 5, 6, 8 — Klasik/Düello/Hazine bota karşı tek maç (canlı), yavaş telefon. Kare ölçümünde `--videosuz` (video kodlaması kareye 15–35 ms ekler); ilk 5 sn soğuk sayfa açılışıdır, maç içi sayılmaz |
 | `araclar/iz-coz.mjs <iz> [--dist=…] [--gecersiz]` | 3 — uzun görevin sorumlusu: JS (kaynak haritasıyla dosya:satır) · stil (öğe sayısı) · yerleşim · boyama; `--gecersiz` stil geçersizleştirme nedeni (zamanları şişirir, yalnız neden için) |
+| `araclar/hazine-akis-olcum.mjs --senaryo=yavas_sunucu` | 5 — canlı DB yavaşlaması taklidi (satır kilidi + 1–3,5 sn işlem, saat damgası yanıt sonunda); faz geçişi sunucu → istemci ms, erken süre bildirimi (bütün senaryolar) |
+| `araclar/sure-bildirim-olcum.mjs` | 5 — süre dolumu bildirimi zamanlaması (Düello/Hazine): gerçek `sunucuSaati.js` sanal saatle, bellekte — sayaç 0'da kalma, red oranı, erken gönderim |
+| Supabase edge log (Management API `analytics/endpoints/logs`, salt okuma) | 5 — canlıda geç geçiş görülünce o dakikadaki RPC `response.origin_time` (sunucu mu bekletti, istemci mi) |
 | `araclar/hazine-akis-olcum.mjs --azalt` / `--spa` | 3 — hareket azaltma; maça uygulama içinden (SPA) giriş |
 | `araclar/senkron-testi.mjs [--taklit]` | 5 — 3-2-1 ve sayaçlar, bütün modlar (Turnuva taklit) |
 | `node araclar/oyuncu-testi.mjs --adres=…` | 6, 7, 8 — canlı duman testi |

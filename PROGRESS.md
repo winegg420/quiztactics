@@ -12660,3 +12660,22 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
   arayuz-denetim (test hesabı, 16 sayfa × 4 genişlik: 1 yerel CORS), ses-kesilme 6 mod × CPU 1/6 (ani 0), ses-zamanlama, Turnuva senkron taklidi,
   Hazine taklit (bot/gecikmeli/dalgalı/EN-360/azalt), canlı duman Ida × 3 (bitti; ses_kesildi 0; izleme: Hazine faz_gec sonuç ~4,2 sn ×2,
   Düello nötr sayaç 0'da 1,8 sn — zamanlama koduna dokunulmadı, ayrı inceleme). Test hesabı (PerfTest580) silindi. Rapor: RAPOR.md en üst.
+
+## 2026-10-16 — Hazine/Düello zamanlama gecikmeleri (kök neden) + Gizlilik/Koşullar veri sorumlusu
+**Araç:** Claude Code
+**Neden:** canlı izleme Hazine sonuç geçişini 4,2 sn, Düello nötr sayacını 0'da 1,8 sn gösterdi; Gizlilik/Koşullar'a Ida'nın tam adı.
+
+- **Hazine (A):** kod hatası değil. Edge log (Management API, salt okuma): 14:04:40–14:05:20 UTC arası yük yokken bütün RPC'ler 1,7–4,2 sn
+  (kasa_durum, kalp_at, envanterim, coin_bakiyem, istemci_kayit_yaz), cron 2 sn geç — nano sunucunun genel duraklaması. İstemci isteği
+  zamanında (tur ilerlemesinden 43 ms önce vardı). Değişiklik yok; karar Ida'da (sunucu boyutu).
+- **Düello (B) kök neden:** 1114 "cevabım yok" bildirimi düzgün sayaç saatiyle ve faz başında bir kez zamanlanıyordu; yavaş yanıtlar saat
+  örneğini öne kaydırınca erken varıyor → `Süre dolmadı` → 600 ms → yeniden deneme. Düzeltme `oyun/lib/sunucuSaati.js › sureBildirimMs /
+  sureBildirimTekrarMs / enIyiSimdiMs`; `DuelloPage.jsx` (soru + kart), `KasaPage.jsx` (cevap + karar): iki saatin geç olanı + 150 ms,
+  gönderimde yeniden bakış, red sonrası 150–600 ms. Kural/süre/görünüm aynı. Klasik/Grup/Turnuva'da desen yok (C).
+- **D:** `GizlilikPage.jsx` "Veri sorumlusu: Ida Güreli (Quiz Tactics)", `KosullarPage.jsx` "Ida Güreli adlı gerçek kişi", EN `ceviri/yasal.js` +
+  `ceviri/kosullar.js`, yorum + `docs/play-store/YUKLEME-ADIMLARI.md`. Adres/kişisel e-posta yok.
+- Araçlar: yeni `araclar/sure-bildirim-olcum.mjs` (bellekte); `hazine-akis-olcum.mjs` `--senaryo=yavas_sunucu`, faz geçişi sunucu → istemci,
+  erken bildirim sayımı. Test: `sayac-saati-test` 10/10, test:kurallar, test:dans, build GEÇTİ; taklit A/B ve tablo RAPOR.md en üstte.
+- Migration yok. BAKILAMADI: arayuz-denetim / duello-v4-ekran / senkron-testi (hesap açmadan çalışmıyor), canlı yavaş telefon duman
+  testi ve ses-kesilme yeni CPU 6x (sistem bellek darlığında yerel sunucuları durdurdu).
+- Gözlem: `TaskStop` arka plan kabuğunu kapatıyor ama `npx vite` alt süreçleri açık kalıyor — iş sonunda süreç listesinden kapatıldı.

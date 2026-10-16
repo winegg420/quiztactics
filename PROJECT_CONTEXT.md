@@ -122,8 +122,13 @@ Geri alma: `docs/dereceli-1115-geri-al.sql`.
   (Klasik'te süresi biten istemcinin `mac_soruyu_atla`sı da "cevap yok" sayılır). **1114 (16 Eki 2026, Hazine kök neden):** süresi dolan
   oyuncunun istemcisi dokunmadıysa kişisel bitiş + 150 ms'de "cevabım yok" der → sunucu pay BEKLEMEZ: `kasa_cevap(-1)`, `duello_cevap(-1)`
   (v4), `duello_kategori_sec(null)` (v4 kart sahibi), `submit_group_match_answer(-1)` / `submit_tournament_answer(-1)` (Grup/Turnuva: doğru
-  şık döner, istatistik/Hatalarım yazılmaz). Yalnız sunucu saatiyle süre dolduysa kabul ("Süre dolmadı" → istemci 600 ms arayla en çok 3 kez
-  yeniden dener); kayıt yanıtsızla aynı. Eskiden sayaç 0'da ~5–6 sn kalıyordu (Ida, 16 Eki, TWA). Rakip hâlâ düşünüyorsa onun payı aynen beklenir.
+  şık döner, istatistik/Hatalarım yazılmaz). Yalnız sunucu saatiyle süre dolduysa kabul ("Süre dolmadı" → istemci en çok 3 kez yeniden
+  dener); kayıt yanıtsızla aynı. **Gönderim anı (16 Eki 2026, Düello nötr "sayaç 0'da 1,8 sn" kök nedeni):** Düello v4 + Hazine
+  (cevap/karar/kart) bildirimi `sunucuSaati.js › sureBildirimMs` ile — sayaç saati (düzgün) ile en iyi saat örneğinin GEÇ olanı + 150 ms,
+  gönderim anında yeniden bakılır (erkense yeniden kurulur); red sonrası bekleme `sureBildirimTekrarMs` 150–600 ms. Eskiden yalnız sayaç
+  saatine göreydi: saat örneği yavaş yanıtla ~0,4–0,8 sn öne kaydığında bildirim erken varıyor, red + 600 ms bekleme sayacı 0'da tutuyordu.
+  Sayaç 0'ı göstermeden bildirim gitmez (oyuncunun dokunma hakkı kesilmez). Klasik/Grup/Turnuva sorunun kendi saat farkıyla + 0,6 sn payla
+  gönderir, 0'da "Süre doldu" ekranı açılır — bu desen orada yok. Eskiden sayaç 0'da ~5–6 sn kalıyordu (Ida, 16 Eki, TWA). Rakip hâlâ düşünüyorsa onun payı aynen beklenir.
   Kasa, Düello, Klasik/Saf Bilgi,
   **Bot bekletmez (1088, 13 Eki 2026):** insan cevapladıktan sonra bot aynı soruyu hemen cevaplar (Klasik/Saf Bilgi/Grup/Hazine anında, Düello v4 ≤ 2 sn); isabet ve zorluk değişmez.
   Grup, Turnuva, Hatalarım. Sahte tık beyanının kazancı en çok pay kadar; puan/hız beyana bağlı değil (`at` =

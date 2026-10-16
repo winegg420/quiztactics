@@ -1,3 +1,92 @@
+# Hazine / Düello zamanlama gecikmeleri + Gizlilik/Koşullar veri sorumlusu — rapor (16 Eki 2026, gece)
+
+## Özet
+- **A · Hazine sonuç geçişi 4,2 sn:** kod hatası değil. O dakikada (14:04:40–14:05:20 UTC) **canlı veritabanı ~40 sn yavaşladı** — bütün
+  RPC'ler 1,7–4,2 sn (kasa_durum, kalp_at, coin_bakiyem, envanterim, istemci_kayit_yaz), cron işleri 2 sn geç başladı. İstemci bitiş
+  isteğini zamanında attı (tur, isteğin varışından 43 ms sonra ilerledi), yanıt 3,3 / 4,0 sn sürdü. Maçın geri kalanında kasa_durum
+  p50 86 ms. Uygulama koduna düzeltme gerekmiyor; geçiş sunucu yanıtı kadar gecikir.
+- **B · Düello nötr sayaç 0'da 1,8 sn:** kök neden istemcide, düzeltildi. "Cevabım yok" (1114) bildirimi düzgünleştirilmiş sayaç saatiyle
+  ve soru başında bir kez zamanlanıyordu; yavaş yanıtlar saat örneğini öne kaydırınca bildirim sunucuya **erken** vardı → `Süre dolmadı`
+  (canlı postgres log 14:15:25.011) → 600 ms bekleme → yeniden deneme. 1114 düzeltmesi nötr yolu kapsıyordu; sorun gönderim anıydı.
+- **Düzeltme (kural/süre/görünüm aynı):** `sunucuSaati.js › sureBildirimMs` — sayaç saati ile en iyi saat örneğinin GEÇ olanı + 150 ms;
+  gönderim anında yeniden bakılır, erkense yeniden kurulur; red sonrası `sureBildirimTekrarMs` 150–600 ms. Düello v4 (soru + kart) ve
+  Hazine (cevap + karar) — mod paritesi. Sayaç 0'ı göstermeden bildirim gitmez.
+- **C · Klasik / Saf Bilgi / Grup / Turnuva: desen YOK** — bildirim sorunun kendi saat farkıyla + 0,6 sn payla gider ve 0'da "Süre doldu"
+  ekranı sayacın yerini alır; 16 Eki izleme kayıtlarında bu modlarda tek olay yok.
+- **D · Gizlilik/Koşullar:** "Veri sorumlusu: Ida Güreli (Quiz Tactics). İletişim: info@quiztactics.com" · Koşullar "Ida Güreli adlı gerçek
+  kişi" (TR+EN, son güncelleme 16 Ekim 2026). Adres / kişisel e-posta yok. Koddaki "unvan/adres yok" yorumu ve Play Store notu güncellendi.
+- Migration **yok** (sunucu fonksiyonu / yetki değişmedi). Yeni araç `araclar/sure-bildirim-olcum.mjs`; `hazine-akis-olcum.mjs`'ye
+  `yavas_sunucu` senaryosu + faz geçişi (sunucu → istemci) + erken bildirim sayımı.
+
+## A · Hazine — kanıt (canlı, salt okuma)
+Maç e4dfd87e (Ida, açık bot, yavaş telefon taklidi), `akis_bozulma`: `faz_gec sonuc` 4211 / 4245 ms, `sayac_sifir karar` 1195, `faz_gec karar` 1236.
+
+| Ne | Ölçü |
+|---|---|
+| Edge log, maçın 135–176. sn'si | kasa_durum 2641 · 3304 · 2690 · 1736 · 3595 · 4032 ms (`x_envoy_upstream_service_time` ≈ aynı → bekleme PostgREST/DB'de) |
+| Aynı maç, öncesi/sonrası | kasa_durum p50 86 ms (160 çağrı); > 1 sn olan 12 çağrının hepsi bu pencerede |
+| Aynı pencerede başka uçlar | kalp_at 2811 / 2954, envanterim 3068, coin_bakiyem 2606, kasa_joker_durumu 3213, istemci_kayit_yaz 4211 ms |
+| Cron | 14:05 dakika işleri 14:05:02'de başladı (2 sn geç), hizli_tik 839 ms (normal 38) |
+| İstemci zamanlaması | sonuç bitişindeki istek, tur ilerlemesinden 43 ms önce sunucuya vardı — istemci geç kalmadı |
+| Sebep | o 40 sn'de API'ye yalnız bu maçın istekleri geldi (yük yok) → nano sunucunun genel duraklaması (CPU/disk G/Ç); kod yolu değil |
+
+Taklit (yerel, `hazine-akis-olcum.mjs`, CPU 6x · yavaş 4G · 390×844, eski 5198 ↔ yeni 5199, senaryo başına bir maç):
+
+| Senaryo | Faz geçişi sunucu → istemci, önce (sonuç / karar / soru — ort·en kötü ms) | sonra | Sayaç 0'da en uzun önce → sonra | Erken bildirim |
+|---|---|---|---|---|
+| bot | 257·303 / 145·224 / 292·634 | 254·388 / 138·240 / 260·578 | 0 → 0 | 0 / 0 |
+| dalgalı | 1503·2346 / 1224·2069 / 1168·1902 | 1256·2307 / 1173·1613 / 1098·1696 | 2233 → **1206** | 0 / 0 |
+| yavaş sunucu (canlı 14:04 taklidi) | 2426·6049 / 2231·5892 / 1999·4810 | 2331·6056 / 1803·5275 / 2896·6975 | 6919 → 4264 | 0 / 0 |
+
+Yavaş sunucu taklidi canlıdaki 4,2 sn'yi yeniden üretiyor ve iki derlemede aynı: geçiş gecikmesi = sunucu yanıt süresi.
+
+## B · Düello — kanıt ve önce/sonra
+Maç b383d002 (Ida, açık bot): edge log `duello_cevap` 14:15:24.648 → 400 `Süre dolmadı` (14:15:25.011) → 600 ms sonra 14:15:25.943 kabul →
+durum okuması → yeni faz. Öncesinde `sayac_sapma` 836 ms, açılışta yavaş yanıtlar (duello_durum 1646, duello_giris 1495 ms).
+Bellekte ölçüm (`sure-bildirim-olcum.mjs`, gerçek `sunucuSaati.js`, sanal saat, senaryo başına 4000 soru):
+
+| Senaryo | Sayaç 0'da ort · p95 (ms) önce | sonra | Red oranı önce → sonra | Sayaç > 0 iken giden bildirim önce → sonra |
+|---|---|---|---|---|
+| normal | 683 · 755 | 684 · 755 | %0 → %0 | 0 → 0 |
+| ilk yanıtlar yavaş (canlı 14:15 kaydı) | 937 · 1048 | **689 · 758** | **%100 → %0** | 4000 → **0** |
+| dalgalı ağ | 1347 · 2071 | 1439 · 2071 | %0,5 → %0 | 113 → **0** |
+| yavaş sunucu | 3546 · 7068 | 3708 · 6859 | %11,6 → %1,3 | 556 → **0** |
+
+Dalgalı/yavaşta ortalamanın ~90–160 ms uzaması kasıtlı: eski yöntem bu durumların bir kısmında sayaç hâlâ > 0 iken (oyuncu dokunabilirken)
+"cevabım yok" gönderiyordu; yenisi göndermiyor. Birim testi `oyun/_test/sayac-saati-test.mjs` 10/10 (3 yeni).
+
+## Test tablosu (docs/TEST-KAPSAMI.md)
+| Madde | Kapsam | Sonuç | Not |
+|---|---|---|---|
+| 5 Zamanlama — faz geçişi | Hazine taklit bot/dalgalı/yavaş sunucu (önce/sonra) + canlı izleme / edge log çözümlemesi | GEÇTİ (kod) · KALDI (sunucu) | geç geçişler yalnız sunucu yavaşlığında |
+| 5 Zamanlama — sayaç 0'da > 1 sn | Hazine taklit, Düello/Hazine bellek ölçümü | GEÇTİ (düzeldi) | dalgalı 2233 → 1206 ms; yavaş sunucuda sunucu süresi kadar kalır |
+| 5 Erken süre bildirimi | bellek ölçümü (4 senaryo × 4000) + Hazine taklit | GEÇTİ | sonra red %0–1,3, sayaç > 0 iken gönderim 0 |
+| 5 Sıçrama / rakam süresi | Hazine taklit 3 senaryo × 2 derleme | GEÇTİ | sıçrama 0, rakam 894–1217 ms |
+| 2 Görünüm — Gizlilik/Koşullar | TR+EN × 360/390 (yerel, ağ taklit) | GEÇTİ | yeni ad görünüyor, eski ifade 0, taşma 0, konsol hatası 0, kişisel e-posta 0 |
+| 2 Görünüm — maç ekranları | `klasik-mac-ekran` Klasik/Saf/uzun/Grup/Turnuva × TR+EN × 360/390 (taklit) | KALDI (eski) | Grup `ls-ad-dugme` kırpık (önceki raporda da); 360×640'ta Grup/Turnuva joker satırı 1–2 px — CSS'e dokunulmadı |
+| 3 Animasyon — kesilen | Hazine taklit | KALDI (sınıflı, eski) | dalgalıda rakip joker rozeti + ÇİFTE efekti karar ekranı ağ gecikmesiyle gelince sökülüyor; bot/yavaş 0–1 |
+| 4 Ses | `ses-kesilme-olcum` 6 mod: eski CPU 1x/6x + yeni CPU 1x; Hazine taklit ses ömrü (3 senaryo × 2) | GEÇTİ (kısmen) | ani kesilen 0; yeni CPU 6x **BAKILAMADI** — sistem bellek darlığında ölçümü durdurdu |
+| 1 Dokunma · 2 Görünüm (16 sayfa × 4 genişlik) · iOS kuralları | `arayuz-denetim` | **BAKILAMADI** | misafir/test hesabı açmadan çalışmıyor (yeni hesap açılmaz, Ida oturumu bu araca verilmez); CSS/yerleşim değişmedi |
+| Düello v4 ekran turu · ses zamanlaması | `duello-v4-ekran`, `ses-zamanlama-olcum` | **BAKILAMADI** | taklit olmayan RPC'leri oturumla canlıya iletiyor; oturum dosyası yok (aynı neden) |
+| 6 Akış · 7 Veri · 3 kare (canlı Klasik/Düello/Hazine, CPU 6x yavaş 4G 390×844) | `yavas-android-olcum --mac --ida` | **BAKILAMADI** | sistem bellek darlığında yerel sunucuları durdurdu; talimat gereği yeniden açılmadı. Değişen yalnız bildirim zamanlaması |
+| Senkron testi | `senkron-testi` | **BAKILAMADI** | misafir hesabı açıyor |
+| 8 Konsol | taklit koşular + yasal sayfalar | GEÇTİ | JS hatası 0 |
+| Yerel testler | `test:kurallar` (8 + 10), `test:dans`, `npm run build` (+ iOS ayrıştırma) | GEÇTİ | |
+| `npm test` (sunucu) | | BAKILAMADI | `_test/sunucu` canlı DB'de işlem açıyor (kural) |
+| iOS gerçek cihaz | | BAKILAMADI | WebKit bu makinede çalışmıyor |
+
+## Karar bekleyenler
+1. **Canlı DB duraklaması** (14:04:40–14:05:20 UTC, yük yokken bütün RPC'ler 2–4 sn): nano sunucunun genel durması. Kod düzeltmesiyle
+   kapanmaz; tekrar ederse sunucu boyutu (ücretli plan) kararı Ida'nın. Günlük izleme e-postası bunu `faz_gec` olarak gösterir.
+2. Önceki paketten açık: rakip joker rozeti yarıda kayboluyor (görünüm kararı), maç sonu ilk çizimi 150–160 ms.
+
+## Telefonda bakılacak 3 şey
+1. Düello'da nötr soruda hiç dokunmadan süreyi bitir: sayaç 0'a inince sonuç ~1 sn içinde gelmeli (önce ~2 sn).
+2. Hazine'de cevaplamadan süreyi bitir; karar sende iken AÇ/DEVAM'a basma: 0'dan kısa süre sonra sonuç / "Süre doldu · DEVAM" gelmeli.
+3. Gizlilik ve Kullanım Koşulları: "Ida Güreli (Quiz Tactics)" / "Ida Güreli adlı gerçek kişi", İngilizcede de aynı.
+
+---
+
 # Sesli sohbet kaldırıldı + Maç içi kasmalar — rapor (16 Eki 2026, akşam)
 
 ## Ne yapıldı
