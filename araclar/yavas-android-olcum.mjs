@@ -278,8 +278,13 @@ async function otoOyna(s, sinirMs, profil = null) {
   return false;
 }
 
+// 16 Eki 2026 (docs/TEST-KAPSAMI.md › 4): ses.js ömür kaydı (window.__sesOmur) → her ses için tek satır
+const omurSatir = (x, t0 = 0) => `${x.anlamli ? "★" : " "} ${String(x.rol).padEnd(20)} istendi ${Math.round(x.istendi - t0)} · başladı +${Math.round(x.basladi - x.istendi)} ms · plan ${x.planMs}/${x.dosyaMs} ms${x.kisaltma ? ` (${x.kisaltma})` : ""} · çaldı ${x.calmaMs ?? "…"} ms · ${x.kesildi ? `KESİLDİ — ${x.kesen} (fade ${x.fadeMs ?? "?"} ms)` : "sonuna kadar"}${x.yeniFaz ? ` · çalarken yeni ${x.yeniFaz.ekran ? "ekran" : "faz (ekran aynı)"} ${x.yeniFaz.ad}, kalan ${x.yeniFaz.kalanMs} ms` : ""}${x.cakisan?.length ? ` · çakışan ${[...new Set(x.cakisan)].join(",")}` : ""}`;
+const omurOzet = (l = []) => { const a = l.filter((x) => x.anlamli && !x.gecKabul); return { anlamli: a.length, ani: a.filter((x) => x.kesildi && (x.fadeMs ?? 0) < 80).length,
+  yumusak: a.filter((x) => x.kesildi && (x.fadeMs ?? 0) >= 80).length, calarken: a.filter((x) => x.yeniFaz?.ekran && x.yeniFaz.kalanMs > 150 && !x.kesildi).length,
+  kisaltilan: a.filter((x) => x.kisaltma).length }; };
 // Maç özeti: saniyelik kare hızı, durum çizelgesi (maç adresinden itibaren ms), sayım ve bekleme süreleri, ses çizelgesi
-function macOzeti({ o, ses, olay, ctx }, bitti) {
+function macOzeti({ o, ses, olay, ctx, omur }, bitti) {
   const t0 = o.macAdres ?? 0;
   const g = (t) => Math.round(t - t0);
   const kare = o.kare.filter(([t]) => t >= t0).map(([t, n, m]) => [g(t), n, m]);
@@ -299,6 +304,7 @@ function macOzeti({ o, ses, olay, ctx }, bitti) {
     ses: ses.map((x) => ({ t: g(x.t), rol: x.rol, sonuc: x.sonuc ?? "?", ...(x.basladi != null ? { gecikme: x.basladi - x.t, ctx: x.ctx } : {}), dosya: String(x.dosya ?? "").split("/").at(-1) })),
     ses_olay: olay.map((x) => ({ t: g(x.t), rol: x.rol, sonuc: x.sonuc })),
     audio_ctx: ctx.map(([t, d]) => [g(t), d]),
+    ses_omru: (omur ?? []).map((x) => omurSatir(x, t0)), ses_omru_ozet: omurOzet(omur ?? []),
   };
 }
 
@@ -312,6 +318,8 @@ function yazdir(kod, r) {
   const atlanan = r.ses.filter((x) => x.sonuc !== "calindi");
   console.log(`    ses: ${r.ses.length} istek · çalındı ${r.ses.length - atlanan.length} · çalınmadı ${atlanan.length}${atlanan.length ? ": " + atlanan.map((x) => `${x.rol}@${x.t} (${x.sonuc})`).join(", ") : ""}`);
   if (r.ses_olay.length) console.log(`    ses olayları: ${r.ses_olay.map((x) => `${x.rol}@${x.t} ${x.sonuc}`).join(", ")}`);
+  { const so = r.ses_omru_ozet; if (so) console.log(`    ses ömrü: anlamlı ${so.anlamli} · ANİ kesilen ${so.ani} · yumuşak biten ${so.yumusak} · çalarken yeni ekran (>150 ms) ${so.calarken} · pencereye kısaltılan ${so.kisaltilan}`);
+    for (const l of (r.ses_omru ?? []).filter((x) => /KESİLDİ|yeni ekran/.test(x))) console.log(`      ${l}`); }
   console.log(`    AudioContext: ${r.audio_ctx.map(([t, d]) => `${t} ${d}`).join(" → ") || "—"} · konsol hatası ${r.konsol.length}`);
 }
 
@@ -367,12 +375,36 @@ try {
         console.log(`  antrenman: açık bot ${bot.id} · kasa ${j.kasa_id}`);
         await s.goto(`${ADRES}/kasa/${j.kasa_id}`, { waitUntil: "commit" });
       } },
+      // 16 Eki 2026: Klasik ve Düello da AÇIK bota karşı (Meydan Oku › Antrenman ile aynı RPC'ler) — canlı duman testi, tek maç
+      klasik_antrenman: { yol: "/meydan", desen: /\/mac\/([0-9a-f-]{36})/, tablo: "matches", async tetik(s) {
+        if (this.basladi) return; this.basladi = true;
+        const id = await antrenmanRpc("hemen_bot_mac_sec", (bot) => ({ p_bot: bot, p_kategori: null, p_dereceli: false, p_jokersiz: false }), (j) => j);
+        await s.goto(`${ADRES}/mac/${id}`, { waitUntil: "commit" });
+      } },
+      duello_antrenman: { yol: "/meydan", desen: /\/duello\/([0-9a-f-]{36})/, tablo: "duellolar", async tetik(s) {
+        if (this.basladi) return; this.basladi = true;
+        const id = await antrenmanRpc("duello_davet_et", (bot) => ({ p_rakip: bot, p_dereceli: false }), (j) => j?.duello_id);
+        await s.goto(`${ADRES}/duello/${id}`, { waitUntil: "commit" });
+      } },
     };
+    // Açık bota maç kuran RPC (tarayıcı oturumunun jetonuyla — oyuncunun kendisi kurar, tek çağrı)
+    async function antrenmanRpc(ad, govde, kimlik) {
+      const E = {}; for (const d of [".env.local", ".env"]) { try { for (const x of fs.readFileSync(d, "utf8").matchAll(/^([A-Z_]+)=(.*)$/gm)) if (!(x[1] in E)) E[x[1]] = x[2].trim(); } catch { /* yok */ } }
+      const URL_ = E.SUPABASE_YENI_URL || E.VITE_SUPABASE_URL, ANON = E.VITE_SUPABASE_ANON_KEY;
+      const [bot] = await sorgu(`select id from profiles where is_bot and coalesce(bot_turu, 'acik') = 'acik' order by id limit 1`);
+      const tok = JSON.parse(jeton.value).access_token;
+      const r = await fetch(`${URL_}/rest/v1/rpc/${ad}`, { method: "POST", headers: { apikey: ANON, Authorization: `Bearer ${tok}`, "Content-Type": "application/json" }, body: JSON.stringify(govde(bot.id)) });
+      const j = await r.json().catch(() => null);
+      const id = kimlik(j);
+      if (!r.ok || !id) throw new Error(`${ad} → ${r.status} ${JSON.stringify(j).slice(0, 120)}`);
+      console.log(`  antrenman: açık bot ${bot.id} · ${ad} → ${id}`);
+      return id;
+    }
     const MODSEC = typeof ARG.mod === "string" ? ARG.mod.split(",") : null;
     const ETIKET = typeof ARG.etiket === "string" ? ARG.etiket : "olcum";
     const VIDEO = path.resolve(".tmp/yavas-mac", ETIKET);
     fs.mkdirSync(VIDEO, { recursive: true });
-    for (const [kod, m] of Object.entries(MAC).filter(([k]) => (MODSEC ? MODSEC.includes(k) : k !== "hazine_antrenman"))) {
+    for (const [kod, m] of Object.entries(MAC).filter(([k]) => (MODSEC ? MODSEC.includes(k) : !k.endsWith("_antrenman")))) {
       let id = null;
       const b = await baglamAc(tarayici, { video: VIDEO });
       const konsol = [];
@@ -419,7 +451,7 @@ try {
           },
         } : null;
         const bitti = await otoOyna(s, Number(ARG.sinir_sn ?? 480) * 1000, profil);
-        const t = await s.evaluate(() => ({ o: window.__olc, ses: window.__sesKayit ?? [], olay: window.__sesOlay ?? [], ctx: window.__sesCtx ?? [], akis: window.__akis ?? [] }));
+        const t = await s.evaluate(() => ({ o: window.__olc, ses: window.__sesKayit ?? [], olay: window.__sesOlay ?? [], ctx: window.__sesCtx ?? [], akis: window.__akis ?? [], omur: window.__sesOmur ?? [] }));
         // 16 Eki 2026: oyuncu uygulamadan çıkar gibi sayfa gizlenir → izleme kuyruğu (istemci hataları + akış kayıtları) gönderilir
         await s.evaluate(() => { Object.defineProperty(document, "visibilityState", { configurable: true, get: () => "hidden" }); document.dispatchEvent(new Event("visibilitychange")); }).catch(() => {});
         await s.waitForTimeout(3000);

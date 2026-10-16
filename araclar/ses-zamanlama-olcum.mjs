@@ -36,10 +36,16 @@ function durum(st) {
   };
 }
 
+// 16 Eki 2026 (docs/TEST-KAPSAMI.md › 4): ses.js ömür kaydı (window.__sesOmur) → her ses için tek satır
+const omurSatir = (x, t0 = 0) => `${x.anlamli ? "★" : " "} ${String(x.rol).padEnd(20)} istendi ${Math.round(x.istendi - t0)} · başladı +${Math.round(x.basladi - x.istendi)} ms · plan ${x.planMs}/${x.dosyaMs} ms${x.kisaltma ? ` (${x.kisaltma})` : ""} · çaldı ${x.calmaMs ?? "…"} ms · ${x.kesildi ? `KESİLDİ — ${x.kesen} (fade ${x.fadeMs ?? "?"} ms)` : "sonuna kadar"}${x.yeniFaz ? ` · çalarken yeni ${x.yeniFaz.ekran ? "ekran" : "faz (ekran aynı)"} ${x.yeniFaz.ad}, kalan ${x.yeniFaz.kalanMs} ms` : ""}${x.cakisan?.length ? ` · çakışan ${[...new Set(x.cakisan)].join(",")}` : ""}`;
+const omurOzet = (l = []) => { const a = l.filter((x) => x.anlamli && !x.gecKabul); return { anlamli: a.length, ani: a.filter((x) => x.kesildi && (x.fadeMs ?? 0) < 80).length,
+  yumusak: a.filter((x) => x.kesildi && (x.fadeMs ?? 0) >= 80).length, calarken: a.filter((x) => x.yeniFaz?.ekran && x.yeniFaz.kalanMs > 150 && !x.kesildi).length,
+  kisaltilan: a.filter((x) => x.kisaltma).length }; };
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
 const kok = new URL(ADRES).origin;
 const satirlar = [];
 const konsol = [];
+let omurListe = [];
 try {
   const durumDosya = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
   durumDosya.origins = (durumDosya.origins || []).map((o) => ({ ...o, origin: kok,
@@ -105,6 +111,10 @@ try {
     const o = await s.evaluate(() => { window.__gozlem.disconnect(); return { soru: window.__soruGeldi, ses: (window.__sesKayit || []).filter((x) => x.rol === "soru_geldi").map((x) => x.t) }; });
     satirlar.push({ an: "nötr soru", gecikme: L, fark: o.soru && o.ses[0] ? Math.round(o.ses[0] - o.soru) : null, sesSayisi: o.ses.length });
   }
+  // 16 Eki 2026: bütün koşunun ses ömrü (her ses: istendi, başladı, plan/gerçek süre, kesildi + kesen, yeni ekranda kalan, çakışan)
+  omurListe = await s.evaluate(() => window.__sesOmur ?? []).catch(() => []);
 } finally { await tarayici.close(); }
 console.table(satirlar);
+{ const so = omurOzet(omurListe); console.log(`ses ömrü: anlamlı ${so.anlamli} · ANİ kesilen ${so.ani} · yumuşak biten ${so.yumusak} · çalarken yeni ekran (>150 ms) ${so.calarken} · pencereye kısaltılan ${so.kisaltilan}`);
+  for (const x of omurListe) console.log("  " + omurSatir(x, omurListe[0]?.istendi ?? 0)); }
 console.log("konsol hatası:", konsol.length ? konsol : "yok");
