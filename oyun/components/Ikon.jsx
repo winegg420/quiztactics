@@ -52,7 +52,7 @@ const YOLLAR = {
     "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18M8 16.5c2.5-1.6 5.5-1.6 8 0M8 9l2.6 1.5M16 9l-2.6 1.5",
   havali:
     "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18M5 9.5h6v1.6a2 2 0 0 1-4 0zM13 9.5h6v1.6a2 2 0 0 1-4 0zM11 10.6h2M8.5 15.6c2 1.4 5 1.4 7 0",
-  // Mikrofon: kapsül + altında yay ve sap (maç içi sesli sohbet)
+  // Mikrofon: kapsül + altında yay ve sap (Görünüm › Dans)
   mikrofon:
     "M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3M19 11a7 7 0 0 1-14 0M12 18v3",
 

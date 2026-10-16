@@ -10,7 +10,7 @@ import "../tasarim/ekranlar/g-yasal.css";
 // Google Play zorunluluğu: mağaza kaydında gösterilecek gizlilik politikası.
 // Veri sorumlusu için şahıs/şirket unvanı ve adres henüz yok (Ida kararı bekliyor): "Quiz Tactics" + e-posta.
 // Veri akışı değişince (ör. olay kaydı/analitik, ödeme) bu metin AYRICA güncellenir.
-const GUNCELLEME = tt("15 Ekim 2026");
+const GUNCELLEME = tt("16 Ekim 2026");
 const ILETISIM = "info@quiztactics.com";
 
 export default function GizlilikPage() {
@@ -83,26 +83,6 @@ export default function GizlilikPage() {
         <li>{tt("Sana daha önce görmediğin soruları göstermek.")}</li>
         <li>{tt("Kötüye kullanımı (puan kasma, sahte hesap) tespit etmek.")}</li>
         <li>{tt("İzin verdiysen turnuva ve haftalık sonuç bildirimleri göndermek.")}</li>
-      </ul>
-
-      <h2>{tt("Sesli sohbet")}</h2>
-      <p>
-        {tt("1v1 maçlarda,")} <b>{tt("yalnızca arkadaş olduğun")}</b> {tt("bir oyuncuyla ve")}
-        <b> {tt("iki taraf da açıkça kabul ederse")}</b> {tt("sesli sohbet açılabilir. Kapalı gelir; sen başlatmadan mikrofonun açılmaz.")}
-      </p>
-      <ul>
-        <li>
-          <b>{tt("Konuşma kaydedilmez.")}</b> {tt("Ses doğrudan iki cihaz arasında gider (WebRTC); sunucularımızdan geçmez, saklanmaz, dinlenmez.")}
-        </li>
-        <li>
-          <b>{tt("IP adresi:")}</b> {tt("bu teknoloji doğrudan bağlantı kurduğu için, görüşme sırasında cihazlarınızın IP adresleri karşı tarafa görünebilir. Bu, sesli sohbetin yalnız arkadaşlarla açılmasının başlıca sebebidir.")}
-        </li>
-        <li>
-          {tt("Mikrofon izni tarayıcından istenir ve istediğin an geri alabilirsin. Görüşmeyi tek dokunuşla kapatabilir ya da mikrofonunu susturabilirsin.")}
-        </li>
-        <li>
-          {tt("Sesli sohbet tamamen isteğe bağlıdır; hiç kullanmadan da oyunun tamamını oynayabilirsin.")}
-        </li>
       </ul>
 
       <h2>{tt("Paylaşım")}</h2>

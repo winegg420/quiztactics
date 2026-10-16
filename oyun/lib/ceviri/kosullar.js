@@ -3,6 +3,8 @@
 // Gizlilik ile ortak anahtarlar (Kısaca, Son güncelleme: …) temel.js'te kalır.
 export default {
   "15 Ekim 2026": "15 October 2026",
+  "16 Ekim 2026": "16 October 2026",
+  "takma ad, avatar veya maç içi yazılı sohbette": "abusive nicknames, avatars or in-match text chat",
   "bilgi yarışması ücretsiz olarak sunulur ve reklam içermez. Oyun yalnızca yüklü uygulamada (Android uygulaması veya ana ekrana eklenen PWA) oynanır; quiztactics.com tanıtım, indirme ve yasal metinler sitesidir. Oyunu kullanarak bu koşulları kabul etmiş olursun. Kurallara uyduğun sürece hesabın senindir; hile, taciz veya kötüye kullanım durumunda hesabın kısıtlanabilir.":
     "is a quiz game that is free to play and contains no advertising. The game is played only in the installed app (the Android app or the PWA added to your home screen); quiztactics.com is the promotional, download and legal-information site. By using the game you accept these terms. As long as you follow the rules, your account is yours; it may be restricted in case of cheating, harassment or abuse.",
   "Bu koşullar, hizmeti sunan Quiz Tactics (bundan sonra \"biz\") ile hizmeti kullanan kişi (bundan sonra \"sen\") arasındaki sözleşmedir. Hizmet sağlayıcı bir şirket değil, Ida adlı gerçek kişidir; iletişim:":

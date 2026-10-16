@@ -47,7 +47,7 @@ LİG VE SEZON
 ARKADAŞLAR
 
 • Arkadaş ekle, davet koduyla çağır, meydan oku, rövanş iste.
-• Arkadaşlarınla mesajlaş; iki taraf da kabul ederse sesli sohbet (isteğe bağlı, varsayılan kapalı).
+• Arkadaşlarınla mesajlaş.
 • Rahatsız eden oyuncuyu engelle ya da şikâyet et.
 
 KİŞİSELLEŞTİRME
@@ -108,7 +108,7 @@ LEAGUES AND SEASONS
 FRIENDS
 
 • Add friends, invite them with a code, challenge them and ask for a rematch.
-• Message your friends; voice chat is available when both sides agree (optional, off by default).
+• Message your friends.
 • Block or report players who bother you.
 
 PERSONALISATION

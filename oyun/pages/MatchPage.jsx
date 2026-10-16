@@ -30,7 +30,6 @@ import { TepkiAvatar, TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
 import IsimEfekti from "../components/IsimEfekti.jsx";
 import { botAdi } from "../lib/botAdi.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
-import SesliSohbet from "../components/SesliSohbet.jsx";
 import { useOyunModu, useMacSonuGecisi } from "../lib/oyunModu.js";
 import { sonModuYaz } from "../lib/sonMod.js";
 import { soruCek } from "../lib/soruCek.js";
@@ -198,8 +197,6 @@ export default function MatchPage() {
   const macImzaRef = useRef(null);
   // Maç bitişinde sonuç ekranından önce 0.8 sn'lik "Maç bitti!" perdesi
   const [gecisBitti, setGecisBitti] = useState(false);
-  // Sesli sohbet arayüzünün çizileceği yuva (her ekran dalı kendi yuvasını verir)
-  const [sesYuva, setSesYuva] = useState(null);
   const balonTimer = useRef({});
 
   const balonGoster = useCallback((kimden, mesaj) => {
@@ -270,8 +267,7 @@ export default function MatchPage() {
     }
     // Yoklama 2 saniyede bir dönüyor. Gelen satır bir öncekiyle birebir
     // aynıysa state'e DOKUNMA: yeni nesne yazmak React'e "değişti" dedirtir
-    // ve maç ekranı boşuna baştan çizilir. Sesli sohbet (WebRTC) açıkken bu
-    // gereksiz çizim yükü hissedilir takılmaya dönüşüyordu.
+    // ve maç ekranı boşuna baştan çizilir.
     if (data) {
       const imza = JSON.stringify(data);
       if (imza !== macImzaRef.current) {
@@ -800,10 +796,6 @@ export default function MatchPage() {
 
   // A.3: maç sonu kazancı (lig puanı + coin) artık mac_sonu_ozet ile tek çağrıda gelir (mac_odulum çağrılmaz).
 
-  // SESLİ SOHBET TEK ÖRNEK (Paket 14, 5.1): maç bitince ekran başka bir dal
-  // çiziyordu; bileşen sökülüp görüşmeyi kapatıyordu. Artık bileşen her dalda
-  // aynı konumda (fragment'in 2. çocuğu) kalır, arayüzü yalnız dalın içindeki
-  // yuvaya (bd-ses-yuva) portal ile çizilir. Maç bitince 30 sn daha açık kalır.
   const ekran = (() => {
     if (!mac) {
       return (
@@ -1102,15 +1094,13 @@ export default function MatchPage() {
           <HesapGuvenceOnerisi kazandim={kazandim} />
           {/* MAÇ BİTTİ AMA OTURUM KAPANMAZ.
               Sayfa kendiliğinden kapanmıyor; oyuncular isterlerse burada kalıp
-              konuşmaya devam eder, çıkmaya kendileri karar verir. Sohbet ve
-              sesli sohbet bu yüzden sonuç ekranında da duruyor. */}
+              konuşmaya devam eder, çıkmaya kendileri karar verir. Sohbet bu
+              yüzden sonuç ekranında da duruyor. */}
           <p className="m1-ss-not">
             {rakipBot
               ? tt("Maç bitti ama oturum açık: istersen burada kalıp sohbet edebilirsin. Çıkmak sana kalmış.")
               : tt("Maç bitti ama oturum açık: istersen burada kalıp {0} ile konuşmaya devam edebilirsin. Çıkmak sana kalmış.", { 0: botAdi(rakipProfil?.gorunen_ad) ?? "" })}
           </p>
-
-          <div className="bd-ses-yuva" ref={setSesYuva} />
 
           {(balonlar[user.id] || balonlar[rakipProfil?.id]) && (
             <div className="m1-balonlar" aria-live="polite">
@@ -1352,10 +1342,7 @@ export default function MatchPage() {
           </div>
         )}
 
-        <div className="m1-alt">
-          {/* Sesli sohbet: yalnız arkadaş olan iki oyuncu aynı anda maçtayken çizilir. */}
-          <div className="bd-ses-yuva" ref={setSesYuva} />
-
+        <div className="m1-alt m1-alt--1v1">
           {/* 542: yeni tepki (emote) — açık modda eski emoji tepkilerinin yerine.
               NOT (B3, Ida): yeni tepki yalnız Antrenman'da; Klasik/Düello'ya açılınca aşağıdaki DB'ye yazan
               eski 6 emoji (TEPKILER → match_messages) kaldırılacak. O güne dek dokunulmaz. */}
@@ -1407,12 +1394,6 @@ export default function MatchPage() {
   return (
     <>
       {sonucEkrani ? ekran : <div className="qt-sahne-mac qt-sahne-gok m1-mac">{ekran}</div>}
-      <SesliSohbet
-        macId={id}
-        benimId={user.id}
-        yuva={sesYuva}
-        macBitti={mac?.durum === "bitti"}
-      />
     </>
   );
 }

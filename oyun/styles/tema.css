@@ -1314,15 +1314,6 @@ body.bd-ekle-acik .giris {
 body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom)); }
 
 /* ============================================================
-   MAÇ İÇİ SESLİ SOHBET (SesliSohbet.jsx)
-   Yazılı sohbet barının hemen üstünde, dar bir şerit. Soru ekranını
-   aşağı itmemeli — maç sırasında düzen kayması şıkka tıklamayı bozuyor.
-   ============================================================ */
-
-/* Bağlanıyor: sönük yanıp söner. Bağlı: canlı yeşil. */
-@keyframes bd-ses-yanip { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
-
-/* ============================================================
    FAZ 1 — CEVAP GERİ BİLDİRİMİ
    Cevaptan sonra ~1400 ms'lik pencere: renk, uçan puan, seri bandı,
    yanlışta sarsılma, sonraki sorunun soldan kayarak gelmesi.
@@ -2995,9 +2986,6 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   .bd-duello-hale, .bd-duello-rol, .bd-duello-hale.savunma.kritik::after { animation: none; }
   .bd-duello-hale::before, .bd-duello-hale::after { transition: none; }
 }
-/* Maç sonu sesli sohbet geri sayımı (Paket 14, 5.1) */
-.bd-ses-yuva:empty { display: none; }
-
 /* Paket 20 I.3 — maç sonu ödül dökümü (satır satır, sunucu kalemleri) */
 .app .bd-odul-satir {
   display: flex; align-items: baseline; justify-content: space-between; gap: 12px;

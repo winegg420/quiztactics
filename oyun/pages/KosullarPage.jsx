@@ -13,7 +13,7 @@ import "../tasarim/ekranlar/g-yasal.css";
 // Hizmet sağlayıcı: şahıs (Ida), şirket yok; kimlik/iletişim Gizlilik'teki
 // veri sorumlusu bilgisiyle aynıdır. Tam ad ve adres Ida'dan gelince burada
 // ve GizlilikPage.jsx'te birlikte eklenir.
-const GUNCELLEME = tt("15 Ekim 2026");
+const GUNCELLEME = tt("16 Ekim 2026");
 const ILETISIM = "info@quiztactics.com";
 
 export default function KosullarPage() {
@@ -69,11 +69,8 @@ export default function KosullarPage() {
           <b>{tt("Hile:")}</b> {tt("otomasyon/bot kullanmak, oyunu tersine mühendislikle değiştirmek, sunucuya sahte istek göndermek, puan veya sıralamayı hile ile etkilemek.")}
         </li>
         <li>
-          <b>{tt("Taciz:")}</b> {tt("takma ad, avatar, maç içi yazılı sohbet veya")}{" "}
-          <b>{tt("sesli sohbette")}</b> {tt("hakaret, nefret söylemi, tehdit, cinsel içerik veya spam.")}
-        </li>
-        <li>
-          <b>{tt("Sesli sohbette izinsiz kayıt:")}</b> {tt("karşı tarafın rızası olmadan görüşmeyi kaydetmek, yayınlamak veya başkalarına dinletmek yasaktır ve ayrıca hukuki sorumluluk doğurabilir.")}
+          <b>{tt("Taciz:")}</b> {tt("takma ad, avatar veya maç içi yazılı sohbette")}{" "}
+          {tt("hakaret, nefret söylemi, tehdit, cinsel içerik veya spam.")}
         </li>
         <li>{tt("Başkasının kimliğine bürünmek; yanıltıcı veya hakaret içeren takma ad ve avatar kullanmak.")}</li>
         <li>{tt("Başkasının hesabını izinsiz kullanmak; hesabını satmak, kiralamak veya devretmek.")}</li>
@@ -100,9 +97,6 @@ export default function KosullarPage() {
       <h2>{tt("5. Kullanıcı içeriği")}</h2>
       <p>
         {tt("Takma adın, avatar seçimin ve maç içi mesajların senin içeriğindir. Bunları hizmet içinde göstermemiz için bize sınırlı ve ücretsiz bir kullanım izni vermiş olursun. Kurallara aykırı içeriği bildirim üzerine veya kendiliğimizden kaldırabiliriz.")}
-      </p>
-      <p>
-        <b>{tt("Sesli sohbet bunun dışındadır:")}</b> {tt("ses doğrudan iki cihaz arasında gider, bize hiç ulaşmaz ve kaydedilmez. Bu yüzden sesli sohbet içeriğini göremez, denetleyemez ve şikâyet hâlinde inceleyemeyiz. Sesli sohbeti yalnız arkadaş olduğun ve güvendiğin kişilerle aç; rahatsız edilirsen görüşmeyi kapat ve kişiyi arkadaşlıktan çıkar.")}
       </p>
 
       <h2>{tt("6. Sanal öğeler, skiller ve satın almalar")}</h2>

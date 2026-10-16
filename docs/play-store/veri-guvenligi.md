@@ -39,9 +39,7 @@ veri aracısı yok. Bu yüzden aşağıdaki her satırda "Paylaşılıyor mu?" =
 ## Toplanmayanlar (bilerek "Hayır")
 
 - **Konum** (yaklaşık/kesin): Hayır — cihaz konumu okunmaz.
-- **Ses kayıtları:** Hayır — sesli sohbet iki cihaz arasında doğrudan (WebRTC, uçtan uca DTLS-SRTP
-  şifreli) gider; sunucudan geçmez, saklanmaz. Play'in "uçtan uca şifreli veri toplanmış sayılmaz"
-  istisnasına girer.
+- **Ses kayıtları:** Hayır — uygulama mikrofon kullanmaz (16 Eki 2026).
 - **Finansal bilgiler / Satın alma geçmişi:** şu an Hayır — gerçek parayla satın alma kapalı
   (`elmas_satin_alma_acik = 0`); coin oyun içi para birimidir. **Play Faturalandırma açılınca
   "Satın alma geçmişi = Evet, Uygulama işlevi" eklenir.**

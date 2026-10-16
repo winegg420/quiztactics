@@ -38,7 +38,7 @@
 | Uyuşturucu, alkol, tütün | **Hayır** | Soru metinleri genel kültür; özendirme yok |
 | Kumar — gerçek para | **Hayır** | |
 | Kumar simülasyonu / şans oyunu | **Hayır** | Ortak Hazine'de "AÇ / DEVAM" kararı bilgiye bağlı; bahis yok, gerçek para yok. Ödül sandığı/rastgele kutu **satılmıyor** |
-| Kullanıcılar birbiriyle etkileşebilir mi | **Evet** | Arkadaş mesajı, maç içi sohbet, sesli sohbet (iki taraf kabul ederse) |
+| Kullanıcılar birbiriyle etkileşebilir mi | **Evet** | Arkadaş mesajı, maç içi sohbet |
 | Kullanıcı tarafından oluşturulan içerik paylaşımı | **Evet** (sınırlı) | Takma ad, profil fotoğrafı, mesajlar; engelle + şikâyet + küfür filtresi var |
 | Konum paylaşımı | **Hayır** | Şehir/ülkeyi oyuncu seçer; cihaz konumu okunmaz |
 | Dijital satın alma | **Hayır** (bugün) | Elmas satın alma kapalı; açılınca anket yeniden doldurulur |
