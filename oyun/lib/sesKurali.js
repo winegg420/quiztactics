@@ -43,14 +43,15 @@ export const BINME_MS = 50;      // izin verilen en çok üst üste binme
  *   dogru       430 — Hazine sonuç: rakip yanlışsa 480 ms'de kısık can kaybı sesi
  *   yanlis      800 — Klasik geri bildirim → sonraki soru en dar ~850 ms (Hazine'de 480 ms'deki can kaybı sesi bu durumda çalmaz)
  *   sure_doldu  300 — Grup/Turnuva: herkes cevaplamışken süre dolunca yeni soru ~2 RTT sonra gelebilir
- *   joker/skill 600 — kendi jokerinden sonra cevap: okuma + dokunuş + RTT ≥ ~650 ms
+ *   joker/skill 350 — joker işaretinden (rakibin ya da kendi) sonra hızlı cevap + RTT ~400 ms'de sonuç ekranı getirebilir
+ *                     (Hazine taklit sunucu ölçümü, dalgalı ağ: rakip jokeri → sonuç 433 ms)
  *   kategori_secildi 250 — Düello açılış paneli → soru sesi en dar 300 ms (KATEGORI_SES_MIN_MS)
  *   rozet      2600 — Hazine giriş sahnesi (+1300 → soru 4000); AÇ ve DEVAM anı kendi kısa varyantlarını çalar (VARYANT_SINIR_MS)
  */
 export const SINIR_MS = {
   soru_geldi: 450, dogru: 430, yanlis: 800, sure_doldu: 300,
-  joker: 600, skill_elli: 600, skill_ek_sure: 600, skill_soru_degistir: 600, skill_zaman_baskisi: 600, skill_sigorta: 600,
-  skill_2x: 600, skill_ikinci_sans: 600, sis: 600,
+  joker: 350, skill_elli: 350, skill_ek_sure: 350, skill_soru_degistir: 350, skill_zaman_baskisi: 350, skill_sigorta: 350,
+  skill_2x: 350, skill_ikinci_sans: 350, sis: 420,
   rakip_cevapladi: 250, can_kaybi: 800, tur_gecis: 700, kategori_secildi: 250, sayim_son: 900, son_saniyeler: 700,
   rakip_bulundu: 2300, vs_ani: 2350, rozet: 2600, coin: 1000, xp_dolma: 1500,
   level: 3000, rutbe: 3000, kazandin: 3000, kaybettin: 3000, beraberlik: 3000, turnuva: 4000,

@@ -6,34 +6,36 @@
 export const DUZELTILMIS_ADAY = {
   "dogru-n1": "dogru-n1-f0351e252a.wav",
   "rozet-n1": "rozet-n1-df4f6419ca.wav",
-  "skill-n1": "skill-n1-2daf0199ba.wav",
+  "skill-n1": "skill-n1-257ab08d74.wav",
   "yanlis-n1": "yanlis-n1-1445b6e216.wav",
   "turnuva-n1": "turnuva-n1-169200f784.wav",
-  "skill_2x-n1": "skill_2x-n1-b25207edc5.wav",
+  "skill_2x-n1": "skill_2x-n1-4ce6cd4ef0.wav",
   "xp_dolma-n1": "xp_dolma-n1-df7e296a85.wav",
   "can_kaybi-n1": "can_kaybi-n1-121f0f06fb.wav",
   "galibiyet-n1": "galibiyet-n1-8d7e811f5e.wav",
   "beraberlik-n1": "beraberlik-n1-35b4891731.wav",
   "maglubiyet-n1": "maglubiyet-n1-a9eea9e11d.wav",
   "satin_alma-n1": "satin_alma-n1-9af1f9e622.wav",
-  "skill_elli-n1": "skill_elli-n1-e2566e77d3.wav",
-  "sure_doldu-n1": "sure_doldu-n1-1090625fa3.wav",
-  "skill_sigorta-n1": "skill_sigorta-n1-f2dd99e77a.wav",
-  "skill_ikinci_sans-n1": "skill_ikinci_sans-n1-16dd277b0a.wav",
-  "skill_soru_degistir-n1": "skill_soru_degistir-n1-55a4a01657.wav",
-  "skill_zaman_baskisi-n1": "skill_zaman_baskisi-n1-96bfcfb561.wav"
+  "skill_elli-n1": "skill_elli-n1-16f27fefb4.wav",
+  "sure_doldu-n1": "sure_doldu-n1-cb8ad61d50.wav",
+  "skill_ek_sure-n1": "skill_ek_sure-n1-4adfc5eed9.wav",
+  "skill_sigorta-n1": "skill_sigorta-n1-ba3f33b633.wav",
+  "skill_ikinci_sans-n1": "skill_ikinci_sans-n1-e7dab32cd8.wav",
+  "skill_soru_degistir-n1": "skill_soru_degistir-n1-2c3a167848.wav",
+  "skill_zaman_baskisi-n1": "skill_zaman_baskisi-n1-e3ba587ba9.wav"
 };
 /** Varsayılan dosya (seçim yok / "mevcut") → düzeltilmiş dosya (public/ses). */
 export const DUZELTILMIS_VARSAYILAN = {
+  "joker.mp3": "joker-d8380314a2.wav",
   "kaybettin.wav": "kaybettin-e71304cf40.wav",
   "soru_geldi.wav": "soru_geldi-1008d41ce0.wav",
   "tur_gecis.wav": "tur_gecis-1781d6f888.wav",
   "sayim_son.wav": "sayim_son-90d6b6bfd2.wav",
-  "skill_elli.wav": "skill_elli-e8a1ed13f6.wav",
-  "skill_ek_sure.wav": "skill_ek_sure-2f972448d8.wav",
-  "skill_soru_degistir.wav": "skill_soru_degistir-576e2a9435.wav",
-  "skill_2x.wav": "skill_2x-84ca00c179.wav",
-  "skill_ikinci_sans.wav": "skill_ikinci_sans-0752cea321.wav",
+  "skill_elli.wav": "skill_elli-f34034d224.wav",
+  "skill_ek_sure.wav": "skill_ek_sure-2f47cfa4f3.wav",
+  "skill_soru_degistir.wav": "skill_soru_degistir-552c3715fa.wav",
+  "skill_2x.wav": "skill_2x-76b55f6184.wav",
+  "skill_ikinci_sans.wav": "skill_ikinci_sans-a484ddc129.wav",
   "coin.wav": "coin-067c69fbfa.wav",
   "level.wav": "level-fd441b4bd8.wav",
   "turnuva.wav": "turnuva-3d80d74de6.wav",
@@ -45,8 +47,8 @@ export const DUZELTILMIS_VARSAYILAN = {
 /** Aday id'si → an varyantları (ör. Hazine AÇ / DEVAM anının kısa rozeti). */
 export const AN_VARYANT = {
   "rozet-n1": {
-    "ac": "rozet-n1-ac-e529e8b1c9.wav",
-    "devam": "rozet-n1-devam-8864fe3bed.wav"
+    "ac": "rozet-n1-ac-d86df4e393.wav",
+    "devam": "rozet-n1-devam-9e2f97d54f.wav"
   }
 };
 /** Üretimde kullanılan seçim (ses_secimleri_oyun, sürüm 501) — test bu seçimin her dosyasına bakar. */

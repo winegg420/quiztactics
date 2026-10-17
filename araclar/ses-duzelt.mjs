@@ -32,7 +32,11 @@ const VARSAYILAN = VARSAYILAN_DOSYA, HIZ = CALMA_HIZI;
 
 const anRol = Object.fromEntries(Object.entries(AN).map(([r, a]) => [a, r]));
 const isler = [];   // { anahtar, rol, varyant?, kaynak (yol), sinir }
-for (const [rol, dosya] of Object.entries(VARSAYILAN)) isler.push({ anahtar: dosya, tur: "varsayilan", rol, kaynak: path.join(SES, dosya) });
+// aynı varsayılan dosyayı birden çok rol çalabilir (joker.mp3: joker + sis 0,7×): TEK kopya, en dar sınırla (dosya ölçüsünde)
+const varsayilanGrup = new Map();
+for (const [rol, dosya] of Object.entries(VARSAYILAN)) (varsayilanGrup.get(dosya) ?? varsayilanGrup.set(dosya, []).get(dosya)).push(rol);
+for (const [dosya, roller] of varsayilanGrup) isler.push({ anahtar: dosya, tur: "varsayilan", rol: roller.join("+"), kaynak: path.join(SES, dosya),
+  sinirOzel: Math.min(...roller.map((rl) => (SINIR_MS[rl] ?? 3000) * (HIZ[rl] ?? 1))) });
 for (const [an, id] of Object.entries(SECIM.secimler ?? {})) {
   const rol = anRol[an];
   if (!rol || TIK_ROLLERI.has(rol) || !id || id === "mevcut" || id === "sessiz") continue;
@@ -47,7 +51,11 @@ function duzelt(r, sinir, hiz) {
   const islem = [];
   let x = r.ornek;
   const hedef = sinir * hiz - 15;   // dosya ölçüsünde (çalma hızı hesaba katılır), 15 ms ek pay
-  const sonuc = (y) => olc(y, r.oran);
+  // tepe kaynakla aynı — ölçü de eşitlenmiş hâlden (eşitleme kuyruğu yükseltip doğal süreyi uzatabilir)
+  let kaynakTepe = 0;
+  for (const v of x) kaynakTepe = Math.max(kaynakTepe, Math.abs(v));
+  const esitle = (y) => { let t = 0; for (const v of y) t = Math.max(t, Math.abs(v)); const k = t > 0 ? Math.min(kaynakTepe, 0.97) / t : 1; return Float32Array.from(y, (v) => v * k); };
+  const sonuc = (y) => olc(esitle(y), r.oran);
   // kesikse: darbeli seste son periyot tamamlanır, sürekli seste doğal (freeze) kuyruk
   // sonumMs: freeze kuyruğunun en uzun 60 dB inişi (sığmayan seste kısalır — elektronik vızıltı/zil kendi bırakışıyla ~150 ms'de söner)
   const kuyrukla = (y, sonumMs = 380) => { const m = sonuc(y); if (!m.kesik) return y; const d = donguyuTamamla(y, r.oran); return d && !sonuc(d).kesik ? d : dogalKuyruk(y, r.oran, { enUzunSonumMs: sonumMs }).ornek; };
@@ -70,12 +78,8 @@ function duzelt(r, sinir, hiz) {
     y = en.yy; m = en.mm;
   }
   if (r.kesik) islem.push(donguyuTamamla(x, r.oran) && !sonuc(donguyuTamamla(x, r.oran)).kesik ? "son vuruş periyodu tamamlandı (kaynak kesik)" : "doğal kuyruk (kaynak kesik)");
-  // tepe kaynakla aynı
-  let tepe = 0, kaynakTepe = 0;
-  for (const v of y) tepe = Math.max(tepe, Math.abs(v));
-  for (const v of x) kaynakTepe = Math.max(kaynakTepe, Math.abs(v));
-  if (tepe > 0) { const k = Math.min(kaynakTepe, 0.97) / tepe; for (let i = 0; i < y.length; i++) y[i] *= k; }
-  return { ornek: y, olcu: sonuc(y), islem };
+  y = esitle(y);
+  return { ornek: y, olcu: olc(y, r.oran), islem };
 }
 
 const eskiHarita = fs.existsSync(CIKTI_JS) ? fs.readFileSync(CIKTI_JS, "utf8") : "";

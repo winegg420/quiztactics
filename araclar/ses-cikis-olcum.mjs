@@ -70,7 +70,7 @@ function senaryo(ad, tohum = 7) {
   const r = rastgele(tohum);
   const P = { ad, rtt: () => 150, gec: () => 0, jokerCevap: () => 700, payO: () => 1, sekme: false };
   if (ad === "gec_veri") Object.assign(P, { gec: () => 600, payO: () => 0.78, jokerCevap: () => 650 });
-  if (ad === "dalgali") Object.assign(P, { rtt: () => rnd(60, 1400, r), gec: () => rnd(0, 1400, r), jokerCevap: () => rnd(600, 1400, r), payO: () => rnd(0.78, 1, r) });
+  if (ad === "dalgali") Object.assign(P, { rtt: () => rnd(60, 1400, r), gec: () => rnd(0, 1400, r), jokerCevap: () => rnd(350, 1400, r), payO: () => rnd(0.78, 1, r) });
   if (ad === "yavas_sunucu") Object.assign(P, { rtt: () => rnd(1700, 4200, r), gec: () => rnd(300, 1500, r), payO: () => 0.78 });
   if (ad === "sekme") P.sekme = true;
   return P;

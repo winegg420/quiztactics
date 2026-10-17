@@ -123,7 +123,10 @@ export function cikisOlc(zincir, ekranlar, t0, kayit = []) {
   for (const s of anlamli) {
     s.kesildi = s.kesilenMs > 30;
     // ses bitmeden ekran geçti: ses başladıktan sonra gelen ilk yeni ekran, sinyal -45 dB'ye inmeden > 50 ms önce
-    const e = ekranlar.find((x) => x.t > s.bas + 5 && x.t < s.gercekSon);
+    // soru sesi yeni sorunun (görünür olduğu ekranın) sesidir: o ekranın DOM'da birkaç ms geç görülen kendi değişimi (ör. Hazine
+    // giriş sahnesinin kalkışı) "sonraki ekran" sayılmaz
+    const kendi = (x) => s.rol === "soru_geldi" && x.t - s.bas < 300;
+    const e = ekranlar.find((x) => x.t > s.bas + 5 && x.t < s.gercekSon && !kendi(x));
     s.ekranGecti = e && s.gercekSon - e.t > 50 ? { ad: e.ad, kalanMs: Math.round(s.gercekSon - e.t) } : null;
     const sonrakiEkran = ekranlar.find((x) => x.t > s.bas + 5);
     const sonrakiSes = anlamli.filter((o) => o !== s && o.bas > s.bas + 5).sort((a, b) => a.bas - b.bas)[0];
