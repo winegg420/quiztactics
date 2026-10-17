@@ -176,6 +176,10 @@ push'ta sessizce silinir; 13 Eyl'de tam olarak bu oldu.
   PROJECT_CONTEXT › Ortak mekanik.
 - **Yeni paket kurma.** Tailwind, Framer Motion, styled-components ve
   benzeri yasak. Mevcut yapı: düz CSS + CSS değişkenleri.
+- **Bot paritesi (Ida, 17 Eki 2026):** yeni mod ya da modun yeni özelliği (joker/skill, tepki, karar) eklenirken botlar öteki
+  modlardaki botlarla aynı insan gibi davranış kontrolünden geçer: joker/skill kullanır (insanla AYNI kural fonksiyonundan,
+  ayarlanabilir yüzdeyle), cevap süresi insan gibi değişkendir, yanlış yapar (`bot_soru_isabet`), tepki atar; moda özgü
+  kararları da verir. Eksik bırakılırsa raporda açıkça yazılır. Son denetim: `docs/raporlar/RAPOR-bot-joker.md`.
 - Git/teknik terim kullanırken kısa bir sadeleştirme ekle
   (ör. "rebase yaptım (commit'ini güncel hale getirdim)").
 
