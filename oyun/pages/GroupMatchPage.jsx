@@ -4,7 +4,8 @@ import { beklemeJokerUstunde } from "../lib/beklemeKonum.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import "../tasarim/ekranlar/m1-sonuc.css";
 import MacUstSerit from "../components/MacUstSerit.jsx";
-import { TEPKILER, tepkiTanimi } from "../lib/grupTepkileri.js";
+import { tepkiTanimi } from "../lib/grupTepkileri.js";
+import { TepkiAvatar, TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
 import SenRozeti from "../components/SenRozeti.jsx";
 import YanlisSatiri from "../components/YanlisSatiri.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
@@ -45,7 +46,7 @@ const GRUP_SECIMI = `*,
   katilimcilar:group_match_players(group_match_id, user_id, davet_durumu, skor, joined_at, hazir, terk_at,
     profil:profiles(id, gorunen_ad, gorunen_avatar, gorunum))`;
 
-// Tepkiler artık yerel Noto görselleri (bkz. lib/grupTepkileri.js). Sunucuya giden metin aynı.
+// Sohbette saklı eski emoji mesajları (bkz. lib/grupTepkileri.js) ikonla çizilir; yeni tepkiler components/Tepki.jsx'ten gelir.
 // Balonda gösterim: mesaj bir tepki emojisiyse ikonu, değilse metni çiz.
 function balonIcerik(mesaj) {
   const tepki = tepkiTanimi(mesaj);
@@ -107,6 +108,7 @@ export default function GroupMatchPage() {
     return () => akisMacBitir(id);
   }, [akisAcik, id]);
   const balonTimer = useRef({});
+  const tepkiAlRef = useRef(null);   // kanal kurulumu tepki alıcısını ref'ten çağırır
 
   const balonGoster = useCallback((kimden, mesaj) => {
     setBalonlar((b) => ({ ...b, [kimden]: mesaj }));
@@ -126,6 +128,15 @@ export default function GroupMatchPage() {
     const { error } = await supabase.rpc("send_group_match_message", { p_group_match_id: id, p_mesaj: mesaj });
     if (error) console.error("[Bildim] mesaj gönderilemedi:", error.message);
   };
+
+  // Maç içi tepki (1120): Grup da 4 bedava tepkiyi kullanır — 3 sn'de 1, maçta 10, DB'ye yazılmaz. Sunucunun özel tepki
+  // kanalı 1v1 içindir; Grup sayfanın maç kanalından yollar (yerel). Rakipler = maçtaki öteki oyuncular.
+  const tepki = useMacTepki({
+    macTur: "grup", macId: id, benId: user?.id, yerel: true,
+    rakipId: (mac?.katilimcilar ?? []).filter((k) => k.user_id !== user?.id).map((k) => k.user_id),
+    kanal: () => kanalRef.current, etkin: Boolean(mac && mac.durum === "aktif"),
+  });
+  tepkiAlRef.current = tepki.al;
 
   useEffect(() => {
     supabase
@@ -204,6 +215,8 @@ export default function GroupMatchPage() {
         { event: "INSERT", schema: "public", table: "group_match_messages", filter: `group_match_id=eq.${id}` },
         (payload) => balonGoster(payload.new.user_id, payload.new.mesaj)
       )
+      // Maç içi tepki: rakibin tepkisi (alıcı sınırı ve gizleme useMacTepki'de)
+      .on("broadcast", { event: "tepki" }, (m) => { try { tepkiAlRef.current?.(m?.payload); } catch { /* tepki maçı bozmaz */ } })
       // Kanal ölürse sessizce kalmasın: Realtime kopmasi (ag dalgalanmasi,
       // uyku, arka plan) CHANNEL_ERROR/TIMED_OUT/CLOSED olarak bildirilir.
       // Yoklama zaten veriyi getiriyor ama kanal geri kurulmazsa anlık
@@ -462,10 +475,8 @@ export default function GroupMatchPage() {
   // Tepki şeridi (maç içi ve maç sonu aynı): tepkiler + hazır cümleler.
   const tepkiSeridi = (
     <>
-      <div className="m1-tepki" role="group" aria-label={tt("Tepkiler")}>
-        {TEPKILER.map((t) => (
-          <QtIkonDugme key={t.deger} ikon={t.ad} etiket={t.etiket} onClick={() => mesajGonder(t.deger)} />
-        ))}
+      <TepkiCubugu tepki={tepki} className="m1-tepki-yeni" />
+      <div className="m1-tepki">
         <QtIkonDugme
           ikon="sohbet"
           etiket={tt("Hazır cümleler")}
@@ -760,7 +771,9 @@ export default function GroupMatchPage() {
         {siraliSkor.map((k, i) => (
           <div key={k.user_id} role="listitem" className={`m1-grup-satir${k.user_id === user.id ? " m1-grup-satir--sen" : ""}`}>
             <span className="m1-grup-sira" aria-hidden="true">{i + 1}</span>
-            <AvatarCerceve profile={k.profil} boyut={30} userId={k.user_id} />
+            <TepkiAvatar balon={tepki.balonlar[k.user_id]} yan={k.user_id === user.id ? "sen" : "rakip"}>
+              <AvatarCerceve profile={k.profil} boyut={30} userId={k.user_id} />
+            </TepkiAvatar>
             {/* Ajan C: ada dokununca oyuncu kartı (düğme satırda adın yerini alır: esnek) */}
             <OyuncuAdiDugmesi userId={k.user_id} profil={k.profil} className="m1-grup-ad" dugmeSinifi="ls-ad-dugme--esnek">{adKisalt(k.profil?.gorunen_ad)}{k.user_id === user.id && <SenRozeti ad={k.profil?.gorunen_ad} />}</OyuncuAdiDugmesi>
             {balonlar[k.user_id] && (

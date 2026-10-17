@@ -410,6 +410,10 @@
 .m1-grup-ad { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--qt-a-siyah); }
 .m1-grup-puan { font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); }
 .m1-grup-balon { position: absolute; right: 56px; top: 50%; translate: 0 -50%; max-width: 50%; z-index: 1; }
+/* Maç içi tepki balonu: kaydırmalı şerit dikeyde kırptığı için avatarın ÜSTÜNDE ortalı (küçük) durur */
+.m1-grup-satir .qt-tepki-balon { top: 50%; right: auto; left: 50%; translate: -50% -50%; width: 32px; height: 32px; }
+.m1-grup-satir .qt-tepki-balon::after { display: none; }
+.m1-grup-satir .qt-tepki-balon img { width: 24px; height: 24px; }
 
 /* Oyun modunda (alt menü gizli) sahne ekranın altına kadar iner */
 body.bd-oyun-modu .m1-mac { min-height: 100dvh; }

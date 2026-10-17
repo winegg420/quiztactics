@@ -1,5 +1,5 @@
 // ============================================================
-// MAÇ İÇİ TEPKİ (emote, 542) — Klasik · Düello · Antrenman
+// MAÇ İÇİ TEPKİ (emote, 542) — Klasik · Saf Bilgi · Düello · Hazine · Grup · açık bot maçı
 //
 // Yayın: sayfanın MEVCUT maç kanalı (Klasik `mac-<id>`, Düello `duello-<id>`) — sayfa kanala
 //   .on("broadcast", { event: "tepki" }, (m) => tepki.al(m.payload)) ekler, gönderim tepki.gonder(k).
@@ -18,13 +18,14 @@
 //   Oyun kanalına dokunulmaz — özel kanal bağlanamazsa yalnız tepki susar, maç etkilenmez.
 // 1120 (Ida, 17 Eki 2026): tepki bütün gerçek maç modlarında açık — Klasik, Saf Bilgi, Düello (v2 + v4),
 //   Ortak Hazine ve açık bot maçı. Veritabanına yazan eski 6 emoji (match_messages, bot_oyna/submit_match_answer
-//   eski kolu) kalktı; Grup Maçı sohbet tepkileri lib/grupTepkileri.js'te ayrı durur.
+//   eski kolu) kalktı. Grup Maçı da aynı 4 bedava tepkiyi kullanır (yerel=true, aşağıya bakın); sohbetteki eski
+//   emoji mesajlarını yalnız GÖSTERMEK için lib/grupTepkileri.js kalır.
 //   Tepki SESSİZDİR: balon yalnız görsel — maç seslerinin üstüne binmez (ses bitiş kuralı).
 //   Tepki asla soru akışını/süreyi beklemez: gönderim ateşle-unut, hata yutulur; alım try içinde.
 // ============================================================
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
-import { TEPKI_TANIMLARI, tepkiBilinen, tepkiDurumu, tepkiGorseli, useTepkiGizli } from "../lib/kozmetik.js";
+import { TEPKI_BEDAVA, TEPKI_TANIMLARI, tepkiBilinen, tepkiDurumu, tepkiGorseli, useTepkiGizli } from "../lib/kozmetik.js";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/kozmetik.css";
 
@@ -33,10 +34,12 @@ const rastgeleKimlik = () => {
 };
 
 /**
- * @param {{ macTur:"klasik"|"duello", macId:string, benId:string, rakipId:string|null,
- *           kanal:() => any, etkin?:boolean }} p   etkin=false → okuma yapılmaz (ör. maç bitti)
+ * @param {{ macTur:"klasik"|"duello", macId:string, benId:string, rakipId:string|string[]|null,
+ *           kanal:() => any, etkin?:boolean, yerel?:boolean }} p   etkin=false → okuma yapılmaz (ör. maç bitti)
+ *   rakipId dizi olabilir (Grup: birden çok rakip). yerel=true (Grup Maçı) → tepki_durumu çağrılmaz: sunucunun özel
+ *   tepki kanalı yalnız 1v1 içindir; Grup 4 bedava tepkiyi, aynı 3 sn / 10 sınırıyla, sayfanın maç kanalından yollar.
  */
-export function useMacTepki({ macTur, macId, benId, rakipId, kanal, etkin = true }) {
+export function useMacTepki({ macTur, macId, benId, rakipId, kanal, etkin = true, yerel = false }) {
   const [durum, setDurum] = useState(null);            // tepki_durumu yanıtı
   const [balonlar, setBalonlar] = useState({});        // { [userId]: { k, n } }
   const [bekle, setBekle] = useState(false);           // gönderim aralığı dolmadı
@@ -58,9 +61,13 @@ export function useMacTepki({ macTur, macId, benId, rakipId, kanal, etkin = true
   useEffect(() => {
     if (!etkin || !macId || !benId) return undefined;
     let aktif = true;
+    if (yerel) {
+      setDurum({ acik: true, mod: macTur, tepkiler: TEPKI_BEDAVA, aralik_sn: 3, mac_max: 10, balon_ms: 2000 });
+      return undefined;
+    }
     tepkiDurumu(macTur, macId).then((d) => { if (aktif) setDurum(d ?? { acik: false }); });
     return () => { aktif = false; };
-  }, [etkin, macTur, macId, benId]);
+  }, [etkin, macTur, macId, benId, yerel]);
 
   useEffect(() => () => { Object.values(zamanlar.current).forEach(clearTimeout); }, []);
 
@@ -82,7 +89,7 @@ export function useMacTepki({ macTur, macId, benId, rakipId, kanal, etkin = true
     if (!d?.acik || !yuk) return;
     const kim = String(yuk.u ?? "");
     const k = yuk.k;
-    if (!kim || kim !== String(rakipRef.current ?? "") || !tepkiBilinen(k)) return;
+    if (!kim || !tepkiBilinen(k) || ![].concat(rakipRef.current ?? []).some((r) => String(r) === kim)) return;
     const simdi = Date.now();
     const a = alinan.current[kim] ?? { son: 0, sayi: 0 };
     const aralik = Math.max(1, Number(d.aralik_sn ?? 3)) * 1000;
