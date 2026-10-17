@@ -6,8 +6,8 @@
 .tn-qr-gecis span { font-weight: 800; }
 .tn-qr-gecis small { display: block; margin-top: 4px; font-weight: 600; font-size: 13px; line-height: 1.4; color: var(--tn-soluk); }
 .tn .tn-etiket { color: #ffd269; text-transform: uppercase; letter-spacing: .12em; font-size: 13px; font-weight: 900; margin: 0 0 12px; }
-.tn-taktik-izgara { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
-.tn-taktik-kart { display: grid; grid-template-columns: minmax(0, 1fr) 142px; align-items: center; gap: 20px; padding: 28px; border: 1px solid #526399; border-radius: 28px; background: linear-gradient(135deg, #202d62, #171c46); }
+.tn-taktik-izgara { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.tn-taktik-kart { display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; gap: 20px; padding: 28px; border: 1px solid #526399; border-radius: 28px; background: linear-gradient(135deg, #202d62, #171c46); }
 .tn-taktik-kart--kasa { border-color: #937541; background: linear-gradient(135deg, #39304e, #231c40); }
 .tn-taktik-metin { min-width: 0; }
 .tn-taktik-sekil { display: block; width: 100px; height: 60px; color: #9ecfff; margin-bottom: 20px; }
@@ -22,11 +22,7 @@
 .tn-adimlar li { border-top: 1px solid #586397; padding-top: 20px; }
 .tn-adim-no { color: #ffd269; font-family: var(--qt-f-baslik); font-weight: 800; font-size: 32px; }
 .tn-adimlar h3 { margin: 10px 0 8px; font-size: 20px; }
-.tn-adimlar p, .tn-diger-serit p { margin: 0; color: var(--tn-soluk); font-size: 16px; line-height: 1.5; }
-.tn .tn-diger .tn-h2 { font-size: clamp(25px, 3vw, 34px); }
-.tn-diger-serit { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; margin: 24px 0 0; padding: 24px; gap: 24px; background: #1b2057; border: 1px solid #49558c; border-radius: 20px; }
-.tn-diger-serit h3 { font-size: 20px; margin: 0 0 8px; }
-.tn-diger-serit li + li { border-left: 1px solid #49558c; padding-left: 24px; }
+.tn-adimlar p { margin: 0; color: var(--tn-soluk); font-size: 16px; line-height: 1.5; }
 .tn :is(a, button):focus-visible { outline: 3px solid #ffd269; outline-offset: 5px; }
 @media (max-width: 1000px) { .tn-taktik-kart { padding: 22px; grid-template-columns: minmax(0, 1fr); } .tn-taktik-kart .tn-telefon { --tn-tel: 160px; justify-self: center; } }
 @media (max-width: 650px) {
@@ -37,20 +33,16 @@
   .tn-taktik-kart p { font-size: 15px; }
   .tn-taktik-sekil { width: 80px; height: 48px; }
   .tn-adimlar { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 18px; }
-  .tn-diger-serit { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  .tn-diger-serit li + li { border-left: 0; padding-left: 0; padding-top: 18px; border-top: 1px solid #49558c; }
 }
 @media (max-width: 370px) { .tn-taktik-kart { grid-template-columns: minmax(0, 1fr); } }
 
 /* Ana rekabet: turnuva ve sıralamalar kozmetik ödüllerden önce gelir. */
-.tn-rekabet-izgara { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .tn-rekabet-kart { display: flex; align-items: center; gap: 24px; padding: 28px; background: #202d62; border: 1px solid #526399; border-radius: 28px; }
 .tn-rekabet-kart .tn-telefon { --tn-tel: 130px; flex-shrink: 0; }
 .tn-rekabet-kart h3, .tn-sampiyon-vurgu h3 { font-family: var(--qt-f-baslik); font-size: 28px; line-height: 1.2; margin: 0 0 14px; }
 .tn-rekabet-kart p, .tn-sampiyon-vurgu p { color: #d8dff9; line-height: 1.6; margin: 0; }
 .tn-sampiyon-vurgu { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 32px; margin-top: 24px; padding: 32px; background: #39304e; border: 1px solid #937541; border-radius: 28px; }
 .tn-sampiyon-vurgu img { width: 100%; height: auto; border-radius: 14px; }
-@media (max-width: 1000px) { .tn-rekabet-izgara { grid-template-columns: 1fr; } }
 @media (max-width: 650px) {
   .tn-rekabet-kart { padding: 22px 18px; gap: 18px; }
   .tn-rekabet-kart .tn-telefon { --tn-tel: 100px; }
@@ -62,3 +54,12 @@
   .tn-one .tn-izgara { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .tn-one .tn-parca { grid-column: auto; }
 }
+
+.tn-taktik-kart .tn-telefon { justify-self: center; }
+.tn-rekabet .tn-h2 { font-size: clamp(28px, 3vw, 40px); margin-bottom: 18px; }
+.tn-rekabet-kart .tn-telefon { --tn-tel: 170px; }
+.tn .tn-seans { margin-top: 20px; color: #ffd269; font-weight: 800; }
+.tn-puan-adimlari { padding-left: 22px; color: #d8dff9; line-height: 1.6; margin-bottom: 0; }
+.tn-puan-adimlari li + li { margin-top: 12px; }
+.tn-alt-baglantilar a, .tn-dil button { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+@media (max-width: 650px) { .tn-rekabet-kart { flex-direction: column; align-items: stretch; } .tn-rekabet-kart .tn-telefon { align-self: center; --tn-tel: 140px; } }

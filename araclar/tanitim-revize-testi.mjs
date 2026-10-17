@@ -3,13 +3,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
 const etap=process.argv[2]||'sonra';
-const cikti=path.resolve('.tmp/site-revize');fs.mkdirSync(cikti,{recursive:true});
+const cikti=path.resolve('tasarim/gorsel-17eki-duzen');fs.mkdirSync(cikti,{recursive:true});
 const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.webp':'image/webp','.png':'image/png','.woff2':'font/woff2','.webmanifest':'application/manifest+json'};
 const dist=path.resolve('dist');const server=http.createServer((q,s)=>{let file=path.resolve(dist,'.'+decodeURIComponent(new URL(q.url,'http://x').pathname));if(file!==dist&&!file.startsWith(dist+path.sep)){s.writeHead(403);s.end();return;}if(!fs.existsSync(file)||fs.statSync(file).isDirectory()){if(path.extname(file)){s.writeHead(404);s.end();return;}file=path.join(dist,'index.html');}s.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream'});fs.createReadStream(file).pipe(s);});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin=`http://qt.test:${server.address().port}`;
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--host-resolver-rules=MAP qt.test 127.0.0.1']});
 const results=[];
-try{for(const dil of ['tr','en'])for(const w of [390,1440]){const ctx=await browser.newContext({viewport:{width:w,height:w===390?844:900},serviceWorkers:'block',reducedMotion:'reduce'});const blocked=[];await ctx.route('**/*',r=>{const u=new URL(r.request().url());return u.origin===origin?r.continue():(blocked.push(u.origin),r.abort());});await ctx.addInitScript(d=>{localStorage.setItem('bildim_dil',d);},dil);const pg=await ctx.newPage();const errors=[],bad=[];pg.on('pageerror',e=>errors.push(e.message));pg.on('response',r=>{if(r.status()>=400)bad.push([r.status(),r.url()]);});await pg.goto(origin,{waitUntil:'networkidle'});await pg.locator('.tn').waitFor();await pg.evaluate(()=>document.fonts.ready);
+try{for(const dil of ['tr','en'])for(const w of [360,390,1440]){const ctx=await browser.newContext({viewport:{width:w,height:w===360?640:w===390?844:900},serviceWorkers:'block',reducedMotion:'reduce'});const blocked=[];await ctx.route('**/*',r=>{const u=new URL(r.request().url());return u.origin===origin?r.continue():(blocked.push(u.origin),u.origin==='https://offline.invalid'?r.fulfill({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:'[]'}):r.abort());});await ctx.addInitScript(d=>{localStorage.setItem('bildim_dil',d);},dil);const pg=await ctx.newPage();const errors=[],bad=[];pg.on('pageerror',e=>errors.push(e.message));pg.on('console',m=>{if(m.type()==='error')errors.push(m.text());});pg.on('response',r=>{if(r.status()>=400)bad.push([r.status(),r.url()]);});await pg.goto(origin,{waitUntil:'networkidle'});await pg.locator('.tn').waitFor();await pg.evaluate(()=>document.fonts.ready);
 // Klavyeyle ilk denetime ulaşıldığında görünür odak halkası olmalı.
 await pg.keyboard.press('Tab');
 const focus = await pg.evaluate(() => { const e=document.activeElement,s=getComputedStyle(e); return { tag:e.tagName, visible:e.matches(':focus-visible') && s.outlineStyle!=='none' && parseFloat(s.outlineWidth)>=2 }; });
@@ -19,6 +19,21 @@ const language = await pg.locator('h1').innerText();
 await pg.locator('.tn').waitFor();await pg.evaluate(()=>document.fonts.ready);
 await pg.evaluate(async()=>{for(let y=0;y<document.body.scrollHeight;y+=600){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,40));}window.scrollTo(0,0);});await pg.waitForTimeout(300);
 const file=`${etap}-${w}-${dil}.png`;await pg.screenshot({path:path.join(cikti,file),fullPage:true});
+const duzen = await pg.evaluate(() => {
+  const rect=e=>e.getBoundingClientRect();
+  const sections=[...document.querySelectorAll('.tn main > section')];
+  const order=sections.map(e=>e.getAttribute('aria-labelledby'));
+  const expected=['tn-baslik','tn-modlar-baslik','tn-turnuva-baslik','tn-lig-baslik','tn-sampiyon-baslik','tn-akis-baslik','tn-one-baslik','tn-kur-baslik'];
+  const targets=[...document.querySelectorAll('.tn button,.tn a[href]')].filter(e=>rect(e).width&&rect(e).height);
+  const small=targets.filter(e=>rect(e).width<43.9||rect(e).height<43.9).map(e=>({text:e.textContent,width:rect(e).width,height:rect(e).height}));
+  const cards=[...document.querySelectorAll('.tn article')];
+  const overlaps=[];for(let i=0;i<cards.length;i++)for(let j=i+1;j<cards.length;j++){const a=rect(cards[i]),b=rect(cards[j]);if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>1&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>1)overlaps.push([i,j]);}
+  const clipped=cards.filter(e=>e.scrollWidth>e.clientWidth+1||e.scrollHeight>e.clientHeight+1).map(e=>e.className);
+  const textOverflow=[...document.querySelectorAll('.tn h1,.tn h2,.tn h3,.tn p,.tn li')].filter(e=>e.scrollWidth>e.clientWidth+1).map(e=>e.textContent);
+  const headings=[...document.querySelectorAll('.tn h1,.tn h2')].map(e=>({tag:e.tagName,id:e.id,text:e.textContent}));
+  const modesY=rect(document.getElementById('tn-modlar-baslik')).top+scrollY;
+  return {order,orderOk:JSON.stringify(order)===JSON.stringify(expected),small,overlaps,clipped,textOverflow,headings,modesY,hierarchy:headings.length===8&&headings[0].tag==='H1'&&headings.slice(1).every(e=>e.tag==='H2')};
+});
 const layout=await pg.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,brokenImages:[...document.querySelectorAll('.tn img')].filter(e=>!e.complete||e.naturalWidth===0).map(e=>e.src),headings:[...document.querySelectorAll('.tn h1,.tn h2')].map(e=>e.textContent)}));
 await pg.locator('.tn-kur-dugme').click();await pg.waitForTimeout(100);const cta=await pg.locator('#tn-kur-baslik').evaluate(e=>document.activeElement===e);
 const qr=pg.locator('.tn a:has(img[src="/quiztactics-qr.svg"])');let qrClick=null;if(await qr.count()){await qr.first().click();qrClick=new URL(pg.url()).hash==='#tn-kur';}
@@ -32,8 +47,8 @@ for (const route of ['/gizlilik','/kosullar','/hesap-sil']) {
   const headings=await pg.locator('h1,h2').allTextContents();
   legal.push({route,headings,ok:headings.length>0 && await pg.locator('.tn').count()===0});
 }
-results.push({focus,language,legal,dil,w,file,layout,cta,qrClick,links:linkResults,hit,errors,bad,blocked:[...new Set(blocked)]});await ctx.close();}
+results.push({duzen,focus,language,legal,dil,w,file,layout,cta,qrClick,links:linkResults,hit,errors,bad,blocked:[...new Set(blocked)]});await ctx.close();}
 }finally{await browser.close();await new Promise(r=>server.close(r));}
-fs.writeFileSync(path.join(cikti,`${etap}.json`),JSON.stringify(results,null,2));console.log(JSON.stringify(results.map(r=>({dil:r.dil,w:r.w,overflow:r.layout.scroll-r.layout.width,images:r.layout.brokenImages,cta:r.cta,qr:r.qrClick,links:r.links,hitErrors:r.hit.filter(x=>!x.ok),errors:r.errors,bad:r.bad})),null,2));if(results.some(r=>!r.focus.visible||r.legal.some(x=>!x.ok)||(etap==='sonra'&&!r.qrClick)||r.layout.scroll>r.layout.width||r.layout.brokenImages.length||!r.cta||r.hit.some(x=>!x.ok)||r.errors.length||r.bad.length||r.links.some(x=>!x.ok)))process.exitCode=1;
+fs.writeFileSync(path.join(cikti,`${etap}.json`),JSON.stringify(results,null,2));console.log(JSON.stringify(results.map(r=>({dil:r.dil,w:r.w,duzen:r.duzen,overflow:r.layout.scroll-r.layout.width,images:r.layout.brokenImages,cta:r.cta,qr:r.qrClick,links:r.links,hitErrors:r.hit.filter(x=>!x.ok),errors:r.errors,bad:r.bad})),null,2));if(results.some(r=>!r.duzen.orderOk||!r.duzen.hierarchy||r.duzen.small.length||r.duzen.overlaps.length||r.duzen.clipped.length||r.duzen.textOverflow.length||(r.w===1440&&r.duzen.modesY>=1100)||!r.focus.visible||r.legal.some(x=>!x.ok)||(etap==='sonra'&&!r.qrClick)||r.layout.scroll>r.layout.width||r.layout.brokenImages.length||!r.cta||r.hit.some(x=>!x.ok)||r.errors.length||r.bad.length||r.links.some(x=>!x.ok)))process.exitCode=1;
 
 

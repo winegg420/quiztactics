@@ -1,0 +1,1400 @@
+[
+  {
+    "duzen": {
+      "order": [
+        "tn-baslik",
+        "tn-modlar-baslik",
+        "tn-turnuva-baslik",
+        "tn-lig-baslik",
+        "tn-sampiyon-baslik",
+        "tn-akis-baslik",
+        "tn-one-baslik",
+        "tn-kur-baslik"
+      ],
+      "orderOk": true,
+      "small": [],
+      "overlaps": [],
+      "clipped": [],
+      "textOverflow": [],
+      "headings": [
+        {
+          "tag": "H1",
+          "id": "tn-baslik",
+          "text": "Bilgini taktiğe dönüştür."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-modlar-baslik",
+          "text": "Oyun modları"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-turnuva-baslik",
+          "text": "Herkes aynı anda, aynı yarışta"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-lig-baslik",
+          "text": "Lig ve puan sistemi"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-sampiyon-baslik",
+          "text": "Şehir. Ülke. Dünya. Sıradaki şampiyon sen ol."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-akis-baslik",
+          "text": "Bir maç nasıl geçer?"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-one-baslik",
+          "text": "Oynadıkça senin olur"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-kur-baslik",
+          "text": "Hemen kur, ilk maçına gir"
+        }
+      ],
+      "modesY": 1080.203125,
+      "hierarchy": true
+    },
+    "focus": {
+      "tag": "BUTTON",
+      "visible": true
+    },
+    "language": "Bilgini taktiğe dönüştür.",
+    "legal": [
+      {
+        "route": "/gizlilik",
+        "headings": [
+          "Gizlilik politikası",
+          "Kısaca",
+          "Topladığımız veriler",
+          "Verileri neden kullanıyoruz",
+          "Paylaşım",
+          "Saklama ve silme",
+          "Hakların",
+          "Çocuklar",
+          "Çerezler ve yerel depolama",
+          "Değişiklikler",
+          "İletişim"
+        ],
+        "ok": true
+      },
+      {
+        "route": "/kosullar",
+        "headings": [
+          "Kullanım koşulları",
+          "Kısaca",
+          "1. Taraflar ve kapsam",
+          "2. Hesap",
+          "3. Yaş sınırı",
+          "4. Kabul edilebilir kullanım",
+          "5. Kullanıcı içeriği",
+          "6. Sanal öğeler, jokerler ve satın almalar",
+          "7. Sorular ve içerik doğruluğu",
+          "8. Hizmetteki değişiklikler",
+          "9. Askıya alma ve fesih",
+          "10. Garanti reddi",
+          "11. Sorumluluk sınırı",
+          "12. Fikri mülkiyet",
+          "13. Gizlilik",
+          "14. Uygulanacak hukuk",
+          "15. Değişiklikler",
+          "16. İletişim",
+          "17. Üçüncü taraf verileri ve lisanslar"
+        ],
+        "ok": true
+      },
+      {
+        "route": "/hesap-sil",
+        "headings": [
+          "Hesap silme",
+          "Kısaca",
+          "1. Uygulama içinden (anında)",
+          "2. E-posta ile (oturum açamıyorsan)",
+          "Hangi veriler silinir",
+          "Hangi veriler saklanır",
+          "İletişim"
+        ],
+        "ok": true
+      }
+    ],
+    "dil": "tr",
+    "w": 360,
+    "file": "sonra-360-tr.png",
+    "layout": {
+      "width": 360,
+      "scroll": 360,
+      "brokenImages": [],
+      "headings": [
+        "Bilgini taktiğe dönüştür.",
+        "Oyun modları",
+        "Herkes aynı anda, aynı yarışta",
+        "Lig ve puan sistemi",
+        "Şehir. Ülke. Dünya. Sıradaki şampiyon sen ol.",
+        "Bir maç nasıl geçer?",
+        "Oynadıkça senin olur",
+        "Hemen kur, ilk maçına gir"
+      ]
+    },
+    "cta": true,
+    "qrClick": true,
+    "links": [
+      {
+        "href": "#tn-kur",
+        "text": "Telefonunda açKamerayla okut veya kurulum adımlarına geç.",
+        "ok": true
+      },
+      {
+        "href": "#tn-akis",
+        "text": "Maçın akışını gör ↗",
+        "ok": true
+      },
+      {
+        "href": "#tn-akis",
+        "text": "Maçın akışını gör ↗",
+        "ok": true
+      },
+      {
+        "href": "/gizlilik",
+        "text": "Gizlilik politikası",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "/kosullar",
+        "text": "Kullanım koşulları",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "/hesap-sil",
+        "text": "Hesap silme",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "mailto:info@quiztactics.com",
+        "text": "info@quiztactics.com",
+        "ok": true,
+        "type": "mailto; e-posta gönderilmedi"
+      }
+    ],
+    "hit": [
+      {
+        "label": "TR",
+        "ok": true
+      },
+      {
+        "label": "EN",
+        "ok": true
+      },
+      {
+        "label": "Hemen kur",
+        "ok": true
+      },
+      {
+        "label": "Telefonunda açKamerayla okut veya kurulum adımlarına geç.",
+        "ok": true
+      },
+      {
+        "label": "Maçın akışını gör ↗",
+        "ok": true
+      },
+      {
+        "label": "Maçın akışını gör ↗",
+        "ok": true
+      },
+      {
+        "label": "Gizlilik politikası",
+        "ok": true
+      },
+      {
+        "label": "Kullanım koşulları",
+        "ok": true
+      },
+      {
+        "label": "Hesap silme",
+        "ok": true
+      },
+      {
+        "label": "info@quiztactics.com",
+        "ok": true
+      }
+    ],
+    "errors": [],
+    "bad": [],
+    "blocked": [
+      "https://offline.invalid"
+    ]
+  },
+  {
+    "duzen": {
+      "order": [
+        "tn-baslik",
+        "tn-modlar-baslik",
+        "tn-turnuva-baslik",
+        "tn-lig-baslik",
+        "tn-sampiyon-baslik",
+        "tn-akis-baslik",
+        "tn-one-baslik",
+        "tn-kur-baslik"
+      ],
+      "orderOk": true,
+      "small": [],
+      "overlaps": [],
+      "clipped": [],
+      "textOverflow": [],
+      "headings": [
+        {
+          "tag": "H1",
+          "id": "tn-baslik",
+          "text": "Bilgini taktiğe dönüştür."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-modlar-baslik",
+          "text": "Oyun modları"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-turnuva-baslik",
+          "text": "Herkes aynı anda, aynı yarışta"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-lig-baslik",
+          "text": "Lig ve puan sistemi"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-sampiyon-baslik",
+          "text": "Şehir. Ülke. Dünya. Sıradaki şampiyon sen ol."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-akis-baslik",
+          "text": "Bir maç nasıl geçer?"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-one-baslik",
+          "text": "Oynadıkça senin olur"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-kur-baslik",
+          "text": "Hemen kur, ilk maçına gir"
+        }
+      ],
+      "modesY": 1115.59375,
+      "hierarchy": true
+    },
+    "focus": {
+      "tag": "BUTTON",
+      "visible": true
+    },
+    "language": "Bilgini taktiğe dönüştür.",
+    "legal": [
+      {
+        "route": "/gizlilik",
+        "headings": [
+          "Gizlilik politikası",
+          "Kısaca",
+          "Topladığımız veriler",
+          "Verileri neden kullanıyoruz",
+          "Paylaşım",
+          "Saklama ve silme",
+          "Hakların",
+          "Çocuklar",
+          "Çerezler ve yerel depolama",
+          "Değişiklikler",
+          "İletişim"
+        ],
+        "ok": true
+      },
+      {
+        "route": "/kosullar",
+        "headings": [
+          "Kullanım koşulları",
+          "Kısaca",
+          "1. Taraflar ve kapsam",
+          "2. Hesap",
+          "3. Yaş sınırı",
+          "4. Kabul edilebilir kullanım",
+          "5. Kullanıcı içeriği",
+          "6. Sanal öğeler, jokerler ve satın almalar",
+          "7. Sorular ve içerik doğruluğu",
+          "8. Hizmetteki değişiklikler",
+          "9. Askıya alma ve fesih",
+          "10. Garanti reddi",
+          "11. Sorumluluk sınırı",
+          "12. Fikri mülkiyet",
+          "13. Gizlilik",
+          "14. Uygulanacak hukuk",
+          "15. Değişiklikler",
+          "16. İletişim",
+          "17. Üçüncü taraf verileri ve lisanslar"
+        ],
+        "ok": true
+      },
+      {
+        "route": "/hesap-sil",
+        "headings": [
+          "Hesap silme",
+          "Kısaca",
+          "1. Uygulama içinden (anında)",
+          "2. E-posta ile (oturum açamıyorsan)",
+          "Hangi veriler silinir",
+          "Hangi veriler saklanır",
+          "İletişim"
+        ],
+        "ok": true
+      }
+    ],
+    "dil": "tr",
+    "w": 390,
+    "file": "sonra-390-tr.png",
+    "layout": {
+      "width": 390,
+      "scroll": 390,
+      "brokenImages": [],
+      "headings": [
+        "Bilgini taktiğe dönüştür.",
+        "Oyun modları",
+        "Herkes aynı anda, aynı yarışta",
+        "Lig ve puan sistemi",
+        "Şehir. Ülke. Dünya. Sıradaki şampiyon sen ol.",
+        "Bir maç nasıl geçer?",
+        "Oynadıkça senin olur",
+        "Hemen kur, ilk maçına gir"
+      ]
+    },
+    "cta": true,
+    "qrClick": true,
+    "links": [
+      {
+        "href": "#tn-kur",
+        "text": "Telefonunda açKamerayla okut veya kurulum adımlarına geç.",
+        "ok": true
+      },
+      {
+        "href": "#tn-akis",
+        "text": "Maçın akışını gör ↗",
+        "ok": true
+      },
+      {
+        "href": "#tn-akis",
+        "text": "Maçın akışını gör ↗",
+        "ok": true
+      },
+      {
+        "href": "/gizlilik",
+        "text": "Gizlilik politikası",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "/kosullar",
+        "text": "Kullanım koşulları",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "/hesap-sil",
+        "text": "Hesap silme",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "mailto:info@quiztactics.com",
+        "text": "info@quiztactics.com",
+        "ok": true,
+        "type": "mailto; e-posta gönderilmedi"
+      }
+    ],
+    "hit": [
+      {
+        "label": "TR",
+        "ok": true
+      },
+      {
+        "label": "EN",
+        "ok": true
+      },
+      {
+        "label": "Hemen kur",
+        "ok": true
+      },
+      {
+        "label": "Telefonunda açKamerayla okut veya kurulum adımlarına geç.",
+        "ok": true
+      },
+      {
+        "label": "Maçın akışını gör ↗",
+        "ok": true
+      },
+      {
+        "label": "Maçın akışını gör ↗",
+        "ok": true
+      },
+      {
+        "label": "Gizlilik politikası",
+        "ok": true
+      },
+      {
+        "label": "Kullanım koşulları",
+        "ok": true
+      },
+      {
+        "label": "Hesap silme",
+        "ok": true
+      },
+      {
+        "label": "info@quiztactics.com",
+        "ok": true
+      }
+    ],
+    "errors": [],
+    "bad": [],
+    "blocked": [
+      "https://offline.invalid"
+    ]
+  },
+  {
+    "duzen": {
+      "order": [
+        "tn-baslik",
+        "tn-modlar-baslik",
+        "tn-turnuva-baslik",
+        "tn-lig-baslik",
+        "tn-sampiyon-baslik",
+        "tn-akis-baslik",
+        "tn-one-baslik",
+        "tn-kur-baslik"
+      ],
+      "orderOk": true,
+      "small": [],
+      "overlaps": [],
+      "clipped": [],
+      "textOverflow": [],
+      "headings": [
+        {
+          "tag": "H1",
+          "id": "tn-baslik",
+          "text": "Bilgini taktiğe dönüştür."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-modlar-baslik",
+          "text": "Oyun modları"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-turnuva-baslik",
+          "text": "Herkes aynı anda, aynı yarışta"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-lig-baslik",
+          "text": "Lig ve puan sistemi"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-sampiyon-baslik",
+          "text": "Şehir. Ülke. Dünya. Sıradaki şampiyon sen ol."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-akis-baslik",
+          "text": "Bir maç nasıl geçer?"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-one-baslik",
+          "text": "Oynadıkça senin olur"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-kur-baslik",
+          "text": "Hemen kur, ilk maçına gir"
+        }
+      ],
+      "modesY": 955.984375,
+      "hierarchy": true
+    },
+    "focus": {
+      "tag": "BUTTON",
+      "visible": true
+    },
+    "language": "Bilgini taktiğe dönüştür.",
+    "legal": [
+      {
+        "route": "/gizlilik",
+        "headings": [
+          "Gizlilik politikası",
+          "Kısaca",
+          "Topladığımız veriler",
+          "Verileri neden kullanıyoruz",
+          "Paylaşım",
+          "Saklama ve silme",
+          "Hakların",
+          "Çocuklar",
+          "Çerezler ve yerel depolama",
+          "Değişiklikler",
+          "İletişim"
+        ],
+        "ok": true
+      },
+      {
+        "route": "/kosullar",
+        "headings": [
+          "Kullanım koşulları",
+          "Kısaca",
+          "1. Taraflar ve kapsam",
+          "2. Hesap",
+          "3. Yaş sınırı",
+          "4. Kabul edilebilir kullanım",
+          "5. Kullanıcı içeriği",
+          "6. Sanal öğeler, jokerler ve satın almalar",
+          "7. Sorular ve içerik doğruluğu",
+          "8. Hizmetteki değişiklikler",
+          "9. Askıya alma ve fesih",
+          "10. Garanti reddi",
+          "11. Sorumluluk sınırı",
+          "12. Fikri mülkiyet",
+          "13. Gizlilik",
+          "14. Uygulanacak hukuk",
+          "15. Değişiklikler",
+          "16. İletişim",
+          "17. Üçüncü taraf verileri ve lisanslar"
+        ],
+        "ok": true
+      },
+      {
+        "route": "/hesap-sil",
+        "headings": [
+          "Hesap silme",
+          "Kısaca",
+          "1. Uygulama içinden (anında)",
+          "2. E-posta ile (oturum açamıyorsan)",
+          "Hangi veriler silinir",
+          "Hangi veriler saklanır",
+          "İletişim"
+        ],
+        "ok": true
+      }
+    ],
+    "dil": "tr",
+    "w": 1440,
+    "file": "sonra-1440-tr.png",
+    "layout": {
+      "width": 1440,
+      "scroll": 1440,
+      "brokenImages": [],
+      "headings": [
+        "Bilgini taktiğe dönüştür.",
+        "Oyun modları",
+        "Herkes aynı anda, aynı yarışta",
+        "Lig ve puan sistemi",
+        "Şehir. Ülke. Dünya. Sıradaki şampiyon sen ol.",
+        "Bir maç nasıl geçer?",
+        "Oynadıkça senin olur",
+        "Hemen kur, ilk maçına gir"
+      ]
+    },
+    "cta": true,
+    "qrClick": true,
+    "links": [
+      {
+        "href": "#tn-kur",
+        "text": "Telefonunda açKamerayla okut veya kurulum adımlarına geç.",
+        "ok": true
+      },
+      {
+        "href": "#tn-akis",
+        "text": "Maçın akışını gör ↗",
+        "ok": true
+      },
+      {
+        "href": "#tn-akis",
+        "text": "Maçın akışını gör ↗",
+        "ok": true
+      },
+      {
+        "href": "/gizlilik",
+        "text": "Gizlilik politikası",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "/kosullar",
+        "text": "Kullanım koşulları",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "/hesap-sil",
+        "text": "Hesap silme",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "mailto:info@quiztactics.com",
+        "text": "info@quiztactics.com",
+        "ok": true,
+        "type": "mailto; e-posta gönderilmedi"
+      }
+    ],
+    "hit": [
+      {
+        "label": "TR",
+        "ok": true
+      },
+      {
+        "label": "EN",
+        "ok": true
+      },
+      {
+        "label": "Hemen kur",
+        "ok": true
+      },
+      {
+        "label": "Telefonunda açKamerayla okut veya kurulum adımlarına geç.",
+        "ok": true
+      },
+      {
+        "label": "Maçın akışını gör ↗",
+        "ok": true
+      },
+      {
+        "label": "Maçın akışını gör ↗",
+        "ok": true
+      },
+      {
+        "label": "Gizlilik politikası",
+        "ok": true
+      },
+      {
+        "label": "Kullanım koşulları",
+        "ok": true
+      },
+      {
+        "label": "Hesap silme",
+        "ok": true
+      },
+      {
+        "label": "info@quiztactics.com",
+        "ok": true
+      }
+    ],
+    "errors": [],
+    "bad": [],
+    "blocked": [
+      "https://offline.invalid"
+    ]
+  },
+  {
+    "duzen": {
+      "order": [
+        "tn-baslik",
+        "tn-modlar-baslik",
+        "tn-turnuva-baslik",
+        "tn-lig-baslik",
+        "tn-sampiyon-baslik",
+        "tn-akis-baslik",
+        "tn-one-baslik",
+        "tn-kur-baslik"
+      ],
+      "orderOk": true,
+      "small": [],
+      "overlaps": [],
+      "clipped": [],
+      "textOverflow": [],
+      "headings": [
+        {
+          "tag": "H1",
+          "id": "tn-baslik",
+          "text": "Turn your knowledge into tactics."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-modlar-baslik",
+          "text": "Game modes"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-turnuva-baslik",
+          "text": "One start. One shared competition."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-lig-baslik",
+          "text": "Leagues and points"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-sampiyon-baslik",
+          "text": "City. Country. World. Be the next champion."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-akis-baslik",
+          "text": "How does a match unfold?"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-one-baslik",
+          "text": "Play more, unlock more"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-kur-baslik",
+          "text": "Install now, play your first match"
+        }
+      ],
+      "modesY": 1125.953125,
+      "hierarchy": true
+    },
+    "focus": {
+      "tag": "BUTTON",
+      "visible": true
+    },
+    "language": "Turn your knowledge into tactics.",
+    "legal": [
+      {
+        "route": "/gizlilik",
+        "headings": [
+          "Privacy policy",
+          "In short",
+          "Data we collect",
+          "Why we use data",
+          "Sharing",
+          "Retention and deletion",
+          "Your rights",
+          "Children",
+          "Cookies and local storage",
+          "Changes",
+          "Contact"
+        ],
+        "ok": true
+      },
+      {
+        "route": "/kosullar",
+        "headings": [
+          "Terms of use",
+          "In short",
+          "1. Parties and scope",
+          "2. Account",
+          "3. Age limit",
+          "4. Acceptable use",
+          "5. User content",
+          "6. Virtual items, jokers and purchases",
+          "7. Questions and content accuracy",
+          "8. Changes to the service",
+          "9. Suspension and termination",
+          "10. Disclaimer of warranty",
+          "11. Limitation of liability",
+          "12. Intellectual property",
+          "13. Privacy",
+          "14. Governing law",
+          "15. Changes",
+          "16. Contact",
+          "17. Third-party data and licences"
+        ],
+        "ok": true
+      },
+      {
+        "route": "/hesap-sil",
+        "headings": [
+          "Account deletion",
+          "In short",
+          "1. Inside the app (instant)",
+          "2. By email (if you cannot sign in)",
+          "What is deleted",
+          "What is kept",
+          "Contact"
+        ],
+        "ok": true
+      }
+    ],
+    "dil": "en",
+    "w": 360,
+    "file": "sonra-360-en.png",
+    "layout": {
+      "width": 360,
+      "scroll": 360,
+      "brokenImages": [],
+      "headings": [
+        "Turn your knowledge into tactics.",
+        "Game modes",
+        "One start. One shared competition.",
+        "Leagues and points",
+        "City. Country. World. Be the next champion.",
+        "How does a match unfold?",
+        "Play more, unlock more",
+        "Install now, play your first match"
+      ]
+    },
+    "cta": true,
+    "qrClick": true,
+    "links": [
+      {
+        "href": "#tn-kur",
+        "text": "Open on your phoneScan with your camera or view the installation steps.",
+        "ok": true
+      },
+      {
+        "href": "#tn-akis",
+        "text": "See how a match unfolds ↗",
+        "ok": true
+      },
+      {
+        "href": "#tn-akis",
+        "text": "See how a match unfolds ↗",
+        "ok": true
+      },
+      {
+        "href": "/gizlilik",
+        "text": "Privacy policy",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "/kosullar",
+        "text": "Terms of use",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "/hesap-sil",
+        "text": "Account deletion",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "mailto:info@quiztactics.com",
+        "text": "info@quiztactics.com",
+        "ok": true,
+        "type": "mailto; e-posta gönderilmedi"
+      }
+    ],
+    "hit": [
+      {
+        "label": "TR",
+        "ok": true
+      },
+      {
+        "label": "EN",
+        "ok": true
+      },
+      {
+        "label": "Install now",
+        "ok": true
+      },
+      {
+        "label": "Open on your phoneScan with your camera or view the installation steps.",
+        "ok": true
+      },
+      {
+        "label": "See how a match unfolds ↗",
+        "ok": true
+      },
+      {
+        "label": "See how a match unfolds ↗",
+        "ok": true
+      },
+      {
+        "label": "Privacy policy",
+        "ok": true
+      },
+      {
+        "label": "Terms of use",
+        "ok": true
+      },
+      {
+        "label": "Account deletion",
+        "ok": true
+      },
+      {
+        "label": "info@quiztactics.com",
+        "ok": true
+      }
+    ],
+    "errors": [],
+    "bad": [],
+    "blocked": [
+      "https://offline.invalid"
+    ]
+  },
+  {
+    "duzen": {
+      "order": [
+        "tn-baslik",
+        "tn-modlar-baslik",
+        "tn-turnuva-baslik",
+        "tn-lig-baslik",
+        "tn-sampiyon-baslik",
+        "tn-akis-baslik",
+        "tn-one-baslik",
+        "tn-kur-baslik"
+      ],
+      "orderOk": true,
+      "small": [],
+      "overlaps": [],
+      "clipped": [],
+      "textOverflow": [],
+      "headings": [
+        {
+          "tag": "H1",
+          "id": "tn-baslik",
+          "text": "Turn your knowledge into tactics."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-modlar-baslik",
+          "text": "Game modes"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-turnuva-baslik",
+          "text": "One start. One shared competition."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-lig-baslik",
+          "text": "Leagues and points"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-sampiyon-baslik",
+          "text": "City. Country. World. Be the next champion."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-akis-baslik",
+          "text": "How does a match unfold?"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-one-baslik",
+          "text": "Play more, unlock more"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-kur-baslik",
+          "text": "Install now, play your first match"
+        }
+      ],
+      "modesY": 1161.34375,
+      "hierarchy": true
+    },
+    "focus": {
+      "tag": "BUTTON",
+      "visible": true
+    },
+    "language": "Turn your knowledge into tactics.",
+    "legal": [
+      {
+        "route": "/gizlilik",
+        "headings": [
+          "Privacy policy",
+          "In short",
+          "Data we collect",
+          "Why we use data",
+          "Sharing",
+          "Retention and deletion",
+          "Your rights",
+          "Children",
+          "Cookies and local storage",
+          "Changes",
+          "Contact"
+        ],
+        "ok": true
+      },
+      {
+        "route": "/kosullar",
+        "headings": [
+          "Terms of use",
+          "In short",
+          "1. Parties and scope",
+          "2. Account",
+          "3. Age limit",
+          "4. Acceptable use",
+          "5. User content",
+          "6. Virtual items, jokers and purchases",
+          "7. Questions and content accuracy",
+          "8. Changes to the service",
+          "9. Suspension and termination",
+          "10. Disclaimer of warranty",
+          "11. Limitation of liability",
+          "12. Intellectual property",
+          "13. Privacy",
+          "14. Governing law",
+          "15. Changes",
+          "16. Contact",
+          "17. Third-party data and licences"
+        ],
+        "ok": true
+      },
+      {
+        "route": "/hesap-sil",
+        "headings": [
+          "Account deletion",
+          "In short",
+          "1. Inside the app (instant)",
+          "2. By email (if you cannot sign in)",
+          "What is deleted",
+          "What is kept",
+          "Contact"
+        ],
+        "ok": true
+      }
+    ],
+    "dil": "en",
+    "w": 390,
+    "file": "sonra-390-en.png",
+    "layout": {
+      "width": 390,
+      "scroll": 390,
+      "brokenImages": [],
+      "headings": [
+        "Turn your knowledge into tactics.",
+        "Game modes",
+        "One start. One shared competition.",
+        "Leagues and points",
+        "City. Country. World. Be the next champion.",
+        "How does a match unfold?",
+        "Play more, unlock more",
+        "Install now, play your first match"
+      ]
+    },
+    "cta": true,
+    "qrClick": true,
+    "links": [
+      {
+        "href": "#tn-kur",
+        "text": "Open on your phoneScan with your camera or view the installation steps.",
+        "ok": true
+      },
+      {
+        "href": "#tn-akis",
+        "text": "See how a match unfolds ↗",
+        "ok": true
+      },
+      {
+        "href": "#tn-akis",
+        "text": "See how a match unfolds ↗",
+        "ok": true
+      },
+      {
+        "href": "/gizlilik",
+        "text": "Privacy policy",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "/kosullar",
+        "text": "Terms of use",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "/hesap-sil",
+        "text": "Account deletion",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "mailto:info@quiztactics.com",
+        "text": "info@quiztactics.com",
+        "ok": true,
+        "type": "mailto; e-posta gönderilmedi"
+      }
+    ],
+    "hit": [
+      {
+        "label": "TR",
+        "ok": true
+      },
+      {
+        "label": "EN",
+        "ok": true
+      },
+      {
+        "label": "Install now",
+        "ok": true
+      },
+      {
+        "label": "Open on your phoneScan with your camera or view the installation steps.",
+        "ok": true
+      },
+      {
+        "label": "See how a match unfolds ↗",
+        "ok": true
+      },
+      {
+        "label": "See how a match unfolds ↗",
+        "ok": true
+      },
+      {
+        "label": "Privacy policy",
+        "ok": true
+      },
+      {
+        "label": "Terms of use",
+        "ok": true
+      },
+      {
+        "label": "Account deletion",
+        "ok": true
+      },
+      {
+        "label": "info@quiztactics.com",
+        "ok": true
+      }
+    ],
+    "errors": [],
+    "bad": [],
+    "blocked": [
+      "https://offline.invalid"
+    ]
+  },
+  {
+    "duzen": {
+      "order": [
+        "tn-baslik",
+        "tn-modlar-baslik",
+        "tn-turnuva-baslik",
+        "tn-lig-baslik",
+        "tn-sampiyon-baslik",
+        "tn-akis-baslik",
+        "tn-one-baslik",
+        "tn-kur-baslik"
+      ],
+      "orderOk": true,
+      "small": [],
+      "overlaps": [],
+      "clipped": [],
+      "textOverflow": [],
+      "headings": [
+        {
+          "tag": "H1",
+          "id": "tn-baslik",
+          "text": "Turn your knowledge into tactics."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-modlar-baslik",
+          "text": "Game modes"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-turnuva-baslik",
+          "text": "One start. One shared competition."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-lig-baslik",
+          "text": "Leagues and points"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-sampiyon-baslik",
+          "text": "City. Country. World. Be the next champion."
+        },
+        {
+          "tag": "H2",
+          "id": "tn-akis-baslik",
+          "text": "How does a match unfold?"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-one-baslik",
+          "text": "Play more, unlock more"
+        },
+        {
+          "tag": "H2",
+          "id": "tn-kur-baslik",
+          "text": "Install now, play your first match"
+        }
+      ],
+      "modesY": 955.984375,
+      "hierarchy": true
+    },
+    "focus": {
+      "tag": "BUTTON",
+      "visible": true
+    },
+    "language": "Turn your knowledge into tactics.",
+    "legal": [
+      {
+        "route": "/gizlilik",
+        "headings": [
+          "Privacy policy",
+          "In short",
+          "Data we collect",
+          "Why we use data",
+          "Sharing",
+          "Retention and deletion",
+          "Your rights",
+          "Children",
+          "Cookies and local storage",
+          "Changes",
+          "Contact"
+        ],
+        "ok": true
+      },
+      {
+        "route": "/kosullar",
+        "headings": [
+          "Terms of use",
+          "In short",
+          "1. Parties and scope",
+          "2. Account",
+          "3. Age limit",
+          "4. Acceptable use",
+          "5. User content",
+          "6. Virtual items, jokers and purchases",
+          "7. Questions and content accuracy",
+          "8. Changes to the service",
+          "9. Suspension and termination",
+          "10. Disclaimer of warranty",
+          "11. Limitation of liability",
+          "12. Intellectual property",
+          "13. Privacy",
+          "14. Governing law",
+          "15. Changes",
+          "16. Contact",
+          "17. Third-party data and licences"
+        ],
+        "ok": true
+      },
+      {
+        "route": "/hesap-sil",
+        "headings": [
+          "Account deletion",
+          "In short",
+          "1. Inside the app (instant)",
+          "2. By email (if you cannot sign in)",
+          "What is deleted",
+          "What is kept",
+          "Contact"
+        ],
+        "ok": true
+      }
+    ],
+    "dil": "en",
+    "w": 1440,
+    "file": "sonra-1440-en.png",
+    "layout": {
+      "width": 1440,
+      "scroll": 1440,
+      "brokenImages": [],
+      "headings": [
+        "Turn your knowledge into tactics.",
+        "Game modes",
+        "One start. One shared competition.",
+        "Leagues and points",
+        "City. Country. World. Be the next champion.",
+        "How does a match unfold?",
+        "Play more, unlock more",
+        "Install now, play your first match"
+      ]
+    },
+    "cta": true,
+    "qrClick": true,
+    "links": [
+      {
+        "href": "#tn-kur",
+        "text": "Open on your phoneScan with your camera or view the installation steps.",
+        "ok": true
+      },
+      {
+        "href": "#tn-akis",
+        "text": "See how a match unfolds ↗",
+        "ok": true
+      },
+      {
+        "href": "#tn-akis",
+        "text": "See how a match unfolds ↗",
+        "ok": true
+      },
+      {
+        "href": "/gizlilik",
+        "text": "Privacy policy",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "/kosullar",
+        "text": "Terms of use",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "/hesap-sil",
+        "text": "Account deletion",
+        "ok": true,
+        "status": 200
+      },
+      {
+        "href": "mailto:info@quiztactics.com",
+        "text": "info@quiztactics.com",
+        "ok": true,
+        "type": "mailto; e-posta gönderilmedi"
+      }
+    ],
+    "hit": [
+      {
+        "label": "TR",
+        "ok": true
+      },
+      {
+        "label": "EN",
+        "ok": true
+      },
+      {
+        "label": "Install now",
+        "ok": true
+      },
+      {
+        "label": "Open on your phoneScan with your camera or view the installation steps.",
+        "ok": true
+      },
+      {
+        "label": "See how a match unfolds ↗",
+        "ok": true
+      },
+      {
+        "label": "See how a match unfolds ↗",
+        "ok": true
+      },
+      {
+        "label": "Privacy policy",
+        "ok": true
+      },
+      {
+        "label": "Terms of use",
+        "ok": true
+      },
+      {
+        "label": "Account deletion",
+        "ok": true
+      },
+      {
+        "label": "info@quiztactics.com",
+        "ok": true
+      }
+    ],
+    "errors": [],
+    "bad": [],
+    "blocked": [
+      "https://offline.invalid"
+    ]
+  }
+]
