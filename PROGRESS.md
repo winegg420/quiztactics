@@ -12749,3 +12749,10 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - Neden: tanıtım revizesi (Düello + Ortak Hazine öne çıkarıldı; `TanitimSayfasi.jsx`, `tanitim-metinler.js`, `tanitim-revize.css`, `araclar/tanitim-revize-testi.mjs`) + CLAUDE.md/AGENTS.md "Paralel çalışma" kuralı (ayrı klasör + ayrı dal izinli istisna) birleştirildi. Merge `5949b9f1`, çakışma yok, yalnız beklenen 6 dosya.
 - Build temiz; Vercel success. Canlı (tek seferlik curl): `/` 200, `/tanitim/duello.webp` 200, `/tanitim/hazine.webp` 200, yeni `TanitimSayfasi-BSn6u2xN.css` canlı pakette. Migration yok, canlı DB isteği yok.
 - BAKILAMADI: tarayıcı/ekran görüntüsü (1440/390) alınmadı — canlıya tarayıcı açılmadı, yerel görüntü bu işte istenmedi/yapılmadı.
+
+## 17 Eki 2026 — Hazine DEVAM anı sesi yarıda kesilmesi (Araç: Claude Code)
+**Neden:** Ida'nın duyduğu "DEVAM sesi yarıda kesiliyor" şikâyeti; kök neden: rozet-n1 (1800 ms) DEVAM anı penceresine (1281–1654 ms) kısaltılıp söndürülüyordu, 130–519 ms erken bitiyordu.
+- Yeni ses `public/ses/kasa_devam-e18d695314.wav` (rozet-n1'in ilk 520 ms'si + dosyaya işlenmiş sönüm, toplam 880 ms); üretici `araclar/kasa-devam-sesi-uret.mjs`. `ses.js`: yeni rol `kasa_devam` + **TAM_CALAR kuralı** (pencereye kısaltılmaz, tam sığmıyorsa hiç çalmaz). `KasaPage.jsx` yalnız DEVAM satırı `sesKasaDevam()`; AÇ anı/ödül jokeri/maç sonu rozetleri aynı.
+- İzleme (`ses.js` + `akisIzleme.js`): kesilen = dosya süresi − gerçek çalma (eskiden kısaltılmış plana göre ölçüyordu, kesilme görünmüyordu). `sw.js`: `/ses/<ad>-<sha10>.(wav|mp3|aac)` ses adayı önbelleğinde.
+- Prova: `/ses-secim` › "Hazine DEVAM anı" (yeni hâl / eski hâl, sunucuya yazmaz). Ölçüm (taklit, CPU 6x): dosyaya göre kesik 53 → 0; faz zamanları aynı. BAKILAMADI: hareket azaltma koşusu, gerçek telefon kulak testi.
+- Dağıtım: main `953e399a`, Vercel canlıda doğrulandı. Migration yok. Ayrıntı: o günkü RAPOR.md.

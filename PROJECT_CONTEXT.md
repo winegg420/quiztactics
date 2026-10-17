@@ -898,6 +898,7 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   `preload="none"`, adres çalma anında verilir (gizli sekmede/müzik kapalıyken indirme yok). Parça cihazda kalıcı önbellekte
   (`public/sw.js › qt-muzik-v1`, anahtar = dosya adı, sınır 14, sürümü kabukla ARTIRILMAZ; Range istekleri önbellekten). Otomasyon
   tarayıcısında (`navigator.webdriver`) müzik inmez — müzik testi `?tani=1` ile açar. Test: `node oyun/_test/sw-muzik-testi.mjs`. Ayrıntı `docs/YUK_AZALTMA.md`.
+- **Hazine DEVAM anı sesi (17 Eki 2026):** rol `kasa_devam` = `public/ses/kasa_devam-e18d695314.wav` (880 ms, sönüm dosyada; üretici `araclar/kasa-devam-sesi-uret.mjs`). `ses.js › TAM_CALAR`: bu rol pencereye kısaltılmaz, tam sığmıyorsa hiç çalmaz (rozet-n1 1800 ms pencereye kısaltılıp yarıda kesiliyordu). İzleme `ses_kesildi` artık **dosya süresine göre** ölçer (pencere kısaltması da kesik sayılır). Prova `/ses-secim` › "Hazine DEVAM anı".
 - Ayar iki anahtar: **Müzik** (`bildim_muzik`) ve **Efektler** (`bildim_ses`, eski tercih) — avatar
   menüsü + Profil › Ayarlar; maç şeridindeki hoparlör küçük pencere açar — Müzik ve Efektler ayrı anahtar, aynı kaynak.
 - `oyun/lib/ses.js`: dosyadan çalar, yüklenemezse osilatör yedeği. 30 anın her biri bir fonksiyon
