@@ -12756,3 +12756,10 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - İzleme (`ses.js` + `akisIzleme.js`): kesilen = dosya süresi − gerçek çalma (eskiden kısaltılmış plana göre ölçüyordu, kesilme görünmüyordu). `sw.js`: `/ses/<ad>-<sha10>.(wav|mp3|aac)` ses adayı önbelleğinde.
 - Prova: `/ses-secim` › "Hazine DEVAM anı" (yeni hâl / eski hâl, sunucuya yazmaz). Ölçüm (taklit, CPU 6x): dosyaya göre kesik 53 → 0; faz zamanları aynı. BAKILAMADI: hareket azaltma koşusu, gerçek telefon kulak testi.
 - Dağıtım: main `953e399a`, Vercel canlıda doğrulandı. Migration yok. Ayrıntı: o günkü RAPOR.md.
+
+## 17 Eki 2026 — Tanıtımda lig/şampiyonluk/eş zamanlı turnuva (site-revize 32c2af39) main'e alındı (Araç: Claude Code)
+**Neden:** Codex'in tanıtım revizesi (Ida isteği): ilk ekranda "Şehrinden dünyanın zirvesine", yeni "Hedefin şampiyonluk olsun" bölümü (turnuva + lig + Şehir/Ülke/Dünya kartı), eski "Şehrinin şampiyonu ol" parçası kaldırıldı.
+- Merge `c58e983f` (çakışma yok; yalnız `TanitimSayfasi.jsx`, `tanitim-metinler.js`, `tanitim-revize.css`). Ekran görüntüleri `tasarim/gorsel-17eki-tanitim/` (360×640, 390×844, 1440×900 × TR/EN). Push `f7386d31`.
+- Test (yerel, canlı DB yok): build temiz; `test:tanitim` 4/4; `tanitim-revize-testi` 4/4; 6 görünüm: yatay taşma 0, kırık görsel 0, kart çakışması/kesilme 0, H2 iki satır, 44 px altı hedef 0, "Oynadıkça senin olur" 1440'ta 3 sütun/tek satır (delik yok). Konsolda yalnız testin kasten engellediği Supabase isteği.
+- Canlı (tek seferlik): `/`, lig/turnuva/sampiyon/hazine webp (TR+EN) 200; `version.json` `f7386d31`; canlı pakette `tn-rekabet` CSS'i var. BAKILAMADI: gerçek iOS. Migration yok.
+- Önceki kayıt: aynı gün Hazine DEVAM sesi kaydı eklendi (`eca72d20`).
