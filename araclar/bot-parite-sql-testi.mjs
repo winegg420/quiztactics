@@ -14,6 +14,7 @@ import fs from 'node:fs';
 if (process.env.IZIN_CANLI_TEST !== '1') { console.log('IZIN_CANLI_TEST=1 gerekli (tek maç, tek işlem, ROLLBACK)'); process.exit(2); }
 const MIG = fs.readFileSync(new URL('../supabase/migrations/20260612001126_bot_parite.sql', import.meta.url), 'utf8');
 const MIG2 = fs.readFileSync(new URL('../supabase/migrations/20260612001127_bot_grup_tepki.sql', import.meta.url), 'utf8');
+const MIG3 = fs.readFileSync(new URL('../supabase/migrations/20260612001128_bot_grup_turnuva_joker.sql', import.meta.url), 'utf8');
 
 const db = await new PgIstemci(await baglantiDizgisi()).baglan();
 let gecti = 0, kaldi = 0;
@@ -50,10 +51,11 @@ try {
   console.log('1) Migration 1126 (transaction içinde) + yetkiler');
   await db.sorgu(MIG);
   await db.sorgu(MIG2);
+  await db.sorgu(MIG3);
   for (const f of INSAN_RPC) ok(`${f} yetkisi aynı`, (await acl(f)) === onceAcl[f], `${onceAcl[f]} → ${await acl(f)}`);
   for (const f of ['joker_hak_kontrol_ic(uuid,text,uuid,text)', 'joker_kullan_ic(uuid,text,uuid,integer,text)',
     'skill_hazirla_ic(uuid,text,uuid,integer,text)', 'bot_klasik_cevap(uuid,uuid,integer,uuid)', 'duello4_joker_ic(uuid,uuid,text)',
-    'duello4_bot_joker(uuid,uuid)', 'trg_kasa_bot_tepki()', 'bot_tepki_grup(uuid,uuid,boolean)']) {
+    'duello4_bot_joker(uuid,uuid)', 'trg_kasa_bot_tepki()', 'bot_tepki_grup(uuid,uuid,boolean)', 'bot_coklu_joker(text,uuid,uuid,integer)']) {
     ok(`${f} istemciye kapalı`, !/(anon|authenticated)=/.test(await acl(f)) && (await acl(f)) !== '', await acl(f));
   }
   ok('rakip_jokerleri yetkisi = joker_mac_durumu yetkisi', (await acl('rakip_jokerleri(text,uuid)')) === (await acl('joker_mac_durumu(text,uuid)')));
@@ -277,6 +279,48 @@ try {
     && (await sayi(`select count(*) from bot_tepki_bekleyen where tur = 'grup_mesaj' and hedef_id = '${G}'`)) === 0);
   ok('bot_oyna: tepki-* özel, grup-mac açık kanal',
     (await tek(`select pg_get_functiondef('public.bot_oyna'::regproc)`)).includes("'tepki', r.kanal, r.kanal like 'tepki-%')"));
+  // ------------------------------------------------------------------ GRUP + TURNUVA JOKER (1128)
+  console.log('9) Grup / Turnuva — bot insanla aynı joker kuralından (joker_kullan_ic)');
+  const coklu = (t, m, i, b = BOT) => tek(`select bot_coklu_joker('${t}', '${m}', '${b}', ${i})::text`);
+  const jSay = (t, m) => sayi(`select count(*) from joker_kullanimlari where mac_tur = '${t}' and mac_id = '${m}' and user_id = '${BOT}'`);
+  await ayar('grup_bot_joker_yuzde', '0');
+  await db.sorgu(`update group_matches set aktif_soru = 5, soru_baslangic = now() - interval '5 seconds' where id = '${G}'`);
+  ok('Grup yüzde 0 → yok', (await coklu('grup', G, 5)) === 'false' && (await jSay('grup', G)) === 0);
+  await ayar('grup_bot_joker_yuzde', '100');
+  ok('Grup: bot joker kullandı, ücretsiz', (await coklu('grup', G, 5)) === 'true'
+    && (await tek(`select bool_and(ucretsiz)::text from joker_kullanimlari where mac_tur = 'grup' and mac_id = '${G}' and user_id = '${BOT}'`)) === 'true');
+  ok('Grup: joker_surum arttı (sayfa Realtime ile okur)', (await sayi(`select joker_surum from group_matches where id = '${G}'`)) > 0);
+  await ben(A);
+  const grj = await tek(`select rakip_jokerleri('grup', '${G}')::text`);
+  ok(`Grup: rakip_jokerleri insana botun jokerini döndürür (${grj})`, /^\{(elli|sure|soru_degistir)\}$/.test(grj));
+  await ben(null);
+  for (let i = 6; i < 12; i++) {
+    await db.sorgu(`update group_matches set aktif_soru = ${i}, soru_baslangic = now() - interval '5 seconds' where id = '${G}'`);
+    await coklu('grup', G, i);
+  }
+  const gt = await tek(`select string_agg(tur, ',' order by tur) from joker_kullanimlari where mac_tur = 'grup' and mac_id = '${G}' and user_id = '${BOT}'`);
+  ok(`Grup: her joker maçta bir kez (insan kuralı) → ${gt}`, (await jSay('grup', G)) === 3 && gt === 'elli,soru_degistir,sure');
+  await db.sorgu(`update group_matches set aktif_soru = 12, soru_baslangic = now() - interval '20 seconds' where id = '${G}'`);
+  await db.sorgu(`insert into group_match_answers (group_match_id, user_id, soru_index, cevap, dogru) values ('${G}', '${A}', 11, 0, true)`);
+  await db.sorgu(`select bot_grup_adimlari('${G}')`);
+  ok('Grup: hak bitince bot yine cevaplar', (await sayi(`select count(*) from group_match_answers where group_match_id = '${G}' and user_id = '${BOT}' and soru_index = 12`)) === 1);
+  const BOTLAR = (await db.sorgu(`select id::text from profiles where is_bot and bot_turu = 'gizli' and id <> '${BOT}' order by id limit 2`)).map((x) => x.id);
+  const T = await tek(`insert into tournaments (tarih, durum, soru_ids, aktif_soru, soru_baslangic, seans)
+    select date '2001-01-01', 'aktif', array_agg(id), 2, now() - interval '5 seconds', '20:00' from (select id from questions order by id limit 20) q returning id::text`);
+  await db.sorgu(`insert into tournament_players (tournament_id, user_id) values ('${T}', '${A}'), ('${T}', '${BOT}'), ('${T}', '${BOTLAR[0]}'), ('${T}', '${BOTLAR[1]}')`);
+  await ayar('turnuva_bot_joker_yuzde', '100');
+  ok('Turnuva: bot 50:50 kullandı', (await coklu('turnuva', T, 2)) === 'true'
+    && (await tek(`select string_agg(tur, ',') from joker_kullanimlari where mac_tur = 'turnuva' and mac_id = '${T}' and user_id = '${BOT}'`)) === 'elli');
+  await db.sorgu(`update tournaments set aktif_soru = 3 where id = '${T}'`);
+  ok('Turnuva: aynı joker maçta bir kez → ikinci yok', (await coklu('turnuva', T, 3)) === 'false' && (await jSay('turnuva', T)) === 1);
+  await db.sorgu(`update tournaments set altin_soru = true where id = '${T}'`);
+  ok('Turnuva Altın Soru → yok (başka bot)', (await coklu('turnuva', T, 3, BOTLAR[0])) === 'false');
+  await db.sorgu(`update tournaments set altin_soru = false where id = '${T}'`);
+  await db.sorgu(`update tournament_players set elendi = true where tournament_id = '${T}' and user_id in ('${BOTLAR[1]}', '${A}')`);
+  ok('Turnuva finali (2 kişi) → yok', (await coklu('turnuva', T, 3, BOTLAR[0])) === 'false');
+  ok('Turnuva Ek Süre denenmez (ortak süre uzamaz)', (await tek(`select soru_baslangic > now() - interval '6 seconds' from tournaments where id = '${T}'`)) === 't'
+    && (await sayi(`select count(*) from joker_kullanimlari where mac_tur = 'turnuva' and mac_id = '${T}' and tur = 'sure'`)) === 0);
+
   await ayar('tepki_bot_olasilik', '0');
   await db.sorgu(`select bot_tepki_gonder('tepki-test-0', '${BOT}', 'dogru')`);
   ok('tepki_bot_olasilik 0 → hiç yok', (await bek('tepki-test-0')) === 0);

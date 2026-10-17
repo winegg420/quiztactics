@@ -1,4 +1,4 @@
--- 1126 + 1127 geri alma (bot paritesi; 1127 Grup bot tepkisi). Eski tanımlar canlıdan (pg_get_functiondef, 17 Eki 2026, 1126 öncesi).
+-- 1126 + 1127 + 1128 geri alma (bot paritesi; 1127 Grup bot tepkisi). Eski tanımlar canlıdan (pg_get_functiondef, 17 Eki 2026, 1126 öncesi).
 -- Sıra: önce sarmalayıcılar ve çağıranlar eski tanımlarına, sonra tetikleyiciler, en son yeni iç nesneler silinir.
 -- Yalnız kapatmak için (geri almadan): klasik_bot_joker_yuzde / duello_bot_joker_yuzde = 0 (bot jokeri), tepki_bot_olasilik = 0
 -- (bot tepkisi, bütün modlar), kasa_bot_gecikme_profili = 0 (Hazine eski 2–6 sn).
@@ -1663,6 +1663,13 @@ drop function if exists public.bot_klasik_cevap(uuid, uuid, integer, uuid);
 drop function if exists public.skill_hazirla_ic(uuid, text, uuid, integer, text);
 drop function if exists public.joker_kullan_ic(uuid, text, uuid, integer, text);
 drop function if exists public.joker_hak_kontrol_ic(uuid, text, uuid, text);
+-- 1128 (Grup/Turnuva bot jokeri, Grup rakip jokeri görünürlüğü); bot_oyna ve bot_grup_adimlari yukarıda 1126 öncesine döndü
+drop trigger if exists trg_grup_joker_surum on public.joker_kullanimlari;
+drop function if exists public.trg_grup_joker_surum();
+drop function if exists public.bot_coklu_joker(text, uuid, uuid, integer);
+alter table public.group_matches drop column if exists joker_surum;
+delete from public.oyun_ayarlari where anahtar in ('grup_bot_joker_yuzde', 'turnuva_bot_joker_yuzde');
+delete from supabase_migrations.schema_migrations where version = '20260612001128';
 drop table if exists public.bot_tepki_gecmisi;
 delete from public.oyun_ayarlari where anahtar = 'kasa_bot_gecikme_profili';
 delete from supabase_migrations.schema_migrations where version = '20260612001126';
