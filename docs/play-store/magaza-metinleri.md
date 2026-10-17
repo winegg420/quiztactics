@@ -147,8 +147,9 @@ First release is live! Play Classic, Duel, Shared Treasure, daily tournaments, l
 
 - Mağaza adı ("Quiz Tactics: Bilgi Yarışması") telefondaki simge adından ayrıdır; simge altında
   "Quiz Tactics" yazar (`android/twa-manifest.json › launcherName`).
-- EN metinde mod adları oyunun İngilizce arayüzündeki adlardır (Shared Treasure, Last Duel,
-  Answer Signature). Oyunda farklı bir çeviri kullanılıyorsa burada da aynısı yazılmalı.
+- Final TR/EN metinler Ida onayıyla aynen korunmuştur; doğrulukta açık kalan ifadeler RAPOR-play-metin.md raporunda listelenir, bu dosyada kendiliğinden değiştirilmez.
+- İngilizce mod/eylem adlarının arayüzle eşleşmesi yayın öncesi kontrol edilmelidir; özellikle KEEP GOING ifadesi ayrıca değerlendirilmelidir.
+- Karakter ölçümü yalnız güncel sekiz alanı kapsar; arşiv ve görsel başlıkları bu alanlara dahil değildir.
 - Turnuva saatleri `oyun_ayarlari.turnuva_saatleri`'nden gelir; değişirse iki metin de güncellenir.
 - Elmas satın alma açıldığında Play kuralı gereği **Google Play Faturalandırma** zorunludur
   (TWA'da Digital Goods API). Açılmadan önce "Uygulama içi satın alma içerir" işareti ve

@@ -1,6 +1,6 @@
 # Google Play — hesap açıldıktan sonra yükleme adımları
 
-Hazır olanlar (14 Eki 2026):
+Paket/görsel envanteri (14 Eki 2026); mağaza metinleri 17 Eki 2026 finaliyle güncellendi:
 
 | Ne | Nerede |
 |---|---|
@@ -41,7 +41,8 @@ testte kalmalı (Play kuralı, Kasım 2023'ten beri).
 2. **Play App Signing**: ilk yüklemede "Google tarafından oluşturulan anahtarı kullan" seçili kalsın
    (önerilen). Bizim anahtarımız yalnız **yükleme anahtarı** olur.
 3. `C:\Users\ida\quiztactics-play\quiztactics-1.0.0.aab` dosyasını sürükle.
-4. Sürüm adı: `1.0.0 (1)` · Sürüm notu (tr-TR): `İlk sürüm.` · (en-US): `First release.`
+4. Sürüm adı paketle eşleşmeli (`1.0.0 (1)` paket envanteri). TR/EN sürüm notları için
+   `magaza-metinleri.md` güncel **Yenilikler / What’s new** alanlarını kullan; arşivi kopyalama.
 5. Test kullanıcıları: e-posta listesi oluştur, **en az 12 Gmail adresi** ekle. Katılım bağlantısını
    onlara gönder; her biri bağlantıdan "test kullanıcısı ol"a basıp uygulamayı Play'den kurmalı.
 6. 14 gün boyunca en az 12 kişi kayıtlı kalmalı (uygulamayı silmeleri sayacı bozabilir).
@@ -75,7 +76,9 @@ düşer; oyun yine açılır ama tarayıcı gibi görünür).
 ## 4. Mağaza kaydı (Ana mağaza girişi)
 
 Büyüme › Mağaza varlığı › **Ana mağaza girişi**:
-- Ad / kısa açıklama / tam açıklama: `magaza-metinleri.md` (tr-TR). **Çeviri ekle › English (United
+- Ad / kısa açıklama / tam açıklama: `magaza-metinleri.md` güncel bölümler (tr-TR);
+  **Eski sürüm (14 Eki)** arşivi kullanılmaz. Karakter kontrolü: `node docs/play-store/metin-say.mjs`.
+  **Çeviri ekle › English (United
   States) – en-US** → EN metinleri.
 - Uygulama simgesi: `gorseller/simge-512.png`
 - Öne çıkan grafik (feature graphic): `gorseller/tanitim-1024x500-tr.png` (EN girişte `-en`)
@@ -88,7 +91,7 @@ Büyüme › Mağaza varlığı › **Ana mağaza girişi**:
 | Bölüm | Kaynak |
 |---|---|
 | Gizlilik politikası | `https://quiztactics.com/gizlilik` |
-| Uygulama erişimi | "Tüm işlevler kısıtlamasız" — misafir girişi (`icerik-derecelendirme.md`) |
+| Uygulama erişimi | İnceleyicinin giriş ve erişim adımları doğrulanmalı; misafirle kısıtlamasız erişim varsayılmamalı (`icerik-derecelendirme.md` beyanı da kontrol edilir). |
 | Reklamlar | **Hayır** |
 | İçerik derecelendirme | `icerik-derecelendirme.md` › IARC |
 | Hedef kitle | 13–15, 16–17, 18+ |
