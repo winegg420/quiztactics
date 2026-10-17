@@ -141,14 +141,18 @@ export function akisSesSonuc(k, sonuc) {
  * kesen: ekran (yeni ekran geldi, yumuşak bitti) · ayni_ses (aynı rolün yeni kopyası) · soru_sesi (soru sesi doğru/yanlışı kıstı) ·
  * diger.
  */
-// 17 Eki 2026: kalanMs = DOSYA süresine göre kesilen ms; neden pencere (ekranın kalan süresine kısaltıldı) · sinir (maç içi üst
-// sınır) · ekran (yeni ekran) · ayni_ses · soru_sesi · diger. Aynı maçta aynı an bir kez (tür kotası gerçek kesintilere kalsın).
+// 17 Eki 2026 (ses bitiş kuralı): kalanMs = sesin DOĞAL sonuna (-45 dB) göre kalan/kesilen ms. Ses artık hiç kısaltılmaz; kayıt
+// iki durumda düşer: doğal sona > 50 ms varken yeni ekran geldi (ekran) ya da ses doğal sonundan erken sustu (aski · diger).
+// Kurala göre çalınmayan ses (pencereye sığmadı / üstüne binerdi) "ses_yok" (atlandı) olarak görünür. Aynı maçta aynı an bir kez.
 const sesKesikYazilan = new Set();
 export function akisSesKesildi({ rol, faz: f, kalanMs, kesen }) {
   try {
     if (!mac || kuyruk || !rol) return;
     const ks = String(kesen ?? "");
-    const k = ks === "pencere" || ks === "sinir" ? ks : /^yeni ekran/.test(ks) ? "ekran" : /^aynı ses/.test(ks) ? "ayni_ses" : /^soru sesi/.test(ks) ? "soru_sesi" : "diger";
+    // 17 Eki 2026 (ses bitiş kuralı): kesen "ekran" = doğal sonuna > 50 ms varken yeni ekran geldi · "aski" = AudioContext
+    // çalarken askıya alındı (ses o an sustu) · "diger" = doğal sondan erken başka bir susma. (Pencere kısaltması / üst sınır /
+    // aynı rolde kısma / soru sesinin kısması kalktı.)
+    const k = ks === "ekran" || /^yeni ekran/.test(ks) ? "ekran" : /^askı/.test(ks) ? "aski" : "diger";
     const fazAd = String(f ?? faz?.an ?? "").replace(/[|]/g, "").slice(0, 14);
     const an = `${String(rol).slice(0, 18)}|${fazAd}|${k}`;
     if (sesKesikYazilan.has(`${mac.id}|${an}`)) return;

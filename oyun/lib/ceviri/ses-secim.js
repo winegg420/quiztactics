@@ -48,16 +48,4 @@ export default {
   "Listede · {n}": "In playlist · {n}",
   "Liste dolu": "Playlist full",
   "Listeye ekle": "Add to playlist",
-  // 17 Eki 2026 — Hazine DEVAM anı provası (DevamProva.jsx)
-  "Hazine DEVAM anı": "Treasure CONTINUE moment",
-  "Maçtaki gibi: rakibin kartı {k} ms kapalı, sonra ×2 yazısı ve DEVAM sesi, {a} ms sonra yeni sorunun sesi. Sunucuya hiçbir şey yazmaz.":
-    "As in a match: the opponent's card stays face down for {k} ms, then the ×2 text and the CONTINUE sound, and {a} ms later the new question's sound. Nothing is written to the server.",
-  "Ses penceresi {p} ms · yeni ses 880 ms (tam sığar) · eski ses 1800 ms (pencereye kısaltılıp söndürülür)":
-    "Sound window {p} ms · new sound 880 ms (fits fully) · old sound 1800 ms (shortened to the window and faded out)",
-  "Efektler kapalı — duymak için Ayarlar › Efektler'i aç.": "Sound effects are off — turn on Settings › Sound effects to hear it.",
-  "Rakip karar veriyor…": "Opponent is deciding…",
-  "Rakip devam etti": "Opponent continued",
-  "Yeni soru": "New question",
-  "Düğmeye bas, dinle": "Press a button and listen",
-  "Eski hâl": "Old version",
 };

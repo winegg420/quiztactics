@@ -1007,6 +1007,7 @@ export default function TournamentPage() {
         <QuestionCard
           // Key gösterilen soruya bağlı (Paket 14, 5.2)
           key={`${turnuva.id}-${soru.soru_index ?? turnuva.aktif_soru}`}
+          sesBekle={geriSayim !== null}   // 17 Eki: soru sesi 3-2-1 bitince (turnuva başlangıç sesinin üstüne binmez)
           className={soru.altin ? "m1-soru--altin" : ""}
           soru={soru}
           onCevapla={cevapla}

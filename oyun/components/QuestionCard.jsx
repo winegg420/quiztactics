@@ -69,6 +69,8 @@ export default function QuestionCard({
   // 1062: rakibin seçtiği şık — { cevap: 0-3, rakip: <avatar>, ben: <avatar> }. Yalnız soru kapandıktan (sonuç) sonra
   // çizilir; aynı şıkkı ben de seçtiysem iki avatar yan yana. Sunucu soru açıkken zaten null döndürür.
   rakipSik = null,
+  // 17 Eki 2026: kart 3-2-1 sayımının altında takılıyken true — soru sesi sayım bitince (soru görününce) çalar.
+  sesBekle = false,
 }) {
   const [kalan, setKalan] = useState(SURE);
   // GÖSTERİLEN sayaç (rakam, tik sesi, son-5-sn vurgusu): soru ekrana geç geldiyse ilk rakam kesirle başlar
@@ -189,13 +191,16 @@ export default function QuestionCard({
     cevapVerildiRef.current = false;
     sonTikRef.current = null;
     yenidenDeneRef.current = 0;
-    // Yeni soru ekrana geldi — soru başına bir kez (StrictMode çift efektine karşı ref).
-    const anahtar = soru ? `${soru.question_id}-${soru.soru_index}` : null;
-    if (anahtar && soruSesiRef.current !== anahtar) {
-      soruSesiRef.current = anahtar;
-      sesSoruGeldi();
-    }
   }, [soru?.question_id, soru?.soru_index]);
+  // Yeni soru ekrana geldi — soru başına bir kez (StrictMode çift efektine karşı ref). 17 Eki 2026: kart 3-2-1'in ALTINDA
+  // takılıyorsa (sesBekle) ses sayım bitip soru görününce çalar — soru sesi soruyla birlikte; sayımın başında çalıp turnuva
+  // başlangıç sesinin üstüne binmesin (ses bitiş kuralı).
+  useEffect(() => {
+    const anahtar = soru ? `${soru.question_id}-${soru.soru_index}` : null;
+    if (!anahtar || sesBekle || soruSesiRef.current === anahtar) return;
+    soruSesiRef.current = anahtar;
+    sesSoruGeldi();
+  }, [soru?.question_id, soru?.soru_index, sesBekle]);
 
   // İlk kullanıcı hareketinde ses motoru açılsın (mobil tarayıcı kuralı); maç sesleri önceden insin.
   // 15 Eki 2026: Düello/Hazine'deki kademeli yükleme (ses.js › macSesleriniOnYukle): önce ilk soruya kadar çalacaklar +
@@ -447,6 +452,9 @@ export default function QuestionCard({
       setSkillEfekt({ tur: "soru_degistir", asama: "cikiyor" });
       clearTimeout(skillTimer.current);
       skillTimer.current = setTimeout(() => {
+        // 17 Eki 2026 (ses bitiş kuralı): değişimin tek sesi jokerin kendi sesi — kart 200 ms sonra değiştiğinde ikinci bir
+        // "soru geldi" sesi çalmaz (joker sesinin üstüne binip onu "ekran geçti" durumuna düşürüyordu)
+        soruSesiRef.current = `${sonuc.soru.question_id}-${sonuc.soru.soru_index}`;
         setDegisenSoru({ ...sonuc.soru, _saat_ornek_ms: Date.now() });
         onPas?.(sonuc);
         setSkillEfekt({ tur: "soru_degistir", asama: "giriyor" });

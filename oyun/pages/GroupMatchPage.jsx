@@ -797,6 +797,7 @@ export default function GroupMatchPage() {
           // Key gösterilen soruya bağlı: aktif_soru ilerleyince kart eski soruyla
           // yeniden bindirilip geri bildirim silinmesin (Paket 14, 5.2).
           key={`${mac.id}-${soru.soru_index ?? mac.aktif_soru}`}
+          sesBekle={geriSayim !== null}   // 17 Eki: soru sesi 3-2-1 bitince
           soru={soru}
           onCevapla={cevapla}
           onSureDoldu={sureDoldu}

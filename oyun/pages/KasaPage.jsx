@@ -49,8 +49,8 @@ import { useDonukSayac } from "../lib/useDonukSayac.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesDokunus, sesRakipBulundu, sesSoruGeldi,
-  sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill, sesOnYukle, sesKalpAtisi, macSesleriniOnYukle, sesCanKaybi,
-  sesFazDegisti, fazdaCal, sesMacSonu, sesMacSonuKapat, sesPencere, sesKasaDevam } from "../lib/ses.js";
+  sesTurGecis, sesRakipCevapladi, sesRozet, sesJoker, sesXpDolma, sesSkill, sesOnYukle, sesKalpAtisi, macSesleriniOnYukle, sesCanKaybi,
+  sesFazDegisti, fazdaCal, sesMacSonu, sesMacSonuKapat, sesPencere } from "../lib/ses.js";
 import { akis } from "../lib/akisGunlugu.js";
 import { KasaAcAni, KasaAltinYagmuru, UcanParcalar, kasaSeviye, KasaGirisSahnesi, KasaFinalSahnesi,
   KasaCifteBandi, KasaRakipKarar, KasaSavunmaAni } from "../components/KasaEfekt.jsx";
@@ -508,7 +508,7 @@ function KasaMac({ id }) {
     // 15 Eki (Codex taraması): ilk sonuç anının sesleri (büyük artış xp_dolma, rakip yanlış can_kaybi) de ilk listede —
     // ertelenen grup soru görününce iniyordu, yavaş 4G'de ilk sonuç (~3 sn sonra) gelince xp_dolma hâlâ inmekteydi ve faz
     // değişince (doğru olarak) düşüyordu. İkisi küçük (92 + 24 KB); giriş sahnesi süresince iner.
-    sesOnYukle(["rozet", "xp_dolma", "can_kaybi"]);
+    sesOnYukle(["rozet", "rozet:ac", "rozet:devam", "xp_dolma", "can_kaybi"]);   // 17 Eki: AÇ/DEVAM anının kısa rozetleri
     const sesErtele = macSesleriniOnYukle(["skill", ["coin"]]);
     // Giriş sahnesinin önceden çizilmiş ışık görseli (kasa-efekt.css › .ks-giris-isik) sahne açılmadan insin
     try { new Image().src = "/hazine/giris-isik.webp"; } catch { /* görsel yoksa sahne ışıksız açılır */ }
@@ -1030,7 +1030,9 @@ function KasaMac({ id }) {
     if (d.durum !== "aktif" || !o || Number(o.tur) !== bek) return;
     const an = { kazandi: Boolean(o.kazandi), joker: o.joker ?? null, anahtar: Date.now() };
     setDevamAn(an);
-    if (an.kazandi) { sesRozet(); titret([14, 40, 20]); }   // ödül jokeri kazanıldı (kullanılmadı) → ödül sesi; kaybedince sessiz
+    // 17 Eki 2026 (ses bitiş kuralı): ödülün ayrı sesi YOK — aynı anda başlayan DEVAM anı kendi rozetini çalar (tek ses; ikisi
+    // üst üste biniyordu, ödül rozeti anın penceresine de sığmıyordu)
+    if (an.kazandi) titret([14, 40, 20]);
     jokerZaman(() => setDevamAn((x) => (x?.anahtar === an.anahtar ? null : x)), an.kazandi ? sure("kasa_devam_odul") : Math.round(1200 * sureOlcek("kasa_devam_odul")));
   }, [d]);   // eslint-disable-line react-hooks/exhaustive-deps
   // Rakip yeni joker kullandı → ikon + kısa efekt (rakip avatarının altında)
@@ -1199,10 +1201,11 @@ function KasaMac({ id }) {
         const m = (ms) => Math.round(ms * olcek);
         const basla = () => anBaslat({ tip: "ac", benim, deger: Number(k.deger ?? 0), seviye: kasaSeviye(k.deger, d.hedef, d.tavan), olcek,
                      kim: benim ? "ben" : "rakip", eskiPuan: Math.max(0, Number(veren?.puan ?? 0) - Number(k.deger ?? 0)) }, [
-            [m(340), { sars: true }, () => { if (benim) sesRozet(); else sesTurGecis(); titret(benim ? [20, 40, 30] : 20); }],
+            // 17 Eki 2026 (ses bitiş kuralı): AÇ anında tek ses — anın kısa rozeti (en dar ölçekte 367 → 1380 ms'ye doğal hâliyle sığar).
+            // Coin sesi kalktı: m(980) ile anın sonu arası en dar 323 ms, coin sesi 435 ms (soru sesinin üstüne biniyordu).
+            [m(340), { sars: true }, () => { if (benim) sesRozet("ac"); else sesTurGecis(); titret(benim ? [20, 40, 30] : 20); }],
             [m(690), { sars: false }],
-            // kısalmış anda coin sesi düşer (sesler üst üste binmesin; açılış + soru sesi kalır)
-            [m(980), { varis: true }, benim && payO >= 0.75 ? sesCoin : null],   // rakibin AÇ'ında coin sesi yok
+            [m(980), { varis: true }],
             [m(AC_AN_MS), "bitir", () => soruSesi(d)],
           ]);
         if (kapaliMs) kararZaman(basla, kapaliMs); else basla();
@@ -1220,7 +1223,9 @@ function KasaMac({ id }) {
         const basla = () => anBaslat({ tip: "devam", eski: Number(sk.deger ?? 0), yeni: Number(sk.yeni), tavan: Boolean(sk.tavan), olcek,
                    metin: carpanYazisi(sk.carpan, dil) ?? "" }, [
           // kısalmış anda tek ses (coin): soru sesiyle birlikte üç ses 400 ms'ye sıkışıyordu (sekme dönüşü ölçümü)
-          ...(payO >= 0.75 ? [[m(60), null, () => { sesKasaDevam(); titret([16, 30, 16]); }]] : []),
+          // 17 Eki 2026 (ses bitiş kuralı): DEVAM anının kısa rozeti (en dar ölçekte 59 → 1380 ms'ye doğal hâliyle sığar; soru sesi
+          // anın sonunda — üst üste binmez). kasa_devam (rozet-n1 kırpılıp söndürülmüş) kalktı.
+          ...(payO >= 0.75 ? [[m(60), null, () => { sesRozet("devam"); titret([16, 30, 16]); }]] : []),
           [m(560), { varis: true }, () => titret(12)],
           [m(DEVAM_AN_MS), "bitir", () => soruSesi(d)],   // 15 Eki: soru sesi an bitince (sayaç o an görünür)
         ]);
@@ -1346,9 +1351,9 @@ function KasaMac({ id }) {
     iyimserAcRef.current = `${turAnahtari(dd)}`;
     iyimserAcBittiRef.current = false;
     anBaslat({ tip: "ac", benim: true, deger, seviye: kasaSeviye(deger, dd.hedef, dd.tavan), olcek, kim: "ben", eskiPuan: puan }, [
-      [m(340), { sars: true }, () => { sesRozet(); titret([20, 40, 30]); }],
+      [m(340), { sars: true }, () => { sesRozet("ac"); titret([20, 40, 30]); }],   // 17 Eki: AÇ anında tek ses (yukarıdaki not)
       [m(690), { sars: false }],
-      [m(980), { varis: true }, sesCoin],
+      [m(980), { varis: true }],
       [m(AC_AN_MS), "bitir", () => { iyimserAcBittiRef.current = true; const g = dGuncelRef.current; if (g?.faz === "cevap") soruSesi(g); }],
     ]);
     return "ac";

@@ -1319,6 +1319,7 @@ export default function MatchPage() {
             onSureDoldu={sureDoldu}
             macTur={"1v1"}
             className={geriSayim !== null ? "m1-soru--sayimda" : ""}
+            sesBekle={geriSayim !== null}
             jokerSurum={jokerSurum}
             jokerYok={Boolean(mac.jokersiz)}
             sisBitis={sisBitis}
