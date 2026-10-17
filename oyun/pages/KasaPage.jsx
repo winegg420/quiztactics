@@ -1064,7 +1064,9 @@ function KasaMac({ id }) {
     setRakipJokerAn({ tur, anahtar: Date.now() });
     // 16 Eki 2026 (Ida: rakibin 2x işaret sesi yarıda kalıyordu): ses yalnız işaret kutusuyla birlikte (soru açıkken) ve iki taraf
     // da cevaplamamışken — ikisi de cevapladıysa sonuç ekranı hemen geliyor, ses onun altında kalırdı
-    if (d.faz === "cevap" && !(d.cevap?.ben_cevapladim && d.cevap?.rakip_cevapladi)) { sesJoker(); titret(12); }
+    // 17 Eki 2026 (ses bitiş kuralı): yalnız BEN henüz cevaplamamışken (sunucu + yerel dokunuş) — cevapladıysam sonuç ekranı rakip
+    // cevaplar cevaplamaz gelir (ölçüm: 150–180 ms), joker sesi bitmeden ekran geçerdi; o anda sonucun sesi çalar
+    if (d.faz === "cevap" && !d.cevap?.ben_cevapladim && secim == null) { sesJoker(); titret(12); }
     jokerZaman(() => setRakipJokerAn((x) => (x?.tur === tur ? null : x)), sure("kasa_rakip_joker"));
   }, [d]);   // eslint-disable-line react-hooks/exhaustive-deps
 

@@ -1224,7 +1224,8 @@ function DuelloMac({ id }) {
   // Rakibin Zaman Baskısı: skill sesi + titreşim (sayaçta "−N" balonu).
   useEffect(() => {
     if (!skillEfekt || (d?.surum !== 2 && d?.surum !== 4)) return;
-    if (skillEfekt.tur === "zaman_baskisi") { sesSkill("zaman_baskisi"); titret(30); }
+    // 17 Eki 2026 (ses bitiş kuralı): rakibin Zaman Baskısı sesi yalnız ben henüz cevaplamamışken — cevapladıysam sonuç her an gelir
+    if (skillEfekt.tur === "zaman_baskisi") { if (secim === null && !d?.cevap?.ben_cevapladim) sesSkill("zaman_baskisi"); titret(30); }
     if (skillEfekt.tur !== "elli") return;
     const kapali = Array.isArray(d.cevap?.elli_kapali) ? d.cevap.elli_kapali.map(Number) : [];
     setKiriliyor(kapali);
