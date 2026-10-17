@@ -1,4 +1,4 @@
--- 1126 geri alma (bot paritesi). Eski tanımlar canlıdan (pg_get_functiondef, 17 Eki 2026, 1126 öncesi).
+-- 1126 + 1127 geri alma (bot paritesi; 1127 Grup bot tepkisi). Eski tanımlar canlıdan (pg_get_functiondef, 17 Eki 2026, 1126 öncesi).
 -- Sıra: önce sarmalayıcılar ve çağıranlar eski tanımlarına, sonra tetikleyiciler, en son yeni iç nesneler silinir.
 -- Yalnız kapatmak için (geri almadan): klasik_bot_joker_yuzde / duello_bot_joker_yuzde = 0 (bot jokeri), tepki_bot_olasilik = 0
 -- (bot tepkisi, bütün modlar), kasa_bot_gecikme_profili = 0 (Hazine eski 2–6 sn).
@@ -1536,6 +1536,120 @@ begin
          son_hareket = now()
    where id = p_id;
 end $function$;
+
+-- 1127: bot_grup_adimlari eski tanımı (bot_eski_tepki_kuyrukla); bot_oyna yukarıda 1126 öncesine döndü (1127 de geri alınır)
+CREATE OR REPLACE FUNCTION public.bot_grup_adimlari(p_id uuid DEFAULT NULL::uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+-- 1056: bot_oyna'nın 8) ve 9) adımları (gövde aynen taşındı). p_id verilirse yalnız o maç.
+declare
+  r record;
+  q public.questions%rowtype;
+  v_cevap smallint;
+  v_dogru boolean;
+  v_puan int;
+begin
+  -- 8) Aktif grup maçlarında botlar cevaplasın (ve ara sıra tepki versin)
+  for r in
+    select gm.*, p.id as bot_id, p.bot_isabet
+    from public.group_matches gm
+    join public.group_match_players gmp on gmp.group_match_id = gm.id
+      and gmp.davet_durumu = 'kabul' and gmp.terk_at is null
+    join public.profiles p on p.id = gmp.user_id and p.is_bot
+    where gm.durum = 'aktif' and gm.basladi and gm.duraklatildi_at is null
+      and (p_id is null or gm.id = p_id)   -- 1056
+      -- Gecikme BOTA OZEL (1v1 ve turnuvadaki kuralin aynisi)
+      and (now() >= gm.soru_baslangic + public.bot_gecikme_sn(
+            p.id, gm.id::text || ':' || gm.aktif_soru::text,
+            p.bot_gecikme_min, p.bot_gecikme_max,
+            public.soru_okuma_yuku(gm.soru_ids[gm.aktif_soru + 1])) * interval '1 second'
+           -- 1088: bütün insanlar bu soruyu cevapladıysa bot bekletmez (zorluk/isabet aynı, yalnız bekleme kısalır)
+           or (exists (select 1 from public.group_match_answers ha
+                         join public.profiles hp on hp.id = ha.user_id and not coalesce(hp.is_bot, false)
+                        where ha.group_match_id = gm.id and ha.soru_index = gm.aktif_soru)
+               and not exists (select 1 from public.group_match_players hg
+                                 join public.profiles hp2 on hp2.id = hg.user_id and not coalesce(hp2.is_bot, false)
+                                where hg.group_match_id = gm.id and hg.davet_durumu = 'kabul' and hg.terk_at is null
+                                  and not exists (select 1 from public.group_match_answers ha2
+                                                   where ha2.group_match_id = gm.id and ha2.user_id = hg.user_id
+                                                     and ha2.soru_index = gm.aktif_soru))))
+      and not exists (
+        select 1 from public.group_match_answers a
+        where a.group_match_id = gm.id and a.user_id = p.id and a.soru_index = gm.aktif_soru
+      )
+      -- Bot, insan oyuncularin ulastigi soruyu GECEMEZ (1v1'deki kural)
+      and gm.aktif_soru <= 1 + coalesce((
+        select max(a2.soru_index)
+        from public.group_match_answers a2
+        join public.profiles p2 on p2.id = a2.user_id
+        where a2.group_match_id = gm.id and not coalesce(p2.is_bot, false)
+      ), -1)
+    for update of gm skip locked
+  loop
+    select * into q from public.questions where id = r.soru_ids[r.aktif_soru + 1];
+    if not found then continue; end if;
+
+    if random() < public.bot_soru_isabet(r.bot_id, q.kategori, q.id) then
+      v_cevap := q.dogru_cevap;
+    else
+      select x into v_cevap from generate_series(0, 3) x
+      where x <> q.dogru_cevap order by random() limit 1;
+    end if;
+    v_dogru := (v_cevap = q.dogru_cevap);
+
+    insert into public.group_match_answers (group_match_id, user_id, soru_index, cevap, dogru)
+    values (r.id, r.bot_id, r.aktif_soru, v_cevap, v_dogru)
+    on conflict do nothing;
+
+    if v_dogru then
+      v_puan := 10;
+      update public.group_match_players
+         set skor = skor + v_puan
+       where group_match_id = r.id and user_id = r.bot_id;
+    end if;
+
+    -- 673: sabit 0.15 yerine bot_eski_tepki_olasilik, kuyruklu (1-4 sn gecikme).
+    perform public.bot_eski_tepki_kuyrukla('grup_mesaj', r.id, r.bot_id);
+  end loop;
+
+  -- 9) Grup maçlarını ilerlet (süre dolduysa veya kabul edenlerin hepsi cevapladıysa)
+  for r in
+    select gm.id from public.group_matches gm
+    where gm.durum = 'aktif' and gm.basladi and gm.duraklatildi_at is null
+      and (p_id is null or gm.id = p_id)   -- 1056
+      and (
+        -- herkes cevapladi
+        not exists (
+          select 1 from public.group_match_players gmp
+          where gmp.group_match_id = gm.id and gmp.davet_durumu = 'kabul'
+            and gmp.terk_at is null
+            and not exists (
+              select 1 from public.group_match_answers a
+              where a.group_match_id = gm.id and a.user_id = gmp.user_id and a.soru_index = gm.aktif_soru
+            )
+        )
+        -- ya da soru suresi doldu VE en az bir insan bu soruyu fiilen oynadi
+        or (now() > gm.soru_baslangic + interval '16 seconds'
+            and exists (
+              select 1 from public.group_match_answers a3
+              join public.profiles p3 on p3.id = a3.user_id
+              where a3.group_match_id = gm.id and a3.soru_index = gm.aktif_soru
+                and not coalesce(p3.is_bot, false)
+            ))
+        -- ya da mac terk edildi (guvenlik agi)
+        or now() > gm.soru_baslangic + interval '10 minutes'
+      )
+  loop
+    perform public.advance_group_match(r.id);
+  end loop;
+end;
+$function$;
+
+drop function if exists public.bot_tepki_grup(uuid, uuid, boolean);
+delete from supabase_migrations.schema_migrations where version = '20260612001127';
 
 drop trigger if exists trg_duello_bot_tepki on public.duellolar;
 CREATE TRIGGER trg_duello_bot_tepki AFTER UPDATE OF son_hamle ON public.duellolar FOR EACH ROW WHEN (((new.son_hamle IS DISTINCT FROM old.son_hamle) AND (new.surum = 2) AND (new.son_hamle IS NOT NULL))) EXECUTE FUNCTION trg_duello_bot_tepki();

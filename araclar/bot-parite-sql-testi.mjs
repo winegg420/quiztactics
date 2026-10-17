@@ -6,12 +6,14 @@
 //   · Düello v4: insan yolu aynı; bot joker → duello_durum › skill.rakip_turler; Son Düello, 4 sınırı, rakip cevapladı, yüzde 0 → yok
 //   · Tepki: 3 sn'de 1 ve maçta en çok 10 (bot_tepki_gonder); Düello v4 ve Hazine botu anlamlı anda tepki kuyruklar
 //   · Hazine: bot cevap anı bot_gecikme_sn profilinden (profil 0 → eski 2–6 sn)
+//   · Grup (1127): bot eski emoji sohbet mesajı yerine 4 bedava tepkiyi grup-mac-<id> kanalına kuyruklar
 // Kullanım: IZIN_CANLI_TEST=1 node araclar/bot-parite-sql-testi.mjs
 import { PgIstemci, baglantiDizgisi } from './pg-mini.mjs';
 import fs from 'node:fs';
 
 if (process.env.IZIN_CANLI_TEST !== '1') { console.log('IZIN_CANLI_TEST=1 gerekli (tek maç, tek işlem, ROLLBACK)'); process.exit(2); }
 const MIG = fs.readFileSync(new URL('../supabase/migrations/20260612001126_bot_parite.sql', import.meta.url), 'utf8');
+const MIG2 = fs.readFileSync(new URL('../supabase/migrations/20260612001127_bot_grup_tepki.sql', import.meta.url), 'utf8');
 
 const db = await new PgIstemci(await baglantiDizgisi()).baglan();
 let gecti = 0, kaldi = 0;
@@ -47,10 +49,11 @@ try {
 
   console.log('1) Migration 1126 (transaction içinde) + yetkiler');
   await db.sorgu(MIG);
+  await db.sorgu(MIG2);
   for (const f of INSAN_RPC) ok(`${f} yetkisi aynı`, (await acl(f)) === onceAcl[f], `${onceAcl[f]} → ${await acl(f)}`);
   for (const f of ['joker_hak_kontrol_ic(uuid,text,uuid,text)', 'joker_kullan_ic(uuid,text,uuid,integer,text)',
     'skill_hazirla_ic(uuid,text,uuid,integer,text)', 'bot_klasik_cevap(uuid,uuid,integer,uuid)', 'duello4_joker_ic(uuid,uuid,text)',
-    'duello4_bot_joker(uuid,uuid)', 'trg_kasa_bot_tepki()']) {
+    'duello4_bot_joker(uuid,uuid)', 'trg_kasa_bot_tepki()', 'bot_tepki_grup(uuid,uuid,boolean)']) {
     ok(`${f} istemciye kapalı`, !/(anon|authenticated)=/.test(await acl(f)) && (await acl(f)) !== '', await acl(f));
   }
   ok('rakip_jokerleri yetkisi = joker_mac_durumu yetkisi', (await acl('rakip_jokerleri(text,uuid)')) === (await acl('joker_mac_durumu(text,uuid)')));
@@ -258,6 +261,22 @@ try {
   await db.sorgu(`update kasa_maclari set durum = 'bitti', kazanan = '${A}', bitis = now() where id = '${H}'`);
   ok('Hazine: maç sonu → bot tepkisi (saygı)', (await bek(hk)) === 2 && /^(alkis|tac|selam|rica)$/.test(
     await tek(`select icerik from bot_tepki_bekleyen where kanal = '${hk}' order by id desc limit 1`)));
+  // ------------------------------------------------------------------ GRUP (1127)
+  console.log('8) Grup — bot 4 bedava tepkiyi maç kanalına yollar (eski emoji sohbeti yok)');
+  const G = await tek(`insert into group_matches (kurucu, oyuncu_sayisi, durum, soru_ids, aktif_soru, soru_baslangic, basladi)
+    select '${A}', 3, 'aktif', array_agg(id), 3, now() - interval '20 seconds', true from (select id from questions order by id limit 20) q returning id::text`);
+  await db.sorgu(`insert into group_match_players (group_match_id, user_id, davet_durumu, hazir, nabiz_at) values
+    ('${G}', '${A}', 'kabul', true, now()), ('${G}', '${BOT}', 'kabul', true, now())`);
+  await db.sorgu(`insert into group_match_answers (group_match_id, user_id, soru_index, cevap, dogru) values ('${G}', '${A}', 3, 0, false)`);
+  const mesaj0 = await sayi(`select count(*) from group_match_messages where group_match_id = '${G}'`);
+  await db.sorgu(`select bot_grup_adimlari('${G}')`);
+  ok('Grup: bot cevapladı', (await sayi(`select count(*) from group_match_answers where group_match_id = '${G}' and user_id = '${BOT}'`)) === 1);
+  ok('Grup: rakip hatası → yeni tepki grup-mac kanalında', (await bek(`grup-mac-${G}`)) === 1
+    && /^(havali|terli|dusunen|alkis|ates|hedef|kas|gulen|korku)$/.test(await tek(`select icerik from bot_tepki_bekleyen where kanal = 'grup-mac-${G}'`)));
+  ok('Grup: eski emoji sohbet mesajı yazılmadı', (await sayi(`select count(*) from group_match_messages where group_match_id = '${G}'`)) === mesaj0
+    && (await sayi(`select count(*) from bot_tepki_bekleyen where tur = 'grup_mesaj' and hedef_id = '${G}'`)) === 0);
+  ok('bot_oyna: tepki-* özel, grup-mac açık kanal',
+    (await tek(`select pg_get_functiondef('public.bot_oyna'::regproc)`)).includes("'tepki', r.kanal, r.kanal like 'tepki-%')"));
   await ayar('tepki_bot_olasilik', '0');
   await db.sorgu(`select bot_tepki_gonder('tepki-test-0', '${BOT}', 'dogru')`);
   ok('tepki_bot_olasilik 0 → hiç yok', (await bek('tepki-test-0')) === 0);
