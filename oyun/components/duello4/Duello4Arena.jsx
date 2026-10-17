@@ -28,6 +28,7 @@ import { titret } from "../../lib/geriBildirim.js";
 import { GeriSayim, useGeriSayim } from "../MacHazirlik.jsx";
 import RehberBalonu from "../RehberBalonu.jsx";
 import { useIlkMacRehberi } from "../../lib/ilkMacRehberi.js";
+import { TepkiBalonu, TepkiCubugu } from "../Tepki.jsx";
 import { sonBilinenOku } from "../../lib/sonBilinen.js";
 import "./duello4.css";
 
@@ -71,7 +72,8 @@ function SeriPip({ deger, hedef, taraf }) {
   );
 }
 
-function Oyuncu({ o, rakipMi, c, kontrolde, seri, hedef, aktif, tepki, onay, seviye }) {
+// 1120: emote = maç içi tepki balonu (components/Tepki.jsx); `tepki` ise turun doğru/yanlış işaretidir.
+function Oyuncu({ o, rakipMi, c, kontrolde, seri, hedef, aktif, tepki, onay, seviye, emote }) {
   return (
     <div className={sinif("d4-oy", rakipMi ? "d4-oy--rakip" : "d4-oy--ben", kontrolde && "d4-oy--kontrol",
                           aktif && "d4-oy--aktif", tepki && `d4-oy--${tepki}`)}>
@@ -79,6 +81,7 @@ function Oyuncu({ o, rakipMi, c, kontrolde, seri, hedef, aktif, tepki, onay, sev
         <CerceveliAvatar profile={o} userId={o.id} boyut={40} hareketli kart={seviye} />
         {onay && <span className="d4-oy-onay" role="img" aria-label={c("cevapladı")}><QtIkon ad="onay" boyut={11} /></span>}
         {tepki && <span className="d4-oy-tepki" aria-hidden="true"><QtIkon ad={tepki === "dogru" ? "onay" : "carpi"} boyut={14} /></span>}
+        <TepkiBalonu balon={emote} yan={rakipMi ? "rakip" : "sen"} />
       </span>
       <span className="d4-oy-yazi">
         <OyuncuAdiDugmesi userId={o.id} profil={o} className="d4-oy-ad">{rakipMi ? adKisalt(o.gorunen_ad) : c("Sen")}</OyuncuAdiDugmesi>
@@ -161,7 +164,7 @@ function sonucModeli(h, benId, c) {
 export default function Duello4Arena({
   d, ben, rakip, c, seviyeler = {}, gosterSn, farkMs = 0, simdi, kopukBant, yenidenBant, hata, calisan,
   secim, ikinciSansElendi = [], kiriliyor = [], ekBalon, jokerSerbest, sonKullanilan, skillDeger,
-  onCevap, onKart, onJoker, onYenile, onCik,
+  onCevap, onKart, onJoker, onYenile, onCik, tepkiDurum = null,
 }) {
   const kisaEkran = useKisaEkran();
   const ligim = benimLigim();
@@ -332,7 +335,7 @@ export default function Duello4Arena({
     <header className={sinif("d4-ust", v.son && "d4-ust--son", rehber && "d4-ust--rehber")}>
       <div className="d4-ust-satir">
         <Oyuncu o={ben} c={c} kontrolde={benKontrol} seri={Number(v.seri ?? 0)} hedef={hedef} tepki={tepkiBen}
-                onay={soruFazi && kilitli} seviye={seviyeler[ben.id]} />
+                onay={soruFazi && kilitli} seviye={seviyeler[ben.id]} emote={tepkiDurum?.balonlar?.[ben.id]} />
         <div className="d4-orta">
           <span className="d4-tur">{v.son ? c("SON DÜELLO") : <>{kontrol == null ? c("NÖTR") : c("Soru")} <b className="qt-sayi">{soruSirasi}/{maxSoru}</b></>}</span>
           {sayacVar
@@ -341,7 +344,8 @@ export default function Duello4Arena({
             : <span className="d4-sayac d4-sayac--bos" aria-hidden="true" />}
         </div>
         <Oyuncu o={rakip} c={c} rakipMi kontrolde={kontrol === rakip.id} seri={Number(v.seri ?? 0)} hedef={hedef} tepki={tepkiRakip}
-                aktif={rakipSeciyor} onay={soruFazi && Boolean(cv.rakip_cevapladi)} seviye={seviyeler[rakip.id]} />
+                aktif={rakipSeciyor} onay={soruFazi && Boolean(cv.rakip_cevapladi)} seviye={seviyeler[rakip.id]}
+                emote={tepkiDurum?.balonlar?.[rakip.id]} />
       </div>
       {/* Kontrol çekirdeği: sahibin tarafına kayar ve parlar; el değişince karşıya uçar. */}
       <div className={sinif("d4-hat", `d4-hat--${v.son ? "son" : taraf}`)} role="img"
@@ -600,7 +604,11 @@ export default function Duello4Arena({
   return (
     <div className={sinif("m2-mac hk-mac d4-arena", ligim && `d4-lig--${ligim}`, `d4-arena--${d.faz}`, v.son && "d4-arena--sonduello",
                           !v.son && kontrol != null && `d4-zemin--${taraf}`, gerilim && "d4-zemin--gerilim")}>
-      <MacUstSerit onCik={onCik} cikisEtiketi={c("Düellodan çık")} rozet={c("Düello")} />
+      {/* 1120: tepki düğmesi üst şeritte, ses düğmesinin solunda (oyuncu hücresinde adı kesiyordu) */}
+      <div className="d4-ust-serit">
+        <MacUstSerit onCik={onCik} cikisEtiketi={c("Düellodan çık")} rozet={c("Düello")} />
+        {tepkiDurum && <TepkiCubugu tepki={tepkiDurum} className="d4-tepki" />}
+      </div>
       {sayimKatmani}
       {ust}
       {kopukBant && (

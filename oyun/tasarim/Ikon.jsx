@@ -464,7 +464,7 @@ export default function QtIkon({ ad, boyut = 24, etiket, className = "" }) {
       />
     );
   }
-  // Renkli sistem emojisi: ad = "emoji:👍" (maç içi tepkiler, lib/tepkiler.js).
+  // Renkli sistem emojisi: ad = "emoji:👍" (Grup Maçı sohbet tepkileri, lib/grupTepkileri.js).
   // Yazı tipi ve renk kuralları: tasarim/ekranlar/emoji.css (.qt-emoji).
   if (typeof ad === "string" && ad.startsWith("emoji:")) {
     return (

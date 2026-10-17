@@ -335,3 +335,10 @@
 .d4-rehber--seri { top: auto; bottom: 1px; left: 50px; --qt-rehber-ok: 40px; }
 .d4-rehber--kart { top: auto; bottom: 1px; right: 8px; --qt-rehber-ok: calc(100% - 40px); }
 .d4-rehber--kart::before { top: auto; bottom: -6px; }
+
+/* 1120: maç içi tepki — düğme üst şeritte ses düğmesinin solunda (absolute; fixed/transform tuzağı yok), seçim paneli aşağı,
+   sağa hizalı açılır. Balon (.qt-tepki-balon) avatar yuvasında (.d4-oy-av relative). */
+.d4-ust-serit { position: relative; }
+.d4-tepki.qt-tepki { position: absolute; z-index: 30; top: 0; right: calc(44px + var(--qt-b-2)); display: block; }
+.d4-tepki .qt-ikon-dugme { width: 44px; height: 44px; min-width: 44px; min-height: 44px; }
+.d4-tepki .qt-tepki-panel { position: absolute; right: 0; top: calc(100% + 4px); width: max-content; max-width: min(320px, 92vw); }

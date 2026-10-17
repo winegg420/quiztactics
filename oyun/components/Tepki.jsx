@@ -16,9 +16,11 @@
 //   gönderttirir; sayfanın herkese açık maç kanalındaki "tepki" olayı o zaman YOK SAYILIR (sahte
 //   gönderim çizilmez). Alan yoksa (migration uygulanmamış) eski davranış: sayfanın maç kanalı.
 //   Oyun kanalına dokunulmaz — özel kanal bağlanamazsa yalnız tepki susar, maç etkilenmez.
-// NOT (B3, Ida): tepki şimdilik yalnız Antrenman'da. Klasik/Düello'ya açılınca veritabanına yazan
-//   eski 6 emoji (lib/tepkiler.js › TEPKILER → match_messages; bot_oyna'daki eski tepki kolu)
-//   kaldırılacak — o güne dek dokunulmaz.
+// 1120 (Ida, 17 Eki 2026): tepki bütün gerçek maç modlarında açık — Klasik, Saf Bilgi, Düello (v2 + v4),
+//   Ortak Hazine ve açık bot maçı. Veritabanına yazan eski 6 emoji (match_messages, bot_oyna/submit_match_answer
+//   eski kolu) kalktı; Grup Maçı sohbet tepkileri lib/grupTepkileri.js'te ayrı durur.
+//   Tepki SESSİZDİR: balon yalnız görsel — maç seslerinin üstüne binmez (ses bitiş kuralı).
+//   Tepki asla soru akışını/süreyi beklemez: gönderim ateşle-unut, hata yutulur; alım try içinde.
 // ============================================================
 import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";

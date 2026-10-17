@@ -25,7 +25,6 @@ import { adKisalt } from "../lib/adKisalt.js";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { VsKarti } from "../components/AramaSahnesi.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
-import { TEPKILER, tepkiTanimi } from "../lib/tepkiler.js";
 import { TepkiAvatar, TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
 import IsimEfekti from "../components/IsimEfekti.jsx";
 import { botAdi } from "../lib/botAdi.js";
@@ -66,12 +65,8 @@ const MAC_KAPALI = ["bitti", "iptal", "reddedildi"];
 // zaten çekilen profil satırına eklendi.
 // Maç satırı seçimi tek kaynak: lib/macOnYukleme.js (eşleşme anındaki ön yükleme aynı satırı okur)
 
-// Tepkiler artık yerel Noto görselleri (bkz. lib/tepkiler.js). Sunucuya giden metin aynı.
-// Balonda gösterim: mesaj bir tepki emojisiyse ikonu, değilse metni çiz.
-function balonIcerik(mesaj) {
-  const tepki = tepkiTanimi(mesaj);
-  return tepki ? <QtIkon ad={tepki.ad} boyut={20} etiket={tepki.etiket} /> : mesaj;
-}
+// 1120: match_messages artık yalnız hazır cümle taşır (eski 6 emoji tepkisi kalktı; tepki = components/Tepki.jsx).
+const balonIcerik = (mesaj) => mesaj;
 // Profil satırındaki görsel (gizlilik sonrası gorunen_avatar; eski modüllerde avatar_url).
 const avatarSrc = (p) => (p?.gorunen_avatar !== undefined ? p.gorunen_avatar : p?.avatar_url) || null;
 const KALIPLAR = [
@@ -354,10 +349,8 @@ export default function MatchPage() {
   // ÇİFT BAZLI ÖDÜL DURUMU — aynı rakiple aynı gün çok maç yapınca ödül
   // azalır (bkz. migration 145). Oyuncu bunu maç başlarken görmeli.
   const [ciftDurum, setCiftDurum] = useState(null);
-  // SADELEŞTİRME: tepki paneli açık mı (soru ekranı tek işe odaklansın)
-  const [tepkiAcik, setTepkiAcik] = useState(false);
-  // 542: yeni maç içi tepki (emote) — aynı maç kanalında broadcast, DB'ye yazılmaz. Açıksa (tepki_acik_modlar;
-  // ilk açılış yalnız Antrenman) eski DB'ye yazan emoji tepkileri gizlenir, hazır cümleler aynen kalır.
+  // 542: maç içi tepki (emote) — özel tepki kanalında broadcast, DB'ye yazılmaz. 1120: tepki_acik_modlar bütün
+  // gerçek maç modları (Klasik/Saf Bilgi, Düello, Hazine, Antrenman); hazır cümleler aynen kalır.
   const tepki = useMacTepki({
     macTur: "klasik", macId: id, benId: user?.id,
     rakipId: mac ? (mac.oyuncu1 === user?.id ? mac.oyuncu2 : mac.oyuncu1) : null,
@@ -1111,10 +1104,7 @@ export default function MatchPage() {
             </div>
           )}
 
-          <div className="m1-tepki" role="group" aria-label={tt("Tepkiler")}>
-            {TEPKILER.map((t) => (
-              <QtIkonDugme key={t.deger} ikon={t.ad} etiket={t.etiket} onClick={() => mesajGonder(t.deger)} />
-            ))}
+          <div className="m1-tepki" role="group" aria-label={tt("Hazır cümleler")}>
             <QtIkonDugme
               ikon="sohbet"
               etiket={tt("Hazır cümleler")}
@@ -1344,40 +1334,18 @@ export default function MatchPage() {
         )}
 
         <div className="m1-alt m1-alt--1v1">
-          {/* 542: yeni tepki (emote) — açık modda eski emoji tepkilerinin yerine.
-              NOT (B3, Ida): yeni tepki yalnız Antrenman'da; Klasik/Düello'ya açılınca aşağıdaki DB'ye yazan
-              eski 6 emoji (TEPKILER → match_messages) kaldırılacak. O güne dek dokunulmaz. */}
+          {/* 542/1120: maç içi tepki (emote) — bütün gerçek maç modlarında; eski DB'ye yazan 6 emoji kalktı. */}
           <TepkiCubugu tepki={tepki} className="m1-tepki-yeni" />
-          {/* SADELEŞTİRME (12 Eylül 2026): ekranın tek işi soruyu cevaplamak; tepkiler
-              tek düğmenin arkasında. Panelde aynı tepkiler ve aynı kalıplar var. */}
+          {/* SADELEŞTİRME (12 Eylül 2026): ekranın tek işi soruyu cevaplamak; hazır cümleler tek düğmenin arkasında. */}
           <div className="m1-tepki">
             <QtIkonDugme
               ikon="sohbet"
-              etiket={tepki.acik ? tt("Hazır cümleler") : tt("Tepki gönder")}
-              aria-expanded={tepkiAcik}
-              tur={tepkiAcik ? "mavi" : "yuzey"}
-              onClick={() => setTepkiAcik((a) => !a)}
+              etiket={tt("Hazır cümleler")}
+              aria-expanded={kaliplarAcik}
+              tur={kaliplarAcik ? "mavi" : "yuzey"}
+              onClick={() => setKaliplarAcik((a) => !a)}
             />
           </div>
-          {tepkiAcik && (
-            <div className="m1-tepki" role="group" aria-label={tt("Tepkiler")}>
-              {!tepki.acik && TEPKILER.map((t) => (
-                <QtIkonDugme
-                  key={t.deger}
-                  ikon={t.ad}
-                  etiket={t.etiket}
-                  onClick={() => { mesajGonder(t.deger); setTepkiAcik(false); }}
-                />
-              ))}
-              <QtIkonDugme
-                ikon="sohbet"
-                etiket={tt("Hazır cümleler")}
-                aria-expanded={kaliplarAcik}
-                tur={kaliplarAcik ? "mavi" : "yuzey"}
-                onClick={() => setKaliplarAcik((a) => !a)}
-              />
-            </div>
-          )}
           {kaliplarAcik && (
             <div className="m1-kaliplar">
               {KALIPLAR.map((k) => (

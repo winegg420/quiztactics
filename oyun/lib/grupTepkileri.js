@@ -1,6 +1,9 @@
 import { tt } from "./dil.js";
-// Maç içi tepkiler — işletim sistemi emojisi yerine yerel Google Noto Emoji
+// GRUP MAÇI sohbet tepkileri (group_match_messages) — işletim sistemi emojisi yerine yerel Google Noto Emoji
 // 3D görselleri. Sunucuya giden `deger` alanı değişmez.
+// 1120 (17 Eki 2026): eski adı lib/tepkiler.js. 1v1 maçlarda (Klasik, Saf Bilgi, Düello, Hazine, açık bot) bu
+// 6 emoji kalktı — oralarda yalnız yeni maç içi tepki (components/Tepki.jsx) var. Grup Maçı çok oyunculu
+// olduğu için yeni sisteme bağlı değil; sohbet tepkisi burada kalır.
 //
 // Neden: 👍😂😮😡🔥😎 her cihazda farklı çiziliyor (Android/iOS/Windows üç
 // ayrı görsel dil) ve oyunun çizgi ikon diliyle hiç ilgisi yok. Oyundan

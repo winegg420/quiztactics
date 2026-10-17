@@ -4,7 +4,7 @@
    emoji yazı tipi önce gelir; metinle karışık alanlarda (mesaj balonu, hazır
    cümle) yazı tipi aynı kalır, emoji karakterleri renkli yazı tipine düşer.
    Emojiyi boyayan renk/filtre/metin dolgusu kuralları burada ezilir.
-   Yüklendiği yerler: lib/tepkiler.js (maç içi tepkiler), EmojiSecici.jsx.
+   Yüklendiği yerler: lib/grupTepkileri.js (Grup Maçı sohbet tepkileri), EmojiSecici.jsx.
    ===================================================================== */
 
 /* Yalnız emoji: tepki düğmeleri ve balonları (QtIkon ad="emoji:…"), emoji seçici */

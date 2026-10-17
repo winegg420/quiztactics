@@ -380,7 +380,7 @@ function KasaMac({ id }) {
   useEffect(() => { if (d?.id && d.durum === "aktif") sonModuYaz("kasa"); }, [d?.id, d?.durum]);
   const { ozet: macSonuOzet, hata: macSonuHata } = useMacSonuOzet(d?.durum === "bitti" && d?.id ? `kasa:${d.id}` : null);
   const sonFinRef = useRef(null);   // 10 Eki 2026: final sahnesi bitti ama özet gelmediyse sahne ekranda kalır
-  // 957: maç içi tepki (Klasik/Düello ile aynı; yalnız tepki_acik_modlar'daki modda — bugün Antrenman). Sunucu
+  // 957: maç içi tepki (Klasik/Düello ile aynı; yalnız tepki_acik_modlar'daki modda — 1120'den beri hepsi). Sunucu
   // özel kanalı ('tepki-kasa-<id>', yalnız iki oyuncu) verir; sayfanın kasa kanalı tepki taşımaz.
   const tepkiRakipId = (d?.oyuncular ?? []).find((o) => o.id !== d?.ben)?.id ?? null;
   const tepki = useMacTepki({ macTur: "kasa", macId: id, benId: user?.id, rakipId: tepkiRakipId,

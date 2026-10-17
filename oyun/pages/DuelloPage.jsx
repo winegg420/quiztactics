@@ -522,7 +522,7 @@ function DuelloMac({ id }) {
   const duelloKanalRef = useRef(null);
   const tepkiRakipId = (d?.oyuncular ?? []).find((o) => o.id !== d?.ben)?.id ?? null;
   const tepki = useMacTepki({ macTur: "duello", macId: id, benId: user?.id, rakipId: tepkiRakipId,
-                             kanal: () => duelloKanalRef.current, etkin: Boolean(d?.surum === 2 && d?.durum === "aktif") });
+                             kanal: () => duelloKanalRef.current, etkin: Boolean((d?.surum === 2 || d?.surum === 4) && d?.durum === "aktif") });   // 1120: v4 de
   const tepkiAlRef = useRef(null);
   tepkiAlRef.current = tepki.al;
   const sinyalZamanRef = useRef(null);
@@ -1624,7 +1624,7 @@ function DuelloMac({ id }) {
                       hata={hata} calisan={calisan} secim={secim} ikinciSansElendi={ikinciSansElendi} kiriliyor={kiriliyor}
                       ekBalon={ekBalon4} jokerSerbest={jokerSerbest} sonKullanilan={sonKullanilan} skillDeger={skillDeger}
                       onCevap={cevapVer} onKart={kategoriSec} onJoker={v2SkillKullan} onYenile={() => { yukle().catch(() => {}); }}
-                      onCik={() => setTerkOnay(true)} />
+                      onCik={() => setTerkOnay(true)} tepkiDurum={tepki} />
         {satinAlPenceresi}
         <QtModal acik={terkOnay} onKapat={() => setTerkOnay(false)} baslik={ceviri("Düellodan çık")}
                  aciklama={ceviri("Düellodan çıkarsan hükmen kaybedersin. Emin misin?")}
