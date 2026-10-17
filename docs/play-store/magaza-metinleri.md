@@ -310,3 +310,22 @@ Privacy policy: https://quiztactics.com/gizlilik
 - Elmas satın alma açıldığında Play kuralı gereği **Google Play Faturalandırma** zorunludur
   (TWA'da Digital Goods API). Açılmadan önce "Uygulama içi satın alma içerir" işareti ve
   Veri güvenliği formundaki "Satın alma geçmişi" satırı güncellenir.
+
+
+## Ekran görüntüsü başlıkları
+
+17 Eki 2026 finali; altı ekranın sırası aşağıdadır. Görsel dosyaları bu görevde değiştirilmedi.
+
+| Sıra | Ekran | TR | EN | TR karakter | EN karakter |
+|---|---|---|---|---:|---:|
+| 1 | Klasik | Aynı soru, aynı anda | Same question. Same moment. | 20 | 27 |
+| 2 | Düello | Bilgini taktiğe dönüştür | Turn knowledge into tactics | 24 | 27 |
+| 3 | Hazine | Hazineyi ne zaman açacaksın? | When will you open it? | 28 | 22 |
+| 4 | Turnuva | Herkes aynı yarışta | One shared competition | 19 | 22 |
+| 5 | Sıralama | Bronz’dan Efsane’ye yüksel | Climb from Bronze to Legend | 26 | 27 |
+| 6 | Ana ekran | Modunu seç, maça gir | Pick your mode and play | 20 | 23 |
+
+### Öne çıkan grafik sloganı
+
+- TR: Bilgini taktiğe dönüştür (24 karakter, 3 kelime).
+- EN: Turn knowledge into tactics (27 karakter, 4 kelime).
