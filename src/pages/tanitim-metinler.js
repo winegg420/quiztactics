@@ -1,5 +1,18 @@
 /* Yalnız tanıtım sayfasının yeni metinleri; oyun sözlüğüne müdahale etmez. */
 export const TANITIM_EN = {
+  "Şehrinden": "From your city",
+  "dünyanın zirvesine.": "to the top of the world.",
+  "Ligde yüksel; şehir, ülke ve dünya şampiyonluğunu hedefle. Canlı turnuvalarda diğer oyuncularla aynı anda, aynı sorularda yarış.": "Climb the league and aim for the city, national and world titles. Compete in live tournaments with other players, answering the same questions at the same time.",
+  "Aynı anda yarış. Sıralamada yüksel.": "Compete together. Climb the rankings.",
+  "Hedefin şampiyonluk olsun": "Set your sights on the title",
+  "Canlı turnuva ekranı": "Live tournament screen",
+  "Herkes aynı anda, aynı yarışta": "One start. One shared competition.",
+  "Günde beş turnuva seansı. Ortak geri sayımla başla, diğer katılımcılarla aynı soruları cevapla ve son kalan olmak için yarış.": "Five tournament sessions a day. Start with a shared countdown, answer the same questions as the other players and compete to be the last one standing.",
+  "Haftalık lig sıralaması": "Weekly league standings",
+  "Ligde zirveye tırman": "Climb to the top of your league",
+  "Her hafta yeni bir sıralama mücadelesi. Maçlarda lig puanı kazan, rakiplerini geç ve Bronz’dan Efsane’ye yüksel.": "A fresh race up the rankings every week. Earn league points in matches, overtake your rivals and climb from Bronze to Legend.",
+  "Şehir. Ülke. Dünya. Sıradaki şampiyon sen ol.": "City. Country. World. Be the next champion.",
+  "Haftalık şehir, ülke ve dünya sıralamalarında yerini al. Birincilik için yarış, şampiyonluk unvanını kazan.": "Take your place in the weekly city, national and world rankings. Compete for first place and earn the champion title.",
   "Bilgini": "Turn your knowledge",
   "taktiğe dönüştür.": "into tactics.",
   "Rakibinin kategorisini seç, hazineyi ne zaman açacağına karar ver. Düello ve Ortak Hazine’de bilgine bir hamle ekle.": "Pick your opponent’s category. Decide when to open the treasure. Put your knowledge into play in Duel and Shared Treasure.",

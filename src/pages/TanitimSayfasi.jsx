@@ -132,10 +132,10 @@ export default function TanitimSayfasi() {
         <section className="tn-acilis" aria-labelledby="tn-baslik">
           <div className="tn-acilis-metin">
             <h1 id="tn-baslik" className="tn-baslik">
-              {ceviri("Bilgini")} <span className="tn-baslik-vurgu">{ceviri("taktiğe dönüştür.")}</span>
+              {ceviri("Şehrinden")} <span className="tn-baslik-vurgu">{ceviri("dünyanın zirvesine.")}</span>
             </h1>
             <p className="tn-giris-metni">
-              {ceviri("Rakibinin kategorisini seç, hazineyi ne zaman açacağına karar ver. Düello ve Ortak Hazine’de bilgine bir hamle ekle.")}
+              {ceviri("Ligde yüksel; şehir, ülke ve dünya şampiyonluğunu hedefle. Canlı turnuvalarda diğer oyuncularla aynı anda, aynı sorularda yarış.")}
             </p>
             <div className="tn-eylem">
               <QtDugme tur="birincil" boyut="b" className="tn-kur-dugme" yukleniyor={bekliyor} onClick={hemenKur}>
@@ -156,10 +156,31 @@ export default function TanitimSayfasi() {
 
           <div className="tn-sahne" aria-hidden="true">
             <span className="tn-isin" />
-            <Telefon gorsel="klasik" dil={dil} alt="" className="tn-sahne-sol" />
+            <Telefon gorsel="lig" dil={dil} alt="" className="tn-sahne-sol" />
             <Telefon gorsel="hazine" dil={dil} alt="" className="tn-sahne-sag" />
-            <Telefon gorsel="duello" dil={dil} alt="" className="tn-sahne-orta" oncelikli />
+            <Telefon gorsel="turnuva" dil={dil} alt="" className="tn-sahne-orta" oncelikli />
           </div>
+        </section>
+
+        <section className="tn-bolum tn-rekabet" aria-labelledby="tn-rekabet-baslik">
+          <div className="tn-bolum-bas" data-tn-gir>
+            <p className="tn-etiket">{ceviri("Aynı anda yarış. Sıralamada yüksel.")}</p>
+            <h2 id="tn-rekabet-baslik" className="tn-h2">{ceviri("Hedefin şampiyonluk olsun")}</h2>
+          </div>
+          <div className="tn-rekabet-izgara">
+            <article className="tn-rekabet-kart" data-tn-gir>
+              <Telefon gorsel="turnuva" dil={dil} alt={ceviri("Canlı turnuva ekranı")} />
+              <div><h3>{ceviri("Herkes aynı anda, aynı yarışta")}</h3><p>{ceviri("Günde beş turnuva seansı. Ortak geri sayımla başla, diğer katılımcılarla aynı soruları cevapla ve son kalan olmak için yarış.")}</p></div>
+            </article>
+            <article className="tn-rekabet-kart" data-tn-gir>
+              <Telefon gorsel="lig" dil={dil} alt={ceviri("Haftalık lig sıralaması")} />
+              <div><h3>{ceviri("Ligde zirveye tırman")}</h3><p>{ceviri("Her hafta yeni bir sıralama mücadelesi. Maçlarda lig puanı kazan, rakiplerini geç ve Bronz’dan Efsane’ye yüksel.")}</p></div>
+            </article>
+          </div>
+          <article className="tn-sampiyon-vurgu" data-tn-gir>
+            <div><h3>{ceviri("Şehir. Ülke. Dünya. Sıradaki şampiyon sen ol.")}</h3><p>{ceviri("Haftalık şehir, ülke ve dünya sıralamalarında yerini al. Birincilik için yarış, şampiyonluk unvanını kazan.")}</p></div>
+            <img src={tanitimGorseli("sampiyon", dil)} alt={ceviri("Şehir, ülke ve dünya sıralamaları")} width="640" height="279" loading="lazy" decoding="async" />
+          </article>
         </section>
 
         {/* Taktik modları: gerçek ekranlar ve kararları anlatan basit şekiller. */}
@@ -248,14 +269,7 @@ export default function TanitimSayfasi() {
               </div>
             </article>
 
-            <article className="tn-parca tn-parca--sampiyon" data-tn-gir>
-              <img src={tanitimGorseli("sampiyon", dil)} alt={ceviri("Şehir, ülke ve dünya sıralamaları")}
-                width="640" height="279" loading="lazy" decoding="async" />
-              <div className="tn-parca-metin">
-                <h3>{ceviri("Şehrinin şampiyonu ol")}</h3>
-                <p>{ceviri("Her hafta şehir, ülke ve dünya sıralaması. İlk üçe giren rozeti alır.")}</p>
-              </div>
-            </article>
+
           </div>
         </section>
 
