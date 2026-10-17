@@ -195,6 +195,8 @@
 .m1-mac .qt-mac-ust .qt-tepki-balon { top: -22px; }
 .m1-bekleme { text-align: center; color: var(--qt-zemin-soluk); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
 .m1-alt { display: flex; flex-direction: column; gap: var(--qt-b-2); margin-top: auto; }
+/* Grup: tepki düğmesi + hazır cümleler düğmesi tek satırda (eski 6 emoji şeridiyle aynı yükseklik; joker satırı kesilmesin) */
+.m1-alt--grup { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; }
 
 /* ---------- Bilgi ekranları (bekleme, hazır kapısı, iptal) ---------- */
 .m1-mesaj {

@@ -472,10 +472,9 @@ export default function GroupMatchPage() {
     && grupKatilimim && !grupKatilimim.terk_at);
   useGeriTusuOnayi(grupMacinda, () => setCikisOnay(true));
 
-  // Tepki şeridi (maç içi ve maç sonu aynı): tepkiler + hazır cümleler.
+  // Hazır cümleler şeridi (maç içi ve maç sonu aynı); tepki düğmesi (TepkiCubugu) yalnız maç içi alt satırda.
   const tepkiSeridi = (
     <>
-      <TepkiCubugu tepki={tepki} className="m1-tepki-yeni" />
       <div className="m1-tepki">
         <QtIkonDugme
           ikon="sohbet"
@@ -828,7 +827,10 @@ export default function GroupMatchPage() {
       )}
 
       {/* Paket 42 G.2: tepki şeridi soru kartının ALTINDA (Klasik ile aynı). */}
-      <div className="m1-alt">{tepkiSeridi}</div>
+      <div className="m1-alt m1-alt--grup">
+        <TepkiCubugu tepki={tepki} className="m1-tepki-yeni" />
+        {tepkiSeridi}
+      </div>
     </>
   );
 }
