@@ -236,8 +236,17 @@ function hazine(P, s) {
   const su = (ms) => Math.round(ms * 1.1192);
   c.push([t, "sesPencere", su(2600), "an:sonuc"], [t + su(1180), "an", "sonuc_xp"], [t + su(1180), "sesXpDolma"], [t + su(1900), "an", "anahtar"], [t + su(1900), "sesTurGecis"]);
   t += 3000 + P.gec();
-  // final sahnesi (kazandım): tur geçişi 150, rozet 1150, xp 2450 (maç sonu); 4300 ms sonra kutlama
-  c.push([t, "an", "final"], [t, "sesFazDegisti", "mac_sonu"], [t, "ekran", "final"], [t + 150, "sesTurGecis"], [t + 1150, "an", "final_rozet"], [t + 1150, "sesRozet"], [t + 2450, "sesMacSonu", "xp_dolma"]);
+  // final sahnesi. Normal: kazandım (tur geçişi 150, rozet 1150, xp 2450; 4300 ms sonra kutlama). Hareket azaltma: kaybettim, sahne
+  // 1500 ms (tur geçişi 200, yanlış 1350; sahneden sonraki adımlar düşer). yeni: sahnenin penceresi bildirilir (sesPencere)
+  c.push([t, "an", "final"], [t, "sesFazDegisti", "mac_sonu"], [t, "ekran", "final"]);
+  if (P.ad === "azalt") {
+    if (s === "yeni") c.push([t, "sesPencere", 1500, "final"]);
+    c.push([t + 200, "sesTurGecis"], [t + 1350, "an", "final_yanlis"], [t + 1350, "sesYanlis"]);
+    const bit = macSonu(c, t + 1500, s, { sonuc: "kaybettin", coin: false, rozet: false });
+    return { cizelge: c, son: bit + 1500 };
+  }
+  if (s === "yeni") c.push([t, "sesPencere", 4300, "final"]);
+  c.push([t + 150, "sesTurGecis"], [t + 1150, "an", "final_rozet"], [t + 1150, "sesRozet"], [t + 2450, "sesMacSonu", "xp_dolma"]);
   const bit = macSonu(c, t + 4300, s, { sonuc: "kazandin", rozet: false });
   return { cizelge: c, son: bit + 1500 };
 }

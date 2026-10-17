@@ -60,6 +60,7 @@ this.b.push(currentTime,k?Math.sqrt(t/k):0);if(this.b.length>=96){this.port.post
     if (hedef instanceof AudioDestinationNode && !this.__dinle && this.__kaynak) {
       const ctx = this.context, z = { kaynak: this.__kaynak, dugum: this, kaz0: this.gain?.value ?? 1, bloklar: [] };
       O.zincir.push(z);
+      try { this.__kaynak.addEventListener("ended", () => { z.bitti = performance.now(); }); } catch { /* yok */ }
       if (ctx.__ok) {
         const d = new AudioWorkletNode(ctx, "qt-dinle", { numberOfOutputs: 0 });
         d.port.onmessage = (e) => { for (const v of e.data) z.bloklar.push(v); };
@@ -71,6 +72,8 @@ this.b.push(currentTime,k?Math.sqrt(t/k):0);if(this.b.length>=96){this.port.post
   };
   // özet: her zincir için gerçek sinyal + dosyanın beklenen doğal eğrisi (× kazanç)
   window.__cikisOzet = async () => {
+    // hâlâ çalan ses varsa bitmesini bekle (en çok 6 sn) — özet anında kayıt kırpılıp "kesildi" sanılmasın
+    for (let i = 0; i < 60 && O.zincir.some((z) => z.bitti == null && z.kaynak.__basla != null); i++) await new Promise((c) => setTimeout(c, 100));
     for (const z of O.zincir) try { z.dinle?.port.postMessage(1); } catch { /* yok */ }
     await new Promise((c) => setTimeout(c, 400));
     const E = 10 ** (-45 / 20);
@@ -96,7 +99,7 @@ this.b.push(currentTime,k?Math.sqrt(t/k):0);if(this.b.length>=96){this.port.post
       }
       return { url: b ? tamponUrl.get(b) ?? null : null, tur: b ? "dosya" : "ton", an: k.__an, basla: k.__basla ?? null, perf: k.__perf ?? null,
         hiz, kazanc: +kaz.toFixed(3), beklenenSn: beklenen, dosyaSn: dosya, ilk, son, tepeDb: tepe > 0 ? +(20 * Math.log10(tepe)).toFixed(1) : null,
-        blok: z.bloklar.length / 2, dinlendi: Boolean(z.dinle) };
+        blok: z.bloklar.length / 2, dinlendi: Boolean(z.dinle), ozetteCaliyordu: z.bitti == null };
     });
   };
 }

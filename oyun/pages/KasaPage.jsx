@@ -946,6 +946,9 @@ function KasaMac({ id }) {
     const sahneMs = hareketAzaltildiMi() ? 1500 : kazandim ? sure("kasa_final_sahne") : sure("kasa_final_kapanis");
     const fk = sureOlcek(kazandim ? "kasa_final_sahne" : "kasa_final_kapanis");   // ses adımları sahneyle ölçeklenir
     setFinalAn(f);
+    // 17 Eki 2026 (ses bitiş kuralı): sahnenin penceresi — sahne bitmeden doğal sonuna inmeyecek ses çalmaz (hareket azaltmada sahne
+    // 1,5 sn: 1350 ms'deki yanlış sesi maç sonu ekranına taşıyordu)
+    sesPencere(sahneMs, "final");
     // Zamanlayıcılar ref'te: d sonradan değişse de sahne yarıda kalmaz (yalnız sayfa kapanınca temizlenir)
     const sesler = kazandim
       // 14 Eki: joker sesi yalnız joker kullanımında, coin sesi yalnız kendi AÇ'ında — final sahnesi ikisini de çalmaz
