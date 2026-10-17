@@ -1,0 +1,66 @@
+[
+  {
+    "w": 1440,
+    "h": 900,
+    "file": "canli-1440-tr.png",
+    "order": [
+      "tn-baslik",
+      "tn-modlar-baslik",
+      "tn-turnuva-baslik",
+      "tn-lig-baslik",
+      "tn-sampiyon-baslik",
+      "tn-akis-baslik",
+      "tn-one-baslik",
+      "tn-kur-baslik"
+    ],
+    "overflow": 0,
+    "broken": [],
+    "headings": [
+      "Bilgini taktiğe dönüştür.",
+      "Oyun modları",
+      "Herkes aynı anda, aynı yarışta",
+      "Lig ve puan sistemi",
+      "Şehir. Ülke. Dünya. Sıradaki şampiyon sen ol.",
+      "Bir maç nasıl geçer?",
+      "Oynadıkça senin olur",
+      "Hemen kur, ilk maçına gir"
+    ],
+    "errors": [],
+    "orderOk": true,
+    "intercepted": [
+      "https://etezccrifaetzrgfvawl.supabase.co"
+    ]
+  },
+  {
+    "w": 390,
+    "h": 844,
+    "file": "canli-390-tr.png",
+    "order": [
+      "tn-baslik",
+      "tn-modlar-baslik",
+      "tn-turnuva-baslik",
+      "tn-lig-baslik",
+      "tn-sampiyon-baslik",
+      "tn-akis-baslik",
+      "tn-one-baslik",
+      "tn-kur-baslik"
+    ],
+    "overflow": 0,
+    "broken": [],
+    "headings": [
+      "Bilgini taktiğe dönüştür.",
+      "Oyun modları",
+      "Herkes aynı anda, aynı yarışta",
+      "Lig ve puan sistemi",
+      "Şehir. Ülke. Dünya. Sıradaki şampiyon sen ol.",
+      "Bir maç nasıl geçer?",
+      "Oynadıkça senin olur",
+      "Hemen kur, ilk maçına gir"
+    ],
+    "errors": [],
+    "orderOk": true,
+    "intercepted": [
+      "https://etezccrifaetzrgfvawl.supabase.co"
+    ]
+  }
+]

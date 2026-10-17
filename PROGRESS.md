@@ -12763,3 +12763,11 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 - Test (yerel, canlı DB yok): build temiz; `test:tanitim` 4/4; `tanitim-revize-testi` 4/4; 6 görünüm: yatay taşma 0, kırık görsel 0, kart çakışması/kesilme 0, H2 iki satır, 44 px altı hedef 0, "Oynadıkça senin olur" 1440'ta 3 sütun/tek satır (delik yok). Konsolda yalnız testin kasten engellediği Supabase isteği.
 - Canlı (tek seferlik): `/`, lig/turnuva/sampiyon/hazine webp (TR+EN) 200; `version.json` `f7386d31`; canlı pakette `tn-rekabet` CSS'i var. BAKILAMADI: gerçek iOS. Migration yok.
 - Önceki kayıt: aynı gün Hazine DEVAM sesi kaydı eklendi (`eca72d20`).
+
+## 17 Eki 2026 — Tanıtım bölüm düzeni canlıda
+**Araç:** Codex
+**Neden:** Modlar görünür kalırken turnuva, lig puanı ve şampiyonluk hedeflerini öne çıkarmak.
+- Onaylı site-duzen c1542d66, güncel main 908c2619 üzerine fast-forward ile alındı (ek birleştirme commit'i yok) ve main'e gönderildi.
+- Tanıtım bölüm düzeni canlıda: Bilgini taktiğe dönüştür; modlar → turnuva → lig+puan → şampiyonluk → maç akışı → kişiselleştirme → kurulum. Tekrar eden alt şerit kaldırıldı.
+- Önceki yerel build ve tanıtım testleri başarılı; canlı version.json c1542d66 olduktan sonra 1440×900 ve 390×844 doğrulandı: istenen sekiz bölüm aynı sırada, taşma 0, konsol hatası 0, kırık görsel 0. Canlı varlıklar kullanıldı; Supabase istekleri tarayıcıda yerel boş yanıtla kesildi, veritabanına erişilmedi.
+- Kanıt: tasarim/gorsel-17eki-duzen/canli-1440-tr.png, canli-390-tr.png ve canli-sonuc.json. PROJECT_CONTEXT tanıtım akışı güncellendi. Oyun kodu değişmedi; migration yok.
