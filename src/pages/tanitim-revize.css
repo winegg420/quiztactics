@@ -41,3 +41,24 @@
   .tn-diger-serit li + li { border-left: 0; padding-left: 0; padding-top: 18px; border-top: 1px solid #49558c; }
 }
 @media (max-width: 370px) { .tn-taktik-kart { grid-template-columns: minmax(0, 1fr); } }
+
+/* Ana rekabet: turnuva ve sıralamalar kozmetik ödüllerden önce gelir. */
+.tn-rekabet-izgara { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.tn-rekabet-kart { display: flex; align-items: center; gap: 24px; padding: 28px; background: #202d62; border: 1px solid #526399; border-radius: 28px; }
+.tn-rekabet-kart .tn-telefon { --tn-tel: 130px; flex-shrink: 0; }
+.tn-rekabet-kart h3, .tn-sampiyon-vurgu h3 { font-family: var(--qt-f-baslik); font-size: 28px; line-height: 1.2; margin: 0 0 14px; }
+.tn-rekabet-kart p, .tn-sampiyon-vurgu p { color: #d8dff9; line-height: 1.6; margin: 0; }
+.tn-sampiyon-vurgu { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 32px; margin-top: 24px; padding: 32px; background: #39304e; border: 1px solid #937541; border-radius: 28px; }
+.tn-sampiyon-vurgu img { width: 100%; height: auto; border-radius: 14px; }
+@media (max-width: 1000px) { .tn-rekabet-izgara { grid-template-columns: 1fr; } }
+@media (max-width: 650px) {
+  .tn-rekabet-kart { padding: 22px 18px; gap: 18px; }
+  .tn-rekabet-kart .tn-telefon { --tn-tel: 100px; }
+  .tn-rekabet-kart h3, .tn-sampiyon-vurgu h3 { font-size: 25px; }
+  .tn-rekabet-kart p { font-size: 15px; }
+  .tn-sampiyon-vurgu { grid-template-columns: 1fr; padding: 24px; gap: 24px; }
+}
+@media (min-width: 1001px) {
+  .tn-one .tn-izgara { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tn-one .tn-parca { grid-column: auto; }
+}
