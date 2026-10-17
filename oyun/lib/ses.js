@@ -58,6 +58,7 @@ const HACIM = {
   coin: 0.55,
   level: 0.7,
   turnuva: 0.75,
+  kasa_devam: 0.8,   // 17 Eki 2026: rozet adayıyla aynı seviye (HACIM_ADAY varsayılanı 0.8) — dosya rozet-n1'in kısa sürümü
 };
 // Rol → dosya (uzantı dahil). Listede olmayan rol `<rol>.mp3` çalar.
 // Paket 32: Sis için yeni dosya indirilmedi, joker.mp3 yavaşlatılıp/hızlandırılıp kullanılıyor.
@@ -80,6 +81,9 @@ const DOSYA = {
   coin: "coin.wav",
   level: "level.wav",
   turnuva: "turnuva.wav",
+  // 17 Eki 2026: Hazine DEVAM anının kendi sesi — Ida'nın o anda duyduğu rozet-n1'in kısa sürümü (880 ms, sönüm dosyada;
+  // araclar/kasa-devam-sesi-uret.mjs). Ad içerik sürümlü (sw.js › ADAY_YOL). /ses-secim'de anı yok → hep bu dosya.
+  kasa_devam: "kasa_devam-e18d695314.wav",
 };
 // ------------------------------------------------------------ /ses-secim seçimleri (Ajan H)
 // Ida `/ses-secim`'de her "an" için bir aday seçer; seçim sunucuda (`ses_secimleri`) durur,
@@ -175,7 +179,10 @@ const taniSonuc = (k, sonuc, ek) => {
 // anlamlı ses planının %80'inden önce bittiyse ya da çalarken yeni faz geldi ve > 150 ms kaldıysa akış kaydı "ses_kesildi".
 const ANLAMLI = new Set(["joker", "skill_elli", "skill_ek_sure", "skill_soru_degistir", "skill_zaman_baskisi", "skill_sigorta", "skill_2x",
   "skill_ikinci_sans", "sis", "rakip_bulundu", "vs_ani", "dogru", "yanlis", "sure_doldu", "kategori_secildi", "tur_gecis", "kazandin", "kaybettin",
-  "beraberlik", "xp_dolma", "level", "rutbe", "rozet", "coin", "turnuva", "can_kaybi", "rakip_cevapladi"]);
+  "beraberlik", "xp_dolma", "level", "rutbe", "rozet", "coin", "turnuva", "can_kaybi", "rakip_cevapladi", "kasa_devam"]);
+// 17 Eki 2026 (Ida: Hazine rakip DEVAM sesi yeni soruda yarıda kesiliyordu): bu roller pencereye KISALTILMAZ — pencereye tam
+// sığmıyorsa HİÇ çalmaz (yarım ses yok). Dosyaları kısa ve sönümü dosyaya işlenmiş olmalı.
+const TAM_CALAR = new Set(["kasa_devam"]);
 export const sesAnlamliMi = (rol) => ANLAMLI.has(rol);
 const PENCERE_FADE_MS = 120;     // pencereye kısaltılan sesin sonu
 const PENCERE_FADE_UZUN_MS = 320;   // çok kısaltılan sesin (kesilen ≥ 240 ms) inişi: kesilenin yarısı, en çok bu kadar
@@ -231,10 +238,10 @@ function yumusakSustur(c, k, fadeMs, kesen) {
 }
 
 /** Bir rolün aynı anda çalabilecek kopya sayısı (varsayılan 2). */
-const ES_ZAMANLI = { kazandin: 1, kaybettin: 1, beraberlik: 1, vs_ani: 1, rozet: 1, level: 1, rutbe: 1, turnuva: 1, sure_doldu: 1, soru_geldi: 1, tur_gecis: 1 };
+const ES_ZAMANLI = { kasa_devam: 1, kazandin: 1, kaybettin: 1, beraberlik: 1, vs_ani: 1, rozet: 1, level: 1, rutbe: 1, turnuva: 1, sure_doldu: 1, soru_geldi: 1, tur_gecis: 1 };
 /** Ön yükleme grupları — `sesOnYukle("duello")` gibi. */
 const GRUPLAR = {
-  mac: ["dokunus", "tik", "sayim_son", "dogru", "yanlis", "sure_doldu", "soru_geldi", "tur_gecis", "son_saniyeler", "joker", "rakip_cevapladi"],
+  mac: ["dokunus", "tik", "sayim_son", "dogru", "yanlis", "sure_doldu", "soru_geldi", "tur_gecis", "son_saniyeler", "joker", "rakip_cevapladi", "kasa_devam"],
   skill: ["skill_elli", "skill_ek_sure", "skill_soru_degistir", "skill_zaman_baskisi", "skill_sigorta", "skill_2x", "skill_ikinci_sans"],
   sonuc: ["kazandin", "kaybettin", "beraberlik", "level", "rutbe", "coin", "xp_dolma", "rozet"],
   duello: ["sayim_tik", "sayim_son", "rakip_bulundu", "vs_ani", "can_kaybi", "kategori_secildi"],
@@ -586,6 +593,7 @@ function tamponCal(c, tampon, hacim, hiz, rol, tani = null, gecKabul = false) {
       if (pencereBitis != null) {
         const p = Math.round(pencereBitis - basladi - PENCERE_PAY_MS);
         if (p < PENCERE_EN_AZ_MS) { taniSonuc(tani, `atlandı (pencere dar ${Math.max(0, p)} ms)`); return; }
+        if (TAM_CALAR.has(rol) && p < dosyaMs) { taniSonuc(tani, `atlandı (pencereye tam sığmıyor ${p} < ${dosyaMs} ms)`); return; }
         if (p < planMs) { planMs = p; kisaltma = `pencere${pencereAd ? ` ${pencereAd}` : ""}`; }
       }
     }
@@ -982,6 +990,9 @@ export function sesXpDolma() { cal("xp_dolma", kisaTon(660)); }
 
 /** Yeni rozet kartı açıldı. */
 export function sesRozet() { cal("rozet", tonRutbeAtladi); }
+
+/** Hazine DEVAM anı (×çarpan, hazine büyür) — kendi kısa sesi; anın penceresine tam sığmıyorsa çalmaz (TAM_CALAR). */
+export function sesKasaDevam() { cal("kasa_devam", tonRutbeAtladi); }
 
 /** Uygulama içi bildirim (davet, mesaj) geldi. */
 export function sesBildirim() { cal("bildirim", kisaTon(988, "sine")); }

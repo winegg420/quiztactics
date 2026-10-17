@@ -50,7 +50,7 @@ import { kategoriAdi } from "../lib/kategoriler.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesDokunus, sesRakipBulundu, sesSoruGeldi,
   sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill, sesOnYukle, sesKalpAtisi, macSesleriniOnYukle, sesCanKaybi,
-  sesFazDegisti, fazdaCal, sesMacSonu, sesMacSonuKapat, sesPencere } from "../lib/ses.js";
+  sesFazDegisti, fazdaCal, sesMacSonu, sesMacSonuKapat, sesPencere, sesKasaDevam } from "../lib/ses.js";
 import { akis } from "../lib/akisGunlugu.js";
 import { KasaAcAni, KasaAltinYagmuru, UcanParcalar, kasaSeviye, KasaGirisSahnesi, KasaFinalSahnesi,
   KasaCifteBandi, KasaRakipKarar, KasaSavunmaAni } from "../components/KasaEfekt.jsx";
@@ -1220,7 +1220,7 @@ function KasaMac({ id }) {
         const basla = () => anBaslat({ tip: "devam", eski: Number(sk.deger ?? 0), yeni: Number(sk.yeni), tavan: Boolean(sk.tavan), olcek,
                    metin: carpanYazisi(sk.carpan, dil) ?? "" }, [
           // kısalmış anda tek ses (coin): soru sesiyle birlikte üç ses 400 ms'ye sıkışıyordu (sekme dönüşü ölçümü)
-          ...(payO >= 0.75 ? [[m(60), null, () => { sesRozet(); titret([16, 30, 16]); }]] : []),
+          ...(payO >= 0.75 ? [[m(60), null, () => { sesKasaDevam(); titret([16, 30, 16]); }]] : []),
           [m(560), { varis: true }, () => titret(12)],
           [m(DEVAM_AN_MS), "bitir", () => soruSesi(d)],   // 15 Eki: soru sesi an bitince (sayaç o an görünür)
         ]);
