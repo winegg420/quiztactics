@@ -22,7 +22,7 @@
 //   Tepki SESSİZDİR: balon yalnız görsel — maç seslerinin üstüne binmez (ses bitiş kuralı).
 //   Tepki asla soru akışını/süreyi beklemez: gönderim ateşle-unut, hata yutulur; alım try içinde.
 // ============================================================
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { TEPKI_TANIMLARI, tepkiBilinen, tepkiDurumu, tepkiGorseli, useTepkiGizli } from "../lib/kozmetik.js";
 import { tt } from "../lib/dil.js";
@@ -187,13 +187,48 @@ export function TepkiAvatar({ balon, yan, children }) {
   );
 }
 
-/** Küçük tepki düğmesi + açılan seçim (yalnız kullanabildiğin tepkiler). */
-export function TepkiCubugu({ tepki, className = "" }) {
+/**
+ * Küçük tepki düğmesi + açılan seçim (yalnız kullanabildiğin tepkiler).
+ * Panel açılınca konumu ölçülür: ekranın dışına taşarsa yatayda içeri kaydırılır (--tepki-kayma); `altinda`
+ * (CSS seçici) verilirse panel o öğenin ALTINDA açılır, öğeyi kapatmaz (--tepki-ust). Kapalıyken yerleşim değişmez.
+ */
+export function TepkiCubugu({ tepki, className = "", altinda = null }) {
   const [acik, setAcik] = useState(false);
+  const kokRef = useRef(null);
+  const panelRef = useRef(null);
+  const gorunur = Boolean(tepki?.acik && tepki.tepkiler.length) && acik;
+  useLayoutEffect(() => {
+    const panel = panelRef.current;
+    const kok = kokRef.current;
+    if (!gorunur || !panel || !kok) return undefined;
+    const ayarla = () => {
+      try {
+        panel.style.setProperty("--tepki-kayma", "0px");
+        panel.style.setProperty("--tepki-ust", "0px");
+        const hedef = altinda ? document.querySelector(altinda) : null;
+        if (hedef) {
+          const ust = hedef.getBoundingClientRect().bottom + 6 - (kok.getBoundingClientRect().bottom + 4);
+          if (ust > 0) panel.style.setProperty("--tepki-ust", `${Math.round(ust)}px`);
+        }
+        const r = panel.getBoundingClientRect();
+        const w = document.documentElement.clientWidth;
+        const pay = 8;
+        let kayma = 0;
+        if (r.left < pay) kayma = pay - r.left;
+        else if (r.right > w - pay) kayma = w - pay - r.right;
+        if (kayma) panel.style.setProperty("--tepki-kayma", `${Math.round(kayma)}px`);
+      } catch (e) {
+        console.warn("[Bildim] tepki paneli konumlanamadı:", e?.message ?? e);
+      }
+    };
+    ayarla();
+    window.addEventListener("resize", ayarla);
+    return () => window.removeEventListener("resize", ayarla);
+  }, [gorunur, altinda, tepki?.tepkiler?.length]);
   if (!tepki?.acik || !tepki.tepkiler.length) return null;
   const bitti = tepki.kalan <= 0;
   return (
-    <div className={`qt-tepki ${className}`}>
+    <div className={`qt-tepki ${className}`} ref={kokRef}>
       {/* QtIkonDugme görünümü; ikon Noto 3D (sistem emojisi yerine, her cihazda aynı) */}
       <button type="button" className={`qt-ikon-dugme qt-ikon-dugme--${acik ? "mor" : "yuzey"} qt-ikon-dugme--o qt-tepki-dugme`}
               aria-label={bitti ? tt("Bu maçta tepki hakkın bitti") : tt("Tepki gönder")}
@@ -202,7 +237,7 @@ export function TepkiCubugu({ tepki, className = "" }) {
         <img src={tepkiGorseli("havali")} alt="" width="24" height="24" decoding="async" />
       </button>
       {acik && !bitti && (
-        <div className="qt-tepki-panel" role="group" aria-label={tt("Tepkiler")}>
+        <div className="qt-tepki-panel" role="group" aria-label={tt("Tepkiler")} ref={panelRef}>
           {tepki.tepkiler.map((k) => (
             <button key={k} type="button" className="qt-tepki-sec" disabled={tepki.bekle}
                     aria-label={tt(TEPKI_TANIMLARI[k].ad)}

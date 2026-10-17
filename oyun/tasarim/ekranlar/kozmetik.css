@@ -176,8 +176,10 @@
   gap: var(--qt-b-1);
   padding: var(--qt-b-1) var(--qt-b-2);
   border-radius: var(--qt-r-hap);
-  background: color-mix(in srgb, var(--qt-yuzey) 92%, transparent);
+  background: var(--qt-yuzey);   /* opak: seçici soru yazısının üstüne açılınca altındaki metin sızmasın */
   box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-cizgi);
+  /* TepkiCubugu panel açılınca ölçer: ekran dışına taşarsa içeri kaydırır (12 tepkide 360 px'de soldan kesiliyordu) */
+  transform: translateX(var(--tepki-kayma, 0px));
 }
 .qt-tepki-sec {
   display: grid;

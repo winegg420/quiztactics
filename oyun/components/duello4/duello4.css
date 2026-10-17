@@ -341,4 +341,4 @@
 .d4-ust-serit { position: relative; }
 .d4-tepki.qt-tepki { position: absolute; z-index: 30; top: 0; right: calc(44px + var(--qt-b-2)); display: block; }
 .d4-tepki .qt-ikon-dugme { width: 44px; height: 44px; min-width: 44px; min-height: 44px; }
-.d4-tepki .qt-tepki-panel { position: absolute; right: 0; top: calc(100% + 4px); width: max-content; max-width: min(320px, 92vw); }
+.d4-tepki .qt-tepki-panel { position: absolute; right: 0; top: calc(100% + 4px + var(--tepki-ust, 0px)); width: max-content; max-width: min(320px, 92vw); }

@@ -607,7 +607,7 @@ export default function Duello4Arena({
       {/* 1120: tepki düğmesi üst şeritte, ses düğmesinin solunda (oyuncu hücresinde adı kesiyordu) */}
       <div className="d4-ust-serit">
         <MacUstSerit onCik={onCik} cikisEtiketi={c("Düellodan çık")} rozet={c("Düello")} />
-        {tepkiDurum && <TepkiCubugu tepki={tepkiDurum} className="d4-tepki" />}
+        {tepkiDurum && <TepkiCubugu tepki={tepkiDurum} className="d4-tepki" altinda=".d4-ust" />}
       </div>
       {sayimKatmani}
       {ust}
