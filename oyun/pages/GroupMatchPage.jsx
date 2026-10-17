@@ -815,6 +815,7 @@ export default function GroupMatchPage() {
           onSureDoldu={sureDoldu}
           macTur={"grup"}
           macId={id}
+          jokerSurum={mac.joker_surum ?? 0}   // 1128: rakibin jokeri → joker çubuğu "Rakip ___ kullandı" yazar
           kategori={mac.kategori}
           toplamSoru={mac.soru_ids?.length ?? null}
         />

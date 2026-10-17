@@ -162,9 +162,9 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
   // KasaRakipJokerAn'ın karşılığı). Sunucu her Klasik jokerinde joker_surum'u artırır. Zaman Baskısı'nı kendi bandı gösterir.
   const rakipJokerRef = useRef({ soru: null, n: 0 });
   useEffect(() => {
-    if (macTur !== "1v1" || !macId) return undefined;
+    if (!["1v1", "grup"].includes(macTur) || !macId) return undefined;   // 1128: Grup da (öteki oyuncular)
     let iptal = false;
-    supabase.rpc("rakip_jokerleri", { p_mac_tur: "1v1", p_mac_id: macId }).then(({ data, error }) => {
+    supabase.rpc("rakip_jokerleri", { p_mac_tur: macTur, p_mac_id: macId }).then(({ data, error }) => {
       if (iptal) return;
       if (error) { console.warn("[Bildim] rakip jokeri okunamadı:", error.message); return; }
       const liste = Array.isArray(data) ? data : [];
