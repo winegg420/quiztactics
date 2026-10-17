@@ -10,6 +10,7 @@ import { aktifDil, tt } from "../../lib/dil.js";
 import EN from "../../lib/ceviri/ses-secim.js";
 import { QtAnahtar, QtBosDurum, QtDugme, QtIkonDugme, QtIlerleme, QtIskelet, QtKart, QtRozet } from "../index.js";
 import { EFEKTLER, KENNEY, MUZIKLER, TUM_ANLAR } from "./adaylar.js";
+import DevamProva from "./DevamProva.jsx";
 import "./ses-secim.css";
 
 /** Sayfa-içi çeviri: İngilizcesi ceviri/ses-secim.js'te (dil.js'e katılmaz → ana paket büyümez). */
@@ -420,6 +421,7 @@ export default function SesSecimPage() {
 
         <section className="ss-bolum" aria-labelledby="ss-efektler">
           <h2 id="ss-efektler" className="qt-baslik-2 ss-bolum-baslik">{ts("Efektler")} · {EFEKTLER.length}</h2>
+          <DevamProva ts={ts} />
           {kartlar(EFEKTLER)}
         </section>
 
