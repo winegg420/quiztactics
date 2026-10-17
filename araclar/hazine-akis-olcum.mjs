@@ -32,6 +32,15 @@
 // hariç) · EŞZAMANLI (iki ayrı ses < 150 ms arayla başladı; dokunuş hariç) · KESİLEN ANİMASYON (≥ 150 ms erken söküldü) ·
 // 3-2-1 aralığı · sayaç ilk değeri (tam süre = 15).
 //
+//             gec_veri — (17 Eki 2026, DEVAM sesi) bot kuralları; her DEVAM kararından sonra yeni soruyu getiren ilk kasa_durum
+//                        yanıtı --gec_liste ms (varsayılan 600,1100,1300,1800,2400 sırayla) geç döner → DEVAM anı ölçeği (payO)
+//                        1'den tabana kadar taranır
+//             sekme    — (17 Eki 2026) bot kuralları; her DEVAM kararından 250 ms sonra sayfa 1,5 sn arka plana gider, döner
+//   --devam_odak (17 Eki 2026): rakip ve oto oyuncu hep DEVAM der (hedefe ulaşan AÇ hariç); --devam_sayi (varsayılan 6) DEVAM'dan
+//                        sonra maç bırakılır. --sure_ayar=anahtar:ms,… : sayfanın /sure-ayar seçimi (ör. kasa_an_taban:1000 → payO < 0,75)
+//   DEVAM tablosu (17 Eki 2026): her DEVAM için ölçek (payO), DEVAM sesi (rol, dosya ms, gerçek çalma, DOSYAYA göre kesilen ms,
+//                        kesen), soru sesiyle boşluk/çakışma, faz geçiş anları (gosterim_bas'a göre) → devam-<etiket>.md
+//   Ses ömrü (17 Eki 2026): kesilme DOSYA süresine göre — pencereye kısaltılan ses de "kesildi" (kesen: pencere). Eskiden plana göre.
 // Kullanım: npm run build && npx vite preview --port 5199 --strictPort
 //           node araclar/hazine-akis-olcum.mjs --adres=http://localhost:5199 --etiket=sonra [--mac=3] [--senaryo=bot,gecikmeli]
 import { chromium } from "playwright-core";
@@ -44,6 +53,9 @@ const ADRES = String(ARG.adres || "http://localhost:5199").replace(/\/$/, "");
 const ETIKET = typeof ARG.etiket === "string" ? ARG.etiket : "olcum";
 const MAC_SAYISI = Math.max(1, Number(ARG.mac) || 3);
 const SENARYOLAR = String(ARG.senaryo || "bot,gecikmeli").split(",");
+const DEVAM_ODAK = Boolean(ARG.devam_odak), DEVAM_SAYI = Number(ARG.devam_sayi) || 6;
+const GEC_LISTE = String(typeof ARG.gec_liste === "string" ? ARG.gec_liste : "600,1100,1300,1800,2400").split(",").map(Number);
+const SURE_AYAR = typeof ARG.sure_ayar === "string" ? Object.fromEntries(ARG.sure_ayar.split(",").map((x) => { const [k, v] = x.split(":"); return [k, Number(v)]; })) : null;
 const CIKTI = path.resolve("tasarim/hazine-akis");
 const ONBELLEK = path.resolve(".tmp/hazine-akis-ses");
 fs.mkdirSync(CIKTI, { recursive: true });
@@ -217,7 +229,7 @@ class Sunucu {
           k.faz = "karar"; k.karar = { veren: k.sahip, deger: k.kasa };
           k.gosterim_bas = now + PAY_MS; k.faz_bitis = now + KARAR_MS + PAY_MS;
           const p = this.turPlani(k.tur);
-          if (k.sahip === RAKIP) { p.botKararAt = now + PAY_MS + p.botKararMs; p.botAcKarar = k.kasa >= 10 || p.botAc; }
+          if (k.sahip === RAKIP) { p.botKararAt = now + PAY_MS + p.botKararMs; p.botAcKarar = DEVAM_ODAK ? k.puan[RAKIP] + k.kasa >= HEDEF : k.kasa >= 10 || p.botAc; }
           this.kaydet("karar", { veren: k.sahip === BEN ? "ben" : "rakip", faz_bitis: k.faz_bitis });
         } else this.soruAc(false);
       } else if (k.faz === "karar") {
@@ -276,6 +288,10 @@ function enjekte() {
   const asilNow = Date.now.bind(Date);
   const O = (window.__olc = { faz: [], ses: [], ton: [], ctx: [], kesik: [], ui: [], bitenAnim: 0, kare: [], uzun: [], sayi: [] });
   try { sessionStorage.setItem("bd_ses_tani", "1"); } catch { /* */ }
+  // 17 Eki 2026: uygulama günlüğü (window.__akis, sayfanın Date.now'u — dalgalıda atlar) her kayda GERÇEK saat (tg) eklenir
+  const akisDizi = [];
+  akisDizi.push = function (...a) { for (const x of a) { try { x.tg = asilNow(); } catch { /* */ } } return Array.prototype.push.apply(this, a); };
+  window.__akis = akisDizi;
   // 15 Eki 2026 (perf paketi): her karenin zamanı (rAF, performance.now) + uzun görevler + giriş 3-2-1 rakamının değiştiği an
   // (MutationObserver — 100 ms örneklemeden kesin). Çözümleme faz pencerelerine göre kare hızı / en uzun kare verir.
   const kareYaz = (t) => { O.kare.push(Math.round(t * 10) / 10); requestAnimationFrame(kareYaz); };
@@ -533,8 +549,9 @@ function cozumle(veri) {
   // 16 Eki 2026 — SES ÖMRÜ (sürümden bağımsız; docs/TEST-KAPSAMI.md › 4): her çalan dosya için planlanan süre, gerçek çalma,
   // kesildi mi + kesen, ses çalarken yeni ekran/faz geldi mi + kalan ms, çakıştığı ses.
   const sesOmru = sesOmruCoz({ olc, pencereler, dosyaRol, calismaAni, sesOmur: veri.sesOmur, timeOrigin, bitisT });
+  const devam = devamCoz({ sunucuLog, pencereler, akis, sesOmru, istekler, calanlar });
   return {
-    sesOmru,
+    sesOmru, devam,
     sayac: sayacOlcu,
     fazGec, erkenBildirim,
     perf: perfOzet(veri),
@@ -545,6 +562,31 @@ function cozumle(veri) {
     calanlar: calanlar.map((c) => ({ t: c.t - sunucuLog[0].t, rol: c.rol, faz: c.faz, istekFaz: c.istekFaz, gecMs: c.istek ? c.t - c.istek : null })),
     akis: akis ?? null,
   };
+}
+
+// ---------------- DEVAM anı (17 Eki 2026) ----------------
+// Her DEVAM kararı: anın ölçeği (olcek = payO × sure oranı), DEVAM sesi (rozet = eski, kasa_devam = yeni) DOSYAYA göre çaldı mı /
+// kesildi mi / kesen, soru sesiyle boşluk (negatif = üst üste), faz anları (yeni sorunun gosterim_bas'ına göre ms).
+const DEVAM_ROLLERI = new Set(["rozet", "kasa_devam"]);
+function devamCoz({ sunucuLog, pencereler, akis, sesOmru, istekler, calanlar }) {
+  const A = Array.isArray(akis) ? akis : [];
+  return sunucuLog.filter((x) => x.olay === "karar:devam").map((x) => {
+    const cevap = sunucuLog.find((y) => y.olay === "cevap" && y.t >= x.t);
+    const gb = cevap?.gosterim_bas ?? null;
+    const gordu = pencereler.find((p) => p.anahtar === `${x.tur}-cevap` && p.t >= x.t - 50)?.t ?? null;
+    const gbye = (t) => (t != null && gb != null ? Math.round(t - gb) : null);
+    const anBas = A.find((a) => a.olay === "an:basladi" && a.tip === "devam" && a.tg >= x.t - 50 && a.tg < x.t + 8000);
+    const anBit = anBas ? A.find((a) => a.olay === "an:bitti" && a.tip === "devam" && a.tg >= anBas.tg) : null;
+    const ses = sesOmru.liste.find((s) => DEVAM_ROLLERI.has(s.rol) && s.te >= x.t - 50 && s.te < x.t + 8000);
+    const istek = istekler.find((k) => DEVAM_ROLLERI.has(k.rol) && k.te >= x.t - 50 && k.te < x.t + 8000);
+    const soru = calanlar.find((c) => c.rol.replace(/\(ton\)$/, "") === "soru_geldi" && c.t >= x.t);
+    const sesBitis = ses ? ses.te + ses.calmaMs : null;
+    return { tur: x.tur, veren: x.veren, olcek: anBas?.olcek ?? null, sunucuIstemciMs: gordu != null && cevap ? gordu - cevap.t : null,
+      ses: ses ? { rol: ses.rol, dosyaMs: ses.dosyaMs, calmaMs: ses.calmaMs, kesilenMs: ses.kesilenMs, kesildi: ses.kesildi, kesen: ses.kesen } : null,
+      calmadi: ses ? null : istek ? String(istek.sonuc ?? "?") : "istenmedi",
+      soruBosluk: soru && sesBitis != null ? Math.round(soru.t - sesBitis) : null,
+      gorduGb: gbye(gordu), anBasGb: gbye(anBas?.tg), sesGb: gbye(ses?.te), anBitGb: gbye(anBit?.tg), soruGb: gbye(soru?.t) };
+  });
 }
 
 // ---------------- ses ömrü (16 Eki 2026) ----------------
@@ -581,23 +623,28 @@ function sesOmruCoz({ olc, pencereler, dosyaRol, calismaAni, sesOmur, timeOrigin
     const planBitis = bas + plan;
     const stopBitis = k.stop ? k.stop.t + k.stop.once : null;
     const gercekBitis = Math.min(planBitis, stopBitis ?? Infinity, k.bitti ?? Infinity);
-    const kesildi = stopBitis != null && stopBitis < planBitis - 40;
-    const fade = kesildi ? Math.max(0, k.stop.once - 20) : null;
+    const sonradanKesildi = stopBitis != null && stopBitis < planBitis - 40;
+    // 17 Eki 2026: kesilme DOSYA süresine göre — ses.js'in başlarken pencereye kısalttığı ses de kesik duyulur (kesen: pencere)
+    const calmaMs = Math.round(gercekBitis - bas);
+    const kesilenMs = Math.max(0, k.sure - calmaMs);
+    const kesildi = sonradanKesildi || (planli && kesilenMs > 40);
+    const fade = sonradanKesildi ? Math.max(0, k.stop.once - 20) : null;
     const yigin = k.stop?.yigin?.join(" ← ") ?? "";
-    const kesen = !kesildi ? null
-      : /kisVeDurdur/.test(yigin) ? "kisVeDurdur" : /fazKes|sesFazDegisti/.test(yigin) ? "faz değişimi" : /MacSonuKapat/.test(yigin) ? "maç sonu ekranı kapandı"
+    const kesen = !kesildi ? null : !sonradanKesildi ? "pencere (ses.js başlarken kısalttı)"
+      : /kisVeDurdur/.test(yigin) ? "kisVeDurdur" : /fazKes|sesFazDegisti/.test(yigin) ? "yeni ekran (faz değişimi)" : /MacSonuKapat/.test(yigin) ? "maç sonu ekranı kapandı"
       : k.stop.once <= 60 ? "ES_ZAMANLI (aynı rolün yeni kopyası, 30 ms)" : k.stop.once <= 160 ? "kisVeDurdur / fade (120 ms)" : `stop (${k.stop.once} ms sonra)`;
     const yeni = ekranOlaylari.find((e) => e.t > bas + 30 && e.t < gercekBitis - 20);
     const cakisan = (olc.ses ?? []).filter((o) => o !== k && o.t > bas + 20 && o.t < gercekBitis - 50)
       .map((o) => dosyaRol.get(o.dosya) ?? dosyadanRol(o.dosya)).filter((r) => !/^(dokunus|tik|sayim_tik)$/.test(r));
-    return { rol, anlamli: ANLAMLI_ROLLER.has(rol), t: Math.round(bas - (pencereler[0]?.t ?? bas)), dosyaMs: k.sure, planMs: Math.round(plan), planli,
-      calmaMs: Math.round(gercekBitis - bas), kesildi, ani: kesildi && fade < 80, fadeMs: fade, kesen, yigin: kesildi ? yigin : null,
+    return { rol, anlamli: ANLAMLI_ROLLER.has(rol), te: Math.round(bas), t: Math.round(bas - (pencereler[0]?.t ?? bas)), dosyaMs: k.sure, planMs: Math.round(plan), planli,
+      calmaMs, kesilenMs, kesildi, ani: sonradanKesildi && fade < 80, fadeMs: fade, kesen, yigin: sonradanKesildi ? yigin : null,
       yeniEkran: yeni ? { ad: yeni.ad, kalanMs: Math.round(planBitis - yeni.t) } : null, cakisan: [...new Set(cakisan)], macSonu: bas > bitisT };
   });
   const anl = liste.filter((x) => x.anlamli);
   return {
     liste,
     anlamli: anl.length,
+    dosyaya_gore_kesilen: anl.filter((x) => x.kesildi && !x.macSonu).length,
     ani_kesilen: anl.filter((x) => x.ani).length,
     yumusak_biten: anl.filter((x) => x.kesildi && !x.ani).length,
     calarken_yeni_ekran: anl.filter((x) => x.yeniEkran && x.yeniEkran.kalanMs > 150 && !(x.kesildi && !x.ani)).length,
@@ -670,6 +717,11 @@ if (ARG.yeniden) {
   process.exit(0);
 }
 
+// DEVAM anı ölçeği → payO (olcek = payO × sure("kasa_devam_an") / 1400; varsayılan süre 1770)
+const payO = (olcek) => (olcek == null ? "—" : (olcek / ((SURE_AYAR?.kasa_devam_an ?? 1770) / 1400)).toFixed(2));
+const devamSesYazi = (v) => (v.ses ? `${v.ses.rol} dosya ${v.ses.dosyaMs} / çaldı ${v.ses.calmaMs} ms · ${v.ses.kesildi ? `KESİLDİ ${v.ses.kesilenMs} ms (${v.ses.kesen})` : "sonuna kadar"}`
+  : `ses çalmadı (${v.calmadi})`);
+
 // ---------------- koşu ----------------
 const tarayici = await chromium.launch({ channel: "chrome", headless: true, args: ["--autoplay-policy=no-user-gesture-required"] });
 const kok = new URL(ADRES).origin;
@@ -682,6 +734,7 @@ try {
     sunucu.id = ID;
     const ls = [{ name: `sb-${REF}-auth-token`, value: JSON.stringify(OTURUM) }, { name: "bildim_dil", value: DIL }, { name: "bildim_tanitim", value: "1" }];
     if (SECIMLER) ls.push({ name: "bildim_ses_secim", value: JSON.stringify(SECIMLER) });
+    if (SURE_AYAR) ls.push({ name: "qt-sure-ayar-v1", value: JSON.stringify(SURE_AYAR) });
     const b = await tarayici.newContext({ storageState: { cookies: [], origins: [{ origin: kok, localStorage: ls }] },
       ...(ARG.azalt ? { reducedMotion: "reduce" } : {}),   // --azalt: prefers-reduced-motion: reduce (TEST-KAPSAMI › 0)
       viewport: { width: GENISLIK, height: YUKSEKLIK }, locale: DIL === "en" ? "en-US" : "tr-TR", hasTouch: true, serviceWorkers: "block", isMobile: true, deviceScaleFactor: 2,
@@ -698,6 +751,10 @@ try {
         Object.defineProperty(document, "hidden", { configurable: true, get: () => Boolean(window.__gizle) });
       });
     }
+    if (senaryo === "sekme") await b.addInitScript(() => {
+      Object.defineProperty(document, "visibilityState", { configurable: true, get: () => (window.__gizle ? "hidden" : "visible") });
+      Object.defineProperty(document, "hidden", { configurable: true, get: () => Boolean(window.__gizle) });
+    });
     // --paylas_yok: tanı deneyi — navigator.share yokmuş gibi (Paylaş kartı tuvali hiç hazırlanmaz); ürün koduna dokunmaz
     if (ARG.paylas_yok) await b.addInitScript(() => { try { delete Navigator.prototype.share; } catch { /* yok */ } });
     // --css="<kural>": tanı deneyi — sayfaya ek stil (ör. bir katmanı kapatıp maliyetini ölçmek); ürün koduna dokunmaz
@@ -721,6 +778,7 @@ try {
     await cdp.send("Network.emulateNetworkConditions", { offline: false, latency: RTT, downloadThroughput: HAT_BPS, uploadThroughput: 750_000 / 8 });
     hatBos = 0;
     let askiSayac = 0;
+    const izlemeAkis = [];
     const gecikme = () => (senaryo === "gecikmeli" ? 150 + Math.round(Math.random() * 750) : RTT);
     await s.route(/supabase\.co\//, async (r) => {
       const req = r.request(); const u = req.url();
@@ -750,7 +808,15 @@ try {
         // aski (16 Eki 2026, Ida'nın 19:53 maçı: 9,25 sn hiç kasa_durum yok): bot kuralları, ama her 15 okumadan biri yanıtsız kalır
         // (yanıt ancak 9,5 sn sonra döner — yolda kaybolan yanıt / takılan bağlantı). İstemci yoldaki okuma bitmeden yenisini atmaz.
         if (senaryo === "aski" && ++askiSayac % 15 === 7) { const d = sunucu.durumJson(); sunucu.kaydet("aski"); return json(d, 9500); }
-        const ms = gecikme(); await uyu(ms / 2); const d = sunucu.durumJson(); return json(d, ms / 2);
+        const ms = gecikme(); await uyu(ms / 2); const d = sunucu.durumJson();
+        // gec_veri: DEVAM'dan sonra yeni soruyu getiren İLK yanıt geç döner (DEVAM anı ölçeği payO taranır)
+        if (senaryo === "gec_veri" && d.faz === "cevap" && d.son_karar && !d.son_karar.ac && !(sunucu.gecTeslim ||= new Set()).has(d.tur)) {
+          sunucu.gecTeslim.add(d.tur);
+          const D = GEC_LISTE[(sunucu.gecSayac = (sunucu.gecSayac ?? -1) + 1) % GEC_LISTE.length];
+          sunucu.kaydet("gec_veri", { ms: D });
+          return json(d, D);
+        }
+        return json(d, ms / 2);
       }
       if (u.includes("/rpc/kasa_giris")) sunucu.giris();
       if (u.includes("/rpc/kasa_giris")) return json({ durum: "aktif", rakip_geldi: true, kalan_sn: 0, baglanmayan: null });
@@ -788,6 +854,11 @@ try {
       if (u.includes("/rpc/oyuncu_kartlari") && ARG.kozmetik === "ida") return json([KART_IDA(BEN), KART_LUNA(RAKIP)]);
       if (u.includes("/rpc/kasa_joker_durumu")) return json([{ sinir: null, kullanilan: 0, ucretsiz_elli_kaldi: false, kilitli: false, soruda_kullanildi: false, kullanim_sayilari: {}, tur_basi_sinir: 1 }]);
       if (u.includes("/rest/v1/oyun_ayarlari")) return json(Object.entries(AYAR).map(([anahtar, deger]) => ({ anahtar, deger })));
+      // 17 Eki 2026: izleme kuyruğundaki akış kayıtları (ses_kesildi vb.) yakalanır — taklitte izleme biçimi uçtan uca görünsün
+      if (u.includes("/rpc/istemci_kayit_yaz")) {
+        try { for (const o of JSON.parse(req.postData() || "{}").p_olaylar ?? []) if (o?.olay === "akis") izlemeAkis.push({ tur: o.tur, an: o.an, ms: o.ms }); } catch { /* ölçüm */ }
+        return json(null);
+      }
       if (u.includes("/rest/v1/rpc/")) return json(null);
       if (u.includes("/rest/v1/")) return json(nesne ? null : []);
       return json({});
@@ -845,7 +916,7 @@ try {
     await s.waitForSelector("#root *", { timeout: 60000 }).catch(() => {});
     await s.mouse.click(195, 300).catch(() => {});
     await s.waitForSelector(".m2-mac", { timeout: 60000 }).catch(() => {});
-    let bitisT = null, sonEylem = "", skorCekildi = false, arkaPlanYapildi = false;
+    let bitisT = null, sonEylem = "", skorCekildi = false, arkaPlanYapildi = false, sekmeSayac = 0;
     const arkaPlanlar = [];
     const bas = Date.now();
     while (Date.now() - bas < 6 * 60 * 1000) {
@@ -877,7 +948,7 @@ try {
       } else if (k.faz === "karar" && k.karar?.veren === BEN) {
         const an = `k${k.tur}`;
         if (now >= k.gosterim_bas + 1200 && sonEylem !== an) {
-          const ac = k.kasa >= 8 || k.puan[BEN] + k.kasa >= HEDEF;
+          const ac = DEVAM_ODAK ? k.puan[BEN] + k.kasa >= HEDEF : k.kasa >= 8 || k.puan[BEN] + k.kasa >= HEDEF;
           const dugme = s.locator(".ks-karar-dugme").filter({ hasText: ac ? /AÇ/ : /DEVAM/ }).first();
           const ok = await dugme.click({ timeout: 1500 }).then(() => true).catch(() => false);
           if (ok) sonEylem = an;
@@ -902,6 +973,21 @@ try {
         arkaPlanlar.push([t0, Date.now()]);
         sunucu.kaydet("arka_plan", { ms: Date.now() - t0 });
       }
+      // sekme: her DEVAM kararından 250 ms sonra sayfa 1,5 sn arka plana gider (DEVAM anı sürerken), döner
+      if (senaryo === "sekme") {
+        const sd = sunucu.log.filter((x) => x.olay === "karar:devam");
+        if (sd.length > sekmeSayac && Date.now() - sd[sekmeSayac].t >= 250) {
+          sekmeSayac++;
+          const t0 = Date.now();
+          await s.evaluate(() => { window.__gizle = true; document.dispatchEvent(new Event("visibilitychange")); }).catch(() => {});
+          await uyu(1500);
+          await s.evaluate(() => { window.__gizle = false; document.dispatchEvent(new Event("visibilitychange")); }).catch(() => {});
+          arkaPlanlar.push([t0, Date.now()]);
+          sunucu.kaydet("arka_plan", { ms: Date.now() - t0 });
+        }
+      }
+      // --devam_odak: DEVAM_SAYI DEVAM'dan sonra (son DEVAM'ın sorusu sonuçlanınca) maç bırakılır
+      if (DEVAM_ODAK && sunucu.log.filter((x) => x.olay === "karar:devam").length >= DEVAM_SAYI && k.faz === "sonuc") break;
       sunucu.ilerlet();
       if (IZ && izDurum < 2) {
         const L = sunucu.log;
@@ -947,7 +1033,9 @@ try {
     console.log(`${ETIKET} · ${senaryo} #${m}: tur ${sunucu.k.tur}, ses ${c.calan} (istek ${c.istek}) · taşma ${c.tasma.length} · geç ${c.gec.length} · eşzamanlı ${c.eszaman.length} · kesik anim ${c.kesik.length}/${c.kesik.length + c.bitenAnim} ${JSON.stringify(c.kesik.map((k) => `${k.ad}:${k.neden ?? "?"}@${k.faz}`))} (kaldığı yerden süren ${c.devamAnim} · başka animasyon devraldı ${JSON.stringify(c.devralinan)}) · 3-2-1 ${JSON.stringify(c.tikAralik)} · soru↔ses ${JSON.stringify(c.soruSes.map((x) => x.farkMs))} · sayaç ilk ${JSON.stringify(c.sayacIlk.map((x) => x.ilk))} · hata ${hatalar.length}`);
     { const so = c.sesOmru; console.log(`   ses ömrü: anlamlı ${so.anlamli} · ANİ kesilen ${so.ani_kesilen} · yumuşak biten ${so.yumusak_biten} · çalarken yeni ekran (>150 ms kaldı) ${so.calarken_yeni_ekran} · pencereye kısaltılan ${so.kisaltilan}`);
       for (const x of so.liste.filter((y) => y.anlamli && (y.kesildi || (y.yeniEkran && y.yeniEkran.kalanMs > 150))).slice(0, 12))
-        console.log(`     · ${x.rol} @${x.t} ms: plan ${x.planMs} / çaldı ${x.calmaMs} ms${x.kesildi ? ` · KESİLDİ (${x.ani ? "ani" : "fade " + x.fadeMs + " ms"}) — ${x.kesen}` : ""}${x.yeniEkran ? ` · çalarken ${x.yeniEkran.ad}, kalan ${x.yeniEkran.kalanMs} ms` : ""}${x.cakisan.length ? " · çakışan " + x.cakisan.join(",") : ""}`); }
+        console.log(`     · ${x.rol} @${x.t} ms: plan ${x.planMs} / çaldı ${x.calmaMs} ms${x.kesildi ? ` · KESİLDİ dosyaya göre −${x.kesilenMs} ms (${x.ani ? "ani" : x.fadeMs != null ? "fade " + x.fadeMs + " ms" : "pencere"}) — ${x.kesen}` : ""}${x.yeniEkran ? ` · çalarken ${x.yeniEkran.ad}, kalan ${x.yeniEkran.kalanMs} ms` : ""}${x.cakisan.length ? " · çakışan " + x.cakisan.join(",") : ""}`); }
+    { const sk = izlemeAkis.filter((x) => x.tur === "ses_kesildi"); console.log(`   izleme ses_kesildi (kuyruğa giden): ${sk.length} ${JSON.stringify(sk)}`); sonuclar.at(-1).izlemeAkis = izlemeAkis; }
+    for (const v of c.devam) console.log(`   DEVAM tur ${v.tur} (${v.veren}) payO ${payO(v.olcek)}: ${devamSesYazi(v)} · soru sesi boşluğu ${v.soruBosluk ?? "—"} ms · gb'ye göre: gördü ${v.gorduGb} · an ${v.anBasGb}→${v.anBitGb} · soru sesi ${v.soruGb}`);
     await b.close();
   }
 } catch (e) {
@@ -968,14 +1056,20 @@ try {
     for (const k of x.kesik) satir.push(`| ${m} | kesilen animasyon | ${k.ad} (${k.el.split(" < ")[0]}) | ${k.faz} | ${k.oynadi}/${k.sure} ms oynadı · ${k.neden ?? "?"} |`);
   }
   // 16 Eki 2026: her ses için tek satır (rol, istendi→başladı, plan/gerçek süre, kesildi + kesen, yeni ekranda kalan, çakışan)
-  fs.writeFileSync(path.join(CIKTI, `ses-omru-${ETIKET}.md`), `# Ses ömrü — ${ETIKET}\n\n` + sonuclar.map((x) => `## ${x.senaryo} #${x.mac}\n\n| t ms | rol | anlamlı | plan/dosya ms | çaldı ms | kesildi / kesen | yeni ekran · kalan | çakışan |\n|---|---|---|---|---|---|---|---|\n`
-    + (x.sesOmru?.liste ?? []).map((y) => `| ${y.t} | ${y.rol} | ${y.anlamli ? "★" : ""} | ${y.planMs}/${y.dosyaMs}${y.planli ? " (kısaltıldı)" : ""} | ${y.calmaMs} | ${y.kesildi ? `${y.ani ? "ANİ" : `fade ${y.fadeMs} ms`} — ${y.kesen}` : "sonuna kadar"} | ${y.yeniEkran ? `${y.yeniEkran.ad} · ${y.yeniEkran.kalanMs} ms` : "—"} | ${y.cakisan.join(", ") || "—"} |`).join("\n")).join("\n\n") + "\n");
+  fs.writeFileSync(path.join(CIKTI, `ses-omru-${ETIKET}.md`), `# Ses ömrü — ${ETIKET}\n\n` + sonuclar.map((x) => `## ${x.senaryo} #${x.mac}\n\n| t ms | rol | anlamlı | plan/dosya ms | çaldı ms | kesildi (dosyaya göre) / kesen | yeni ekran · kalan | çakışan |\n|---|---|---|---|---|---|---|---|\n`
+    + (x.sesOmru?.liste ?? []).map((y) => `| ${y.t} | ${y.rol} | ${y.anlamli ? "★" : ""} | ${y.planMs}/${y.dosyaMs}${y.planli ? " (kısaltıldı)" : ""} | ${y.calmaMs} | ${y.kesildi ? `dosyaya göre −${y.kesilenMs} ms${y.ani ? " · ANİ" : y.fadeMs != null ? ` · fade ${y.fadeMs} ms` : ""} — ${y.kesen}` : "sonuna kadar"} | ${y.yeniEkran ? `${y.yeniEkran.ad} · ${y.yeniEkran.kalanMs} ms` : "—"} | ${y.cakisan.join(", ") || "—"} |`).join("\n")).join("\n\n") + "\n");
+  // 17 Eki 2026: DEVAM anı tablosu
+  fs.writeFileSync(path.join(CIKTI, `devam-${ETIKET}.md`), `# DEVAM anı — ${ETIKET} (${DIL}, ${GENISLIK}×${YUKSEKLIK}, CPU ${Number(ARG.cpu) || 6}x)\n\n`
+    + "| senaryo | tur | veren | payO | ses | dosya ms | çaldı ms | dosyaya göre kesilen | kesen / çalmama nedeni | soru sesi boşluğu ms | gördü (gb'ye göre) | an başladı | ses başladı | an bitti | soru sesi |\n|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n"
+    + sonuclar.flatMap((x) => (x.devam ?? []).map((v) => `| ${x.senaryo} #${x.mac} | ${v.tur} | ${v.veren} | ${payO(v.olcek)} | ${v.ses?.rol ?? "—"} | ${v.ses?.dosyaMs ?? "—"} | ${v.ses?.calmaMs ?? "—"} | ${v.ses ? (v.ses.kesildi ? `**${v.ses.kesilenMs}**` : "0") : "—"} | ${v.ses?.kesen ?? v.calmadi ?? "—"} | ${v.soruBosluk ?? "—"} | ${v.gorduGb ?? "—"} | ${v.anBasGb ?? "—"} | ${v.sesGb ?? "—"} | ${v.anBitGb ?? "—"} | ${v.soruGb ?? "—"} |`)).join("\n") + "\n");
   fs.writeFileSync(path.join(CIKTI, `tablo-${ETIKET}.md`), `# Hazine akış ölçümü — ${ETIKET}\n\n| maç | tür | ses / animasyon | an | ölçü |\n|---|---|---|---|---|\n${satir.join("\n")}\n`);
   const top = (f) => sonuclar.reduce((n, x) => n + f(x), 0);
   console.log(`\nSAYAÇ ${ETIKET}: 0'da > 1 sn ${top((x) => x.sayac?.sifir_uzun.length ?? 0)} kez (en uzun ${Math.max(0, ...sonuclar.flatMap((x) => (x.sayac?.sifir_bekleme ?? []).map((y) => y.ms)))} ms) · ileri/geri sıçrama ${top((x) => x.sayac?.sicrama.length ?? 0)} · rakam en kısa/uzun ${Math.min(...sonuclar.map((x) => x.sayac?.rakam_ms?.en_kisa ?? 9999))}/${Math.max(0, ...sonuclar.map((x) => x.sayac?.rakam_ms?.en_uzun ?? 0))} ms`);
   { const v = (o) => sonuclar.flatMap((x) => (x.fazGec ?? []).filter((y) => y.olay === o).map((y) => y.ms));
     const oz = (o) => { const a = v(o); return a.length ? `${o} ort ${Math.round(a.reduce((p, q) => p + q, 0) / a.length)} · en kötü ${Math.max(...a)} · > 1 sn ${a.filter((x) => x > 1000).length}/${a.length}` : `${o} —`; };
     console.log(`\nFAZ GEÇİŞİ ${ETIKET} (sunucu → istemci, ms): ${["sonuc", "karar", "cevap", "bitti"].map(oz).join(" | ")} · erken süre bildirimi ${top((x) => x.erkenBildirim?.length ?? 0)}`); }
-  console.log(`\nSES ÖMRÜ ${ETIKET}: anlamlı ${top((x) => x.sesOmru?.anlamli ?? 0)} · ANİ kesilen ${top((x) => x.sesOmru?.ani_kesilen ?? 0)} · yumuşak biten ${top((x) => x.sesOmru?.yumusak_biten ?? 0)} · çalarken yeni ekran (>150 ms kaldı) ${top((x) => x.sesOmru?.calarken_yeni_ekran ?? 0)} · pencereye kısaltılan ${top((x) => x.sesOmru?.kisaltilan ?? 0)}`);
+  { const dv = sonuclar.flatMap((x) => x.devam ?? []);
+    console.log(`\nDEVAM ${ETIKET}: ${dv.length} DEVAM · ses çaldı ${dv.filter((v) => v.ses).length} · dosyaya göre KESİLDİ ${dv.filter((v) => v.ses?.kesildi).length} · çalmadı ${dv.filter((v) => !v.ses).length} ${JSON.stringify([...new Set(dv.filter((v) => !v.ses).map((v) => v.calmadi))])} · soru sesiyle üst üste ${dv.filter((v) => v.soruBosluk != null && v.soruBosluk < 0).length}`); }
+  console.log(`\nSES ÖMRÜ ${ETIKET}: dosyaya göre kesilen (maç içi) ${top((x) => x.sesOmru?.dosyaya_gore_kesilen ?? 0)} · anlamlı ${top((x) => x.sesOmru?.anlamli ?? 0)} · ANİ kesilen ${top((x) => x.sesOmru?.ani_kesilen ?? 0)} · yumuşak biten ${top((x) => x.sesOmru?.yumusak_biten ?? 0)} · çalarken yeni ekran (>150 ms kaldı) ${top((x) => x.sesOmru?.calarken_yeni_ekran ?? 0)} · pencereye kısaltılan ${top((x) => x.sesOmru?.kisaltilan ?? 0)}`);
   console.log(`\nTOPLAM ${ETIKET}: maç ${sonuclar.length} · faz taşması ${top((x) => x.tasma.length)} · geç çalma ${top((x) => x.gec.length)} · eşzamanlı ${top((x) => x.eszaman.length)} · kesilen animasyon ${top((x) => x.kesik.length)} · askıda başlayan ${top((x) => x.askidaCalan)}`);
 }

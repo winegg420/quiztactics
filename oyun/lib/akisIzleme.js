@@ -141,12 +141,19 @@ export function akisSesSonuc(k, sonuc) {
  * kesen: ekran (yeni ekran geldi, yumuşak bitti) · ayni_ses (aynı rolün yeni kopyası) · soru_sesi (soru sesi doğru/yanlışı kıstı) ·
  * diger.
  */
+// 17 Eki 2026: kalanMs = DOSYA süresine göre kesilen ms; neden pencere (ekranın kalan süresine kısaltıldı) · sinir (maç içi üst
+// sınır) · ekran (yeni ekran) · ayni_ses · soru_sesi · diger. Aynı maçta aynı an bir kez (tür kotası gerçek kesintilere kalsın).
+const sesKesikYazilan = new Set();
 export function akisSesKesildi({ rol, faz: f, kalanMs, kesen }) {
   try {
     if (!mac || kuyruk || !rol) return;
-    const k = /^yeni ekran/.test(kesen ?? "") ? "ekran" : /^aynı ses/.test(kesen ?? "") ? "ayni_ses" : /^soru sesi/.test(kesen ?? "") ? "soru_sesi" : "diger";
+    const ks = String(kesen ?? "");
+    const k = ks === "pencere" || ks === "sinir" ? ks : /^yeni ekran/.test(ks) ? "ekran" : /^aynı ses/.test(ks) ? "ayni_ses" : /^soru sesi/.test(ks) ? "soru_sesi" : "diger";
     const fazAd = String(f ?? faz?.an ?? "").replace(/[|]/g, "").slice(0, 14);
-    akisOlay("ses_kesildi", `${String(rol).slice(0, 18)}|${fazAd}|${k}`, kalanMs);
+    const an = `${String(rol).slice(0, 18)}|${fazAd}|${k}`;
+    if (sesKesikYazilan.has(`${mac.id}|${an}`)) return;
+    sesKesikYazilan.add(`${mac.id}|${an}`);
+    akisOlay("ses_kesildi", an, kalanMs);
   } catch { /* sessiz */ }
 }
 

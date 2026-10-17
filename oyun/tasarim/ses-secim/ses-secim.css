@@ -112,3 +112,14 @@
 .ss-liste-ad { min-width: 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin); overflow-wrap: anywhere; }
 .ss-yukari svg { transform: rotate(180deg); }
 .ss-liste-satir .qt-ikon-dugme:disabled { opacity: 0.35; }
+
+/* 17 Eki 2026 — Hazine DEVAM anı provası (DevamProva.jsx) */
+.ss-prova-sahne { display: grid; place-items: center; min-height: 64px; border-radius: var(--qt-r-m, 12px); background: var(--qt-zemin-soluk, rgba(29, 33, 82, 0.06)); padding: var(--qt-b-2); text-align: center; }
+.ss-prova-kart { font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: var(--qt-y-l); color: var(--qt-metin); }
+.ss-prova-kart--acik { animation: ss-prova-pop 260ms ease-out both; }
+.ss-prova-carpan { color: var(--qt-altin, #d99a00); }
+.ss-prova-bos { font-size: var(--qt-y-s); color: var(--qt-metin-soluk); }
+.ss-prova-dugmeler { display: flex; flex-wrap: wrap; gap: var(--qt-b-2); }
+.ss-prova-dugmeler > * { flex: 1 1 140px; min-height: 44px; }
+@keyframes ss-prova-pop { from { transform: scale(0.82); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ss-prova-kart--acik { animation: none; } }

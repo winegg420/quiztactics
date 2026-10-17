@@ -11,6 +11,9 @@
 //           [--eski_kaynak=<git nesnesi, varsayılan HEAD>] [--etiket=x]   → tasarim/ses-kesilme/<etiket>.json + .md
 // Modlar: klasik · saf_bilgi · duello (arama/VS + v4) · grup · turnuva · hazine (giriş + AÇ/DEVAM + rakip jokeri; sayfanın
 // gerçek ölçümü araclar/hazine-akis-olcum.mjs'tedir).
+// 17 Eki 2026: kesilme DOSYA süresine göre (pencereye kısaltılan ses de kesik: kesen "pencere"); her satırda an (sesin çaldığı
+// ekran/pencere), dosya / pencere / çalma / kesilen ms, kesen. Hazine çizelgesinde rakibin DEVAM anı (KasaPage: kart 700 ms kapalı,
+// an penceresi 1381 ms = taban ölçek, m(60)'ta DEVAM sesi — yeni ses.js'te sesKasaDevam, eskide sesRozet —, an bitince soru sesi).
 import { chromium } from "playwright-core";
 import fs from "node:fs";
 import path from "node:path";
@@ -93,6 +96,12 @@ function hazine() {
   t += 3320;
   c.push([t + 2000, "sesDokunus"], [t + 2100, "sesFazDegisti", "sonuc"], [t + 2100, "sesPencere", SONUC, "sonuc"], [t + 2110, "sesYanlis"], [t + 2590, "sesCanKaybi", false]);
   t += 2100 + SONUC;
+  // karar (rakip) → DEVAM: soru fazı gelir, rakibin kartı 700 ms kapalı, sonra DEVAM anı (pencere 1381 ms = 1770 × taban 0,78)
+  c.push([t, "sesFazDegisti", "karar"], [t + 10, "sesTurGecis"], [t + 2500, "sesFazDegisti", "cevap"], [t + 3200, "sesPencere", 1381, "an:devam"],
+    [t + 3259, "devamSesi"], [t + 4581, "sesSoruGeldi"]);
+  t += 4581;
+  c.push([t + 2000, "sesDokunus"], [t + 2100, "sesFazDegisti", "sonuc"], [t + 2100, "sesPencere", SONUC, "sonuc"], [t + 2110, "sesDogru"]);
+  t += 2100 + SONUC;
   c.push([t, "sesFazDegisti", "mac_sonu"], [t + 10, "sesMacSonu", "kazandin"], [t + 20, "sesMacSonu", "xp_dolma"]);
   return { cizelge: c, son: t + 5000 };
 }
@@ -143,13 +152,17 @@ const AN_ROL = { skill: "joker", galibiyet: "kazandin", maglubiyet: "kaybettin",
 const dosyadanRol = (d) => { const an = String(d || "").replace(/\.(wav|mp3)$/, "").replace(/-[0-9a-f]{10}$/, "").replace(/-[a-z]?\d+$/, ""); return AN_ROL[an] ?? an; };
 const ANLAMLI = new Set(["joker", "skill_elli", "skill_ek_sure", "skill_soru_degistir", "skill_zaman_baskisi", "skill_sigorta", "skill_2x",
   "skill_ikinci_sans", "sis", "rakip_bulundu", "vs_ani", "dogru", "yanlis", "sure_doldu", "kategori_secildi", "tur_gecis", "kazandin", "kaybettin",
-  "beraberlik", "xp_dolma", "level", "rutbe", "rozet", "coin", "turnuva", "can_kaybi", "rakip_cevapladi"]);
+  "beraberlik", "xp_dolma", "level", "rutbe", "rozet", "coin", "turnuva", "can_kaybi", "rakip_cevapladi", "kasa_devam"]);
 const MAC_SONU = new Set(["kazandin", "kaybettin", "beraberlik", "xp_dolma", "level", "rutbe"]);
 
 function coz({ ses, cizelge, kayit }) {
   const ekranlar = cizelge.filter((e) => e.ad === "sesSoruGeldi" || (e.ad === "sesFazDegisti" && e.arg?.[1]?.ekran !== false))
     .map((e) => ({ t: e.t, ad: e.ad === "sesSoruGeldi" ? "yeni soru" : `faz ${e.arg?.[0] ?? ""}` }));
   const t0 = cizelge[0]?.t ?? 0;
+  // sesin çaldığı an: o ana kadarki son pencere / faz / yeni soru
+  const anAdi = (t) => { let a = "başlangıç"; for (const e of cizelge) { if (e.t > t + 5) break;
+    if (e.ad === "sesPencere") a = `pencere ${e.arg?.[1] ?? ""}`; else if (e.ad === "sesFazDegisti") a = `faz ${e.arg?.[0] ?? ""}`; else if (e.ad === "sesSoruGeldi") a = "soru"; else if (e.ad === "sesRakipBulundu") a = "pencere vs"; }
+    return a; };
   const liste = ses.map((k0) => {
     const rol = dosyadanRol(k0.dosya);
     let plan = k0.sure, planli = false;
@@ -160,18 +173,21 @@ function coz({ ses, cizelge, kayit }) {
     const k = { ...k0, stop: stoplar.find((x) => x !== planStop) ?? null };
     const planBitis = k.t + plan, stopBitis = k.stop ? k.stop.t + k.stop.once : null;
     const bitis = Math.min(planBitis, stopBitis ?? Infinity, k.bitti ?? Infinity);
-    const kesildi = stopBitis != null && stopBitis < planBitis - 40;
-    const fade = kesildi ? Math.max(0, k.stop.once - 20) : null;
+    const sonradan = stopBitis != null && stopBitis < planBitis - 40;
+    const calmaMs = Math.round(bitis - k.t), kesilenMs = Math.max(0, k0.sure - calmaMs);
+    const kesildi = sonradan || (planli && kesilenMs > 40);
+    const fade = sonradan ? Math.max(0, k.stop.once - 20) : null;
     const yeni = ekranlar.find((e) => e.t > k.t + 30 && e.t < bitis - 20);
     const cakisan = ses.filter((o) => o !== k && o.t > k.t + 20 && o.t < bitis - 50).map((o) => dosyadanRol(o.dosya)).filter((r) => !/^(dokunus|tik|sayim_tik)$/.test(r));
-    return { rol, anlamli: ANLAMLI.has(rol) && !(MAC_SONU.has(rol) && ekranlar.some((e) => e.ad === "faz mac_sonu" && e.t <= k.t + 30)), t: Math.round(k.t - t0),
-      dosyaMs: k.sure, planMs: Math.round(plan), planli, calmaMs: Math.round(bitis - k.t), kesildi, ani: kesildi && fade < 80, fadeMs: fade,
-      kesen: !kesildi ? null : fade < 80 ? "aynı rolün yeni kopyası (ES_ZAMANLI, ~30 ms)" : "yumuşak fade (yeni ekran / aynı ses / soru sesi)",
+    return { rol, an: anAdi(k.t), anlamli: ANLAMLI.has(rol) && !(MAC_SONU.has(rol) && ekranlar.some((e) => e.ad === "faz mac_sonu" && e.t <= k.t + 30)), t: Math.round(k.t - t0),
+      dosyaMs: k.sure, planMs: Math.round(plan), planli, calmaMs, kesilenMs, kesildi, ani: sonradan && fade < 80, fadeMs: fade,
+      kesen: !kesildi ? null : !sonradan ? "pencere (başlarken kısaltıldı)" : fade < 80 ? "aynı rolün yeni kopyası (ES_ZAMANLI, ~30 ms)"
+        : fade >= 140 ? "yeni ekran (150 ms fade)" : "aynı ses / soru sesi (120 ms fade)",
       yeniEkran: yeni ? { ad: yeni.ad, kalanMs: Math.round(planBitis - yeni.t) } : null, cakisan: [...new Set(cakisan)] };
   });
   const anl = liste.filter((x) => x.anlamli);
   const calmayan = (kayit ?? []).filter((x) => x.sonuc && !/^calindi|^yukleniyor/.test(x.sonuc) && ANLAMLI.has(x.rol)).map((x) => `${x.rol}: ${x.sonuc}`);
-  return { liste, anlamli: anl.length, ani: anl.filter((x) => x.ani).length, yumusak: anl.filter((x) => x.kesildi && !x.ani).length,
+  return { liste, anlamli: anl.length, kesilen: anl.filter((x) => x.kesildi).length, ani: anl.filter((x) => x.ani).length, yumusak: anl.filter((x) => x.kesildi && !x.ani).length,
     calarkenEkran: anl.filter((x) => x.yeniEkran && x.yeniEkran.kalanMs > 150 && !x.kesildi).length,
     kisaltilan: anl.filter((x) => x.planli).length, calmayan };
 }
@@ -213,7 +229,8 @@ try {
       const bas = performance.now();
       for (const [ms, ad, ...arg] of c) setTimeout(() => {
         window.__iz.cizelge.push({ t: performance.now(), ad, arg });
-        const f = window.__ses[ad];
+        // 17 Eki 2026: KasaPage DEVAM satırı — yeni ses.js sesKasaDevam, eski sesRozet
+        const f = ad === "devamSesi" ? (window.__ses.sesKasaDevam ?? window.__ses.sesRozet) : window.__ses[ad];
         if (typeof f === "function") { try { f(...arg); } catch (e) { window.__iz.cizelge.push({ t: performance.now(), ad: "HATA", arg: [String(e)] }); } }
       }, ms);
       setTimeout(coz, Math.max(...c.map(([ms]) => ms)) + 50 - (performance.now() - bas));
@@ -222,9 +239,9 @@ try {
     const veri = await s.evaluate(() => ({ ses: window.__iz.ses, cizelge: window.__iz.cizelge, kayit: window.__sesKayit ?? [], omur: window.__sesOmur ?? null }));
     const c = coz(veri);
     sonuc.push({ surum, cpu, mod, ...c, hatalar, omur: veri.omur });
-    console.log(`${surum.padEnd(4)} cpu${cpu} ${mod.padEnd(9)} anlamlı ${c.anlamli} · ANİ kesilen ${c.ani} · yumuşak biten ${c.yumusak} · çalarken yeni ekran (>150 ms) ${c.calarkenEkran} · kısaltılan ${c.kisaltilan} · çalmayan ${c.calmayan.length}${hatalar.length ? " · HATA " + hatalar.join(" | ") : ""}`);
+    console.log(`${surum.padEnd(4)} cpu${cpu} ${mod.padEnd(9)} anlamlı ${c.anlamli} · dosyaya göre kesilen ${c.kesilen} · ANİ kesilen ${c.ani} · yumuşak biten ${c.yumusak} · çalarken yeni ekran (>150 ms) ${c.calarkenEkran} · kısaltılan ${c.kisaltilan} · çalmayan ${c.calmayan.length}${hatalar.length ? " · HATA " + hatalar.join(" | ") : ""}`);
     for (const x of c.liste.filter((y) => y.anlamli && (y.kesildi || (y.yeniEkran && y.yeniEkran.kalanMs > 150)))) {
-      console.log(`      · ${x.rol} @${x.t}: plan ${x.planMs}/${x.dosyaMs} · çaldı ${x.calmaMs} ms${x.kesildi ? ` · KESİLDİ (${x.ani ? "ANİ" : `fade ${x.fadeMs} ms`})` : ""}${x.yeniEkran ? ` · çalarken ${x.yeniEkran.ad}, kalan ${x.yeniEkran.kalanMs} ms` : ""}${x.cakisan.length ? " · çakışan " + x.cakisan.join(",") : ""}`);
+      console.log(`      · ${x.rol} @${x.t} (${x.an}): dosya ${x.dosyaMs} · pencere/plan ${x.planMs} · çaldı ${x.calmaMs} ms${x.kesildi ? ` · KESİLDİ −${x.kesilenMs} ms (${x.kesen})` : ""}${x.yeniEkran ? ` · çalarken ${x.yeniEkran.ad}, kalan ${x.yeniEkran.kalanMs} ms` : ""}${x.cakisan.length ? " · çakışan " + x.cakisan.join(",") : ""}`);
     }
     if (c.calmayan.length) console.log(`      çalmayan: ${c.calmayan.join(" · ")}`);
     await b.close();
@@ -232,9 +249,9 @@ try {
 } finally {
   await tarayici.close();
   fs.writeFileSync(path.join(CIKTI, `${ETIKET}.json`), JSON.stringify(sonuc, null, 1));
-  const satir = sonuc.map((x) => `| ${x.mod} | ${x.surum} | ${x.cpu}x | ${x.anlamli} | ${x.ani} | ${x.yumusak} | ${x.calarkenEkran} | ${x.kisaltilan} | ${x.calmayan.length} |`);
+  const satir = sonuc.map((x) => `| ${x.mod} | ${x.surum} | ${x.cpu}x | ${x.anlamli} | ${x.kesilen} | ${x.ani} | ${x.yumusak} | ${x.calarkenEkran} | ${x.kisaltilan} | ${x.calmayan.length} |`);
   const ayrinti = sonuc.flatMap((x) => x.liste.filter((y) => y.anlamli && (y.kesildi || (y.yeniEkran && y.yeniEkran.kalanMs > 150)))
-    .map((y) => `| ${x.mod} | ${x.surum} | ${x.cpu}x | ${y.rol} | ${y.planMs}/${y.dosyaMs} | ${y.calmaMs} | ${y.kesildi ? (y.ani ? "ANİ" : `fade ${y.fadeMs}`) : "—"} | ${y.yeniEkran ? `${y.yeniEkran.ad} · kalan ${y.yeniEkran.kalanMs}` : "—"} | ${y.cakisan.join(", ") || "—"} |`));
-  fs.writeFileSync(path.join(CIKTI, `${ETIKET}.md`), `# Ses kesilmesi çizelge ölçümü — ${ETIKET}\n\n| mod | ses.js | CPU | anlamlı | ANİ kesilen | yumuşak biten | çalarken yeni ekran (>150 ms) | pencereye kısaltılan | çalmayan |\n|---|---|---|---|---|---|---|---|---|\n${satir.join("\n")}\n\n## Ayrıntı\n\n| mod | ses.js | CPU | rol | plan/dosya ms | çaldı ms | kesildi | yeni ekran | çakışan |\n|---|---|---|---|---|---|---|---|---|\n${ayrinti.join("\n")}\n`);
+    .map((y) => `| ${x.mod} | ${x.surum} | ${x.cpu}x | ${y.rol} | ${y.an} | ${y.dosyaMs} | ${y.planli ? y.planMs : "—"} | ${y.calmaMs} | ${y.kesildi ? y.kesilenMs : 0} | ${y.kesen ?? "—"} | ${y.yeniEkran ? `${y.yeniEkran.ad} · kalan ${y.yeniEkran.kalanMs}` : "—"} | ${y.cakisan.join(", ") || "—"} |`));
+  fs.writeFileSync(path.join(CIKTI, `${ETIKET}.md`), `# Ses kesilmesi çizelge ölçümü — ${ETIKET}\n\n| mod | ses.js | CPU | anlamlı | dosyaya göre kesilen | ANİ kesilen | yumuşak biten | çalarken yeni ekran (>150 ms) | pencereye kısaltılan | çalmayan |\n|---|---|---|---|---|---|---|---|---|---|\n${satir.join("\n")}\n\n## Ayrıntı\n\n| mod | ses.js | CPU | rol | an | dosya ms | pencere ms | çaldı ms | dosyaya göre kesilen ms | kesen | yeni ekran | çakışan |\n|---|---|---|---|---|---|---|---|---|---|---|---|\n${ayrinti.join("\n")}\n`);
   console.log("→", path.join(CIKTI, `${ETIKET}.md`));
 }

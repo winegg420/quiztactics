@@ -30,7 +30,8 @@ const MUZIK_YOL = /(?:^|\/storage\/v1\/object\/public)\/muzik\/(?:[^/]+\/)?[^/]+
 // Sürümü ARTIRILMAZ (ad içerik sürümlü). Sınır = seçili efektler + /ses-secim'de dinlenenler için pay.
 const ADAY = "qt-ses-aday-v1";
 const ADAY_SINIR = 60;
-const ADAY_YOL = /\/storage\/v1\/object\/public\/ses-adaylar\/[^/]+-[0-9a-f]{10}\.(?:wav|mp3|aac)$/i;
+// 17 Eki 2026: aynı kökenli içerik sürümlü efektler de (public/ses/<ad>-<sha10>.wav — ilki Hazine DEVAM sesi) bu önbellekte
+const ADAY_YOL = /(?:\/storage\/v1\/object\/public\/ses-adaylar|^\/ses)\/[^/]+-[0-9a-f]{10}\.(?:wav|mp3|aac)$/i;
 const STATIK = /.(?:svg|png|jpe?g|webp|gif|ico|woff2?|css|js|json|glb)$/i;
 
 self.addEventListener("install", (event) => {

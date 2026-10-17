@@ -47,6 +47,7 @@ hiçbir şey bilmez — yalnız fonksiyonu çağırır.
 | xp_dolma | `sesXpDolma()` — XP çubuğu dolmaya başlarken bir kez |
 | level | `sesLevel()` |
 | rozet | `sesRozet()` |
+| (anı yok) | `sesKasaDevam()` — Hazine DEVAM anı; dosya `kasa_devam-<sha>.wav` (rozet-n1'in 880 ms'lik kısa sürümü, sönüm dosyada; `araclar/kasa-devam-sesi-uret.mjs`). Anın penceresine tam sığmıyorsa çalmaz (17 Eki 2026) |
 | lig_atlama | `sesRutbeAtladi()` |
 | turnuva | `sesTurnuvaBasladi()` |
 | bildirim | `sesBildirim()` |
