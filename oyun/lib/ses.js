@@ -176,7 +176,8 @@ const taniSonuc = (k, sonuc, ek) => {
 //      penceresinde — faz değişimi onları kısmaz.
 // Her çalan kaynağın ÖMRÜ kaydedilir (ses.js tanısı açıkken window.__sesOmur): rol, istendi, başladı, dosya/plan süresi,
 // gerçek çalma, kesildi mi + kesen, çalarken yeni faz geldiyse faz + kalan ms, çakıştığı sesler. Maç sayfasında (izleme açık)
-// anlamlı ses planının %80'inden önce bittiyse ya da çalarken yeni faz geldi ve > 150 ms kaldıysa akış kaydı "ses_kesildi".
+// anlamlı ses DOSYA süresinden erken bittiyse (pencere kısaltması / üst sınır / yeni ekran / aynı ses / soru sesi) akış kaydı
+// "ses_kesildi" (17 Eki 2026; an = rol|faz|neden, ms = dosyaya göre kesilen). Sonuna kadar çalan ses kesildi sayılmaz.
 const ANLAMLI = new Set(["joker", "skill_elli", "skill_ek_sure", "skill_soru_degistir", "skill_zaman_baskisi", "skill_sigorta", "skill_2x",
   "skill_ikinci_sans", "sis", "rakip_bulundu", "vs_ani", "dogru", "yanlis", "sure_doldu", "kategori_secildi", "tur_gecis", "kazandin", "kaybettin",
   "beraberlik", "xp_dolma", "level", "rutbe", "rozet", "coin", "turnuva", "can_kaybi", "rakip_cevapladi", "kasa_devam"]);
@@ -190,7 +191,7 @@ const EKRAN_FADE_MS = 150;      // yeni ekran geldiğinde hâlâ çalan anlamlı
 const ES_FADE_MS = 120;          // aynı rolün yeni kopyası eskisini kısarken (eskiden 30 ms — ani)
 const PENCERE_PAY_MS = 40;       // pencerenin bitişinden bu kadar önce susmuş olsun
 const PENCERE_EN_AZ_MS = 180;    // pencere bundan darsa anlamlı ses hiç başlamaz (yarım ses yerine sessizlik)
-const KALAN_ESIK_MS = 150;       // yeni ekran geldiğinde bundan fazlası kaldıysa izleme "ses_kesildi" yazar
+const KESIK_PAY_MS = 40;         // dosya süresinden bundan fazla erken biten anlamlı ses "kesildi" (izleme "ses_kesildi")
 const EKRAN_BIRAK_MS = 400;      // yeni ekran geldiğinde kalan bundan azsa ses SONUNA KADAR çalar (kısmak yarıda kesmek olur)
 // Penceresi bilinmeyen maç içi işaret sesleri (rakibin jokeri, kendi jokerin): dosya ne olursa olsun en çok bu kadar (sonu fade)
 // — oyuncu jokerden hemen sonra cevaplayınca sonuç ekranı sesin ortasına düşmesin. Maç sonu (gecKabul) ve maç dışı hariç.
@@ -214,14 +215,16 @@ function omurBitti(o, kesen) {
   o.bitti = Math.round(simdiMs());
   if (kesen && o.kesen == null) o.kesen = kesen;
   calanOmur.delete(o);
-  o.calmaMs = Math.max(0, o.bitti - o.basladi);
-  o.kesildi = Boolean(o.kesen) && o.calmaMs < o.planMs - 40;
-  if (o.anlamli && !o.gecKabul) {
-    const erken = o.calmaMs < o.planMs * 0.8;
-    const yeniFazKalan = o.yeniFaz?.ekran ? o.yeniFaz.kalanMs : 0;
-    if ((o.kesildi && erken) || yeniFazKalan > KALAN_ESIK_MS) {
-      akisSesKesildi({ rol: o.rol, faz: o.yeniFaz?.ad ?? o.faz, kalanMs: Math.max(o.planMs - o.calmaMs, yeniFazKalan), kesen: o.kesen ?? "yeni ekran" });
-    }
+  // 17 Eki 2026: gerçek çalma = kurulan duruş anı (pencere kısaltması / yumuşak susturma) ile ended'in erkeni — ended yavaş
+  // telefonda geç gelir, kesilen eksik ölçülmesin
+  o.calmaMs = Math.max(0, Math.min(o.bitti, o.durus ?? Infinity) - o.basladi);
+  // 17 Eki 2026 (Ida: rakip DEVAM sesi yarıda kesik): kesilme DOSYA süresine göre — eskiden plana göre ölçülüyordu, pencereye
+  // kısaltılan ses "tam çaldı" sayılıyordu. Sonuna kadar çalan ses (yeni ekranda ≤ EKRAN_BIRAK_MS kalan dahil) kesildi sayılmaz.
+  o.kesilenMs = Math.max(0, Math.round(o.dosyaMs - o.calmaMs));
+  o.kesildi = o.kesilenMs > KESIK_PAY_MS;
+  o.neden = !o.kesildi ? null : o.kesen ? o.kesen : o.kisaltma === "sinir" ? "sinir" : o.kisaltma ? "pencere" : "diger";
+  if (o.anlamli && !o.gecKabul && o.kesildi) {
+    akisSesKesildi({ rol: o.rol, faz: o.kisaltma && !o.kesen ? (o.pencereAd ?? o.faz) : (o.yeniFaz?.ad ?? o.faz), kalanMs: o.kesilenMs, kesen: o.neden });
   }
   if (o.tani) { try { (window.__akis ||= []).push({ t: Date.now(), olay: o.kesildi ? "ses:kesildi" : "ses:bitti", rol: o.rol, kesen: o.kesen ?? null, ms: o.calmaMs }); } catch { /* tanı */ } }
 }
@@ -234,7 +237,7 @@ function yumusakSustur(c, k, fadeMs, kesen) {
     g.linearRampToValueAtTime(0, t + fadeMs / 1000);
     k.kaynak.stop(t + fadeMs / 1000 + 0.02);
   } catch { /* zaten bitmiş */ }
-  if (k.omur && k.omur.kesen == null) { k.omur.kesen = kesen; k.omur.fadeMs = fadeMs; }
+  if (k.omur && k.omur.kesen == null) { k.omur.kesen = kesen; k.omur.fadeMs = fadeMs; k.omur.durus = Math.min(k.omur.durus ?? Infinity, simdiMs() + fadeMs); }
 }
 
 /** Bir rolün aynı anda çalabilecek kopya sayısı (varsayılan 2). */
@@ -619,7 +622,8 @@ function tamponCal(c, tampon, hacim, hiz, rol, tani = null, gecKabul = false) {
     // ömür kaydı: çalarken başlayan öteki anlamlı sesler (çakışma)
     const cakisan = [...calanOmur].filter((o) => o.basladi + o.planMs - basladi > 50 && o.rol !== "dokunus").map((o) => o.rol);
     const omur = { rol, faz: fazAdi, istendi: tani?.t ?? Math.round(basladi), basladi: Math.round(basladi), dosyaMs, planMs, kisaltma,
-      anlamli, gecKabul, cakisan, kesen: null, yeniFaz: null, bitti: null, tani: sesTaniAcik() };
+      anlamli, gecKabul, cakisan, kesen: null, yeniFaz: null, bitti: null, tani: sesTaniAcik(),
+      pencereAd: kisaltma ? pencereAd : null, durus: kisaltma ? Math.round(basladi + planMs) : null };
     const kayit = { kaynak, kazanc, omur };
     Object.defineProperty(omur, "kayit", { value: kayit, writable: true, enumerable: false });   // tanı listesi düz veri kalsın
     for (const o of calanOmur) if (o.basladi + o.planMs - basladi > 50 && rol !== "dokunus") (o.cakisan ||= []).push(rol);
