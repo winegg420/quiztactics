@@ -44,6 +44,7 @@
 // Kullanım: npm run build && npx vite preview --port 5199 --strictPort
 //           node araclar/hazine-akis-olcum.mjs --adres=http://localhost:5199 --etiket=sonra [--mac=3] [--senaryo=bot,gecikmeli]
 import { chromium } from "playwright-core";
+import { iz as cikisIz, cikisOlc } from "./ses-cikis-iz.mjs";   // 17 Eki 2026: GERÇEK ses çıkışı (ses bitiş kuralı)
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -649,6 +650,7 @@ function sesOmruCoz({ olc, pencereler, dosyaRol, calismaAni, sesOmur, timeOrigin
     yumusak_biten: anl.filter((x) => x.kesildi && !x.ani).length,
     calarken_yeni_ekran: anl.filter((x) => x.yeniEkran && x.yeniEkran.kalanMs > 150 && !(x.kesildi && !x.ani)).length,
     kisaltilan: anl.filter((x) => x.planli).length,
+    ekranOlaylari,
     // ses.js'in kendi kaydı (yeni sürüm): kesen + faz adı doğrudan oradan
     uygulama: Array.isArray(sesOmur) ? sesOmur.filter((x) => x.kesildi || x.yeniFaz).map((x) => ({ rol: x.rol, kesen: x.kesen, yeniFaz: x.yeniFaz, planMs: x.planMs, calmaMs: x.calmaMs })) : null,
   };
@@ -741,6 +743,7 @@ try {
       userAgent: "Mozilla/5.0 (Linux; Android 11; SM-A125F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36",
       recordVideo: ARG.video ? { dir: path.join(CIKTI, "video"), size: { width: 390, height: 844 } } : undefined });
     await b.addInitScript(enjekte);
+    await b.addInitScript(cikisIz);   // 17 Eki 2026: her ses zincirinin gerçek çıkışı (AudioWorklet dinleyicisi)
     if (senaryo === "dalgali") {
       // telefonun saati atlar (NTP düzeltmesi): 70. sn'de +1,5 sn, 140. sn'de −1 sn (Date.now; tekdüze saat etkilenmez)
       await b.addInitScript(() => {
@@ -1018,9 +1021,15 @@ try {
       return { sinif: v.getAttribute("class"), ata: iz.join(" < ").slice(0, 120), oge: v.querySelectorAll("*").length, d: [...v.querySelectorAll("path")].reduce((n, p) => n + (p.getAttribute("d")?.length ?? 0), 0), filtre: v.querySelectorAll("filter,mask,clipPath,pattern").length };
     }).sort((x, y) => y.d - x.d).slice(0, 15))));
     const veri = await s.evaluate(() => ({ olc: window.__olc, sesKayit: window.__sesKayit ?? [], sesOmur: window.__sesOmur ?? null, akis: window.__akis ?? null, timeOrigin: performance.timeOrigin }));
+    const zincir = await s.evaluate(() => window.__cikisOzet?.() ?? []);
     veri.arkaPlanlar = arkaPlanlar;
     const c = cozumle({ ...veri, sunucuLog: sunucu.log, bitisT: sunucu.log.find((x) => x.olay === "bitti")?.t ?? Infinity });
-    sonuclar.push({ senaryo, mac: m, tur: sunucu.k.tur, kazanan: sunucu.k.kazanan === BEN ? "ben" : "rakip", hatalar, sunucu: sunucu.log, ...c, ham: veri });
+    // 17 Eki 2026 (ses bitiş kuralı): GERÇEK çıkıştan — ses bitmeden ekran geçti · binme > 50 ms · kesildi (doğal eğriye göre)
+    const cikis = cikisOlc(zincir.map((z) => ({ ...z, perf: z.perf != null ? z.perf + veri.timeOrigin : null })), c.sesOmru.ekranOlaylari, 0, veri.sesKayit);
+    sonuclar.push({ senaryo, mac: m, tur: sunucu.k.tur, kazanan: sunucu.k.kazanan === BEN ? "ben" : "rakip", hatalar, sunucu: sunucu.log, ...c, cikis, ham: veri });
+    console.log(`   GERÇEK ÇIKIŞ: anlamlı ${cikis.sayac.calan} · ses bitmeden ekran geçti ${cikis.sayac.ekranGecti} · binme > 50 ms ${cikis.sayac.binme} · kesildi ${cikis.sayac.kesildi} · çalmayan ${cikis.sayac.calmayan}`);
+    for (const x of cikis.sesler.filter((y) => y.ekranGecti || y.binme.length || y.kesildi))
+      console.log(`     ✗ ${x.rol} (${x.dosya}, doğal ${x.dogalMs} ms)${x.ekranGecti ? ` · ekran geçti ${x.ekranGecti.ad} kalan ${x.ekranGecti.kalanMs} ms` : ""}${x.binme.length ? ` · binme ${x.binme.map((b) => `${b.ile} ${b.ms}`).join(",")}` : ""}${x.kesildi ? ` · kesildi ${x.kesilenMs} ms` : ""}`);
     if (c.perf) {
       const f = (x) => (x ? `ort ${x.ort} · en kötü dilim ${x.en_kotu_dilim} kare/sn · en uzun kare ${x.en_uzun_kare} ms · ≥100 ms kare ${x.kare_100} · uzun görev ${x.uzun_gorev}` : "—");
       console.log(`   kare: giriş ${f(c.perf.giris)} · rakamlar ${JSON.stringify(c.perf.rakam.map((x) => `${x.v}:${x.ms}`))}`);

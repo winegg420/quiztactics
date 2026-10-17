@@ -895,13 +895,15 @@ function KasaMac({ id }) {
     // düşüş (kasa-efekt.css ks-giris-in: yere ~%20'de oturur) — geç gelen istemcide / gizli sekmede düşüş sesi atlanır
     akis("giris:sahne", { gecenMs: girisGecen });
     if ((girisGecen != null && girisGecen > 900) || gorunurDegil()) return;
-    // 16 Eki 2026 (Ida: 3-2-1 sonrası giriş sesi yarıda kesiliyordu): sahnenin sesleri sahne bitmeden yumuşakça biter
+    // 16 Eki 2026: sahnenin penceresi (17 Eki: pencereye doğal hâliyle sığmayan ses çalmaz — ses bitiş kuralı)
     if (girisBitisRef.current != null) sesPencere(girisBitisRef.current - (Date.now() + farkRef.current), "giris");
     sesTurGecis();
     // zamanlayıcılar an listesinde: sekme gizlenince / sayfa kapanınca temizlenir (StrictMode temizliği sesi yutmasın)
     // 14 Eki: coin sesi yalnız oyuncu hazineyi AÇINCA (giriş düşüşünde, tur sonunda, rakibin AÇ'ında çalmaz)
+    // 17 Eki 2026 (ses bitiş kuralı): 1300 ms'deki rozet sesi kalktı — 1000/2000 ms'deki 3-2-1 sesleriyle (son 3 saniye,
+    // 445 ms) üst üste biniyordu; sahnenin sesleri düşüş (tur geçişi) + 3-2-1 + sahne sonunda soru sesi, hiçbiri binmez
     anZamanRef.current.push(setTimeout(() => titret([10, 30, 10]), 650),
-                            setTimeout(() => { sesRozet(); titret(20); }, 1300));
+                            setTimeout(() => titret(20), 1300));
   }, [girisAktif]);   // eslint-disable-line react-hooks/exhaustive-deps
   // 3-2-1: her rakam maçta bir kez (sahne yeniden kurulsa da), gizli sekmede sessiz
   const girisSayi = useCallback((n) => {
@@ -1006,6 +1008,7 @@ function KasaMac({ id }) {
   useEffect(() => { setKirilan([]); setEkBalon(null); setElenenYerel(null); }, [d?.tur, d?.altin, d?.savunma?.durum === "soru"]);
   const jokerEtkisi = useCallback((sonuc) => {
     if (!sonuc) return;
+    if (sonuc.tur === "soru_degistir") soruDegisiyorRef.current = true;   // 17 Eki: yeni soru gelince soru sesi (aşağıda)
     if (sonuc.tur === "elli" && Array.isArray(sonuc.kapali)) {
       setKirilan(sonuc.kapali);
       jokerZaman(() => setKirilan([]), QT_KIRILMA_MS);
@@ -1017,6 +1020,17 @@ function KasaMac({ id }) {
     }
     yukleRef.current?.();
   }, []);
+  // 17 Eki 2026 (ses bitiş kuralı): Soru Değiştir'in tek sesi yeni sorunun soru sesi — joker sesi çalmaz (ses.js › sesSkill)
+  const soruDegisiyorRef = useRef(false);
+  const sonSoruMetniRef = useRef(null);
+  useEffect(() => {
+    const m = d?.soru?.soru ?? null;
+    const once = sonSoruMetniRef.current;
+    sonSoruMetniRef.current = m;
+    if (!soruDegisiyorRef.current || !m || !once || m === once) return;
+    soruDegisiyorRef.current = false;
+    if (d?.faz === "cevap" && !gorunurDegil()) sesSoruGeldi();
+  }, [d?.soru?.soru]);   // eslint-disable-line react-hooks/exhaustive-deps
   const jokerBilgiGoster = useCallback((b) => {
     if (!b?.metin) return;
     setJokerBilgiMetni(b);

@@ -49,14 +49,19 @@ Turnstile çıkarsa durulur. İş bitince tarayıcı/sunucu süreçleri kapatıl
 - [ ] > 100 ms kare (animasyon süresince en uzun kare)
 - [ ] Hareket azaltma tercihinde sade sürüm (sonsuz döngü yok, bilgi kaybı yok)
 
-## 4 · Ses (her ses rolü için — `window.__sesOmur`, `?tani=1` / `bd_ses_tani=1`)
+## 4 · Ses (her ses rolü için — GERÇEK çıkış: `araclar/ses-cikis-olcum.mjs`, Hazine sayfası `hazine-akis-olcum.mjs` › GERÇEK ÇIKIŞ; ses.js kaydı `window.__sesOmur`)
+
+**Ses bitiş kuralı (Ida, 17 Eki 2026 — `oyun/lib/sesKurali.js`):** anlamlı ses doğal sonuna (-45 dBFS) kadar çalar, hiçbir şey onu kesmez;
+doğal sonuna inmeden sonraki ekran / sonraki anlamlı ses gelmez; iki anlamlı ses 50 ms'den fazla binmez (soru sesi dahil). Ölçü
+iç kayıttan değil, hoparlöre giden sinyalden alınır.
 - [ ] İstendi mi
 - [ ] Başladı mı — **gecikme ms** (istek → kaynak başladı)
-- [ ] **Sonuna kadar çaldı mı** (gerçek çalma süresi ≥ planlanan süre)
-- [ ] Erken bitti mi + **kim kesti**: yeni ses (aynı rol, `ES_ZAMANLI` sınırı) · `kisVeDurdur` (soru sesi) · faz değişimi · bileşen kapanması / sayfa geçişi · maç sonu ekranı kapandı
-- [ ] **Ses çalarken yeni faz / ekran geldi mi + kalan ms** (> 150 ms kaldıysa KALDI)
-- [ ] Başka sesle çakıştı mı (hangi ses, kaç ms üst üste)
-- [ ] Hiç çalmadı mı + **neden**: AudioContext askıda · dosya inmedi (250 ms kuralı) · faz iptali · ses kapalı / dokunuş yok
+- [ ] **Doğal sonuna kadar çaldı mı** (sinyal, dosyanın × kazanç doğal eğrisinden > 30 ms erken -45 dB altına inmedi)
+- [ ] Erken bitti mi + **kim kesti** (kuralda hiçbir mekanizma kesmez — kesilme = hata): AudioContext askıya alındı · sayfa kapandı
+- [ ] **Ses bitmeden yeni ekran geldi mi + doğal sona kalan ms** (> 50 ms kaldıysa KALDI)
+- [ ] Başka anlamlı sesle çakıştı mı (hangi ses, kaç ms üst üste; > 50 ms KALDI)
+- [ ] Hiç çalmadı mı + **neden**: AudioContext askıda · dosya inmedi (250 ms kuralı) · faz iptali · ses kapalı / dokunuş yok · kural (pencereye doğal hâliyle sığmıyor / çalan sesin üstüne binerdi — o anda tek ses)
+- [ ] **Dosya sonu** (`node araclar/ses-dosya-sonu.mjs`, `npm run test:kurallar`): oyunda çalabilecek her dosyanın son 20 ms'si -45 dB altı, son 150 ms'de basamak yok, WAV başlığı geçerli, doğal süre rolün en dar penceresine sığıyor
 - [ ] Anlam taşıyan ses (joker işaretleri, giriş sesi, VS / rakip bulundu, doğru/yanlış, süre doldu, kategori seçildi, tur geçişi, maç sonu, XP/seviye/rozet) **ani kesilmiyor** (ani = < 80 ms fade ile durdurma)
 
 ## 5 · Zamanlama
@@ -98,7 +103,9 @@ başlatılamaz — taklitle bakıldı", "WebKit bu makinede çalışmıyor — g
 | `araclar/arayuz-denetim.mjs [--gorsel]` | 1 (44 px, kapalı hedef), 2 (taşma, iOS kuralları), 8 — 16 sayfa × 4 genişlik |
 | `araclar/hazine-akis-olcum.mjs --senaryo=bot,gecikmeli,dalgali` | 3, 4, 5 — Hazine tam maç, taklit sunucu, CPU 6x |
 | `araclar/ses-zamanlama-olcum.mjs` | 4 — Düello v4 açılış/soru sesi (taklit) + ses ömrü tablosu |
-| `araclar/ses-kesilme-olcum.mjs` | 4 — bütün modların ses çizelgesi (gerçek ses.js + dosyalar): kesilme, kalan ms, çakışma |
+| `araclar/ses-cikis-olcum.mjs [--surum=yeni,once,ekim10] [--senaryo=…]` | 4 — bütün modların ses çizelgesi, GERÇEK çıkış (AudioWorklet dinleyicisi): ses bitmeden ekran geçti · binme · kesilme · çalmayan; sürümler yan yana; rapor `araclar/ses-cikis-rapor.mjs` |
+| `node araclar/ses-dosya-sonu.mjs` (`npm run test:kurallar`) | 4 — dosya sonu denetimi (kesik dosya → kırmızı); seçim değişince önce `node araclar/ses-duzelt.mjs` |
+| `araclar/ses-kesilme-olcum.mjs` | 4 — (eski, 16 Eki) ses.js iç kaydıyla çizelge; yerini ses-cikis-olcum aldı |
 | `araclar/yavas-android-olcum.mjs --mac [--ida] [--videosuz] [--iz_mac]` | 3, 4, 5, 6, 8 — Klasik/Düello/Hazine bota karşı tek maç (canlı), yavaş telefon. Kare ölçümünde `--videosuz` (video kodlaması kareye 15–35 ms ekler); ilk 5 sn soğuk sayfa açılışıdır, maç içi sayılmaz |
 | `araclar/iz-coz.mjs <iz> [--dist=…] [--gecersiz]` | 3 — uzun görevin sorumlusu: JS (kaynak haritasıyla dosya:satır) · stil (öğe sayısı) · yerleşim · boyama; `--gecersiz` stil geçersizleştirme nedeni (zamanları şişirir, yalnız neden için) |
 | `araclar/hazine-akis-olcum.mjs --senaryo=yavas_sunucu` | 5 — canlı DB yavaşlaması taklidi (satır kilidi + 1–3,5 sn işlem, saat damgası yanıt sonunda); faz geçişi sunucu → istemci ms, erken süre bildirimi (bütün senaryolar) |

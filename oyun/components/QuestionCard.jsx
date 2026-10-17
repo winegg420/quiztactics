@@ -452,9 +452,7 @@ export default function QuestionCard({
       setSkillEfekt({ tur: "soru_degistir", asama: "cikiyor" });
       clearTimeout(skillTimer.current);
       skillTimer.current = setTimeout(() => {
-        // 17 Eki 2026 (ses bitiş kuralı): değişimin tek sesi jokerin kendi sesi — kart 200 ms sonra değiştiğinde ikinci bir
-        // "soru geldi" sesi çalmaz (joker sesinin üstüne binip onu "ekran geçti" durumuna düşürüyordu)
-        soruSesiRef.current = `${sonuc.soru.question_id}-${sonuc.soru.soru_index}`;
+        // 17 Eki 2026 (ses bitiş kuralı): değişimin tek sesi yeni kartın soru sesi (joker sesi çalmaz — ses.js › sesSkill)
         setDegisenSoru({ ...sonuc.soru, _saat_ornek_ms: Date.now() });
         onPas?.(sonuc);
         setSkillEfekt({ tur: "soru_degistir", asama: "giriyor" });

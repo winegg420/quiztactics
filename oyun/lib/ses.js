@@ -921,6 +921,9 @@ export function sesSkill(tur) {
   // Her skill kendi /ses-secim anını çalar (AN eşlemesi; seçim yoksa türe özel eski dosya).
   // Genel "skill" anı yalnız sesJoker'de (Düello saldırı/savunma jokeri, bilinmeyen tür) — Ajan K.
   if (!rol) { sesJoker(); return; }
+  // 17 Eki 2026 (ses bitiş kuralı): Soru Değiştir'in kendi sesi çalmaz — yeni soru 200 ms (Klasik) / 1 RTT (Hazine, Düello)
+  // sonra gelir, joker sesi o pencereye sığmıyordu. Değişimin tek sesi: sayfa yeni soru göründüğünde sesSoruGeldi.
+  if (rol === "skill_soru_degistir") return;
   cal(rol, tonJoker);
 }
 

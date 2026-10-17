@@ -629,6 +629,8 @@ function DuelloMac({ id }) {
         else if (onceki?.faz === faz && !(onceki.elli_kapali?.length) && data.elli_kapali?.length) efekt = { tur: "elli" };
         else if (onceki?.faz === faz && onceki.soru_anahtar && data.soru?.soru && onceki.soru_anahtar !== data.soru.soru) efekt = { tur: "soru_degistir", asama: "giriyor" };
         if (data.surum !== 2 && data.surum !== 4) skillDurumRef.current = { faz, zaman_baskisi: Boolean(data.zaman_baskisi), ek_sure: Boolean(data.ek_sure), elli_kapali: data.elli_kapali, soru_anahtar: data.soru?.soru };
+        // 17 Eki 2026 (ses bitiş kuralı): Soru Değiştir'in tek sesi yeni sorunun soru sesi (joker sesi çalmaz)
+        if (efekt?.tur === "soru_degistir") sesSoruGeldi();
         if (efekt) {
           setSkillEfekt(efekt);
           clearTimeout(skillTimerRef.current);

@@ -131,6 +131,9 @@ export function akisSesSonuc(k, sonuc) {
     if (!mac || kuyruk || !k?.rol || !sonuc || sonuc === "yukleniyor") return;
     const ms = simdi() - (k.t ?? simdi());
     if (sonuc === "calindi") { if (ms > AKIS_ESIK.ses && !k.gecKabul) akisOlay("ses_gec", k.rol, ms); return; }
+    // 17 Eki 2026: "atlandı (üst üste binerdi …)" ses bitiş kuralının tasarlanmış sonucudur (o anda tek ses) — kayıt düşmez;
+    // "atlandı (pencereye sığmıyor …)" (geç veriyle daralan ekran) düşer
+    if (/^atlandı \(üst üste/.test(sonuc)) return;
     if (/^(gec-yuklendi|atlandı|audiocontext-yok|yedek-ton \(dosya)/.test(sonuc)) akisOlay("ses_yok", `${k.rol}:${sonuc.split(" ")[0]}`, ms);
   } catch { /* sessiz */ }
 }

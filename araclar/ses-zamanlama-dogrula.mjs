@@ -1,7 +1,7 @@
 // Ses zamanlaması doğrulaması (B2 · B3) — GERÇEK ses.js, gerçek ses dosyaları, tarayıcıda; kayıt = bd_ses_tani=1 (window.__sesKayit)
 // + AudioParam/AudioBufferSourceNode çağrı izi. Oyun akışına, sunucuya, hesaba dokunmaz (oturumsuz yasal sayfada çalışır).
 //   npm run dev -- --port 5189   (başka kabukta)   →   node araclar/ses-zamanlama-dogrula.mjs [--adres=http://localhost:5189]
-// B2: soru_geldi çalarken hâlâ çalan yanlis/dogru sesi kısa fade ile kısılıp durur (kesme yok, süre ≤ ~150 ms).
+// B2 (17 Eki 2026): çalan yanlış sesi kesilmez; üstüne binecek soru sesi çalmaz (ses bitiş kuralı).
 // B3: maç sonunda xp_dolma, kazandin/kaybettin sesi BİTİNCE başlar (başlangıç ≥ sonuç başlangıcı + sonuç süresi).
 // B1 (cevap sonrası son_saniyeler/sayim_son çalmaz) bileşen mantığıdır: araclar/klasik-mac-ekran.mjs akışında kayıttan bakılır
 // (aşağıdaki --b1 bayrağı değil; ayrı bölüm: bu dosyanın sonundaki not).
@@ -44,20 +44,18 @@ try {
   await sayfa.evaluate((s) => { s.sesKilidiAc(); s.sesOnYukle(["dogru", "yanlis", "soru_geldi", "kazandin", "kaybettin", "xp_dolma"]); }, ses);
   await bekle(2500);
 
-  // ---- B2: yanlis çalıyor → 250 ms sonra soru_geldi
+  // ---- B2 (17 Eki 2026, ses bitiş kuralı): yanlis çalıyor → 250 ms sonra soru_geldi. Eskiden soru sesi yanlış sesini 120 ms'de
+  // kısıyordu (kisVeDurdur); artık hiçbir ses kesilmez: yanlış sesi doğal sonuna kadar çalar, üstüne binecek soru sesi çalmaz.
   await sayfa.evaluate(() => { window.__sesKayit = []; window.__iz = []; });
   await sayfa.evaluate((s) => s.sesYanlis(), ses);
   await bekle(250);
   await sayfa.evaluate((s) => s.sesSoruGeldi(), ses);
-  await bekle(500);
+  await bekle(900);
   const b2 = await sayfa.evaluate(() => ({ kayit: window.__sesKayit, iz: window.__iz }));
   const yanlis = b2.kayit.find((k) => k.rol === "yanlis"), soru = b2.kayit.find((k) => k.rol === "soru_geldi");
-  sonuc("B2 yanlis ve soru_geldi çaldı", Boolean(yanlis && soru), `yanlis@${yanlis?.t} soru_geldi@${soru?.t}`);
-  const rampa = b2.iz.find((i) => i.tur === "rampa" && i.deger === 0);
-  const durdu = b2.iz.find((i) => i.tur === "stop");
-  sonuc("B2 yanlis sesi 0'a rampayla kısıldı (fade)", Boolean(rampa), rampa ? `rampa@${rampa.t} (soru_geldi'den ${rampa.t - soru.t} ms sonra)` : "rampa yok");
-  sonuc("B2 yanlis kopyası fade sonunda durduruldu", Boolean(durdu));
-  sonuc("B2 yanlis süresi tamamlanmadan kısıldı", Boolean(yanlis && yanlis.sureMs && soru.t - yanlis.t < yanlis.sureMs), `yanlis süresi ${yanlis?.sureMs} ms, kısılma ${soru ? soru.t - yanlis.t : "?"} ms`);
+  sonuc("B2 yanlis çaldı", yanlis?.sonuc === "calindi", `yanlis@${yanlis?.t} (doğal ${yanlis?.dogalMs} ms)`);
+  sonuc("B2 yanlis sesi kesilmedi (rampa/stop yok)", !b2.iz.some((i) => (i.tur === "rampa" && i.deger === 0) || i.tur === "stop"));
+  sonuc("B2 üstüne binecek soru sesi çalmadı (o anda tek ses)", Boolean(soru) && /üst üste/.test(soru.sonuc ?? ""), soru?.sonuc ?? "kayıt yok");
 
   // ---- B3: kazandin çalıyor → hemen xp_dolma (sunum sırası: sonuç sesi, hemen ardından XP çubuğu)
   await bekle(1800);   // B2'den kalan sesler bitsin
@@ -69,7 +67,7 @@ try {
   const b3 = await sayfa.evaluate(() => window.__sesKayit);
   const kz = b3.find((k) => k.rol === "kazandin"), xp = b3.find((k) => k.rol === "xp_dolma");
   sonuc("B3 kazandin ve xp_dolma kaydedildi", Boolean(kz && xp), `kazandin@${kz?.t} (${kz?.sureMs} ms) xp_dolma@${xp?.t}`);
-  if (kz && xp) sonuc("B3 xp_dolma, kazandin bitince başladı", xp.t >= kz.t + (kz.sureMs ?? 0) - 30, `fark ${xp.t - kz.t} ms ≥ sonuç süresi ${kz.sureMs} ms`);
+  if (kz && xp) sonuc("B3 xp_dolma, kazandin doğal sonunda başladı", xp.t >= kz.t + (kz.dogalMs ?? kz.sureMs ?? 0) - 30, `fark ${xp.t - kz.t} ms ≥ doğal süre ${kz.dogalMs} ms`);
 
   // ---- B3 karşı örnek: sonuç sesi bittikten sonra xp_dolma ertelenmez
   await sayfa.evaluate(() => { window.__sesKayit = []; });
