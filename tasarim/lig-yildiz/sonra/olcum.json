@@ -1,0 +1,1412 @@
+[
+ {
+  "ad": "kasa-360-tr-bronz",
+  "yer": "kasa",
+  "g": 360,
+  "dil": "tr",
+  "lig": "bronz",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 115,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 275,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-360-tr-gumus",
+  "yer": "kasa",
+  "g": 360,
+  "dil": "tr",
+  "lig": "gumus",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 115,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 275,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-360-tr-altin",
+  "yer": "kasa",
+  "g": 360,
+  "dil": "tr",
+  "lig": "altin",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 115,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 275,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-360-tr-elmas",
+  "yer": "kasa",
+  "g": 360,
+  "dil": "tr",
+  "lig": "elmas",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 115,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 275,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-360-tr-efsane",
+  "yer": "kasa",
+  "g": 360,
+  "dil": "tr",
+  "lig": "efsane",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 115,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 275,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-360-en-bronz",
+  "yer": "kasa",
+  "g": 360,
+  "dil": "en",
+  "lig": "bronz",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 115,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 275,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-360-en-gumus",
+  "yer": "kasa",
+  "g": 360,
+  "dil": "en",
+  "lig": "gumus",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 115,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 275,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-360-en-altin",
+  "yer": "kasa",
+  "g": 360,
+  "dil": "en",
+  "lig": "altin",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 115,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 275,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-360-en-elmas",
+  "yer": "kasa",
+  "g": 360,
+  "dil": "en",
+  "lig": "elmas",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 115,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 275,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-360-en-efsane",
+  "yer": "kasa",
+  "g": 360,
+  "dil": "en",
+  "lig": "efsane",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 115,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 275,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-390-tr-bronz",
+  "yer": "kasa",
+  "g": 390,
+  "dil": "tr",
+  "lig": "bronz",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 118,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 302,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-390-tr-gumus",
+  "yer": "kasa",
+  "g": 390,
+  "dil": "tr",
+  "lig": "gumus",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 118,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 302,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-390-tr-altin",
+  "yer": "kasa",
+  "g": 390,
+  "dil": "tr",
+  "lig": "altin",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 118,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 302,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-390-tr-elmas",
+  "yer": "kasa",
+  "g": 390,
+  "dil": "tr",
+  "lig": "elmas",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 118,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 302,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-390-tr-efsane",
+  "yer": "kasa",
+  "g": 390,
+  "dil": "tr",
+  "lig": "efsane",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 118,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 302,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-390-en-bronz",
+  "yer": "kasa",
+  "g": 390,
+  "dil": "en",
+  "lig": "bronz",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 118,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 302,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-390-en-gumus",
+  "yer": "kasa",
+  "g": 390,
+  "dil": "en",
+  "lig": "gumus",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 118,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 302,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-390-en-altin",
+  "yer": "kasa",
+  "g": 390,
+  "dil": "en",
+  "lig": "altin",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 118,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 302,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-390-en-elmas",
+  "yer": "kasa",
+  "g": 390,
+  "dil": "en",
+  "lig": "elmas",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 118,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 302,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-390-en-efsane",
+  "yer": "kasa",
+  "g": 390,
+  "dil": "en",
+  "lig": "efsane",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 118,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 302,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-412-tr-bronz",
+  "yer": "kasa",
+  "g": 412,
+  "dil": "tr",
+  "lig": "bronz",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 145,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 324,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-412-tr-gumus",
+  "yer": "kasa",
+  "g": 412,
+  "dil": "tr",
+  "lig": "gumus",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 145,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 324,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-412-tr-altin",
+  "yer": "kasa",
+  "g": 412,
+  "dil": "tr",
+  "lig": "altin",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 145,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 324,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-412-tr-elmas",
+  "yer": "kasa",
+  "g": 412,
+  "dil": "tr",
+  "lig": "elmas",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 145,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 324,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-412-tr-efsane",
+  "yer": "kasa",
+  "g": 412,
+  "dil": "tr",
+  "lig": "efsane",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 145,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 324,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-412-en-bronz",
+  "yer": "kasa",
+  "g": 412,
+  "dil": "en",
+  "lig": "bronz",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 145,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 324,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-412-en-gumus",
+  "yer": "kasa",
+  "g": 412,
+  "dil": "en",
+  "lig": "gumus",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 145,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 324,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-412-en-altin",
+  "yer": "kasa",
+  "g": 412,
+  "dil": "en",
+  "lig": "altin",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 145,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 324,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-412-en-elmas",
+  "yer": "kasa",
+  "g": 412,
+  "dil": "en",
+  "lig": "elmas",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 145,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 324,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ },
+ {
+  "ad": "kasa-412-en-efsane",
+  "yer": "kasa",
+  "g": 412,
+  "dil": "en",
+  "lig": "efsane",
+  "amblemler": [
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 145,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   },
+   {
+    "gorunur": true,
+    "w": 20,
+    "h": 20,
+    "x": 324,
+    "y": 66,
+    "kesik": 0,
+    "yon": {
+     "sol": 0,
+     "ust": 0,
+     "sag": 0,
+     "alt": 0
+    },
+    "kesen": null,
+    "cakisma": [],
+    "lvH": 18.8,
+    "seviyeH": 20
+   }
+  ],
+  "yatay": 0,
+  "hatalar": []
+ }
+]
