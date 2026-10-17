@@ -15,7 +15,9 @@ import OyuncuAdiDugmesi from "../OyuncuAdiDugmesi.jsx";
 import { V2Skill } from "../DuelloJokerSeridi.jsx";
 import { kategoriAdi } from "../../lib/kategoriler.js";
 import { adKisalt } from "../../lib/adKisalt.js";
-import { aktifDil } from "../../lib/dil.js";
+import { aktifDil, tt } from "../../lib/dil.js";
+import { jokerBilgi } from "../../lib/jokerler.js";
+import SkillRozeti from "../SkillRozeti.jsx";
 import { soruUzunlukSinifi } from "../../lib/soruUzunluk.js";
 import { secenekleriCoz } from "../DuelloV2.jsx";
 import { BasiliTut } from "../../lib/useBasiliTut.js";
@@ -169,6 +171,24 @@ export default function Duello4Arena({
   const kisaEkran = useKisaEkran();
   const ligim = benimLigim();
   const v = d.v4 ?? {};
+  // 1126: rakip bu soruda joker kullandı → üstte kısa bant (Hazine KasaRakipJokerAn'ın Düello karşılığı; bot da insan da).
+  // Zaman Baskısı'nı sayaçtaki "−5" zaten gösterir. Sunucu: duello4_durum › skill.rakip_turler.
+  const rakipTurler = Array.isArray(d.skill?.rakip_turler) ? d.skill.rakip_turler : [];
+  const [rakipJoker, setRakipJoker] = useState(null);
+  const rakipJokerRef = useRef({ soru: null, n: 0 });
+  useEffect(() => {
+    const r = rakipJokerRef.current;
+    const yeniSoru = r.soru !== v.soru_no;
+    rakipJokerRef.current = { soru: v.soru_no, n: rakipTurler.length };
+    if (yeniSoru ? !rakipTurler.length : rakipTurler.length <= r.n) return;
+    const tur = rakipTurler[rakipTurler.length - 1];
+    if (tur !== "zaman_baskisi") setRakipJoker({ tur, anahtar: Date.now() });
+  }, [v.soru_no, rakipTurler.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!rakipJoker) return undefined;
+    const t = setTimeout(() => setRakipJoker(null), sure("kasa_rakip_joker"));
+    return () => clearTimeout(t);
+  }, [rakipJoker]);
   const benId = d.ben;
   const hedef = Number(v.seri_hedef ?? 3);
   const kontrol = v.kontrol ?? null;
@@ -618,6 +638,12 @@ export default function Duello4Arena({
             {kopukBant.benMi ? c("Bağlantın koptu — düello bekliyor.") : c("Rakibin bağlantısı koptu, bekleniyor")}
             {kopukBant.kalan == null ? "" : ` ${kopukBant.kalan} ${c("sn")}`}
           </span>
+        </p>
+      )}
+      {rakipJoker && !kopukBant && (
+        <p className="m2-bant m2-bant--kalkan m2-bant--katman d4-rakip-joker" role="status" key={rakipJoker.anahtar}>
+          <SkillRozeti tur={rakipJoker.tur} boyut={20} />
+          <span>{tt("Rakip {j} kullandı", { j: jokerBilgi(rakipJoker.tur, "duello").ad })}</span>
         </p>
       )}
       {yenidenBant && (

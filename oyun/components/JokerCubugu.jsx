@@ -158,6 +158,26 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
     }
   }, [rakipKisaltti, soruIndex, surum, ayar, onEtki]);
 
+  // 1126: Klasik — rakip bu soruda joker kullandı → sonuç bandında "Rakip ___ kullandı" (bot da insan da; Hazine'deki
+  // KasaRakipJokerAn'ın karşılığı). Sunucu her Klasik jokerinde joker_surum'u artırır. Zaman Baskısı'nı kendi bandı gösterir.
+  const rakipJokerRef = useRef({ soru: null, n: 0 });
+  useEffect(() => {
+    if (macTur !== "1v1" || !macId) return undefined;
+    let iptal = false;
+    supabase.rpc("rakip_jokerleri", { p_mac_tur: "1v1", p_mac_id: macId }).then(({ data, error }) => {
+      if (iptal) return;
+      if (error) { console.warn("[Bildim] rakip jokeri okunamadı:", error.message); return; }
+      const liste = Array.isArray(data) ? data : [];
+      const r = rakipJokerRef.current;
+      const yeniSoru = r.soru !== soruIndex;
+      rakipJokerRef.current = { soru: soruIndex, n: liste.length };
+      if (yeniSoru ? !liste.length : liste.length <= r.n) return;
+      const tur = liste[liste.length - 1];
+      if (tur !== "zaman_baskisi") onBilgi?.({ metin: tt("Rakip {j} kullandı", { j: jokerBilgi(tur, macTur, ayar).ad }), anahtar: Date.now() });
+    }, (e) => console.warn("[Bildim] rakip jokeri okunamadı:", e?.message ?? e));
+    return () => { iptal = true; };
+  }, [macTur, macId, soruIndex, surum]); // eslint-disable-line react-hooks/exhaustive-deps
+
   if (!durum) return yuklemeHatasi ? (
     <div className="m1-bant m1-bant--hata" role="alert">
       <span>{yuklemeHatasi}</span>
