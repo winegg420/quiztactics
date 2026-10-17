@@ -81,8 +81,7 @@
 .ks-ust .qt-oyuncu-yazi { min-width: 0; max-width: 112px; overflow: visible; }
 .ks-ust .qt-oyuncu-ad, .ks-ust .qt-oyuncu-ad > * { display: block; max-width: 100%; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 400px) { .ks-ust .qt-oyuncu-yazi { max-width: 92px; } }
-/* Dar telefonda (< 410 px) Lv satırı sütuna sığsın: bayrak gizlenir (profilde ve kartta durur), boşluk daralır → "Lv 112 + yıldız" 76 px */
-@media (max-width: 409px) { .ks-ust .mo-seviye { gap: 4px; } .ks-ust .mo-seviye .mo-bayrak { display: none !important; } }   /* !important: Bayrak.jsx display'i satır içi yazar */
+/* Dar telefonda bayrak + Lv + yıldız satırı avatar + adın altına iner (mac-oyuncu.css, ≤ 439 px) — bayrak artık gizlenmez */
 .ks-tur { font: var(--qt-a-siyah) 12px/1 var(--qt-f-govde); color: var(--qt-metin-soluk); white-space: nowrap; }
 .ks-tur b { color: var(--qt-metin); }
 .ks-sayac--yok { display: grid; place-items: center; width: 44px; height: 44px; color: var(--qt-metin-soluk); font-weight: 900; }

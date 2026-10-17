@@ -19,10 +19,43 @@
   padding: 1px 7px; border-radius: var(--qt-r-hap); color: var(--qt-lig-yazi);
   font: var(--qt-a-kalin) 12px/1.4 var(--qt-f-govde); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-/* 17 Eki: dar telefonda (< 410 px) Klasik/Saf Bilgi şeridinde sütun 58–68 px iken bayrak + Lv satırı 71–75 px'ti: Lv hapı avatarın altına taşıyor,
-   lig yıldızı rozeti ("Lv 112" gibi 3 basamaklıda) Lv yazısının üstüne biniyordu → bayrak gizlenir (profilde ve kartta durur). Düello (.hk-ust-satir) amblemi zaten çizmez. */
-@media (max-width: 409px) {
-  .qt-mac-ust:not(.hk-ust-satir) .mo-seviye .mo-bayrak { display: none !important; }   /* !important: Bayrak.jsx display'i satır içi yazar */
+/* 17 Eki (bayrak-sigdir): bayrak + Lv + lig yıldızı satırı HER telefon genişliğinde üçü birlikte görünür (eski çözüm 410 px altında bayrağı gizliyordu).
+   Neden sığmıyordu: satır avatarın YANINDAki dar ad sütununa (13–80 px) giriyordu; üç parça 91–102 px ister. Çözüm: dar telefonda satır avatar + adın ALTINA,
+   sütunun tam genişliğine iner (avatar, ad ve maç akışı aynı; yalnız satır bir alt çizgiye geçer). Sütun yine dar kalırsa satır kendi içinde sarar (kesilmez, binmez).
+   Eşikler ölçüldü (araclar/bayrak-sigdir-olcum.mjs): Klasik/Saf Bilgi ve Hazine ≤ 439 px, Düello ≤ 389 px (Düello'da yıldız bilerek gizli).
+   Yazı 12 px, amblem 20 px kalır; 360 altında yalnız boşluk ve Lv hapı iç boşluğu daralır. */
+@media (max-width: 439px) {
+  :is(.qt-mac-ust:not(.hk-ust-satir), .ks-ust) .qt-oyuncu { flex-wrap: wrap; align-content: center; row-gap: 2px; }
+  :is(.qt-mac-ust:not(.hk-ust-satir), .ks-ust) .qt-oyuncu-yazi { display: contents; }
+  :is(.qt-mac-ust:not(.hk-ust-satir), .ks-ust) .qt-oyuncu-yazi > :not(.mo-seviye, .mo-unvan) { flex: 1 1 0; min-width: 0; }
+  :is(.qt-mac-ust:not(.hk-ust-satir), .ks-ust) .qt-oyuncu-yazi > .mo-seviye { order: 2; width: 100%; flex-wrap: wrap; row-gap: 2px; }
+  :is(.qt-mac-ust:not(.hk-ust-satir), .ks-ust) .qt-oyuncu--rakip .qt-oyuncu-yazi > .mo-seviye { justify-content: flex-end; }
+  :is(.qt-mac-ust:not(.hk-ust-satir), .ks-ust) .qt-oyuncu-yazi > .mo-unvan { order: 3; flex: 0 0 100%; }
+  .qt-mac-ust .mo-seviye .mo-amblem { position: static; }   /* Klasik: yıldız avatar köşesinde değil satırda */
+  :is(.qt-mac-ust, .ks-ust) .mo-seviye { gap: 3px; }
+  :is(.qt-mac-ust, .ks-ust) .mo-lv { padding-inline: 5px; }
+}
+/* Klasik/Saf Bilgi: 3 basamaklı skor (995 : 120) iki yan sütunu 74–83 px'e sıkıştırıyordu; skor, kısa ekranlarda zaten kullanılan 28 px'e iner → sütun 87–107 px */
+@media (max-width: 389px) {
+  .qt-mac-ust:not(.hk-ust-satir) .qt-skor { font-size: 28px; }
+}
+@media (max-width: 389px) {
+  .hk-ust .qt-oyuncu { flex-wrap: wrap; align-content: center; row-gap: 2px; }
+  .hk-ust .qt-oyuncu-yazi { display: contents; }
+  .hk-ust .qt-oyuncu-yazi > :not(.mo-seviye, .mo-unvan) { flex: 1 1 0; min-width: 0; }
+  .hk-ust .qt-oyuncu-yazi > .mo-seviye { order: 2; width: 100%; flex-wrap: wrap; row-gap: 2px; }
+  .hk-ust .qt-oyuncu--rakip .qt-oyuncu-yazi > .mo-seviye { justify-content: flex-end; }
+}
+@media (max-width: 359px) {
+  :is(.qt-mac-ust, .ks-ust) .mo-lv { font-size: 11px; }
+  :is(.qt-mac-ust, .ks-ust) .mo-bayrak { width: 16.5px; height: 11px; }
+  :is(.qt-mac-ust:not(.hk-ust-satir), .ks-ust) .mo-amblem { width: 18px !important; height: 18px !important; }   /* !important: amblem boyutu satır içi yazılır; 16 px altına inmez */
+}
+/* 320–339 px: 3 basamaklı skor + Lv 100+ en kötü durum — skor 26 px, parçalar arası 2 px */
+@media (max-width: 339px) {
+  .qt-mac-ust:not(.hk-ust-satir) .qt-skor { font-size: 26px; }
+  :is(.qt-mac-ust, .ks-ust) .mo-seviye { gap: 2px; }
+  :is(.qt-mac-ust, .ks-ust) .mo-lv { padding-inline: 4px; }
 }
 .mo-lig--bronz  { background: var(--qt-lig-bronz); }
 .mo-lig--gumus  { background: var(--qt-lig-gumus); }

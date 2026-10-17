@@ -34,8 +34,8 @@ async function ac() {
   const ben = { id: BEN, gorunen_ad: "Ida", gorunen_avatar: null };
   const rakip = { id: RAK, gorunen_ad: q.get("ad") || "Deniz Yıldırımoğlu", gorunen_avatar: "/avatars/pro2/basortulu-y04.svg" };
   const seviyeler = {
-    [BEN]: { level: 24, lig, ulke: "TR" },
-    [RAK]: { level: 112, lig, ulke: "DE" },
+    [BEN]: { level: Number(q.get("benlv")) || 24, lig, ulke: "TR" },
+    [RAK]: { level: Number(q.get("lv")) || 112, lig, ulke: q.get("ulke") || "DE" },
   };
   const c = (s, p) => String(s).replace(/\{(\w+)\}/g, (_, k) => p?.[k] ?? "");
   const sayac = <span className="qt-sayac" style={{ font: "900 22px/1 system-ui" }}>12</span>;
@@ -48,7 +48,7 @@ async function ac() {
   else if (yer === "klasik") govde = (
     <QtMacUst skor={(q.get("skor") || "120:95").split(":").map(Number)}
       sen={{ ad: "Ida", alt: <SeviyeEtiketi {...seviyeler[BEN]} /> }}
-      rakip={{ ad: "Deniz Yıldırımoğlu", alt: <SeviyeEtiketi {...seviyeler[RAK]} /> }} />
+      rakip={{ ad: q.get("ad") || "Deniz Yıldırımoğlu", alt: <SeviyeEtiketi {...seviyeler[RAK]} /> }} />
   );
   else if (yer === "vs") {
     const { VsKarti } = await import("../../oyun/components/AramaSahnesi.jsx");
