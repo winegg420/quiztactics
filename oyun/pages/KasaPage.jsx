@@ -1189,6 +1189,10 @@ function KasaMac({ id }) {
         && skR.veren && skR.veren !== d.ben;
       const kapaliMs = rakipKararMi ? sure("kasa_kapali_karar") : 0;
       const olcekle = (sureMs) => Math.min(1, (payKalanMs - kapaliMs) / sureMs);
+      // 17 Eki 2026 (ses bitiş kuralı): an gösterim payı içinde (soru cevaplanabilir olmadan) bitiyor mu — veri çok geç geldiyse
+      // (yavaş sunucu: soru fazı 13 sn'ye kadar geç) an tabanda oynar ama sayaç çoktan başlamıştır; oyuncu cevaplayınca sonuç
+      // anın sesinin üstüne gelir. Sığmayan anda ses çalmaz (görsel aynı).
+      const anSigar = (sureMs, o) => payKalanMs - kapaliMs >= sureMs * o - 1;
       const kararZaman = (f, ms) => { kararZamanRef.current.push(setTimeout(f, ms)); };
       kararZamanRef.current.forEach(clearTimeout);
       kararZamanRef.current = [];
@@ -1222,7 +1226,7 @@ function KasaMac({ id }) {
                      kim: benim ? "ben" : "rakip", eskiPuan: Math.max(0, Number(veren?.puan ?? 0) - Number(k.deger ?? 0)) }, [
             // 17 Eki 2026 (ses bitiş kuralı): AÇ anında tek ses — anın kısa rozeti (en dar ölçekte 367 → 1380 ms'ye doğal hâliyle sığar).
             // Coin sesi kalktı: m(980) ile anın sonu arası en dar 323 ms, coin sesi 435 ms (soru sesinin üstüne biniyordu).
-            [m(340), { sars: true }, () => { if (benim) sesRozet("ac"); else sesTurGecis(); titret(benim ? [20, 40, 30] : 20); }],
+            [m(340), { sars: true }, () => { if (anSigar(acMs, payO)) { if (benim) sesRozet("ac"); else sesTurGecis(); } titret(benim ? [20, 40, 30] : 20); }],
             [m(690), { sars: false }],
             [m(980), { varis: true }],
             [m(AC_AN_MS), "bitir", () => soruSesi(d)],
@@ -1244,7 +1248,7 @@ function KasaMac({ id }) {
           // kısalmış anda tek ses (coin): soru sesiyle birlikte üç ses 400 ms'ye sıkışıyordu (sekme dönüşü ölçümü)
           // 17 Eki 2026 (ses bitiş kuralı): DEVAM anının kısa rozeti (en dar ölçekte 59 → 1380 ms'ye doğal hâliyle sığar; soru sesi
           // anın sonunda — üst üste binmez). kasa_devam (rozet-n1 kırpılıp söndürülmüş) kalktı.
-          ...(payO >= 0.75 ? [[m(60), null, () => { sesRozet("devam"); titret([16, 30, 16]); }]] : []),
+          ...(payO >= 0.75 ? [[m(60), null, () => { if (anSigar(devamMs, payO)) sesRozet("devam"); titret([16, 30, 16]); }]] : []),
           [m(560), { varis: true }, () => titret(12)],
           [m(DEVAM_AN_MS), "bitir", () => soruSesi(d)],   // 15 Eki: soru sesi an bitince (sayaç o an görünür)
         ]);
