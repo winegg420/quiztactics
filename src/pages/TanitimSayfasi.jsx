@@ -132,10 +132,10 @@ export default function TanitimSayfasi() {
         <section className="tn-acilis" aria-labelledby="tn-baslik">
           <div className="tn-acilis-metin">
             <h1 id="tn-baslik" className="tn-baslik">
-              {ceviri("Şehrinden")} <span className="tn-baslik-vurgu">{ceviri("dünyanın zirvesine.")}</span>
+              {ceviri("Bilgini")} <span className="tn-baslik-vurgu">{ceviri("taktiğe dönüştür.")}</span>
             </h1>
             <p className="tn-giris-metni">
-              {ceviri("Ligde yüksel; şehir, ülke ve dünya şampiyonluğunu hedefle. Canlı turnuvalarda diğer oyuncularla aynı anda, aynı sorularda yarış.")}
+              {ceviri("Turnuvada herkesle aynı anda yarış, ligde yüksel. Şehrinin, ülkenin ve dünyanın şampiyonluğunu hedefle.")}
             </p>
             <div className="tn-eylem">
               <QtDugme tur="birincil" boyut="b" className="tn-kur-dugme" yukleniyor={bekliyor} onClick={hemenKur}>
@@ -156,53 +156,64 @@ export default function TanitimSayfasi() {
 
           <div className="tn-sahne" aria-hidden="true">
             <span className="tn-isin" />
-            <Telefon gorsel="lig" dil={dil} alt="" className="tn-sahne-sol" />
+            <Telefon gorsel="duello" dil={dil} alt="" className="tn-sahne-sol" />
             <Telefon gorsel="hazine" dil={dil} alt="" className="tn-sahne-sag" />
             <Telefon gorsel="turnuva" dil={dil} alt="" className="tn-sahne-orta" oncelikli />
           </div>
-        </section>
-
-        <section className="tn-bolum tn-rekabet" aria-labelledby="tn-rekabet-baslik">
-          <div className="tn-bolum-bas" data-tn-gir>
-            <p className="tn-etiket">{ceviri("Aynı anda yarış. Sıralamada yüksel.")}</p>
-            <h2 id="tn-rekabet-baslik" className="tn-h2">{ceviri("Hedefin şampiyonluk olsun")}</h2>
-          </div>
-          <div className="tn-rekabet-izgara">
-            <article className="tn-rekabet-kart" data-tn-gir>
-              <Telefon gorsel="turnuva" dil={dil} alt={ceviri("Canlı turnuva ekranı")} />
-              <div><h3>{ceviri("Herkes aynı anda, aynı yarışta")}</h3><p>{ceviri("Günde beş turnuva seansı. Ortak geri sayımla başla, diğer katılımcılarla aynı soruları cevapla ve son kalan olmak için yarış.")}</p></div>
-            </article>
-            <article className="tn-rekabet-kart" data-tn-gir>
-              <Telefon gorsel="lig" dil={dil} alt={ceviri("Haftalık lig sıralaması")} />
-              <div><h3>{ceviri("Ligde zirveye tırman")}</h3><p>{ceviri("Her hafta yeni bir sıralama mücadelesi. Maçlarda lig puanı kazan, rakiplerini geç ve Bronz’dan Efsane’ye yüksel.")}</p></div>
-            </article>
-          </div>
-          <article className="tn-sampiyon-vurgu" data-tn-gir>
-            <div><h3>{ceviri("Şehir. Ülke. Dünya. Sıradaki şampiyon sen ol.")}</h3><p>{ceviri("Haftalık şehir, ülke ve dünya sıralamalarında yerini al. Birincilik için yarış, şampiyonluk unvanını kazan.")}</p></div>
-            <img src={tanitimGorseli("sampiyon", dil)} alt={ceviri("Şehir, ülke ve dünya sıralamaları")} width="640" height="279" loading="lazy" decoding="async" />
-          </article>
         </section>
 
         {/* Taktik modları: gerçek ekranlar ve kararları anlatan basit şekiller. */}
         <section className="tn-bolum tn-taktik" aria-labelledby="tn-modlar-baslik">
           <div className="tn-bolum-bas" data-tn-gir>
             <p className="tn-etiket">{ceviri("Bilgi + doğru hamle")}</p>
-            <h2 id="tn-modlar-baslik" className="tn-h2">{ceviri("Taktik modları")}</h2>
-            <p className="tn-bolum-metin">{ceviri("İki farklı mücadele. Seçimlerin maçın yönünü değiştirir.")}</p>
+            <h2 id="tn-modlar-baslik" className="tn-h2">{ceviri("Oyun modları")}</h2>
+            <p className="tn-bolum-metin">{ceviri("Üç farklı mücadele. Bilgini göster, hamleni seç.")}</p>
           </div>
           <div className="tn-taktik-izgara">
-            {MODLAR.filter(m => ["duello", "kasa"].includes(m.tur)).map(m => (
+            {MODLAR.filter(m => ["klasik", "duello", "kasa"].includes(m.tur)).map(m => (
               <article key={m.tur} className={"tn-taktik-kart tn-taktik-kart--" + m.tur} data-tn-gir>
                 <div className="tn-taktik-metin">
-                  <TaktikSekli tur={m.tur} />
+                  {m.tur !== "klasik" && <TaktikSekli tur={m.tur} />}
                   <h3>{modAdi(m)}</h3>
                   <p>{ceviri(m.vaat)}</p>
-                  <a className="tn-metin-baglanti" href="#tn-akis">{ceviri("Maçın akışını gör")} <span aria-hidden="true">↗</span></a>
+                  {m.tur !== "klasik" && <a className="tn-metin-baglanti" href="#tn-akis">{ceviri("Maçın akışını gör")} <span aria-hidden="true">↗</span></a>}
                 </div>
                 <Telefon gorsel={m.gorsel} dil={dil} alt={ceviri("{mod} ekranı", { mod: modAdi(m) })} />
               </article>
             ))}
           </div>
+        </section>
+
+        <section className="tn-bolum tn-rekabet" aria-labelledby="tn-turnuva-baslik">
+          <article className="tn-rekabet-kart" data-tn-gir>
+            <Telefon gorsel="turnuva" dil={dil} alt={ceviri("Canlı turnuva ekranı")} />
+            <div><p className="tn-etiket">{ceviri("Turnuva")}</p>
+              <h2 id="tn-turnuva-baslik" className="tn-h2">{ceviri("Herkes aynı anda, aynı yarışta")}</h2>
+              <p>{ceviri("Günde beş seans. Ortak geri sayımla başla, herkesle aynı soruları cevapla. Son kalan olmak için yarış; ilk üçe ödül var.")}</p>
+              <p className="tn-seans">{ceviri("Her gün · TSİ (UTC+3)")}<br />10:00 · 14:00 · 18:00 · 20:00 · 00:00</p>
+            </div>
+          </article>
+        </section>
+
+        <section className="tn-bolum tn-rekabet" aria-labelledby="tn-lig-baslik">
+          <article className="tn-rekabet-kart" data-tn-gir>
+            <Telefon gorsel="lig" dil={dil} alt={ceviri("Haftalık lig sıralaması")} />
+            <div><h2 id="tn-lig-baslik" className="tn-h2">{ceviri("Lig ve puan sistemi")}</h2>
+              <p>{ceviri("Her hafta yeni bir yarış. Bronz’dan Efsane’ye yüksel; lig çerçeven ilerleyişini göstersin.")}</p>
+              <ol className="tn-puan-adimlari">
+                <li>{ceviri("Maç kazan, lig puanı biriktir. Beraberlik de puan getirir; Antrenman maçları lig puanı vermez.")}</li>
+                <li>{ceviri("Turnuvaya katıl; bitirdiğin dereceye göre lig puanı kazan.")}</li>
+                <li>{ceviri("Haftalık puanınla sıralamada yüksel. Haftayı yükselme bölgesinde bitir, bir üst lige çık.")}</li>
+              </ol>
+            </div>
+          </article>
+        </section>
+
+        <section className="tn-bolum tn-rekabet" aria-labelledby="tn-sampiyon-baslik">
+          <article className="tn-sampiyon-vurgu" data-tn-gir>
+            <div><h2 id="tn-sampiyon-baslik" className="tn-h2">{ceviri("Şehir. Ülke. Dünya. Sıradaki şampiyon sen ol.")}</h2><p>{ceviri("Haftalık şehir, ülke ve dünya sıralamalarında yerini al. Birincilik için yarış, şampiyonluk unvanını kazan.")}</p></div>
+            <img src={tanitimGorseli("sampiyon", dil)} alt={ceviri("Şehir, ülke ve dünya sıralamaları")} width="640" height="279" loading="lazy" decoding="async" />
+          </article>
         </section>
 
         <section id="tn-akis" className="tn-bolum tn-akis" aria-labelledby="tn-akis-baslik">
@@ -220,15 +231,6 @@ export default function TanitimSayfasi() {
               <li key={ad} data-tn-gir><span className="tn-adim-no" aria-hidden="true">0{i + 1}</span><h3>{ceviri(ad)}</h3><p>{ceviri(metin)}</p></li>
             ))}
           </ol>
-        </section>
-
-        <section className="tn-bolum tn-diger" aria-labelledby="tn-diger-baslik">
-          <h2 id="tn-diger-baslik" className="tn-h2">{ceviri("Rekabetin başka yolları da var")}</h2>
-          <ul className="tn-diger-serit">
-            {MODLAR.filter(m => !["duello", "kasa"].includes(m.tur)).map(m => (
-              <li key={m.tur}><h3>{modAdi(m)}</h3><p>{ceviri(m.vaat)}</p></li>
-            ))}
-          </ul>
         </section>
 
         {/* 3 · Öne çıkanlar */}

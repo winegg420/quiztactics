@@ -1,5 +1,15 @@
 /* Yalnız tanıtım sayfasının yeni metinleri; oyun sözlüğüne müdahale etmez. */
 export const TANITIM_EN = {
+  "Turnuvada herkesle aynı anda yarış, ligde yüksel. Şehrinin, ülkenin ve dünyanın şampiyonluğunu hedefle.": "Compete together in live tournaments and climb the league. Aim for the city, national and world titles.",
+  "Oyun modları": "Game modes",
+  "Üç farklı mücadele. Bilgini göster, hamleni seç.": "Three different challenges. Show your knowledge, choose your move.",
+  "Günde beş seans. Ortak geri sayımla başla, herkesle aynı soruları cevapla. Son kalan olmak için yarış; ilk üçe ödül var.": "Five sessions a day. Start with a shared countdown and answer the same questions as everyone else. Compete to be the last one standing, with rewards for the top three.",
+  "Her gün · TSİ (UTC+3)": "Every day · Türkiye time (UTC+3)",
+  "Lig ve puan sistemi": "Leagues and points",
+  "Her hafta yeni bir yarış. Bronz’dan Efsane’ye yüksel; lig çerçeven ilerleyişini göstersin.": "A new race every week. Climb from Bronze to Legend, with a league frame that shows your progress.",
+  "Maç kazan, lig puanı biriktir. Beraberlik de puan getirir; Antrenman maçları lig puanı vermez.": "Win matches to earn league points. Draws earn points too; Training matches do not count towards your league.",
+  "Turnuvaya katıl; bitirdiğin dereceye göre lig puanı kazan.": "Join a tournament and earn league points based on your finishing position.",
+  "Haftalık puanınla sıralamada yüksel. Haftayı yükselme bölgesinde bitir, bir üst lige çık.": "Climb the rankings with your weekly points. Finish the week in the promotion zone to move up a league.",
   "Şehrinden": "From your city",
   "dünyanın zirvesine.": "to the top of the world.",
   "Ligde yüksel; şehir, ülke ve dünya şampiyonluğunu hedefle. Canlı turnuvalarda diğer oyuncularla aynı anda, aynı sorularda yarış.": "Climb the league and aim for the city, national and world titles. Compete in live tournaments with other players, answering the same questions at the same time.",
