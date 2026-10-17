@@ -8,6 +8,7 @@
 // ============================================================
 import { supabase } from "../../src/lib/supabase.js";
 import { tt } from "./dil.js";
+import { uuidMi } from "./kimlik.js";
 
 /** Lig sırası (sunucudaki lig_sirasi ile aynı). Bronz'un çerçevesi yok. */
 export const LIG_CERCEVELERI = ["gumus", "altin", "elmas", "efsane"];
@@ -25,7 +26,8 @@ async function kuyrugaBak() {
   zamanlayici = null;
   const sonuc = new Map();
   try {
-    const { data, error } = await supabase.rpc("oyuncu_lig_cerceveleri", { p_idler: [...istekler.keys()] });
+    const ag = [...istekler.keys()].filter(uuidMi);   // önizleme sahte kimlikleri ağa çıkmaz
+    const { data, error } = ag.length ? await supabase.rpc("oyuncu_lig_cerceveleri", { p_idler: ag }) : { data: [], error: null };
     if (error) throw error;
     for (const r of data ?? []) sonuc.set(r.id, LIG_CERCEVELERI.includes(r.cerceve) ? r.cerceve : null);
   } catch (e) {

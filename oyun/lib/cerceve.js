@@ -15,6 +15,7 @@
 // ============================================================
 import { supabase, onYuklemeOzeti } from "../../src/lib/supabase.js";
 import { ligCerceveUnut } from "./ligCerceve.js";
+import { uuidMi } from "./kimlik.js";
 import { benKimlik, sonBilinenOku, sonBilinenYaz } from "./sonBilinen.js";
 
 /** Nadirlikler, düşükten yükseğe (renk kodu arayüzde her yerde aynı). */
@@ -86,7 +87,7 @@ async function kuyrugaBak() {
         if (kartlar.every((k) => ozettenKullanilan.has(k?.id))) ozetDenendi = true;
       } else ozetDenendi = true;
     }
-    const ag = kalan.filter((id) => !sonuc.has(id));
+    const ag = kalan.filter((id) => !sonuc.has(id) && uuidMi(id));
     if (ag.length) {
       const { data, error } = await supabase.rpc("oyuncu_kartlari", { p_idler: ag });
       if (error) throw error;

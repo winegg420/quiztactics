@@ -19,6 +19,7 @@
  */
 import { useEffect, useState } from "react";
 import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
+import { uuidMi } from "../lib/kimlik.js";
 import { kozmetikTemasi } from "../lib/kozmetik.js";
 import { botAdi } from "../lib/botAdi.js";
 import "../tasarim/ekranlar/kozmetik.css";
@@ -28,11 +29,10 @@ import { yumusakHareketKur } from "../tasarim/yumusakHareket.js";
 yumusakHareketKur();   // hareketi azalt → yumuşak mod (durmaz, yavaşlar)
 
 /** Oyuncu kartından tek alan (önbellekli). Kart değişince (kendi kozmetiğimi takınca) tazelenir. */
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export function useKartAlani(userIdHam, alan, verildi = false) {
   // Önizleme sayfalarındaki sahte kimlikler ("onizleme-ben") sunucuya gitmez (toplu çağrıyı bozmasın)
-  const userId = typeof userIdHam === "string" && UUID.test(userIdHam) ? userIdHam : null;
+  const userId = uuidMi(userIdHam) ? userIdHam : null;
   const [deger, setDeger] = useState(null);
   const [tazele, setTazele] = useState(0);
   useEffect(() => {

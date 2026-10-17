@@ -13,6 +13,7 @@
 // ============================================================
 import { supabase } from "../../src/lib/supabase.js";
 import { tt } from "./dil.js";
+import { uuidMi } from "./kimlik.js";
 
 export const NADIRLIK_SIRA = { sirali: 0, ozel: 1, etkinlik: 2 };
 export const NADIRLIK_ETIKET = { sirali: tt("Sıradan"), ozel: tt("Özel"), etkinlik: tt("Etkinlik") };
@@ -85,7 +86,7 @@ async function kuyrugaBak() {
   const istekler = kuyruk;
   kuyruk = new Map();
   zamanlayici = null;
-  const idler = [...istekler.keys()];
+  const idler = [...istekler.keys()].filter(uuidMi);   // önizleme sahte kimlikleri ağa çıkmaz
   const sonuc = new Map();
 
   if (idler.length > 0 && !rpcYok) {
