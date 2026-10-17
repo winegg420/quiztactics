@@ -1033,3 +1033,491 @@ revoke all on function public.joker_kullan_ic(uuid, text, uuid, integer, text) f
 revoke all on function public.skill_hazirla_ic(uuid, text, uuid, integer, text) from public, anon, authenticated;
 revoke all on function public.bot_klasik_cevap(uuid, uuid, integer, uuid) from public, anon, authenticated;
 revoke all on function public.rakip_jokerleri(text, uuid) from public, anon;
+
+-- ===================================================================== 2) DÜELLO v4 — bot joker kullanır (duello_bot_joker_yuzde, insanla aynı kural)
+CREATE OR REPLACE FUNCTION public.duello4_joker_ic(p_id uuid, p_me uuid, p_tur text)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+declare
+  d public.duellolar%rowtype;
+  v_me uuid := p_me;   -- 1126: insan auth.uid() (duello4_joker), bot kendi id'si
+  v_ben1 boolean;
+  v_rakip uuid;
+  v_idx int;
+  v_ucretsiz boolean;
+  v_soru uuid;
+  v_kat text;
+  v_dogru smallint;
+  v_kapali int[];
+  v_yeni_soru uuid;
+  v_yeni timestamptz;
+  v_bitis timestamptz;
+begin
+  -- 1126: kilit burada (insan yolunda duello4_joker önce duello_kilitle ile giriş/nabız/ilerletmeyi yaptı)
+  select * into d from public.duellolar where id = p_id for update;
+  if not found then raise exception 'Düello bulunamadı'; end if;
+  if v_me is null or v_me not in (d.oyuncu1, d.oyuncu2) then raise exception 'Bu düelloda değilsin'; end if;
+  if d.durum <> 'aktif' or d.faz not in ('notr', 'cevap', 'son') then raise exception 'Skill yalnız soru açıkken kullanılır'; end if;
+  v_ben1 := d.oyuncu1 = v_me;
+  v_rakip := case when v_ben1 then d.oyuncu2 else d.oyuncu1 end;
+  v_idx := d.v4_soru_no;
+  v_bitis := case when v_ben1 then d.bitis1 else d.bitis2 end;
+  v_soru := case when v_ben1 then d.soru_id1 else d.soru_id2 end;
+  v_kat := case when v_ben1 then d.kategori1 else d.kategori2 end;
+  if d.cevaplar ? v_me::text then raise exception 'Bu soruyu zaten cevapladın'; end if;
+  if now() > v_bitis then raise exception 'Süre doldu'; end if;
+  if p_tur = 'zaman_baskisi' and d.cevaplar ? v_rakip::text then raise exception 'Rakibin bu soruyu zaten cevapladı'; end if;
+  if p_tur = 'soru_degistir' then
+    if exists (select 1 from public.skill_ikinci_sans_denemeleri s
+                where s.mac_tur = 'duello' and s.mac_id = p_id and s.soru_index = v_idx and s.user_id = v_me) then
+      raise exception 'Cevap verildikten sonra soru değiştirilemez';
+    end if;
+    if d.faz = 'notr' then
+      -- Ortak soru: rakip cevapladıysa ya da bu soruda joker kullandıysa değişmez (2. sürüm kuralı).
+      if d.cevaplar <> '{}'::jsonb or exists (select 1 from public.skill_ikinci_sans_denemeleri s
+           where s.mac_tur = 'duello' and s.mac_id = p_id and s.soru_index = v_idx) then
+        raise exception 'Cevap verildikten sonra soru değiştirilemez';
+      end if;
+      if exists (select 1 from public.joker_kullanimlari k where k.mac_tur = 'duello' and k.mac_id = p_id
+                   and k.user_id = v_rakip and k.soru_index = v_idx) then
+        raise exception 'Rakibin bu soruda skill kullandı, soru değiştirilemez';
+      end if;
+    end if;
+    v_yeni_soru := public.duello4_soru_benzer(p_id, v_kat, (select q.zorluk from public.questions q where q.id = v_soru));
+    if v_yeni_soru is null then raise exception 'Bu kategoride başka soru kalmadı'; end if;
+  end if;
+
+  perform public.duello4_joker_hak_kontrol(p_id, v_me, p_tur);
+  v_ucretsiz := public.jokerler_serbest()
+    or exists (select 1 from public.profiles pb where pb.id = v_me and coalesce(pb.is_bot, false));   -- 1126: bot ücretsiz
+  if not v_ucretsiz then
+    perform public.joker_hareket(v_me, p_tur, -1, 'kullanim', 'duello:' || p_id::text);
+  end if;
+  insert into public.joker_kullanimlari (user_id, mac_tur, mac_id, soru_index, tur, ucretsiz)
+  values (v_me, 'duello', p_id, v_idx, p_tur, v_ucretsiz);
+  if not found then raise exception 'Bu skill artık aktif değil'; end if;   -- 1126: kapı botun pasif skill satırını düşürdü
+
+  if p_tur = 'elli' then
+    select dogru_cevap into v_dogru from public.questions where id = v_soru;
+    select array_agg(x) into v_kapali
+      from (select x from generate_series(0, 3) x where x <> v_dogru order by random() limit 2) s;
+    update public.duellolar
+       set elli1 = case when v_ben1 then v_kapali else elli1 end,
+           elli2 = case when v_ben1 then elli2 else v_kapali end, son_hareket = now()
+     where id = p_id;
+  elsif p_tur = 'sure' then
+    update public.duellolar
+       set bitis1 = case when v_ben1 then bitis1 + make_interval(secs => public.ayar_sayi('duello_ek_sure_sn', 5)) else bitis1 end,
+           bitis2 = case when v_ben1 then bitis2 else bitis2 + make_interval(secs => public.ayar_sayi('duello_ek_sure_sn', 5)) end,
+           ek_sure = true, son_hareket = now()
+     where id = p_id;
+  elsif p_tur = 'zaman_baskisi' then
+    v_yeni := greatest(
+      (case when v_ben1 then d.bitis2 else d.bitis1 end) - make_interval(secs => public.ayar_sayi('duello2_zaman_baskisi_eksi_sn', 5)),
+      now() + make_interval(secs => public.ayar_sayi('duello2_zaman_baskisi_taban_sn', 3)));
+    update public.duellolar
+       set bitis1 = case when v_ben1 then bitis1 else least(bitis1, v_yeni) end,
+           bitis2 = case when v_ben1 then least(bitis2, v_yeni) else bitis2 end,
+           zaman_baskisi = true, son_hareket = now()
+     where id = p_id;
+  elsif p_tur = 'soru_degistir' then
+    v_yeni := now() + make_interval(secs => public.ayar_sayi('duello4_cevap_sn', 15)) + public.duello2_gosterim_payi();
+    if d.faz = 'notr' then
+      update public.duellolar
+         set soru_id = v_yeni_soru, soru_id1 = v_yeni_soru, soru_id2 = v_yeni_soru,
+             kullanilan_sorular = kullanilan_sorular || v_yeni_soru,
+             soru_baslangic = now(), bitis1 = v_yeni, bitis2 = v_yeni, elli1 = null, elli2 = null,
+             cevaplar = '{}'::jsonb, son_hareket = now()
+       where id = p_id;
+    else
+      update public.duellolar
+         set soru_id1 = case when v_ben1 then v_yeni_soru else soru_id1 end,
+             soru_id2 = case when v_ben1 then soru_id2 else v_yeni_soru end,
+             soru_id = case when v_me = v4_kontrol then v_yeni_soru else soru_id end,
+             kullanilan_sorular = kullanilan_sorular || v_yeni_soru,
+             bitis1 = case when v_ben1 then v_yeni else bitis1 end,
+             bitis2 = case when v_ben1 then bitis2 else v_yeni end,
+             elli1 = case when v_ben1 then null else elli1 end,
+             elli2 = case when v_ben1 then elli2 else null end,
+             soru_degisti_saldiri = soru_degisti_saldiri or v_me = v4_kontrol,
+             soru_degisti_savunma = soru_degisti_savunma or v_me <> v4_kontrol,
+             son_hareket = now()
+       where id = p_id;
+    end if;
+  else   -- ikinci_sans: etkisi cevapta
+    update public.duellolar set son_hareket = now() where id = p_id;
+  end if;
+
+  update public.duellolar set faz_bitis = greatest(bitis1, bitis2) where id = p_id;
+  perform public.duello_sinyal_ver(p_id);
+end $function$;
+
+CREATE OR REPLACE FUNCTION public.duello4_joker(p_id uuid, p_tur text)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+begin
+  perform public.hiz_siniri('duello_eylem', 90, interval '60 seconds');
+  perform public.duello_kilitle(p_id);
+  -- 1126: gövde duello4_joker_ic'e taşındı (Düello v4 botu da aynı fonksiyondan geçer); insan yolu aynı
+  perform public.duello4_joker_ic(p_id, auth.uid(), p_tur);
+end $function$;
+
+CREATE OR REPLACE FUNCTION public.duello4_bot_joker(p_id uuid, p_bot uuid)
+ RETURNS boolean
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+declare
+  d public.duellolar%rowtype;
+  v_rakip uuid;
+  v_cevap_sn double precision;
+  v_an timestamptz;
+  v_tur text;
+  v_ok boolean := false;
+  v_tohum text;
+begin
+  -- 1126: Düello v4 botu joker kullanır — Hazine 1125 kalıbı. Soru başına duello_bot_joker_yuzde (%) olasılık (sabit tohum),
+  -- soru içinde bir anda (oynanabilir başlangıç ile planlı cevabı arasının %20–%60'ı) izinli türleri rastgele sırayla
+  -- duello4_joker_ic'e (İNSANLA AYNI kural: Son Düello yasağı, 4/2/1 sınırları, Soru Değiştir kilitleri, süre, cevaplanmış soru,
+  -- Zaman Baskısı rakip cevaplamadıysa) dener. Reddedilirse sonraki tür; hiçbiri olmazsa vazgeçer. Tek fark: ücretsiz.
+  select * into d from public.duellolar where id = p_id;
+  if not found or d.durum <> 'aktif' or d.faz not in ('notr', 'cevap', 'son') or d.soru_baslangic is null
+     or d.kopuk_at is not null then return false; end if;
+  if p_bot not in (d.oyuncu1, d.oyuncu2) or d.cevaplar ? p_bot::text then return false; end if;
+  v_rakip := case when p_bot = d.oyuncu1 then d.oyuncu2 else d.oyuncu1 end;
+  if d.cevaplar ? v_rakip::text then return false; end if;   -- rakip cevapladı: bot o an zaten cevaplar (1088)
+  if exists (select 1 from public.joker_kullanimlari k where k.mac_tur = 'duello' and k.mac_id = p_id
+               and k.user_id = p_bot and k.soru_index = d.v4_soru_no) then return false; end if;
+  v_tohum := p_id::text || ':' || d.v4_soru_no || ':' || coalesce((case when p_bot = d.oyuncu1 then d.soru_id1 else d.soru_id2 end)::text, '');
+  if public.bot_rasgele('d4jok:' || v_tohum) * 100 >= public.ayar_sayi('duello_bot_joker_yuzde', 15) then return false; end if;
+  v_cevap_sn := public.duello4_bot_gecikme(p_id, p_bot);
+  v_an := d.soru_baslangic + make_interval(secs => v_cevap_sn * (0.2 + 0.4 * public.bot_rasgele('d4jan:' || v_tohum)));
+  if now() < v_an then return false; end if;
+  for v_tur in
+    select t from unnest(public.duello4_izinli_skiller()) t
+     where public.skill_aktif(t)
+     order by public.bot_rasgele('d4jt:' || v_tohum || ':' || t)
+  loop
+    begin
+      perform public.duello4_joker_ic(p_id, p_bot, v_tur);
+      v_ok := true;
+    exception when others then
+      v_ok := false;
+    end;
+    exit when v_ok;
+  end loop;
+  return v_ok;
+end $function$;
+
+CREATE OR REPLACE FUNCTION public.duello4_bot_tik(p_id uuid)
+ RETURNS integer
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+declare
+  d public.duellolar%rowtype;
+  v_bot uuid;
+  v_n int := 0;
+  v_kat text;
+  v_bas timestamptz;
+  v_t1 double precision;
+  v_t2 double precision;
+  v_min double precision := public.ayar_ondalik('duello4_bot_kart_min_sn', 1.2);
+  v_max double precision := public.ayar_ondalik('duello4_bot_kart_max_sn', 3);
+  v_kart_sn double precision := public.ayar_ondalik('duello4_kart_sn', 7);
+  v_soru uuid;
+  v_kategori text;
+  v_dc smallint;
+  v_cevap smallint;
+  v_kapali int[];
+begin
+  select * into d from public.duellolar where id = p_id and surum = 4 for update skip locked;
+  if not found or d.durum <> 'aktif' then return 0; end if;
+  perform public.duello4_ilerlet(p_id);
+
+  for v_bot in select p.id from public.profiles p where p.id in (d.oyuncu1, d.oyuncu2) and coalesce(p.is_bot, false) loop
+    select * into d from public.duellolar where id = p_id;
+    exit when d.durum <> 'aktif' or d.kopuk_at is not null;
+
+    if d.faz = 'kart' and d.v4_kontrol = v_bot then
+      -- 1034: her adım kendi duyurusunun bitişinden sayılır; kalan kullanılabilir süreyi aşmaz.
+      v_bas := coalesce(d.v4_duyuru_bitis, d.faz_bitis - make_interval(secs => v_kart_sn));
+      v_kart_sn := greatest(extract(epoch from d.faz_bitis - v_bas)::double precision, 0.5);
+      v_t1 := least(v_min + (v_max - v_min) * public.bot_rasgele('d4k1:' || p_id::text || ':' || d.v4_tur), greatest(v_kart_sn - 2, 0.2));
+      v_t2 := least(0.8 + 1.2 * public.bot_rasgele('d4k2:' || p_id::text || ':' || d.v4_tur), greatest(v_kart_sn - 0.5, 0.2));
+      if d.v4_gonderilen is null and now() >= v_bas + make_interval(secs => v_t1) then
+        perform public.duello4_kart_uygula(p_id, public.duello4_bot_kart(p_id, v_bot, 1), null, false);
+        perform public.duello_sinyal_ver(p_id);
+        v_n := v_n + 1;
+        select * into d from public.duellolar where id = p_id;
+        v_bas := d.v4_duyuru_bitis;   -- 2. adım: 2. duyurunun bitişinden sayılır
+      end if;
+      if d.faz = 'kart' and d.v4_gonderilen is not null and d.v4_secilen is null and now() >= v_bas + make_interval(secs => v_t2) then
+        perform public.duello4_kart_uygula(p_id, null, public.duello4_bot_kart(p_id, v_bot, 2), false);
+        perform public.duello_sinyal_ver(p_id);
+        v_n := v_n + 1;
+        select * into d from public.duellolar where id = p_id;
+      end if;
+    end if;
+
+    -- 1126: bot jokeri (insanla aynı kural, duello4_bot_joker) — cevaptan önce; etkisi aşağıda cevaba yansır
+    if d.faz in ('notr', 'cevap', 'son') and not (d.cevaplar ? v_bot::text) and d.soru_baslangic is not null then
+      if public.duello4_bot_joker(p_id, v_bot) then
+        perform public.duello_sinyal_ver(p_id);
+        v_n := v_n + 1;
+        select * into d from public.duellolar where id = p_id;
+      end if;
+    end if;
+    -- 1126: bot saldırı sorusunda kendi sorusunu değiştirdiyse yeni soruyu o andan okur (insan gibi)
+    v_bas := greatest(d.soru_baslangic, (select max(k.created_at) from public.joker_kullanimlari k
+               where k.mac_tur = 'duello' and k.mac_id = p_id and k.user_id = v_bot and k.soru_index = d.v4_soru_no
+                 and k.tur = 'soru_degistir' and d.faz = 'cevap'));
+    if d.faz in ('notr', 'cevap', 'son') and not (d.cevaplar ? v_bot::text) and d.soru_baslangic is not null
+       and (now() >= v_bas + make_interval(secs => public.duello4_bot_gecikme(p_id, v_bot))
+            -- 1088: rakip (insan) cevapladıysa bot bekletmez — sonraki tikte (≤ 2 sn) cevaplar
+            or d.cevaplar ? (case when v_bot = d.oyuncu1 then d.oyuncu2 else d.oyuncu1 end)::text) then
+      v_soru := case when v_bot = d.oyuncu1 then d.soru_id1 else d.soru_id2 end;
+      v_kategori := case when v_bot = d.oyuncu1 then d.kategori1 else d.kategori2 end;
+      select dogru_cevap into v_dc from public.questions where id = v_soru;
+      -- Doğruluk: kategoriye + bot seviyesine + soru zorluğuna göre (bot_soru_isabet, 2. sürümle aynı).
+      if random() < public.bot_soru_isabet(v_bot, v_kategori, v_soru) then
+        v_cevap := v_dc;
+      else
+        select x into v_cevap from generate_series(0, 3) x where x <> v_dc order by random() limit 1;
+      end if;
+      -- 1126: botun kendi jokeri (insanın ekranda yaşadığının karşılığı; Hazine 1125 kalıbı)
+      v_kapali := case when v_bot = d.oyuncu1 then d.elli1 else d.elli2 end;
+      if v_cevap <> v_dc and v_kapali is not null then   -- 50:50: kalan iki şık arasında yarı yarıya
+        if random() < 0.5 then v_cevap := v_dc;
+        else select x into v_cevap from generate_series(0, 3) x where x <> v_dc and not (x = any(v_kapali)) order by random() limit 1;
+        end if;
+      end if;
+      if v_cevap <> v_dc and exists (select 1 from public.joker_kullanimlari k where k.mac_tur = 'duello' and k.mac_id = p_id
+           and k.user_id = v_bot and k.soru_index = d.v4_soru_no and k.tur = 'ikinci_sans') then   -- İkinci Şans
+        select x into v_cevap from generate_series(0, 3) x where x <> v_cevap order by random() limit 1;
+      end if;
+      update public.duellolar
+         set cevaplar = cevaplar || jsonb_build_object(v_bot::text, jsonb_build_object('cevap', v_cevap, 'at', now())),
+             son_hareket = now()
+       where id = p_id;
+      perform public.duello4_ilerlet(p_id);
+      perform public.duello_sinyal_ver(p_id);
+      v_n := v_n + 1;
+    end if;
+  end loop;
+  return v_n;
+end $function$;
+
+CREATE OR REPLACE FUNCTION public.duello4_durum(p_id uuid)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+declare
+  d public.duellolar%rowtype;
+  v_me uuid := auth.uid();
+  v_ben1 boolean;
+  v_rakip uuid;
+  v_dil text := public.oyuncu_dili();
+  v_benim_profil jsonb;
+  v_rakip_profil jsonb;
+  v_soru jsonb;
+  v_soru_id uuid;
+  v_soru_acik boolean;
+  v_kart jsonb;
+  v_arkadas boolean;
+  v_ezeli jsonb;
+  v_odul jsonb;
+  v_gecmis jsonb;
+  v_benim jsonb;
+  v_bu_soruda int;
+  v_rakip_soruda boolean;
+  v_ilk smallint;
+  v_kilit text;
+  v_varsayilan int := public.ayar_sayi('duello4_oran_varsayilan', 50);
+begin
+  perform public.hiz_siniri('duello_durum', 400, interval '60 seconds');
+  d := public.duello_kilitle(p_id);
+  v_ben1 := d.oyuncu1 = v_me;
+  v_rakip := case when v_ben1 then d.oyuncu2 else d.oyuncu1 end;
+  v_benim_profil := case when v_ben1 then d.profil1 else d.profil2 end;
+  v_rakip_profil := case when v_ben1 then d.profil2 else d.profil1 end;
+
+  -- Soru metni yalnız giriş bittikten sonra ve soru/sonuç fazında (kart fazında yok).
+  v_soru_id := case when v_ben1 then d.soru_id1 else d.soru_id2 end;
+  v_soru_acik := v_soru_id is not null
+    and ((d.faz in ('notr', 'cevap', 'son') and now() >= d.soru_baslangic) or d.faz = 'sonuc' or d.durum <> 'aktif'
+         -- 1092: maçın 1. sorusu kurulduğu anda gelir (Klasik/Grup gibi): istemci 3-2-1 katmanının ALTINDA tutar, yavaş
+         -- telefonda soru başlangıçtan sonraki okumayı beklemez. Cevap yine soru_baslangic'tan önce reddedilir (duello4_cevap).
+         or (d.durum = 'aktif' and d.faz = 'notr' and d.v4_soru_no = 1));
+  if v_soru_acik then
+    select jsonb_build_object('soru', sd.soru, 'secenekler', sd.secenekler, 'kategori', sd.kategori)
+      into v_soru from public.soru_dilinde(v_soru_id, v_dil) sd;
+  end if;
+  -- 1052 basılı tut: doğru şık YALNIZ hileli_mi() hesabına ve yalnız kendi cevap hakkı sürerken (normal oyuncuda alan yok).
+  if v_soru is not null and d.durum = 'aktif' and d.faz in ('notr', 'cevap', 'son') and now() >= d.soru_baslangic and not (coalesce(d.cevaplar, '{}'::jsonb) ? v_me::text) and public.hileli_mi() then
+    v_soru := v_soru || jsonb_build_object('dogru_cevap', (select q.dogru_cevap from public.questions q where q.id = v_soru_id));
+  end if;
+
+  -- Kartlar: oranlar izleyenin bakışıyla (ben / rakip). null = yeterli veri yok ("?"). Rakibe gönderilen kart,
+  -- seçim bitene kadar bekleyen oyuncuya gizli (adim: kaç seçim yapıldı).
+  if d.faz = 'kart' and d.v4_kartlar is not null then
+    v_kart := jsonb_build_object(
+      'kartlar', (select coalesce(jsonb_agg(jsonb_build_object(
+                    'k', k, 'ben', public.duello4_oran(v_benim_profil, k), 'rakip', public.duello4_oran(v_rakip_profil, k)) order by n), '[]'::jsonb)
+                    from unnest(d.v4_kartlar) with ordinality x(k, n)),
+      'adim', (case when d.v4_gonderilen is not null then 1 else 0 end) + (case when d.v4_secilen is not null then 1 else 0 end),
+      'gonderilen', case when v_me = d.v4_kontrol then d.v4_gonderilen end,
+      'secilen', case when v_me = d.v4_kontrol then d.v4_secilen end,
+      'varsayilan', v_varsayilan);
+  end if;
+
+  v_arkadas := exists (select 1 from public.friendships f where f.durum = 'arkadas'
+     and ((f.requester = v_me and f.addressee = v_rakip) or (f.requester = v_rakip and f.addressee = v_me)));
+  if v_arkadas then
+    select jsonb_build_object('ben', count(*) filter (where x.kazanan = v_me), 'rakip', count(*) filter (where x.kazanan = v_rakip))
+      into v_ezeli from public.duellolar x
+     where x.durum = 'bitti'
+       and ((x.oyuncu1 = v_me and x.oyuncu2 = v_rakip) or (x.oyuncu1 = v_rakip and x.oyuncu2 = v_me));
+  end if;
+
+  if d.durum = 'bitti' then
+    v_odul := jsonb_build_object(
+      'lig_puan', case when d.dereceli and d.kazanan = v_me
+                       then floor(public.ayar_sayi('lig_duello_galibiyet', 50) * d.odul_carpan)::int
+                       when d.dereceli and d.kazanan is null and coalesce(d.v4_berabere, false)   -- 1102
+                       then floor(public.ayar_sayi('lig_duello_galibiyet', 50) * d.odul_carpan * 0.5)::int else 0 end,
+      'coin', coalesce((select sum(h.miktar) from public.coin_hareketleri h
+                         where h.user_id = v_me and h.tur = 'mac' and h.referans = 'duello:' || p_id::text), 0));
+  end if;
+
+  -- Maç sonu özeti: her soru izleyenin bakışıyla.
+  if d.durum <> 'aktif' then
+    select coalesce(jsonb_agg(jsonb_build_object(
+             'tip', h.v4 ->> 'tip', 'tur', h.tur, 'sonuc', h.v4 ->> 'sonuc',
+             'kontrol_sonra', h.v4 -> 'kontrol_sonra', 'seri_sonra', h.v4 -> 'seri_sonra',
+             'kategori', h.v4 -> 'oyuncular' -> v_me::text ->> 'kategori',
+             'rakip_kategori', h.v4 -> 'oyuncular' -> v_rakip::text ->> 'kategori',
+             'soru', sd.soru, 'secenekler', sd.secenekler,
+             'dogru_cevap', (h.v4 -> 'oyuncular' -> v_me::text -> 'dogru_cevap'),
+             'benim_cevabim', (h.v4 -> 'oyuncular' -> v_me::text -> 'cevap'),
+             'ben_dogru', (h.v4 -> 'oyuncular' -> v_me::text -> 'dogru'),
+             'ben_yanitsiz', (h.v4 -> 'oyuncular' -> v_me::text -> 'yanitsiz'),
+             'rakip_dogru', (h.v4 -> 'oyuncular' -> v_rakip::text -> 'dogru'),
+             'rakip_yanitsiz', (h.v4 -> 'oyuncular' -> v_rakip::text -> 'yanitsiz')) order by h.id), '[]'::jsonb)
+      into v_gecmis
+      from public.duello_hamleler h
+      left join lateral public.soru_dilinde((h.v4 -> 'oyuncular' -> v_me::text ->> 'soru_id')::uuid, v_dil) sd on true
+     where h.duello_id = p_id and h.v4 is not null;
+  end if;
+
+  select jsonb_build_object('kullanilan', coalesce(sum(s.n), 0), 'sayilar', coalesce(jsonb_object_agg(s.tur, s.n), '{}'::jsonb))
+    into v_benim
+    from (select k.tur, count(*) n from public.joker_kullanimlari k
+           where k.user_id = v_me and k.mac_tur = 'duello' and k.mac_id = p_id group by k.tur) s;
+  select count(*) into v_bu_soruda from public.joker_kullanimlari k
+   where k.user_id = v_me and k.mac_tur = 'duello' and k.mac_id = p_id and k.soru_index = d.v4_soru_no;
+  v_rakip_soruda := exists (select 1 from public.joker_kullanimlari k
+   where k.user_id = v_rakip and k.mac_tur = 'duello' and k.mac_id = p_id and k.soru_index = d.v4_soru_no);
+  select s.ilk_cevap into v_ilk from public.skill_ikinci_sans_denemeleri s
+   where s.mac_tur = 'duello' and s.mac_id = p_id and s.user_id = v_me and s.soru_index = d.v4_soru_no;
+  v_kilit := case
+    when d.faz not in ('notr', 'cevap') or d.durum <> 'aktif' then 'Soru açık değil'
+    when d.cevaplar ? v_me::text or v_ilk is not null then 'Cevap verildikten sonra soru değiştirilemez'
+    when d.faz = 'notr' and d.cevaplar <> '{}'::jsonb then 'Cevap verildikten sonra soru değiştirilemez'
+    when d.faz = 'notr' and v_rakip_soruda then 'Rakibin bu soruda skill kullandı, soru değiştirilemez'
+    when v_bu_soruda >= public.ayar_sayi('duello2_skill_soru_basi_hak', 1) then 'Bu soruda skill hakkını kullandın'
+    else null end;
+
+  return jsonb_build_object(
+    'surum', 4,
+    'id', d.id, 'durum', d.durum, 'dereceli', d.dereceli,
+    'faz', d.faz, 'faz_bitis', d.faz_bitis, 'sunucu_zamani', clock_timestamp(),
+    'ben', v_me, 'rakip', v_rakip,
+    'oyuncular', jsonb_build_array(
+      (select jsonb_build_object('id', p.id, 'gorunen_ad', p.gorunen_ad, 'gorunen_avatar', p.gorunen_avatar,
+               'gorunum', p.gorunum, 'dogru', d.dogru1, 'unvan', public.oyuncu_unvani(p.id))
+         from public.profiles p where p.id = d.oyuncu1),
+      (select jsonb_build_object('id', p.id, 'gorunen_ad', p.gorunen_ad, 'gorunen_avatar', p.gorunen_avatar,
+               'gorunum', p.gorunum, 'dogru', d.dogru2, 'unvan', public.oyuncu_unvani(p.id))
+         from public.profiles p where p.id = d.oyuncu2)),
+    'v4', jsonb_build_object(
+      'kontrol', d.v4_kontrol, 'seri', d.v4_seri, 'seri_hedef', d.v4_seri_hedef,
+      'tur', d.v4_tur, 'max_tur', d.v4_max_tur, 'notr_seri', d.v4_notr_seri, 'notr_max', d.v4_notr_max,
+      'son', d.v4_son, 'soru_no', d.v4_soru_no,
+      -- 1093: Son Düello toplam soru sınırında (nötr + saldırı); rehber = bu maç oyuncunun ilk Düello rehberi maçı
+      'max_soru', coalesce(d.v4_max_soru, public.ayar_sayi('duello4_max_soru', 20)::smallint),
+      -- 1102: Son Düello soru sınırı; berabere = bu sınırda kazanan çıkmadı
+      'son_max', coalesce(d.v4_son_max, public.ayar_sayi('duello4_son_max', 10)::smallint),
+      'berabere', coalesce(d.v4_berabere, false),
+      'rehber', coalesce((select p.duello_rehber_mac = d.id from public.profiles p where p.id = v_me), false),
+      -- 1092: iki oyuncu da maç ekranına gelene kadar ilk soru kurulmaz (istemci "Rakip bağlanıyor…" gösterir)
+      'giris_bekle', d.durum = 'aktif' and d.faz = 'notr' and d.v4_soru_no = 0 and d.soru_id is null, 'kullanilan', to_jsonb(d.v4_kullanilan),
+      'kart', v_kart,
+      -- Saldırı turunda kategoriler kart fazı bitince iki oyuncuya da açılır.
+      'benim_kategori', case when d.faz <> 'kart' then case when v_ben1 then d.kategori1 else d.kategori2 end end,
+      'rakip_kategori', case when d.faz <> 'kart' then case when v_ben1 then d.kategori2 else d.kategori1 end end,
+      'oto', case when d.faz <> 'kart' then d.v4_kart_oto end,
+      -- 1058: hangi adım otomatik seçildi (istemci "Süre doldu · otomatik seçildi"yi yalnız o kategoride yazar)
+      'oto_gonder', case when d.faz <> 'kart' then d.v4_oto_gonder end,
+      'oto_sec', case when d.faz <> 'kart' then d.v4_oto_sec end,
+      'ilk_mac', not exists (select 1 from public.duellolar x
+                              where x.surum = 4 and x.durum = 'bitti' and x.id <> d.id and v_me in (x.oyuncu1, x.oyuncu2))),
+    'soru', v_soru,
+    'cevap', case when d.faz in ('notr', 'cevap', 'son') then jsonb_build_object(
+        'benim_bitis', case when v_ben1 then d.bitis1 else d.bitis2 end,
+        'rakip_bitis', case when v_ben1 then d.bitis2 else d.bitis1 end,
+        'ben_cevapladim', d.cevaplar ? v_me::text,
+        'benim_cevabim', d.cevaplar -> v_me::text -> 'cevap',
+        'rakip_cevapladi', d.cevaplar ? v_rakip::text,
+        'elli_kapali', to_jsonb(case when v_ben1 then d.elli1 else d.elli2 end),
+        'ikinci_sans_ilk_cevap', v_ilk) end,
+    'son_hamle', d.son_hamle,
+    'skill', jsonb_build_object(
+       'kapali', d.v4_son,
+       'set', to_jsonb(public.skill_setim('duello')),
+       'izinli', to_jsonb(public.duello4_izinli_skiller()),
+       'toplam_hak', public.ayar_sayi('duello2_skill_toplam_hak', 4),
+       'tur_basi_hak', public.ayar_sayi('duello2_skill_tur_basi_hak', 2),
+       'soru_basi_hak', public.ayar_sayi('duello2_skill_soru_basi_hak', 1),
+       'kullanilan', v_benim -> 'kullanilan', 'sayilar', v_benim -> 'sayilar',
+       'bu_soruda', v_bu_soruda, 'rakip_bu_soruda', v_rakip_soruda,
+       -- 1126: rakibin bu sorudaki joker türleri (istemci "Rakip ___ kullandı")
+       'rakip_turler', (select coalesce(jsonb_agg(k.tur order by k.created_at), '[]'::jsonb) from public.joker_kullanimlari k
+                         where k.user_id = v_rakip and k.mac_tur = 'duello' and k.mac_id = p_id and k.soru_index = d.v4_soru_no),
+       'soru_degistir_kilit', v_kilit,
+       'envanter', (select coalesce(jsonb_object_agg(e.tur, e.adet), '{}'::jsonb) from public.joker_envanter e where e.user_id = v_me),
+       'fiyatlar', public.joker_fiyatlari(),
+       'coin', (select coalesce(pr.coin, 0) from public.profiles pr where pr.id = v_me)),
+    'sureler', jsonb_build_object(
+       'kart', public.ayar_sayi('duello4_kart_sn', 7),
+       'kart_duyuru_ms', public.ayar_sayi('duello4_kart_duyuru_ms', 900),
+       'cevap', public.ayar_sayi('duello4_cevap_sn', 15),
+       'sonuc', public.ayar_sayi('duello4_sonuc_sn', 3),
+       'ek_sure', public.ayar_sayi('duello_ek_sure_sn', 5),
+       'zaman_baskisi_eksi', public.ayar_sayi('duello2_zaman_baskisi_eksi_sn', 5),
+       'nabiz', public.duello_nabiz_sn(),
+       'kopuk', public.ayar_sayi('duello_kopuk_sn', 25),
+       'gosterim_payi_ms', public.ayar_sayi('duello_gosterim_payi_ms', 1200),
+       'acilis_ms', case when d.faz = 'cevap' then coalesce(d.v4_acilis_ms, 0) else 0 end,   -- 1092
+       'kart_payi_ms', case when d.faz = 'kart' then coalesce(d.v4_kart_payi_ms, 0) else 0 end,   -- 1092
+       'gosterim_bas', case
+          when d.faz = 'kart' then coalesce(d.v4_duyuru_bitis, d.faz_bitis - make_interval(secs => public.ayar_sayi('duello4_kart_sn', 7)))
+          when d.faz = 'cevap' then d.soru_baslangic + make_interval(secs => coalesce(d.v4_acilis_ms, 0) / 1000.0) + public.duello2_gosterim_payi()   -- 1092
+          when d.faz in ('notr', 'son') then d.soru_baslangic + public.duello2_gosterim_payi() end),
+    'kazanan', d.kazanan, 'terk_eden', d.terk_eden, 'odul', v_odul, 'ezeli', v_ezeli, 'gecmis', v_gecmis,
+    'rovans', jsonb_build_object('isteyen', d.rovans_isteyen, 'id', d.rovans_id,
+       'gecerli', d.rovans_at is not null and d.rovans_at > now() - make_interval(secs => public.ayar_sayi('duello_rovans_sn', 60))));
+end $function$;
+
+revoke all on function public.duello4_joker_ic(uuid, uuid, text) from public, anon, authenticated;
+revoke all on function public.duello4_bot_joker(uuid, uuid) from public, anon, authenticated;
