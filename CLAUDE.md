@@ -47,6 +47,14 @@ Birden fazla araç/pencere aynı anda çalışabilir; şartlar:
 - `PROGRESS.md` ve `PROJECT_CONTEXT.md` paralel işlerde **yazılmaz** (commit `[progress-yok]`); işler bitince tek pencere toplu kayıt düşer.
 - Gün içi Vercel dağıtım sınırı için push'lar biriktirilir.
 
+### Klasör temizliği (Ida kararı, 17 Eki 2026)
+
+- Yeni worktree'ler tek klasör altında açılır: `C:\Users\ida\Desktop\quiztactics-isler\<is-adi>`.
+- İş bitince, son cevaptan ÖNCE kendi açtığın worktree klasörünü kendin kaldır; Ida'ya sorma.
+- Önce kontrol: dal `main`'e birleşmiş mi (`git branch --merged main`) ve `git status` temiz mi. İkisi de evetse: `git worktree remove <klasör>`, sonra `git branch -d <dal>`.
+- Birleşmemiş veya değişiklik varsa SİLME; son cevapta tek satır yaz: "Klasör duruyor: <ad>, sebep: <birleşmedi/değişiklik var>".
+- Geçici dosyalar (`.tmp`, `*.log`, `ek.tmp.css`, `oyuncu-testi-hata-*.png`) iş bitince silinir. `RAPOR-*.md` dosyaları ana klasöre değil `docs/raporlar/` altına yazılır.
+
 ## Komutlar
 
 ```bash
