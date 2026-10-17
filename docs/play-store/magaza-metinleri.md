@@ -24,7 +24,7 @@ Bilgini taktiğe dönüştür. Quiz Tactics'te rakiplerinle aynı soruları ayn�
 
 OYUN MODLARI
 
-- Klasik — 20 soru, herkes aynı soruyu aynı anda görür. Maça üç joker götür: 50:50, İkinci Şans, Zaman Baskısı, Soru Değiştir ve daha fazlası.
+- Klasik — 20 soru, herkes aynı soruyu aynı anda görür. Maça götüreceğin jokerleri sen seçersin; bu seçim taktiğinin bir parçasıdır. 50:50, İkinci Şans, Zaman Baskısı, Soru Değiştir ve daha fazlası.
 
 - Düello — Kontrolü al, rakibine kategori gönder, üst üste üç doğru yap. Kontrol kartlarıyla taktik oyna.
 
@@ -89,7 +89,7 @@ More than 12,000 questions across General Knowledge, Science, History, Literatur
 
 GAME MODES
 
-- Classic — 20 questions, everyone sees the same question at the same time. Bring three power-ups: 50:50, Second Chance, Time Pressure, Change Question and more.
+- Classic — 20 questions, everyone sees the same question at the same time. You pick the jokers you take into the match, and that choice is part of your tactics: 50:50, Second Chance and more.
 
 - Duel — Take control, send your opponent a category and get three answers right in a row. Play tactically with control cards.
 
@@ -140,7 +140,7 @@ First release is live! Play Classic, Duel, Shared Treasure, daily tournaments, l
 |---|---:|---:|---:|
 | Uygulama adı | 29 | 26 | 30 |
 | Kısa açıklama | 59 | 74 | 80 |
-| Uzun açıklama | 1828 | 2035 | 4000 |
+| Uzun açıklama | 1884 | 2066 | 4000 |
 | Yenilikler | 98 | 107 | 500 |
 
 ## Notlar
