@@ -16,6 +16,8 @@
 -- yeni iç tablo bot_tepki_gecmisi 673'teki bot_tepki_bekleyen gibi kapalı. Yeni istemci fonksiyonu rakip_jokerleri varsayılan
 -- yetkiyle (joker_mac_durumu gibi: authenticated). Geri alma: docs/bot-parite-geri-al.sql.
 
+set local lock_timeout = '5s';   -- duellolar/kasa tetikleyicisi kısa kilit alır; meşgulse beklemez, uygulama yeniden denenir
+
 -- ===================================================================== 1) KLASİK — bot bütün joker türlerini insanla AYNI kuraldan kullanır
 CREATE OR REPLACE FUNCTION public.joker_hak_kontrol_ic(p_me uuid, p_mac_tur text, p_mac_id uuid, p_tur text)
  RETURNS void
