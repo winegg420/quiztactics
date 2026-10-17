@@ -76,9 +76,13 @@
 }
 .ks-ust-orta { display: grid; justify-items: center; gap: 2px; }
 /* 990: uzun rakip adı tur göstergesine taşmasın — ad sütununa sabit en büyük genişlik + üç nokta (390 px ölçüsü) */
-.ks-ust .qt-oyuncu-yazi { min-width: 0; max-width: 112px; overflow: hidden; }
+/* 17 Eki: lig yıldızı (mo-amblem) yarıda kesiliyordu — ad sütunu telefonda 79–91 px, Lv satırı (bayrak + Lv + yıldız) 97–101 px ister
+   ve buradaki overflow:hidden taşan yıldızı kırpıyordu. Kırpma artık yalnız adda (alttaki satır: kendi üç noktası); Lv satırı kırpılmaz. */
+.ks-ust .qt-oyuncu-yazi { min-width: 0; max-width: 112px; overflow: visible; }
 .ks-ust .qt-oyuncu-ad, .ks-ust .qt-oyuncu-ad > * { display: block; max-width: 100%; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 400px) { .ks-ust .qt-oyuncu-yazi { max-width: 92px; } }
+/* Dar telefonda (< 410 px) Lv satırı sütuna sığsın: bayrak gizlenir (profilde ve kartta durur), boşluk daralır → "Lv 112 + yıldız" 76 px */
+@media (max-width: 409px) { .ks-ust .mo-seviye { gap: 4px; } .ks-ust .mo-seviye .mo-bayrak { display: none !important; } }   /* !important: Bayrak.jsx display'i satır içi yazar */
 .ks-tur { font: var(--qt-a-siyah) 12px/1 var(--qt-f-govde); color: var(--qt-metin-soluk); white-space: nowrap; }
 .ks-tur b { color: var(--qt-metin); }
 .ks-sayac--yok { display: grid; place-items: center; width: 44px; height: 44px; color: var(--qt-metin-soluk); font-weight: 900; }
