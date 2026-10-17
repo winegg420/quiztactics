@@ -1727,3 +1727,147 @@ drop trigger if exists trg_kasa_bot_tepki_son on public.kasa_maclari;
 create trigger trg_kasa_bot_tepki_son after update of durum on public.kasa_maclari
   for each row when (new.durum = 'bitti' and old.durum is distinct from 'bitti' and new.bot is not null)
   execute function public.trg_kasa_bot_tepki();
+
+-- ===================================================================== 4) HAZİNE — bot cevap süresi bota ve soruya göre (Klasik/Düello profili)
+insert into public.oyun_ayarlari (anahtar, deger, aciklama) values
+  ('kasa_bot_gecikme_profili', '1'::jsonb,
+   'ORTAK HAZİNE (1126): 1 = bot cevap süresi Klasik/Düello ile aynı profil (bot_gecikme_sn: botun hızı + soru uzunluğu), 0 = eski tek düze kasa_bot_cevap_min/max_sn.')
+on conflict (anahtar) do nothing;
+CREATE OR REPLACE FUNCTION public.kasa_soru_ac(p_id uuid, p_soru uuid DEFAULT NULL::uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+declare
+  k public.kasa_maclari%rowtype;
+  v_soru uuid := p_soru;
+  v_kat text;
+  v_dogru smallint;
+  v_bot_cevap smallint;
+  v_gecikme numeric;
+  v_min numeric := public.ayar_ondalik('kasa_bot_cevap_min_sn', 2);
+  v_max numeric := public.ayar_ondalik('kasa_bot_cevap_max_sn', 6);
+  v_an interval := interval '0';   -- 1092
+begin
+  select * into k from public.kasa_maclari where id = p_id;
+  -- 1092: karar fazından gelen soru (AÇ/DEVAM, rakip karar kartı) — an ekranda sürerken soru süresi işlemez: soru anı
+  -- an süresi (kasa_karar_an_ms) kadar ileri kurulur; gösterim payı ondan SONRA başlar (sayaç hep tam süreden görünür).
+  if k.faz = 'karar' then v_an := make_interval(secs => greatest(0, public.ayar_sayi('kasa_karar_an_ms', 1500)) / 1000.0); end if;
+  if v_soru is null and not k.altin and k.tur between 1 and coalesce(array_length(k.soru_ids, 1), 0) then
+    v_soru := k.soru_ids[k.tur];
+    if v_soru = any(k.kullanilan_sorular) then v_soru := null; end if;
+  end if;
+  if v_soru is null then v_soru := public.kasa_soru_bul(p_id); end if;
+  if v_soru is null then
+    -- Havuz tamamen boş: ödülsüz iptal (asılı kalmasın)
+    update public.kasa_maclari set durum = 'iptal', bitis = now(), son_hareket = now() where id = p_id;
+    return;
+  end if;
+  select q.kategori, q.dogru_cevap into v_kat, v_dogru from public.questions q where q.id = v_soru;
+
+  if k.bot is not null then
+    if random() < public.bot_soru_isabet(k.bot, v_kat, v_soru) then
+      v_bot_cevap := v_dogru;
+    else
+      select x into v_bot_cevap from generate_series(0, 3) x where x <> v_dogru order by random() limit 1;
+    end if;
+    -- 1126: kasa_bot_gecikme_profili = 1 → botun kendi hız profili + soru uzunluğu (bot_gecikme_sn; Klasik/Düello ile aynı),
+    -- 0 → eski tek düze kasa_bot_cevap_min/max_sn. Zamanlama yeri aynı (bot_cevap_at); faz/senkron değişmez.
+    v_gecikme := least(coalesce(case when public.ayar_sayi('kasa_bot_gecikme_profili', 1) > 0
+                            then (select public.bot_gecikme_sn(k.bot, p_id::text || ':' || k.tur || ':' || v_soru::text,
+                                           p.bot_gecikme_min, p.bot_gecikme_max, public.soru_okuma_yuku(v_soru))::numeric
+                                    from public.profiles p where p.id = k.bot) end,
+                            v_min + (greatest(v_max, v_min) - v_min) * random()::numeric),
+                       k.soru_sn - 1);
+  end if;
+
+  update public.kasa_maclari
+     set soru_id = v_soru,
+         kullanilan_sorular = array_append(kullanilan_sorular, v_soru),
+         faz = 'cevap',
+         soru_baslangic = now() + v_an,
+         faz_bitis = now() + v_an + make_interval(secs => k.soru_sn) + public.kasa_gosterim_payi(),
+         cevaplar = '{}'::jsonb,
+         -- soru başına girdiler silinir; maç boyu anahtarlar kalır: '_devam' (953 sayacı), '_hak' (954 ücretsiz 50:50)
+         joker = coalesce((select jsonb_object_agg(e.key, e.value) from jsonb_each(joker) e
+                            where e.key in ('_devam', '_hak')), '{}'::jsonb),
+         bot_cevap = v_bot_cevap,
+         bot_cevap_at = case when k.bot is not null
+                             then now() + v_an + public.kasa_gosterim_payi() + make_interval(secs => v_gecikme) end,
+         son_hareket = now()
+   where id = p_id;
+  update public.kasa_hamleler set soru_id = v_soru, kategori = v_kat where kasa_id = p_id and tur = k.tur;
+  perform public.kasa_devam_hak_ver(p_id);
+end $function$;
+
+CREATE OR REPLACE FUNCTION public.kasa_savunma_ac(p_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+declare
+  k public.kasa_maclari%rowtype;
+  v_h uuid;
+  v_soru uuid;
+  v_kat text;
+  v_dogru smallint;
+  v_bot_cevap smallint;
+  v_gecikme numeric;
+  v_min numeric := public.ayar_ondalik('kasa_bot_cevap_min_sn', 2);
+  v_max numeric := public.ayar_ondalik('kasa_bot_cevap_max_sn', 6);
+begin
+  select * into k from public.kasa_maclari where id = p_id;
+  if not found or k.durum <> 'aktif' or k.savunma is null or k.savunma ->> 'durum' <> 'bekliyor' then return; end if;
+  v_h := (k.savunma ->> 'sahip')::uuid;
+  v_soru := public.kasa_savunma_soru_bul(p_id, k.savunma ->> 'kategori');
+  if v_soru is null then
+    -- Havuz boş (pratikte olmaz): savunma yapılamadı → başarısız sayılır, rakip kararını verir
+    update public.kasa_maclari
+       set sahip = (k.savunma ->> 'rakip')::uuid, savunma = null,
+           savunma_hak = array_remove(savunma_hak, v_h), son_hareket = now()
+     where id = p_id;
+    update public.kasa_hamleler
+       set sahip_sonra = (k.savunma ->> 'rakip')::uuid,
+           savunma = k.savunma || jsonb_build_object('durum', 'basarisiz', 'neden', 'soru_yok')
+     where kasa_id = p_id and tur = k.tur;
+    perform public.kasa_tur_baslat(p_id);
+    return;
+  end if;
+  select q.kategori, q.dogru_cevap into v_kat, v_dogru from public.questions q where q.id = v_soru;
+
+  if k.bot is not null and k.bot = v_h then
+    if random() < public.bot_soru_isabet(k.bot, v_kat, v_soru) then
+      v_bot_cevap := v_dogru;
+    else
+      select x into v_bot_cevap from generate_series(0, 3) x where x <> v_dogru order by random() limit 1;
+    end if;
+    -- 1126: kasa_bot_gecikme_profili = 1 → botun kendi hız profili + soru uzunluğu (bot_gecikme_sn; Klasik/Düello ile aynı),
+    -- 0 → eski tek düze kasa_bot_cevap_min/max_sn. Zamanlama yeri aynı (bot_cevap_at); faz/senkron değişmez.
+    v_gecikme := least(coalesce(case when public.ayar_sayi('kasa_bot_gecikme_profili', 1) > 0
+                            then (select public.bot_gecikme_sn(k.bot, p_id::text || ':' || k.tur || ':' || v_soru::text,
+                                           p.bot_gecikme_min, p.bot_gecikme_max, public.soru_okuma_yuku(v_soru))::numeric
+                                    from public.profiles p where p.id = k.bot) end,
+                            v_min + (greatest(v_max, v_min) - v_min) * random()::numeric),
+                       k.soru_sn - 1);
+  end if;
+
+  update public.kasa_maclari
+     set soru_id = v_soru,
+         kullanilan_sorular = array_append(kullanilan_sorular, v_soru),
+         faz = 'cevap',
+         soru_baslangic = now(),
+         faz_bitis = now() + make_interval(secs => k.soru_sn) + public.kasa_gosterim_payi(),
+         cevaplar = '{}'::jsonb,
+         joker = coalesce((select jsonb_object_agg(e.key, e.value) from jsonb_each(joker) e
+                            where e.key in ('_devam', '_hak')), '{}'::jsonb),
+         -- Bot yalnız savunan ise cevaplar (rakip bot izler)
+         bot_cevap = v_bot_cevap,
+         bot_cevap_at = case when v_bot_cevap is not null
+                             then now() + public.kasa_gosterim_payi() + make_interval(secs => v_gecikme) end,
+         savunma = k.savunma || jsonb_build_object('durum', 'soru', 'soru_id', v_soru, 'soru_kategori', v_kat),
+         savunma_hak = array_remove(savunma_hak, v_h),
+         son_hareket = now()
+   where id = p_id;
+end $function$;
