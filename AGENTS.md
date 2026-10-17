@@ -46,6 +46,7 @@ Birden fazla araç/pencere aynı anda çalışabilir; şartlar:
   - Canlı veritabanına test/ölçüm aynı anda **tek pencerede** koşar; toplu/döngülü istek ve simülasyon yine yasak.
 - Birleştirme **sırayla** yapılır; her birleştirmeden önce güncel `main` alınır, çakışma çıkarsa DUR ve raporla.
 - `PROGRESS.md` ve `PROJECT_CONTEXT.md` paralel işlerde **yazılmaz** (commit `[progress-yok]`); işler bitince tek pencere toplu kayıt düşer.
+- Paralel işlerde her iş raporunu kendi adıyla yazar: `RAPOR-<is-adi>.md` (kendi worktree klasöründe); ana klasördeki `RAPOR.md`'nin üzerine yazılmaz. İşler bitince rapor `docs/raporlar/` altına da kopyalanır.
 - Gün içi Vercel dağıtım sınırı için push'lar biriktirilir.
 
 ### Klasör temizliği (Ida kararı, 17 Eki 2026)
