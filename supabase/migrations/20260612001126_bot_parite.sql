@@ -1521,3 +1521,209 @@ end $function$;
 
 revoke all on function public.duello4_joker_ic(uuid, uuid, text) from public, anon, authenticated;
 revoke all on function public.duello4_bot_joker(uuid, uuid) from public, anon, authenticated;
+
+-- ===================================================================== 3) TEPKİ — sınırlar sunucuda; Düello v4 ve Hazine botu tepki atar
+-- Bot tepki geçmişi (kanal = maç; planlanan gönderim anı). bot_tepki_bekleyen gönderilince silindiği için sayaç burada.
+create table if not exists public.bot_tepki_gecmisi (
+  id bigint generated always as identity primary key,
+  kanal text not null,
+  bot uuid not null,
+  zaman timestamptz not null
+);
+create index if not exists bot_tepki_gecmisi_kanal on public.bot_tepki_gecmisi (kanal, bot);
+create index if not exists bot_tepki_gecmisi_zaman on public.bot_tepki_gecmisi (zaman);
+alter table public.bot_tepki_gecmisi enable row level security;
+revoke all on public.bot_tepki_gecmisi from anon, authenticated;
+
+CREATE OR REPLACE FUNCTION public.bot_tepki_gonder(p_kanal text, p_bot uuid, p_olay text)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+declare
+  v_gizli boolean;
+  v_level int;
+  v_paket text;
+  v_aday text[];
+  v_gecikme_min numeric;
+  v_gecikme_max numeric;
+  v_zaman timestamptz;
+begin
+  if random() >= public.ayar_ondalik('tepki_bot_olasilik', 0.03) then return; end if;
+  select coalesce(p.is_bot, false) and not public.acik_bot_mu(p.is_bot, p.bot_turu) and not coalesce(p.acik_bot, false),
+         p.level
+    into v_gizli, v_level
+    from public.profiles p where p.id = p_bot and coalesce(p.is_bot, false);
+  if not found then return; end if;
+
+  v_aday := case p_olay when 'dogru' then array['havali'] when 'yanlis' then array['terli']
+                        when 'dusun' then array['dusunen'] when 'saygi' then array['alkis'] else array[]::text[] end;
+  if v_gizli then
+    v_paket := public.bot_kozmetik(p_bot, v_level, 'tepki_paketi');
+    if v_paket = 'tepki_eglence' then
+      v_aday := v_aday || case p_olay when 'dogru' then array['ates', 'hedef'] when 'yanlis' then array['gulen']
+                                      when 'saygi' then array['tac'] else array[]::text[] end;
+    elsif v_paket = 'tepki_rekabet' then
+      v_aday := v_aday || case p_olay when 'dogru' then array['kas'] when 'yanlis' then array['korku']
+                                      when 'saygi' then array['selam', 'rica'] else array[]::text[] end;
+    end if;
+  end if;
+  if cardinality(v_aday) = 0 then return; end if;
+
+  v_gecikme_min := public.ayar_ondalik('bot_tepki_gecikme_min_sn', 1);
+  v_gecikme_max := public.ayar_ondalik('bot_tepki_gecikme_max_sn', 4);
+  v_zaman := now() + (v_gecikme_min + random() * greatest(v_gecikme_max - v_gecikme_min, 0)) * interval '1 second';
+  -- 1126: insanın tepki sınırları bota da (tepki_durumu: aralik_sn / mac_max) — kanal (= maç) başına
+  if (select count(*) from public.bot_tepki_gecmisi g where g.kanal = p_kanal and g.bot = p_bot)
+       >= public.ayar_sayi('tepki_mac_max', 10) then return; end if;
+  if exists (select 1 from public.bot_tepki_gecmisi g where g.kanal = p_kanal and g.bot = p_bot
+               and abs(extract(epoch from g.zaman - v_zaman)) < public.ayar_ondalik('tepki_aralik_sn', 3)) then return; end if;
+  delete from public.bot_tepki_gecmisi where zaman < now() - interval '1 day';
+  insert into public.bot_tepki_gecmisi (kanal, bot, zaman) values (p_kanal, p_bot, v_zaman);
+  insert into public.bot_tepki_bekleyen (tur, kanal, bot, icerik, gonder_zamani)
+  values ('realtime', p_kanal, p_bot, v_aday[1 + floor(random() * cardinality(v_aday))::int], v_zaman);
+exception when others then
+  raise warning 'bot tepkisi kuyruklanamadı (%): %', p_kanal, sqlerrm;   -- tepki maçı asla bozmaz
+end;
+$function$;
+
+CREATE OR REPLACE FUNCTION public.trg_duello_bot_tepki()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+declare
+  v_bot uuid;
+  v_insan uuid;
+  v_mod text;
+  v_bot_dogru boolean;
+  v_insan_dogru boolean;
+  v_seri int;
+  v_onceki int;
+  v_olay text;
+begin
+  select p.id into v_bot from public.profiles p
+   where p.id in (new.oyuncu1, new.oyuncu2) and coalesce(p.is_bot, false) limit 1;
+  if v_bot is null then return null; end if;
+  v_insan := case when v_bot = new.oyuncu1 then new.oyuncu2 else new.oyuncu1 end;
+  v_mod := public.tepki_mac_modu('duello', new.id, v_insan);
+  if v_mod is null or not public.tepki_mod_acik(v_mod) then return null; end if;
+
+  -- 1126: v4 son_hamle'yi 'oyuncular' altında yazar (2. sürüm 'cevaplar'); v4 maç sonu durum değişiminde gelir
+  if new.surum = 4 and new.durum <> 'bitti' and new.son_hamle is not distinct from old.son_hamle then return null; end if;
+  v_bot_dogru := coalesce((new.son_hamle -> case when new.surum = 4 then 'oyuncular' else 'cevaplar' end -> v_bot::text ->> 'dogru')::boolean, false);
+  v_insan_dogru := coalesce((new.son_hamle -> case when new.surum = 4 then 'oyuncular' else 'cevaplar' end -> v_insan::text ->> 'dogru')::boolean, false);
+  v_seri := greatest(2, public.ayar_sayi('tepki_bot_seri', 3)::int);
+
+  if new.durum = 'bitti' then
+    -- maç sonu
+    v_olay := case when new.kazanan = v_bot then 'dogru'
+                   when new.kazanan = v_insan then 'saygi'
+                   else 'dusun' end;
+  elsif not v_insan_dogru then
+    -- rakip hatası (yanlış ya da cevapsız)
+    v_olay := case when v_bot_dogru then 'dogru' else 'dusun' end;
+  elsif v_bot_dogru then
+    select count(*) into v_onceki from (
+      select case when new.surum = 4 then coalesce((h.v4 -> 'oyuncular' -> v_bot::text ->> 'dogru')::boolean, false)
+                  else (h.saldiran = v_bot and coalesce(h.dogru_saldiran, false)) or (h.savunan = v_bot and h.dogru) end as bd
+        from public.duello_hamleler h
+       where h.duello_id = new.id
+       order by h.id desc
+       limit v_seri - 1) x
+     where x.bd;
+    if v_onceki < v_seri - 1 then return null; end if;
+    v_olay := 'dogru';   -- doğru cevap serisi
+  else
+    return null;   -- anlamlı an değil
+  end if;
+
+  perform public.bot_tepki_gonder('tepki-duello-' || new.id::text, v_bot, v_olay);
+  return null;
+exception when others then
+  raise warning 'trg_duello_bot_tepki (%): %', new.id, sqlerrm;
+  return null;
+end;
+$function$;
+
+drop trigger if exists trg_duello_bot_tepki on public.duellolar;
+create trigger trg_duello_bot_tepki after update of son_hamle, durum on public.duellolar
+  for each row when (
+    (new.surum = 2 and new.son_hamle is distinct from old.son_hamle and new.son_hamle is not null)
+    -- 1126: Düello v4 — her soru sonucu (son_hamle) ve maç sonu (durum bitti)
+    or (new.surum = 4 and ((new.son_hamle is distinct from old.son_hamle and new.son_hamle is not null)
+                           or (new.durum = 'bitti' and old.durum is distinct from 'bitti'))))
+  execute function public.trg_duello_bot_tepki();
+
+-- Hazine: Klasik bot_tepki_klasik ile aynı anlamlı anlar (rakip hatası, bot doğru serisi tepki_bot_seri, maç sonu);
+-- olasılık ve paket bot_tepki_gonder'den (tepki_bot_olasilik). Savunma Sorusu sonucu dogru1/dogru2'ye yazılmaz → sayılmaz.
+CREATE OR REPLACE FUNCTION public.trg_kasa_bot_tepki()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+declare
+  k public.kasa_maclari%rowtype;
+  v_insan uuid;
+  v_mod text;
+  v_bot_dogru boolean;
+  v_insan_dogru boolean;
+  v_seri int;
+  v_onceki int;
+  v_olay text;
+begin
+  if tg_table_name = 'kasa_maclari' then
+    k := new;
+  else
+    select * into k from public.kasa_maclari where id = new.kasa_id;
+  end if;
+  if k.bot is null then return null; end if;
+  v_insan := case when k.oyuncu1 = k.bot then k.oyuncu2 else k.oyuncu1 end;
+  v_mod := public.tepki_mac_modu('kasa', k.id, v_insan);
+  if v_mod is null or not public.tepki_mod_acik(v_mod) then return null; end if;
+
+  if tg_table_name = 'kasa_maclari' then
+    -- maç sonu
+    v_olay := case when k.kazanan = k.bot then 'dogru' when k.kazanan = v_insan then 'saygi' else 'dusun' end;
+  else
+    v_bot_dogru := coalesce(case when k.oyuncu1 = k.bot then new.dogru1 else new.dogru2 end, false);
+    v_insan_dogru := coalesce(case when k.oyuncu1 = k.bot then new.dogru2 else new.dogru1 end, false);
+    v_seri := greatest(2, public.ayar_sayi('tepki_bot_seri', 3)::int);
+    if not v_insan_dogru then
+      -- rakip hatası (yanlış ya da cevapsız — Düello ile aynı)
+      v_olay := case when v_bot_dogru then 'dogru' else 'dusun' end;
+    elsif v_bot_dogru then
+      select count(*) into v_onceki from (
+        select case when k.oyuncu1 = k.bot then h.dogru1 else h.dogru2 end as bd
+          from public.kasa_hamleler h
+         where h.kasa_id = k.id and h.tur < new.tur and (h.dogru1 is not null or h.dogru2 is not null)
+         order by h.tur desc
+         limit v_seri - 1) x
+       where x.bd;
+      if v_onceki < v_seri - 1 then return null; end if;
+      v_olay := 'dogru';   -- doğru cevap serisi
+    else
+      return null;   -- anlamlı an değil
+    end if;
+  end if;
+
+  perform public.bot_tepki_gonder('tepki-kasa-' || k.id::text, k.bot, v_olay);
+  return null;
+exception when others then
+  raise warning 'trg_kasa_bot_tepki (%): %', k.id, sqlerrm;   -- tepki maçı asla bozmaz
+  return null;
+end;
+$function$;
+revoke all on function public.trg_kasa_bot_tepki() from public, anon, authenticated;
+
+drop trigger if exists trg_kasa_bot_tepki_tur on public.kasa_hamleler;
+create trigger trg_kasa_bot_tepki_tur after update of dogru1, dogru2 on public.kasa_hamleler
+  for each row when (old.dogru1 is null and old.dogru2 is null and (new.dogru1 is not null or new.dogru2 is not null))
+  execute function public.trg_kasa_bot_tepki();
+drop trigger if exists trg_kasa_bot_tepki_son on public.kasa_maclari;
+create trigger trg_kasa_bot_tepki_son after update of durum on public.kasa_maclari
+  for each row when (new.durum = 'bitti' and old.durum is distinct from 'bitti' and new.bot is not null)
+  execute function public.trg_kasa_bot_tepki();
